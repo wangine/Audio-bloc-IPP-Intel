@@ -222,12 +222,37 @@ int realtime(const char* directory){
             auto s=audit::snapshot();bool ok=!s.cppNew&&!s.cppDelete&&!s.heapAlloc&&!s.heapFree&&!s.wait&&!s.lock&&!s.io;csv<<program<<'-'<<names[caseIndex]<<','<<n<<','<<callbacks<<','<<s.cppNew<<','<<s.cppDelete<<','<<s.heapAlloc<<','<<s.heapFree<<','<<s.wait<<','<<s.lock<<','<<s.io<<','<<(ok?"PASS":"FAIL")<<'\n';require(ok,"callback dynamic allocation/operation audit");
         }
     }
-    csv.flush();std::printf("REALTIME dynamic audit failures=%d; bulk resets remain source-level FAIL; unlisted/dynamic APIs outside hook coverage\n",failures);return failures?1:0;
+    csv.flush();std::printf("REALTIME dynamic audit failures=%d; reset complexity reviewed separately; unlisted/dynamic APIs outside hook coverage\n",failures);return failures?1:0;
+}
+int reactivation(const char* directory,const char* goldenPath){
+    ResultCsv csv(std::string(directory)+"/reactivation.csv");
+    csv<<std::setprecision(17)<<"program,mode,taps,frames,event,output,oracle,max_absolute_error,rms_error,bit_mismatches,nonfinite,warm_peak,cold_peak,reactivated_peak,first_sample,reference_first_sample,status\n";
+    for(int program=0;program<2;++program)for(int variant=0;variant<5;++variant)for(unsigned frames:{1u,7u,31u,64u,127u,256u,511u,1024u}){
+        Configuration c{program,variant?1:0,variant?std::min(variant-1,2):2,true,variant==4,true};RunPair p(c,goldenPath);int acceptedLength=c.length;
+        auto all=[&](const char* key,double value){for(int ch=0;ch<16;++ch)p.update((std::string(key)+std::to_string(ch+1)).c_str(),value);};
+        for(int event=0;event<4;++event){
+            std::array<double,16> warm{};uint32_t seed=12345;
+            for(unsigned at=0;at<32768;){unsigned n=std::min(frames,32768-at);for(int ch=0;ch<13;++ch)for(unsigned j=0;j<n;++j)p.in.write[ch][j]=stimulus(4,at+j,ch,0,0,seed);p.process(n,at);for(int ch=0;ch<16;++ch)for(unsigned j=0;j<n;++j)warm[ch]=std::max(warm[ch],std::abs(p.out.write[ch][j]));at+=n;}
+            const char* key=event==0||event==2?"emergencyMute":event==1?(program?"cinemaRole":"source"):"mute";
+            all(key,event==1?0:1);p.in.zero(frames);p.process(frames,0);
+            if(event==2){acceptedLength=c.length==2?0:2;all("firLength",acceptedLength);all("allPass",!c.allPass);}
+            all(key,event==1?1:0); // Exactly one silenced callback before re-enable.
+            std::array<Metric,16> native{},gold{};std::array<double,16> cold{};
+            for(unsigned at=0;at<16384;){unsigned n=std::min(frames,16384-at);p.in.zero(n);p.process(n,at);for(int ch=0;ch<16;++ch)for(unsigned j=0;j<n;++j){cold[ch]=std::max(cold[ch],std::abs(p.out.write[ch][j]));native[ch].add(p.out.write[ch][j],p.ref.write[ch][j],at+j,0,0,false);if(p.golden)gold[ch].add(p.out.write[ch][j],p.gold.write[ch][j],at+j,0,0,false);}at+=n;}
+            // Mute ramps preserve histories; emergency/topology reset must erase them.
+            if(event<3)for(double peak:cold)require(peak==0,"no pre-reset FIR/delay history after immediate reactivation");
+            for(unsigned at=0;at<32768;){unsigned n=std::min(frames,32768-at);p.in.zero(n);if(!at)for(int ch=0;ch<13;++ch)p.in.write[ch][0]=0.01;p.process(n,at);for(int ch=0;ch<16;++ch)for(unsigned j=0;j<n;++j){native[ch].add(p.out.write[ch][j],p.ref.write[ch][j],16384+at+j,0,0,false);if(p.golden)gold[ch].add(p.out.write[ch][j],p.gold.write[ch][j],16384+at+j,0,0,false);}at+=n;}
+            for(int ch=0;ch<16;++ch)for(int oracle=0;oracle<(p.golden?2:1);++oracle){const auto& m=oracle?gold[ch]:native[ch];bool ok=m.pass(true)&&warm[ch]>1e-10;if(!oracle)require(ok,"immediate reactivation baseline match and active signal");csv<<program<<','<<variant<<','<<(c.mode?2049*(acceptedLength==0)+4097*(acceptedLength==1)+8193*(acceptedLength==2):0)<<','<<frames<<','<<event<<','<<ch+1<<','<<(oracle?"V07":"Stage02")<<','<<m.maximum<<','<<m.rmsError()<<','<<m.bits<<','<<m.nonfinite<<','<<warm[ch]<<','<<cold[ch]<<','<<m.peakA<<','<<m.firstA<<','<<m.firstB<<','<<(oracle?"BLOCKED":ok?"PASS":"FAIL")<<'\n';}
+            csv.flush();
+        }
+    }std::printf("REACTIVATION failures=%d\n",failures);return failures?1:0;
 }
 int benchmark(const char* directory,unsigned firstRow=0){
     LARGE_INTEGER freq;QueryPerformanceFrequency(&freq);auto now=[](){LARGE_INTEGER t;QueryPerformanceCounter(&t);return t.QuadPart;};
-    ResultCsv csv(std::string(directory)+"/benchmark.csv");csv<<std::setprecision(12)<<"module,program,configuration,frames,count,median_us,p99_us,max_us,budget_us,max_utilization,status\n";
+    ResultCsv csv(std::string(directory)+"/benchmark.csv");csv<<std::setprecision(12)<<"module,program,configuration,frames,count,median_us,p99_us,max_us,budget_us,max_utilization,status,median_thread_cycles,p99_thread_cycles,max_thread_cycles,thread_cycles_at_max_wall,deadline_misses\n";
+    ResultCsv raw(std::string(directory)+"/benchmark-samples.csv");raw<<std::setprecision(12)<<"module,program,configuration,frames,iteration,wall_us,thread_cycles\n";
     std::vector<double> timer(10000);for(auto& t:timer){auto start=now();t=double(now()-start)*1e6/freq.QuadPart;}std::sort(timer.begin(),timer.end());std::printf("QPC frequency=%lld timer_median_us=%.6g timer_p99_us=%.6g\n",freq.QuadPart,timer[5000],timer[9899]);
+    std::vector<ULONG64> cycleFloor(10000);for(auto& t:cycleFloor){ULONG64 a=0,b=0;QueryThreadCycleTime(GetCurrentThread(),&a);now();now();QueryThreadCycleTime(GetCurrentThread(),&b);t=b-a;}std::sort(cycleFloor.begin(),cycleFloor.end());std::printf("thread-cycle measurement overhead median=%llu p99=%llu max=%llu cycles (includes two QPC calls; never converted to elapsed time)\n",cycleFloor[5000],cycleFloor[9899],cycleFloor.back());
     unsigned rowIndex=0,executedRows=0;for(int program=0;program<2;++program)for(unsigned n:{128u,256u,512u,1024u})for(int variant=0;variant<10;++variant){
         Configuration c{program,variant>=2?1:0,2,variant!=0,variant==1||variant==3,true};
         auto cross=std::make_unique<Crossover>();cross->prepareToPlay(rate,1024);set(*cross,"cinemaSource",program);cross->serviceUpdates();configure(c,[&](const char* k,double v){return set(*cross,k,v);});cross->prepareToPlay(rate,1024);
@@ -237,7 +262,7 @@ int benchmark(const char* directory,unsigned firstRow=0){
         const char* configs[]={"unity","IIR-AP","FIR8193","FIR8193-AP","filter-transition","emergency-mute","topology-disable","IIR-FIR-transition","FIR-length-transition","program-transition"};
         for(int module=0;module<4;++module){const char* modules[]={"Crossover","OutputMatrix","Headroom","AudioGraph"};if(variant>=4&&(module==1||module==2))continue;
             if(rowIndex++<firstRow)continue;++executedRows;
-            bool transition=variant>=4;std::vector<double> timing(transition?200:10000);unsigned deadlines=0;
+            bool transition=variant>=4;std::vector<double> timing(transition?200:10000);std::vector<ULONG64> cycles(timing.size());unsigned deadlines=0;
             auto refill=[&](){if(module==0){for(int ch=0;ch<13;++ch)std::copy_n(in.read[ch],n,work.write[ch]);for(int ch=13;ch<16;++ch)std::fill_n(work.write[ch],n,0.0);}};
             auto run=[&](){if(module==0){entropy::native::AudioBuffer<double> v(work.write.data(),16,n);entropy::native::MidiBuffer midi;cross->processBlock(v,midi);return ENTROPY_OK;}if(module==1){auto b=block(in,out,n);return m.process(b);}if(module==2){auto b=block(in,out,n);return h.process(b);}return graph.process(in.read.data(),out.write.data(),n);};
             auto change=[&](unsigned i,bool opposite){bool high=bool(i%2)^opposite;const char* key=variant==4?"lpHz":variant==5?"emergencyMute":variant==6?(program?"cinemaRole":"source"):variant==7?"processMode":variant==8?"firLength":"cinemaSource";double value=variant==4?(high?12000:10000):variant==8?(high?2:0):high?1:0;
@@ -248,10 +273,12 @@ int benchmark(const char* directory,unsigned firstRow=0){
             for(unsigned i=0;i<timing.size();++i){if(transition){change(i,false);for(unsigned warm=0;warm<(19200+n-1)/n;++warm){refill();require(run()==ENTROPY_OK,"transition adoption warmup");}
                 // Restore the opposite state, settle, then measure the next adoption callback.
                 change(i,true);}
-                refill();auto start=now();auto r=run();timing[i]=double(now()-start)*1e6/freq.QuadPart;require(r==ENTROPY_OK,"benchmark process");deadlines+=timing[i]>n/rate*1e6;
+                refill();ULONG64 cycleStart=0,cycleEnd=0;require(QueryThreadCycleTime(GetCurrentThread(),&cycleStart)!=0,"cycle start");auto start=now();auto r=run();timing[i]=double(now()-start)*1e6/freq.QuadPart;require(QueryThreadCycleTime(GetCurrentThread(),&cycleEnd)!=0,"cycle end");cycles[i]=cycleEnd-cycleStart;require(r==ENTROPY_OK,"benchmark process");deadlines+=timing[i]>n/rate*1e6;
             }
+            auto cyclesAtMaximumWall=cycles[size_t(std::max_element(timing.begin(),timing.end())-timing.begin())];
+            for(size_t i=0;i<timing.size();++i)raw<<modules[module]<<','<<program<<','<<configs[variant]<<','<<n<<','<<i<<','<<timing[i]<<','<<cycles[i]<<'\n';raw.flush();
             std::sort(timing.begin(),timing.end());size_t k=static_cast<size_t>(std::ceil(timing.size()*0.99))-1;double median=(timing[timing.size()/2-1]+timing[timing.size()/2])/2,budget=n/rate*1e6;
-            csv<<modules[module]<<','<<program<<','<<configs[variant]<<','<<n<<','<<timing.size()<<','<<median<<','<<timing[k]<<','<<timing.back()<<','<<budget<<','<<timing.back()/budget<<','<<(deadlines?"FAIL":"PASS")<<'\n';csv.flush();std::printf("BENCH %s program=%d %s block=%u median=%.3f p99=%.3f max=%.3f us deadline_misses=%u\n",modules[module],program,configs[variant],n,median,timing[k],timing.back(),deadlines);std::fflush(stdout);
+            std::sort(cycles.begin(),cycles.end());csv<<modules[module]<<','<<program<<','<<configs[variant]<<','<<n<<','<<timing.size()<<','<<median<<','<<timing[k]<<','<<timing.back()<<','<<budget<<','<<timing.back()/budget<<','<<(deadlines?"FAIL":"PASS")<<','<<(cycles[cycles.size()/2-1]/2.0+cycles[cycles.size()/2]/2.0)<<','<<cycles[k]<<','<<cycles.back()<<','<<cyclesAtMaximumWall<<','<<deadlines<<'\n';csv.flush();std::printf("BENCH %s program=%d %s block=%u median=%.3f p99=%.3f max=%.3f us deadline_misses=%u\n",modules[module],program,configs[variant],n,median,timing[k],timing.back(),deadlines);std::fflush(stdout);
             if(deadlines)++failures;
         }
     }if(!executedRows)return 2;return failures?1:0;
@@ -262,7 +289,7 @@ int main(int argc,char** argv){
         ippInit();auto* v=ippGetLibVersion();std::printf("IPP %s %s %s\n",v->Name,v->Version,v->BuildDate);Ipp64u features=0;ippGetCpuFeatures(&features,nullptr);std::printf("IPP cpu_features=0x%llx enabled=0x%llx MSVC=%d\n",features,ippGetEnabledCpuFeatures(),_MSC_FULL_VER);
         const char* gold=nullptr;bool quick=false;std::string mode=argv[1];
         unsigned shard=0,shards=1,firstGroup=0,firstBenchmarkRow=0;for(int i=3;i<argc;++i){std::string a=argv[i];if(a=="--quick")quick=true;else if(a.starts_with("--shard=")){if(std::sscanf(a.c_str(),"--shard=%u/%u",&shard,&shards)!=2||!shards||shard>=shards)throw std::runtime_error("invalid shard");}else if(a.starts_with("--from-group=")){if(std::sscanf(a.c_str(),"--from-group=%u",&firstGroup)!=1||firstGroup>112)throw std::runtime_error("invalid first group");}else if(a.starts_with("--from-benchmark-row=")){if(std::sscanf(a.c_str(),"--from-benchmark-row=%u",&firstBenchmarkRow)!=1||firstBenchmarkRow>224)throw std::runtime_error("invalid benchmark row");}else if(a.starts_with("--")||gold)throw std::runtime_error("unknown or duplicate argument");else gold=argv[i];}
-        if(mode=="--identity")return stage02::identity(argv[2]);if(mode=="--numerical")return stage02::numerical(argv[2],gold,quick,shard,shards,firstGroup);if(mode=="--transitions")return stage02::transitions(argv[2],gold);if(mode=="--controls")return stage02::controls(argv[2]);if(mode=="--realtime")return stage02::realtime(argv[2]);if(mode=="--benchmark")return stage02::benchmark(argv[2],firstBenchmarkRow);
+        if(mode=="--identity")return stage02::identity(argv[2]);if(mode=="--numerical")return stage02::numerical(argv[2],gold,quick,shard,shards,firstGroup);if(mode=="--transitions")return stage02::transitions(argv[2],gold);if(mode=="--controls")return stage02::controls(argv[2]);if(mode=="--reactivation")return stage02::reactivation(argv[2],gold);if(mode=="--realtime")return stage02::realtime(argv[2]);if(mode=="--benchmark")return stage02::benchmark(argv[2],firstBenchmarkRow);
         if(mode=="--cpu-baseline"){
             Ipp64u mask=ippCPUID_MMX|ippCPUID_SSE|ippCPUID_SSE2|ippCPUID_SSE3|ippCPUID_SSSE3|ippCPUID_SSE41|ippCPUID_SSE42|ippCPUID_AES|ippCPUID_CLMUL|ippCPUID_SHA;
             mask&=features;auto status=ippSetCpuFeatures(mask);std::printf("SSE42 restricted dispatch requested=0x%llx status=%d enabled=0x%llx\n",mask,status,ippGetEnabledCpuFeatures());if(status!=ippStsNoErr)return 2;

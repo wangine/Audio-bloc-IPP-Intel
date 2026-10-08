@@ -1,0 +1,3 @@
+IPP ippCore 2026.0.0 (r0xa7ad6ebc) Mar 27 2026
+IPP cpu_features=0x1007efff enabled=0x1007efff MSVC=195136257
+REACTIVATION failures=0

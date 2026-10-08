@@ -17,14 +17,15 @@ struct IirEpochTrace {
 };
 struct FirEpochTrace {
     std::array<uint64_t,8320> history{};
-    size_t write=0;
-    void reset() noexcept {history.fill(0);write=0;}
+    size_t write=0,valid=0;
+    void reset() noexcept {write=valid=0;}
     // Input epochs are monotone. The first nonzero tap therefore carries the
     // newest epoch with a nonzero coefficient, including partitioned-tail taps.
     uint64_t process(uint64_t token,int currentTap,int previousTap,bool previous,double mix) noexcept {
         history[write]=token;
+        valid=std::min(history.size(),valid+1);
         const auto at=[&](int tap) -> uint64_t {
-            return tap>=0 && tap<(int)history.size() ? history[(write+history.size()-tap)%history.size()] : 0;
+            return tap>=0 && tap<(int)valid ? history[(write+history.size()-tap)%history.size()] : 0;
         };
         const auto result=previous ? std::max(mix>0.0?at(currentTap):0,mix<1.0?at(previousTap):0) : at(currentTap);
         write=(write+1)%history.size();

@@ -1,0 +1,18 @@
+[
+  {
+    "Check": "controls",
+    "ExitCode": 0
+  },
+  {
+    "Check": "transitions",
+    "ExitCode": 0
+  },
+  {
+    "Check": "reactivation",
+    "ExitCode": 0
+  },
+  {
+    "Check": "cpu-baseline",
+    "ExitCode": 2
+  }
+]

@@ -1,0 +1,22 @@
+AudioCore: compile MSVC x64 + static Intel IPP (OFFLINE)
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+-- Intel IPP headers: C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0/include
+-- Configuring done (0.3s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage03
+[1/11] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\PluginProcessor.cpp.obj
+[2/11] Linking CXX static library entropy_crossover.lib
+[3/11] Linking CXX executable EntropyStage03Reset.exe
+[4/11] Linking CXX executable EntropyAudioCore.exe
+[5/11] Linking CXX executable EntropyOfflineConfig.exe
+[6/11] Linking CXX executable EntropyGraphSmoke.exe
+[7/11] Linking CXX executable EntropyIppFirUnit.exe
+[8/11] Linking CXX executable EntropyNativeStateUnit.exe
+[9/11] Linking CXX executable EntropyStage03Integration.exe
+[10/11] Linking CXX executable EntropyStage02.exe
+[11/11] Linking CXX executable EntropyStage03Fade.exe
+PASS: native MSVC build (tests requested separately). No DAC/IPC started.

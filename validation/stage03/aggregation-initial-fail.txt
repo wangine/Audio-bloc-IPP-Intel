@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\tools\Summarize-Stage03.py", line 98, in <module>
+    summary[name] = summarize(read(root / (name + '.csv')))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\tools\Summarize-Stage03.py", line 77, in summarize
+    result = {'rows': len(data), 'statuses': dict(Counter(r['status'] for r in data))}
+                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\bobi\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\collections\__init__.py", line 607, in __init__
+    self.update(iterable, **kwds)
+  File "C:\Users\bobi\.cache\codex-runtimes\codex-primary-runtime\dependencies\python\Lib\collections\__init__.py", line 699, in update
+    _count_elements(self, iterable)
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\tools\Summarize-Stage03.py", line 77, in <genexpr>
+    result = {'rows': len(data), 'statuses': dict(Counter(r['status'] for r in data))}
+                                                          ~^^^^^^^^^^
+KeyError: 'status'

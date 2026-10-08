@@ -1,0 +1,38 @@
+AudioCore: compile MSVC x64 + static Intel IPP (OFFLINE)
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+-- The CXX compiler identification is MSVC 19.51.36257.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Intel IPP headers: C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0/include
+-- Configuring done (2.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage03
+[1/47] Building CXX object CMakeFiles\entropy_output_matrix.dir\DSP\OutputMatrix\src\OutputMatrixEngine.cpp.obj
+[2/47] Building CXX object CMakeFiles\entropy_headroom.dir\DSP\Headroom\src\HeadroomEngine.cpp.obj
+[3/47] Linking CXX static library entropy_output_matrix.lib
+[4/47] Linking CXX static library entropy_headroom.lib
+[5/47] Building CXX object CMakeFiles\entropy_pcm24.dir\Egress\PCM24\src\Pcm24Converter.cpp.obj
+[6/47] Building CXX object CMakeFiles\entropy_pcm24.dir\Egress\PCM24\src\Pcm24ModuleEngine.cpp.obj
+[7/47] Building CXX object CMakeFiles\entropy_graph.dir\Engine\BufferPool.cpp.obj
+[8/47] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\NativeState.cpp.obj
+[9/47] Building CXX object CMakeFiles\entropy_graph.dir\Engine\AudioGraph.cpp.obj
+[10/47] Building CXX object CMakeFiles\entropy_stage02_reference.dir\Tests\Stage02\ReferenceBridge.cpp.obj
+[11/47] Building CXX object CMakeFiles\entropy_stage02_reference.dir\local\ref-native\Stage3\native-reference\Modules\OutputMatrix\src\OutputMatrixEngine.cpp.obj
+[12/47] Building CXX object CMakeFiles\entropy_stage02_reference.dir\local\ref-native\Stage3\native-reference\Modules\HeadroomManager\src\HeadroomEngine.cpp.obj
+[13/47] Linking CXX static library entropy_pcm24.lib
+[14/47] Building CXX object CMakeFiles\entropy_stage02_reference.dir\local\ref-crossover\Stage3\native-reference\Modules\CrossoverIPP\src\NativeState.cpp.obj
+[15/47] Building CXX object CMakeFiles\EntropyStage03Reset.dir\Tests\Stage03ResetTests.cpp.obj
+FAILED: CMakeFiles/EntropyStage03Reset.dir/Tests/Stage03ResetTests.cpp.obj 
+C:\PROGRA~1\MICROS~2\18\COMMUN~1\VC\Tools\MSVC\1451~1.362\bin\Hostx64\x64\cl.exe  /nologo /TP -DNOMINMAX -DWIN32_LEAN_AND_MEAN -ID:\Projects\3Stage-3\Audio-bloc-IPP-Intel\DSP\Crossover\include -I"C:\Program Files (x86)\Intel\oneAPI\ipp\2026.0\include" -ID:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Shared\include /DWIN32 /D_WINDOWS /EHsc /O2 /Ob2 /DNDEBUG -std:c++20 -MT /utf-8 /fp:precise /EHsc /showIncludes /FoCMakeFiles\EntropyStage03Reset.dir\Tests\Stage03ResetTests.cpp.obj /FdCMakeFiles\EntropyStage03Reset.dir\ /FS -c D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Tests\Stage03ResetTests.cpp
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Tests\Stage03ResetTests.cpp(10): error C2607: static assertion failed
+[16/47] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\PluginProcessor.cpp.obj
+[17/47] Building CXX object CMakeFiles\EntropyAudioCore.dir\main.cpp.obj
+[18/47] Building CXX object CMakeFiles\entropy_stage02_reference.dir\local\ref-crossover\Stage3\native-reference\Modules\CrossoverIPP\src\PluginProcessor.cpp.obj
+ninja: build stopped: subcommand failed.

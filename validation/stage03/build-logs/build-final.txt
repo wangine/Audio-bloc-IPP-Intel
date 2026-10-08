@@ -1,0 +1,20 @@
+AudioCore: compile MSVC x64 + static Intel IPP (OFFLINE)
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+-- Intel IPP headers: C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0/include
+-- Configuring done (0.3s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage03
+[1/9] Building CXX object CMakeFiles\entropy_output_matrix.dir\DSP\OutputMatrix\src\OutputMatrixEngine.cpp.obj
+[2/9] Linking CXX static library entropy_output_matrix.lib
+[3/9] Linking CXX executable EntropyOfflineConfig.exe
+[4/9] Linking CXX executable EntropyAudioCore.exe
+[5/9] Linking CXX executable EntropyGraphSmoke.exe
+[6/9] Linking CXX executable EntropyMatrixNoAlloc.exe
+[7/9] Linking CXX executable EntropyMatrixUnit.exe
+[8/9] Building CXX object CMakeFiles\EntropyStage02.dir\Tests\Stage02\Validation.cpp.obj
+[9/9] Linking CXX executable EntropyStage02.exe
+PASS: native MSVC build (tests requested separately). No DAC/IPC started.

@@ -1,0 +1,36 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage03
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage03
+      Start  1: EntropyStage03Reset
+ 1/15 Test  #1: EntropyStage03Reset ..............   Passed    0.14 sec
+      Start  2: EntropyOfflineConfig
+ 2/15 Test  #2: EntropyOfflineConfig .............   Passed    0.11 sec
+      Start  3: EntropyGraphSmoke
+ 3/15 Test  #3: EntropyGraphSmoke ................   Passed    0.13 sec
+      Start  4: EntropyMatrixUnit
+ 4/15 Test  #4: EntropyMatrixUnit ................   Passed    0.02 sec
+      Start  5: EntropyMatrixNoAlloc
+ 5/15 Test  #5: EntropyMatrixNoAlloc .............   Passed    0.02 sec
+      Start  6: EntropyHeadroomUnit
+ 6/15 Test  #6: EntropyHeadroomUnit ..............   Passed    0.21 sec
+      Start  7: EntropyHeadroomNoAlloc
+ 7/15 Test  #7: EntropyHeadroomNoAlloc ...........   Passed    0.10 sec
+      Start  8: EntropyPcm24Unit
+ 8/15 Test  #8: EntropyPcm24Unit .................   Passed    0.03 sec
+      Start  9: EntropyPcm24EngineUnit
+ 9/15 Test  #9: EntropyPcm24EngineUnit ...........   Passed    0.02 sec
+      Start 10: EntropyIppFirUnit
+10/15 Test #10: EntropyIppFirUnit ................   Passed    0.24 sec
+      Start 11: EntropyNativeStateUnit
+11/15 Test #11: EntropyNativeStateUnit ...........   Passed    0.12 sec
+      Start 12: EntropyAudioCoreProbe
+12/15 Test #12: EntropyAudioCoreProbe ............   Passed    0.09 sec
+      Start 13: EntropyStage03Integration
+13/15 Test #13: EntropyStage03Integration ........   Passed   55.12 sec
+      Start 14: EntropyStage02Identity
+14/15 Test #14: EntropyStage02Identity ...........   Passed    0.02 sec
+      Start 15: EntropyStage02Realtime
+15/15 Test #15: EntropyStage02Realtime ...........   Passed   39.94 sec
+
+100% tests passed, 0 tests failed out of 15
+
+Total Test time (real) =  96.33 sec

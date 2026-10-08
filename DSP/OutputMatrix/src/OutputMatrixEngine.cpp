@@ -123,14 +123,17 @@ EntropyResult OutputMatrixEngine::process(const EntropyAudioBlockF64& block) noe
         if (contributors[destination] != 0) activeDestinations |= 1u << destination;
         if (contributors[destination] > 1) summing |= 1u << destination;
         auto* output = block.outputs[destination];
-        std::fill_n(output, block.frames, 0.0);
+        if (contributors[destination] != 1) std::fill_n(output, block.frames, 0.0);
         for (std::uint32_t source = 0; source < ENTROPY_OUTPUT_MATRIX_CHANNELS; ++source)
         {
             if ((audioState_.active_source_mask & (1u << source)) == 0 ||
                 (audioState_.source_destination_mask[source] & (1u << destination)) == 0 ||
                 (audioState_.enabled_destination_mask & (1u << destination)) == 0) continue;
             const auto* input = block.inputs[source];
-            for (std::uint32_t frame = 0; frame < block.frames; ++frame) output[frame] += input[frame];
+            if (contributors[destination] == 1)
+                std::copy_n(input, block.frames, output);
+            else
+                for (std::uint32_t frame = 0; frame < block.frames; ++frame) output[frame] += input[frame];
         }
         for (std::uint32_t frame = 0; frame < block.frames; ++frame)
             peaks[destination] = (std::max)(peaks[destination], std::abs(output[frame]));

@@ -1,0 +1,18 @@
+IPP ippCore 2026.0.0 (r0xa7ad6ebc) Mar 27 2026
+IPP cpu_features=0x1007efff enabled=0x1007efff MSVC=195136257
+TRANSITION program=0 block=1 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=0 block=7 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=0 block=31 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=0 block=64 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=0 block=127 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=0 block=256 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=0 block=511 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=0 block=1024 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=1 block=1 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=1 block=7 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=1 block=31 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=1 block=64 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=1 block=127 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=1 block=256 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=1 block=511 failures=0 V07_outside_native_tolerance=0
+TRANSITION program=1 block=1024 failures=0 V07_outside_native_tolerance=0

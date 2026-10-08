@@ -1,0 +1,18 @@
+[
+  {
+    "Check": "benchmark-before",
+    "ExitCode": 1
+  },
+  {
+    "Check": "benchmark-after",
+    "ExitCode": 1
+  },
+  {
+    "Check": "fade-before",
+    "ExitCode": 1
+  },
+  {
+    "Check": "fade-after",
+    "ExitCode": 1
+  }
+]

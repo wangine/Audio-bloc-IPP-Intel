@@ -1,6 +1,8 @@
-param([switch]$VerifyOnly)
+param([switch]$VerifyOnly, [string]$ImportedRoot)
 $ErrorActionPreference = 'Stop'
 $root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
+if (!$ImportedRoot) { $ImportedRoot=$root }
+$ImportedRoot=(Resolve-Path -LiteralPath $ImportedRoot).Path
 $local = Join-Path $root 'local'
 $repo = Join-Path $local 'reference-repo'
 if (!(Test-Path -LiteralPath $repo)) {
@@ -34,9 +36,9 @@ foreach ($item in @(
     @{ Imported='DSP/Headroom'; Original=(Join-Path $native 'Modules/HeadroomManager'); Revision=$references[1].Revision }
 )) {
     foreach ($subfolder in @('include','src')) {
-        $importedFolder = Join-Path $root ($item.Imported + '/' + $subfolder)
+        $importedFolder = Join-Path $ImportedRoot ($item.Imported + '/' + $subfolder)
         foreach ($file in Get-ChildItem -LiteralPath $importedFolder -File -Recurse) {
-            $relative = $file.FullName.Substring((Join-Path $root $item.Imported).Length + 1)
+            $relative = $file.FullName.Substring((Join-Path $ImportedRoot $item.Imported).Length + 1)
             $original = Join-Path $item.Original $relative
             if (!(Test-Path -LiteralPath $original)) { throw "Original source missing: $original" }
             $a=(Get-FileHash -LiteralPath $file.FullName -Algorithm SHA256).Hash

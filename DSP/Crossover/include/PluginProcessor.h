@@ -157,6 +157,7 @@ private:
         uint64_t delayedEpoch=0;
         FirEpochTrace firEpoch;
         int writePosition = 0;
+        size_t delayValidSamples = 0;
         double peak = 0.0;
         uint64_t tripFrames = 0;
         bool protectionTripped = false;

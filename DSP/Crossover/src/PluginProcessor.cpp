@@ -291,6 +291,7 @@ void EntropyCrossoverAudioProcessor::prepareToPlay (double sampleRate, int sampl
         c.delayEpochs.assign ((size_t) delaySize, 0);
         c.firEpoch.reset();
         c.writePosition = 0;
+        c.delayValidSamples = 0;
         for (auto& q : c.hp) q.reset();
         for (auto& q : c.lp) q.reset();
         c.allPass.reset();
@@ -555,16 +556,23 @@ double EntropyCrossoverAudioProcessor::readDelayedSample (ChannelDSP& c, double 
     auto& ring = c.delayBuffer;
     if (ring.empty()) return input;
     ring[(size_t) c.writePosition] = input;
-    if(traceOutputEpoch) c.delayEpochs[(size_t) c.writePosition] = epoch;
+    if(traceOutputEpoch || c.delayValidSamples<ring.size())
+        c.delayEpochs[(size_t) c.writePosition] = traceOutputEpoch?epoch:0;
+    c.delayValidSamples=std::min(ring.size(),c.delayValidSamples+1);
     delaySamples = native::jlimit (0.0, (double) ring.size() - 3.0, delaySamples);
     double read = (double) c.writePosition - delaySamples;
     while (read < 0.0) read += (double) ring.size();
     const int i0 = (int) std::floor (read) % (int) ring.size();
     const int i1 = (i0 + 1) % (int) ring.size();
     const double frac = read - std::floor (read);
-    const double output = ring[(size_t) i0] + frac * (ring[(size_t) i1] - ring[(size_t) i0]);
+    // Both indices are in [0,size): wrapped age needs at most one correction.
+    // A full ring stays valid until reset, so its steady path needs no age math.
+    const bool full=c.delayValidSamples==ring.size();
+    const auto valid=[&](int index){return full || size_t(index<=c.writePosition ? c.writePosition-index : c.writePosition+int(ring.size())-index)<c.delayValidSamples;};
+    const double a=valid(i0)?ring[(size_t)i0]:0.0,b=valid(i1)?ring[(size_t)i1]:0.0;
+    const double output = a + frac * (b - a);
     if(traceOutputEpoch) {
-        const auto produced = std::max(c.delayEpochs[(size_t)i0], frac>0.0?c.delayEpochs[(size_t)i1]:0);
+        const auto produced = std::max(valid(i0)?c.delayEpochs[(size_t)i0]:0, frac>0.0&&valid(i1)?c.delayEpochs[(size_t)i1]:0);
         c.delayedEpoch=produced;
     }
     if (++c.writePosition >= (int) ring.size()) c.writePosition = 0;
@@ -972,8 +980,7 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
                 c.previousAllPass.reset();
                 clearFirAllPassHistory(c);
                 c.fir.reset();
-                std::fill (c.delayBuffer.begin(), c.delayBuffer.end(), 0.0);
-                std::fill(c.delayEpochs.begin(),c.delayEpochs.end(),0);
+                c.delayValidSamples = 0;
                 c.firEpoch.reset();
                 c.writePosition = 0;
                 c.safetySilenced = true;

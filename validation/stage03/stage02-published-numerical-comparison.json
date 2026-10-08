@@ -1,0 +1,27 @@
+{
+  "rows": 68096,
+  "compared_fields": [
+    "max_absolute_error",
+    "rms_error",
+    "peak",
+    "rms",
+    "reference_peak",
+    "reference_rms",
+    "bit_mismatches",
+    "nonfinite",
+    "sine_amplitude",
+    "reference_sine_amplitude",
+    "phase_rad",
+    "reference_phase_rad",
+    "phase_difference_rad",
+    "first_sample",
+    "reference_first_sample",
+    "impulse_peak_sample",
+    "reference_impulse_peak_sample",
+    "peak_lag_samples",
+    "analytic_amplitude_error",
+    "analytic_phase_error_rad"
+  ],
+  "different_rows": 0,
+  "changes": []
+}

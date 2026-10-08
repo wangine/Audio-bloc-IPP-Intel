@@ -1,0 +1,1 @@
+xperf: error: NT Kernel Logger: Access is denied. (0x5).

@@ -1,0 +1,78 @@
+AudioCore: compile MSVC x64 + static Intel IPP (OFFLINE)
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+-- The CXX compiler identification is MSVC 19.51.36257.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Intel IPP headers: C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0/include
+-- Configuring done (12.5s)
+-- Generating done (0.4s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage03-before/build/msvc-before
+[1/45] Building CXX object CMakeFiles\entropy_output_matrix.dir\DSP\OutputMatrix\src\OutputMatrixEngine.cpp.obj
+[2/45] Building CXX object CMakeFiles\entropy_headroom.dir\DSP\Headroom\src\HeadroomEngine.cpp.obj
+[3/45] Linking CXX static library entropy_headroom.lib
+[4/45] Linking CXX static library entropy_output_matrix.lib
+[5/45] Building CXX object CMakeFiles\entropy_pcm24.dir\Egress\PCM24\src\Pcm24Converter.cpp.obj
+[6/45] Building CXX object CMakeFiles\entropy_pcm24.dir\Egress\PCM24\src\Pcm24ModuleEngine.cpp.obj
+[7/45] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\NativeState.cpp.obj
+[8/45] Building CXX object CMakeFiles\entropy_graph.dir\Engine\BufferPool.cpp.obj
+[9/45] Building CXX object CMakeFiles\entropy_graph.dir\Engine\AudioGraph.cpp.obj
+[10/45] Building CXX object CMakeFiles\entropy_stage02_reference.dir\Tests\Stage02\ReferenceBridge.cpp.obj
+[11/45] Building CXX object CMakeFiles\entropy_stage02_reference.dir\local\ref-native\Stage3\native-reference\Modules\OutputMatrix\src\OutputMatrixEngine.cpp.obj
+[12/45] Building CXX object CMakeFiles\entropy_stage02_reference.dir\local\ref-native\Stage3\native-reference\Modules\HeadroomManager\src\HeadroomEngine.cpp.obj
+[13/45] Linking CXX static library entropy_pcm24.lib
+[14/45] Building CXX object CMakeFiles\entropy_stage02_reference.dir\local\ref-crossover\Stage3\native-reference\Modules\CrossoverIPP\src\NativeState.cpp.obj
+[15/45] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\PluginProcessor.cpp.obj
+[16/45] Linking CXX static library entropy_crossover.lib
+[17/45] Building CXX object CMakeFiles\EntropyAudioCore.dir\main.cpp.obj
+[18/45] Linking CXX static library entropy_graph.lib
+[19/45] Building CXX object CMakeFiles\EntropyOfflineConfig.dir\Tests\OfflineConfigTests.cpp.obj
+[20/45] Building CXX object CMakeFiles\EntropyMatrixNoAlloc.dir\DSP\OutputMatrix\tests\OutputMatrixRealtimeAllocationTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[21/45] Building CXX object CMakeFiles\entropy_stage02_reference.dir\local\ref-crossover\Stage3\native-reference\Modules\CrossoverIPP\src\PluginProcessor.cpp.obj
+[22/45] Building CXX object CMakeFiles\EntropyMatrixUnit.dir\DSP\OutputMatrix\tests\OutputMatrixEngineTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[23/45] Building CXX object CMakeFiles\EntropyHeadroomNoAlloc.dir\DSP\Headroom\tests\HeadroomRealtimeAllocationTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[24/45] Building CXX object CMakeFiles\EntropyPcm24EngineUnit.dir\Egress\PCM24\tests\Pcm24ModuleEngineTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[25/45] Building CXX object CMakeFiles\EntropyPcm24Unit.dir\Egress\PCM24\tests\Pcm24ConverterTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[26/45] Building CXX object CMakeFiles\EntropyHeadroomUnit.dir\DSP\Headroom\tests\HeadroomEngineTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[27/45] Linking CXX static library entropy_stage02_reference.lib
+[28/45] Building CXX object CMakeFiles\EntropyIppFirUnit.dir\DSP\Crossover\tests\IppFirTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[29/45] Building CXX object CMakeFiles\EntropyStage02.dir\Tests\Stage02\RealtimeAllocationAudit.cpp.obj
+[30/45] Building CXX object CMakeFiles\EntropyStage02.dir\Tests\Stage02\AuditExtras.cpp.obj
+[31/45] Linking CXX executable EntropyAudioCore.exe
+[32/45] Building CXX object CMakeFiles\EntropyGraphSmoke.dir\Tests\GraphSmoke.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[33/45] Linking CXX executable EntropyOfflineConfig.exe
+[34/45] Linking CXX executable EntropyGraphSmoke.exe
+[35/45] Linking CXX executable EntropyMatrixUnit.exe
+[36/45] Linking CXX executable EntropyMatrixNoAlloc.exe
+[37/45] Linking CXX executable EntropyHeadroomUnit.exe
+[38/45] Linking CXX executable EntropyHeadroomNoAlloc.exe
+[39/45] Building CXX object CMakeFiles\EntropyNativeStateUnit.dir\DSP\Crossover\tests\NativeSupportTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\memory(3666): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\memory(3666): note: the template instantiation context (the oldest one first) is
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\stage03-before\DSP\Crossover\tests\NativeSupportTests.cpp(26): note: see reference to function template instantiation 'std::unique_ptr<entropy::native::AudioParameterFloat,std::default_delete<entropy::native::AudioParameterFloat>> std::make_unique<entropy::native::AudioParameterFloat,entropy::native::ParameterID,const char(&)[6],entropy::native::NormalisableRange<float>,int,0>(entropy::native::ParameterID &&,const char (&)[6],entropy::native::NormalisableRange<float> &&,int &&)' being compiled
+[40/45] Linking CXX executable EntropyPcm24Unit.exe
+[41/45] Linking CXX executable EntropyPcm24EngineUnit.exe
+[42/45] Linking CXX executable EntropyIppFirUnit.exe
+[43/45] Linking CXX executable EntropyNativeStateUnit.exe
+[44/45] Building CXX object CMakeFiles\EntropyStage02.dir\Tests\Stage02\Validation.cpp.obj
+[45/45] Linking CXX executable EntropyStage02.exe
+PASS: native MSVC build (tests requested separately). No DAC/IPC started.

@@ -1,0 +1,10 @@
+[
+  {
+    "Check": "benchmark-before",
+    "ExitCode": 1
+  },
+  {
+    "Check": "benchmark-after",
+    "ExitCode": -1
+  }
+]

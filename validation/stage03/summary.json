@@ -1,0 +1,150 @@
+{
+  "numerical-V07": {
+    "rows": 34048,
+    "statuses": {
+      "BLOCKED": 34048
+    },
+    "max_absolute_error": 2.016182359954044e-15,
+    "rms_error": 4.73243431495252e-16,
+    "analytic_amplitude_error": 4.0630693254328776e-14,
+    "analytic_phase_error_rad": 8.888944548202105e-07,
+    "phase_difference_rad": 9.574120052313617e-09,
+    "peak_lag_samples": 0.0,
+    "bit_mismatches": 895521176,
+    "nonfinite": 0,
+    "oracle_amplitude_difference_max": 4.5102810375396984e-17
+  },
+  "numerical-native": {
+    "rows": 34048,
+    "statuses": {
+      "PASS": 34048
+    },
+    "max_absolute_error": 0.0,
+    "rms_error": 0.0,
+    "analytic_amplitude_error": 4.0630693254328776e-14,
+    "analytic_phase_error_rad": 8.888944548202105e-07,
+    "phase_difference_rad": 0.0,
+    "peak_lag_samples": 0.0,
+    "bit_mismatches": 0,
+    "nonfinite": 0,
+    "oracle_amplitude_difference_max": 0.0
+  },
+  "transitions-V07": {
+    "rows": 256,
+    "statuses": {
+      "BLOCKED": 256
+    },
+    "max_absolute_error": 2.719179048593645e-16,
+    "rms_error": 1.6512942362876046e-17,
+    "peak_lag_samples": 0.0,
+    "bit_mismatches": 17832605,
+    "nonfinite": 0,
+    "oracle_amplitude_difference_max": null
+  },
+  "transitions-native": {
+    "rows": 256,
+    "statuses": {
+      "PASS": 256
+    },
+    "max_absolute_error": 0.0,
+    "rms_error": 0.0,
+    "peak_lag_samples": 0.0,
+    "bit_mismatches": 1629976,
+    "nonfinite": 0,
+    "oracle_amplitude_difference_max": null
+  },
+  "reactivation-Stage02": {
+    "rows": 5120,
+    "statuses": {
+      "PASS": 5120
+    },
+    "max_absolute_error": 0.0,
+    "rms_error": 0.0,
+    "bit_mismatches": 2021632,
+    "nonfinite": 0
+  },
+  "reactivation-V07": {
+    "rows": 5120,
+    "statuses": {
+      "BLOCKED": 5120
+    },
+    "max_absolute_error": 2.1206994493816467e-16,
+    "rms_error": 1.2511620821319587e-17,
+    "bit_mismatches": 84452800,
+    "nonfinite": 0
+  },
+  "parameters": {
+    "rows": 17920,
+    "value_differences": 0
+  },
+  "identity": {
+    "rows": 24,
+    "statuses": {
+      "PASS": 24
+    },
+    "bit_mismatches": 0
+  },
+  "controls": {
+    "rows": 6912,
+    "statuses": {
+      "PASS": 6912
+    },
+    "amplitude_error": 5.551115123125783e-17,
+    "phase_error_rad": 1.8634399578942862e-14
+  },
+  "delay-impulses": {
+    "rows": 768,
+    "statuses": {
+      "PASS": 768
+    },
+    "max_error": 2.837357085394565e-16
+  },
+  "transition-windows": {
+    "rows": 4096,
+    "statuses": {
+      "PASS": 4096
+    }
+  },
+  "realtime": {
+    "rows": 240,
+    "statuses": {
+      "PASS": 240
+    },
+    "callbacks": 497040,
+    "cpp_new": 0,
+    "cpp_delete": 0,
+    "heap_alloc": 0,
+    "heap_free": 0,
+    "wait": 0,
+    "lock": 0,
+    "io": 0
+  },
+  "benchmark-before": {
+    "rows": 224,
+    "statuses": {
+      "PASS": 93,
+      "FAIL": 131
+    }
+  },
+  "benchmark-after": {
+    "rows": 224,
+    "statuses": {
+      "PASS": 128,
+      "FAIL": 96
+    }
+  },
+  "fade-before": {
+    "rows": 80,
+    "statuses": {
+      "FAIL": 79,
+      "PASS": 1
+    }
+  },
+  "fade-after": {
+    "rows": 80,
+    "statuses": {
+      "FAIL": 72,
+      "PASS": 8
+    }
+  }
+}

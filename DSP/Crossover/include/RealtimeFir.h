@@ -68,7 +68,7 @@ struct alignas(64) FirKernel {
     static constexpr int maximumTaps=128+64*128;
     std::array<double,128> head{};
     alignas(64) std::array<double,128> reverseHead{};
-    std::array<std::array<FixedFFT::C,256>,64> tail{};
+    std::array<std::array<Ipp64fc,256>,64> tail{};
     int partitions=0;
     int firstNonzeroTap=-1;
     void build(const double* taps,int count,const FixedFFT& fft) noexcept {
@@ -78,7 +78,7 @@ struct alignas(64) FirKernel {
         head.fill(0);for(int i=0;i<std::min(count,128);++i)head[i]=taps[i];
         for(int i=0;i<128;++i)reverseHead[i]=head[127-i];
         partitions=std::max(0,(count-128+127)/128);
-        for(int p=0;p<partitions;++p){auto& a=tail[p];a.fill({});for(int j=0;j<128;++j){const int k=128+p*128+j;if(k<count)a[j]=taps[k];}fft.run(a.data());}
+        for(int p=0;p<partitions;++p){auto& a=tail[p];a.fill({});for(int j=0;j<128;++j){const int k=128+p*128+j;if(k<count)a[j]={taps[k],0};}fft.runNative(a.data());}
     }
 };
 // 128-sample direct head and 128-sample overlap-add tail. Tail calculations are
@@ -88,16 +88,17 @@ class alignas(64) RealtimeFir {
     alignas(64) std::array<double,256> headHistory{};
     alignas(64) std::array<double,128> chunk{},tailNew{},tailOld{},overlapNew{},overlapOld{};
     std::array<std::array<Ipp64fc,256>,65> history{};
-    std::array<Ipp64fc,256> sum{},kernelBridge{};
-    int position=0,newest=64;
+    std::array<Ipp64fc,256> sum{};
+    int position=0,newest=64,validPartitions=0;
     const FirKernel* cachedNew=nullptr;const FirKernel* cachedOld=nullptr;
     void evaluate(const FirKernel* k,std::array<double,128>& out,std::array<double,128>& overlap,bool resetOverlap) noexcept {
         out.fill(0);if(!k){overlap.fill(0);return;}
         auto spectrum=[&](int lag){
             sum.fill({});
             for(int p=0;p<k->partitions;++p){const auto& x=history[(newest-p-lag+130)%65];
-                std::memcpy(kernelBridge.data(),k->tail[p].data(),sizeof(kernelBridge));
-                (void)ippsAddProduct_64fc(x.data(),kernelBridge.data(),sum.data(),129);
+                // Unwritten slots are logical zero: never read pre-reset spectra.
+                if(p+lag>=validPartitions)continue;
+                (void)ippsAddProduct_64fc(x.data(),k->tail[p].data(),sum.data(),129);
             }
             for(int b=1;b<128;++b)sum[256-b]={sum[b].re,-sum[b].im};
             fft.runNative(sum.data(),true);
@@ -111,7 +112,9 @@ class alignas(64) RealtimeFir {
         return value;
     }
 public:
-    void reset() noexcept {headHistory.fill(0);chunk.fill(0);tailNew.fill(0);tailOld.fill(0);overlapNew.fill(0);overlapOld.fill(0);for(auto& h:history)h.fill({});position=0;newest=64;cachedNew=cachedOld=nullptr;}
+    // Fixed 7 KiB head/overlap workspace; no clearing proportional to FIR length.
+    // The 260 KiB spectral ring is invalidated in O(1), without generation wrap.
+    void reset() noexcept {headHistory.fill(0);chunk.fill(0);tailNew.fill(0);tailOld.fill(0);overlapNew.fill(0);overlapOld.fill(0);position=0;newest=64;validPartitions=0;cachedNew=cachedOld=nullptr;}
     void process(double* data,int count,const FirKernel* current,const FirKernel* previous,double mixStart,double mixStep) noexcept {
         if(cachedNew!=current){evaluate(current,tailNew,overlapNew,true);cachedNew=current;}
         if(cachedOld!=previous){evaluate(previous,tailOld,overlapOld,true);cachedOld=previous;}
@@ -119,7 +122,7 @@ public:
             const double input=data[i];headHistory[position]=headHistory[position+128]=input;chunk[position]=input;
             double a=tailNew[position],b=tailOld[position];a+=dot(current);if(previous)b+=dot(previous);
             const double t=std::min(1.0,mixStart+i*mixStep);data[i]=previous?b+(a-b)*t:a;
-            if(++position==128){position=0;newest=(newest+1)%65;auto& h=history[newest];h.fill({});for(int j=0;j<128;++j)h[j]={chunk[j],0};fft.runNative(h.data());evaluate(current,tailNew,overlapNew,false);if(previous)evaluate(previous,tailOld,overlapOld,false);}
+            if(++position==128){position=0;newest=(newest+1)%65;auto& h=history[newest];h.fill({});for(int j=0;j<128;++j)h[j]={chunk[j],0};fft.runNative(h.data());validPartitions=std::min(65,validPartitions+1);evaluate(current,tailNew,overlapNew,false);if(previous)evaluate(previous,tailOld,overlapOld,false);}
         }
     }
 };

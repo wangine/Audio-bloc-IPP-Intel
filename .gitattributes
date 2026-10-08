@@ -1,3 +1,5 @@
 # Preserve published measurement bytes and their SHA256 across platforms.
 # -text disables EOL conversion; the CSV/JSON/log files remain plain text.
 /validation/stage02/** -text whitespace=cr-at-eol
+# Raw tool logs can contain trailing spaces; preserve their recorded bytes.
+/validation/stage03/** -text whitespace=cr-at-eol,-blank-at-eol

@@ -1,0 +1,11 @@
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+-- Intel IPP headers: C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0/include
+-- Configuring done (0.3s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage03-before/build/msvc-before
+[1/2] Building CXX object CMakeFiles\EntropyStage03Fade.dir\Tests\Stage03FadeBenchmark.cpp.obj
+[2/2] Linking CXX executable EntropyStage03Fade.exe
