@@ -1,0 +1,12 @@
+IPP ippCore 2026.0.0 (r0xa7ad6ebc) Mar 27 2026
+IPP cpu_features=0x1007efff enabled=0x1007efff MSVC=195136257
+NUMERICAL program=0 variant=5 block=511 cases=19 failures=0
+NUMERICAL program=0 variant=6 block=511 cases=38 failures=0
+NUMERICAL program=1 variant=0 block=511 cases=57 failures=0
+NUMERICAL program=1 variant=1 block=511 cases=76 failures=0
+NUMERICAL program=1 variant=2 block=511 cases=95 failures=0
+NUMERICAL program=1 variant=3 block=511 cases=114 failures=0
+NUMERICAL program=1 variant=4 block=511 cases=133 failures=0
+NUMERICAL program=1 variant=5 block=511 cases=152 failures=0
+NUMERICAL program=1 variant=6 block=511 cases=171 failures=0
+NUMERICAL RESULT cases=171 failures=0 V07=EXECUTED (golden acceptance BLOCKED: no published threshold for expanded corpus)

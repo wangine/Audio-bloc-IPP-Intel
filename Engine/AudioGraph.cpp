@@ -6,6 +6,25 @@
 
 namespace entropy::engine {
 
+bool AudioGraph::setOfflineParameter(const char* identifier, double value) {
+    if (!prepared_ || !crossover_ || !identifier || !std::isfinite(value)) return false;
+    auto* parameter = crossover_->getAPVTS().getParameter(identifier);
+    if (!parameter) return false;
+    const auto& range = parameter->getNormalisableRange();
+    if (value < range.start || value > range.end) return false;
+    parameter->setValueNotifyingHost(parameter->convertTo0to1(static_cast<float>(value)));
+    return true;
+}
+
+bool AudioGraph::applyOfflineParameters(bool resetHistories) {
+    if (!prepared_ || !crossover_) return false;
+    try {
+        if (resetHistories) crossover_->prepareToPlay(kSampleRate, static_cast<int>(maximumFrames_));
+        else crossover_->serviceUpdates();
+        return true;
+    } catch (...) { prepared_ = false; return false; }
+}
+
 bool AudioGraph::prepare(std::uint32_t maximumFrames) {
     prepared_ = false;
     if (!maximumFrames || maximumFrames > 4096) return false;

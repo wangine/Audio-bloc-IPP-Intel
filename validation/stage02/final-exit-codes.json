@@ -1,0 +1,52 @@
+[
+  {
+    "Check": "CTest",
+    "ExitCode": 8,
+    "Verdict": "FAIL: Matrix signed-zero only; 12/13 pass"
+  },
+  {
+    "Check": "Probe",
+    "ExitCode": 0,
+    "Verdict": "PASS"
+  },
+  {
+    "Check": "Numerical full coverage",
+    "ExitCode": 0,
+    "Verdict": "PASS native; V07 formal acceptance BLOCKED"
+  },
+  {
+    "Check": "Transitions",
+    "ExitCode": 0,
+    "Verdict": "PASS native; V07 diagnostic executed"
+  },
+  {
+    "Check": "Controls",
+    "ExitCode": 0,
+    "Verdict": "PASS"
+  },
+  {
+    "Check": "Realtime dynamic",
+    "ExitCode": 0,
+    "Verdict": "PASS 497040 callbacks in instrumented coverage; bulk resets FAIL"
+  },
+  {
+    "Check": "CPU restricted dispatch",
+    "ExitCode": 2,
+    "Verdict": "BLOCKED: original ippInit restores dispatch"
+  },
+  {
+    "Check": "Benchmark",
+    "ExitCode": 1,
+    "Verdict": "FAIL 139/224 rows exceed observed budget"
+  },
+  {
+    "Check": "Final quick",
+    "ExitCode": 0,
+    "Verdict": "PASS 40 cases"
+  },
+  {
+    "Check": "Missing CSV directory regression",
+    "ExitCode": 2,
+    "Verdict": "PASS expected error"
+  }
+]

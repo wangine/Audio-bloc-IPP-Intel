@@ -2,7 +2,20 @@
 
 Native Stage3 C++20 **integration candidate** on a separate private repository.
 
-Status: source and build configuration published. **First Windows MSVC/IPP compile is pending.** This is NOT an approved production runtime and cannot start DACs in Phase 01.
+**Stage02 = PASS NUMERIC / FAIL REALTIME. Formal V07 acceptance remains BLOCKED.**
+The Windows MSVC x64 / Intel IPP build and offline validation have been executed.
+This is not an approved production runtime; physical output remains disabled.
+
+See the [complete Stage02 report](docs/VALIDATION-STAGE02.md),
+[all 224 CPU benchmark rows](docs/BENCHMARK-STAGE02.md), and
+[published numerical results and evidence](validation/stage02/README.md).
+The original 10 tests pass; Stage02 CTest is 12/13 because strict Matrix signed-zero
+identity fails. Large callback resets and observed deadline overruns remain unresolved.
+
+Reproduce Stage02 offline with `powershell -ExecutionPolicy Bypass -File .\tools\Run-Stage02.ps1`.
+The script intentionally returns a nonzero exit for FAIL/BLOCKED checks after collecting
+the remaining evidence. Intel libraries, binaries, build folders and the complete local
+raw-result archive are excluded from Git.
 
 ## Run with Codex on your Windows PC
 

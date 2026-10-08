@@ -1,0 +1,48 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-release
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-release
+      Start  1: EntropyOfflineConfig
+ 1/13 Test  #1: EntropyOfflineConfig .............   Passed    0.05 sec
+      Start  2: EntropyGraphSmoke
+ 2/13 Test  #2: EntropyGraphSmoke ................   Passed    0.05 sec
+      Start  3: EntropyMatrixUnit
+ 3/13 Test  #3: EntropyMatrixUnit ................   Passed    0.02 sec
+      Start  4: EntropyMatrixNoAlloc
+ 4/13 Test  #4: EntropyMatrixNoAlloc .............   Passed    0.02 sec
+      Start  5: EntropyHeadroomUnit
+ 5/13 Test  #5: EntropyHeadroomUnit ..............   Passed    0.21 sec
+      Start  6: EntropyHeadroomNoAlloc
+ 6/13 Test  #6: EntropyHeadroomNoAlloc ...........   Passed    0.10 sec
+      Start  7: EntropyPcm24Unit
+ 7/13 Test  #7: EntropyPcm24Unit .................   Passed    0.03 sec
+      Start  8: EntropyPcm24EngineUnit
+ 8/13 Test  #8: EntropyPcm24EngineUnit ...........   Passed    0.02 sec
+      Start  9: EntropyIppFirUnit
+ 9/13 Test  #9: EntropyIppFirUnit ................   Passed    0.20 sec
+      Start 10: EntropyNativeStateUnit
+10/13 Test #10: EntropyNativeStateUnit ...........   Passed    0.05 sec
+      Start 11: EntropyAudioCoreProbe
+11/13 Test #11: EntropyAudioCoreProbe ............   Passed    0.05 sec
+      Start 12: EntropyStage02Identity
+12/13 Test #12: EntropyStage02Identity ...........***Failed    0.07 sec
+IPP ippCore 2026.0.0 (r0xa7ad6ebc) Mar 27 2026
+IPP cpu_features=0x1007efff enabled=0x1007efff MSVC=195136257
+FAIL matrix bit identity including signed zero
+FAIL matrix bit identity including signed zero
+FAIL matrix bit identity including signed zero
+FAIL matrix bit identity including signed zero
+FAIL matrix bit identity including signed zero
+FAIL matrix bit identity including signed zero
+FAIL matrix bit identity including signed zero
+FAIL matrix bit identity including signed zero
+IDENTITY RESULT failures=8
+
+      Start 13: EntropyStage02Realtime
+13/13 Test #13: EntropyStage02Realtime ...........   Passed   51.10 sec
+
+92% tests passed, 1 tests failed out of 13
+
+Total Test time (real) =  52.00 sec
+
+The following tests FAILED:
+	 12 - EntropyStage02Identity (Failed)
+Errors while running CTest

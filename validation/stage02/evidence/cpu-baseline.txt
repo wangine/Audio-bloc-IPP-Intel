@@ -1,0 +1,14 @@
+IPP ippCore 2026.0.0 (r0xa7ad6ebc) Mar 27 2026
+IPP cpu_features=0x1007efff enabled=0x1007efff MSVC=195136257
+SSE42 restricted dispatch requested=0xcdf status=0 enabled=0xcdf
+NUMERICAL program=0 variant=0 block=256 cases=5 failures=0
+NUMERICAL program=0 variant=1 block=256 cases=10 failures=0
+NUMERICAL program=0 variant=4 block=256 cases=15 failures=0
+NUMERICAL program=0 variant=5 block=256 cases=20 failures=0
+NUMERICAL program=1 variant=0 block=256 cases=25 failures=0
+NUMERICAL program=1 variant=1 block=256 cases=30 failures=0
+NUMERICAL program=1 variant=4 block=256 cases=35 failures=0
+NUMERICAL program=1 variant=5 block=256 cases=40 failures=0
+BLOCKED restricted dispatch reset by backend initialization
+NUMERICAL RESULT cases=40 failures=0 V07=BLOCKED (golden acceptance BLOCKED: no published threshold for expanded corpus)
+SSE42 final enabled=0x1007efff

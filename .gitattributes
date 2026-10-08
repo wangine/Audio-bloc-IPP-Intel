@@ -1,0 +1,3 @@
+# Preserve published measurement bytes and their SHA256 across platforms.
+# -text disables EOL conversion; the CSV/JSON/log files remain plain text.
+/validation/stage02/** -text whitespace=cr-at-eol

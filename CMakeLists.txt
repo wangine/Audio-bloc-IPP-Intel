@@ -10,6 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 include(CTest)
+option(ENTROPY_STAGE02_VALIDATION "Build isolated offline Stage02 validation tools" OFF)
 
 set(IPP_ROOT "C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0"
     CACHE PATH "Locally installed Intel IPP SDK, not distributed")
@@ -70,6 +71,10 @@ target_link_libraries(EntropyAudioCore PRIVATE entropy_graph entropy_pcm24)
 entropy_native_flags(EntropyAudioCore)
 
 if(BUILD_TESTING)
+    add_executable(EntropyOfflineConfig Tests/OfflineConfigTests.cpp)
+    target_link_libraries(EntropyOfflineConfig PRIVATE entropy_graph)
+    entropy_native_flags(EntropyOfflineConfig)
+    add_test(NAME EntropyOfflineConfig COMMAND EntropyOfflineConfig)
     add_executable(EntropyGraphSmoke Tests/GraphSmoke.cpp)
     target_link_libraries(EntropyGraphSmoke PRIVATE entropy_graph)
     entropy_native_flags(EntropyGraphSmoke)
@@ -132,3 +137,41 @@ endif()
 # STAGED NOT YET COMPILED: ClockSync requires nominal SRC / SoXR and r8brain,
 # Guardian, WasapiSink, DeviceManager, IPC and separate DAC event-driven threads.
 # Never launch physical DACs in Phase 01.
+
+if(ENTROPY_STAGE02_VALIDATION)
+    if(NOT BUILD_TESTING)
+        message(FATAL_ERROR "Stage02 requires BUILD_TESTING")
+    endif()
+    set(STAGE02_CROSSOVER_REFERENCE "${CMAKE_CURRENT_SOURCE_DIR}/local/ref-crossover/Stage3/native-reference/Modules/CrossoverIPP" CACHE PATH "Pristine pinned Crossover reference")
+    set(STAGE02_NATIVE_REFERENCE "${CMAKE_CURRENT_SOURCE_DIR}/local/ref-native/Stage3/native-reference" CACHE PATH "Pristine pinned native reference")
+    foreach(reference_file
+        "${STAGE02_CROSSOVER_REFERENCE}/src/PluginProcessor.cpp"
+        "${STAGE02_NATIVE_REFERENCE}/Modules/OutputMatrix/src/OutputMatrixEngine.cpp"
+        "${STAGE02_NATIVE_REFERENCE}/Modules/HeadroomManager/src/HeadroomEngine.cpp")
+        if(NOT EXISTS "${reference_file}")
+            message(FATAL_ERROR "Missing verified reference: ${reference_file}")
+        endif()
+    endforeach()
+    add_library(entropy_stage02_reference STATIC
+        Tests/Stage02/ReferenceBridge.cpp
+        "${STAGE02_CROSSOVER_REFERENCE}/src/PluginProcessor.cpp"
+        "${STAGE02_CROSSOVER_REFERENCE}/src/NativeState.cpp"
+        "${STAGE02_NATIVE_REFERENCE}/Modules/OutputMatrix/src/OutputMatrixEngine.cpp"
+        "${STAGE02_NATIVE_REFERENCE}/Modules/HeadroomManager/src/HeadroomEngine.cpp")
+    target_compile_definitions(entropy_stage02_reference PRIVATE entropy=stage02_reference)
+    target_include_directories(entropy_stage02_reference PRIVATE
+        "${STAGE02_CROSSOVER_REFERENCE}/include"
+        "${STAGE02_NATIVE_REFERENCE}/Modules/OutputMatrix/include"
+        "${STAGE02_NATIVE_REFERENCE}/Modules/HeadroomManager/include"
+        "${STAGE02_NATIVE_REFERENCE}/Shared/include" "${IPP_INCLUDE_DIR}")
+    target_link_libraries(entropy_stage02_reference PRIVATE "${IPP_SIGNAL_LIBRARY}" "${IPP_VECTOR_LIBRARY}" "${IPP_CORE_LIBRARY}")
+    entropy_native_flags(entropy_stage02_reference)
+    add_executable(EntropyStage02 Tests/Stage02/Validation.cpp
+        Tests/Stage02/RealtimeAllocationAudit.cpp Tests/Stage02/AuditExtras.cpp)
+    target_link_libraries(EntropyStage02 PRIVATE entropy_graph entropy_stage02_reference)
+    entropy_native_flags(EntropyStage02)
+    set(STAGE02_RESULTS "${CMAKE_BINARY_DIR}/stage02-results")
+    file(MAKE_DIRECTORY "${STAGE02_RESULTS}")
+    add_test(NAME EntropyStage02Identity COMMAND EntropyStage02 --identity "${STAGE02_RESULTS}")
+    add_test(NAME EntropyStage02Realtime COMMAND EntropyStage02 --realtime "${STAGE02_RESULTS}")
+endif()

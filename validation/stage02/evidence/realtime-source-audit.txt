@@ -1,0 +1,11 @@
+DSP/Crossover/include\PluginProcessor.h:24:    void processBlock (native::AudioBuffer<double>&, native::MidiBuffer&);
+DSP/Crossover/include\PluginProcessor.h:88:    void serviceUpdates();
+DSP/Crossover/include\PluginProcessor.h:105:    // Processing owner only, immediately after processBlock. Not a UI getter.
+DSP/Crossover/include\RealtimeFir.h:23:        Storage result(ippsMalloc_8u(size));
+DSP/Crossover/include\RealtimeFir.h:30:        checked(ippInit());
+DSP/Crossover/include\RealtimeFir.h:34:        checked(ippsFFTInit_C_64fc(&plan,order,IPP_FFT_DIV_INV_BY_N,ippAlgHintAccurate,specification.get(),init.get()));
+DSP/Crossover/src\PluginProcessor.cpp:332:    serviceUpdates();
+DSP/Crossover/src\PluginProcessor.cpp:817:void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& buffer, native::MidiBuffer&)
+DSP/Crossover/src\PluginProcessor.cpp:1550:void EntropyCrossoverAudioProcessor::serviceUpdates()
+Engine\AudioGraph.cpp:23:        else crossover_->serviceUpdates();
+Engine\AudioGraph.cpp:103:    crossover_->processBlock(view, midi);

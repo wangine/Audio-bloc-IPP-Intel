@@ -22,6 +22,9 @@ public:
 
     // Control thread only, before any audio processing.
     bool prepare(std::uint32_t maximumFrames);
+    // Offline control owner only, quiescent with process(). No hardware control.
+    bool setOfflineParameter(const char* identifier, double value);
+    bool applyOfflineParameters(bool resetHistories = false);
     // DSP thread only; no allocations, locks, device I/O, dynamic module loading.
     EntropyResult process(const double* const* input13, double* const* output16,
                           std::uint32_t frames);
