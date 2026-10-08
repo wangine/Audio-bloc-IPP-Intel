@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-// Protocol declarations only. An IPC transport/server is NOT running in Phase 01.
+// Versioned framed control-plane protocol. Transport runs outside audio owners.
 // Qt never shares C++ object pointers or calls a DSP callback directly.
 namespace entropy::ipc {
 inline constexpr std::uint32_t kProtocolVersion = 1;

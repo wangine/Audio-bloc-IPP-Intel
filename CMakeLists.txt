@@ -12,6 +12,7 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 include(CTest)
 option(ENTROPY_STAGE02_VALIDATION "Build isolated offline Stage02 validation tools" OFF)
 option(ENTROPY_STAGE04_EGRESS "Build native egress and offline tests (never auto-start hardware)" OFF)
+option(ENTROPY_STAGE05_CONTROL "Build native IPC control plane (physical output remains gated)" OFF)
 
 set(IPP_ROOT "C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0"
     CACHE PATH "Locally installed Intel IPP SDK, not distributed")
@@ -72,6 +73,9 @@ target_link_libraries(EntropyAudioCore PRIVATE entropy_graph entropy_pcm24)
 entropy_native_flags(EntropyAudioCore)
 if(ENTROPY_STAGE04_EGRESS)
     include(cmake/Stage04.cmake)
+endif()
+if(ENTROPY_STAGE05_CONTROL)
+    include(cmake/Stage05.cmake)
 endif()
 
 if(BUILD_TESTING)
