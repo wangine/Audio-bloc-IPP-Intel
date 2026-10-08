@@ -116,6 +116,16 @@ if(BUILD_TESTING)
     entropy_native_flags(EntropyNativeStateUnit)
     add_test(NAME EntropyNativeStateUnit COMMAND EntropyNativeStateUnit)
 
+    # CMake Release normally defines NDEBUG. Keep assert-based regression
+    # oracles ACTIVE in all test executables, even when DSP libs are optimized.
+    foreach(test_target
+        EntropyGraphSmoke EntropyMatrixUnit EntropyMatrixNoAlloc
+        EntropyHeadroomUnit EntropyHeadroomNoAlloc
+        EntropyPcm24Unit EntropyPcm24EngineUnit
+        EntropyIppFirUnit EntropyNativeStateUnit)
+        target_compile_options(${test_target} PRIVATE /UNDEBUG)
+    endforeach()
+
     add_test(NAME EntropyAudioCoreProbe COMMAND $<TARGET_FILE:EntropyAudioCore> --probe)
 endif()
 
