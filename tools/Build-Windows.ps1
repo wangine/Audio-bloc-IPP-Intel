@@ -29,7 +29,7 @@ if (!(Test-Path (Join-Path $IppRoot "include\ipp.h"))) {
 $ctest = Join-Path (Split-Path -Parent $cmake) "ctest.exe"
 if (!(Test-Path $ctest)) { $ctest = "ctest.exe" }
 
-$q = [char]34
+$q = [string][char]34
 $commands = New-Object System.Collections.Generic.List[string]
 $commands.Add('@echo off')
 $commands.Add('call ' + $q + $vcvars + $q + ' || exit /b 1')
