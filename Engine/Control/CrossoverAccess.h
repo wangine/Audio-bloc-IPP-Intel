@@ -1,0 +1,23 @@
+#pragma once
+#include "Engine/AudioGraph.h"
+#include "IPC/Json.h"
+#include <entropy/crossover_abi.h>
+#include <memory>
+#include <vector>
+namespace entropy::control {
+class CrossoverAccess {
+public:
+ explicit CrossoverAccess(engine::AudioGraph&);
+ ~CrossoverAccess();
+ ipc::Value metadata() const;
+ ipc::Value snapshot() const;
+ void execute(const ipc::Value&,uint64_t session,uint64_t sequence);
+ std::vector<unsigned char> exportBytes() const;
+ void importBytes(const std::vector<unsigned char>&);
+ void captureAfterBlock() noexcept;
+ void captureBeforeBlock() noexcept;
+ bool settled() const noexcept;
+private:
+ struct Impl;std::unique_ptr<Impl> impl_;
+};
+}

@@ -1,0 +1,10 @@
+[
+  "Qt6Core.dll",
+  "Qt6Gui.dll",
+  "Qt6Network.dll",
+  "Qt6Widgets.dll",
+  "libgcc_s_seh-1.dll",
+  "KERNEL32.dll",
+  "msvcrt.dll",
+  "libstdc++-6.dll"
+]

@@ -1,6 +1,9 @@
 #include "Engine/AudioGraph.h"
 #include <iostream>
 #include <string_view>
+#if ENTROPY_STAGE05_CONTROL
+#include "Engine/Control/CoreRuntime.h"
+#endif
 #if ENTROPY_STAGE04_EGRESS
 #include "Engine/Egress/HardwareTest.h"
 #endif
@@ -21,6 +24,9 @@ int main(int argc, char** argv) {
                   << "13 inputs -> 16 outputs; no hardware or IPC started\n";
         return 0;
     }
+#if ENTROPY_STAGE05_CONTROL
+    return entropy::control::runControlServer(argc,argv);
+#endif
     std::cout
         << "EntropyAudioCore: native Stage3 integration CANDIDATE (offline only).\n"
         << "To run a non-hardware probe: EntropyAudioCore.exe --probe\n"

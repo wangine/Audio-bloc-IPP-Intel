@@ -12,6 +12,7 @@
 #include <memory>
 
 namespace entropy::engine {
+class GraphControlAccess;
 // Offline deterministic DSP boundary. This is NOT a DAC scheduler.
 // Stage2 supplies 13 logical planar FP64 inputs at exactly 192000 Hz.
 class AudioGraph final {
@@ -33,11 +34,13 @@ public:
     // DSP thread only; no allocations, locks, device I/O, dynamic module loading.
     EntropyResult process(const double* const* input13, double* const* output16,
                           std::uint32_t frames);
+    void enableOriginalMusicAnalysis(bool enabled) noexcept { musicAnalysis_=enabled; } // Quiescent host integration.
     GraphTelemetry telemetry() const noexcept;
     bool prepared() const noexcept { return prepared_; }
 
 private:
-    std::unique_ptr<entropy::standalone::EntropyCrossoverAudioProcessor> crossover_;
+    friend class GraphControlAccess;
+    std::shared_ptr<entropy::standalone::EntropyCrossoverAudioProcessor> crossover_;
     entropy::output_matrix::OutputMatrixEngine matrix_;
     entropy::headroom::HeadroomEngine headroom_;
     PlanarBuffer crossoverBuffer_;
@@ -45,6 +48,7 @@ private:
     std::atomic<std::uint64_t> completedBlocks_{0};
     std::uint32_t maximumFrames_ = 0;
     bool prepared_ = false;
+    bool musicAnalysis_ = false;
     bool egressPolicyReady_ = false;
 };
 }

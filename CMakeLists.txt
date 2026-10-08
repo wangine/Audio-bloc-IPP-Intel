@@ -62,7 +62,7 @@ target_include_directories(entropy_pcm24 PUBLIC
 target_link_libraries(entropy_pcm24 PUBLIC entropy_abi)
 entropy_native_flags(entropy_pcm24)
 
-add_library(entropy_graph STATIC Engine/AudioGraph.cpp Engine/BufferPool.cpp)
+add_library(entropy_graph STATIC Engine/AudioGraph.cpp Engine/Telemetry.cpp Engine/BufferPool.cpp)
 target_include_directories(entropy_graph PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 target_link_libraries(entropy_graph PUBLIC
     entropy_crossover entropy_output_matrix entropy_headroom entropy_abi)

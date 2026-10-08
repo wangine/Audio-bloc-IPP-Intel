@@ -77,6 +77,11 @@ public:
     static native::StringArray bassProcessingNames();
     static native::StringArray firLengthNames();
     int roleForChannel (int channel) const noexcept;
+    // Native-host integration only: an optional immutable view for this owner
+    // block. Control compilation on other threads continues to read APVTS.
+    // Unset hosts retain the original interlock behavior and all DSP formulas.
+    void setHostBlockParameterView(const float* values) noexcept {hostBlockParameterOwner=values?this:nullptr;hostBlockParameterView=values;}
+    bool outputRoleActive(int channel) const noexcept {return isRoleEnabledByTopology(roleForChannel(channel));}
     native::StringArray activeOutputLabels() const;
 
     void saveChannelSnapshot (int channel);
@@ -302,7 +307,9 @@ private:
     CommandEventMailbox failedCommand;
     inline static thread_local const Config* tlsConfig=nullptr;
     float rt(int index) const noexcept {if(tlsConfig)return tlsConfig->values[index];return raw[index]?raw[index]->load(std::memory_order_relaxed):0.f;}
-    float liveRt(int index) const noexcept {return raw[index]?raw[index]->load(std::memory_order_relaxed):0.f;}
+    inline static thread_local const EntropyCrossoverAudioProcessor* hostBlockParameterOwner=nullptr;
+    inline static thread_local const float* hostBlockParameterView=nullptr;
+    float liveRt(int index) const noexcept {if(hostBlockParameterOwner==this&&hostBlockParameterView)return hostBlockParameterView[index];return raw[index]?raw[index]->load(std::memory_order_relaxed):0.f;}
     void beginRt() noexcept;
     void endRt(int samples) noexcept;
 

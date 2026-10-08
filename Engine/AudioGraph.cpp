@@ -135,6 +135,13 @@ EntropyResult AudioGraph::process(const double* const* input13, double* const* o
     auto result = matrix_.process(block);
     if (result != ENTROPY_OK) return result;
 
+    // The original Stage3 analyzer observes Matrix FP64 before the gain actuator.
+    if (musicAnalysis_ && crossover_->programBlockState().program == 0) {
+        EntropyHeadroomAnalysisBlockF64 analysis{};
+        analysis.struct_size=sizeof(analysis);analysis.channels=kOutputChannels;
+        analysis.frames=frames;analysis.inputs=matrixBuffer_.readPointers();
+        result=headroom_.analyzeFinal(analysis);if(result!=ENTROPY_OK)return result;
+    }
     block.inputs = matrixBuffer_.readPointers();
     block.outputs = output16;
     result = headroom_.process(block);
@@ -143,13 +150,4 @@ EntropyResult AudioGraph::process(const double* const* input13, double* const* o
     return result;
 }
 
-GraphTelemetry AudioGraph::telemetry() const noexcept {
-    GraphTelemetry result{};
-    result.completedBlocks = completedBlocks_.load(std::memory_order_acquire);
-    result.firLatencySamples = crossover_ ? static_cast<std::uint32_t>(
-        std::max(0, crossover_->getReportedFirLatencySamples())) : 0;
-    result.destinationMask = matrix_.telemetry().active_destination_mask;
-    result.headroomFaults = headroom_.telemetry().fault_flags;
-    return result;
-}
 }
