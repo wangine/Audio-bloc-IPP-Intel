@@ -19,6 +19,7 @@ int main(){try{
  check(controls.snapshot().at("matrix").at("routes").asArray()[0].asUnsigned()==1,"matrix published early");
  controls.atBlockBoundary();check(graph.process(input.readPointers(),output.writePointers(),256)==ENTROPY_OK,"matrix block");controls.afterBlock();
  check(controls.snapshot().at("matrix").at("routes").asArray()[0].asUnsigned()==3,"matrix route missing");
+ auto matrixDiagnostic=controls.snapshot().at("matrix");check(matrixDiagnostic.contains("routeCount"),"native Matrix diagnostics missing");check(matrixDiagnostic.at("routeCount").asUnsigned()==17&&matrixDiagnostic.at("summingMask").asUnsigned()==2,"native Matrix route/summing diagnostic mismatch");
  controls.execute(entropy::ipc::parse(R"({"action":"headroom-policy","mode":2,"manualGainDb":-12})"));
  controls.atBlockBoundary();check(graph.process(input.readPointers(),output.writePointers(),256)==ENTROPY_OK,"headroom block");controls.afterBlock();
  check(controls.snapshot().at("headroom").at("manualGainDb").asNumber()==-12,"headroom policy missing");

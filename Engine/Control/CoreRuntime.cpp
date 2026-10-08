@@ -33,7 +33,7 @@ int runControlServer(int argc,char** argv) try {
     auto loaded=profiles.load(std::filesystem::u8path(request.at("path").asString()));barrier(controls);scheduler.stop();sinkWorkers.stop();auto oldDevices=devices.snapshot();auto old=controls.crossover().exportBytes();auto state=controls.appliedState();
     try{if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));scheduler.start();}
     catch(...){devices.restore(oldDevices);controls.crossover().importBytes(old);controls.replace(state);controls.atBlockBoundary();controls.afterBlock();scheduler.start();throw;}
-    data=J::Object{{"status","LOADED"}};
+    data=J::Object{{"status","LOADED"},{"devices",devices.snapshot()}};
    }else {auto sequence=controls.execute(request);data=J::Object{{"accepted",J::u64(sequence)}};}
    reply=J::Object{{"ok",true},{"data",std::move(data)}};
   }catch(const std::exception& e){reply=J::Object{{"ok",false},{"error",e.what()}};}

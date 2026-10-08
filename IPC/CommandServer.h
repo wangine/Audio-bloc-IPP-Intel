@@ -10,6 +10,7 @@ class CommandServer final {
 public:
     using Handler=std::function<Frame(const Frame&)>;
     using Disconnect=std::function<void()>;
+    static constexpr DWORD kControlLeaseMs=5000;
     CommandServer()=default;
     ~CommandServer(){stop();}
     CommandServer(const CommandServer&)=delete;

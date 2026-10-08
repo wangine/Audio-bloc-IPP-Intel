@@ -1,0 +1,1 @@
+Stage05 controls PASS: validation, deferred block snapshots, native Crossover status, Matrix, Headroom

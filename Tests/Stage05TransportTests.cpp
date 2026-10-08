@@ -18,6 +18,7 @@ int main(){try{
  unsigned size=load32(header.data()+4);std::vector<unsigned char> data(header.begin(),header.end());data.resize(size);offset=16;
  while(offset<size){require(ReadFile(client,data.data()+offset,DWORD(size-offset),&count,nullptr)&&count,"body read");offset+=count;}
  Framer parser;parser.push(data);auto responses=parser.take();require(responses.size()==1&&responses[0].payload==request.payload&&responses[0].requestId==71,"transport payload/correlation");
+ Sleep(5500);require(disconnects.load()==1,"idle controlling peer lease was not revoked");
  CloseHandle(client);server.stop();require(disconnects.load()==1,"disconnect callback");
  require(server.start(endpoint,[](const Frame& f){return f;},{},error),"restart ownership");server.stop();
  std::cout<<"PASS Stage05 same-user local pipe, exclusive owner, fragmented request/correlated reply, disconnect and shutdown/restart\n";return 0;

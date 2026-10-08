@@ -42,6 +42,14 @@ Under 5,250 real IPC telemetry requests, Stage04 measured 800,000 callbacks over
 
 Import-hook audit covers C++ allocation operators and named Windows imports of images loaded at installation; it does not prove absence of dynamically resolved syscalls or every IPP internal operation. Positive controls triggered every audit class before reset. Original IPP initialization/filter preparation stay off callbacks; source inspection and numeric regressions complement the measured audit.
 
+## Final review and remaining display limitation
+
+One fresh whole-branch reviewer found no Critical issues and three Important issues. Each was reproduced before its fix: profile Load left the Qt DAC cache stale; Matrix diagnostics were omitted; an idle connected peer had no finite lease. Load now returns authoritative restored device data, native Matrix masks/summing/orphans/route count are forwarded, and a five-second connected-session lease is renewed only by complete frames (partial bytes do not renew it). Lease expiry invokes DISARM cleanup and releases pipe ownership. Native regressions and the actual Qt profile test pass after the fixes; the whole configured suite passes 27/27 again.
+
+Deferred minor: Crossover role/activity labels can display desired values before DSP adoption during an in-flight transition. This is a presentation limitation; DSP arithmetic, output samples and accepted/applied revisions are unaffected. No review finding affecting audio algorithms was identified.
+
+Implementation rulings: a dedicated local branch is used inline; strict JSON/explicit LE framing and decimal 64-bit revision strings bridge MSVC/MinGW without C++ object layouts on wire; the actual native parameter factory defines the catalog because the legacy ID list contains phantom entries; original normalized float control quantization is preserved; the optional processor-specific block view and original MUSIC analyzer are host integration only; legitimate device identity resolution may change endpoint addresses, so current native verification/current approval determine physical configuration. Stable profiles are protected and legacy opaque fields remain preserved. Physical ARM and V07 stay blocked.
+
 ## Reproduction and launch
 
 ```powershell
@@ -55,3 +63,7 @@ python ./tools/Benchmark-Stage05.py # Retains failing realtime gate; exit 1 mean
 ```
 
 MSVC x64 19.51.36257.0, Intel IPP static 2026.0; UI Qt 6.11.2 / GCC 13.1.0. No unconditional AVX2/FMA3. Built executables/build folders/vendor SDK are local only. Full raw logs, sample-level benchmark data, captures and debugging evidence are retained locally; compact evidence is tracked.
+
+## Local archive and hashes
+
+The complete raw Stage05 evidence is retained at `local/stage05-results-20261009.zip` (archive SHA256 in validation/stage05/archive-sha256.csv). Executable SHA256 values are in executables-sha256.csv. Benchmark under IPC was captured before the final observer/cache/lease fixes; those fixes do not change any measured Stage04 DSP implementation. Final controlled-graph measurements and all functional/Qt tests were rerun after the fixes.

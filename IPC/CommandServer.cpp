@@ -14,9 +14,9 @@ std::wstring userAcl(){
     std::wstring acl=L"D:P(A;;GA;;;"+std::wstring(sid)+L")";LocalFree(sid);return acl;
 }
 // The owner waits only for its own overlapped transport operation or shutdown.
-bool await(HANDLE pipe,HANDLE stop,OVERLAPPED& op,DWORD& count,bool started){
+bool await(HANDLE pipe,HANDLE stop,OVERLAPPED& op,DWORD& count,bool started,DWORD timeout=INFINITE){
     if(started)return true;if(GetLastError()!=ERROR_IO_PENDING)return false;
-    HANDLE events[]{stop,op.hEvent};auto wait=WaitForMultipleObjects(2,events,FALSE,INFINITE);
+    HANDLE events[]{stop,op.hEvent};auto wait=WaitForMultipleObjects(2,events,FALSE,timeout);
     if(wait!=WAIT_OBJECT_0+1){CancelIoEx(pipe,&op);GetOverlappedResult(pipe,&op,&count,TRUE);return false;}
     return GetOverlappedResult(pipe,&op,&count,FALSE)!=FALSE;
 }
@@ -56,18 +56,20 @@ void CommandServer::worker() noexcept {
         else if(!connected)connected=await(pipe_,stop_,op,count,false);
         if(!connected){if(WaitForSingleObject(stop_,0)==WAIT_OBJECT_0)break;DisconnectNamedPipe(pipe_);continue;}
         try {
-            Framer reader;
+            Framer reader;auto lastTraffic=GetTickCount64();
             while(WaitForSingleObject(stop_,0)!=WAIT_OBJECT_0){
                 ResetEvent(event.value);op={};op.hEvent=event.value;count=0;
+                auto idle=GetTickCount64()-lastTraffic;if(idle>=kControlLeaseMs)break;
                 bool started=ReadFile(pipe_,bytes.data(),DWORD(bytes.size()),&count,&op)!=FALSE;
-                if(!await(pipe_,stop_,op,count,started)||count==0)break;
+                if(!await(pipe_,stop_,op,count,started,DWORD(kControlLeaseMs-idle))||count==0)break;
                 reader.push(std::span(bytes.data(),count));
                 for(const auto& request:reader.take()){
+                    lastTraffic=GetTickCount64(); // Renew only a complete valid frame, not partial bytes.
                     auto reply=handler_(request);reply.requestId=request.requestId;auto encoded=encode(reply);size_t done=0;
                     while(done<encoded.size()){
                         ResetEvent(event.value);op={};op.hEvent=event.value;count=0;
                         started=WriteFile(pipe_,encoded.data()+done,DWORD(encoded.size()-done),&count,&op)!=FALSE;
-                        if(!await(pipe_,stop_,op,count,started)||!count)throw std::runtime_error("Peer disconnected");done+=count;
+                        if(!await(pipe_,stop_,op,count,started,kControlLeaseMs)||!count)throw std::runtime_error("Peer disconnected");done+=count;
                     }
                 }
             }

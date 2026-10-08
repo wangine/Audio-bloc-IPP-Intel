@@ -30,8 +30,8 @@ RenderWindow::RenderWindow(entropy::ui::EngineFacade& controller):controller_(co
  auto* footer=new QHBoxLayout;auto* hint=new QLabel("RENDER  ·  11 → 16   |   Click a module to open its original controls",page);hint->setObjectName("subtitle");footer->addWidget(hint,1);auto* save=new QPushButton("SAVE AS",page);auto* load=new QPushButton("LOAD",page);footer->addWidget(save);footer->addWidget(load);root->addLayout(footer);
  QObject::connect(save,&QPushButton::clicked,this,[this]{auto path=QFileDialog::getSaveFileName(this,"Save Render project",QString(),"Entropy project (*.entropy)");if(path.isEmpty())return;uint64_t seq=0;if(!entropy::host::writeEngineProjectRequest(entropy::host::EngineProjectSave,path.toStdWString().c_str(),seq))QMessageBox::warning(this,"Save refused","Project command queue unavailable");});
  QObject::connect(load,&QPushButton::clicked,this,[this]{auto path=QFileDialog::getOpenFileName(this,"Load Render project — output stays DISARM",QString(),"Entropy project (*.entropy)");if(path.isEmpty())return;uint64_t seq=0;if(!entropy::host::writeEngineProjectRequest(entropy::host::EngineProjectLoad,path.toStdWString().c_str(),seq))QMessageBox::warning(this,"Load refused","Project command queue unavailable");});
- // Original Devices view submits the original persisted device configuration.
- 
+ // Device drafts are submitted only by an explicit user action.
+
  auto* timer=new QTimer(this);timer->setInterval(100);QObject::connect(timer,&QTimer::timeout,this,[this]{if(isVisible()&&!isMinimized())refresh();});timer->start();refresh();
 }
 void RenderWindow::openModule(RenderPage kind){
