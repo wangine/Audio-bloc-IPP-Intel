@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Tests\Stage04EtwCorrelationTests.py", line 5, in <module>
+    from Correlate_Stage04_Etw import IntervalIndex, split_callback
+ModuleNotFoundError: No module named 'Correlate_Stage04_Etw'

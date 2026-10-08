@@ -27,3 +27,4 @@ Testing/
 /runtime/
 *.wav
 *.raw
+__pycache__/

@@ -1,0 +1,90 @@
+A02_IMPORT_MODULE name=EntropyStage04Validation.exe hooks=8
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=25 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+A02_HOST_CPP_AUDIT blocks=7996 control_new=0 control_delete=0 control_nonzero_blocks=0 audio_new=0 audio_delete=0 audio_nonzero_blocks=0 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=25 heap_alloc_calls=0 heap_free_calls=0 wait_calls=0 lock_calls=0 io_calls=0 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+PASS Stage04 offline contracts, numerical bytes, two-owner audit; no devices enumerated/opened
+BENCH Complete program=0 format=0 frames=128 median=47.300 p99=94.900 max=2140.100 us misses=7
+BENCH AudioGraph program=0 format=0 frames=128 median=22.300 p99=65.400 max=190.600 us misses=0
+BENCH FIFO program=0 format=0 frames=128 median=0.500 p99=0.700 max=77.900 us misses=0
+BENCH ClockSync program=0 format=0 frames=128 median=17.800 p99=47.600 max=151.600 us misses=0
+BENCH PCM24 program=0 format=0 frames=128 median=2.300 p99=6.800 max=36.900 us misses=0
+BENCH Complete program=0 format=0 frames=256 median=71.800 p99=140.600 max=308.700 us misses=0
+BENCH AudioGraph program=0 format=0 frames=256 median=41.200 p99=90.000 max=272.400 us misses=0
+BENCH FIFO program=0 format=0 frames=256 median=1.000 p99=1.200 max=31.500 us misses=0
+BENCH ClockSync program=0 format=0 frames=256 median=15.900 p99=47.300 max=196.000 us misses=0
+BENCH PCM24 program=0 format=0 frames=256 median=4.400 p99=20.800 max=49.800 us misses=0
+BENCH Complete program=0 format=0 frames=512 median=138.200 p99=262.200 max=491.100 us misses=0
+BENCH AudioGraph program=0 format=0 frames=512 median=92.600 p99=176.900 max=2251.700 us misses=0
+BENCH FIFO program=0 format=0 frames=512 median=2.100 p99=6.500 max=63.800 us misses=0
+BENCH ClockSync program=0 format=0 frames=512 median=19.000 p99=50.100 max=182.200 us misses=0
+BENCH PCM24 program=0 format=0 frames=512 median=8.800 p99=32.800 max=178.900 us misses=0
+BENCH Complete program=0 format=0 frames=1024 median=355.850 p99=548.000 max=2155.200 us misses=0
+BENCH AudioGraph program=0 format=0 frames=1024 median=184.600 p99=315.500 max=1460.800 us misses=0
+BENCH FIFO program=0 format=0 frames=1024 median=4.000 p99=18.600 max=110.800 us misses=0
+BENCH ClockSync program=0 format=0 frames=1024 median=98.900 p99=208.900 max=728.900 us misses=0
+BENCH PCM24 program=0 format=0 frames=1024 median=17.600 p99=49.600 max=205.200 us misses=0
+BENCH Complete program=0 format=1 frames=128 median=46.700 p99=102.000 max=646.900 us misses=0
+BENCH AudioGraph program=0 format=1 frames=128 median=21.200 p99=60.400 max=364.000 us misses=0
+BENCH FIFO program=0 format=1 frames=128 median=0.500 p99=0.700 max=31.300 us misses=0
+BENCH ClockSync program=0 format=1 frames=128 median=17.800 p99=47.100 max=155.400 us misses=0
+BENCH PCM24 program=0 format=1 frames=128 median=2.200 p99=3.800 max=34.200 us misses=0
+BENCH Complete program=0 format=1 frames=256 median=71.600 p99=141.700 max=1218.600 us misses=0
+BENCH AudioGraph program=0 format=1 frames=256 median=41.200 p99=89.200 max=576.400 us misses=0
+BENCH FIFO program=0 format=1 frames=256 median=1.000 p99=1.200 max=85.300 us misses=0
+BENCH ClockSync program=0 format=1 frames=256 median=15.900 p99=44.500 max=1304.900 us misses=0
+BENCH PCM24 program=0 format=1 frames=256 median=4.300 p99=19.400 max=118.300 us misses=0
+BENCH Complete program=0 format=1 frames=512 median=137.500 p99=263.000 max=793.000 us misses=0
+BENCH AudioGraph program=0 format=1 frames=512 median=92.500 p99=187.200 max=1207.200 us misses=0
+BENCH FIFO program=0 format=1 frames=512 median=2.000 p99=2.800 max=32.300 us misses=0
+BENCH ClockSync program=0 format=1 frames=512 median=19.400 p99=49.300 max=103.700 us misses=0
+BENCH PCM24 program=0 format=1 frames=512 median=8.600 p99=34.300 max=404.000 us misses=0
+BENCH Complete program=0 format=1 frames=1024 median=351.250 p99=547.500 max=2670.200 us misses=0
+BENCH AudioGraph program=0 format=1 frames=1024 median=185.800 p99=325.700 max=1217.200 us misses=0
+BENCH FIFO program=0 format=1 frames=1024 median=4.000 p99=21.500 max=46.100 us misses=0
+BENCH ClockSync program=0 format=1 frames=1024 median=99.300 p99=193.300 max=1259.600 us misses=0
+BENCH PCM24 program=0 format=1 frames=1024 median=17.100 p99=48.700 max=272.200 us misses=0
+BENCH Complete program=1 format=0 frames=128 median=46.700 p99=92.900 max=620.700 us misses=0
+BENCH AudioGraph program=1 format=0 frames=128 median=21.200 p99=53.600 max=576.600 us misses=0
+BENCH FIFO program=1 format=0 frames=128 median=0.500 p99=0.700 max=28.200 us misses=0
+BENCH ClockSync program=1 format=0 frames=128 median=17.500 p99=47.900 max=174.100 us misses=0
+BENCH PCM24 program=1 format=0 frames=128 median=2.300 p99=16.200 max=83.100 us misses=0
+BENCH Complete program=1 format=0 frames=256 median=71.700 p99=140.500 max=257.200 us misses=0
+BENCH AudioGraph program=1 format=0 frames=256 median=41.400 p99=88.700 max=891.200 us misses=0
+BENCH FIFO program=1 format=0 frames=256 median=1.000 p99=1.200 max=30.000 us misses=0
+BENCH ClockSync program=1 format=0 frames=256 median=16.300 p99=44.600 max=178.500 us misses=0
+BENCH PCM24 program=1 format=0 frames=256 median=4.400 p99=21.900 max=148.400 us misses=0
+BENCH Complete program=1 format=0 frames=512 median=137.400 p99=244.300 max=513.400 us misses=0
+BENCH AudioGraph program=1 format=0 frames=512 median=92.700 p99=185.200 max=819.000 us misses=0
+BENCH FIFO program=1 format=0 frames=512 median=2.000 p99=3.700 max=127.300 us misses=0
+BENCH ClockSync program=1 format=0 frames=512 median=19.400 p99=48.800 max=153.300 us misses=0
+BENCH PCM24 program=1 format=0 frames=512 median=8.800 p99=32.800 max=83.400 us misses=0
+BENCH Complete program=1 format=0 frames=1024 median=351.700 p99=543.800 max=2014.500 us misses=0
+BENCH AudioGraph program=1 format=0 frames=1024 median=185.100 p99=321.500 max=1886.600 us misses=0
+BENCH FIFO program=1 format=0 frames=1024 median=4.000 p99=20.300 max=34.300 us misses=0
+BENCH ClockSync program=1 format=0 frames=1024 median=100.000 p99=180.300 max=1201.300 us misses=0
+BENCH PCM24 program=1 format=0 frames=1024 median=17.600 p99=49.100 max=598.200 us misses=0
+BENCH Complete program=1 format=1 frames=128 median=46.900 p99=94.500 max=214.700 us misses=0
+BENCH AudioGraph program=1 format=1 frames=128 median=21.300 p99=56.100 max=188.200 us misses=0
+BENCH FIFO program=1 format=1 frames=128 median=0.500 p99=0.600 max=31.300 us misses=0
+BENCH ClockSync program=1 format=1 frames=128 median=17.700 p99=49.800 max=257.500 us misses=0
+BENCH PCM24 program=1 format=1 frames=128 median=2.200 p99=6.700 max=34.600 us misses=0
+BENCH Complete program=1 format=1 frames=256 median=75.400 p99=146.600 max=289.500 us misses=0
+BENCH AudioGraph program=1 format=1 frames=256 median=41.700 p99=93.300 max=293.600 us misses=0
+BENCH FIFO program=1 format=1 frames=256 median=1.000 p99=1.200 max=34.300 us misses=0
+BENCH ClockSync program=1 format=1 frames=256 median=16.000 p99=43.500 max=92.000 us misses=0
+BENCH PCM24 program=1 format=1 frames=256 median=4.300 p99=21.600 max=180.300 us misses=0
+BENCH Complete program=1 format=1 frames=512 median=139.300 p99=247.700 max=660.600 us misses=0
+BENCH AudioGraph program=1 format=1 frames=512 median=93.900 p99=179.100 max=686.700 us misses=0
+BENCH FIFO program=1 format=1 frames=512 median=2.000 p99=2.600 max=34.500 us misses=0
+BENCH ClockSync program=1 format=1 frames=512 median=18.700 p99=51.100 max=198.900 us misses=0
+BENCH PCM24 program=1 format=1 frames=512 median=8.500 p99=33.600 max=140.300 us misses=0
+BENCH Complete program=1 format=1 frames=1024 median=356.750 p99=548.900 max=1177.700 us misses=0
+BENCH AudioGraph program=1 format=1 frames=1024 median=185.200 p99=325.000 max=629.600 us misses=0
+BENCH FIFO program=1 format=1 frames=1024 median=4.000 p99=19.200 max=126.300 us misses=0
+BENCH ClockSync program=1 format=1 frames=1024 median=98.800 p99=193.300 max=375.100 us misses=0
+BENCH PCM24 program=1 format=1 frames=1024 median=17.000 p99=46.700 max=131.700 us misses=0
+A02_HOST_CPP_AUDIT blocks=800000 control_new=0 control_delete=0 control_nonzero_blocks=0 audio_new=0 audio_delete=0 audio_nonzero_blocks=0 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=25 heap_alloc_calls=0 heap_free_calls=0 wait_calls=0 lock_calls=0 io_calls=0 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images

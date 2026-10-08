@@ -1,5 +1,9 @@
 # Stage04 — Native Audio Egress: execution report
 
+Follow-up: [Stage04 blocker verification](VALIDATION-STAGE04-BLOCKERS.md) records
+PASS CLOCK / PASS NUMERIC / FAIL REALTIME / BLOCKED HARDWARE. The historical
+measurements below are retained unchanged.
+
 2026-10-08, Windows x64. Baseline `429589ad0831f034384b345eb6f3b875a8b49888`;
 branch `codex/stage04-native-egress`. No push or merge. No physical endpoint
 enumerated/opened by the executed tests. No Stage2 or Qt connection.

@@ -11,6 +11,7 @@
 #include <stdexcept>
 #include <thread>
 #include <EgressClockEstimator.h>
+#include "Stage04Scheduling.h"
 
 using namespace entropy::egress_host;
 namespace audit=entropy::host::allocation_audit;
@@ -206,13 +207,16 @@ void overlapping(std::ostream& log) {
     log<<"overlapping producer/consumer 2000 renders PASS; produced="<<produced<<"; no per-block acknowledgment\n";
 }
 
-void clockDomains(const std::filesystem::path& root) {
+bool clockDomains(const std::filesystem::path& root) {
     std::ofstream csv(root/"clock-domains.csv");csv.precision(17);
-    csv<<"frames,domain,drift_ppm,observations,valid_estimates,estimated_rate,last_confidence,status\n";
+    csv<<"frames,domain,drift_ppm,observations,valid_estimates,estimated_rate,last_confidence,expected_rate,estimated_ppm,max_error_ppm,valid_after_four_seconds,missing_after_four_seconds,elapsed_seconds,accuracy_tolerance_ppm,status\n";
+    bool all=true;
+    constexpr double accuracyPpm=0.05; // 100 ns timestamp quantization over a >=4 s window.
     for(unsigned frames:{128u,256u,512u,1024u}){
         entropy::egress::ClockEstimator a,b;
         check(a.prepare(192000)&&b.prepare(192000),"independent estimator prepare");
-        unsigned valid[2]{};entropy::egress::ClockEstimate last[2]{};
+        unsigned valid[2]{},afterFour[2]{},missing[2]{};double error[2]{},elapsed[2]{};bool sign[2]{true,true};
+        entropy::egress::ClockEstimate last[2]{};
         for(unsigned i=0;i<20000;++i)for(unsigned domain=0;domain<2;++domain){
             const double rate=192000*(1+(domain?100.0:-100.0)*1e-6);
             entropy::egress::ClockObservation o;
@@ -220,62 +224,87 @@ void clockDomains(const std::filesystem::path& root) {
             o.host100ns=10000000+uint64_t(double(o.sinkFrame)*1e7/rate);
             o.nominalPublished=uint64_t(i)*frames;o.renderFrames=frames;o.fillBefore=2048;o.continuous=true;
             last[domain]=(domain?b:a).observe(o);valid[domain]+=last[domain].valid;
+            elapsed[domain]=double(o.host100ns-10000000)*1e-7;
+            if(elapsed[domain]>=4.01){afterFour[domain]+=last[domain].valid;missing[domain]+=!last[domain].valid;}
+            if(last[domain].valid){const double ppm=(last[domain].sinkFramesPerSecond/192000-1)*1e6;
+                error[domain]=(std::max)(error[domain],std::abs(ppm-(domain?100:-100)));
+                sign[domain]=sign[domain] && (domain?ppm>0:ppm<0);}
         }
-        for(unsigned d=0;d<2;++d)csv<<frames<<','<<d<<','<<(d?100:-100)<<",20000,"<<valid[d]<<','<<last[d].sinkFramesPerSecond<<','<<last[d].confidence<<','<<(valid[d]?"PASS":"FAIL_NO_VALID_ESTIMATE")<<'\n';
+        for(unsigned d=0;d<2;++d){const bool pass=last[d].valid && afterFour[d]>0 && !missing[d] && sign[d] && error[d]<=accuracyPpm;
+            csv<<frames<<','<<d<<','<<(d?100:-100)<<",20000,"<<valid[d]<<','<<last[d].sinkFramesPerSecond<<','<<last[d].confidence<<','<<192000*(1+(d?100:-100)*1e-6)<<','
+               <<(last[d].sinkFramesPerSecond/192000-1)*1e6<<','<<error[d]<<','<<afterFour[d]<<','<<missing[d]<<','<<elapsed[d]<<','<<accuracyPpm<<','<<(pass?"PASS":"FAIL")<<'\n';all=all&&pass;}
     }
+    return all;
 }
 
-struct Sample{double us;uint64_t cycles;};
-template<class F> void measure(std::ostream& csv,std::ostream& raw,const char* module,unsigned program,unsigned format,unsigned n,F run,bool& deadlines) {
+struct Sample{
+    double us;uint64_t cycles,dispatchCycles,cpu100ns,waitReasons;
+    int64_t begin,end,outerBegin,outerEnd;DWORD switches,error;
+};
+template<class F> void measure(std::ostream& csv,std::ostream& raw,std::ostream& misses,
+    entropy::stage04_test::SchedulingProbe& probe,const char* module,unsigned program,unsigned format,unsigned n,F run,bool& deadlines) {
     for(unsigned i=0;i<2000;++i)check(run(),"benchmark warmup");
     constexpr unsigned loops=10000;std::vector<Sample> data(loops);LARGE_INTEGER frequency;QueryPerformanceFrequency(&frequency);
     for(unsigned i=0;i<loops;++i){LARGE_INTEGER a,b;ULONG64 ca=0,cb=0;bool ok;
-        {audit::CycleScope phase;QueryThreadCycleTime(GetCurrentThread(),&ca);QueryPerformanceCounter(&a);ok=run();QueryPerformanceCounter(&b);QueryThreadCycleTime(GetCurrentThread(),&cb);}
-        check(ok,"benchmark processing failed");data[i]={double(b.QuadPart-a.QuadPart)*1e6/frequency.QuadPart,cb-ca};}
-    auto counts=audit::snapshot();unsigned misses=0;for(unsigned i=0;i<loops;++i){auto s=data[i];misses+=s.us>double(n)*1e6/192000;raw<<module<<','<<program<<','<<format<<','<<n<<','<<i<<','<<s.us<<','<<s.cycles<<'\n';}
+        const auto before=probe.capture();bool timing=true;
+        {audit::CycleScope phase;timing=QueryThreadCycleTime(GetCurrentThread(),&ca)!=FALSE;timing=QueryPerformanceCounter(&a)!=FALSE&&timing;ok=run();timing=QueryPerformanceCounter(&b)!=FALSE&&timing;timing=QueryThreadCycleTime(GetCurrentThread(),&cb)!=FALSE&&timing;}
+        const auto after=probe.capture();
+        check(ok&&timing&&!before.error&&!after.error,"benchmark processing/timing/profile failed");
+        data[i]={double(b.QuadPart-a.QuadPart)*1e6/frequency.QuadPart,cb-ca,after.data.CycleTime-before.data.CycleTime,
+            after.cpu100ns-before.cpu100ns,after.data.WaitReasonBitMap,a.QuadPart,b.QuadPart,before.beginQpc,after.endQpc,
+            DWORD(after.data.ContextSwitchCount-before.data.ContextSwitchCount),before.error?before.error:after.error};}
+    auto counts=audit::snapshot();unsigned missCount=0;
+    for(unsigned i=0;i<loops;++i){auto s=data[i];const bool miss=s.us>double(n)*1e6/192000;missCount+=miss;
+        auto write=[&](std::ostream& out){out<<module<<','<<program<<','<<format<<','<<n<<','<<i<<','<<s.us<<','<<s.cycles<<','<<s.dispatchCycles<<','<<s.cpu100ns<<','<<s.switches<<','<<s.waitReasons<<','<<s.begin<<','<<s.end<<','<<s.outerBegin<<','<<s.outerEnd<<','<<frequency.QuadPart<<','<<GetCurrentThreadId()<<','<<s.error<<','<<(s.switches?"DESCHEDULE_OBSERVED_IN_BRACKET":"NO_CONTEXT_SWITCH_IN_BRACKET")<<'\n';};
+        write(raw);if(miss)write(misses);}
     std::vector<double> wall;std::vector<uint64_t> cycles;wall.reserve(loops);cycles.reserve(loops);
     for(auto s:data){wall.push_back(s.us);cycles.push_back(s.cycles);}std::sort(wall.begin(),wall.end());std::sort(cycles.begin(),cycles.end());
     csv<<module<<','<<program<<','<<format<<','<<n<<','<<(wall[4999]+wall[5000])/2<<','<<wall[9899]<<','<<wall.back()<<','
-       <<(double(cycles[4999])+double(cycles[5000]))/2<<','<<cycles[9899]<<','<<cycles.back()<<','<<misses<<','<<(misses?"FAIL":"PASS")<<'\n';
-    std::printf("BENCH %s program=%u format=%u frames=%u median=%.3f p99=%.3f max=%.3f us misses=%u\n",module,program,format,n,(wall[4999]+wall[5000])/2,wall[9899],wall.back(),misses);
-    std::fflush(stdout);if(misses)deadlines=false;
+       <<(double(cycles[4999])+double(cycles[5000]))/2<<','<<cycles[9899]<<','<<cycles.back()<<','<<missCount<<','<<(missCount?"FAIL":"PASS")<<'\n';
+    std::printf("BENCH %s program=%u format=%u frames=%u median=%.3f p99=%.3f max=%.3f us misses=%u\n",module,program,format,n,(wall[4999]+wall[5000])/2,wall[9899],wall.back(),missCount);
+    std::fflush(stdout);if(missCount)deadlines=false;
     check(counts.cppNew==0&&counts.cppDelete==0&&counts.heapAlloc==0&&counts.heapFree==0&&counts.wait==0&&counts.lock==0&&counts.io==0,"realtime safety audit");
 }
-bool benchmark(const std::filesystem::path& root){
-    std::ofstream csv(root/"benchmark.csv"),raw(root/"benchmark-samples.csv");csv.precision(17);raw.precision(17);
+bool benchmark(const std::filesystem::path& root,bool mmcss){
+    entropy::stage04_test::SchedulingProbe probe(mmcss);
+    const bool ready=probe.selfTest();probe.report(root/"scheduling.json");check(ready,"dispatch profiling/MMCSS unavailable");
+    std::ofstream csv(root/"benchmark.csv"),raw(root/"benchmark-samples.csv"),misses(root/"deadline-misses.csv");csv.precision(17);raw.precision(17);misses.precision(17);
     csv<<"module,program,format,frames,median_us,p99_us,max_us,median_thread_cycles,p99_thread_cycles,max_thread_cycles,deadline_misses,status\n";
-    raw<<"module,program,format,frames,iteration,wall_us,thread_cycles\n";bool deadlines=true;
+    const char* sampleHeader="module,program,format,frames,iteration,wall_us,thread_cycles,dispatch_cycles,cpu_time_100ns,context_switches,wait_reason_bitmap,callback_start_qpc,callback_end_qpc,dispatch_bracket_start_qpc,dispatch_bracket_end_qpc,qpc_frequency,thread_id,profiling_error,attribution\n";
+    raw<<sampleHeader;misses<<sampleHeader;bool deadlines=true;
     for(unsigned program=0;program<2;++program)for(unsigned fmt=0;fmt<2;++fmt)for(unsigned n:{128u,256u,512u,1024u}){
         FirstDacGraph graph;ProbeConfig cfg;cfg.frames=n;cfg.program=program;cfg.format=fmt;check(graph.prepare(cfg)&&graph.arm(),"bench graph prepare");
         auto& p=graph.pipeline();uint64_t position=0;
-        measure(csv,raw,"Complete",program,fmt,n,[&]{bool ok=graph.produce()&&p.transfer(n)&&p.render(n,position,10000000+position*10000000/192000);position+=n;return ok;},deadlines);
+        measure(csv,raw,misses,probe,"Complete",program,fmt,n,[&]{bool ok=graph.produce()&&p.transfer(n)&&p.render(n,position,10000000+position*10000000/192000);position+=n;return ok;},deadlines);
         graph.disarm();
         entropy::engine::AudioGraph g;check(g.prepare(n)&&FirstDacGraph::configureProbeGraph(g,program)&&g.applyEgressHeadroomPolicy(FirstDacGraph::probeLedger(),20),"bench graph");
         entropy::engine::PlanarBuffer src,out;src.prepare(13,n);out.prepare(16,n);src.clear(n);
         for(unsigned f=0;f<n;++f)src.channel(0)[f]=src.channel(1)[f]=src.channel(3)[f]=src.channel(4)[f]=.001*std::sin(6.2831853071795864769*1000*f/192000);
-        measure(csv,raw,"AudioGraph",program,fmt,n,[&]{return g.process(src.readPointers(),out.writePointers(),n)==ENTROPY_OK;},deadlines);
+        measure(csv,raw,misses,probe,"AudioGraph",program,fmt,n,[&]{return g.process(src.readPointers(),out.writePointers(),n)==ENTROPY_OK;},deadlines);
         SpscAudioFifo fifo;check(fifo.prepare(2,16384),"bench FIFO prepare");
-        measure(csv,raw,"FIFO",program,fmt,n,[&]{return fifo.push(src.readPointers(),n)&&fifo.pop(out.writePointers(),n);},deadlines);
+        measure(csv,raw,misses,probe,"FIFO",program,fmt,n,[&]{return fifo.push(src.readPointers(),n)&&fifo.pop(out.writePointers(),n);},deadlines);
         entropy::egress::EgressClockEngine clock;check(clock.configure(p.clockConfig()),"bench clock prepare");position=0;
         EntropyEgressClockPushBlockF64 push{};push.struct_size=sizeof(push);push.channels=2;push.frames=n;push.inputs=src.readPointers();
         EntropyEgressClockRenderBlockF64 render{};render.struct_size=sizeof(render);render.channels=2;render.frames=n;render.outputs=out.writePointers();
-        measure(csv,raw,"ClockSync",program,fmt,n,[&]{render.sink_position_frames=position;render.host_time_100ns=10000000+position*10000000/192000;position+=n;return clock.push(push)==ENTROPY_OK&&clock.render(render)==ENTROPY_OK&&render.state!=ENTROPY_EGRESS_CLOCK_STARVED;},deadlines);
+        measure(csv,raw,misses,probe,"ClockSync",program,fmt,n,[&]{render.sink_position_frames=position;render.host_time_100ns=10000000+position*10000000/192000;position+=n;return clock.push(push)==ENTROPY_OK&&clock.render(render)==ENTROPY_OK&&render.state!=ENTROPY_EGRESS_CLOCK_STARVED;},deadlines);
         entropy::pcm24::Pcm24ModuleEngine pcm;EntropyPcm24Config pc{};pc.struct_size=sizeof(pc);pc.channels=2;pc.maximum_frames=n;pc.output_format=fmt;
         check(pcm.configure(pc),"bench PCM prepare");std::vector<uint8_t> bytes(size_t(n)*2*(fmt?4:3));
         EntropyPcm24BlockF64 pb{};pb.struct_size=sizeof(pb);pb.channels=2;pb.frames=n;pb.inputs=src.readPointers();pb.output_interleaved=bytes.data();pb.output_capacity_bytes=static_cast<unsigned>(bytes.size());
-        measure(csv,raw,"PCM24",program,fmt,n,[&]{return pcm.process(pb)==ENTROPY_OK;},deadlines);
+        measure(csv,raw,misses,probe,"PCM24",program,fmt,n,[&]{return pcm.process(pb)==ENTROPY_OK;},deadlines);
     }
-    return deadlines;
+    probe.report(root/"scheduling.json");return deadlines;
 }
 }
 int main(int argc,char** argv){
     try {
         const std::filesystem::path root=argc>1?argv[1]:"stage04-results";std::filesystem::create_directories(root);
+        if(argc>2 && std::strcmp(argv[2],"--clock-only")==0){bool pass=clockDomains(root);std::puts(pass?"PASS valid clock estimate, drift sign and <=0.05 ppm error":"FAIL clock history/validity/sign/accuracy");return pass?0:1;}
+        if(argc>2 && std::strcmp(argv[2],"--scheduler-only")==0){entropy::stage04_test::SchedulingProbe probe(true);bool pass=probe.selfTest();probe.report(root/"scheduling.json");std::puts(pass?"PASS MMCSS Pro Audio and dispatch positive control":"BLOCKED scheduling probe");return pass?0:2;}
         check(audit::selfTest(),"audit self test");audit::reset();
-        std::ofstream log(root/"contracts.txt");lifecycle(log);numerical(root);clockDomains(root);concurrent(log);overlapping(log);
+        std::ofstream log(root/"contracts.txt");lifecycle(log);numerical(root);check(clockDomains(root),"clock history/validity/sign/accuracy");concurrent(log);overlapping(log);
         auto counts=audit::snapshot();check(counts.cppNew==0&&counts.cppDelete==0&&counts.heapAlloc==0&&counts.heapFree==0&&counts.wait==0&&counts.lock==0&&counts.io==0,"two-thread audit");
         audit::report();std::puts("PASS Stage04 offline contracts, numerical bytes, two-owner audit; no devices enumerated/opened");
-        if(argc>2 && std::strcmp(argv[2],"--benchmark")==0){audit::reset();bool pass=benchmark(root);audit::report();return pass?0:1;}
+        if(argc>2 && (std::strcmp(argv[2],"--benchmark")==0 || std::strcmp(argv[2],"--mmcss-benchmark")==0)){audit::reset();bool pass=benchmark(root,std::strcmp(argv[2],"--mmcss-benchmark")==0);audit::report();return pass?0:1;}
         return 0;
     }catch(const std::exception& e){std::fprintf(stderr,"FAIL Stage04: %s\n",e.what());return 2;}
 }

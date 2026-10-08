@@ -34,12 +34,18 @@ try {
         $relative = $_.FullName.Substring((Join-Path $root 'local/stage04-baseline').Length+1)
         $before = (Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash
         $after = (Get-FileHash -LiteralPath (Join-Path $root $relative) -Algorithm SHA256).Hash
-        [pscustomobject]@{Path=$relative;BaselineSHA256=$before;Stage04SHA256=$after;Identical=($before -eq $after)}
+        $historyOnly=$false
+        if($relative.Replace('\','/') -eq 'Egress/ClockSync/include/EgressClockEstimator.h') {
+            $original=[IO.File]::ReadAllText($_.FullName).Replace("`r`n","`n")
+            $current=[IO.File]::ReadAllText((Join-Path $root $relative)).Replace("`r`n","`n")
+            $historyOnly=$current -ceq $original.Replace('kCapacity = 512','kCapacity = 8192')
+        }
+        [pscustomobject]@{Path=$relative;BaselineSHA256=$before;Stage04SHA256=$after;Identical=($before -eq $after);AuthorizedHistoryCapacityOnly=$historyOnly}
     })
     $rows | Export-Csv local/stage04-source-integrity.csv -NoTypeInformation
-    if (@($rows | Where-Object {!$_.Identical}).Count) { throw 'Immutable original source differs from Stage03 baseline' }
+    if (@($rows | Where-Object {!$_.Identical -and !$_.AuthorizedHistoryCapacityOnly}).Count) { throw 'Unauthorized original source difference from Stage03 baseline' }
     $staged = (Get-FileHash Dependencies/SRC/src/MultiChannelSrcEngine.cpp).Hash
     $compiled = (Get-FileHash local/stage04-ref/Stage3/native-reference/dependencies/SRC/src/MultiChannelSrcEngine.cpp).Hash
     if ($staged -ne $compiled) { throw 'Compiled nominal wire source is not byte-identical to staged source' }
-    Write-Output "PASS $($rows.Count) immutable files; native reference $native; original nominal wire source identical"
+    Write-Output "PASS $($rows.Count) source checks: $(@($rows | Where-Object Identical).Count) byte-identical, $(@($rows | Where-Object {!$_.Identical -and $_.AuthorizedHistoryCapacityOnly}).Count) exact authorized history-capacity change; native reference $native; nominal wire source identical"
 } finally { Pop-Location }

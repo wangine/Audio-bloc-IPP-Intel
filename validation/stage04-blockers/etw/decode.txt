@@ -1,0 +1,1 @@
+ETW decode: switches=4280511 interrupts=1078210 state_mismatches=0 status=PASS

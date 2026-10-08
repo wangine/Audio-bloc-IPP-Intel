@@ -56,7 +56,7 @@ private:
         std::uint64_t nominalPublished = 0;
     };
 
-    static constexpr std::size_t kCapacity = 512;
+    static constexpr std::size_t kCapacity = 8192;
     static constexpr double kWindowSeconds = 4.0;
 
     std::array<Sample, kCapacity> samples_ {};

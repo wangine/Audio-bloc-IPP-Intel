@@ -1,0 +1,15 @@
+{
+"thread_id":10420,
+"mmcss_requested":true,
+"mmcss_registered":true,
+"mmcss_task_index":9722,
+"mmcss_priority_critical":true,
+"mmcss_error":0,
+"priority_error":0,
+"dispatch_enable_error":0,
+"self_test_pass":true,
+"positive_control_switches":1,
+"positive_control_cycles":530955,
+"snapshot_reads":1600002,
+"snapshot_errors":0
+}

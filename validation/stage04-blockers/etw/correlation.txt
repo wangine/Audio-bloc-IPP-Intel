@@ -1,0 +1,14 @@
+{
+  "normal": {
+    "configurations": 80,
+    "callbacks": 800000,
+    "wall_deadline_misses": 3,
+    "execution_deadline_misses": 1
+  },
+  "mmcss": {
+    "configurations": 80,
+    "callbacks": 800000,
+    "wall_deadline_misses": 1,
+    "execution_deadline_misses": 0
+  }
+}

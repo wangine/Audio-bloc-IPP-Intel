@@ -1,0 +1,1 @@
+PASS valid clock estimate, drift sign and <=0.05 ppm error

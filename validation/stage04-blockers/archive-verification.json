@@ -1,0 +1,11 @@
+{
+  "archive": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\local\\stage04-archives\\results-20261008-235842.zip",
+  "sha256": "644E552D90C5B4902A4C4D7C1E4C5D3C4779751279C4F11231602C89184A9739",
+  "bytes": 158561376,
+  "entries": 91,
+  "unique_entries": true,
+  "crc_error": null,
+  "raw_callback_csvs": 4,
+  "contains_kernel_etl": true,
+  "binary_sdk_build_artifacts": false
+}

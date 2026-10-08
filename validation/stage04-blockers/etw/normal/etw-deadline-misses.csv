@@ -1,0 +1,4 @@
+module,program,format,frames,iteration,wall_us,executing_us,descheduled_us,interrupt_us,scheduled_us,thread_cycles,context_switches,attribution
+AudioGraph,1,0,128,4365,1267.3000000000002,1263.2,4.1000000000000005,0.0,1263.2,236700,1,ON_CPU_NON_IRQ_INTERVAL_EXCEEDS_DEADLINE+DESCHEDULING
+Complete,1,1,1024,9819,24124.4,404.5,23719.9,0.0,404.5,1215300,1,DESCHEDULING
+Complete,1,1,1024,9960,10282.800000000001,449.0,9833.800000000001,0.0,449.0,1341900,2,DESCHEDULING
