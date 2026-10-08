@@ -2,7 +2,7 @@
 
 Baseline: `429589ad0831f034384b345eb6f3b875a8b49888`.
 Branch: `codex/stage04-native-egress`. Document de design; implementarea și
-validarea Stage04 nu sunt încă executate.
+validarea efectivă sunt descrise în raportul VALIDATION-STAGE04.md.
 
 ## Contract
 
@@ -21,7 +21,8 @@ proveniență verificabilă. Nu se înlocuiește niciun SRC pentru a simplifica 
 
 Hostul nou de egress deține lifecycle-ul și două thread-uri distincte:
 
-- Graph Thread: generează cele 13 intrări offline/interne, execută AudioGraph,
+- Graph Thread: primește 11 intrări FP64 L/R/C + 8 CINEMA, fără SRC la intrare;
+  adapterul completează cu zero cele două sloturi suplimentare ale ABI-ului original, execută AudioGraph,
   selectează canalele declarate pentru primul DAC și publică FP64 în FIFO.
 - DAC Sink Thread: consumă FIFO, alimentează ClockSync și execută render,
   bypass Guardian, PCM24 și submit WASAPI. Acesta deține toate apelurile COM,
@@ -93,7 +94,7 @@ Teste de integrare cu sink fake, fără inventariere sau deschidere de endpoint:
   erori open/start/wait/submit și recuperare fără audio vechi sau re-ARM automat.
 - Sinus, impuls și zgomot determinist; PCM bytes identici cu lanțul original
   executat ca oracle separat; amplitudine, fază, latență și semnal activ explicit.
-- ClockSync 192→192 și nominal 192→96 prin SRC original; clock drift pe fiecare
+- Numai ClockSync 192→192, fără conversie nominală; clock drift pe fiecare
   domeniu; conservarea stării și a coeficienților originale.
 - Validarea și respingerea ledgerului Headroom; respingerea FIR8193 × 16 la ARM.
 - Bypass Guardian bit-exact și formatele packed24/24-in-32; fără rail clamp.

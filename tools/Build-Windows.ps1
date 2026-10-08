@@ -2,6 +2,7 @@ param(
     [string]$IppRoot = "C:\Program Files (x86)\Intel\oneAPI\ipp\2026.0",
     [string]$BuildFolder = "build\msvc-release",
     [switch]$Stage02,
+    [switch]$Stage04,
     [switch]$CompileOnly
 )
 $ErrorActionPreference = "Stop"
@@ -37,6 +38,7 @@ $commands.Add('@echo off')
 $commands.Add('call ' + $q + $vcvars + $q + ' || exit /b 1')
 $commands.Add($q + $cmake + $q + ' -S ' + $q + $root + $q + ' -B ' + $q + $buildDir + $q + ' -G Ninja -DCMAKE_BUILD_TYPE=Release ' + $q + '-DIPP_ROOT=' + $IppRoot + $q + ' -DBUILD_TESTING=ON || exit /b 1')
 if ($Stage02) { $commands[2] = $commands[2].Replace(' -DBUILD_TESTING=ON', ' -DBUILD_TESTING=ON -DENTROPY_STAGE02_VALIDATION=ON') }
+if ($Stage04) { $commands[2] = $commands[2].Replace(' -DBUILD_TESTING=ON', ' -DBUILD_TESTING=ON -DENTROPY_STAGE04_EGRESS=ON') }
 $commands.Add($q + $cmake + $q + ' --build ' + $q + $buildDir + $q + ' --parallel 4 || exit /b 1')
 if (!$CompileOnly) {
     $commands.Add($q + $ctest + $q + ' --test-dir ' + $q + $buildDir + $q + ' --output-on-failure || exit /b 1')

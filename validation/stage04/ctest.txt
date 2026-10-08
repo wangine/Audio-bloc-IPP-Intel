@@ -1,0 +1,44 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+      Start  1: EntropyStage04HardwareGate
+ 1/19 Test  #1: EntropyStage04HardwareGate .......   Passed    0.05 sec
+      Start  2: EntropyStage04Offline
+ 2/19 Test  #2: EntropyStage04Offline ............   Passed    9.95 sec
+      Start  3: EntropyStage04Fifo
+ 3/19 Test  #3: EntropyStage04Fifo ...............   Passed    0.03 sec
+      Start  4: EntropyStage04Policy
+ 4/19 Test  #4: EntropyStage04Policy .............   Passed    0.06 sec
+      Start  5: EntropyStage03Reset
+ 5/19 Test  #5: EntropyStage03Reset ..............   Passed    0.10 sec
+      Start  6: EntropyOfflineConfig
+ 6/19 Test  #6: EntropyOfflineConfig .............   Passed    0.05 sec
+      Start  7: EntropyGraphSmoke
+ 7/19 Test  #7: EntropyGraphSmoke ................   Passed    0.05 sec
+      Start  8: EntropyMatrixUnit
+ 8/19 Test  #8: EntropyMatrixUnit ................   Passed    0.02 sec
+      Start  9: EntropyMatrixNoAlloc
+ 9/19 Test  #9: EntropyMatrixNoAlloc .............   Passed    0.02 sec
+      Start 10: EntropyHeadroomUnit
+10/19 Test #10: EntropyHeadroomUnit ..............   Passed    0.19 sec
+      Start 11: EntropyHeadroomNoAlloc
+11/19 Test #11: EntropyHeadroomNoAlloc ...........   Passed    0.10 sec
+      Start 12: EntropyPcm24Unit
+12/19 Test #12: EntropyPcm24Unit .................   Passed    0.03 sec
+      Start 13: EntropyPcm24EngineUnit
+13/19 Test #13: EntropyPcm24EngineUnit ...........   Passed    0.02 sec
+      Start 14: EntropyIppFirUnit
+14/19 Test #14: EntropyIppFirUnit ................   Passed    0.21 sec
+      Start 15: EntropyNativeStateUnit
+15/19 Test #15: EntropyNativeStateUnit ...........   Passed    0.05 sec
+      Start 16: EntropyAudioCoreProbe
+16/19 Test #16: EntropyAudioCoreProbe ............   Passed    0.05 sec
+      Start 17: EntropyStage03Integration
+17/19 Test #17: EntropyStage03Integration ........   Passed   50.78 sec
+      Start 18: EntropyStage02Identity
+18/19 Test #18: EntropyStage02Identity ...........   Passed    0.02 sec
+      Start 19: EntropyStage02Realtime
+19/19 Test #19: EntropyStage02Realtime ...........   Passed   36.88 sec
+
+100% tests passed, 0 tests failed out of 19
+
+Total Test time (real) =  98.68 sec

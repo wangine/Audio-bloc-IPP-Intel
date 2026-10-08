@@ -1,0 +1,349 @@
+Start testing: Oct 08 22:53 GTB Daylight Time
+----------------------------------------------------------
+1/19 Testing: EntropyStage04HardwareGate
+1/19 Test: EntropyStage04HardwareGate
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyStage04HardwareGate.exe" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/stage04-gate-tests"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyStage04HardwareGate" start time: Oct 08 22:53 GTB Daylight Time
+Output:
+----------------------------------------------------------
+BLOCKED hardware: explicit --arm, --endpoint, --format and matching --offline-gate required; no device opened
+BLOCKED hardware: missing/stale offline PASS gate for this executable; no device opened
+PASS hardware gate: SHA256 vector, stale/malformed gate and missing authorization rejected before device access
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage04HardwareGate" end time: Oct 08 22:53 GTB Daylight Time
+"EntropyStage04HardwareGate" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/19 Testing: EntropyStage04Offline
+2/19 Test: EntropyStage04Offline
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyStage04Validation.exe" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/stage04-results"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyStage04Offline" start time: Oct 08 22:53 GTB Daylight Time
+Output:
+----------------------------------------------------------
+A02_IMPORT_MODULE name=EntropyStage04Validation.exe hooks=8
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=15 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+A02_HOST_CPP_AUDIT blocks=7996 control_new=0 control_delete=0 control_nonzero_blocks=0 audio_new=0 audio_delete=0 audio_nonzero_blocks=0 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=15 heap_alloc_calls=0 heap_free_calls=0 wait_calls=0 lock_calls=0 io_calls=0 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+PASS Stage04 offline contracts, numerical bytes, two-owner audit; no devices enumerated/opened
+<end of output>
+Test time =   9.95 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage04Offline" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyStage04Offline" time elapsed: 00:00:09
+----------------------------------------------------------
+
+3/19 Testing: EntropyStage04Fifo
+3/19 Test: EntropyStage04Fifo
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyStage04Fifo.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyStage04Fifo" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS FIFO wrap/signed-zero/overflow/underflow/concurrent 200000 frames
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage04Fifo" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyStage04Fifo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/19 Testing: EntropyStage04Policy
+4/19 Test: EntropyStage04Policy
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyStage04Policy.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyStage04Policy" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS explicit egress policy rejects missing ledger and offline unity
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage04Policy" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyStage04Policy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/19 Testing: EntropyStage03Reset
+5/19 Test: EntropyStage03Reset
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyStage03Reset.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyStage03Reset" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+Stage03 reset fresh-state/epoch regression failures=0
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage03Reset" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyStage03Reset" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/19 Testing: EntropyOfflineConfig
+6/19 Test: EntropyOfflineConfig
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyOfflineConfig.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyOfflineConfig" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS offline configuration validation
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyOfflineConfig" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyOfflineConfig" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/19 Testing: EntropyGraphSmoke
+7/19 Test: EntropyGraphSmoke
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyGraphSmoke.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyGraphSmoke" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS: native FP64 graph 13->16, 192kHz, 64 blocks x 256; no DAC
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyGraphSmoke" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyGraphSmoke" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/19 Testing: EntropyMatrixUnit
+8/19 Test: EntropyMatrixUnit
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyMatrixUnit.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyMatrixUnit" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS strict FP64/192 routing, identity, summing detection, orphan fail-safe
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyMatrixUnit" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyMatrixUnit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/19 Testing: EntropyMatrixNoAlloc
+9/19 Test: EntropyMatrixNoAlloc
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyMatrixNoAlloc.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyMatrixNoAlloc" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyMatrixNoAlloc" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyMatrixNoAlloc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/19 Testing: EntropyHeadroomUnit
+10/19 Test: EntropyHeadroomUnit
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyHeadroomUnit.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyHeadroomUnit" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS Headroom AUTO/MANUAL_SAFE/BIT_PERFECT transitions, bit-exact copy, deterministic ledger/analyzer and safe faults
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyHeadroomUnit" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyHeadroomUnit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/19 Testing: EntropyHeadroomNoAlloc
+11/19 Test: EntropyHeadroomNoAlloc
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyHeadroomNoAlloc.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyHeadroomNoAlloc" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyHeadroomNoAlloc" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyHeadroomNoAlloc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/19 Testing: EntropyPcm24Unit
+12/19 Test: EntropyPcm24Unit
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyPcm24Unit.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyPcm24Unit" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS PCM24 legacy NONE + flat TPDF +/-1 LSB, deterministic replay, per-channel decorrelation and triangular statistics
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyPcm24Unit" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyPcm24Unit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/19 Testing: EntropyPcm24EngineUnit
+13/19 Test: EntropyPcm24EngineUnit
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyPcm24EngineUnit.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyPcm24EngineUnit" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+declared CLIP continues, exact PCM24 rails, nonfinite remains fatal PASS
+legacy packed + 24-in-32 PASS
+deterministic TPDF replay/decorrelation PASS
+production continuity + nonfinite latch PASS
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyPcm24EngineUnit" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyPcm24EngineUnit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/19 Testing: EntropyIppFirUnit
+14/19 Test: EntropyIppFirUnit
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyIppFirUnit.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyIppFirUnit" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS FFT impulse unscaled (max error 0)
+PASS FFT complex roundtrip inverse normalization (max error 1.05e-15)
+PASS FFT positive complex tone bin/sign (max error 3.93e-13)
+PASS FIR 2049 direct convolution variable frames (max error 1.04e-14)
+PASS FIR 2049 impulse no added latency (max error 1.04e-17)
+PASS FIR reset/process no C++ allocation (max error 0)
+PASS FIR 4097 direct convolution variable frames (max error 1.73e-14)
+PASS FIR 4097 impulse no added latency (max error 1.04e-17)
+PASS FIR reset/process no C++ allocation (max error 0)
+PASS FIR 8193 direct convolution variable frames (max error 2.89e-14)
+PASS FIR 8193 impulse no added latency (max error 1.04e-17)
+PASS FIR reset/process no C++ allocation (max error 0)
+PASS FIR warm long-kernel adoption midpartition/crossfade (max error 2.13e-14)
+PASS FIR reset clears warm history (max error 0)
+PASS FIR causal support marker matches delayed impulse (max error 0)
+PASS FIR final partial partition tap exactly at 8192 (max error 0)
+PASS FIR null kernel produces silence (max error 0)
+PASS Spectrum order14 impulse raw FP64 magnitudes (max error 0)
+PASS Spectrum float monitor converted to FP64 tone bin (max error 1.1e-05)
+PASS Spectrum prepared workspace has no C++ allocation (max error 0)
+PASS Spectrum FP64 input preserves DC and tone amplitude (max error 1.66e-11)
+RESULT 0 failure(s)
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyIppFirUnit" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyIppFirUnit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/19 Testing: EntropyNativeStateUnit
+15/19 Test: EntropyNativeStateUnit
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyNativeStateUnit.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyNativeStateUnit" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+native support tests passed
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyNativeStateUnit" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyNativeStateUnit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/19 Testing: EntropyAudioCoreProbe
+16/19 Test: EntropyAudioCoreProbe
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyAudioCore.exe" "--probe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyAudioCoreProbe" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+AudioGraph native FP64/192 prepare PASS; 13 inputs -> 16 outputs; no hardware or IPC started
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyAudioCoreProbe" end time: Oct 08 22:54 GTB Daylight Time
+"EntropyAudioCoreProbe" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/19 Testing: EntropyStage03Integration
+17/19 Test: EntropyStage03Integration
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyStage03Integration.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyStage03Integration" start time: Oct 08 22:54 GTB Daylight Time
+Output:
+----------------------------------------------------------
+LONG_DELAY program=0 mode=0 max_abs=0 bit_mismatches=0 nonfinite=0
+LONG_DELAY program=0 mode=1 max_abs=0 bit_mismatches=0 nonfinite=0
+LONG_DELAY program=1 mode=0 max_abs=0 bit_mismatches=0 nonfinite=0
+LONG_DELAY program=1 mode=1 max_abs=0 bit_mismatches=0 nonfinite=0
+Stage03 integration regression failures=0
+<end of output>
+Test time =  50.78 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage03Integration" end time: Oct 08 22:55 GTB Daylight Time
+"EntropyStage03Integration" time elapsed: 00:00:50
+----------------------------------------------------------
+
+18/19 Testing: EntropyStage02Identity
+18/19 Test: EntropyStage02Identity
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyStage02.exe" "--identity" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/stage02-results"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyStage02Identity" start time: Oct 08 22:55 GTB Daylight Time
+Output:
+----------------------------------------------------------
+IPP ippCore 2026.0.0 (r0xa7ad6ebc) Mar 27 2026
+IPP cpu_features=0x1007efff enabled=0x1007efff MSVC=195136257
+IDENTITY RESULT failures=0
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage02Identity" end time: Oct 08 22:55 GTB Daylight Time
+"EntropyStage02Identity" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/19 Testing: EntropyStage02Realtime
+19/19 Test: EntropyStage02Realtime
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/EntropyStage02.exe" "--realtime" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04/stage02-results"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage04
+"EntropyStage02Realtime" start time: Oct 08 22:55 GTB Daylight Time
+Output:
+----------------------------------------------------------
+A02_IMPORT_MODULE name=EntropyStage02.exe hooks=7
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=14 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+IPP ippCore 2026.0.0 (r0xa7ad6ebc) Mar 27 2026
+IPP cpu_features=0x1007efff enabled=0x1007efff MSVC=195136257
+REALTIME dynamic audit failures=0; reset complexity reviewed separately; unlisted/dynamic APIs outside hook coverage
+<end of output>
+Test time =  36.88 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage02Realtime" end time: Oct 08 22:55 GTB Daylight Time
+"EntropyStage02Realtime" time elapsed: 00:00:36
+----------------------------------------------------------
+
+End testing: Oct 08 22:55 GTB Daylight Time

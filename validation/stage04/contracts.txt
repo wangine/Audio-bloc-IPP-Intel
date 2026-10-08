@@ -1,0 +1,23 @@
+lifecycle format=0 injected=0 PASS
+lifecycle format=0 injected=1 PASS
+lifecycle format=0 injected=2 PASS
+lifecycle format=0 injected=3 PASS
+lifecycle format=0 injected=4 PASS
+lifecycle format=0 injected=5 PASS
+lifecycle format=0 injected=6 PASS
+lifecycle format=0 injected=7 PASS
+lifecycle format=1 injected=0 PASS
+lifecycle format=1 injected=1 PASS
+lifecycle format=1 injected=2 PASS
+lifecycle format=1 injected=3 PASS
+lifecycle format=1 injected=4 PASS
+lifecycle format=1 injected=5 PASS
+lifecycle format=1 injected=6 PASS
+lifecycle format=1 injected=7 PASS
+starvation/overflow/nonfinite/rail-clamp/Guardian/FIR rejection PASS
+Graph256 / negotiated render128 PASS
+Graph256 / negotiated render256 PASS
+Graph256 / negotiated render512 PASS
+Graph256 / negotiated render1024 PASS
+two-owner DSP Graph / DAC Sink 2000 cycles PASS; handshake waits are outside audit callback
+overlapping producer/consumer 2000 renders PASS; produced=1996; no per-block acknowledgment

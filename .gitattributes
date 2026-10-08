@@ -3,3 +3,4 @@
 /validation/stage02/** -text whitespace=cr-at-eol
 # Raw tool logs can contain trailing spaces; preserve their recorded bytes.
 /validation/stage03/** -text whitespace=cr-at-eol,-blank-at-eol
+/validation/stage04/** -text whitespace=cr-at-eol,-blank-at-eol

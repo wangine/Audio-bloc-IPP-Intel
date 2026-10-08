@@ -22,6 +22,11 @@ public:
 
     // Control thread only, before any audio processing.
     bool prepare(std::uint32_t maximumFrames);
+    // Stopped/control-only. The production path cannot ARM the offline fixture.
+    bool prepareForEgress(std::uint32_t maximumFrames, const EntropyHeadroomState& ledger,
+                          double attenuationDb);
+    bool applyEgressHeadroomPolicy(const EntropyHeadroomState& ledger, double attenuationDb);
+    bool egressPolicyReady() const noexcept { return egressPolicyReady_; }
     // Offline control owner only, quiescent with process(). No hardware control.
     bool setOfflineParameter(const char* identifier, double value);
     bool applyOfflineParameters(bool resetHistories = false);
@@ -40,5 +45,6 @@ private:
     std::atomic<std::uint64_t> completedBlocks_{0};
     std::uint32_t maximumFrames_ = 0;
     bool prepared_ = false;
+    bool egressPolicyReady_ = false;
 };
 }

@@ -1,0 +1,9 @@
+{
+  "CTestExit": 0,
+  "ProbeExit": 0,
+  "ValidationExit": 1,
+  "NumericalRows": 96,
+  "BenchmarkRows": 80,
+  "OfflinePass": false,
+  "AudioCoreSHA256": "D0507DE639D3F5C3C8E07CD864ADB7F2F3FE643978D6636B66DAAB788DA62D9E"
+}

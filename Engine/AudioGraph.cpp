@@ -12,6 +12,7 @@ bool AudioGraph::setOfflineParameter(const char* identifier, double value) {
     if (!parameter) return false;
     const auto& range = parameter->getNormalisableRange();
     if (value < range.start || value > range.end) return false;
+    egressPolicyReady_ = false; // Any parameter mutation invalidates the ARM authority.
     parameter->setValueNotifyingHost(parameter->convertTo0to1(static_cast<float>(value)));
     return true;
 }
@@ -27,6 +28,7 @@ bool AudioGraph::applyOfflineParameters(bool resetHistories) {
 
 bool AudioGraph::prepare(std::uint32_t maximumFrames) {
     prepared_ = false;
+    egressPolicyReady_ = false;
     if (!maximumFrames || maximumFrames > 4096) return false;
     // All object allocation, IPP dispatcher warmup and filter compilation are
     // strictly off the audio thread. Never call prepare while processing.
@@ -72,6 +74,27 @@ bool AudioGraph::prepare(std::uint32_t maximumFrames) {
         maximumFrames_ = 0;
         return false;
     }
+}
+
+bool AudioGraph::prepareForEgress(std::uint32_t maximumFrames,
+                                 const EntropyHeadroomState& ledger, double attenuationDb) {
+    if (!std::isfinite(attenuationDb) || attenuationDb < 6.0 || attenuationDb > 120.0)
+        return false;
+    if (!prepare(maximumFrames)) return false;
+    return applyEgressHeadroomPolicy(ledger, attenuationDb);
+}
+
+bool AudioGraph::applyEgressHeadroomPolicy(const EntropyHeadroomState& ledger,
+                                         double attenuationDb) {
+    egressPolicyReady_ = false;
+    if (!prepared_ || !std::isfinite(attenuationDb) || attenuationDb < 6.0 || attenuationDb > 120.0)
+        return false;
+    if (headroom_.setState(ledger) != ENTROPY_OK ||
+        headroom_.setPolicy(ENTROPY_HEADROOM_MODE_MANUAL_SAFE, attenuationDb) != ENTROPY_OK) {
+        prepared_ = false; return false;
+    }
+    egressPolicyReady_ = true;
+    return true;
 }
 
 EntropyResult AudioGraph::process(const double* const* input13, double* const* output16,
