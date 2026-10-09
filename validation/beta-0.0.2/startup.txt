@@ -1,0 +1,2 @@
+Stage05 native IPC READY: EntropyAudioCore.Pcm24.Startup.a334d250272f4ddf9e50d8309e5bc2c1; DISARMED; liveGate=BLOCKED; authorizedLiveTest=NO
+AudioCore stopped safely; all native DAC owners closed

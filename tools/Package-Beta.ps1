@@ -26,7 +26,7 @@ $live=@('@echo off','call "%~dp0Cold-Start.cmd" -AuthorizedLiveTest %*','exit /b
 Set-Content -LiteralPath (Join-Path $bundle 'Cold-Start.cmd') -Value $cold -Encoding ascii
 Set-Content -LiteralPath (Join-Path $bundle 'Live-Test.cmd') -Value $live -Encoding ascii
 Copy-Item -LiteralPath (Join-Path $root 'Stop-AudioCore.cmd') -Destination $bundle
-Copy-Item -LiteralPath (Join-Path $root 'docs/RELEASE-0.0.1.md') -Destination (Join-Path $bundle 'README.md')
+Copy-Item -LiteralPath (Join-Path $root ('docs/RELEASE-'+$Version+'.md')) -Destination (Join-Path $bundle 'README.md')
 Copy-Item -LiteralPath (Join-Path $root 'docs') -Destination $bundle -Recurse
 Copy-Item -LiteralPath (Join-Path $root 'validation') -Destination $bundle -Recurse
 $qtNotices=Join-Path $bundle 'notices/Qt';New-Item -ItemType Directory -Path $qtNotices -Force | Out-Null
@@ -49,7 +49,8 @@ if($forbidden.Count){throw 'SDK/build/private profile file detected in bundle'}
 $sourceCommit=(& git -C $root rev-parse HEAD).Trim()
 $dirty=[bool](& git -C $root status --porcelain)
 $files=@(Get-ChildItem -LiteralPath $bundle -Recurse -File | Sort-Object FullName | ForEach-Object {[ordered]@{path=$_.FullName.Substring($bundle.Length+1).Replace('\','/');bytes=$_.Length;sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash}})
-$manifest=[ordered]@{version=$Version;channel='beta test';sourceCommit=$sourceCommit;sourceDirty=$dirty;architecture='Windows x64; native Core, separate IPC-only Qt UI';stage04='FAIL REALTIME';numeric='PASS';v07='BLOCKED';automaticArm=$false;files=$files}
+$numeric=if($Version -eq '0.0.1'){'PASS'}else{'NOT RERUN; historical 0.0.1 PASS'}
+$manifest=[ordered]@{version=$Version;channel='beta test';sourceCommit=$sourceCommit;sourceDirty=$dirty;architecture='Windows x64; native Core, separate IPC-only Qt UI';stage04='FAIL REALTIME';numeric=$numeric;v07='BLOCKED';automaticArm=$false;files=$files}
 $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $bundle 'manifest.json') -Encoding utf8
 $zip=Join-Path $output ('EntropyAudioCore-'+$Version+'-beta-win-x64.zip')
 Compress-Archive -LiteralPath $bundle -DestinationPath $zip -CompressionLevel Optimal

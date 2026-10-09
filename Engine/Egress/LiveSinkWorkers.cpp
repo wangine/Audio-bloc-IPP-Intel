@@ -111,7 +111,15 @@ void LiveSinkWorkers::run(unsigned slot) noexcept {
 ipc::Value LiveSinkWorkers::snapshot() const {
  ipc::Value::Array out;
  for(unsigned i=0;i<2;++i){const auto& d=domains_[i];const bool enabled=d.config.enabled;
+  const auto pcm=d.pipeline.pcmTelemetry();
   out.emplace_back(ipc::Value::Object{{"id",i?"DAC B":"DAC A"},{"configured",enabled},{"channels",d.config.channels},{"rate",192000},{"format",d.config.format},{"endpoint",d.config.endpoint},{"offlineFixture",false},{"physicalSinkOpen",d.open.load()},{"state",!enabled||!enabled_.load()?"DISARMED":faulted_.load()?"FAULT":d.running.load()?"RUNNING":d.open.load()?"PREROLL":"ARMING"},{"sinkState",d.sinkState.load()},{"driverResult",d.driverResult.load()},{"sinkFaults",d.sinkFaults.load()},{"bufferFrames",d.buffer.load()},{"submittedFrames",ipc::Value::u64(d.submitted.load())},{"devicePositionFrames",ipc::Value::u64(d.position.load())},{"clockState",d.clockState.load()},{"clockControllerLocked",d.clockState.load()==ENTROPY_EGRESS_CLOCK_LOCKED},{"ppm",d.ppm.load()},{"clockFillFrames",d.clockFill.load()},{"fifoFrames",d.pipeline.readable()},{"fifoCapacity",32768},{"targetFrames",4096},{"xruns",ipc::Value::u64(d.pipeline.xruns())},{"faults",d.pipeline.faults()},{"nonzeroPcmBlocks",ipc::Value::u64(d.nonzeroPcmBlocks.load())},{"callbacks",ipc::Value::u64(d.callbacks.load())},{"callbackWallExcludingWaitUs",d.callbackUs.load()},{"maximumCallbackWallExcludingWaitUs",d.maxCallbackUs.load()},{"eventWaitUs",d.waitUs.load()},{"deadlineMisses",ipc::Value::u64(d.misses.load())},{"callbackThreadCycles",ipc::Value::u64(d.cycles.load())},{"mmcssRegistered",d.mmcss.load()},{"guardian","EXACT BYPASS"}});
+  auto& telemetry=out.back();
+  telemetry["pcmDitherMode"]=pcm.dither_mode;telemetry["pcmSeedMode"]=pcm.seed_mode;telemetry["pcmFaults"]=pcm.fault_flags;
+  telemetry["pcmProcessedFrames"]=ipc::Value::u64(pcm.processed_frames);
+  telemetry["pcmOverrangeSamples"]=ipc::Value::u64(pcm.overrange_sample_count);
+  telemetry["pcmRailClampSamples"]=ipc::Value::u64(pcm.reserved[0]);
+  telemetry["pcmClippedBlocks"]=ipc::Value::u64(pcm.reserved[2]);
+  telemetry["pcmNonfiniteSamples"]=ipc::Value::u64(pcm.nonfinite_sample_count);
  }return out;
 }
 }

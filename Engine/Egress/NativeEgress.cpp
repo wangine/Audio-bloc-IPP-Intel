@@ -3,6 +3,8 @@
 #include <cmath>
 #include <cstring>
 #include <string>
+#include <windows.h>
+#include <bcrypt.h>
 
 namespace entropy::egress_host {
 bool DacPipeline::active() const noexcept {auto s=state();return s==State::Armed||s==State::Preroll||s==State::Running;}
@@ -20,8 +22,11 @@ bool DacPipeline::prepare(const PipelineConfig& c) try {
     if(!clock_.configure(cc)) return false;
     EntropyPcm24Config pc{};pc.struct_size=sizeof(pc);pc.channels=c.channels;
     pc.maximum_frames=c.maximumFrames;pc.revision=1;pc.output_format=c.format;
-    pc.dither_mode=ENTROPY_PCM24_DITHER_NONE;pc.seed_mode=ENTROPY_PCM24_SEED_DETERMINISTIC_TEST;
-    pc.reserved_u32=ENTROPY_PCM24_OVERRANGE_FAIL_CLOSED;
+    pc.dither_mode=ENTROPY_PCM24_DITHER_TPDF_FLAT;pc.seed_mode=ENTROPY_PCM24_SEED_PRODUCTION_INDEPENDENT;
+    pc.reserved_u32=ENTROPY_PCM24_OVERRANGE_CLIP_AND_REPORT;
+    // Quiescent control-thread preparation, never the Graph/DAC callback.
+    if(BCryptGenRandom(nullptr,reinterpret_cast<PUCHAR>(&pc.seed),sizeof(pc.seed),
+        BCRYPT_USE_SYSTEM_PREFERRED_RNG)<0 || pc.seed==0) return false;
     if(!pcm_.configure(pc)) return false;
     transfer_.prepare(c.channels,c.maximumFrames);rendered_.prepare(c.channels,c.maximumFrames);
     pcmBytes_.assign(static_cast<size_t>(c.channels)*c.maximumFrames*(c.format?4:3),0);
@@ -92,11 +97,11 @@ bool DacPipeline::render(unsigned n,uint64_t pos,uint64_t time) noexcept {
     // Optional Guardian is the exact same FP64 view, no phase kernel or gain.
     for(unsigned c=0;c<config_.channels;++c) for(unsigned f=0;f<n;++f) {
         const double v=rendered_.readChannel(c)[f];
-        if(!std::isfinite(v)||v < -1.0 || v > 1.0-entropy::pcm24::pcm24Lsb){fail(Pcm);silence(n);return false;}
+        if(!std::isfinite(v)){fail(Pcm);silence(n);return false;}
     }
     EntropyPcm24BlockF64 p{};p.struct_size=sizeof(p);p.channels=config_.channels;p.frames=n;
     p.inputs=rendered_.readPointers();p.output_interleaved=pcmBytes_.data();p.output_capacity_bytes=static_cast<unsigned>(bytes(n).size());
-    if(pcm_.process(p)!=ENTROPY_OK || p.produced_bytes!=bytes(n).size() || pcm_.telemetry().reserved[0]){fail(Pcm);silence(n);return false;}
+    if(pcm_.process(p)!=ENTROPY_OK || p.produced_bytes!=bytes(n).size()){fail(Pcm);silence(n);return false;}
     State expected=state();
     if(expected==State::Disarmed || expected==State::Fault){silence(n);return false;}
     state_.compare_exchange_strong(expected,b.state==ENTROPY_EGRESS_CLOCK_LOCKED?State::Running:State::Preroll);

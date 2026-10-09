@@ -32,7 +32,7 @@ target_link_libraries(entropy_devices PUBLIC entropy_abi ole32 uuid propsys cfgm
 entropy_native_flags(entropy_devices)
 add_library(entropy_egress STATIC Engine/Egress/NativeEgress.cpp)
 target_include_directories(entropy_egress PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
-target_link_libraries(entropy_egress PUBLIC entropy_graph entropy_clocksync entropy_pcm24)
+target_link_libraries(entropy_egress PUBLIC entropy_graph entropy_clocksync entropy_pcm24 bcrypt)
 entropy_native_flags(entropy_egress)
 target_link_libraries(EntropyAudioCore PRIVATE entropy_egress entropy_wasapi entropy_devices)
 target_sources(EntropyAudioCore PRIVATE Engine/Egress/HardwareTest.cpp)
