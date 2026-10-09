@@ -1,0 +1,8 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage07
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage07
+    Start 8: EntropyStage06Input
+1/1 Test #8: EntropyStage06Input ..............   Passed    5.55 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   5.55 sec

@@ -31,6 +31,8 @@
 #include <QMessageBox>
 #include <QPushButton>
 #include <QScrollArea>
+#include <QScrollBar>
+#include <QSignalBlocker>
 
 #include <QTableWidget>
 #include <QTimer>
@@ -290,6 +292,7 @@ private:
             slots_[index].approve->setProperty("positiveToggle", true);
             slots_[index].clear = new QPushButton(QStringLiteral("CLEAR BINDING"));
             slots_[index].configure = new QPushButton(QStringLiteral("CONFIGURE OUTPUT"));
+            slots_[index].configure->setObjectName(QStringLiteral("configureDac%1").arg(QChar('A'+int(index))));
             actions->addWidget(slots_[index].approve, 1);
             actions->addWidget(slots_[index].clear);
             layout->addLayout(actions);
@@ -322,7 +325,7 @@ private:
         devices_->verticalHeader()->hide();
         devices_->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
         devices_->horizontalHeader()->setSectionResizeMode(1, QHeaderView::ResizeToContents);
-        devices_->horizontalHeader()->setSectionResizeMode(2, QHeaderView::Stretch);
+        devices_->horizontalHeader()->setSectionResizeMode(2, QHeaderView::ResizeToContents);
         devices_->horizontalHeader()->setSectionResizeMode(3, QHeaderView::ResizeToContents);
         devices_->horizontalHeader()->setSectionResizeMode(4, QHeaderView::Stretch);
         devices_->horizontalHeader()->setSectionResizeMode(5, QHeaderView::ResizeToContents);
@@ -414,12 +417,20 @@ private:
 
     void refreshInventory()
     {
+        const auto* previous=selectedItem(); const QString selectedEndpoint=previous?QString::fromUtf8(previous->info.endpoint_id_utf8):QString();
         inventory_.clear();auto* core=entropy::ui::EngineFacade::current();clientAvailable_=core&&core->connected();if(!core)return;
-        auto devices=core->devices()["devices"].toArray();for(int i=0;i<devices.size();++i)inventory_.push_back({uint32_t(i),entropy::ui::deviceInfo(devices[i].toObject())});loadBindings();loadOutputConfigs();populateInventory();updateBindings();
+        auto devices=core->devices()["devices"].toArray();for(int i=0;i<devices.size();++i)inventory_.push_back({uint32_t(i),entropy::ui::deviceInfo(devices[i].toObject())});
+        // Windows retains old endpoints ahead of connected DACs. Present active
+        // devices first while preserving discovery order and endpoint identity.
+        std::stable_partition(inventory_.begin(),inventory_.end(),[](const InventoryItem& item){return item.info.active!=0;});
+        loadBindings();loadOutputConfigs();populateInventory(selectedEndpoint);updateBindings();
     }
 
-    void populateInventory()
+    void populateInventory(const QString& selectedEndpoint)
     {
+        const int verticalPosition=devices_->verticalScrollBar()->value();
+        const int horizontalPosition=devices_->horizontalScrollBar()->value();
+        const QSignalBlocker selectionSignals(devices_);
         devices_->clearContents();
         devices_->setRowCount(static_cast<int>(inventory_.size()));
         for (int row = 0; row < static_cast<int>(inventory_.size()); ++row)
@@ -448,6 +459,7 @@ private:
                 ? QString::fromUtf8(interfacePath->value_utf8) : QString());
             auto* name = new QTableWidgetItem(QString::fromUtf8(device.display_name_utf8));
             if (name->text().isEmpty()) name->setText(QStringLiteral("Unnamed retained endpoint"));
+            name->setToolTip(name->text());
             auto* channels = new QTableWidgetItem(device.maximum_channels == 0
                 ? QStringLiteral("—") : QString::number(device.maximum_channels));
             auto* formats = new QTableWidgetItem(exactFormatSummary(device));
@@ -481,7 +493,9 @@ private:
         }
         if (!inventory_.empty())
         {
-            devices_->selectRow(0);
+            int selectedRow=0;
+            for(int i=0;i<int(inventory_.size());++i)if(QString::fromUtf8(inventory_[i].info.endpoint_id_utf8)==selectedEndpoint){selectedRow=i;break;}
+            devices_->selectRow(selectedRow);
             showSelectedEvidence();
         }
         else
@@ -489,6 +503,10 @@ private:
             evidence_->setRowCount(0);
             selectedState_->setText(QStringLiteral("NO RENDER ENDPOINTS DISCOVERED"));
         }
+        // selectRow scrolls to the selected endpoint. A telemetry refresh must
+        // not undo the user's independent browsing position in the inventory.
+        devices_->verticalScrollBar()->setValue(verticalPosition);
+        devices_->horizontalScrollBar()->setValue(horizontalPosition);
     }
 
     const InventoryItem* selectedItem() const
@@ -562,8 +580,10 @@ private:
 
     void approveSelection(std::size_t slot)
     {
-        const auto* selected = selectedItem();
-        if (selected == nullptr || selected->info.active == 0 || !clientAvailable_) return;
+        const auto* currentSelection = selectedItem();
+        if (currentSelection == nullptr || currentSelection->info.active == 0 || !clientAvailable_) return;
+        const auto selectionCopy=*currentSelection;
+        const auto* selected=&selectionCopy; // Modal refresh cannot invalidate this approved identity.
         if (!ui::canAssignDeviceToSlot(
                 selected->info, slot, bindings_, bindingPresent_))
         {
@@ -919,7 +939,7 @@ private:
                     "SINK %4 • CLOCK %5 • SUB %6 / HW %7\n"
                     "FIFO %8 • %9 ppm • XRUN %10 • BUF %11\n"
                     "GUARD %12 • interventions %13 • max %14 dBTP • trip %15 dBTP\n"
-                    "RT us: CLK %16 • GUA %17 • PCM %18 • SUBMIT %19 • TOTAL %20\n"
+                    "Measured us: CLK %16 • GUA %17 • PCM %18 • SUBMIT %19 • owner wall minus wait %20\n"
                     "RT cycles %21 • deadline-miss %22")
                     .arg(outputStateText(slot, true,
                          domain.sinkState == ENTROPY_DAC_SINK_RUNNING))
@@ -948,7 +968,7 @@ private:
                     (domain.clockState == ENTROPY_EGRESS_CLOCK_LOCKED ||
                      domain.clockState == ENTROPY_EGRESS_CLOCK_PREROLL) &&
                     domain.faultFlags == 0 && domain.xrunCount == 0 &&
-                    domain.guardianState == ENTROPY_GUARDIAN_ARMED;
+                    domain.guardianFaultFlags == 0;
                 slots_[slot].outputConfig->setStyleSheet(healthy
                     ? QStringLiteral("color:#43e878;font-weight:700;")
                     : QStringLiteral("color:#ff7070;font-weight:700;"));
@@ -1034,7 +1054,7 @@ private:
             {
                 const auto found = std::find_if(inventory_.begin(), inventory_.end(),
                     [&resolution](const InventoryItem& item) {
-                        return item.managerIndex == resolution.matched_device_index;
+                        return std::strcmp(item.info.endpoint_id_utf8,resolution.resolved_endpoint_id_utf8)==0;
                     });
                 if (found != inventory_.end())
                 {

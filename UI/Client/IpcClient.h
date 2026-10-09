@@ -17,7 +17,7 @@ public:
  std::function<void(bool)> connectionChanged;
  std::function<void(QString)> fault;
 private:
- struct Pending{Reply reply;qint64 started;};
+ struct Pending{Reply reply;qint64 started;bool preflight=false;qint64 budget=5000;};
  void receive();void fail(const QString&);
  QLocalSocket socket_;QTimer watchdog_,reconnect_;QString endpoint_;
  ipc::Framer framer_;uint32_t next_=0;std::map<uint32_t,Pending> pending_;bool failing_=false;

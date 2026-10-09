@@ -1,4 +1,5 @@
 #include "Engine/Input/Stage2Ingress.h"
+#include "Engine/HighResolutionWait.h"
 #include "Tests/Stage02/RealtimeAllocationAudit.h"
 #include <StageLinkServer.h>
 #include <StageBusValidation.h>
@@ -30,6 +31,7 @@ struct Producer {
     ~Producer(){stop=true;thread.join();server.stop();bus.close();}
     void fresh(){GUID id{};CoCreateGuid(&id);session=stage::makeSession(LRC_CINEMA11_V1,reinterpret_cast<uint8_t*>(&id),frequency());session.producer_pid=GetCurrentProcessId();}
     void run(){
+        control::HighResolutionWait wait;require(wait.valid(),"Fixture high-resolution timer unavailable");
         while(!stop){
             link::StageLinkRequest command{};uint32_t pid=0;
             if(server.tryTake(command,pid)){
@@ -47,7 +49,7 @@ struct Producer {
                 for(unsigned c=0;c<11;++c){pointers[c]=samples[c].data();for(unsigned f=0;f<1024;++f)samples[c][f]=f==0?-0.0:double((c+1)*100000+request.block_sequence*1024+f)/10000000.0;}
                 require(bus.tryPublish(header,pointers.data())==stage::StageBusIoResult::Ok,"Fixture publish failed");
             }
-            Sleep(1);
+            wait.forDuration(std::chrono::microseconds(100));
         }
     }
 };
@@ -70,6 +72,13 @@ int main(int argc,char** argv) try {
     for(unsigned c=0;c<11;++c){require(std::signbit(data[c][0])&&data[c][0]==0,"Signed zero changed");for(unsigned f=1;f<1024;++f){double expected=double((c+1)*100000+1024+f)/10000000.0;require(std::memcmp(&expected,&data[c][f],8)==0,"FP64 lane/order/frame changed");}}
     for(unsigned c=11;c<13;++c)for(double value:data[c])require(value==0&&!std::signbit(value),"Reserved graph input must be positive zero");
     require(input->telemetry().producerPid==GetCurrentProcessId(),"Producer identity missing");
+    // Catch default Windows Sleep granularity throttling the native receiver.
+    // This is a transport throughput regression; DSP deadline gates stay separate.
+    control::HighResolutionWait poll;require(poll.valid(),"Test timer unavailable");
+    const auto throughputEnd=GetTickCount64()+3000;unsigned throughputBlocks=0;
+    while(GetTickCount64()<throughputEnd){if(readAudited())++throughputBlocks;poll.forDuration(std::chrono::microseconds(100));}
+    std::cout<<"Native ingress blocks in 3 seconds: "<<throughputBlocks<<std::endl;
+    require(throughputBlocks>=500,"Native receiver throttled below sustained audio transport rate");
     producer.starved=true;Sleep(40);bool drained=false;for(unsigned i=0;i<8;++i)if(!readAudited())drained=true;
     require(drained,"Starvation must not replay old blocks");producer.starved=false;
     bool resumed=false;auto timeout=GetTickCount64()+2000;while(GetTickCount64()<timeout&&!resumed){resumed=readAudited();Sleep(1);}require(resumed,"Starvation recovery failed");
@@ -77,7 +86,7 @@ int main(int argc,char** argv) try {
     timeout=GetTickCount64()+6000;bool recovered=false;while(GetTickCount64()<timeout&&!recovered){recovered=readAudited()&&input->telemetry().generation>generation;Sleep(1);}require(recovered,"Fresh session recovery failed");
     input->stop();require(producer.releases>0,"Clean stop did not release Stage2 lease");
     auto counts=audit::snapshot();audit::report();require(!counts.cppNew&&!counts.cppDelete&&!counts.heapAlloc&&!counts.heapFree&&!counts.wait&&!counts.lock&&!counts.io,"Ingress callback realtime safety failed");
-    HANDLE owner=CreateMutexW(nullptr,FALSE,L"Local\\Entropy.Stage3.Render.Owner.V1");require(owner&&GetLastError()!=ERROR_ALREADY_EXISTS,"Owner contention fixture could not acquire isolated render owner");
+    HANDLE owner=CreateMutexW(nullptr,FALSE,L"Local\\Entropy.Stage3.Render.Owner.Stage06.Test");require(owner&&GetLastError()!=ERROR_ALREADY_EXISTS,"Owner contention fixture could not acquire isolated render owner");
     auto contested=std::make_unique<input::Stage2Ingress>();require(contested->start(endpoint,true),"Contested ingress start failed");
     timeout=GetTickCount64()+2000;while(GetTickCount64()<timeout&&contested->telemetry().state!=input::State::OwnershipBusy)Sleep(1);
     require(contested->telemetry().state==input::State::OwnershipBusy,"Ownership contention was not reported");CloseHandle(owner);

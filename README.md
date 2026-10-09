@@ -2,6 +2,21 @@
 
 Native Stage3 C++20 **integration candidate** on a separate private repository.
 
+## Current release: 0.0.1 beta test
+
+Native AudioCore, IPC-only existing Qt UI, profile/device control and manual
+DAC A testing are now integrated. See [beta startup and limits](docs/RELEASE-0.0.1.md)
+and the [actual live test report](validation/stage07/AUTHORIZED-LIVE-TEST.md).
+**PASS NUMERIC / FAIL REALTIME; formal V07 acceptance remains BLOCKED.**
+Cold-Start starts a new Core DISARMED; Live-Test selects explicit process-scoped
+manual hardware testing without declaring the offline gate PASS. The GitHub
+prerelease contains the Windows runtime ZIP; this Git tree contains sources,
+tests, reproduction scripts and reports, excluding SDK/build/private files.
+
+The sections below describe the original Stage01/02 baseline and retain its
+historical findings. Current Stage07 behavior and qualification are in the beta
+documentation linked above.
+
 **Stage02 = PASS NUMERIC / FAIL REALTIME. Formal V07 acceptance remains BLOCKED.**
 The Windows MSVC x64 / Intel IPP build and offline validation have been executed.
 This is not an approved production runtime; physical output remains disabled.

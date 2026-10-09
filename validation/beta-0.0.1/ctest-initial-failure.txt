@@ -1,0 +1,96 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage07
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-stage07
+      Start  1: EntropyStage04HardwareGate
+ 1/33 Test  #1: EntropyStage04HardwareGate ........   Passed    0.04 sec
+      Start  2: EntropyStage04Offline
+ 2/33 Test  #2: EntropyStage04Offline .............   Passed   11.45 sec
+      Start  3: EntropyStage04ClockDrift
+ 3/33 Test  #3: EntropyStage04ClockDrift ..........   Passed    1.64 sec
+      Start  4: EntropyStage04SchedulerProbe
+ 4/33 Test  #4: EntropyStage04SchedulerProbe ......   Passed    0.03 sec
+      Start  5: EntropyStage07Live
+ 5/33 Test  #5: EntropyStage07Live ................   Passed    4.06 sec
+      Start  6: EntropyStage07ProfilePreflight
+ 6/33 Test  #6: EntropyStage07ProfilePreflight ....   Passed    6.49 sec
+      Start  7: EntropyStage07LiveAuthorization
+ 7/33 Test  #7: EntropyStage07LiveAuthorization ...   Passed    2.56 sec
+      Start  8: EntropyStage06Input
+ 8/33 Test  #8: EntropyStage06Input ...............***Failed    4.71 sec
+A02_IMPORT_MODULE name=EntropyStage06Input.exe hooks=10
+A02_IMPORT_MODULE name=ADVAPI32.dll hooks=10
+A02_IMPORT_MODULE name=msvcrt.dll hooks=8
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=ole32.dll hooks=10
+A02_IMPORT_MODULE name=msvcp_win.dll hooks=3
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=GDI32.dll hooks=1
+A02_IMPORT_MODULE name=gdi32full.dll hooks=10
+A02_IMPORT_MODULE name=USER32.dll hooks=11
+A02_IMPORT_MODULE name=combase.dll hooks=11
+A02_IMPORT_MODULE name=IMM32.DLL hooks=3
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=104 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+Native ingress blocks in 3 seconds: 566
+A02_HOST_CPP_AUDIT blocks=4709 control_new=0 control_delete=0 control_nonzero_blocks=0 audio_new=0 audio_delete=0 audio_nonzero_blocks=0 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=104 heap_alloc_calls=0 heap_free_calls=0 wait_calls=0 lock_calls=0 io_calls=0 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+Stage06 FAIL: Owner contention fixture could not acquire isolated render owner
+
+      Start  9: EntropyStage06Integration
+ 9/33 Test  #9: EntropyStage06Integration .........   Passed    0.81 sec
+      Start 10: EntropyStage06ProfileStartup
+10/33 Test #10: EntropyStage06ProfileStartup ......   Passed    0.69 sec
+      Start 11: EntropyStage05IpcIntegration
+11/33 Test #11: EntropyStage05IpcIntegration ......   Passed    1.00 sec
+      Start 12: EntropyStage05Validation
+12/33 Test #12: EntropyStage05Validation ..........   Passed    2.52 sec
+      Start 13: EntropyStage05Boundary
+13/33 Test #13: EntropyStage05Boundary ............   Passed    0.15 sec
+      Start 14: EntropyStage05Control
+14/33 Test #14: EntropyStage05Control .............   Passed    0.20 sec
+      Start 15: EntropyStage05Protocol
+15/33 Test #15: EntropyStage05Protocol ............   Passed    0.01 sec
+      Start 16: EntropyStage05Transport
+16/33 Test #16: EntropyStage05Transport ...........   Passed    5.65 sec
+      Start 17: EntropyStage04Fifo
+17/33 Test #17: EntropyStage04Fifo ................   Passed    0.02 sec
+      Start 18: EntropyStage04Policy
+18/33 Test #18: EntropyStage04Policy ..............   Passed    0.06 sec
+      Start 19: EntropyStage03Reset
+19/33 Test #19: EntropyStage03Reset ...............   Passed    0.10 sec
+      Start 20: EntropyOfflineConfig
+20/33 Test #20: EntropyOfflineConfig ..............   Passed    0.05 sec
+      Start 21: EntropyGraphSmoke
+21/33 Test #21: EntropyGraphSmoke .................   Passed    0.04 sec
+      Start 22: EntropyMatrixUnit
+22/33 Test #22: EntropyMatrixUnit .................   Passed    0.01 sec
+      Start 23: EntropyMatrixNoAlloc
+23/33 Test #23: EntropyMatrixNoAlloc ..............   Passed    0.01 sec
+      Start 24: EntropyHeadroomUnit
+24/33 Test #24: EntropyHeadroomUnit ...............   Passed    0.20 sec
+      Start 25: EntropyHeadroomNoAlloc
+25/33 Test #25: EntropyHeadroomNoAlloc ............   Passed    0.09 sec
+      Start 26: EntropyPcm24Unit
+26/33 Test #26: EntropyPcm24Unit ..................   Passed    0.02 sec
+      Start 27: EntropyPcm24EngineUnit
+27/33 Test #27: EntropyPcm24EngineUnit ............   Passed    0.01 sec
+      Start 28: EntropyIppFirUnit
+28/33 Test #28: EntropyIppFirUnit .................   Passed    0.19 sec
+      Start 29: EntropyNativeStateUnit
+29/33 Test #29: EntropyNativeStateUnit ............   Passed    0.04 sec
+      Start 30: EntropyAudioCoreProbe
+30/33 Test #30: EntropyAudioCoreProbe .............   Passed    0.04 sec
+      Start 31: EntropyStage03Integration
+31/33 Test #31: EntropyStage03Integration .........   Passed   51.91 sec
+      Start 32: EntropyStage02Identity
+32/33 Test #32: EntropyStage02Identity ............   Passed    0.01 sec
+      Start 33: EntropyStage02Realtime
+33/33 Test #33: EntropyStage02Realtime ............   Passed   35.41 sec
+
+97% tests passed, 1 tests failed out of 33
+
+Total Test time (real) = 130.27 sec
+
+The following tests FAILED:
+	  8 - EntropyStage06Input (Failed)
+Errors while running CTest

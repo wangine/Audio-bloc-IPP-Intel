@@ -1,6 +1,8 @@
 #include "Stage2Ingress.h"
+#include "Engine/HighResolutionWait.h"
 #include <StageLinkClient.h>
 #include <windows.h>
+#include <avrt.h>
 #include <algorithm>
 #include <cstring>
 #include <cmath>
@@ -48,6 +50,14 @@ const char* Stage2Ingress::stateText(State state) noexcept {
     switch(state){case State::Receiving:return "STAGE2 FP64 / 192 kHz";case State::Fault:return "STAGE2 INPUT FAULT";case State::OwnershipBusy:return "STAGE2 OWNED BY ANOTHER RENDER";case State::Disabled:return "STAGE2 INPUT DISABLED";default:return "WAITING FOR STAGE2";}
 }
 void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
+    entropy::control::HighResolutionWait wait;
+    if(!wait.valid()){state_=State::Fault;faults_.fetch_add(1);return;}
+    struct RealtimeTask {
+        DWORD index=0;HANDLE handle=AvSetMmThreadCharacteristicsW(L"Pro Audio",&index);
+        bool registered=handle&&AvSetMmThreadPriority(handle,AVRT_PRIORITY_CRITICAL);
+        ~RealtimeTask(){if(handle)AvRevertMmThreadCharacteristics(handle);}
+    } realtime;
+    if(!realtime.registered){state_=State::Fault;faults_.fetch_add(1);return;}
     using namespace entropy::link;using namespace entropy::stage;
     HANDLE owner=nullptr;
     while(claimOwner&&!stopping_.load(std::memory_order_acquire)){
@@ -90,7 +100,11 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                 generation_.fetch_add(1,std::memory_order_acq_rel);producerPid_=bound.sourcePid;sequence=1;revision=bound.controlRevision;attached=true;pending=false;next=std::chrono::steady_clock::now();
             }
             const auto now=tick();bus.heartbeat(now);
+            // The publisher can update its heartbeat after our QPC snapshot.
+            // The immutable SDK rejects that future snapshot; retry with fresh
+            // time before faulting, retaining its process/one-second checks.
             bool fault=!bus.peerAlive(now);
+            if(fault)fault=!bus.peerAlive(tick());
             StageBusSourceControl control{};const auto controlIo=bus.tryReceiveSourceControl(control);
             if(controlIo==StageBusIoResult::Fault)fault=true;
             else if(controlIo==StageBusIoResult::Ok){if(control.source_revision<revision)fault=true;else revision=control.source_revision;}
@@ -119,7 +133,7 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                 if(io==StageBusIoResult::Ok){pending=true;started=now;}
                 else if(io==StageBusIoResult::Fault){state_=State::Fault;faults_.fetch_add(1);invalidate();bus.fault();release();}
             }
-            std::this_thread::sleep_for(std::chrono::microseconds(100));
+            wait.forDuration(std::chrono::microseconds(100));
         }
         // Drain an outstanding transport request before releasing ownership, without publishing stale audio.
         const auto deadline=GetTickCount64()+1000;

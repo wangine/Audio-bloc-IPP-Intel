@@ -1,0 +1,17 @@
+{
+  "numeric_pass": 96,
+  "benchmark_pass": 79,
+  "benchmark_fail": 1,
+  "deadline_misses": 3,
+  "clock_domain_fail": 0,
+  "maximum_absolute_error": 0.0,
+  "maximum_rms_error": 0.0,
+  "maximum_phase_difference_rad": 0.0,
+  "maximum_latency_difference_samples": 0,
+  "bit_mismatches": 0,
+  "pcm_byte_mismatches": 0,
+  "minimum_sine_amplitude": 0.000999432201504717,
+  "maximum_sine_amplitude": 0.0009999607380858915,
+  "minimum_first_active_sample": 2176,
+  "maximum_first_active_sample": 34688
+}

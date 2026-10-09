@@ -1,0 +1,2 @@
+Core PID 9956; new engine DISARMED. Offline Stage04 qualification remains FAIL.
+PASS packaged Core/UI IPC smoke, isolated offline endpoint; no source or DAC opened.

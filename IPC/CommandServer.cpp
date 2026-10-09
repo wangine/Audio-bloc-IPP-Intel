@@ -28,6 +28,7 @@ std::wstring CommandServer::pipePath(const std::wstring& endpoint){
 }
 bool CommandServer::start(const std::wstring& endpoint,Handler handler,Disconnect disconnect,std::string& error){
     if(thread_.joinable()){error="Command server already started";return false;}
+    stopAfterReply_=false;replyComplete_=false;
     PSECURITY_DESCRIPTOR descriptor=nullptr;
     try {
         auto path=pipePath(endpoint),acl=userAcl();
@@ -62,6 +63,7 @@ void CommandServer::worker() noexcept {
                 auto idle=GetTickCount64()-lastTraffic;if(idle>=kControlLeaseMs)break;
                 bool started=ReadFile(pipe_,bytes.data(),DWORD(bytes.size()),&count,&op)!=FALSE;
                 if(!await(pipe_,stop_,op,count,started,DWORD(kControlLeaseMs-idle))||count==0)break;
+                if(stopAfterReply_)continue; // Ignore inbound traffic until EOF/fixed lease; it does not prove reply consumption.
                 reader.push(std::span(bytes.data(),count));
                 for(const auto& request:reader.take()){
                     lastTraffic=GetTickCount64(); // Renew only a complete valid frame, not partial bytes.
@@ -71,9 +73,11 @@ void CommandServer::worker() noexcept {
                         started=WriteFile(pipe_,encoded.data()+done,DWORD(encoded.size()-done),&count,&op)!=FALSE;
                         if(!await(pipe_,stop_,op,count,started,kControlLeaseMs)||!count)throw std::runtime_error("Peer disconnected");done+=count;
                     }
+                    if(stopAfterReply_)break; // Do not discard buffered reply with DisconnectNamedPipe.
                 }
             }
         }catch(...){} // Framing failure closes the controlling session, never audio processing.
+        if(stopAfterReply_){replyComplete_.store(true,std::memory_order_release);SetEvent(stop_);}
         try{if(disconnect_)disconnect_();}catch(...){}
         DisconnectNamedPipe(pipe_);
     }

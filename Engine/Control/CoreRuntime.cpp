@@ -2,6 +2,8 @@
 #include "ControlPlane.h"
 #include "ProfileStore.h"
 #include "StartupProfile.h"
+#include "LiveEligibility.h"
+#include "Engine/Egress/HardwareTest.h"
 #include "DeviceService.h"
 #include "Engine/AudioScheduler.h"
 #include "IPC/CommandServer.h"
@@ -13,11 +15,13 @@ namespace entropy::control {
 using J=ipc::Value;
 namespace {std::atomic<bool> exitRequested{false};BOOL WINAPI consoleStop(DWORD event){if(event==CTRL_C_EVENT||event==CTRL_BREAK_EVENT||event==CTRL_CLOSE_EVENT){exitRequested=true;return TRUE;}return FALSE;}}
 int runControlServer(int argc,char** argv) try {
- std::string endpoint="EntropyAudioCore.Control.v1",initialProfile;std::wstring stage2Endpoint;bool signal=false,offlineSinks=false,stage2Enabled=false;unsigned seconds=0;
- for(int i=1;i<argc;++i){std::string a=argv[i];if(a=="--control-server")continue;else if(a=="--endpoint"&&i+1<argc)endpoint=argv[++i];else if(a=="--offline-test-signal")signal=true;else if(a=="--offline-test-sinks")offlineSinks=true;else if(a=="--stage2-input")stage2Enabled=true;else if(a=="--stage2-endpoint"&&i+1<argc){std::string name=argv[++i];if(name.rfind("\\\\.\\pipe\\Entropy.StageLink.",0)!=0)throw std::invalid_argument("Stage2 endpoint must be a local StageLink pipe");stage2Endpoint.assign(name.begin(),name.end());}else if(a=="--profile"&&i+1<argc)initialProfile=argv[++i];else if(a=="--run-seconds"&&i+1<argc){auto s=ipc::parse(argv[++i]);seconds=s.asUnsigned(86400);}else throw std::invalid_argument("Unknown control option: "+a);}
+ std::string endpoint="EntropyAudioCore.Control.v1",initialProfile,liveGatePath;std::wstring stage2Endpoint;bool signal=false,offlineSinks=false,stage2Enabled=false,authorizedLiveTest=false;unsigned seconds=0;
+ for(int i=1;i<argc;++i){std::string a=argv[i];if(a=="--control-server")continue;else if(a=="--endpoint"&&i+1<argc)endpoint=argv[++i];else if(a=="--offline-test-signal")signal=true;else if(a=="--offline-test-sinks")offlineSinks=true;else if(a=="--stage2-input")stage2Enabled=true;else if(a=="--authorized-live-test")authorizedLiveTest=true;else if(a=="--stage2-endpoint"&&i+1<argc){std::string name=argv[++i];if(name.rfind("\\\\.\\pipe\\Entropy.StageLink.",0)!=0)throw std::invalid_argument("Stage2 endpoint must be a local StageLink pipe");stage2Endpoint.assign(name.begin(),name.end());}else if(a=="--live-gate"&&i+1<argc)liveGatePath=argv[++i];else if(a=="--profile"&&i+1<argc)initialProfile=argv[++i];else if(a=="--run-seconds"&&i+1<argc){auto s=ipc::parse(argv[++i]);seconds=s.asUnsigned(86400);}else throw std::invalid_argument("Unknown control option: "+a);}
+ if(authorizedLiveTest&&!stage2Enabled)throw std::invalid_argument("Authorized live test requires --stage2-input; offline fixtures cannot authorize physical output");
  if(stage2Enabled&&(signal||offlineSinks))throw std::invalid_argument("Real Stage2 and offline fixtures are mutually exclusive");
  auto barrier=[&](const ControlPlane& controls){auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!controls.settled()){if(std::chrono::steady_clock::now()>deadline)throw std::runtime_error("Profile barrier timed out; no state changed");std::this_thread::sleep_for(std::chrono::milliseconds(1));}};
- engine::AudioGraph graph;if(!graph.prepare(stage2Enabled?1024:256))throw std::runtime_error("Native graph prepare failed");graph.enableOriginalMusicAnalysis(true);ControlPlane controls(graph,GetTickCount64()+1);if(offlineSinks&&!signal)throw std::invalid_argument("Offline sinks require explicit offline signal");OfflineSinkWorkers sinkWorkers;auto stage2=std::make_unique<input::Stage2Ingress>();AudioScheduler scheduler(graph,controls,signal,offlineSinks?&sinkWorkers:nullptr,stage2Enabled?stage2.get():nullptr);DeviceService devices;ProfileStore profiles;ipc::CommandServer server;
+ engine::AudioGraph graph;if(!graph.prepare(stage2Enabled?1024:256))throw std::runtime_error("Native graph prepare failed");graph.enableOriginalMusicAnalysis(true);ControlPlane controls(graph,GetTickCount64()+1);if(offlineSinks&&!signal)throw std::invalid_argument("Offline sinks require explicit offline signal");OfflineSinkWorkers sinkWorkers;auto liveOwner=std::make_unique<LiveSinkWorkers>();auto& liveWorkers=*liveOwner;auto stage2=std::make_unique<input::Stage2Ingress>();AudioScheduler scheduler(graph,controls,signal,offlineSinks?&sinkWorkers:nullptr,stage2Enabled?stage2.get():nullptr,&liveWorkers);DeviceService devices;ProfileStore profiles;ipc::CommandServer server;
+ std::array<wchar_t,32768> currentExe{};GetModuleFileNameW(nullptr,currentExe.data(),unsigned(currentExe.size()));const bool liveGate=stage2Enabled&&!liveGatePath.empty()&&liveGateMatches(std::filesystem::u8path(liveGatePath),egress_host::fileSha256(currentExe.data()));J lastPreflight;
  struct ReplyEntry{ipc::Frame request,response;};std::deque<ReplyEntry> replies;uint64_t session=GetTickCount64()+1;
  bool profileRequired=stage2Enabled;std::string profileError;
  if(initialProfile.empty()&&stage2Enabled)initialProfile=profilePathUtf8(motherProfilePath());
@@ -27,18 +31,30 @@ int runControlServer(int argc,char** argv) try {
  exitRequested=false;std::string error;scheduler.start();if(!server.start(std::wstring(endpoint.begin(),endpoint.end()),[&](const ipc::Frame& frame){
   for(const auto& entry:replies)if(entry.request.requestId==frame.requestId){if(entry.request.command==frame.command&&entry.request.payload==frame.payload)return entry.response;return ipc::Frame{frame.command,frame.requestId,ipc::dump(J::Object{{"ok",false},{"session",J::u64(session)},{"error","Request ID reused with different payload"}})};}
   J reply;try{if(frame.command<1||frame.command>9)throw std::invalid_argument("Unknown opcode");auto request=ipc::parse(frame.payload);auto action=request.at("action").asString();if(action=="save-profile"&&profileRequired)action="new-profile";if(request.contains("session")&&request.at("session").asU64()!=session)throw std::invalid_argument("Stale control session");J data;
-   if(action=="describe"){data=controls.metadata();data["protocol"]=1;data["physicalArmAllowed"]=false;data["owner"]="EntropyAudioCore";data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;}
-   else if(action=="telemetry"){data=ipc::telemetrySnapshot(controls,scheduler,signal,stage2Enabled?stage2.get():nullptr);if(offlineSinks)data["domains"]=sinkWorkers.snapshot();data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;if(profileRequired)data["inputState"]="WAITING FOR PROFILE";}
+   if(action=="describe"){data=controls.metadata();data["protocol"]=1;data["physicalArmAllowed"]=liveGate||authorizedLiveTest;data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;data["owner"]="EntropyAudioCore";data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;}
+   else if(action=="telemetry"){data=ipc::telemetrySnapshot(controls,scheduler,signal,stage2Enabled?stage2.get():nullptr);if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else if(liveWorkers.engaged())data["domains"]=liveWorkers.snapshot();data["armed"]=liveWorkers.armed();data["armPending"]=liveWorkers.engaged()&&!liveWorkers.armed()&&!liveWorkers.faulted();data["liveFault"]=liveWorkers.faulted();data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;data["hardwareGate"]=authorizedLiveTest?"USER AUTHORIZED LIVE TEST; offline PASS not claimed; explicit ARM and profile/device validation required":liveGate?"OFFLINE GATES PASS; explicit ARM and profile/device validation required":"BLOCKED: Stage04 live offline gate missing/stale";data["livePreflight"]=lastPreflight;data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;if(profileRequired)data["inputState"]="WAITING FOR PROFILE";}
    else if(action=="devices")data=devices.refresh();
    else if(action=="approve-binding"||action=="clear-binding"){sinkWorkers.stop();scheduler.disarm();data=devices.bindingCommand(request);}
    else if(action=="configure-devices"){sinkWorkers.stop();scheduler.disarm();data=devices.configure(request);}
    else if(action=="offline-arm"){if(!offlineSinks)throw std::invalid_argument("Offline sink fixture not enabled");auto state=controls.appliedState();if(state.mode!=ENTROPY_HEADROOM_MODE_MANUAL_SAFE||state.manualGainDb>-6)throw std::invalid_argument("Offline fixture requires explicit safe Headroom policy");scheduler.stop();try{sinkWorkers.start();}catch(...){scheduler.start();throw;}scheduler.start();data=J::Object{{"offlineArmed",true},{"physicalArmed",false}};}
-   else if(action=="arm")throw std::invalid_argument("Physical ARM BLOCKED: Stage04 FAIL REALTIME; no sink opened");
+   else if(action=="preflight-live") {if(profileRequired)throw std::invalid_argument("Load a profile first");lastPreflight=liveProfilePreflight(controls);data=lastPreflight;}
+   else if(action=="arm") {
+    if(!liveGate&&!authorizedLiveTest)throw std::invalid_argument("Physical ARM BLOCKED: Stage04 live offline gate missing/stale; no sink opened");
+    if(profileRequired||stage2->telemetry().state!=input::State::Receiving)throw std::invalid_argument("Validated profile and active FP64 input transport required");
+    if(liveWorkers.engaged())throw std::invalid_argument("Already armed/pending/faulted; DISARM before a new ARM");
+    if(request.contains("domains"))devices.configure(request);
+    auto verified=devices.refresh();devices.configure(J::Object{{"domains",verified.at("configuration")}});
+    lastPreflight=liveProfilePreflight(controls);
+    auto config=LiveSinkWorkers::decode(devices.snapshot().at("configuration"));
+    scheduler.stop();try{controls.drainAtQuiescentBoundary();if(!liveHeadroomReady(graph))throw std::invalid_argument("Headroom reports an original module fault or unsettled transition; no device opened");if(!liveWorkers.prepare(config)||!liveWorkers.start())throw std::runtime_error("Live egress prepare/ARM failed");scheduler.start();}catch(...){liveWorkers.stop();scheduler.start();throw;}
+    data=J::Object{{"status","ARMING"},{"physicalArmed",false},{"preflight",lastPreflight}};
+   }
    else if(action=="disarm"){sinkWorkers.stop();scheduler.disarm();data=J::Object{{"armed",false}};}
-   else if(action=="shutdown"){exitRequested=true;data=J::Object{{"status","STOPPING"},{"armed",false}};}
+   else if(action=="shutdown"){server.requestStopAfterReply();data=J::Object{{"status","STOPPING"},{"armed",false}};}
    else if(action=="save-profile"){
     if(profileRequired)throw std::invalid_argument("Create or load a profile first");
-    if(stage2Enabled){scheduler.stop();try{controls.drainAtQuiescentBoundary();profiles.save(std::filesystem::u8path(request.at("path").asString()),controls,devices.snapshot());}catch(...){scheduler.start();throw;}scheduler.start();}
+    if(stage2Enabled&&liveWorkers.armed()){barrier(controls);profiles.save(std::filesystem::u8path(request.at("path").asString()),controls,devices.snapshot());}
+    else if(stage2Enabled){scheduler.stop();scheduler.disarm();try{controls.drainAtQuiescentBoundary();profiles.save(std::filesystem::u8path(request.at("path").asString()),controls,devices.snapshot());}catch(...){scheduler.start();throw;}scheduler.start();}
     else {barrier(controls);profiles.save(std::filesystem::u8path(request.at("path").asString()),controls,devices.snapshot());}
     data=J::Object{{"status","SAVED"},{"audioApplicationPending",!controls.crossover().settled()}};
    }
@@ -48,18 +64,18 @@ int runControlServer(int argc,char** argv) try {
     catch(...){scheduler.start();throw;}data=J::Object{{"status","CREATED"},{"devices",devices.snapshot()}};
    }
    else if(action=="load-profile"){
-    auto loaded=profiles.load(std::filesystem::u8path(request.at("path").asString()));if(!profileRequired&&!stage2Enabled)barrier(controls);scheduler.stop();if(stage2Enabled)controls.drainAtQuiescentBoundary();sinkWorkers.stop();auto oldDevices=devices.snapshot();auto old=controls.crossover().exportBytes();auto state=controls.appliedState();
+    auto loaded=profiles.load(std::filesystem::u8path(request.at("path").asString()));if(!profileRequired&&!stage2Enabled)barrier(controls);scheduler.stop();scheduler.disarm();if(stage2Enabled)controls.drainAtQuiescentBoundary();sinkWorkers.stop();auto oldDevices=devices.snapshot();auto old=controls.crossover().exportBytes();auto state=controls.appliedState();
     try{if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));if(profileRequired&&stage2Enabled&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");profileRequired=false;profileError.clear();initialProfile=request.at("path").asString();scheduler.start();}
     catch(...){devices.restore(oldDevices);controls.crossover().importBytes(old);controls.replace(state);controls.atBlockBoundary();controls.afterBlock();scheduler.start();throw;}
     data=J::Object{{"status","LOADED"},{"devices",devices.snapshot()}};
-   }else {if(profileRequired)throw std::invalid_argument("Create or load a validated profile first");auto sequence=controls.execute(request);data=J::Object{{"accepted",J::u64(sequence)}};}
+   }else {if(liveWorkers.engaged()&&!liveCrossoverChangeAllowed(controls.crossover().snapshot(),request))throw std::invalid_argument("DISARM before changing saved MUSIC/CINEMA scenes or selecting FIR8193 x16; then run profile preflight and ARM");if(profileRequired)throw std::invalid_argument("Create or load a validated profile first");auto sequence=controls.execute(request);data=J::Object{{"accepted",J::u64(sequence)}};}
    reply=J::Object{{"ok",true},{"data",std::move(data)}};
   }catch(const std::exception& e){reply=J::Object{{"ok",false},{"error",e.what()}};}
   reply["session"]=J::u64(session);ipc::Frame response{frame.command,frame.requestId,ipc::dump(reply)};if(replies.size()==128)replies.pop_front();replies.push_back({frame,response});return response;
- },[&]{sinkWorkers.stop();scheduler.disarm();replies.clear();++session;},error))throw std::runtime_error(error);
+ },[&]{sinkWorkers.stop();replies.clear();++session;},error))throw std::runtime_error(error);
  if(startInputImmediately&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");
- SetConsoleCtrlHandler(consoleStop,TRUE);std::cout<<"Stage05 native IPC READY: "<<endpoint<<"; DISARMED; Stage04 FAIL REALTIME / hardware BLOCKED\n"<<std::flush;
- auto start=std::chrono::steady_clock::now();while(!exitRequested.load()&&(!seconds||std::chrono::steady_clock::now()-start<std::chrono::seconds(seconds)))std::this_thread::sleep_for(std::chrono::milliseconds(20));
- server.stop();scheduler.stop();stage2->stop();sinkWorkers.stop();SetConsoleCtrlHandler(consoleStop,FALSE);std::cout<<"Stage05 stopped safely; no physical DAC opened\n";return 0;
+ SetConsoleCtrlHandler(consoleStop,TRUE);std::cout<<"Stage05 native IPC READY: "<<endpoint<<"; DISARMED; liveGate="<<(liveGate?"PASS":"BLOCKED")<<"; authorizedLiveTest="<<(authorizedLiveTest?"YES":"NO")<<"\n"<<std::flush;
+ auto start=std::chrono::steady_clock::now();while(!exitRequested.load()&&!server.shutdownReplyComplete()&&(!seconds||std::chrono::steady_clock::now()-start<std::chrono::seconds(seconds)))std::this_thread::sleep_for(std::chrono::milliseconds(20));
+ server.stop();scheduler.stop();liveWorkers.stop();stage2->stop();sinkWorkers.stop();SetConsoleCtrlHandler(consoleStop,FALSE);std::cout<<"AudioCore stopped safely; all native DAC owners closed\n";return 0;
 }catch(const std::exception& e){std::cerr<<"Stage05 FAIL: "<<e.what()<<'\n';return 1;}
 }

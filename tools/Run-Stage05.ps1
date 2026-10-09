@@ -3,9 +3,11 @@ param(
     [switch]$OfflineTestSignal,
     [switch]$SmokeTest,
     [switch]$Stage2Input,
+    [switch]$AuthorizedLiveTest,
     [string]$Profile,
-    [string]$NativeBuild='build/msvc-stage06',
-    [string]$UiBuild='build/qt-stage06'
+    [string]$LiveGate='local/stage07/live-offline-pass.gate',
+    [string]$NativeBuild='build/msvc-stage07',
+    [string]$UiBuild='build/qt-stage07'
 )
 $ErrorActionPreference='Stop'
 $root=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
@@ -18,6 +20,7 @@ $startedCore=$false
 $ready=$false
 try {
     if($SmokeTest -or $OfflineTestSignal){$Stage2Input=$false}
+    if($AuthorizedLiveTest -and !$Stage2Input){throw 'Authorized live test requires the actual FP64 input mode'}
     foreach($required in @($core,$ui,"$qt/bin/Qt6Network.dll","$qt/plugins/platforms/qwindows.dll")) {
         if(!(Test-Path -LiteralPath $required -PathType Leaf)){throw "Missing dependency: $required"}
     }
@@ -33,13 +36,14 @@ try {
     $env:QT_QPA_PLATFORM_PLUGIN_PATH="$qt/plugins/platforms"
     $env:QT_QPA_PLATFORM='windows'
     if($SmokeTest){$env:QT_QPA_PLATFORM='offscreen'}
-    $logs=Join-Path $root ('local/stage06/cold-start/'+(Get-Date -Format 'yyyyMMdd-HHmmss')+'-'+[Guid]::NewGuid().ToString('N'))
+    $logs=Join-Path $root ('local/stage07/cold-start/'+(Get-Date -Format 'yyyyMMdd-HHmmss')+'-'+[Guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $logs -Force | Out-Null
-    Write-Host "Cold start: AudioCore -> IPC -> Qt; DISARMED; hardware BLOCKED."
+    Write-Host "Cold start: AudioCore -> IPC -> Qt; new Core starts DISARMED; explicit ARM requires session eligibility and a valid profile."
     Write-Host "Logs: $logs"
     $arguments=@('--control-server','--endpoint',$Endpoint)
     if($OfflineTestSignal){$arguments+='--offline-test-signal'}
-    if($Stage2Input){$arguments+='--stage2-input'}
+    if($Stage2Input){$arguments+='--stage2-input';$gate=Join-Path $root $LiveGate;if(Test-Path -LiteralPath $gate -PathType Leaf){$arguments+=@('--live-gate',('"'+$gate+'"'))}}
+    if($AuthorizedLiveTest){$arguments+='--authorized-live-test';Write-Host 'Explicit user-authorized live test session; offline FAIL results remain unchanged. Startup remains DISARMED.'}
     if($Profile){$arguments+=@('--profile',('"'+$Profile+'"'))}
     $coreLog=Join-Path $logs 'core.txt'
     $endpointPattern='--endpoint\s+"?'+[regex]::Escape($Endpoint)+'"?(\s|$)'
@@ -48,6 +52,7 @@ try {
     if($existing.Count -eq 1){
         $existingReal=$existing[0].CommandLine -match '--stage2-input(\s|$)'
         $existingSignal=$existing[0].CommandLine -match '--offline-test-signal(\s|$)'
+        if($AuthorizedLiveTest -and $existing[0].CommandLine -notmatch '--authorized-live-test(\s|$)'){throw 'Existing Core was not started for authorized live testing; save its state and restart explicitly in test mode.'}
         if($existing[0].ExecutablePath -ne $core -or [bool]$Stage2Input -ne $existingReal -or [bool]$OfflineTestSignal -ne $existingSignal){throw 'A different Core or input mode owns this endpoint. Use a separate endpoint; save the project before replacing a previous Core.'}
         $coreProcess=Get-Process -Id $existing[0].ProcessId
         $ready=$true

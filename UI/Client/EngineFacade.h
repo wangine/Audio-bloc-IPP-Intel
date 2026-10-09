@@ -19,7 +19,7 @@ public:
  bool profileRequired() const{return metadata_["profileRequired"].toBool();}
  QString profilePath() const{return metadata_["profilePath"].toString();}
  QString profileError() const{return metadata_["profileError"].toString();}
- void updateDevices(const QJsonObject& reply){if(reply["ok"].toBool())devices_=reply["data"].toObject();}
+ void updateDevices(const QJsonObject& reply);
  static EngineFacade* current();
 private:
  void poll();void receive(const QJsonObject&);

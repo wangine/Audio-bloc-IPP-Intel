@@ -1,0 +1,27 @@
+Inventory cache=22 table=22
+0 ONLINE Connected DAC A
+1 ONLINE Connected DAC B
+2 OFFLINE Disconnected 0
+3 OFFLINE Disconnected 1
+4 OFFLINE Disconnected 2
+5 OFFLINE Disconnected 3
+6 OFFLINE Disconnected 4
+7 OFFLINE Disconnected 5
+8 OFFLINE Disconnected 6
+9 OFFLINE Disconnected 7
+10 OFFLINE Disconnected 8
+11 OFFLINE Disconnected 9
+12 OFFLINE Disconnected 10
+13 OFFLINE Disconnected 11
+14 OFFLINE Disconnected 12
+15 OFFLINE Disconnected 13
+16 OFFLINE Disconnected 14
+17 OFFLINE Disconnected 15
+18 OFFLINE Disconnected 16
+19 OFFLINE Disconnected 17
+20 OFFLINE Disconnected 18
+21 OFFLINE Disconnected 19
+PASS connected endpoint names fit inventory column
+PASS active connected endpoints visible before retained offline records; profile-independent IPC inventory
+Scroll requested=14 after periodic refresh=14
+PASS user scroll survives periodic inventory refresh

@@ -21,5 +21,15 @@ int main(){try{
  Sleep(5500);require(disconnects.load()==1,"idle controlling peer lease was not revoked");
  CloseHandle(client);server.stop();require(disconnects.load()==1,"disconnect callback");
  require(server.start(endpoint,[](const Frame& f){return f;},{},error),"restart ownership");server.stop();
+ require(server.start(endpoint,[&](const Frame& f){server.requestStopAfterReply();return f;},{},error),"shutdown drain ownership");
+ client=CreateFileW(path.c_str(),GENERIC_READ|GENERIC_WRITE,0,nullptr,OPEN_EXISTING,0,nullptr);require(client!=INVALID_HANDLE_VALUE,"shutdown drain connection");
+ bytes=encode(request);require(WriteFile(client,bytes.data(),DWORD(bytes.size()),&count,nullptr)&&count==bytes.size(),"shutdown drain request");
+ const unsigned char extra=0;require(WriteFile(client,&extra,1,&count,nullptr)&&count==1,"pipelined byte");
+ Sleep(100);require(!server.shutdownReplyComplete(),"Inbound byte falsely acknowledged unread shutdown response");
+ offset=0;while(offset<16){require(ReadFile(client,header.data()+offset,DWORD(16-offset),&count,nullptr)&&count,"delayed shutdown header");offset+=count;}
+ size=load32(header.data()+4);data.assign(header.begin(),header.end());data.resize(size);offset=16;
+ while(offset<size){require(ReadFile(client,data.data()+offset,DWORD(size-offset),&count,nullptr)&&count,"delayed shutdown body");offset+=count;}
+ parser.push(data);responses=parser.take();require(responses.size()==1&&responses[0].payload==request.payload,"Shutdown reply lost before delayed read");
+ CloseHandle(client);const auto deadline=GetTickCount64()+1000;while(!server.shutdownReplyComplete()&&GetTickCount64()<deadline)Sleep(1);require(server.shutdownReplyComplete(),"Shutdown EOF did not finish");server.stop();
  std::cout<<"PASS Stage05 same-user local pipe, exclusive owner, fragmented request/correlated reply, disconnect and shutdown/restart\n";return 0;
  }catch(const std::exception& e){std::cerr<<"FAIL "<<e.what()<<'\n';return 1;}}

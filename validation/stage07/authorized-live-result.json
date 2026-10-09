@@ -1,0 +1,27 @@
+{
+  "manualHardwareObservation": "PASS observed finite session",
+  "formalStage04": "FAIL retained",
+  "V07FormalAcceptance": "BLOCKED",
+  "offlineGatePassed": false,
+  "authorizedLiveTest": true,
+  "headroomManualDb": -4,
+  "channels": 8,
+  "rate": 192000,
+  "submittedFrames": "67166208",
+  "nonzeroPcmBlocks": "64764",
+  "uiClosedFrameAdvance": "1958912",
+  "clockLocked": true,
+  "xruns": "0",
+  "faults": 0,
+  "sinkFaults": 0,
+  "observedDeadlineMisses": "0",
+  "maxOwnerWallExcludingWaitUs": 4136.400000000001,
+  "graphScheduler": {
+    "callbackWallDeadlineMisses": "0",
+    "callbackWallUs": 837.3,
+    "faults": 0,
+    "maximumCallbackWallUs": 3593.1,
+    "maximumSchedulerLatenessUs": 1895.9,
+    "schedulerLatenessUs": 568.8
+  }
+}

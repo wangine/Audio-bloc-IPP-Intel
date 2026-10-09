@@ -1,0 +1,10 @@
+#include "Client/IpcClient.h"
+#include <QCoreApplication>
+#include <QLocalServer>
+#include <QLocalSocket>
+#include <QJsonDocument>
+#include <QTimer>
+#include <iostream>
+int main(int argc,char** argv){QCoreApplication app(argc,argv);QLocalServer server;const auto name="EntropyAudioCore.Stage07.Delayed."+QString::number(QCoreApplication::applicationPid());if(!server.listen(name))return 1;entropy::ui::IpcClient client;unsigned replies=0;bool failed=false;std::vector<entropy::ipc::Frame> requests;entropy::ipc::Framer framer;QLocalSocket* peer=nullptr;
+ QObject::connect(&server,&QLocalServer::newConnection,&app,[&]{peer=server.nextPendingConnection();QObject::connect(peer,&QLocalSocket::readyRead,&app,[&]{auto bytes=peer->readAll();framer.push(std::span<const uint8_t>(reinterpret_cast<const uint8_t*>(bytes.data()),bytes.size()));for(auto& f:framer.take())requests.push_back(std::move(f));});});
+ client.fault=[&](QString){failed=true;};client.connectionChanged=[&](bool connected){if(!connected)return;client.send(QJsonObject{{"action","preflight-live"}},[&](const QJsonObject& r){failed|=!r["ok"].toBool();++replies;});client.send(QJsonObject{{"action","telemetry"}},[&](const QJsonObject& r){failed|=!r["ok"].toBool();++replies;});QTimer::singleShot(5600,&app,[&]{if(!peer||requests.size()!=2){app.exit(1);return;}auto respond=[&](unsigned index){auto f=requests[index];f.payload=R"({"ok":true})";auto bytes=entropy::ipc::encode(f);peer->write(reinterpret_cast<const char*>(bytes.data()),bytes.size());};respond(0);QTimer::singleShot(400,&app,[&,respond]{respond(1);});QTimer::singleShot(600,&app,[&]{bool pass=!failed&&replies==2&&client.connected();std::cout<<(pass?"PASS Qt bounded long preflight plus queued telemetry, no premature disconnect\n":"FAIL Qt preflight timeout\n");app.exit(pass?0:1);});});};client.connectToCore(name);QTimer::singleShot(8000,&app,[&]{app.exit(1);});return app.exec();}
