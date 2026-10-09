@@ -205,5 +205,8 @@ Build PASS: MSVC 19.51.36257.0 x64, Intel IPP 2026.0. No broad CTest suite,
 benchmark or permanent instrumentation. Previously reported Stage04 realtime
 FAIL and formal V07 acceptance BLOCKED remain; they were not re-evaluated.
 The published 0.1.2 and accepted stable references remain unchanged. Stage014
-sources/evidence are saved locally on the separate branch; no Stage014 push.
+sources/evidence were first saved locally on the separate branch. The user
+subsequently authorized publication as 0.1.3 beta test. This publication bundles
+the unchanged 0.1.2 runtime with the new report/evidence; it does not claim a
+new DSP correction or a successful live clipping test.
 Full raw snapshots, profiles and raw music remain private under local/.
