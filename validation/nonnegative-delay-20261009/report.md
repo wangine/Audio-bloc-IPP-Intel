@@ -3,6 +3,12 @@
 Candidate: 0.0.9, based on 0.0.8 source commit
 `312a210299c3515dc6e879e3f6c5f3de6acda820`.
 
+Publication update: the user accepted the delay change after testing 0.0.9,
+but reports that Stage3 still blocks the Stage1 source. **Source independence
+remains OPEN / FAIL (user-reported)**; the cause has not been confirmed in a
+new controlled reproduction. See `docs/KNOWN-ISSUES.md`. The PASS results below
+are scoped to delay/control behavior and do not clear this lifecycle defect.
+
 ## Result
 
 PASS: all 48 legacy/MUSIC/CINEMA delay parameters report a legal 0..800 ms

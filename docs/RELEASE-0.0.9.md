@@ -24,8 +24,21 @@ Focused native regression tests: 7/7 PASS. Actual Qt/Core two-process tests:
 PASS. Evidence and preserved initial failures are in
 `validation/nonnegative-delay-20261009/report.md`.
 
-Historical Stage04 FAIL REALTIME and full formal V07 acceptance BLOCKED remain
-unchanged. FIR8193 x16 remains unauthorized for live. This change does not
-establish a new listening reference without the user's audio test.
+The user tested 0.0.9 and accepted the nonnegative-delay behavior. This is a
+scoped user acceptance of the delay change, not acceptance of source isolation.
 
-No Stage1/Stage2 or stable Stage3 changes, no merge or push.
+**OPEN / FAIL — source independence:** the user reports that Stage3 still
+blocks the Stage1 source, previously observed when closing/stopping Stage3,
+despite the required independent-consumer architecture. The issue remains
+unresolved in 0.0.9. Its cause and the exact transport/lifecycle path have not
+been confirmed by a new controlled reproduction. No claim is made that Stage1
+or Stage2 code is responsible. Passing offline delay and IPC tests does not
+prove source independence. See `docs/KNOWN-ISSUES.md`.
+
+Historical Stage04 FAIL REALTIME and full formal V07 acceptance BLOCKED remain
+unchanged. FIR8193 x16 remains unauthorized for live. Stable beta 0.0.3 remains
+the preserved reference; 0.0.9 is published as a beta prerelease with this issue
+visible, not as a fully qualified independent engine.
+
+No Stage1/Stage2 or stable Stage3 changes; no merge into main. Publication is
+limited to `codex/crossover-thiran-delay` and the `v0.0.9` release tag.
