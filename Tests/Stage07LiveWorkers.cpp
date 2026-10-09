@@ -38,6 +38,30 @@ struct Fake final:egress_host::Sink {
 control::LiveDomain config(unsigned slot,unsigned first,unsigned second){control::LiveDomain d;d.enabled=true;d.channels=2;d.format=1;d.endpoint=slot?"fixture-B":"fixture-A";d.logicalId=slot?"DAC_B":"DAC_A";d.lanes[0]=first;d.lanes[1]=second;return d;}
 }
 int main()try{
+ {engine::AudioGraph g;check(g.prepare(1024),"AUTO ARM fixture prepare");
+  auto& h=engine::GraphControlAccess::headroom(g);auto ledger=h.state();ledger.groups[0].preventive_reserve_db=3;
+  check(h.setState(ledger)==ENTROPY_OK&&h.setManualGainDb(-3)==ENTROPY_OK&&h.setMode(ENTROPY_HEADROOM_MODE_AUTO)==ENTROPY_OK,"AUTO ARM fixture policy");
+  engine::PlanarBuffer in,out;in.prepare(16,1024);out.prepare(16,1024);
+  EntropyHeadroomAnalysisBlockF64 a{};a.struct_size=sizeof(a);a.channels=16;a.frames=1024;a.inputs=in.readPointers();
+  EntropyAudioBlockF64 b{};b.struct_size=sizeof(b);b.input_channels=b.output_channels=16;b.frames=1024;b.inputs=in.readPointers();b.outputs=out.writePointers();
+  auto step=[&](double value){for(unsigned c=0;c<16;++c)std::fill_n(in.channel(c),1024,value);check(h.analyzeFinal(a)==ENTROPY_OK&&h.process(b)==ENTROPY_OK,"AUTO ARM fixture processing");};
+  for(unsigned n=0;n<400;++n)step(.1);
+  check(control::liveHeadroomReady(g),"settled AUTO fixture rejected");
+  for(unsigned n=0;n<10;++n)step(.95);
+  auto mode=h.modeState();check(mode.requested_mode==mode.effective_mode&&mode.transition_active,"AUTO attack fixture not active within same mode");
+  check(control::liveHeadroomReady(g),"normal AUTO ATTACK incorrectly blocks ARM");
+  for(unsigned n=0;n<240;++n)step(.1);
+  mode=h.modeState();check(mode.requested_mode==mode.effective_mode&&mode.transition_active,"AUTO release fixture not active within same mode");
+  check(control::liveHeadroomReady(g),"normal AUTO RELEASE incorrectly blocks ARM");
+  check(h.controlState().manual_gain_db==-3&&h.timing().release_ms==4000,"ARM eligibility changed Headroom controls");
+  check(h.setManualGainDb(-12)==ENTROPY_OK&&h.setMode(ENTROPY_HEADROOM_MODE_MANUAL_SAFE)==ENTROPY_OK,"mode switch fixture");step(.1);
+  check(!control::liveHeadroomReady(g),"unfinished non-AUTO mode change accepted at ARM");
+  for(unsigned n=0;n<100;++n)step(.1);
+  check(control::liveHeadroomReady(g),"settled manual fixture rejected");
+  check(h.setMode(ENTROPY_HEADROOM_MODE_AUTO)==ENTROPY_OK,"AUTO entry fixture");step(.1);
+  mode=h.modeState();check(mode.requested_mode==ENTROPY_HEADROOM_MODE_AUTO&&mode.transition_active,"AUTO entry ramp fixture inactive");
+  check(control::liveHeadroomReady(g),"native AUTO entry ramp incorrectly blocks ARM");
+ }
  {engine::AudioGraph g;check(g.prepare(1024),"headroom fixture");control::ControlPlane c(g);check(!control::liveHeadroomReady(g),"unprocessed initial mode transition accepted");check(control::liveHeadroomReady(g,false),"native valid unity policy rejected at runtime");
   c.execute(ipc::Value::Object{{"action","headroom-policy"},{"mode",2},{"manualGainDb",-12}});c.atBlockBoundary();
   engine::PlanarBuffer input,output;input.prepare(13,1024);output.prepare(16,1024);input.clear(1024);

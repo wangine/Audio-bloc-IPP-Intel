@@ -21,7 +21,11 @@ bool liveHeadroomReady(engine::AudioGraph& graph,bool requireSettled) noexcept {
  // MANUAL SAFE and BIT PERFECT modes are not restricted by the host ledger.
  // Keep original faults and finite state checks; impose no attenuation policy.
  if(t.fault_flags||!ledger.group_count||ledger.group_count>16)return false;
- if(requireSettled&&(mode.transition_active||mode.requested_mode!=mode.effective_mode))return false;
+ // Native ACTIVE aliases AUTO, so telemetry cannot distinguish an AUTO
+ // entry ramp from normal ATTACK/RELEASE. Both are valid native AUTO behavior
+ // at ARM; retain original fault/finite checks and non-AUTO settling checks.
+ if(requireSettled&&(mode.requested_mode!=mode.effective_mode||
+    (mode.transition_active&&mode.requested_mode!=ENTROPY_HEADROOM_MODE_AUTO)))return false;
  for(unsigned i=0;i<ledger.group_count;++i)if(!std::isfinite(t.groups[i].current_gain)||t.groups[i].current_gain<0||t.groups[i].current_gain>1.0)return false;
  return true;
 }

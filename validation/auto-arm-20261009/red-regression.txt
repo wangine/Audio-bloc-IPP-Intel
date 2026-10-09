@@ -1,0 +1,13 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+    Start 6: EntropyStage07Live
+1/1 Test #6: EntropyStage07Live ...............***Failed    0.14 sec
+FAIL Stage07 normal AUTO ATTACK incorrectly blocks ARM
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.15 sec
+
+The following tests FAILED:
+	  6 - EntropyStage07Live (Failed)
