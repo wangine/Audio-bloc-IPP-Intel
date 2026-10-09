@@ -1,0 +1,3 @@
+Initial regression against 0.0.3, before implementing the new control.
+Captured tool output: EntropyThiranDelay.exe exit code 1.
+FAIL unknown Crossover control fractionalDelayMode1

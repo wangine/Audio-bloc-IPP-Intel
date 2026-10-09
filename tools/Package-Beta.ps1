@@ -1,6 +1,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$Version,
     [ValidateSet('beta test','stable beta')][string]$Channel='beta test',
+    [string]$NumericStatus,
     [string]$OutputRoot='release',
     [string]$NativeBuild='build/msvc-pcm24-v2',
     [string]$UiBuild='build/qt-stage07',
@@ -53,6 +54,7 @@ $sourceCommit=(& git -C $root rev-parse HEAD).Trim()
 $dirty=[bool](& git -C $root status --porcelain)
 $files=@(Get-ChildItem -LiteralPath $bundle -Recurse -File | Sort-Object FullName | ForEach-Object {[ordered]@{path=$_.FullName.Substring($bundle.Length+1).Replace('\','/');bytes=$_.Length;sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash}})
 $numeric=if($Version -eq '0.0.1'){'PASS'}else{'NOT RERUN; historical 0.0.1 PASS'}
+if($NumericStatus){$numeric=$NumericStatus}
 $manifest=[ordered]@{version=$Version;channel=$Channel;sourceCommit=$sourceCommit;sourceDirty=$dirty;architecture='Windows x64; native Core, separate IPC-only Qt UI';stage04='FAIL REALTIME';numeric=$numeric;v07='BLOCKED';automaticArm=$false;files=$files}
 $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $bundle 'manifest.json') -Encoding utf8
 $zip=Join-Path $output ('EntropyAudioCore-'+$Version+'-beta-win-x64.zip')

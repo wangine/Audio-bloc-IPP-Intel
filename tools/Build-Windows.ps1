@@ -4,6 +4,8 @@ param(
     [switch]$Stage02,
     [switch]$Stage04,
     [switch]$Stage05,
+    [string]$Stage04Reference,
+    [string]$StableStage3Directory,
     [switch]$CompileOnly
 )
 $ErrorActionPreference = "Stop"
@@ -41,6 +43,14 @@ $commands.Add($q + $cmake + $q + ' -S ' + $q + $root + $q + ' -B ' + $q + $build
 if ($Stage02) { $commands[2] = $commands[2].Replace(' -DBUILD_TESTING=ON', ' -DBUILD_TESTING=ON -DENTROPY_STAGE02_VALIDATION=ON') }
 if ($Stage04) { $commands[2] = $commands[2].Replace(' -DBUILD_TESTING=ON', ' -DBUILD_TESTING=ON -DENTROPY_STAGE04_EGRESS=ON') }
 if ($Stage05) { $commands[2] = $commands[2].Replace(' -DBUILD_TESTING=ON', ' -DBUILD_TESTING=ON -DENTROPY_STAGE05_CONTROL=ON') }
+if ($Stage04Reference) {
+    $referencePath=(Resolve-Path -LiteralPath $Stage04Reference).Path
+    $commands[2]=$commands[2].Replace(' || exit /b 1', ' ' + $q + '-DSTAGE04_REFERENCE=' + $referencePath + $q + ' || exit /b 1')
+}
+if ($StableStage3Directory) {
+    $protectedPath=(Resolve-Path -LiteralPath $StableStage3Directory).Path
+    $commands[2]=$commands[2].Replace(' || exit /b 1', ' ' + $q + '-DENTROPY_STABLE_STAGE3_DIRECTORY=' + $protectedPath + $q + ' || exit /b 1')
+}
 $commands.Add($q + $cmake + $q + ' --build ' + $q + $buildDir + $q + ' --parallel 4 || exit /b 1')
 if (!$CompileOnly) {
     $commands.Add($q + $ctest + $q + ' --test-dir ' + $q + $buildDir + $q + ' --output-on-failure || exit /b 1')

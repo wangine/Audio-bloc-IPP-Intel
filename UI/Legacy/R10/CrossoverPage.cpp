@@ -642,6 +642,16 @@ private:
             .arg(roles.value(role,"OFF"),state).arg(applied,0,'f',6).arg(global,0,'f',6)
             .arg(effective,0,'f',6).arg(clamp));
         delayStatus_->setToolTip(QString("Parameter: %1. Effective target clamps global + relative to [0,1600] ms. Parameter readback alone does not prove audio adoption. Existing FIR latency compensation and smoothing remain active.").arg(id));
+        const int fractionalMode=qRound(parameter(telemetry,channelId("fractionalDelayMode",channel),0));
+        const int requestedOrder=fractionalMode==3?5:fractionalMode==2?3:fractionalMode==1?1:0;
+        const int actualOrder=int(telemetry.crossoverFractionalDelayOrder[channel]);
+        QString delayMode=fractionalMode
+            ? QString("THIRAN requested %1 / effective order %2%3").arg(requestedOrder).arg(actualOrder)
+                .arg(telemetry.crossoverFractionalDelayTransition[channel]?" | 40 ms TRANSITION":"")
+            : QStringLiteral("LINEAR reference");
+        if(fractionalMode && actualOrder<requestedOrder)
+            delayMode += actualOrder?" | short delay: lower causal order":" | integer bypass or inactive output";
+        delayStatus_->setText(delayStatus_->text()+"\n"+delayMode);
         const bool available = telemetry.crossoverControlAvailable != 0;
         preciseDelay_->setEnabled(available && (!active || active == &preciseDelayEdit_));
         fineDelaySlider_->setEnabled(available && (!active || active == &fineDelayEdit_));
@@ -920,8 +930,12 @@ private:
         routingSummary_ = label("LOGICAL OUTPUT 1 selected");
         routingSummary_->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         routingSummary_->setStyleSheet("color:#aeb6bf;");
-        grid->addWidget(routingSummary_, 10, 0, 1, 4);
-        grid->setRowStretch(12, 1);
+        auto* interpolation=combo(grid,12,"FRACTIONAL DELAY",{"Linear (reference)","Thiran 1","Thiran 3","Thiran 5"},
+            [this]{return channelId("fractionalDelayMode",selectedOutput_->currentIndex());});
+        interpolation->setObjectName("fractionalDelayMode");
+        interpolation->setToolTip("FP64 per output. Unity magnitude at fixed delay; phase accuracy depends on order. Short delays use the highest causal order reported below. Integer delays bypass exactly. Thiran changes crossfade for 40 ms; Linear retains the reference ramp.");
+        grid->addWidget(routingSummary_, 13, 0, 1, 4);
+        grid->setRowStretch(14, 1);
     }
 
     void buildFilterPage(const QString& tab, bool lr, bool bass)

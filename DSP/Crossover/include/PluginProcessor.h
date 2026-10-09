@@ -7,6 +7,7 @@
 #include "RealtimeFir.h"
 #include "ProgramEpochTrace.h"
 #include "ParameterIds.h"
+#include "FractionalDelay.h"
 namespace entropy::standalone {
 
 class EntropyCrossoverAudioProcessor final
@@ -50,6 +51,9 @@ public:
     {
         if (channel < 0 || channel >= maxOutputs) return 0.0f;
         return outputPeaks[(size_t) channel].load (std::memory_order_relaxed);
+    }
+    uint32_t getFractionalDelayStatus(int channel) const noexcept {
+        return channel>=0 && channel<16 ? fractionalDelayStatus[channel].load(std::memory_order_relaxed) : 0;
     }
     int getProtectionState (int channel) const noexcept { return channel >= 0 && channel < maxOutputs ? protectionState[(size_t) channel].load() : 0; }
     void resetProtectionTrip (int channel) noexcept { if (channel >= 0 && channel < maxOutputs) protectionResetRequested[(size_t) channel].store (true); }
@@ -159,6 +163,7 @@ private:
         native::SmoothedValue<double, native::ValueSmoothingTypes::Linear> delaySamples;
         std::vector<double> delayBuffer;
         std::vector<uint64_t> delayEpochs;
+        FractionalDelay fractionalDelay;
         uint64_t delayedEpoch=0;
         FirEpochTrace firEpoch;
         int writePosition = 0;
@@ -243,6 +248,7 @@ private:
     static constexpr int maximumExpectedBlockSize = 4096;
 
     std::array<std::atomic<float>, maxOutputs> outputPeaks {};
+    std::array<std::atomic<uint32_t>, maxOutputs> fractionalDelayStatus {};
     std::array<std::atomic<float>, mainInputs> mainInputPeaks {};
     std::array<std::atomic<float>, cinemaInputs> cinemaInputPeaks {};
     std::array<std::atomic<int>, maxOutputs> protectionState {};
@@ -281,6 +287,7 @@ private:
         std::array<Biquad,16> ap{};
         std::array<FirKernel,16> kernels{};
         std::array<uint64_t,16> kernelKey{};
+        std::array<FractionalDelayDesign,16> delays{};
         int latency=0;
         ControlCommandTag controlTag{};
     };

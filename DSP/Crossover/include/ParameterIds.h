@@ -39,7 +39,9 @@ inline constexpr const char* parameterIds[] = {
     ENTROPY_CROSSOVER_16("cinemaDelayMs"),
     ENTROPY_CROSSOVER_16("safetyMinHz"),
     ENTROPY_CROSSOVER_16("safetyMaxHz"),
-    ENTROPY_CROSSOVER_16("tripHoldMs")
+    ENTROPY_CROSSOVER_16("tripHoldMs"),
+    // Append only: existing snapshot indices and controls retain their order.
+    ENTROPY_CROSSOVER_16("fractionalDelayMode")
 };
 
 #undef ENTROPY_CROSSOVER_16

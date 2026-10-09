@@ -289,6 +289,9 @@ struct EngineTelemetrySnapshot
     double crossoverMusicInputPeaks[3]{};
     double crossoverCinemaInputPeaks[10]{};
     double crossoverOutputPeaks[16]{};
+    // Local UI snapshot populated by IPC JSON, never a shared DSP ABI.
+    std::uint32_t crossoverFractionalDelayOrder[16]{};
+    std::uint32_t crossoverFractionalDelayTransition[16]{};
     std::uint32_t crossoverProtectionAvailable = 0;
     std::uint32_t crossoverProtectionGlobalTrip = 0;
     std::uint32_t crossoverProtectionEnabledMask = 0;

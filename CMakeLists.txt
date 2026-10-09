@@ -33,6 +33,7 @@ endfunction()
 
 # JUCE/Qt-free native C++ Crossover, *not* a plugin DLL.
 add_library(entropy_crossover STATIC
+    DSP/Crossover/src/FractionalDelay.cpp
     DSP/Crossover/src/PluginProcessor.cpp
     DSP/Crossover/src/NativeState.cpp)
 target_include_directories(entropy_crossover PUBLIC
@@ -79,6 +80,27 @@ if(ENTROPY_STAGE05_CONTROL)
 endif()
 
 if(BUILD_TESTING)
+    add_executable(EntropyThiranDelay Tests/ThiranDelayTests.cpp)
+    target_link_libraries(EntropyThiranDelay PRIVATE entropy_crossover)
+    entropy_native_flags(EntropyThiranDelay)
+    add_test(NAME EntropyThiranDelay COMMAND EntropyThiranDelay)
+    add_executable(EntropyThiranValidation Tests/ThiranValidation.cpp Tests/Stage02/RealtimeAllocationAudit.cpp Tests/Stage02/AuditExtras.cpp)
+    target_link_libraries(EntropyThiranValidation PRIVATE entropy_crossover)
+    entropy_native_flags(EntropyThiranValidation)
+    add_test(NAME EntropyThiranValidation COMMAND EntropyThiranValidation "${CMAKE_BINARY_DIR}/thiran-results")
+    set(THIRAN_BASELINE "${CMAKE_CURRENT_SOURCE_DIR}/local/thiran-baseline" CACHE PATH "Extracted immutable v0.0.3 Crossover for bit-exact comparison")
+    if(EXISTS "${THIRAN_BASELINE}/DSP/Crossover/src/PluginProcessor.cpp")
+        add_library(entropy_thiran_baseline STATIC Tests/ThiranBaselineBridge.cpp
+            "${THIRAN_BASELINE}/DSP/Crossover/src/PluginProcessor.cpp"
+            "${THIRAN_BASELINE}/DSP/Crossover/src/NativeState.cpp")
+        target_compile_definitions(entropy_thiran_baseline PRIVATE entropy=thiran_baseline)
+        target_include_directories(entropy_thiran_baseline PRIVATE "${THIRAN_BASELINE}/DSP/Crossover/include"
+            "${THIRAN_BASELINE}/Shared/include" "${IPP_INCLUDE_DIR}")
+        target_link_libraries(entropy_thiran_baseline PRIVATE "${IPP_SIGNAL_LIBRARY}" "${IPP_VECTOR_LIBRARY}" "${IPP_CORE_LIBRARY}")
+        entropy_native_flags(entropy_thiran_baseline)
+        target_link_libraries(EntropyThiranValidation PRIVATE entropy_thiran_baseline)
+        target_compile_definitions(EntropyThiranValidation PRIVATE ENTROPY_THIRAN_BASELINE=1)
+    endif()
     add_executable(EntropyStage04Fifo Tests/Stage04FifoTests.cpp)
     target_include_directories(EntropyStage04Fifo PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
     entropy_native_flags(EntropyStage04Fifo)

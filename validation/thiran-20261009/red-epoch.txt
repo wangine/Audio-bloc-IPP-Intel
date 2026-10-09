@@ -1,0 +1,20 @@
+A02_IMPORT_MODULE name=EntropyThiranValidation.exe hooks=6
+FAIL final fade sample must exclude departing epoch
+THIRAN order=1 f=20000 gain_db=3.85730986621e-14 phase_error_deg=-0.515698880894 delay_error_us=0.0716248445686
+THIRAN order=1 f=40000 gain_db=-9.64327466553e-16 phase_error_deg=-4.47996965109 delay_error_us=0.311109003548
+THIRAN order=1 f=60000 gain_db=-3.56801162625e-14 phase_error_deg=-17.365229564 delay_error_us=0.80394581315
+THIRAN order=3 f=20000 gain_db=-3.08584789297e-14 phase_error_deg=-0.00228937442031 delay_error_us=0.000317968669487
+THIRAN order=3 f=40000 gain_db=-2.50725141304e-14 phase_error_deg=-0.265738826423 delay_error_us=0.0184540851683
+THIRAN order=3 f=60000 gain_db=-2.21795317307e-14 phase_error_deg=-4.05424326488 delay_error_us=0.187696447448
+THIRAN order=5 f=20000 gain_db=-1.63935669314e-14 phase_error_deg=-1.55140572097e-05 delay_error_us=2.15473016801e-06
+THIRAN order=5 f=40000 gain_db=-4.82163733277e-15 phase_error_deg=-0.0235604963967 delay_error_us=0.0016361455831
+THIRAN order=5 f=60000 gain_db=-1.06076021321e-14 phase_error_deg=-1.29916193485 delay_error_us=0.0601463858727
+IMPULSE mode=1 energy=0.99999999999999978 DC_group_delay=8.5000000000000036 samples
+TRANSITION mode=1 max_step=4.89252444888e-05 max_peak=0.12501364661
+IMPULSE mode=2 energy=0.99999999999999989 DC_group_delay=8.4999999999999964 samples
+TRANSITION mode=2 max_step=4.89252444888e-05 max_peak=0.12501364661
+IMPULSE mode=3 energy=1 DC_group_delay=8.5 samples
+TRANSITION mode=3 max_step=4.89252444888e-05 max_peak=0.12501364661
+LINEAR v0.0.3 bit_mismatches=0 max_abs=0
+RT new=0 delete=0 heapAlloc=0 heapFree=0 waits=0 locks=0 io=0
+THIRAN focused regression failures=1

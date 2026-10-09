@@ -16,7 +16,8 @@ constexpr int cinemaDelayBase = 401;
 constexpr int safetyMinBase = 417;
 constexpr int safetyMaxBase = 433;
 constexpr int tripHoldBase = 449;
-static_assert (parameterCount == 465,
+constexpr int fractionalDelayModeBase = 465;
+static_assert (parameterCount == 481,
                "Crossover parameter indices must match the canonical layout");
 }
 
@@ -174,6 +175,7 @@ native::ParameterStore::ParameterLayout EntropyCrossoverAudioProcessor::createPa
         p.push_back (std::make_unique<native::AudioParameterChoice> (native::ParameterID { channelParam ("processMode", ch), 1 }, "CH " + n + " Processing", bassProcessingNames(), 0));
         p.push_back (std::make_unique<native::AudioParameterChoice> (native::ParameterID { channelParam ("firLength", ch), 1 }, "CH " + n + " FIR Length", firLengthNames(), 1));
         p.push_back (std::make_unique<native::AudioParameterBool> (native::ParameterID { channelParam ("allPass", ch), 1 }, "CH " + n + " All-Pass Alignment", false));
+        p.push_back (std::make_unique<native::AudioParameterChoice> (native::ParameterID { channelParam ("fractionalDelayMode", ch), 1 }, "CH " + n + " Fractional Delay", native::StringArray {"Linear (reference)", "Thiran 1", "Thiran 3", "Thiran 5"}, 0));
         p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { channelParam ("apFreq", ch), 1 }, "CH " + n + " All-Pass Frequency", native::NormalisableRange<float> (2.0f, 60000.0f, 0.1f, 0.28f), defaultBassLane ? 80.0f : 1000.0f, "Hz"));
         p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { channelParam ("apQ", ch), 1 }, "CH " + n + " All-Pass Q", native::NormalisableRange<float> (0.2f, 4.0f, 0.01f), 0.707f));
         p.push_back (std::make_unique<native::AudioParameterBool> (native::ParameterID { channelParam ("hpOn", ch), 1 }, "CH " + n + " High Pass", false));
@@ -292,6 +294,8 @@ void EntropyCrossoverAudioProcessor::prepareToPlay (double sampleRate, int sampl
         c.firEpoch.reset();
         c.writePosition = 0;
         c.delayValidSamples = 0;
+        c.fractionalDelay.reset();
+        fractionalDelayStatus[ch].store(0,std::memory_order_relaxed);
         for (auto& q : c.hp) q.reset();
         for (auto& q : c.lp) q.reset();
         c.allPass.reset();
@@ -575,8 +579,17 @@ double EntropyCrossoverAudioProcessor::readDelayedSample (ChannelDSP& c, double 
         const auto produced = std::max(valid(i0)?c.delayEpochs[(size_t)i0]:0, frac>0.0&&valid(i1)?c.delayEpochs[(size_t)i1]:0);
         c.delayedEpoch=produced;
     }
+    const auto tap=[&](int samples) noexcept -> DelaySample {
+        int index=c.writePosition-samples;
+        if(index<0) index+=int(ring.size());
+        const bool present=valid(index);
+        return {present?ring[size_t(index)]:0.0,
+                traceOutputEpoch && present?c.delayEpochs[size_t(index)]:0};
+    };
+    const auto result=c.fractionalDelay.process(tap,{output,traceOutputEpoch?c.delayedEpoch:0});
+    if(traceOutputEpoch) c.delayedEpoch=result.epoch;
     if (++c.writePosition >= (int) ring.size()) c.writePosition = 0;
-    return output;
+    return result.value;
 }
 
 void EntropyCrossoverAudioProcessor::captureLiveSpectrumBlock (
@@ -981,6 +994,8 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
                 clearFirAllPassHistory(c);
                 c.fir.reset();
                 c.delayValidSamples = 0;
+                c.fractionalDelay.reset();
+                fractionalDelayStatus[ch].store(0,std::memory_order_relaxed);
                 c.firEpoch.reset();
                 c.writePosition = 0;
                 c.safetySilenced = true;
@@ -1047,6 +1062,7 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
         const double effectiveDelayMs = native::jlimit (0.0, maxDelaySeconds * 1000.0,
             (double) rt (sceneGlobalDelay) + relativeDelayMs);
         c.delaySamples.setTargetValue (effectiveDelayMs * 0.001 * sr + compensation);
+        c.fractionalDelay.request(active->delays[ch],int(sr*0.04));
         c.peak = 0.0;
 
         for (int i = 0; i < samples; ++i)
@@ -1238,6 +1254,8 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
             }
         }
         outputPeaks[(size_t) ch].store ((float) c.peak, std::memory_order_relaxed);
+        fractionalDelayStatus[ch].store(uint32_t(c.fractionalDelay.effectiveOrder())
+            | (c.fractionalDelay.transitioning()?0x100u:0u),std::memory_order_relaxed);
         // Band Guard is deliberately configuration-only. It verifies that
         // the crossover HP/LP assigned to this physical way remains inside
         // the loudspeaker's SAFE MIN/MAX. Programme content is irrelevant.
@@ -1275,7 +1293,7 @@ void EntropyCrossoverAudioProcessor::saveChannelSnapshot (int channel)
     auto old = root.getChildWithName (type);
     if (old.isValid()) root.removeChild (old, nullptr);
     native::XmlNode snap (type);
-    const char* bases[] = { "source", "cinemaRole", "filterType", "processMode", "firLength", "allPass", "apFreq", "apQ", "gainDb", "musicGainDb", "cinemaGainDb", "mute", "solo", "polarity", "delayMs", "musicDelayMs", "cinemaDelayMs", "hpOn", "hpHz", "lpOn", "lpHz",
+    const char* bases[] = { "source", "cinemaRole", "filterType", "processMode", "firLength", "allPass", "apFreq", "apQ", "gainDb", "musicGainDb", "cinemaGainDb", "mute", "solo", "polarity", "delayMs", "musicDelayMs", "cinemaDelayMs", "fractionalDelayMode", "hpOn", "hpHz", "lpOn", "lpHz",
                             "protectorOn", "emergencyMute", "safetyMinHz", "safetyMaxHz", "tripHoldMs" };
     for (auto* base : bases)
     {
@@ -1306,7 +1324,7 @@ void EntropyCrossoverAudioProcessor::saveAllSnapshots()
         const auto id = "musicTrimDb" + native::String (ch + 1);
         root.setProperty (id, parameter (id), nullptr);
     }
-    const char* bases[] = { "source", "cinemaRole", "filterType", "processMode", "firLength", "allPass", "apFreq", "apQ", "gainDb", "musicGainDb", "cinemaGainDb", "mute", "solo", "polarity", "delayMs", "musicDelayMs", "cinemaDelayMs", "hpOn", "hpHz", "lpOn", "lpHz",
+    const char* bases[] = { "source", "cinemaRole", "filterType", "processMode", "firLength", "allPass", "apFreq", "apQ", "gainDb", "musicGainDb", "cinemaGainDb", "mute", "solo", "polarity", "delayMs", "musicDelayMs", "cinemaDelayMs", "fractionalDelayMode", "hpOn", "hpHz", "lpOn", "lpHz",
                             "protectorOn", "emergencyMute", "safetyMinHz", "safetyMaxHz", "tripHoldMs" };
     for (int ch = 0; ch < maxOutputs; ++ch)
         for (auto* base : bases)
@@ -1328,7 +1346,7 @@ std::vector<native::String> EntropyCrossoverAudioProcessor::sceneParameterIds()
         ids.emplace_back (id);
     for (int ch = 0; ch < maxOutputs; ++ch)
         for (const auto* base : { "filterType", "processMode", "firLength", "allPass", "apFreq", "apQ",
-                                  "polarity", "hpOn", "hpHz", "lpOn", "lpHz", "mute" })
+                                  "polarity", "hpOn", "hpHz", "lpOn", "lpHz", "mute", "fractionalDelayMode" })
             ids.push_back (channelParam (base, ch));
     return ids;
 }
@@ -1484,6 +1502,7 @@ bool EntropyCrossoverAudioProcessor::restoreStateInformation (const void* data, 
                     ? legacyDelay.getProperty ("value") : native::Property (0.0f);
                 appendMigratedParameter ("musicDelayMs" + n, legacyDelayValue);
                 appendMigratedParameter ("cinemaDelayMs" + n, legacyDelayValue);
+                appendMigratedParameter ("fractionalDelayMode" + n, native::Property(0.0f));
             }
             apvts.replaceState (restored);
             readSceneStatesFromTree();
@@ -1601,6 +1620,17 @@ bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag ta
     for(int ch=0;ch<16;++ch){
         compileCoefficients(ch,getRuntimeSampleRate()); updateFir(ch,getRuntimeSampleRate());
         building->latency=std::max(building->latency,firGroupDelayForChannel(ch));
+    }
+    // Immutable coefficients are compiled beside the existing kernels on the
+    // control owner. Audio only adopts this snapshot at a block boundary.
+    const bool cinema=rt(0)>=0.5f;
+    for(int ch=0;ch<16;++ch) {
+        const double acousticMs=native::jlimit(0.0,maxDelaySeconds*1000.0,
+            double(rt(cinema?cinemaGlobalDelayIndex:musicGlobalDelayIndex))
+            +double(rt((cinema?cinemaDelayBase:musicDelayBase)+ch)));
+        const double compensation=native::jmax(0,building->latency-firGroupDelayForChannel(ch));
+        building->delays[ch]=FractionalDelayDesign::compile(int(std::lround(rt(fractionalDelayModeBase+ch))),
+            acousticMs*0.001*compiledRate+compensation);
     }
     tlsConfig=nullptr;
     lastCompiled=building->values;hasCompiled=true;building=nullptr;
