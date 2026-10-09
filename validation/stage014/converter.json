@@ -1,0 +1,86 @@
+{
+  "converter": {
+    "dither": "TPDF_FLAT",
+    "formats": [
+      {
+        "format": 0,
+        "inputPeak": 0.0010094525725474568,
+        "integratedErrorRmsDbfs": -144.5009422536759,
+        "maxErrorLsb": 1.4887921347417432,
+        "meanErrorLsb": -0.0009869791668361536,
+        "pcmClippedBlocks": "0",
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmRailClampSamples": "0",
+        "rmsErrorLsb": 0.49962341968063695,
+        "samples": "384000"
+      },
+      {
+        "format": 1,
+        "inputPeak": 0.0010094525725474568,
+        "integratedErrorRmsDbfs": -144.5009422536759,
+        "maxErrorLsb": 1.4887921347417432,
+        "meanErrorLsb": -0.0009869791668361536,
+        "pcmClippedBlocks": "0",
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmRailClampSamples": "0",
+        "rmsErrorLsb": 0.49962341968063695,
+        "samples": "384000"
+      }
+    ],
+    "fullScaleSineSnrTheoryDb": 141.48409796207116,
+    "packedAndLeftAlignedBitExact": true,
+    "seconds": 1,
+    "seed": "DETERMINISTIC_TEST: offline only",
+    "selectedCoherentBins": [
+      {
+        "beforeConverterPeakAmplitude": 0.001000000000000247,
+        "frequencyHz": 1000,
+        "introducedErrorBinDbfs": -185.4153068516356,
+        "introducedErrorPeakAmplitude": 5.360862366778808e-10
+      },
+      {
+        "beforeConverterPeakAmplitude": 2.0905466888817423e-19,
+        "frequencyHz": 2000,
+        "introducedErrorBinDbfs": -188.58551399334857,
+        "introducedErrorPeakAmplitude": 3.721553788483869e-10
+      },
+      {
+        "beforeConverterPeakAmplitude": 5.425770463920755e-19,
+        "frequencyHz": 3000,
+        "introducedErrorBinDbfs": -194.604596801867,
+        "introducedErrorPeakAmplitude": 1.8611019317630522e-10
+      },
+      {
+        "beforeConverterPeakAmplitude": 9.999999999999818e-06,
+        "frequencyHz": 50000,
+        "introducedErrorBinDbfs": -187.24525309923143,
+        "introducedErrorPeakAmplitude": 4.342475181806067e-10
+      },
+      {
+        "beforeConverterPeakAmplitude": 1.6971379279537776e-18,
+        "frequencyHz": 51000,
+        "introducedErrorBinDbfs": -190.045079226246,
+        "introducedErrorPeakAmplitude": 3.1459081511748364e-10
+      },
+      {
+        "beforeConverterPeakAmplitude": 1.6782156206863337e-17,
+        "frequencyHz": 60000,
+        "introducedErrorBinDbfs": -193.03414600779683,
+        "introducedErrorPeakAmplitude": 2.2299375444818275e-10
+      },
+      {
+        "beforeConverterPeakAmplitude": 1.0119870587607707e-17,
+        "frequencyHz": 90000,
+        "introducedErrorBinDbfs": -189.91596572727278,
+        "introducedErrorPeakAmplitude": 3.193020550049663e-10
+      }
+    ],
+    "status": "PASS"
+  },
+  "hardwareOpened": false,
+  "productionSourcesChanged": false
+}

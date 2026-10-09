@@ -1,0 +1,69 @@
+{
+  "captureSeconds": 6,
+  "clockModel": "independent nominal 192k clocks; no hardware scheduling or live phase reconstruction",
+  "domains": [
+    {
+      "clockRenderedFrames": "1146880",
+      "id": "DAC A",
+      "pcmClippedBlocks": "0",
+      "pcmFaults": 0,
+      "pcmNonfiniteSamples": "0",
+      "pcmOverrangeSamples": "0",
+      "pcmRailClampSamples": "0",
+      "postClockSync": {
+        "overrangeSamples": "0",
+        "peak": 0.6498262630998113,
+        "rms": 0.07141580363509122,
+        "samples": "9175040"
+      },
+      "postHeadroom": {
+        "overrangeSamples": "0",
+        "peak": 0.6498262630998113,
+        "rms": 0.07127208797816699,
+        "samples": "9216000"
+      },
+      "preHeadroom": {
+        "overrangeSamples": "0",
+        "peak": 0.6498262630998113,
+        "rms": 0.07127208797816699,
+        "samples": "9216000"
+      }
+    },
+    {
+      "clockRenderedFrames": "1146880",
+      "id": "DAC B",
+      "pcmClippedBlocks": "0",
+      "pcmFaults": 0,
+      "pcmNonfiniteSamples": "0",
+      "pcmOverrangeSamples": "0",
+      "pcmRailClampSamples": "0",
+      "postClockSync": {
+        "overrangeSamples": "0",
+        "peak": 0.20300374377332603,
+        "rms": 0.01602191235181571,
+        "samples": "9175040"
+      },
+      "postHeadroom": {
+        "overrangeSamples": "0",
+        "peak": 0.20300374377332603,
+        "rms": 0.01599190188990571,
+        "samples": "9216000"
+      },
+      "preHeadroom": {
+        "overrangeSamples": "0",
+        "peak": 0.20300374377332603,
+        "rms": 0.01599190188990571,
+        "samples": "9216000"
+      }
+    }
+  ],
+  "headroomMode": 1,
+  "manualControlDb": -3,
+  "prePostHeadroomMaxDifference": 0,
+  "profileChanged": false,
+  "status": "PASS MEASURED SUBSET",
+  "originalUnqualifiedStatus": "PASS",
+  "coverageAnnotationAddedFromReview": true,
+  "layerWindowsIdentical": false,
+  "coverage": "Full Headroom capture and rendered ClockSync subset differ; RMS differences do not measure ASRC gain. Measurements copied unchanged from the first run."
+}

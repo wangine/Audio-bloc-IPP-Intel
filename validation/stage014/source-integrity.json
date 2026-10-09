@@ -1,0 +1,85 @@
+{
+  "baselineCommit": "14708605e5be2bca13964d44f460c8f37cc955ea",
+  "actualLiveRuntime": "0.1.1",
+  "liveRuntimeSourceCommit": "cfce5849dc520ec589758fa8fac5046fa0a8deb2",
+  "changedProductionFiles": [],
+  "protectedSources": [
+    {
+      "path": "Shared/include/entropy/pcm24_abi.h",
+      "sha256": "41ac1c6b08c1f1e81fdde0c4d54c358dc18611f455636cb8056e1a04460599ff",
+      "gitBlobBothVersions": "372929022c97eec5cddd2709d4d49fde73f2b5d2"
+    },
+    {
+      "path": "Engine/Egress/NativeEgress.cpp",
+      "sha256": "b396fadbcba06300ff04c10e23d8b1e020e20d5224d187d7a795e4c8964b4e2d",
+      "gitBlobBothVersions": "ee64d4a7e0b35d453c6dbcf85cb0641409f63925"
+    },
+    {
+      "path": "Engine/Egress/LiveSinkWorkers.cpp",
+      "sha256": "ab165cacbd154b9077782f1e443b5bfc8dd76ea9ecd07a5c1dc53c21958d4955",
+      "gitBlobBothVersions": "2cb28ca7ba2be5076244b350d17e276d4e368670"
+    },
+    {
+      "path": "Egress/PCM24/src/Pcm24Converter.cpp",
+      "sha256": "f88ff6bed1b9794a881e545370e5f4fafa68e1cf420abbdca5f0c5e78b7ac750",
+      "gitBlobBothVersions": "5df8be766b70f3e9a247d7af92837f3f1ccb18b9"
+    },
+    {
+      "path": "Egress/PCM24/src/Pcm24ModuleEngine.cpp",
+      "sha256": "79e794ed0f766c2bb06fda84d9a69c06b081fd426a36c987d3d0814ecf16f966",
+      "gitBlobBothVersions": "e4d7cdd6b55c25fae4e39bc5c78a179165fea4b9"
+    },
+    {
+      "path": "Egress/ClockSync/include/EntropyBandlimitedAsrc.h",
+      "sha256": "af86c99663465bdd73e3a39115508a82e692ffe024760dd17f9975b8c345d7cb",
+      "gitBlobBothVersions": "920a3ee78041dc6c2fbfb8dc522fa5949cfc6fe7"
+    },
+    {
+      "path": "Egress/ClockSync/src/EgressClockEngine.cpp",
+      "sha256": "28fbe76734912c01dd4bd8d70d96c5c259a31dce17390ff1c3f8c077ab634139",
+      "gitBlobBothVersions": "a89386474782756ce48a5b2dfac47ab151b6a217"
+    },
+    {
+      "path": "Egress/ClockSync/src/EgressRatioController.cpp",
+      "sha256": "112f476289cac8eef74b72d6f6fd22b908f1c322d02cc8e6ddf2abd991772fef",
+      "gitBlobBothVersions": "50d25481347c012cec2bdbdbe8c1f5167400fbf8"
+    },
+    {
+      "path": "DSP/Headroom/src/HeadroomEngine.cpp",
+      "sha256": "44b7bbd68a9f093c87ddca61a22eef82dea72e7c876c657f2e259e314dd05934",
+      "gitBlobBothVersions": "92c68981677aa508fe770cd3c28331faf0c41d73"
+    },
+    {
+      "path": "DSP/Crossover/src/PluginProcessor.cpp",
+      "sha256": "421274b5f6ad390046c4ef726b4b9708a057cd9c3395a5bd3616c60b5722ad9d",
+      "gitBlobBothVersions": "371104979d2bb71f9badf12de6da85017f156c60"
+    },
+    {
+      "path": "DSP/Crossover/src/FractionalDelay.cpp",
+      "sha256": "718f92347383628539b286038c1a9f3fbca6fbf8d1d967cf49d7bb1a8109f73d",
+      "gitBlobBothVersions": "887053ad000f564e227e83d38d76ee40b049897f"
+    },
+    {
+      "path": "DSP/OutputMatrix/src/OutputMatrixEngine.cpp",
+      "sha256": "1be82f4910def65fa6232d71000a19cbd7d8f8a6f63e2838e53551a24816769e",
+      "gitBlobBothVersions": "6a28322e6d8f91d957f494241458a3e10a6d3505"
+    }
+  ],
+  "liveCoreSha256": "38a1d82bd26f75c0dc7a90c5268f2150cf6c243dfd98b9c263b4a355efa57ae0",
+  "published012CoreSha256": "7842ec34f359b7f78aab1cf84b147e303fae82cd4e571d2e96b76a96dac2bba3",
+  "offlineEvidenceExecutableSha256": "225188c856892ac4a5effd7c3d37c525c63eb55a5b2acbf57d2ed4dc198d5e20",
+  "existingRawCaptures": [
+    {
+      "name": "loud-six-seconds",
+      "sha256": "23d1753c91fa203a8cc5471b60014bb79f1d93ce5766c982a33ebc23786cf018"
+    },
+    {
+      "name": "quiet-six-seconds",
+      "sha256": "8932f2991919fc360e0c44ed4d253857613838a41fddd775c8d584da4c33a4ce"
+    }
+  ],
+  "rawMusicUploaded": false,
+  "privateProfilesUploaded": false,
+  "fullSuiteRerun": false,
+  "hardwareOpenedByProbe": false
+}

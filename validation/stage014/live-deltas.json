@@ -1,0 +1,110 @@
+{
+  "seconds": 16.014999999999418,
+  "pidBefore": 6848,
+  "pidAfter": 6848,
+  "armedBefore": true,
+  "armedAfter": true,
+  "program": 0,
+  "domains": [
+    {
+      "id": "DAC A",
+      "before": {
+        "pcmDitherMode": 1,
+        "pcmSeedMode": 1,
+        "pcmFaults": 0,
+        "pcmOverrangeSamples": "14098590",
+        "pcmClippedBlocks": "26085",
+        "pcmRailClampSamples": "0",
+        "pcmNonfiniteSamples": "0",
+        "pcmProcessedFrames": "192348160",
+        "submittedFrames": "192348160",
+        "physicalSinkOpen": true,
+        "state": "RUNNING",
+        "channels": 8,
+        "format": 1,
+        "faults": 0,
+        "xruns": "0"
+      },
+      "after": {
+        "pcmDitherMode": 1,
+        "pcmSeedMode": 1,
+        "pcmFaults": 0,
+        "pcmOverrangeSamples": "14587443",
+        "pcmClippedBlocks": "27153",
+        "pcmRailClampSamples": "0",
+        "pcmNonfiniteSamples": "0",
+        "pcmProcessedFrames": "195431424",
+        "submittedFrames": "195431424",
+        "physicalSinkOpen": true,
+        "state": "RUNNING",
+        "channels": 8,
+        "format": 1,
+        "faults": 0,
+        "xruns": "0"
+      },
+      "delta": {
+        "pcmOverrangeSamples": 488853,
+        "pcmClippedBlocks": 1068,
+        "pcmRailClampSamples": 0,
+        "pcmNonfiniteSamples": 0,
+        "pcmProcessedFrames": 3083264,
+        "submittedFrames": 3083264,
+        "xruns": 0
+      }
+    },
+    {
+      "id": "DAC B",
+      "before": {
+        "pcmDitherMode": 1,
+        "pcmSeedMode": 1,
+        "pcmFaults": 0,
+        "pcmOverrangeSamples": "4832",
+        "pcmClippedBlocks": "25",
+        "pcmRailClampSamples": "0",
+        "pcmNonfiniteSamples": "0",
+        "pcmProcessedFrames": "192348160",
+        "submittedFrames": "192348160",
+        "physicalSinkOpen": true,
+        "state": "RUNNING",
+        "channels": 8,
+        "format": 1,
+        "faults": 0,
+        "xruns": "0"
+      },
+      "after": {
+        "pcmDitherMode": 1,
+        "pcmSeedMode": 1,
+        "pcmFaults": 0,
+        "pcmOverrangeSamples": "4832",
+        "pcmClippedBlocks": "25",
+        "pcmRailClampSamples": "0",
+        "pcmNonfiniteSamples": "0",
+        "pcmProcessedFrames": "195431424",
+        "submittedFrames": "195431424",
+        "physicalSinkOpen": true,
+        "state": "RUNNING",
+        "channels": 8,
+        "format": 1,
+        "faults": 0,
+        "xruns": "0"
+      },
+      "delta": {
+        "pcmOverrangeSamples": 0,
+        "pcmClippedBlocks": 0,
+        "pcmRailClampSamples": 0,
+        "pcmNonfiniteSamples": 0,
+        "pcmProcessedFrames": 3083264,
+        "submittedFrames": 3083264,
+        "xruns": 0
+      }
+    }
+  ],
+  "headroomMode": 1,
+  "headroomManualControlDb": -3,
+  "headroomEffectiveGain": 1,
+  "liveFaultBefore": false,
+  "liveFaultAfter": false,
+  "runtimeVersion": "0.1.1",
+  "profileChanged": false,
+  "audioCommandsSent": false
+}
