@@ -2,13 +2,15 @@
 
 Native Stage3 C++20 **integration candidate** on a separate private repository.
 
-## Current release: 0.0.2 beta test — PCM24 V2 correction
+## Current release: 0.0.3 stable beta
 
 Native AudioCore, IPC-only existing Qt UI, profile/device control and manual
-DAC A testing are now integrated. See [beta startup and limits](docs/RELEASE-0.0.2.md)
+DAC A testing are now integrated. See [startup and version folders](docs/RELEASE-0.0.3.md)
 and the [actual live test report](validation/stage07/AUTHORIZED-LIVE-TEST.md).
-0.0.2 restores production TPDF and PCM24 CLIP_AND_REPORT without changing
-Headroom or other DSP modules. Build/startup PASS; no suites/benchmarks rerun.
+0.0.3 packages the unchanged 0.0.2 Core/Qt binaries and the local launcher fix.
+The user reports two DACs working without apparent audible artifacts. Each
+release has its own folder and version-specific runtime/launchers; no overwrite.
+No suites/benchmarks rerun; see the release notes for the scope of verification.
 Historical 0.0.1: **PASS NUMERIC / FAIL REALTIME; V07 acceptance BLOCKED.**
 Cold-Start starts a new Core DISARMED; Live-Test selects explicit process-scoped
 manual hardware testing without declaring the offline gate PASS. The GitHub

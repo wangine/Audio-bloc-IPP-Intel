@@ -6,7 +6,7 @@ param(
     [switch]$AuthorizedLiveTest,
     [string]$Profile,
     [string]$LiveGate='local/stage07/live-offline-pass.gate',
-    [string]$NativeBuild='build/msvc-stage07',
+    [string]$NativeBuild='build/msvc-pcm24-v2',
     [string]$UiBuild='build/qt-stage07'
 )
 $ErrorActionPreference='Stop'
@@ -39,6 +39,8 @@ try {
     $logs=Join-Path $root ('local/stage07/cold-start/'+(Get-Date -Format 'yyyyMMdd-HHmmss')+'-'+[Guid]::NewGuid().ToString('N'))
     New-Item -ItemType Directory -Path $logs -Force | Out-Null
     Write-Host "Cold start: AudioCore -> IPC -> Qt; new Core starts DISARMED; explicit ARM requires session eligibility and a valid profile."
+    Write-Host "Core executable: $core"
+    Write-Host "Manual LIVE test session: $AuthorizedLiveTest (use Live-Test.cmd for the explicitly authorized listening test)."
     Write-Host "Logs: $logs"
     $arguments=@('--control-server','--endpoint',$Endpoint)
     if($OfflineTestSignal){$arguments+='--offline-test-signal'}

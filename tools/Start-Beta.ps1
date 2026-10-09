@@ -15,6 +15,10 @@ try {
     if($SmokeTest){$Endpoint='EntropyAudioCore.BetaSmoke.'+[Guid]::NewGuid().ToString('N')}
     if($Endpoint -notmatch '^EntropyAudioCore\.[A-Za-z0-9_.-]+$'){throw 'Invalid IPC endpoint'}
     foreach($file in @($core,$ui,(Join-Path $runtime 'Qt6Core.dll'),(Join-Path $runtime 'platforms/qwindows.dll'))){if(!(Test-Path -LiteralPath $file -PathType Leaf)){throw "Missing runtime file: $file"}}
+    $manifest=Get-Content -LiteralPath (Join-Path $root 'manifest.json') -Raw | ConvertFrom-Json
+    Write-Host "Entropy AudioCore $($manifest.version) / $($manifest.channel); source $($manifest.sourceCommit)"
+    Write-Host "Core executable: $core"
+    Write-Host "Manual LIVE test session: $AuthorizedLiveTest; new Core starts DISARMED."
     if($Profile){$Profile=(Resolve-Path -LiteralPath $Profile).Path;if($Profile.Contains('"')){throw 'Invalid profile path'}}
     $env:PATH=$runtime+';'+$env:PATH
     $env:QT_PLUGIN_PATH=$runtime

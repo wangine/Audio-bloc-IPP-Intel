@@ -1,6 +1,8 @@
 param(
-    [string]$Version='0.0.1',
-    [string]$NativeBuild='build/msvc-stage07',
+    [Parameter(Mandatory=$true)][string]$Version,
+    [ValidateSet('beta test','stable beta')][string]$Channel='beta test',
+    [string]$OutputRoot='release',
+    [string]$NativeBuild='build/msvc-pcm24-v2',
     [string]$UiBuild='build/qt-stage07',
     [string]$QtRoot='C:/Qt/6.11.2/mingw_64',
     [string]$QtDocs='C:/Qt/Docs/Qt-6.11.2',
@@ -10,7 +12,8 @@ param(
 $ErrorActionPreference='Stop'
 if($Version -notmatch '^\d+\.\d+\.\d+$'){throw 'Invalid release version'}
 $root=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
-$output=Join-Path $root ('local/releases/'+$Version+'/'+(Get-Date -Format 'yyyyMMdd-HHmmss')+'-'+[Guid]::NewGuid().ToString('N'))
+$output=Join-Path (Join-Path $root $OutputRoot) $Version
+if(Test-Path -LiteralPath $output){throw "Version folder already exists: $output. Preserve it and choose a new version."}
 $bundle=Join-Path $output ('EntropyAudioCore-'+$Version+'-beta-win-x64')
 $runtime=Join-Path $bundle 'runtime'
 New-Item -ItemType Directory -Path $runtime,(Join-Path $bundle 'tools'),(Join-Path $bundle 'notices') -Force | Out-Null
@@ -50,7 +53,7 @@ $sourceCommit=(& git -C $root rev-parse HEAD).Trim()
 $dirty=[bool](& git -C $root status --porcelain)
 $files=@(Get-ChildItem -LiteralPath $bundle -Recurse -File | Sort-Object FullName | ForEach-Object {[ordered]@{path=$_.FullName.Substring($bundle.Length+1).Replace('\','/');bytes=$_.Length;sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash}})
 $numeric=if($Version -eq '0.0.1'){'PASS'}else{'NOT RERUN; historical 0.0.1 PASS'}
-$manifest=[ordered]@{version=$Version;channel='beta test';sourceCommit=$sourceCommit;sourceDirty=$dirty;architecture='Windows x64; native Core, separate IPC-only Qt UI';stage04='FAIL REALTIME';numeric=$numeric;v07='BLOCKED';automaticArm=$false;files=$files}
+$manifest=[ordered]@{version=$Version;channel=$Channel;sourceCommit=$sourceCommit;sourceDirty=$dirty;architecture='Windows x64; native Core, separate IPC-only Qt UI';stage04='FAIL REALTIME';numeric=$numeric;v07='BLOCKED';automaticArm=$false;files=$files}
 $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $bundle 'manifest.json') -Encoding utf8
 $zip=Join-Path $output ('EntropyAudioCore-'+$Version+'-beta-win-x64.zip')
 Compress-Archive -LiteralPath $bundle -DestinationPath $zip -CompressionLevel Optimal

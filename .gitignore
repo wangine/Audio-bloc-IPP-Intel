@@ -25,6 +25,8 @@ Testing/
 /third_party/Intel*/
 /local/
 /runtime/
+/release/
+*.entropy
 *.wav
 *.raw
 __pycache__/
