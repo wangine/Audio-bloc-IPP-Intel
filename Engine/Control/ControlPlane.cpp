@@ -7,17 +7,20 @@
 namespace entropy::control {
 using J=ipc::Value;using A=engine::GraphControlAccess;
 static void globalHeadroomGroup(EntropyHeadroomState& state) noexcept {
- state.group_count=1;state.active_channel_mask=0xffffu;
+ state.group_count=1;
  for(auto& group:state.channel_group)group=0;
  state.groups[0].struct_size=sizeof(state.groups[0]);state.groups[0].bounded=1;
 }
-static void deriveHeadroomLedger(EntropyHeadroomState& state,const EntropyOutputMatrixState& matrix,bool music) noexcept {
+static void deriveHeadroomLedger(EntropyHeadroomState& state,const EntropyOutputMatrixState& matrix,bool music,uint32_t renderMask) noexcept {
  std::array<unsigned,16> contributors{};
  for(unsigned source=0;source<16;++source){if(!(matrix.active_source_mask&(1u<<source)))continue;
   const auto destinations=matrix.source_destination_mask[source]&matrix.enabled_destination_mask;
   for(unsigned destination=0;destination<16;++destination)if(destinations&(1u<<destination))++contributors[destination];}
- double matrixDb=0;for(auto count:contributors)if(count>1)matrixDb=std::max(matrixDb,20*std::log10(double(count)));
+ uint32_t validDestinations=0;double matrixDb=0;
+ for(unsigned destination=0;destination<16;++destination)if(contributors[destination]&&(renderMask&(1u<<destination))){
+  validDestinations|=1u<<destination;const auto count=contributors[destination];if(count>1)matrixDb=std::max(matrixDb,20*std::log10(double(count)));}
  globalHeadroomGroup(state);
+ state.active_channel_mask=validDestinations;
  // Original V07 MUSIC reserve is independent of upstream mute/source choices.
  state.groups[0].declared_positive_contribution_db=(music?20*std::log10(2.0):0.0)+matrixDb;
 }
@@ -40,7 +43,7 @@ ControlPlane::ControlPlane(engine::AudioGraph& graph,uint64_t session):graph_(gr
 J ControlPlane::metadata() const {return crossover_.metadata();}
 uint64_t ControlPlane::execute(const J& request){
  if(queue_.full())throw std::invalid_argument("Control queue full");
- auto action=request.at("action").asString();auto candidate=desired_;candidate.matrixChanged=candidate.headroomChanged=candidate.timingChanged=candidate.policyChanged=candidate.clearFault=false;
+ auto action=request.at("action").asString();auto candidate=desired_;candidate.matrixChanged=candidate.headroomChanged=candidate.timingChanged=candidate.policyChanged=candidate.clearFault=candidate.renderMaskChanged=false;
  if(sequence_==UINT64_MAX||(request.contains("sequence")&&request.at("sequence").asU64()==UINT64_MAX))throw std::invalid_argument("Sequence exhausted");
  auto nextSequence=request.contains("sequence")?std::max(sequence_+1,request.at("sequence").asU64()):sequence_+1;
  if(action=="matrix-route"){
@@ -51,8 +54,8 @@ uint64_t ControlPlane::execute(const J& request){
  else if(action=="headroom-policy"){candidate.mode=request.at("mode").asUnsigned(2);candidate.manualGainDb=request.at("manualGainDb").asNumber();candidate.policyChanged=true;}
  else if(action=="headroom-transition"){candidate.headroom.transition_ms=request.at("value").asNumber();candidate.headroomChanged=true;}
  else if(action=="headroom-attack"||action=="headroom-release"){(action=="headroom-attack"?candidate.timing.attack_ms:candidate.timing.release_ms)=request.at("value").asNumber();candidate.timingChanged=true;}
- else if(action=="headroom-groups"){candidate.headroom.group_count=request.at("value").asUnsigned(16);for(auto& g:candidate.headroom.channel_group)if(g>=candidate.headroom.group_count)g=0;for(auto& g:candidate.headroom.groups){g.struct_size=sizeof(g);g.bounded=1;}candidate.headroomChanged=true;}
- else if(action=="headroom-channel-group"){candidate.headroom.channel_group[request.at("channel").asUnsigned(15)]=request.at("group").asUnsigned(15);candidate.headroomChanged=true;}
+ else if(action=="headroom-groups"){if(request.at("value").asUnsigned(16)!=1)throw std::invalid_argument("AudioCore supports one globally linked Headroom group");candidate.headroomChanged=true;}
+ else if(action=="headroom-channel-group"){auto channel=request.at("channel").asUnsigned(15);if(request.at("group").asUnsigned(15)!=0)throw std::invalid_argument("AudioCore supports only Headroom group 0");candidate.headroom.channel_group[channel]=0;candidate.headroomChanged=true;}
  else if(action=="headroom-reserve"){auto group=request.at("group").asUnsigned(15);if(group>=candidate.headroom.group_count)throw std::invalid_argument("Headroom group unavailable");candidate.headroom.groups[group].preventive_reserve_db=request.at("value").asNumber();candidate.headroomChanged=true;}
  else if(action=="headroom-clear-fault")candidate.clearFault=true;
  else {crossover_.execute(request,session_,nextSequence);sequence_=nextSequence;accepted_.store(sequence_,std::memory_order_release);return sequence_;}
@@ -60,11 +63,20 @@ uint64_t ControlPlane::execute(const J& request){
  if(!queue_.push(candidate))throw std::invalid_argument("Control queue full");
  lastQueued_=nextSequence;desired_=candidate;sequence_=nextSequence;accepted_.store(sequence_,std::memory_order_release);return sequence_;
 }
-void ControlPlane::replace(const ParameterSnapshot& state){valid(state);auto s=state;globalHeadroomGroup(s.headroom);s.revision=sequence_+1;s.matrix.generation=s.headroom.revision=s.timing.revision=unsigned(s.revision);s.matrixChanged=s.headroomChanged=s.timingChanged=s.policyChanged=true;if(!queue_.push(s))throw std::invalid_argument("Control queue full");desired_=s;lastQueued_=s.revision;++sequence_;accepted_.store(sequence_,std::memory_order_release);}
+void ControlPlane::replace(const ParameterSnapshot& state){valid(state);auto s=state;if(s.renderLaneMask&~0xffffu)throw std::invalid_argument("Invalid render lane mask");globalHeadroomGroup(s.headroom);s.revision=sequence_+1;s.matrix.generation=s.headroom.revision=s.timing.revision=unsigned(s.revision);s.matrixChanged=s.headroomChanged=s.timingChanged=s.policyChanged=s.renderMaskChanged=true;if(!queue_.push(s))throw std::invalid_argument("Control queue full");desired_=s;lastQueued_=s.revision;++sequence_;accepted_.store(sequence_,std::memory_order_release);}
+void ControlPlane::setRenderLaneMask(uint32_t mask){
+ if(mask&~0xffffu)throw std::invalid_argument("Invalid render lane mask");
+ if(mask==desired_.renderLaneMask)return;
+ if(sequence_==UINT64_MAX)throw std::invalid_argument("Sequence exhausted");
+ auto s=desired_;s.matrixChanged=s.headroomChanged=s.timingChanged=s.policyChanged=s.clearFault=false;
+ s.renderLaneMask=mask;s.renderMaskChanged=true;s.revision=sequence_+1;
+ if(!queue_.push(s))throw std::invalid_argument("Control queue full");
+ desired_=s;lastQueued_=s.revision;++sequence_;accepted_.store(sequence_,std::memory_order_release);
+}
 void ControlPlane::synchronizeHeadroomLedger() noexcept {
  const auto matrix=A::matrix(graph_).state();auto state=A::headroom(graph_).state();
  const auto program=A::crossover(graph_)->programBlockState();
- const auto previous=state;deriveHeadroomLedger(state,matrix,program.program==0||program.requiredInputs==3);
+ const auto previous=state;deriveHeadroomLedger(state,matrix,program.program==0||program.requiredInputs==3,renderLaneMask_.load(std::memory_order_relaxed));
  if(sameHeadroomConfig(previous,state))return;
  if(++state.revision==0)state.revision=1;
  if(A::headroom(graph_).setState(state)!=ENTROPY_OK)applyFault_.store(1,std::memory_order_release);
@@ -85,10 +97,11 @@ void ControlPlane::atBlockBoundary() noexcept {
  crossover_.captureBeforeBlock();
  // Bounded work: at most one accepted state per block. No heap, lock or I/O.
  ParameterSnapshot s;if(!queue_.take(s)){synchronizeMatrixSources();synchronizeHeadroomLedger();return;}unsigned errors=0;
+ if(s.renderMaskChanged)renderLaneMask_.store(s.renderLaneMask,std::memory_order_relaxed);
  if(s.matrixChanged)errors|=A::matrix(graph_).setState(s.matrix)!=ENTROPY_OK;
  synchronizeMatrixSources();
  if(s.headroomChanged){auto state=s.headroom;const auto previous=A::headroom(graph_).state();const auto program=A::crossover(graph_)->programBlockState();
-  deriveHeadroomLedger(state,A::matrix(graph_).state(),program.program==0||program.requiredInputs==3);
+  deriveHeadroomLedger(state,A::matrix(graph_).state(),program.program==0||program.requiredInputs==3,renderLaneMask_.load(std::memory_order_relaxed));
   const auto configFaults=A::headroom(graph_).telemetry().fault_flags&(ENTROPY_HEADROOM_FAULT_INVALID_CONFIG|ENTROPY_HEADROOM_FAULT_INVALID_LEDGER);
   if(!sameHeadroomConfig(previous,state)||configFaults){state.revision=previous.revision+1;if(!state.revision)state.revision=1;errors|=A::headroom(graph_).setState(state)!=ENTROPY_OK;}}
  if(s.timingChanged)errors|=A::headroom(graph_).setTiming(s.timing)!=ENTROPY_OK;
@@ -103,13 +116,13 @@ void ControlPlane::drainAtQuiescentBoundary(){
  while(!queue_.empty()){atBlockBoundary();afterBlock();}
  if(applyFault_.load(std::memory_order_acquire))throw std::runtime_error("Native state adoption failed");
 }
-ParameterSnapshot ControlPlane::appliedState() const {ParameterSnapshot s;s.matrix=A::matrix(graph_).state();s.headroom=A::headroom(graph_).state();s.timing=A::headroom(graph_).timing();s.mode=A::headroom(graph_).modeState().requested_mode;s.manualGainDb=A::headroom(graph_).controlState().manual_gain_db;return s;}
+ParameterSnapshot ControlPlane::appliedState() const {ParameterSnapshot s;s.matrix=A::matrix(graph_).state();s.headroom=A::headroom(graph_).state();s.timing=A::headroom(graph_).timing();s.mode=A::headroom(graph_).modeState().requested_mode;s.manualGainDb=A::headroom(graph_).controlState().manual_gain_db;s.renderLaneMask=renderLaneMask_.load(std::memory_order_relaxed);return s;}
 J ControlPlane::snapshot() const {
  auto result=crossover_.snapshot();auto m=A::matrix(graph_).state();auto mt=A::matrix(graph_).telemetry();auto h=A::headroom(graph_).state();auto t=A::headroom(graph_).telemetry();auto timing=A::headroom(graph_).timing();auto mode=A::headroom(graph_).modeState();auto policy=A::headroom(graph_).controlState();
  // V07 reports the actual Matrix output as Headroom input in every programme,
  // including CINEMA blocks where terminal MUSIC analysis is disabled.
  J::Array routes,groups,channelGroups,peaks,headPeaks;double measuredPeak=0;
- for(auto p:mt.destination_peak){headPeaks.emplace_back(p);peaks.emplace_back(p);measuredPeak=std::max(measuredPeak,p);}
+ for(unsigned channel=0;channel<16;++channel){const auto p=mt.destination_peak[channel];const auto detectorPeak=h.active_channel_mask&(1u<<channel)?p:0.0;headPeaks.emplace_back(detectorPeak);peaks.emplace_back(p);measuredPeak=std::max(measuredPeak,detectorPeak);}
  for(auto r:m.source_destination_mask)routes.emplace_back(r);for(auto g:h.channel_group)channelGroups.emplace_back(g);
  for(unsigned i=0;i<h.group_count;++i){const auto& g=t.groups[i];groups.emplace_back(J::Object{{"gain",g.current_gain},{"target",g.target_gain},{"reductionDb",g.gain_reduction_db},{"required",g.ledger_required_headroom_db},{"margin",g.reserve_margin_db},{"progress",g.transition_progress},{"status",g.status},{"reserve",h.groups[i].preventive_reserve_db},{"bounded",h.groups[i].bounded},{"declaredPositiveDb",h.groups[i].declared_positive_contribution_db},{"guaranteedInputDb",h.groups[i].guaranteed_input_headroom_db}});}
  result["accepted"]=J::u64(accepted_.load());result["applied"]=J::u64(applied_.load());result["applyFault"]=applyFault_.load();result["blocks"]=J::u64(graph_.telemetry().completedBlocks);
@@ -119,7 +132,7 @@ J ControlPlane::snapshot() const {
  headroom["appliedRevision"]=t.applied_revision;headroom["hostRate"]=t.host_engine_rate;
  headroom["transitionSamples"]=t.transition_samples;headroom["processedFrames"]=J::u64(t.processed_frames);
  headroom["nonfiniteSamples"]=J::u64(t.nonfinite_sample_count);headroom["limitingChannelMask"]=t.limiting_channel_mask;
- headroom["activeChannelMask"]=h.active_channel_mask;headroom["manualTargetGain"]=policy.manual_target_gain;
+ headroom["activeChannelMask"]=h.active_channel_mask;headroom["manualTargetGain"]=policy.manual_target_gain;headroom["renderLaneMask"]=renderLaneMask_.load(std::memory_order_relaxed);
  return result;
 }
 }

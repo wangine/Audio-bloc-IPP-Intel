@@ -32,6 +32,11 @@ public:
 };
 }
 LiveSinkWorkers::LiveSinkWorkers(Factory f):factory_(std::move(f)){}
+uint32_t LiveSinkWorkers::renderLaneMask(const std::array<LiveDomain,2>& domains) noexcept {
+ uint32_t mask=0;for(const auto& domain:domains)if(domain.enabled)
+  for(unsigned channel=0;channel<domain.channels&&channel<16;++channel)if(domain.lanes[channel]<16)mask|=1u<<domain.lanes[channel];
+ return mask;
+}
 std::array<LiveDomain,2> LiveSinkWorkers::decode(const ipc::Value& v){
  std::array<LiveDomain,2> result{};auto& list=v.asArray();if(list.size()>2)throw std::invalid_argument("At most DAC A/B");
  for(unsigned i=0;i<list.size();++i){auto& d=result[i];auto& j=list[i];d.enabled=j.at("enabled").asBool();if(!d.enabled)continue;

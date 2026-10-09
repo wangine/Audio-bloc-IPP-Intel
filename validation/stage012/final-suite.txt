@@ -1,0 +1,91 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+      Start  1: EntropyStage04HardwareGate
+ 1/37 Test  #1: EntropyStage04HardwareGate ........   Passed    0.19 sec
+      Start  2: EntropyStage04Offline
+ 2/37 Test  #2: EntropyStage04Offline .............***Failed    1.87 sec
+A02_IMPORT_MODULE name=EntropyStage04Validation.exe hooks=8
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=bcrypt.dll hooks=7
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=25 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+FAIL Stage04: unsafe PCM rejected before converter
+
+      Start  3: EntropyStage04ClockDrift
+ 3/37 Test  #3: EntropyStage04ClockDrift ..........   Passed    1.83 sec
+      Start  4: EntropyStage04SchedulerProbe
+ 4/37 Test  #4: EntropyStage04SchedulerProbe ......   Passed    0.04 sec
+      Start  5: EntropyStage012HeadroomMask
+ 5/37 Test  #5: EntropyStage012HeadroomMask .......   Passed    0.52 sec
+      Start  6: EntropyStagePublishV2
+ 6/37 Test  #6: EntropyStagePublishV2 .............   Passed    0.75 sec
+      Start  7: EntropyConsoleShutdown
+ 7/37 Test  #7: EntropyConsoleShutdown ............   Passed    0.06 sec
+      Start  8: EntropyStage07Live
+ 8/37 Test  #8: EntropyStage07Live ................   Passed    4.28 sec
+      Start  9: EntropyStage07ProfilePreflight
+ 9/37 Test  #9: EntropyStage07ProfilePreflight ....   Passed   23.01 sec
+      Start 10: EntropyStage07LiveAuthorization
+10/37 Test #10: EntropyStage07LiveAuthorization ...   Passed    3.96 sec
+      Start 11: EntropyStage06Input
+11/37 Test #11: EntropyStage06Input ...............   Passed    4.07 sec
+      Start 12: EntropyStage06Integration
+12/37 Test #12: EntropyStage06Integration .........   Passed    0.89 sec
+      Start 13: EntropyStage06ProfileStartup
+13/37 Test #13: EntropyStage06ProfileStartup ......   Passed    0.75 sec
+      Start 14: EntropyStage010Starvation
+14/37 Test #14: EntropyStage010Starvation .........   Passed    0.49 sec
+      Start 15: EntropyStage05IpcIntegration
+15/37 Test #15: EntropyStage05IpcIntegration ......   Passed    1.11 sec
+      Start 16: EntropyStage05Validation
+16/37 Test #16: EntropyStage05Validation ..........   Passed    2.70 sec
+      Start 17: EntropyStage05Boundary
+17/37 Test #17: EntropyStage05Boundary ............   Passed    0.19 sec
+      Start 18: EntropyStage05Control
+18/37 Test #18: EntropyStage05Control .............   Passed    0.51 sec
+      Start 19: EntropyStage05Protocol
+19/37 Test #19: EntropyStage05Protocol ............   Passed    0.03 sec
+      Start 20: EntropyStage05Transport
+20/37 Test #20: EntropyStage05Transport ...........   Passed    5.65 sec
+      Start 21: EntropyThiranDelay
+21/37 Test #21: EntropyThiranDelay ................   Passed    0.10 sec
+      Start 22: EntropyThiranValidation
+22/37 Test #22: EntropyThiranValidation ...........   Passed    2.39 sec
+      Start 23: EntropyStage04Fifo
+23/37 Test #23: EntropyStage04Fifo ................   Passed    0.03 sec
+      Start 24: EntropyStage04Policy
+24/37 Test #24: EntropyStage04Policy ..............   Passed    0.07 sec
+      Start 25: EntropyStage03Reset
+25/37 Test #25: EntropyStage03Reset ...............   Passed    0.12 sec
+      Start 26: EntropyOfflineConfig
+26/37 Test #26: EntropyOfflineConfig ..............   Passed    0.04 sec
+      Start 27: EntropyGraphSmoke
+27/37 Test #27: EntropyGraphSmoke .................   Passed    0.05 sec
+      Start 28: EntropyMatrixUnit
+28/37 Test #28: EntropyMatrixUnit .................   Passed    0.02 sec
+      Start 29: EntropyMatrixNoAlloc
+29/37 Test #29: EntropyMatrixNoAlloc ..............   Passed    0.02 sec
+      Start 30: EntropyHeadroomUnit
+30/37 Test #30: EntropyHeadroomUnit ...............   Passed    0.20 sec
+      Start 31: EntropyHeadroomNoAlloc
+31/37 Test #31: EntropyHeadroomNoAlloc ............   Passed    0.10 sec
+      Start 32: EntropyPcm24Unit
+32/37 Test #32: EntropyPcm24Unit ..................   Passed    0.02 sec
+      Start 33: EntropyPcm24EngineUnit
+33/37 Test #33: EntropyPcm24EngineUnit ............   Passed    0.01 sec
+      Start 34: EntropyIppFirUnit
+34/37 Test #34: EntropyIppFirUnit .................   Passed    0.21 sec
+      Start 35: EntropyNativeStateUnit
+35/37 Test #35: EntropyNativeStateUnit ............   Passed    0.05 sec
+      Start 36: EntropyAudioCoreProbe
+36/37 Test #36: EntropyAudioCoreProbe .............   Passed    0.05 sec
+      Start 37: EntropyV07Integration
+Errors while running CTest
+37/37 Test #37: EntropyV07Integration .............   Passed   75.36 sec
+
+97% tests passed, 1 tests failed out of 37
+
+Total Test time (real) = 131.76 sec
+
+The following tests FAILED:
+	  2 - EntropyStage04Offline (Failed)

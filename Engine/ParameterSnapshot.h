@@ -10,6 +10,8 @@ struct ParameterSnapshot {
  EntropyHeadroomState headroom{};
  EntropyHeadroomTimingStateV5 timing{};
  unsigned mode=1;double manualGainDb=-6;
+ uint32_t renderLaneMask=0xffffu;
+ bool renderMaskChanged=false;
  bool matrixChanged=false,headroomChanged=false,timingChanged=false,policyChanged=false,clearFault=false;
 };
 class SnapshotQueue {

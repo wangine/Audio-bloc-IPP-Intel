@@ -29,7 +29,7 @@ std::string requestedConfiguration(ControlPlane& live){
   {"matrix",ipc::Value::Object{{"activeSourceMask",s.matrix.active_source_mask},{"enabledDestinationMask",s.matrix.enabled_destination_mask},{"routes",std::move(routes)}}},
   {"headroom",ipc::Value::Object{{"groupCount",s.headroom.group_count},{"activeChannelMask",s.headroom.active_channel_mask},
    {"channelGroups",std::move(channelGroups)},{"groups",std::move(groups)},{"transitionMs",s.headroom.transition_ms},
-   {"attackMs",s.timing.attack_ms},{"releaseMs",s.timing.release_ms},{"mode",s.mode},{"manualGainDb",s.manualGainDb}}}});
+   {"attackMs",s.timing.attack_ms},{"releaseMs",s.timing.release_ms},{"mode",s.mode},{"manualGainDb",s.manualGainDb},{"renderLaneMask",s.renderLaneMask}}}});
 }
 }
 void LiveProfilePreflightCache::invalidate() noexcept {

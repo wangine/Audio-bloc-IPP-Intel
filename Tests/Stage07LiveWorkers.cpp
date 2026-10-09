@@ -79,8 +79,10 @@ int main()try{
    check(control::liveHeadroomReady(g),"native accepted manual gain rejected by integration");check(native.controlState().manual_gain_db==gain,"manual setting altered");
    for(unsigned ch=0;ch<16;++ch)std::fill_n(output.channel(ch),1024,.25);
    EntropyAudioBlockF64 block{};block.struct_size=sizeof(block);block.input_channels=block.output_channels=16;block.frames=1024;block.inputs=output.readPointers();block.outputs=output.writePointers();
-   check(native.process(block)==ENTROPY_OK,"original manual process failed");const double expected=.25*std::pow(10.0,gain/20.0);
-   for(unsigned ch=0;ch<16;++ch)for(unsigned n=0;n<1024;++n)check(output.channel(ch)[n]==expected,"user manual gain changed numerically");
+   const auto usedMask=native.state().active_channel_mask;check(usedMask!=0,"manual fixture must contain used outputs");
+   check(native.process(block)==ENTROPY_OK,"original manual process failed");const double scalar=std::pow(10.0,gain/20.0);
+   // Direct injection bypasses Matrix: unused lanes retain native exact bypass.
+   for(unsigned ch=0;ch<16;++ch){const double expected=(usedMask&(1u<<ch))?.25*scalar:.25;for(unsigned n=0;n<1024;++n)check(output.channel(ch)[n]==expected,"manual gain / unused-lane bypass changed numerically");}
   }
   c.execute(ipc::Value::Object{{"action","headroom-policy"},{"mode",1},{"manualGainDb",0}});c.atBlockBoundary();
   for(unsigned i=0;i<100;++i){g.process(input.readPointers(),output.writePointers(),1024);c.afterBlock();}

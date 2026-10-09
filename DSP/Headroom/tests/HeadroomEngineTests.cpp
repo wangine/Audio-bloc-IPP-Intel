@@ -73,6 +73,25 @@ EntropyHeadroomState makeState(unsigned revision, double positive,
 int main()
 {
     using entropy::headroom::HeadroomEngine;
+    // An unused high-level finite lane must not drive the global linked gain.
+    for (bool includeLoud : {false, true}) {
+        HeadroomEngine masked;
+        require(masked.prepare(192000,256), "masked prepare");
+        auto state=makeState(1,0,0,0,1);
+        state.group_count=1;state.active_channel_mask=includeLoud?3u:1u;
+        for(auto& group:state.channel_group)group=0;
+        require(masked.setState(state)==ENTROPY_OK && masked.setManualGainDb(-12)==ENTROPY_OK && masked.setMode(ENTROPY_HEADROOM_MODE_AUTO)==ENTROPY_OK,"masked config");
+        Block signal(256);std::fill(signal.input[0].begin(),signal.input[0].end(),.1);
+        std::fill(signal.input[1].begin(),signal.input[1].end(),2.0);
+        EntropyHeadroomAnalysisBlockF64 analysis{};analysis.struct_size=sizeof(analysis);
+        analysis.channels=16;analysis.frames=256;analysis.inputs=signal.inputPointers.data();
+        require(masked.analyzeFinal(analysis)==ENTROPY_OK && masked.process(signal.block)==ENTROPY_OK,"masked process");
+        require(masked.telemetry().measured_input_peak==(includeLoud?2.0:.1),"Excluded channel drives detector peak");
+        require(masked.telemetry().limiting_channel_mask==(includeLoud?2u:1u),"limiting mask includes unused lane");
+        require(masked.telemetry().fault_flags==0,"masked finite signal faulted");
+        require(std::abs(signal.output[0][0]-(includeLoud?.05:.1))<1e-15,"global gain driven by wrong lanes");
+        if(includeLoud)require(std::abs(signal.output[1][0]-1.0)<1e-15,"included lanes lost common linked gain");
+    }
     HeadroomEngine engine;
     require(engine.prepare(48000, 512), "prepare");
 

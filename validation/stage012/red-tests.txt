@@ -1,0 +1,27 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+    Start  5: EntropyStage012HeadroomMask
+1/3 Test  #5: EntropyStage012HeadroomMask ......***Failed    0.49 sec
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\Tests\Stage012HeadroomMask.py", line 18, in <module>
+    assert t['headroom']['activeChannelMask']==5,'Physical configuration ignored by Headroom detector'
+AssertionError: Physical configuration ignored by Headroom detector
+
+    Start 18: EntropyStage05Control
+2/3 Test #18: EntropyStage05Control ............***Failed    0.29 sec
+Incompatible Headroom group command accepted and silently normalized
+
+    Start 30: EntropyHeadroomUnit
+3/3 Test #30: EntropyHeadroomUnit ..............***Failed    0.06 sec
+FAIL: Excluded channel drives detector peak
+
+
+0% tests passed, 3 tests failed out of 3
+
+Total Test time (real) =   0.86 sec
+
+The following tests FAILED:
+	  5 - EntropyStage012HeadroomMask (Failed)
+	 18 - EntropyStage05Control (Failed)
+	 30 - EntropyHeadroomUnit (Failed)
+Errors while running CTest

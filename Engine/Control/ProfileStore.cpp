@@ -1,5 +1,6 @@
 #include "ProfileStore.h"
 #include "DeviceService.h"
+#include "Engine/Egress/LiveSinkWorkers.h"
 #include <windows.h>
 #include <fstream>
 #include <sstream>
@@ -37,7 +38,7 @@ LoadedProfile ProfileStore::load(const std::filesystem::path& path){
  }
  if(!seen[0]||!seen[1]||!seen[2])throw std::invalid_argument("Missing physical module");
  // Validate all imported native states on a temporary offline graph before any live mutation.
- engine::AudioGraph graph;if(!graph.prepare(256))throw std::runtime_error("Profile validation prepare");if(p.document.contains("stage05_devices")){DeviceService devices;devices.restore(p.document.at("stage05_devices"));}
+ engine::AudioGraph graph;if(!graph.prepare(256))throw std::runtime_error("Profile validation prepare");p.parameters.renderLaneMask=0;if(p.document.contains("stage05_devices")){DeviceService devices;devices.restore(p.document.at("stage05_devices"));p.parameters.renderLaneMask=LiveSinkWorkers::renderLaneMask(LiveSinkWorkers::decode(devices.snapshot().at("configuration")));}
  ControlPlane candidate(graph);candidate.crossover().importBytes(p.crossover);candidate.replace(p.parameters);return p;
 }
 }

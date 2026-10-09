@@ -15,6 +15,7 @@ public:
  ParameterSnapshot appliedState() const;
  ParameterSnapshot desired() const{return desired_;} // control thread only
  void replace(const ParameterSnapshot&); // validated load, control owner
+ void setRenderLaneMask(uint32_t); // control owner; configured lanes, never ARM state
  bool settled() const noexcept{return queue_.empty()&&applied_.load(std::memory_order_acquire)>=lastQueued_&&crossover_.settled();}
 private:
  void synchronizeMatrixSources() noexcept;
@@ -22,5 +23,6 @@ private:
  engine::AudioGraph& graph_;CrossoverAccess crossover_;SnapshotQueue queue_;
  ParameterSnapshot desired_;uint64_t session_,sequence_=0,lastQueued_=0;
  std::atomic<uint64_t> accepted_{0},applied_{0},matrixApplied_{0},headroomApplied_{0};std::atomic<unsigned> applyFault_{0};
+ std::atomic<uint32_t> renderLaneMask_{0xffffu};
 };
 }

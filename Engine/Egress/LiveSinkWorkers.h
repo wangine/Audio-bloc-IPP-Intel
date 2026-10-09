@@ -26,6 +26,7 @@ public:
  bool engaged() const noexcept {return enabled_.load(std::memory_order_acquire);}
  ipc::Value snapshot() const;
  static std::array<LiveDomain,2> decode(const ipc::Value& configuration);
+ static uint32_t renderLaneMask(const std::array<LiveDomain,2>&) noexcept;
 private:
  struct Domain {
   LiveDomain config;egress_host::DacPipeline pipeline;std::thread owner;

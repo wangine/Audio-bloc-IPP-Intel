@@ -45,7 +45,22 @@ static void inactiveCinemaLedger(){
  controls.atBlockBoundary();controls.afterBlock();
  check(controls.snapshot().at("matrix").at("activeSourceMask").asUnsigned()&1,"unpublished APVTS topology truncated a frozen active lane");
 }
+static void renderMaskBoundaryContract(){
+ entropy::engine::AudioGraph graph;check(graph.prepare(256),"render-mask prepare");entropy::control::ControlPlane controls(graph);
+ controls.setRenderLaneMask(5);check(controls.snapshot().at("headroom").at("activeChannelMask").asUnsigned()==0xffffu,"physical mask applied before boundary");
+ controls.atBlockBoundary();controls.afterBlock();check(controls.snapshot().at("headroom").at("activeChannelMask").asUnsigned()==5,"physical mask not adopted");
+ const auto revision=controls.snapshot().at("headroom").at("revision").asUnsigned();controls.setRenderLaneMask(5);controls.atBlockBoundary();controls.afterBlock();
+ check(controls.snapshot().at("headroom").at("revision").asUnsigned()==revision,"unchanged configuration resets AUTO history");
+ controls.execute(entropy::ipc::parse(R"({"action":"matrix-route","source":2,"destination":2,"enabled":false})"));controls.atBlockBoundary();controls.afterBlock();
+ check(controls.snapshot().at("headroom").at("activeChannelMask").asUnsigned()==1,"unrouted physical lane drives Headroom");
+ controls.execute(entropy::ipc::parse(R"({"action":"matrix-route","source":0,"destination":15,"enabled":true})"));
+ controls.atBlockBoundary();controls.afterBlock();
+ check(std::abs(controls.snapshot().at("headroom").at("groups").asArray()[0].at("declaredPositiveDb").asNumber()-20*std::log10(2.0))<1e-12,"unused Matrix sum inflates used global reserve");
+ controls.setRenderLaneMask(0x8000);controls.atBlockBoundary();controls.afterBlock();
+ check(std::abs(controls.snapshot().at("headroom").at("groups").asArray()[0].at("declaredPositiveDb").asNumber()-20*std::log10(4.0))<1e-12,"mapped sum missing from linked reserve");
+}
 int main(){try{
+ renderMaskBoundaryContract();
  nonnegativeDelayContract();
  inactiveCinemaLedger();
  entropy::engine::AudioGraph graph;check(graph.prepare(256),"prepare");
@@ -76,7 +91,11 @@ int main(){try{
  check(controls.snapshot().at("headroom").at("manualGainDb").asNumber()==-12,"headroom policy missing");
  controls.execute(entropy::ipc::parse(R"({"action":"apply-side-delay","cinema":true,"right":false,"value":2})"));
  controls.execute(entropy::ipc::parse(R"({"action":"left-to-right","cinema":true})"));
- controls.execute(entropy::ipc::parse(R"({"action":"headroom-groups","value":2})"));
+ for(const char* request:{R"({"action":"headroom-groups","value":2})",R"({"action":"headroom-channel-group","channel":0,"group":1})",R"({"action":"headroom-reserve","group":1,"value":3})"}){
+  bool rejected=false;try{controls.execute(entropy::ipc::parse(request));}catch(const std::invalid_argument&){rejected=true;}
+  check(rejected,"Incompatible Headroom group command accepted and silently normalized");
+ }
+ controls.execute(entropy::ipc::parse(R"({"action":"headroom-groups","value":1})"));
  controls.atBlockBoundary();controls.afterBlock();controls.execute(entropy::ipc::parse(R"({"action":"headroom-reserve","group":0,"value":3})"));controls.atBlockBoundary();
  controls.afterBlock();auto groupState=controls.snapshot().at("headroom").at("groups").asArray();check(groupState.size()==1&&groupState[0].at("reserve").asNumber()==3,"V07 global16 ledger normalization missing");
  controls.execute(entropy::ipc::parse(R"({"action":"parameter","id":"cinemaSource","value":0})"));

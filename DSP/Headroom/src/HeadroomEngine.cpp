@@ -511,6 +511,7 @@ EntropyResult HeadroomEngine::analyzeFinal(
     std::uint64_t bad = 0;
     for (std::uint32_t channel = 0; channel < block.channels; ++channel)
     {
+        if (!(audio_.activeMask & (1u << channel))) continue;
         double channelPeak = 0.0;
         for (std::uint32_t frame = 0; frame < block.frames; ++frame)
         {

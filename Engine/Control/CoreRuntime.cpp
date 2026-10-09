@@ -24,9 +24,16 @@ int runControlServer(int argc,char** argv) try {
  engine::AudioGraph graph;if(!graph.prepare(stage2Enabled?1024:256))throw std::runtime_error("Native graph prepare failed");graph.enableOriginalMusicAnalysis(true);ControlPlane controls(graph,GetTickCount64()+1);if(offlineSinks&&!signal)throw std::invalid_argument("Offline sinks require explicit offline signal");OfflineSinkWorkers sinkWorkers;auto liveOwner=std::make_unique<LiveSinkWorkers>();auto& liveWorkers=*liveOwner;auto stage2=std::make_unique<input::Stage2Ingress>();AudioScheduler scheduler(graph,controls,signal,offlineSinks?&sinkWorkers:nullptr,stage2Enabled?stage2.get():nullptr,&liveWorkers);DeviceService devices;ProfileStore profiles;ipc::CommandServer server;
  std::array<wchar_t,32768> currentExe{};GetModuleFileNameW(nullptr,currentExe.data(),unsigned(currentExe.size()));const bool liveGate=stage2Enabled&&!liveGatePath.empty()&&liveGateMatches(std::filesystem::u8path(liveGatePath),egress_host::fileSha256(currentExe.data()));J lastPreflight;LiveProfilePreflightCache preflightCache;
  struct ReplyEntry{ipc::Frame request,response;};std::deque<ReplyEntry> replies;uint64_t session=GetTickCount64()+1;
+ auto configuredMask=[&]{return offlineSinks?0xffffu:LiveSinkWorkers::renderLaneMask(LiveSinkWorkers::decode(devices.snapshot().at("configuration")));};
+ controls.setRenderLaneMask(configuredMask());controls.atBlockBoundary();controls.afterBlock();
+ auto deviceCommand=[&](const J& request,bool binding){
+  const auto previous=devices.snapshot();
+  try{auto result=binding?devices.bindingCommand(request):devices.configure(request);controls.setRenderLaneMask(configuredMask());return result;}
+  catch(...){devices.restore(previous);throw;}
+ };
  bool profileRequired=stage2Enabled;std::string profileError;
  if(initialProfile.empty()&&stage2Enabled)initialProfile=profilePathUtf8(motherProfilePath());
- if(!initialProfile.empty())try{auto loaded=profiles.load(std::filesystem::u8path(initialProfile));if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));profileRequired=false;}
+ if(!initialProfile.empty())try{auto loaded=profiles.load(std::filesystem::u8path(initialProfile));if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));loaded.parameters.renderLaneMask=configuredMask();controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));profileRequired=false;}
  catch(const std::exception& e){profileError=e.what();if(!stage2Enabled)throw;}
  const bool startInputImmediately=stage2Enabled&&!profileRequired;
  // Live Core is an independent process, not a child console's audio session.
@@ -39,16 +46,16 @@ int runControlServer(int argc,char** argv) try {
    if(action=="describe"){data=controls.metadata();data["protocol"]=1;data["physicalArmAllowed"]=liveGate||authorizedLiveTest;data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;data["owner"]="EntropyAudioCore";data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;DWORD consolePid=0;data["consoleAttached"]=GetConsoleProcessList(&consolePid,1)!=0;}
    else if(action=="telemetry"){data=ipc::telemetrySnapshot(controls,scheduler,signal,stage2Enabled?stage2.get():nullptr);if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else if(liveWorkers.engaged())data["domains"]=liveWorkers.snapshot();data["armed"]=liveWorkers.armed();data["armPending"]=liveWorkers.engaged()&&!liveWorkers.armed()&&!liveWorkers.faulted();data["liveFault"]=liveWorkers.faulted();data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;data["hardwareGate"]=authorizedLiveTest?"USER AUTHORIZED LIVE TEST; offline PASS not claimed; explicit ARM and profile/device validation required":liveGate?"OFFLINE GATES PASS; explicit ARM and profile/device validation required":"BLOCKED: Stage04 live offline gate missing/stale";data["livePreflight"]=lastPreflight;data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;if(profileRequired)data["inputState"]="WAITING FOR PROFILE";}
    else if(action=="devices")data=devices.refresh();
-   else if(action=="approve-binding"||action=="clear-binding"){sinkWorkers.stop();scheduler.disarm();data=devices.bindingCommand(request);}
-   else if(action=="configure-devices"){sinkWorkers.stop();scheduler.disarm();data=devices.configure(request);}
+   else if(action=="approve-binding"||action=="clear-binding"){sinkWorkers.stop();scheduler.disarm();data=deviceCommand(request,true);}
+   else if(action=="configure-devices"){sinkWorkers.stop();scheduler.disarm();data=deviceCommand(request,false);}
    else if(action=="offline-arm"){if(!offlineSinks)throw std::invalid_argument("Offline sink fixture not enabled");auto state=controls.appliedState();if(state.mode!=ENTROPY_HEADROOM_MODE_MANUAL_SAFE||state.manualGainDb>-6)throw std::invalid_argument("Offline fixture requires explicit safe Headroom policy");scheduler.stop();try{sinkWorkers.start();}catch(...){scheduler.start();throw;}scheduler.start();data=J::Object{{"offlineArmed",true},{"physicalArmed",false}};}
    else if(action=="preflight-live") {if(profileRequired)throw std::invalid_argument("Load a profile first");lastPreflight=preflightCache.run(controls);data=lastPreflight;}
    else if(action=="arm") {
     if(!liveGate&&!authorizedLiveTest)throw std::invalid_argument("Physical ARM BLOCKED: Stage04 live offline gate missing/stale; no sink opened");
     if(profileRequired||stage2->telemetry().state!=input::State::Receiving)throw std::invalid_argument("Validated profile and active FP64 input transport required");
     if(liveWorkers.engaged())throw std::invalid_argument("Already armed/pending/faulted; DISARM before a new ARM");
-    if(request.contains("domains"))devices.configure(request);
-    auto verified=devices.refresh();devices.configure(J::Object{{"domains",verified.at("configuration")}});
+    if(request.contains("domains"))deviceCommand(request,false);
+    auto verified=devices.refresh();deviceCommand(J::Object{{"domains",verified.at("configuration")}},false);
     lastPreflight=preflightCache.run(controls);
     auto config=LiveSinkWorkers::decode(devices.snapshot().at("configuration"));
     scheduler.stop();try{controls.drainAtQuiescentBoundary();if(!liveHeadroomReady(graph))throw std::invalid_argument("Headroom reports an original module fault or unsettled transition; no device opened");if(!liveWorkers.prepare(config)||!liveWorkers.start())throw std::runtime_error("Live egress prepare/ARM failed");scheduler.start();}catch(...){liveWorkers.stop();scheduler.start();throw;}
@@ -70,7 +77,7 @@ int runControlServer(int argc,char** argv) try {
    }
    else if(action=="load-profile"){
     auto loaded=profiles.load(std::filesystem::u8path(request.at("path").asString()));if(!profileRequired&&!stage2Enabled)barrier(controls);scheduler.stop();scheduler.disarm();if(stage2Enabled)controls.drainAtQuiescentBoundary();sinkWorkers.stop();auto oldDevices=devices.snapshot();auto old=controls.crossover().exportBytes();auto state=controls.appliedState();preflightCache.invalidate();lastPreflight=J{};
-    try{if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));if(profileRequired&&stage2Enabled&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");profileRequired=false;profileError.clear();initialProfile=request.at("path").asString();scheduler.start();}
+    try{if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));loaded.parameters.renderLaneMask=configuredMask();controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));if(profileRequired&&stage2Enabled&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");profileRequired=false;profileError.clear();initialProfile=request.at("path").asString();scheduler.start();}
     catch(...){devices.restore(oldDevices);controls.crossover().importBytes(old);controls.replace(state);controls.atBlockBoundary();controls.afterBlock();scheduler.start();throw;}
     data=J::Object{{"status","LOADED"},{"devices",devices.snapshot()}};
    }else {if(liveWorkers.engaged()&&!liveCrossoverChangeAllowed(controls.crossover().snapshot(),request))throw std::invalid_argument("DISARM before changing saved MUSIC/CINEMA scenes or selecting FIR8193 x16; then run profile preflight and ARM");if(profileRequired)throw std::invalid_argument("Create or load a validated profile first");auto sequence=controls.execute(request);lastPreflight=J{};data=J::Object{{"accepted",J::u64(sequence)}};}
