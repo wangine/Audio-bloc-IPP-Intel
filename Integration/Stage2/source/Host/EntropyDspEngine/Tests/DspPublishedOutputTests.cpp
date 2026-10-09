@@ -1,5 +1,6 @@
 #include "TestSupport.h"
 #include "DspController.h"
+#include "StageLinkServer.h"
 #include "StagePublishV2.h"
 #include <QCoreApplication>
 #include <QTemporaryDir>

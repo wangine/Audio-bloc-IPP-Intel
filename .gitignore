@@ -26,6 +26,9 @@ Testing/
 /local/
 /runtime/
 /release/
+/Integration/Stage1/runtime/
+/Integration/Stage1/native-src/build/
+/Integration/Stage2/runtime/
 *.entropy
 *.wav
 *.raw

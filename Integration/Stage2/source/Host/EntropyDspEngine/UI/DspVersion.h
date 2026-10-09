@@ -1,2 +1,2 @@
 #pragma once
-namespace entropy::stage { inline constexpr char dspVersion[]="v0007"; }
+namespace entropy::stage { inline constexpr char dspVersion[]="v0008"; }

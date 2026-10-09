@@ -1,7 +1,7 @@
 #pragma once
 #include "DspStageRuntime.h"
 namespace entropy::stage {
-// Temporary downstream monitor until Stage 3. All calls belong to the S2 worker.
+// Retired V1 demand fixture, linked only in DspLegacyFixtures tests.
 class DspLocalDemand {
 public:
  bool attach(const StageBusSessionHeader&,const StageBusProgramSnapshot&,uint64_t revision,std::string&);

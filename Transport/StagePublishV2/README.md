@@ -5,7 +5,12 @@ current-user ACL and overlapped pipe-transfer helpers. Define the StageBus and
 StageLink targets before adding this directory. No copy of their security symbols
 is built into this library.
 
-The control endpoint is `\\.\pipe\Entropy.StagePublish.V2.<current-user SID>`.
+The DSP output endpoint is `\\.\pipe\Entropy.StagePublish.V2.<current-user SID>`.
+The independent Source output endpoint is
+`\\.\pipe\Entropy.StagePublish.Source.V2.<current-user SID>`.
+It accepts the original ten-channel MIX_CINEMA10 or eleven-channel LRC_CINEMA11
+FP64 contract. Fixed queue storage/ABI remains unchanged; only the session's
+declared channel count is copied, never an undeclared eleventh Source plane.
 It only creates subscriptions. There are no source-demand, lease, release,
 reset, retry, or DSP-control operations. The named-pipe server verifies the actual
 client process ID, nonce, version, packet size and reserved fields. Each accepted
@@ -14,8 +19,10 @@ subscription gets an unpredictable, current-user-only local mapping. The origina
 The separate V2 wrapper defines and validates queue bounds and mapping identity.
 
 Up to four subscriptions each receive a separate 16-slot SPSC ring allocated
-before delivery starts. `publish`, `service`, and `setSession` share one Stage2
-owner worker. Stop that owner before `stop` or destruction. `publish` performs
+before delivery starts. `publish`, `service`, and `setSession` share one synchronized
+owner. Stage1 services subscription changes only while its audio owner is
+quiescent; subscriber service does not change its processing calendar/session.
+Stop that owner before `stop` or destruction. `publish` performs
 metadata checks, lock-free atomics and exact planar FP64 copies only. `service`
 handles subscriptions, process checks, heartbeat expiry and resource cleanup.
 The pipe worker waits only for control handshakes and owner replies.

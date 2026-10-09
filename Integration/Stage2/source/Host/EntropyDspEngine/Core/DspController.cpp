@@ -103,33 +103,24 @@ bool DspController::adoptCenterRequest() noexcept {
  centerAppliedRevision_=revision;return true;
 }
 bool DspController::startCapture(const std::filesystem::path& path,uint64_t blocks,std::string& error){if(thread_.joinable()){error="STOP before preparing bounded capture";return false;}if(!recorder_.start(path,blocks)){error="Cannot prepare bounded capture (1..11250 blocks)";return false;}runtime_.setRecorder(&recorder_);return true;}
-bool DspController::start(const std::filesystem::path& root,const std::filesystem::path& source,std::string& error){
- if(thread_.joinable()){error="DSP already started; STOP before restart";return false;}
- StageBusSessionHeader s{};if(!DspSessionDiscovery::readExternal(source,s,error)){publish(DspStateCode::Fault,error.c_str());return false;}
- if(attachmentProbe_)attachmentProbe_(probeContext_);
- if(!runtime_.attach(s,error)){publish(DspStateCode::Fault,error.c_str());return false;}
- StageBusSessionHeader confirmed{};
- if(!DspSessionDiscovery::readExternal(source,confirmed,error) || std::memcmp(&s,&confirmed,sizeof(s))){runtime_.stop();error="Source discovery changed during attachment; select current EXTERNAL session";publish(DspStateCode::Fault,error.c_str());return false;}
- if(!DspSessionDiscovery::write(root/"state"/"StageBusSession.json",runtime_.outputSession(),"EXTERNAL",error)){runtime_.stop();publish(DspStateCode::Fault,error.c_str());return false;}
- stopping_=false;publish(DspStateCode::WaitingDownstream);
- try{thread_=std::thread(&DspController::worker,this);}catch(...){runtime_.stop();error="Cannot start DSP worker";publish(DspStateCode::Fault,error.c_str());return false;}return true;
+bool DspController::start(const std::filesystem::path&,const std::filesystem::path&,std::string& error){
+ error="Incompatible legacy --source-session demand discovery; use passive Stage1 V2 --automatic";publish(DspStateCode::Fault,error.c_str());return false;
 }
 bool DspController::startAutomatic(const std::filesystem::path& root,std::string& error,std::wstring endpoint){
  if(thread_.joinable()){error="DSP already started";return false;}
- auto ownerName=std::wstring(L"Local\\Entropy.Stage2.Automatic.Owner.V1");
- if(endpoint!=entropy::link::endpointName())ownerName+=L".Fixture."+std::to_wstring(std::hash<std::wstring>{}(endpoint));
+ auto ownerName=std::wstring(L"Local\\Entropy.Stage2.Automatic.Owner.V2");
+ if(endpoint!=entropy::publish::sourceEndpointName())ownerName+=L".Fixture."+std::to_wstring(std::hash<std::wstring>{}(endpoint));
  automaticOwner_=CreateMutexW(nullptr,FALSE,ownerName.c_str());
- if(!automaticOwner_ || GetLastError()==ERROR_ALREADY_EXISTS){if(automaticOwner_)CloseHandle(automaticOwner_);automaticOwner_=nullptr;error="Another DSP instance owns the automatic link";publish(DspStateCode::Stopped,error.c_str());return false;}
- publishEndpoint_=endpoint==entropy::link::endpointName()?entropy::publish::endpointName():endpoint+L".StagePublish.V2";
+ if(!automaticOwner_ || GetLastError()==ERROR_ALREADY_EXISTS){if(automaticOwner_)CloseHandle(automaticOwner_);automaticOwner_=nullptr;error="Another DSP instance owns the passive runtime";publish(DspStateCode::Stopped,error.c_str());return false;}
+ publishEndpoint_=endpoint==entropy::publish::sourceEndpointName()?entropy::publish::endpointName():endpoint+L".StagePublish.V2";
  publisher_=std::make_unique<entropy::publish::Publisher>();
  if(!publisher_->start(publishEndpoint_,error)){publisher_.reset();CloseHandle(automaticOwner_);automaticOwner_=nullptr;return false;}
- runtime_.setPublisher(publisher_.get());
- runtimeRoot_=root;downstreamLink_=std::make_unique<DspDownstreamLink>(endpoint+L".Downstream.V1");if(!downstreamLink_->start(error)){runtime_.setPublisher(nullptr);publisher_.reset();CloseHandle(automaticOwner_);automaticOwner_=nullptr;downstreamLink_.reset();return false;}autoLink_=std::make_unique<DspAutoLink>(std::move(endpoint));stopping_=false;publish(DspStateCode::WaitingSource);
- try{thread_=std::thread(&DspController::automaticWorker,this);}catch(...){runtime_.setPublisher(nullptr);publisher_.reset();downstreamLink_.reset();CloseHandle(automaticOwner_);automaticOwner_=nullptr;autoLink_.reset();error="Cannot start automatic DSP worker";publish(DspStateCode::Stopped,error.c_str());return false;}return true;
+ runtime_.setPublisher(publisher_.get());runtimeRoot_=root;autoLink_=std::make_unique<DspAutoLink>(std::move(endpoint));stopping_=false;publish(DspStateCode::WaitingSource);
+ try{thread_=std::thread(&DspController::automaticWorker,this);}catch(...){runtime_.setPublisher(nullptr);publisher_.reset();CloseHandle(automaticOwner_);automaticOwner_=nullptr;autoLink_.reset();error="Cannot start passive DSP worker";publish(DspStateCode::Stopped,error.c_str());return false;}return true;
 }
-void DspController::stop() noexcept {stopping_=true;if(thread_.joinable())thread_.join();downstreamLink_.reset();runtime_.stop();runtime_.setPublisher(nullptr);publisher_.reset();recorder_.stop();autoLink_.reset();if(automaticOwner_){CloseHandle(automaticOwner_);automaticOwner_=nullptr;}auto final=snapshot();publish(final.state==DspStateCode::Fault?DspStateCode::Fault:DspStateCode::Stopped,final.error);}
+void DspController::stop() noexcept {stopping_=true;if(thread_.joinable())thread_.join();runtime_.stop();runtime_.setPublisher(nullptr);publisher_.reset();recorder_.stop();autoLink_.reset();if(automaticOwner_){CloseHandle(automaticOwner_);automaticOwner_=nullptr;}auto final=snapshot();publish(final.state==DspStateCode::Fault?DspStateCode::Fault:DspStateCode::Stopped,final.error);}
 void DspController::publish(DspStateCode state,const char* error) noexcept {
- DspUiSnapshot local{};local.state=state;local.diag=runtime_.diagnostics();local.diag.monitorScheduleRebases=localDemand_.scheduleRebases();runtime_.summarizeLatency(local.diag);local.outputSession=runtime_.outputSession();std::strncpy(local.error,error,sizeof(local.error)-1);
+ DspUiSnapshot local{};local.state=state;local.diag=runtime_.diagnostics();runtime_.summarizeLatency(local.diag);local.outputSession=runtime_.outputSession();std::strncpy(local.error,error,sizeof(local.error)-1);
  snapshotRevision_.fetch_add(1,std::memory_order_acq_rel);
  for(size_t i=0;i<snapshotWords_.size();i++){uint64_t word;std::memcpy(&word,reinterpret_cast<const char*>(&local)+i*8,8);snapshotWords_[i].store(word,std::memory_order_relaxed);}
  snapshotRevision_.fetch_add(1,std::memory_order_release);
@@ -148,41 +139,20 @@ void DspController::automaticWorker() noexcept {
   if(!prepareCenterWorker(error)||!prepareAlignerWorker(error)||!prepareEqWorker(error)){publish(DspStateCode::Fault,error.c_str());return;}
   while(!stopping_){
    if(!adoptCenterRequest()||!adoptEqRequest()||!adoptAlignmentRequest()){publish(DspStateCode::Fault,"Native DSP command rejected");break;}
-   downstreamLink_->service(*autoLink_,runtime_,localDemand_,error);
    publisher_->service();
-   const auto state=autoLink_->poll(tick(),runtime_,localDemand_,error,true);
+   const auto state=autoLink_->poll(tick(),runtime_,error);
    const bool receiving=state==DspAutoLinkState::Receiving;
    if(receiving && (!advertised || std::memcmp(advertisedSession.data(),runtime_.outputSession().session_id,16))){
-    if(!DspSessionDiscovery::write(runtimeRoot_/"state"/"StageBusSession.json",runtime_.outputSession(),"LOCAL_MONITOR",error,publishEndpoint_)){publish(DspStateCode::Fault,error.c_str());break;}advertised=true;std::memcpy(advertisedSession.data(),runtime_.outputSession().session_id,16);
+    if(!DspSessionDiscovery::write(runtimeRoot_/"state"/"StageBusSession.json",runtime_.outputSession(),"PASSIVE_V2",error,publishEndpoint_)){publish(DspStateCode::Fault,error.c_str());break;}advertised=true;std::memcpy(advertisedSession.data(),runtime_.outputSession().session_id,16);
    }else if(!receiving && advertised){std::string ignored;DspSessionDiscovery::write(runtimeRoot_/"state"/"StageBusSession.json",runtime_.outputSession(),"INACTIVE",ignored,publishEndpoint_);advertised=false;}
    if(!runtime_.pollEqTelemetry()){publish(DspStateCode::Fault,"EQ control telemetry failed");break;}
    const auto now=tick();LARGE_INTEGER frequency;QueryPerformanceFrequency(&frequency);
    if(now-refresh>=static_cast<uint64_t>(frequency.QuadPart)/50){publish(receiving && runtime_.diagnostics().blocksOut?DspStateCode::Running:state==DspAutoLinkState::Fault?DspStateCode::Fault:DspStateCode::WaitingSource,error.c_str());refresh=now;}
    if(!timer.waitUntil(std::chrono::steady_clock::now()+std::chrono::microseconds(receiving?100:10000))){publish(DspStateCode::Fault,"Worker scheduling wait failed");break;}
   }
-  if(!autoLink_->finish(runtime_,localDemand_,error))publish(DspStateCode::Fault,error.c_str());
+  if(!autoLink_->finish(runtime_,error))publish(DspStateCode::Fault,error.c_str());
   std::string ignored;DspSessionDiscovery::write(runtimeRoot_/"state"/"StageBusSession.json",runtime_.outputSession(),"INACTIVE",ignored,publishEndpoint_);
- }catch(const std::exception& e){publish(DspStateCode::Fault,e.what());localDemand_.close();runtime_.stop();}
-
-}
-void DspController::worker() noexcept {
- entropy::host::ProAudioThreadScope realtime;
- struct CenterLifetime {DspController& owner;~CenterLifetime(){auto last=owner.snapshot();owner.runtime_.closeCenter();owner.runtime_.closeAligner();owner.runtime_.closeEq();owner.publish(last.state==DspStateCode::Fault?DspStateCode::Fault:DspStateCode::Stopped,last.error);}} centerLifetime{*this};
- std::string centerError;if(!prepareCenterWorker(centerError)||!prepareAlignerWorker(centerError)||!prepareEqWorker(centerError)){publish(DspStateCode::Fault,centerError.c_str());return;}
- entropy::host::SourceCycleTimer timer;if(!timer.valid()){publish(DspStateCode::Fault,"Worker timer unavailable");return;}
- uint64_t heartbeat=0,refresh=0;const auto handshakeStart=tick();const auto freq=runtime_.outputSession().qpc_frequency;
- while(!stopping_){
-  if(!adoptCenterRequest()||!adoptEqRequest()||!adoptAlignmentRequest()){publish(DspStateCode::Fault,"Native DSP command rejected");break;}
-  auto now=tick();
-  if(now-heartbeat>=freq/4){runtime_.heartbeat(now);if(!runtime_.peersAlive(now)){publish(DspStateCode::Fault,"StageBus peer lost or faulted; new UUID required");break;}heartbeat=now;}
-  if(!runtime_.downstreamReady() && now-handshakeStart>freq*5){publish(DspStateCode::Fault,"Downstream handshake timeout (5000 ms); new UUID required");break;}
-  auto result=runtime_.step(now);
-  if(!runtime_.pollEqTelemetry()){publish(DspStateCode::Fault,"EQ control telemetry failed");break;}
-  if(result==DspStepResult::Fault){publish(DspStateCode::Fault,"StageBus protocol/deadline fault; new UUID required");break;}
-  if(now-refresh>=freq/50 || result==DspStepResult::Published){publish(runtime_.diagnostics().blocksOut?DspStateCode::Running:DspStateCode::WaitingDownstream);refresh=now;}
-  // Scheduling wait only on IPC worker; this is not a second programme clock.
-  if(result==DspStepResult::Idle && !timer.waitUntil(std::chrono::steady_clock::now()+std::chrono::microseconds(100))){publish(DspStateCode::Fault,"Worker scheduling wait failed");break;}
- }
+ }catch(const std::exception& e){publish(DspStateCode::Fault,e.what());runtime_.stop();}
 
 }
 }

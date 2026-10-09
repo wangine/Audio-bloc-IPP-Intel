@@ -1,0 +1,11 @@
+Stage1-alone-start Stage1 blocks 45 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage1-alone-continues Stage1 blocks 120 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage2-passively-connected Stage1 blocks 652 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage2-clean-stop-source-continues Stage1 blocks 893 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage2-reconnected-without-Source-Retry Stage1 blocks 1129 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage2-forced-kill-source-continues Stage1 blocks 1204 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage2-after-kill-same-source Stage1 blocks 1433 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage3-connected-DISARMED Stage1 blocks 1481 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage3-closed-upstream-continues Stage1 blocks 1564 UUID fecf21a5bc56cb4e96dd08a61571f8be
+Stage3-reconnected-same-source Stage1 blocks 1612 UUID fecf21a5bc56cb4e96dd08a61571f8be
+PASS complete lifecycle independence, actual live FP64 input, no DAC

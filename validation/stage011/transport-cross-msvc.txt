@@ -1,0 +1,21 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/transport-msvc
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/transport-msvc
+    Start 1: StagePublishV2Tests
+1/1 Test #1: StagePublishV2Tests ..............***Failed    5.46 sec
+PASS Stage1 ten-channel exact payload, ownership and delivery loss
+PASS exact payload and metadata
+PASS gap, full, absent consumer and fresh reconnect
+PASS invalid header, discontinuity, epoch, frame and heartbeat
+connect: Passive subscription identity, capacity or session validation failed
+PASS bounded capacity and independent subscribers
+PASS authenticated client PID and malformed wire rejection
+FAIL crash fixture subscriber connected
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   5.47 sec
+
+The following tests FAILED:
+	  1 - StagePublishV2Tests (Failed)
+Errors while running CTest

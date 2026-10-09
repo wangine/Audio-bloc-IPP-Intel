@@ -1,0 +1,671 @@
+Start testing: Oct 09 22:29 GTB Daylight Time
+----------------------------------------------------------
+1/37 Testing: RunnerSmoke
+1/37 Test: RunnerSmoke
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/Stage1RunnerSmoke.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"RunnerSmoke" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS Windows x64 FP64 runner
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"RunnerSmoke" end time: Oct 09 22:29 GTB Daylight Time
+"RunnerSmoke" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/37 Testing: SourceBoundary
+2/37 Test: SourceBoundary
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceBoundaryTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceBoundary" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS SourceBoundary 40 blocks/409600 FP64 values bitwise, distinct CINEMA, overload, native mute ramps, inactive/stale scratch
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"SourceBoundary" end time: Oct 09 22:29 GTB Daylight Time
+"SourceBoundary" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/37 Testing: SourceIsolation
+3/37 Test: SourceIsolation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceIsolationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceIsolation" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+RATE 44100 produced=100962
+RATE 48000 produced=95876
+RATE 88200 produced=52177
+RATE 96000 produced=47952
+RATE 176400 produced=26089
+RATE 192000 produced=25600
+PASS Source isolation, resolver prepare without capture, native SRC six rates; no downstream DLLs
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"SourceIsolation" end time: Oct 09 22:29 GTB Daylight Time
+"SourceIsolation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/37 Testing: R10SourceFifo192
+4/37 Test: R10SourceFifo192
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/R10SourceFifo192Tests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"R10SourceFifo192" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS SourceFifo192 including concurrent generation reset
+<end of output>
+Test time =   0.96 sec
+----------------------------------------------------------
+Test Passed.
+"R10SourceFifo192" end time: Oct 09 22:29 GTB Daylight Time
+"R10SourceFifo192" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/37 Testing: R10SourceDomainStream
+5/37 Test: R10SourceDomainStream
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/R10SourceDomainStreamTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"R10SourceDomainStream" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS SourceDomainStream config
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"R10SourceDomainStream" end time: Oct 09 22:29 GTB Daylight Time
+"R10SourceDomainStream" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/37 Testing: R10SourceDomainRuntime
+6/37 Test: R10SourceDomainRuntime
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/R10SourceDomainRuntimeTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"R10SourceDomainRuntime" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS SourceDomainRuntime optional MUSIC / session revision / reader-safe clear contract
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"R10SourceDomainRuntime" end time: Oct 09 22:29 GTB Daylight Time
+"R10SourceDomainRuntime" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/37 Testing: R10CinemaSourceDomainStream
+7/37 Test: R10CinemaSourceDomainStream
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/R10CinemaSourceDomainStreamTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"R10CinemaSourceDomainStream" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS coherent 8-channel CINEMA source-domain contract
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"R10CinemaSourceDomainStream" end time: Oct 09 22:29 GTB Daylight Time
+"R10CinemaSourceDomainStream" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/37 Testing: R10SourceSignalFreshness
+8/37 Test: R10SourceSignalFreshness
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/R10SourceSignalFreshnessTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"R10SourceSignalFreshness" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS signal expires without capture, resumes on new frames, resets on prepare
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Passed.
+"R10SourceSignalFreshness" end time: Oct 09 22:29 GTB Daylight Time
+"R10SourceSignalFreshness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/37 Testing: R10RealtimeBufferPolicy
+9/37 Test: R10RealtimeBufferPolicy
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/R10RealtimeBufferPolicyTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"R10RealtimeBufferPolicy" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS bounded source/egress latency policy
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"R10RealtimeBufferPolicy" end time: Oct 09 22:29 GTB Daylight Time
+"R10RealtimeBufferPolicy" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/37 Testing: R10ProgramSourcePoll
+10/37 Test: R10ProgramSourcePoll
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/R10ProgramSourcePollTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"R10ProgramSourcePoll" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS 1000 cycles: every input drained, only selected program exposed, exact samples
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"R10ProgramSourcePoll" end time: Oct 09 22:29 GTB Daylight Time
+"R10ProgramSourcePoll" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/37 Testing: SourceSoakQuick
+11/37 Test: SourceSoakQuick
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceSoak.exe" "2"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceSoakQuick" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS SourceSoak seconds=2 blocks=375 frames=384000 bitwise_values=3840000 elapsed_seconds=2.05565 peer_metrics=peer-447671593755.json processing_max_us=5023 full=0 faults=0 duplicate=0 mappings_distinct=1 native_SRC_FIFO_six_rates_independent_generations=1 source_control_updates=1
+<end of output>
+Test time =   2.15 sec
+----------------------------------------------------------
+Test Passed.
+"SourceSoakQuick" end time: Oct 09 22:29 GTB Daylight Time
+"SourceSoakQuick" time elapsed: 00:00:02
+----------------------------------------------------------
+
+12/37 Testing: SourceSelection
+12/37 Test: SourceSelection
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceSelectionTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceSelection" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS exact startup identity, duplicate names/keys, absent provider, local lifecycle, reader-safe rebind/resume, no fallback/no ownership side effects
+<end of output>
+Test time =   1.15 sec
+----------------------------------------------------------
+Test Passed.
+"SourceSelection" end time: Oct 09 22:29 GTB Daylight Time
+"SourceSelection" time elapsed: 00:00:01
+----------------------------------------------------------
+
+13/37 Testing: SourceState
+13/37 Test: SourceState
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceStateTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceState" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS read-only R10 import, opaque bytes, atomic private Save/Load, local lifecycle, uint64 precision, invalid import preserves profile
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"SourceState" end time: Oct 09 22:29 GTB Daylight Time
+"SourceState" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/37 Testing: SourceHarness
+14/37 Test: SourceHarness
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceHarnessTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceHarness" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS mutually-exclusive demand owners, quiescent new UUID and timeline
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"SourceHarness" end time: Oct 09 22:29 GTB Daylight Time
+"SourceHarness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/37 Testing: SourceApp
+15/37 Test: SourceApp
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceAppTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceApp" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceAppTests.cpp:21 waitFor([&]{return c.snapshot().external;})
+<end of output>
+Test time =   2.24 sec
+----------------------------------------------------------
+Test Failed.
+"SourceApp" end time: Oct 09 22:29 GTB Daylight Time
+"SourceApp" time elapsed: 00:00:02
+----------------------------------------------------------
+
+16/37 Testing: SourceUiSmoke
+16/37 Test: SourceUiSmoke
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceTestEngine.exe" "--smoke-test" "--runtime-root" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage1/source/../runtime/stage1"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceUiSmoke" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+Source smoke blocks=271 minimized=1 captures=0 faults=0
+<end of output>
+Test time =   1.68 sec
+----------------------------------------------------------
+Test Passed.
+"SourceUiSmoke" end time: Oct 09 22:29 GTB Daylight Time
+"SourceUiSmoke" time elapsed: 00:00:01
+----------------------------------------------------------
+
+17/37 Testing: SourceAllocation
+17/37 Test: SourceAllocation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceAllocationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceAllocation" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+A02_IMPORT_MODULE name=SourceAllocationTests.exe hooks=6
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_IMPORT_MODULE name=ADVAPI32.dll hooks=10
+A02_IMPORT_MODULE name=msvcrt.dll hooks=8
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=libgcc_s_seh-1.dll hooks=2
+A02_IMPORT_MODULE name=libstdc++-6.dll hooks=2
+A02_IMPORT_MODULE name=libwinpthread-1.dll hooks=4
+A02_IMPORT_MODULE name=SETUPAPI.dll hooks=8
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=VCRUNTIME140.dll hooks=1
+A02_IMPORT_MODULE name=EntropySampleRateConverter.dll hooks=2
+A02_IMPORT_MODULE name=MSVCP140.dll hooks=3
+A02_IMPORT_MODULE name=EntropyMusicTransportEndpoint.dll hooks=4
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=84 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+A02_HOST_CPP_AUDIT blocks=1000 control_new=0 control_delete=0 control_nonzero_blocks=0 audio_new=0 audio_delete=0 audio_nonzero_blocks=0 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=84 heap_alloc_calls=0 heap_free_calls=0 wait_calls=0 lock_calls=0 io_calls=0 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+LATENCY SRC_MUSIC_44100 mean_us=39.1145 max_us=215.2 samples=1000
+LATENCY SRC_AUX_48000 mean_us=19.3192 max_us=189.8 samples=1000
+LATENCY SRC_CINEMA_48000 mean_us=76.1539 max_us=645 samples=1000
+LATENCY FIFO_push_pop mean_us=6.2223 max_us=100.9 samples=3000
+LATENCY Matrix_ProgramMixer mean_us=63.3555 max_us=451.6 samples=1000
+LATENCY IPC_publish_consume_copy mean_us=9.206 max_us=68.5 samples=1000
+QUEUE role=0 SRC_delay_frames=0 fixture_fifo_fill=99358 capacity=524288
+QUEUE role=1 SRC_delay_frames=0 fixture_fifo_fill=644 capacity=524288
+QUEUE role=2 SRC_delay_frames=0 fixture_fifo_fill=644 capacity=524288
+PASS 1000 steady-state native SRC/FIFO/Matrix/ProgramMixer/IPC cycles; zero covered allocations/deallocations/waits/locks/disk calls; 10240000 values bitwise. Coverage: loaded named Windows imports and host C++ operators; excludes dynamic resolution/syscalls/new images.
+<end of output>
+Test time =   0.34 sec
+----------------------------------------------------------
+Test Passed.
+"SourceAllocation" end time: Oct 09 22:29 GTB Daylight Time
+"SourceAllocation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/37 Testing: SourceLink
+18/37 Test: SourceLink
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceLinkTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceLink" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceLinkTests.cpp:8 response.status==StageLinkStatus::Ok
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Failed.
+"SourceLink" end time: Oct 09 22:29 GTB Daylight Time
+"SourceLink" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/37 Testing: SourceIndependence
+19/37 Test: SourceIndependence
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceIndependenceTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceIndependence" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS exact startup identity, duplicate names/keys, absent provider, local lifecycle, reader-safe rebind/resume, no fallback/no ownership side effects
+PASS SourceBoundary 40 blocks/409600 FP64 values bitwise, distinct CINEMA, overload, native mute ramps, inactive/stale scratch
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceAppTests.cpp:21 waitFor([&]{return c.snapshot().external;})
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceIndependenceTests.cpp:35 sourceApplicationProof(argc,argv)==0
+<end of output>
+Test time =   3.27 sec
+----------------------------------------------------------
+Test Failed.
+"SourceIndependence" end time: Oct 09 22:29 GTB Daylight Time
+"SourceIndependence" time elapsed: 00:00:03
+----------------------------------------------------------
+
+20/37 Testing: SourceFifoDifferential
+20/37 Test: SourceFifoDifferential
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceFifoDifferentialTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceFifoDifferential" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS FP64 bit copies, descriptors, counters: 2/8ch, power/nonpower capacity, reset/wrap/full/empty; special FP64 bit patterns
+reference_ms=2314.86 candidate_ms=101.918
+<end of output>
+Test time =   2.90 sec
+----------------------------------------------------------
+Test Passed.
+"SourceFifoDifferential" end time: Oct 09 22:29 GTB Daylight Time
+"SourceFifoDifferential" time elapsed: 00:00:02
+----------------------------------------------------------
+
+21/37 Testing: SourceReadyRace
+21/37 Test: SourceReadyRace
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceReadyRaceTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceReadyRace" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS paused consumer stale drain cannot invalidate refill at target
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"SourceReadyRace" end time: Oct 09 22:29 GTB Daylight Time
+"SourceReadyRace" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/37 Testing: SourceWorkerWake
+22/37 Test: SourceWorkerWake
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceWorkerWakeTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceWorkerWake" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS notify before/during wait, coalescing, recheck, stop; ready epoch/preroll/drain/refill
+<end of output>
+Test time =   1.07 sec
+----------------------------------------------------------
+Test Passed.
+"SourceWorkerWake" end time: Oct 09 22:29 GTB Daylight Time
+"SourceWorkerWake" time elapsed: 00:00:01
+----------------------------------------------------------
+
+23/37 Testing: SourceProAudio
+23/37 Test: SourceProAudio
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceProAudioTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceProAudio" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS actual worker registration and AVRT priority succeeded
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"SourceProAudio" end time: Oct 09 22:29 GTB Daylight Time
+"SourceProAudio" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/37 Testing: SourceLiveLocalControl
+24/37 Test: SourceLiveLocalControl
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourceLiveLocalControlTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourceLiveLocalControl" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceLiveLocalControlTests.cpp:10 waitFor([&]{return c.snapshot().external;})
+<end of output>
+Test time =   2.14 sec
+----------------------------------------------------------
+Test Failed.
+"SourceLiveLocalControl" end time: Oct 09 22:29 GTB Daylight Time
+"SourceLiveLocalControl" time elapsed: 00:00:02
+----------------------------------------------------------
+
+25/37 Testing: CinemaReadyRace
+25/37 Test: CinemaReadyRace
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CinemaReadyCurrentProbe.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CinemaReadyRace" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS paused consumer stale drain cannot invalidate refill at target
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"CinemaReadyRace" end time: Oct 09 22:29 GTB Daylight Time
+"CinemaReadyRace" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/37 Testing: CinemaWdlPolicy
+26/37 Test: CinemaWdlPolicy
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CinemaWdlPolicyTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CinemaWdlPolicy" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS active CINEMA WDL -> r8brain -> WDL at 48/96/192k, 8ch order, no-op acknowledgement, no missing blocks
+<end of output>
+Test time =   9.61 sec
+----------------------------------------------------------
+Test Passed.
+"CinemaWdlPolicy" end time: Oct 09 22:29 GTB Daylight Time
+"CinemaWdlPolicy" time elapsed: 00:00:09
+----------------------------------------------------------
+
+27/37 Testing: CinemaWdlStreaming
+27/37 Test: CinemaWdlStreaming
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CinemaWdlTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CinemaWdlStreaming" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+SEGMENTATION rate=48000 max_error=0
+QUALITY rate=48000 taps=64 passband_1khz_max_error=6.47567e-09 image_db=-149.769
+PASS taps=64 rate=48000 output=65400 latency_output_samples=136 latency_ms=0.708333 allocations=0 frees=0
+SEGMENTATION rate=96000 max_error=0
+QUALITY rate=96000 taps=64 passband_1khz_max_error=5.34277e-09 image_db=-143.524
+PASS taps=64 rate=96000 output=32700 latency_output_samples=68 latency_ms=0.354167 allocations=0 frees=0
+PASS taps=64 rate=192000 output=16384 latency_output_samples=0 latency_ms=0 allocations=0 frees=0
+SEGMENTATION rate=44100 max_error=4.91495e-10
+PASS taps=64 rate=44100 output=71184 latency_output_samples=147.701 latency_ms=0.769274 allocations=0 frees=0
+SEGMENTATION rate=88200 max_error=1.88737e-10
+PASS taps=64 rate=88200 output=35592 latency_output_samples=73.8503 latency_ms=0.384637 allocations=0 frees=0
+SEGMENTATION rate=176400 max_error=1.06745e-10
+PASS taps=64 rate=176400 output=17796 latency_output_samples=36.9252 latency_ms=0.192319 allocations=0 frees=0
+SEGMENTATION rate=8000 max_error=5.84707e-22
+PASS taps=64 rate=8000 output=392401 latency_output_samples=815 latency_ms=4.24479 allocations=0 frees=0
+SEGMENTATION rate=768000 max_error=0
+PASS taps=64 rate=768000 output=4088 latency_output_samples=8 latency_ms=0.0416667 allocations=0 frees=0
+SEGMENTATION rate=48001 max_error=5.45875e-10
+PASS taps=64 rate=48001 output=65399 latency_output_samples=135.635 latency_ms=0.706431 allocations=0 frees=0
+SEGMENTATION rate=48000 max_error=0
+QUALITY rate=48000 taps=128 passband_1khz_max_error=5.72247e-09 image_db=-149.537
+PASS taps=128 rate=48000 output=65272 latency_output_samples=264 latency_ms=1.375 allocations=0 frees=0
+SEGMENTATION rate=96000 max_error=0
+QUALITY rate=96000 taps=128 passband_1khz_max_error=5.12417e-09 image_db=-143.865
+PASS taps=128 rate=96000 output=32636 latency_output_samples=132 latency_ms=0.6875 allocations=0 frees=0
+PASS taps=128 rate=192000 output=16384 latency_output_samples=0 latency_ms=0 allocations=0 frees=0
+SEGMENTATION rate=44100 max_error=4.89877e-10
+PASS taps=128 rate=44100 output=71045 latency_output_samples=286.701 latency_ms=1.49323 allocations=0 frees=0
+SEGMENTATION rate=88200 max_error=1.88992e-10
+PASS taps=128 rate=88200 output=35523 latency_output_samples=142.85 latency_ms=0.744012 allocations=0 frees=0
+SEGMENTATION rate=176400 max_error=1.06968e-10
+PASS taps=128 rate=176400 output=17762 latency_output_samples=70.9252 latency_ms=0.369402 allocations=0 frees=0
+SEGMENTATION rate=8000 max_error=5.84707e-22
+PASS taps=128 rate=8000 output=391633 latency_output_samples=1583 latency_ms=8.24479 allocations=0 frees=0
+SEGMENTATION rate=768000 max_error=0
+PASS taps=128 rate=768000 output=4080 latency_output_samples=16 latency_ms=0.0833333 allocations=0 frees=0
+SEGMENTATION rate=48001 max_error=5.42447e-10
+PASS taps=128 rate=48001 output=65271 latency_output_samples=263.635 latency_ms=1.3731 allocations=0 frees=0
+<end of output>
+Test time =   0.95 sec
+----------------------------------------------------------
+Test Passed.
+"CinemaWdlStreaming" end time: Oct 09 22:29 GTB Daylight Time
+"CinemaWdlStreaming" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/37 Testing: CinemaSelectorControl
+28/37 Test: CinemaSelectorControl
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CinemaSelectorControlTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CinemaSelectorControl" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS CINEMA selector0/2, WDLdefault, MUSIC/AUXunchanged, invalid1rejected
+<end of output>
+Test time =   0.23 sec
+----------------------------------------------------------
+Test Passed.
+"CinemaSelectorControl" end time: Oct 09 22:29 GTB Daylight Time
+"CinemaSelectorControl" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/37 Testing: CaptureResetRetention0
+29/37 Test: CaptureResetRetention0
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CaptureResetRetentionTests.exe" "0" "2" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/capture-retention-0"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CaptureResetRetention0" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+CAPTURE_RESULT role=0 ch=2 provider=96000 accepted=96000 silent_loss=0 faults=0
+<end of output>
+Test time =   0.61 sec
+----------------------------------------------------------
+Test Passed.
+"CaptureResetRetention0" end time: Oct 09 22:29 GTB Daylight Time
+"CaptureResetRetention0" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/37 Testing: CaptureResetRetention1
+30/37 Test: CaptureResetRetention1
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CaptureResetRetentionTests.exe" "1" "2" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/capture-retention-1"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CaptureResetRetention1" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+CAPTURE_RESULT role=1 ch=2 provider=96000 accepted=96000 silent_loss=0 faults=0
+<end of output>
+Test time =   0.57 sec
+----------------------------------------------------------
+Test Passed.
+"CaptureResetRetention1" end time: Oct 09 22:29 GTB Daylight Time
+"CaptureResetRetention1" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/37 Testing: CaptureResetRetention2
+31/37 Test: CaptureResetRetention2
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CaptureResetRetentionTests.exe" "2" "2" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/capture-retention-2"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CaptureResetRetention2" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+CAPTURE_RESULT role=2 ch=8 provider=96000 accepted=96000 silent_loss=0 faults=0
+<end of output>
+Test time =   0.57 sec
+----------------------------------------------------------
+Test Passed.
+"CaptureResetRetention2" end time: Oct 09 22:29 GTB Daylight Time
+"CaptureResetRetention2" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/37 Testing: CinemaControlIsolation
+32/37 Test: CinemaControlIsolation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CinemaControlIsolationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CinemaControlIsolation" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS common audio worker advances during blocked CINEMA same/different/invalid engine commands
+<end of output>
+Test time =   0.61 sec
+----------------------------------------------------------
+Test Passed.
+"CinemaControlIsolation" end time: Oct 09 22:29 GTB Daylight Time
+"CinemaControlIsolation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/37 Testing: CinemaReaderIsolation
+33/37 Test: CinemaReaderIsolation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/CinemaReaderIsolationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"CinemaReaderIsolation" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS CINEMA restart excludes new readers and waits for existing reader only
+<end of output>
+Test time =   0.16 sec
+----------------------------------------------------------
+Test Passed.
+"CinemaReaderIsolation" end time: Oct 09 22:29 GTB Daylight Time
+"CinemaReaderIsolation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/37 Testing: SourcePassivePublisher
+34/37 Test: SourcePassivePublisher
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine/SourcePassivePublisherTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/Host/EntropySourceEngine
+"SourcePassivePublisher" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS real offline controller: absent/full/closed/crashed/reconnecting subscribers; blocks=263 faults=0 subscriberDrops=51 fixed UUID, exact FP64 zero and untouched eleventh plane
+<end of output>
+Test time =   1.75 sec
+----------------------------------------------------------
+Test Passed.
+"SourcePassivePublisher" end time: Oct 09 22:29 GTB Daylight Time
+"SourcePassivePublisher" time elapsed: 00:00:01
+----------------------------------------------------------
+
+35/37 Testing: StageBusContract
+35/37 Test: StageBusContract
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/StageBus/StageBusContractTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/StageBus
+"StageBusContract" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS StageBusContract layout 10/11, bounds, hashes, identities, sequence and controls
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"StageBusContract" end time: Oct 09 22:29 GTB Daylight Time
+"StageBusContract" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/37 Testing: StageBusProcess
+36/37 Test: StageBusProcess
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/StageBus/StageBusProcessTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/StageBus
+"StageBusProcess" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PARENT_ADDRESS 0x19fa60c0000
+PEER_ADDRESS_VERIFIED 0x30000000000 (fixed MapViewOfFileEx, child exit checked)\nPASS StageBusProcess real child process, different mappings, full/no-overwrite, death/stale rejection and invalid epoch
+<end of output>
+Test time =   0.33 sec
+----------------------------------------------------------
+Test Passed.
+"StageBusProcess" end time: Oct 09 22:29 GTB Daylight Time
+"StageBusProcess" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/37 Testing: StageBusDemand
+37/37 Test: StageBusDemand
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/StageBus/StageBusDemandTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage1-build/StageBus
+"StageBusDemand" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS one outstanding request, duplicate idempotence, snapshot conflict, gap and epoch
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"StageBusDemand" end time: Oct 09 22:29 GTB Daylight Time
+"StageBusDemand" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 09 22:29 GTB Daylight Time

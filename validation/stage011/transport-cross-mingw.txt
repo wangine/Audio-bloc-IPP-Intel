@@ -1,0 +1,15 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/transport-test
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/transport-test
+    Start 1: StagePublishV2Tests
+1/1 Test #1: StagePublishV2Tests ..............Exit code 0xc0000135
+***Exception:   0.01 sec
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.02 sec
+
+The following tests FAILED:
+	  1 - StagePublishV2Tests (Exit code 0xc0000135
+)
+Errors while running CTest

@@ -1,0 +1,45 @@
+{
+  "status": "PASS",
+  "source": {
+    "blocks": 51900,
+    "capturing": true,
+    "external": false,
+    "faults": 0,
+    "firstFrame": 53144576,
+    "publishDrops": 97,
+    "sequence": 51900,
+    "session": "fecf21a5bc56cb4e96dd08a61571f8be"
+  },
+  "coreInput": {
+    "blockSequence": "51336",
+    "consumed": "15",
+    "emptyPolls": "1513",
+    "faults": "0",
+    "firstFrame": "52567040",
+    "gaps": "0",
+    "generation": "2",
+    "lastBlockQpc": "457402663410",
+    "metersFresh": true,
+    "producerPid": 23272,
+    "queued": 0,
+    "received": "15",
+    "releaseFailures": "0",
+    "sourceDiscontinuityMask": 1,
+    "sourceFlaggedBlocks": "15",
+    "sourceQpc": "457402638721",
+    "sourceSession": "fecf21a5bc56cb4e96dd08a61571f8be",
+    "streamEpoch": "1",
+    "transportVersion": 2,
+    "validityMask": 5
+  },
+  "musicPeaks": [
+    0.5878869891166687,
+    0.6027255058288574,
+    0.21415752172470093
+  ],
+  "armed": false,
+  "sourcePid": 22416,
+  "stage2Pid": 23272,
+  "corePid": 9920,
+  "uiPid": 23360
+}

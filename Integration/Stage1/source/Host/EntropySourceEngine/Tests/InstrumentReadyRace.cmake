@@ -1,0 +1,8 @@
+file(READ "${SOURCE}" source)
+if(source MATCHES "ready_\\.drained")
+ string(REPLACE "ready_.drained(observed, fifo_.telemetry().fill_frames);" "const auto observedFill=fifo_.telemetry().fill_frames; if(observedFill<1024) sourceReadyTestBarrier(); ready_.drained(observed, observedFill);" source "${source}")
+else()
+ string(REPLACE "if (fifo_.telemetry().fill_frames < 1024) ready_ = false;" "if (fifo_.telemetry().fill_frames < 1024) { sourceReadyTestBarrier(); ready_ = false; }" source "${source}")
+ string(REPLACE "if(fifo_.telemetry().fill_frames<1024) ready_=false;" "if(fifo_.telemetry().fill_frames<1024) { sourceReadyTestBarrier(); ready_=false; }" source "${source}")
+endif()
+file(WRITE "${OUTPUT}" "void sourceReadyTestBarrier();\n${source}")

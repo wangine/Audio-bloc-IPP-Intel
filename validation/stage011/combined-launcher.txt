@@ -1,0 +1,8 @@
+Already running independently: D:\Projects\Entropy Codex Lucru\Modular 3 stages\Etapa 1 Sources\releases\stage1-passive-publish-v0002-20261009\Stage1\runtime\stage1\EntropySourceEngine.exe
+Already running independently: D:\Projects\Entropy Codex Lucru\Modular 3 stages\Etapa 2 DSP\versions\v0008-passive-source\EntropyDspEngine.exe
+Stage1 -> passive FP64 -> Stage2 -> passive FP64 -> Core. New Core starts DISARMED.
+Entropy AudioCore 0.1.0 / beta test; source 7222030a9473a8e141d55313f785c06c5a336553
+Core executable: D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\release\0.1.0\EntropyAudioCore-0.1.0-beta-win-x64\runtime\EntropyAudioCore.exe
+Manual LIVE test session: True; new Core starts DISARMED.
+Reconnecting to Core PID 9920; current engine state retained.
+UI already connected.

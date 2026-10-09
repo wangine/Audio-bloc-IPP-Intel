@@ -1,0 +1,68 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+      Start  1: EntropyStagePublishV2
+ 1/31 Test  #1: EntropyStagePublishV2 .............   Passed    0.63 sec
+      Start  2: EntropyConsoleShutdown
+ 2/31 Test  #2: EntropyConsoleShutdown ............   Passed    0.06 sec
+      Start  3: EntropyStage07Live
+ 3/31 Test  #3: EntropyStage07Live ................   Passed    4.14 sec
+      Start  4: EntropyStage07ProfilePreflight
+ 4/31 Test  #4: EntropyStage07ProfilePreflight ....   Passed   23.41 sec
+      Start  5: EntropyStage07LiveAuthorization
+ 5/31 Test  #5: EntropyStage07LiveAuthorization ...   Passed    3.69 sec
+      Start  6: EntropyStage06Input
+ 6/31 Test  #6: EntropyStage06Input ...............   Passed    4.02 sec
+      Start  7: EntropyStage06Integration
+ 7/31 Test  #7: EntropyStage06Integration .........   Passed    0.88 sec
+      Start  8: EntropyStage06ProfileStartup
+ 8/31 Test  #8: EntropyStage06ProfileStartup ......   Passed    0.73 sec
+      Start  9: EntropyStage010Starvation
+ 9/31 Test  #9: EntropyStage010Starvation .........   Passed    0.45 sec
+      Start 10: EntropyStage05IpcIntegration
+10/31 Test #10: EntropyStage05IpcIntegration ......   Passed    1.07 sec
+      Start 11: EntropyStage05Validation
+11/31 Test #11: EntropyStage05Validation ..........   Passed    2.58 sec
+      Start 12: EntropyStage05Boundary
+12/31 Test #12: EntropyStage05Boundary ............   Passed    0.10 sec
+      Start 13: EntropyStage05Control
+13/31 Test #13: EntropyStage05Control .............   Passed    0.27 sec
+      Start 14: EntropyStage05Protocol
+14/31 Test #14: EntropyStage05Protocol ............   Passed    0.01 sec
+      Start 15: EntropyStage05Transport
+15/31 Test #15: EntropyStage05Transport ...........   Passed    5.63 sec
+      Start 16: EntropyThiranDelay
+16/31 Test #16: EntropyThiranDelay ................   Passed    0.09 sec
+      Start 17: EntropyThiranValidation
+17/31 Test #17: EntropyThiranValidation ...........   Passed    2.07 sec
+      Start 18: EntropyStage04Fifo
+18/31 Test #18: EntropyStage04Fifo ................   Passed    0.02 sec
+      Start 19: EntropyStage04Policy
+19/31 Test #19: EntropyStage04Policy ..............   Passed    0.06 sec
+      Start 20: EntropyStage03Reset
+20/31 Test #20: EntropyStage03Reset ...............   Passed    0.10 sec
+      Start 21: EntropyOfflineConfig
+21/31 Test #21: EntropyOfflineConfig ..............   Passed    0.04 sec
+      Start 22: EntropyGraphSmoke
+22/31 Test #22: EntropyGraphSmoke .................   Passed    0.05 sec
+      Start 23: EntropyMatrixUnit
+23/31 Test #23: EntropyMatrixUnit .................   Passed    0.01 sec
+      Start 24: EntropyMatrixNoAlloc
+24/31 Test #24: EntropyMatrixNoAlloc ..............   Passed    0.02 sec
+      Start 25: EntropyHeadroomUnit
+25/31 Test #25: EntropyHeadroomUnit ...............   Passed    0.20 sec
+      Start 26: EntropyHeadroomNoAlloc
+26/31 Test #26: EntropyHeadroomNoAlloc ............   Passed    0.09 sec
+      Start 27: EntropyPcm24Unit
+27/31 Test #27: EntropyPcm24Unit ..................   Passed    0.02 sec
+      Start 28: EntropyPcm24EngineUnit
+28/31 Test #28: EntropyPcm24EngineUnit ............   Passed    0.01 sec
+      Start 29: EntropyIppFirUnit
+29/31 Test #29: EntropyIppFirUnit .................   Passed    0.20 sec
+      Start 30: EntropyNativeStateUnit
+30/31 Test #30: EntropyNativeStateUnit ............   Passed    0.05 sec
+      Start 31: EntropyAudioCoreProbe
+31/31 Test #31: EntropyAudioCoreProbe .............   Passed    0.04 sec
+
+100% tests passed, 0 tests failed out of 31
+
+Total Test time (real) =  50.83 sec

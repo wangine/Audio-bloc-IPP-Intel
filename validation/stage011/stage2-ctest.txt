@@ -1,0 +1,752 @@
+Start testing: Oct 09 22:29 GTB Daylight Time
+----------------------------------------------------------
+1/44 Testing: DspRunner
+1/44 Test: DspRunner
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspRunnerSmoke.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspRunner" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS Stage2 x64 FP64 runner
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"DspRunner" end time: Oct 09 22:29 GTB Daylight Time
+"DspRunner" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/44 Testing: DspBypassIdentity
+2/44 Test: DspBypassIdentity
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspBypassIdentityTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspBypassIdentity" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS 122880 FP64 bit patterns, 11-slot mapping, CX positive zero, header identity, canaries and invalid input rejection
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"DspBypassIdentity" end time: Oct 09 22:29 GTB Daylight Time
+"DspBypassIdentity" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/44 Testing: DspBusIntegration
+3/44 Test: DspBusIntegration
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspBusIntegrationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspBusIntegration" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspBusIntegrationTests.cpp:5 dsp.attach(s,error)
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"DspBusIntegration" end time: Oct 09 22:29 GTB Daylight Time
+"DspBusIntegration" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/44 Testing: DspLiveness
+4/44 Test: DspLiveness
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspLivenessTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspLiveness" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLivenessTests.cpp:3 dsp.attach(s,error)
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"DspLiveness" end time: Oct 09 22:29 GTB Daylight Time
+"DspLiveness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/44 Testing: DspRecorder
+5/44 Test: DspRecorder
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspRecorderTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspRecorder" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS manual bounded 11ch recorder payload/header, drops separate, STOP drains owned slots; written=4 drops=12
+<end of output>
+Test time =   0.26 sec
+----------------------------------------------------------
+Test Passed.
+"DspRecorder" end time: Oct 09 22:29 GTB Daylight Time
+"DspRecorder" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/44 Testing: DspAllocation
+6/44 Test: DspAllocation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspAllocationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspAllocation" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp:7 dsp.attach(s,error)
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"DspAllocation" end time: Oct 09 22:29 GTB Daylight Time
+"DspAllocation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/44 Testing: DspLifecycle
+7/44 Test: DspLifecycle
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspLifecycleTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspLifecycle" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLifecycleTests.cpp:12 controller.start(root,root/"source.json",error)
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Failed.
+"DspLifecycle" end time: Oct 09 22:29 GTB Daylight Time
+"DspLifecycle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/44 Testing: DspProcess
+8/44 Test: DspProcess
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspProcessHarness.exe" "2"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspProcess" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+EVIDENCE_ROOT "C:/Users/bobi/AppData/Local/Temp/DspProcessHarness-ZIDpGA"
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspProcessHarness.cpp:59 WaitForSingleObject(recorder.hProcess,0)==WAIT_TIMEOUT && WaitForSingleObject(dsp.hProcess,0)==WAIT_TIMEOUT
+<end of output>
+Test time =   0.18 sec
+----------------------------------------------------------
+Test Failed.
+"DspProcess" end time: Oct 09 22:29 GTB Daylight Time
+"DspProcess" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/44 Testing: DspState
+9/44 Test: DspState
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspStateTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspState" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS private inactive state roundtrip, opaque R10 bytes retained
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"DspState" end time: Oct 09 22:29 GTB Daylight Time
+"DspState" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/44 Testing: DspPackage
+10/44 Test: DspPackage
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspPackageTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspPackage" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS missing manifest, immutable alteration and extra audio DLL refused; optional DSP absence accepted
+<end of output>
+Test time =   1.24 sec
+----------------------------------------------------------
+Test Passed.
+"DspPackage" end time: Oct 09 22:29 GTB Daylight Time
+"DspPackage" time elapsed: 00:00:01
+----------------------------------------------------------
+
+11/44 Testing: StageBusContract
+11/44 Test: StageBusContract
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/StageBusContractTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"StageBusContract" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS StageBusContract layout 10/11, bounds, hashes, identities, sequence and controls
+<end of output>
+Test time =   0.02 sec
+----------------------------------------------------------
+Test Passed.
+"StageBusContract" end time: Oct 09 22:29 GTB Daylight Time
+"StageBusContract" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/44 Testing: StageBusDemand
+12/44 Test: StageBusDemand
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/StageBusDemandTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"StageBusDemand" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS one outstanding request, duplicate idempotence, snapshot conflict, gap and epoch
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"StageBusDemand" end time: Oct 09 22:29 GTB Daylight Time
+"StageBusDemand" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/44 Testing: StageBusProcess
+13/44 Test: StageBusProcess
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/StageBusProcessTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"StageBusProcess" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PARENT_ADDRESS 0x1b4a4780000
+PEER_ADDRESS_VERIFIED 0x30000000000 (fixed MapViewOfFileEx, child exit checked)\nPASS StageBusProcess real child process, different mappings, full/no-overwrite, death/stale rejection and invalid epoch
+<end of output>
+Test time =   0.26 sec
+----------------------------------------------------------
+Test Passed.
+"StageBusProcess" end time: Oct 09 22:29 GTB Daylight Time
+"StageBusProcess" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/44 Testing: DspPendingFailure
+14/44 Test: DspPendingFailure
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspPendingFailureTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspPendingFailure" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPendingFailureTests.cpp:4 dsp.attach(s,error)
+<end of output>
+Test time =   0.05 sec
+----------------------------------------------------------
+Test Failed.
+"DspPendingFailure" end time: Oct 09 22:29 GTB Daylight Time
+"DspPendingFailure" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/44 Testing: DspRestartProcess
+15/44 Test: DspRestartProcess
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspRestartProcessTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspRestartProcess" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspRestartProcessTests.cpp:11 qpc()<deadline
+<end of output>
+Test time =   5.08 sec
+----------------------------------------------------------
+Test Failed.
+"DspRestartProcess" end time: Oct 09 22:29 GTB Daylight Time
+"DspRestartProcess" time elapsed: 00:00:05
+----------------------------------------------------------
+
+16/44 Testing: DspPeerDeathPending
+16/44 Test: DspPeerDeathPending
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspPeerDeathPendingTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspPeerDeathPending" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPeerDeathPendingTests.cpp:18 dsp.attach(s,error)
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Failed.
+"DspPeerDeathPending" end time: Oct 09 22:29 GTB Daylight Time
+"DspPeerDeathPending" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/44 Testing: StageLink
+17/44 Test: StageLink
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/StageLinkTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"StageLink" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS local authenticated bounded control transport, malformed/PID rejection, nonce and single server owner
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"StageLink" end time: Oct 09 22:29 GTB Daylight Time
+"StageLink" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/44 Testing: DspLocalDemand
+18/44 Test: DspLocalDemand
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspLocalDemandTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspLocalDemand" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS bounded local demand, one pending request, sequence/revision/control identity, quiesce and missing-source wait
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"DspLocalDemand" end time: Oct 09 22:29 GTB Daylight Time
+"DspLocalDemand" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/44 Testing: DspSourceIsolation
+19/44 Test: DspSourceIsolation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspSourceIsolationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspSourceIsolation" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+Passive subscription identity, capacity or session validation failed
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspSourceIsolationTests.cpp:31 initial==DspAutoLinkState::Receiving
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Failed.
+"DspSourceIsolation" end time: Oct 09 22:29 GTB Daylight Time
+"DspSourceIsolation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/44 Testing: DspPublishedOutput
+20/44 Test: DspPublishedOutput
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspPublishedOutputTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspPublishedOutput" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPublishedOutputTests.cpp:39 advance(8)
+<end of output>
+Test time =   3.21 sec
+----------------------------------------------------------
+Test Failed.
+"DspPublishedOutput" end time: Oct 09 22:29 GTB Daylight Time
+"DspPublishedOutput" time elapsed: 00:00:03
+----------------------------------------------------------
+
+21/44 Testing: DspPassiveInput
+21/44 Test: DspPassiveInput
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspPassiveInputTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspPassiveInput" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS passive real Stage1 transport -> Stage2 -> publication; exact FP64 and identity; gap/epoch/restart remain local
+<end of output>
+Test time =   1.03 sec
+----------------------------------------------------------
+Test Passed.
+"DspPassiveInput" end time: Oct 09 22:29 GTB Daylight Time
+"DspPassiveInput" time elapsed: 00:00:01
+----------------------------------------------------------
+
+22/44 Testing: DspPassiveNative
+22/44 Test: DspPassiveNative
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspPassiveNativeTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspPassiveNative" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS real passive native EQ exact reference, independent raw Center tap, LRC bypass, Cinema NaN/signed-zero bits, immutable headers, sticky flags and generation reset
+<end of output>
+Test time =   0.16 sec
+----------------------------------------------------------
+Test Passed.
+"DspPassiveNative" end time: Oct 09 22:29 GTB Daylight Time
+"DspPassiveNative" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/44 Testing: DspPassiveAllocation
+23/44 Test: DspPassiveAllocation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspPassiveAllocationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspPassiveAllocation" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+A02_IMPORT_MODULE name=DspPassiveAllocationTests.exe hooks=8
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_IMPORT_MODULE name=ADVAPI32.dll hooks=10
+A02_IMPORT_MODULE name=msvcrt.dll hooks=8
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=ole32.dll hooks=10
+A02_IMPORT_MODULE name=msvcp_win.dll hooks=3
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=libgcc_s_seh-1.dll hooks=2
+A02_IMPORT_MODULE name=bcrypt.dll hooks=7
+A02_IMPORT_MODULE name=libwinpthread-1.dll hooks=4
+A02_IMPORT_MODULE name=GDI32.dll hooks=1
+A02_IMPORT_MODULE name=gdi32full.dll hooks=10
+A02_IMPORT_MODULE name=USER32.dll hooks=11
+A02_IMPORT_MODULE name=combase.dll hooks=11
+A02_IMPORT_MODULE name=libstdc++-6.dll hooks=2
+A02_IMPORT_MODULE name=IMM32.DLL hooks=3
+A02_IMPORT_MODULE name=bcryptprimitives.dll hooks=3
+A02_IMPORT_MODULE name=EntropyParametricEQ.dll hooks=6
+A02_IMPORT_MODULE name=EntropyCenterExtractorV2FP64.dll hooks=4
+A02_IMPORT_MODULE name=MSVCP140.dll hooks=3
+A02_IMPORT_MODULE name=WINMM.dll hooks=7
+A02_IMPORT_MODULE name=VCRUNTIME140.dll hooks=1
+A02_IMPORT_MODULE name=EntropyLrcAlignerFP64.dll hooks=2
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=150 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+A02_HOST_CPP_AUDIT blocks=1000 control_new=0 control_delete=0 control_nonzero_blocks=0 audio_new=0 audio_delete=0 audio_nonzero_blocks=0 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=150 heap_alloc_calls=0 heap_free_calls=0 wait_calls=0 lock_calls=0 io_calls=0 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+PASS 1000 warmed real passive source publish/runtime DSP/output read cycles with zero audited allocation/free/wait/lock/io; control service, lifecycle and explicit history resets excluded
+PASS real passive native EQ exact reference, independent raw Center tap, LRC bypass, Cinema NaN/signed-zero bits, immutable headers, sticky flags and generation reset
+<end of output>
+Test time =   0.61 sec
+----------------------------------------------------------
+Test Passed.
+"DspPassiveAllocation" end time: Oct 09 22:29 GTB Daylight Time
+"DspPassiveAllocation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/44 Testing: DspSignalTelemetry
+24/44 Test: DspSignalTelemetry
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspSignalTelemetryTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspSignalTelemetry" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS channel peaks, AUX-only music validity, Cinema mapping, nonfinite/zero/stale/fault/detach and reserved CX
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"DspSignalTelemetry" end time: Oct 09 22:29 GTB Daylight Time
+"DspSignalTelemetry" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/44 Testing: DspGraph
+25/44 Test: DspGraph
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspGraphTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspGraph" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS original matrix pulse, correct lane counts, active-only pixels, CX off, stale/fault clear and hidden/minimized suspension
+<end of output>
+Test time =   0.44 sec
+----------------------------------------------------------
+Test Passed.
+"DspGraph" end time: Oct 09 22:29 GTB Daylight Time
+"DspGraph" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/44 Testing: DspCenterNative
+26/44 Test: DspCenterNative
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspCenterNativeTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspCenterNative" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FFT 512: reported C latency 512 samples
+FFT 1024: reported C latency 1024 samples
+FFT 2048: reported C latency 2048 samples
+FFT 4096: reported C latency 4096 samples
+FFT 8192: reported C latency 8192 samples
+PASS native V2 LR->C, SUM unclipped above unity, enable off +zero, antiphase cancels
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"DspCenterNative" end time: Oct 09 22:29 GTB Daylight Time
+"DspCenterNative" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/44 Testing: DspCenterRoute
+27/44 Test: DspCenterRoute
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspCenterRouteTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspCenterRoute" start time: Oct 09 22:29 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterRouteTests.cpp:4 dsp.attach(s,error)
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Failed.
+"DspCenterRoute" end time: Oct 09 22:30 GTB Daylight Time
+"DspCenterRoute" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/44 Testing: DspCenterController
+28/44 Test: DspCenterController
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspCenterControllerTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspCenterController" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterControllerTests.cpp:7 controller.start(root,root/"source.json",error)
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Failed.
+"DspCenterController" end time: Oct 09 22:30 GTB Daylight Time
+"DspCenterController" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/44 Testing: DspCenterState
+29/44 Test: DspCenterState
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspCenterStateTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspCenterState" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS Center state round-trip/opaque originals preserved/invalid FFT refused/no false zero latency/no LRC alignment
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"DspCenterState" end time: Oct 09 22:30 GTB Daylight Time
+"DspCenterState" time elapsed: 00:00:00
+----------------------------------------------------------
+
+30/44 Testing: DspCenterUi
+30/44 Test: DspCenterUi
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspCenterUiTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspCenterUi" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterUiTests.cpp:19 controller.start(root,root/"input.json",error)
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Failed.
+"DspCenterUi" end time: Oct 09 22:30 GTB Daylight Time
+"DspCenterUi" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/44 Testing: DspCenterAllocation
+31/44 Test: DspCenterAllocation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspCenterAllocationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspCenterAllocation" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp:7 dsp.attach(s,error)
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"DspCenterAllocation" end time: Oct 09 22:30 GTB Daylight Time
+"DspCenterAllocation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+32/44 Testing: DspCenterProcess
+32/44 Test: DspCenterProcess
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspCenterProcessHarness.exe" "3"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspCenterProcess" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+EVIDENCE_ROOT "C:/Users/bobi/AppData/Local/Temp/DspCenterProcessHarness-PGcKFZ"
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspProcessHarness.cpp:59 WaitForSingleObject(recorder.hProcess,0)==WAIT_TIMEOUT && WaitForSingleObject(dsp.hProcess,0)==WAIT_TIMEOUT
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Failed.
+"DspCenterProcess" end time: Oct 09 22:30 GTB Daylight Time
+"DspCenterProcess" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/44 Testing: DspAlignment
+33/44 Test: DspAlignment
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspAlignmentTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspAlignment" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS per-path latency sums, asymmetric compensation, inactive exclusion, invalid/overflow/max rejection
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"DspAlignment" end time: Oct 09 22:30 GTB Daylight Time
+"DspAlignment" time elapsed: 00:00:00
+----------------------------------------------------------
+
+34/44 Testing: DspLrcRoute
+34/44 Test: DspLrcRoute
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspLrcRouteTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspLrcRoute" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcRouteTests.cpp:3 dsp.attach(s,error)
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Failed.
+"DspLrcRoute" end time: Oct 09 22:30 GTB Daylight Time
+"DspLrcRoute" time elapsed: 00:00:00
+----------------------------------------------------------
+
+35/44 Testing: DspLrcController
+35/44 Test: DspLrcController
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspLrcControllerTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspLrcController" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcControllerTests.cpp:6 controller.start(root,root/"source.json",error)
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Failed.
+"DspLrcController" end time: Oct 09 22:30 GTB Daylight Time
+"DspLrcController" time elapsed: 00:00:00
+----------------------------------------------------------
+
+36/44 Testing: DspLrcUi
+36/44 Test: DspLrcUi
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspLrcUiTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspLrcUi" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcUiTests.cpp:10 controller.start(root,root/"source.json",error)
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Failed.
+"DspLrcUi" end time: Oct 09 22:30 GTB Daylight Time
+"DspLrcUi" time elapsed: 00:00:00
+----------------------------------------------------------
+
+37/44 Testing: DspLrcAllocation
+37/44 Test: DspLrcAllocation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspLrcAllocationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspLrcAllocation" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp:7 dsp.attach(s,error)
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Failed.
+"DspLrcAllocation" end time: Oct 09 22:30 GTB Daylight Time
+"DspLrcAllocation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/44 Testing: DspProfileUi
+38/44 Test: DspProfileUi
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspProfileUiTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspProfileUi" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspProfileUiTests.cpp:22 window.windowTitle()=="DSP Engine · v0006"
+<end of output>
+Test time =   0.16 sec
+----------------------------------------------------------
+Test Failed.
+"DspProfileUi" end time: Oct 09 22:30 GTB Daylight Time
+"DspProfileUi" time elapsed: 00:00:00
+----------------------------------------------------------
+
+39/44 Testing: DspCenterIntegrationAudit
+39/44 Test: DspCenterIntegrationAudit
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspCenterIntegrationAuditTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspCenterIntegrationAudit" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+mono FFT=512 C/L RMS ratio=0.998056
+mono FFT=1024 C/L RMS ratio=0.999089
+mono FFT=2048 C/L RMS ratio=0.999718
+mono FFT=4096 C/L RMS ratio=0.9998
+mono FFT=8192 C/L RMS ratio=0.999999
+real detector threshold response C RMS: 0.0110423 -> 0
+PASS direct native ABI reference: 1310720 exact C samples across SUM/SPECTRAL and all FFT sizes; no integration gain
+<end of output>
+Test time =   1.77 sec
+----------------------------------------------------------
+Test Passed.
+"DspCenterIntegrationAudit" end time: Oct 09 22:30 GTB Daylight Time
+"DspCenterIntegrationAudit" time elapsed: 00:00:01
+----------------------------------------------------------
+
+40/44 Testing: DspEqState
+40/44 Test: DspEqState
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspEqStateTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspEqState" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS local EQ .Edsp settings roundtrip; malformed settings rejected
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"DspEqState" end time: Oct 09 22:30 GTB Daylight Time
+"DspEqState" time elapsed: 00:00:00
+----------------------------------------------------------
+
+41/44 Testing: DspEqRoute
+41/44 Test: DspEqRoute
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspEqRouteTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspEqRoute" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspEqRouteTests.cpp:11 dsp.attach(s,error)
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Failed.
+"DspEqRoute" end time: Oct 09 22:30 GTB Daylight Time
+"DspEqRoute" time elapsed: 00:00:00
+----------------------------------------------------------
+
+42/44 Testing: DspEqUi
+42/44 Test: DspEqUi
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspEqUiTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspEqUi" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspEqUiTests.cpp:14 controller.start(root,root/"input.json",error)
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Failed.
+"DspEqUi" end time: Oct 09 22:30 GTB Daylight Time
+"DspEqUi" time elapsed: 00:00:00
+----------------------------------------------------------
+
+43/44 Testing: DspEqNative
+43/44 Test: DspEqNative
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspEqNativeTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspEqNative" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS 2359296 exact original native LR samples across 4 modes x 3 filters; real static/dynamic response; 121 descriptors, latency0, native ack; no gain/SRC adapter
+<end of output>
+Test time =   0.84 sec
+----------------------------------------------------------
+Test Passed.
+"DspEqNative" end time: Oct 09 22:30 GTB Daylight Time
+"DspEqNative" time elapsed: 00:00:00
+----------------------------------------------------------
+
+44/44 Testing: DspEqAllocation
+44/44 Test: DspEqAllocation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine/DspEqAllocationTests.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/stage2-build/Host/EntropyDspEngine
+"DspEqAllocation" start time: Oct 09 22:30 GTB Daylight Time
+Output:
+----------------------------------------------------------
+FAIL D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp:7 dsp.attach(s,error)
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Failed.
+"DspEqAllocation" end time: Oct 09 22:30 GTB Daylight Time
+"DspEqAllocation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 09 22:30 GTB Daylight Time

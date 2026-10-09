@@ -1,7 +1,7 @@
 #pragma once
 #include "DspStageRuntime.h"
 #include "DspAutoLink.h"
-#include "DspDownstreamLink.h"
+
 #include <atomic>
 #include <filesystem>
 #include <thread>
@@ -13,7 +13,7 @@ class DspController {
 public:
  ~DspController(){stop();}
  bool start(const std::filesystem::path& runtimeRoot,const std::filesystem::path& sourceDiscovery,std::string& error);
- bool startAutomatic(const std::filesystem::path& runtimeRoot,std::string& error,std::wstring endpoint=entropy::link::endpointName());
+ bool startAutomatic(const std::filesystem::path& runtimeRoot,std::string& error,std::wstring endpoint=entropy::publish::sourceEndpointName());
  void stop() noexcept;
  DspUiSnapshot snapshot() const noexcept;
  bool configureAligner(const std::filesystem::path&,std::string&);
@@ -45,7 +45,7 @@ private:
  bool readCenterRequest(CenterSettings&,uint64_t&) const noexcept;
  bool prepareCenterWorker(std::string&);
  bool adoptCenterRequest() noexcept;
- void worker() noexcept;
+
  void automaticWorker() noexcept;
  void publish(DspStateCode,const char* error="") noexcept;
  std::filesystem::path alignerModuleRoot_;
@@ -61,10 +61,10 @@ private:
  DspStageRuntime runtime_;
  DspRecorder recorder_;
  std::unique_ptr<DspAutoLink> autoLink_;
- std::unique_ptr<DspDownstreamLink> downstreamLink_;
+
  std::unique_ptr<entropy::publish::Publisher> publisher_;
  std::wstring publishEndpoint_;
- DspLocalDemand localDemand_;
+
  std::filesystem::path runtimeRoot_;
  HANDLE automaticOwner_=nullptr;
  std::thread thread_;

@@ -1,0 +1,17 @@
+#include "SourceController.h"
+#include "StageLinkClient.h"
+#include "TestSupport.h"
+#include <QCoreApplication>
+#include <QTemporaryDir>
+using namespace entropy::host;
+using namespace entropy::link;
+int sourceLinkProof(int argc,char** argv){QCoreApplication app(argc,argv);QTemporaryDir tmp;std::string error;SourceController source;auto endpoint=endpointName()+L".source-test."+std::to_wstring(GetCurrentProcessId());CHECK(source.enableStageLink(endpoint,error));CHECK(source.start(TEST_MODULE_ROOT,std::filesystem::path(tmp.path().toStdWString()),error,true));auto initial=source.snapshot();StageLinkClient client(endpoint);auto query=makeRequest(StageLinkAction::Query);StageLinkResponse response{};CHECK(client.transact(query,response,1000,error));CHECK(response.status==StageLinkStatus::Ok);auto attach=makeRequest(StageLinkAction::Attach);std::memcpy(attach.expectedSession,response.session.session_id,16);if(!client.transact(attach,response,1000,error)){std::cerr<<error<<"\n";return 1;}CHECK(response.status==StageLinkStatus::Ok);CHECK(std::memcmp(initial.session.session_id,response.session.session_id,16));auto attached=response;CHECK(source.snapshot().external && !source.snapshot().capturing);
+ if(!client.transact(attach,response,1000,error)){std::cerr<<error<<"\n";return 1;}CHECK(response.status==StageLinkStatus::Ok && !std::memcmp(response.lease,attached.lease,16) && !std::memcmp(response.session.session_id,attached.session.session_id,16));
+ StageBusWin32 consumer;CHECK(consumer.open(response.session,error));StageBusFrameRequest req{};std::memcpy(req.session_id,response.session.session_id,16);req.stream_epoch=req.block_sequence=1;req.frames=1024;req.control_revision=response.controlRevision;req.program=response.program;req.program.hardware_armed=1;CHECK(consumer.trySendRequest(req)==StageBusIoResult::Ok);Planes<10> audio;StageBusBlockHeader block{};auto deadline=qpc()+frequency();StageBusIoResult io;while((io=consumer.tryConsume(block,audio.out.data()))==StageBusIoResult::Empty){CHECK(qpc()<deadline);consumer.heartbeat(qpc());Sleep(1);}CHECK(io==StageBusIoResult::Ok);
+ auto release=makeRequest(StageLinkAction::Release);std::memcpy(release.lease,attached.lease,16);std::memcpy(release.expectedSession,attached.session.session_id,16);auto wrong=release;wrong.lease[0]^=1;CHECK(client.transact(wrong,response,1000,error));CHECK(response.status==StageLinkStatus::Refused);consumer.heartbeat(qpc());CHECK(client.transact(release,response,1000,error));CHECK(response.status==StageLinkStatus::Ok);CHECK(!source.snapshot().external);CHECK(std::memcmp(response.session.session_id,attached.session.session_id,16));consumer.close();
+ auto idleAttach=makeRequest(StageLinkAction::Attach);std::memcpy(idleAttach.expectedSession,response.session.session_id,16);CHECK(client.transact(idleAttach,response,1000,error));CHECK(response.status==StageLinkStatus::Ok);deadline=qpc()+frequency()*6;while(!source.snapshot().faults){CHECK(qpc()<deadline);Sleep(10);}CHECK(source.snapshot().external);CHECK(client.transact(query,response,1000,error));CHECK(response.status==StageLinkStatus::Fault);source.stop();std::cout<<"PASS cooperative Source attach/idempotent lease/UUID, wrong lease refusal, local release while legacy hardware_armed=1 and unchanged capture state\n";return 0;
+}
+
+#ifndef ENTROPY_SOURCE_INDEPENDENCE_AGGREGATE
+int main(int argc,char** argv){return sourceLinkProof(argc,argv);}
+#endif

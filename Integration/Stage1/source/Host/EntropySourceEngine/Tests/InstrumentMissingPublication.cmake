@@ -1,0 +1,8 @@
+file(READ "${SOURCE}" source)
+set(original "        publisher_.publish(result.header, sendPointers_.data());")
+string(FIND "${source}" "${original}" position)
+if(position EQUAL -1)
+ message(FATAL_ERROR "Production publication call missing; mutation would be ineffective")
+endif()
+string(REPLACE "${original}" "        // Test-only mutation: delivery omitted while local processing continues." source "${source}")
+file(WRITE "${OUTPUT}" "${source}")

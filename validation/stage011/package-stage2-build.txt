@@ -1,0 +1,61 @@
+-- The C compiler identification is GNU 13.1.0
+-- The CXX compiler identification is GNU 13.1.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Qt/Tools/mingw1310_64/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Qt/Tools/mingw1310_64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Configuring done (3.2s)
+-- Generating done (0.2s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/rebuild-stage2
+[1/39] Building CXX object Shared/StageBusSDK/CMakeFiles/EntropyStageBusV1.dir/src/StageBusValidation.cpp.obj
+[2/39] Building CXX object Shared/StageLink/CMakeFiles/EntropyStageLink.dir/StageLinkSecurity.cpp.obj
+[3/39] Building CXX object Shared/StageLink/CMakeFiles/EntropyStageLink.dir/StageLinkClient.cpp.obj
+[4/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/TransparentDspExecutor.cpp.obj
+[5/39] Building CXX object Shared/StageBusSDK/CMakeFiles/EntropyStageBusV1.dir/src/StageBusWin32.cpp.obj
+[6/39] Linking CXX static library Shared\StageBusSDK\libEntropyStageBusV1.a
+[7/39] Building CXX object Shared/StageLink/CMakeFiles/EntropyStageLink.dir/StageLinkServer.cpp.obj
+[8/39] Linking CXX static library Shared\StageLink\libEntropyStageLink.a
+[9/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspRecorder.cpp.obj
+[10/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspAlignment.cpp.obj
+[11/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspStageRuntime.cpp.obj
+[12/39] Building CXX object StagePublishV2/CMakeFiles/EntropyStagePublishV2.dir/StagePublishV2.cpp.obj
+[13/39] Linking CXX static library StagePublishV2\libEntropyStagePublishV2.a
+[14/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspCenterModule.cpp.obj
+[15/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspLrcModule.cpp.obj
+[16/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspNativeRegistry.cpp.obj
+[17/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspEqModule.cpp.obj
+[18/39] Linking CXX static library Host\EntropyDspEngine\libDspCore.a
+[19/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspSessionDiscovery.cpp.obj
+[20/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/ProAudioThreadScope.cpp.obj
+[21/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspController.cpp.obj
+[22/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspState.cpp.obj
+[23/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspAutoLink.cpp.obj
+[24/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspPackage.cpp.obj
+[25/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/DspUiBridge.cpp.obj
+[26/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspEqState.cpp.obj
+[27/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/UiSchema.cpp.obj
+[28/39] Linking CXX static library Host\EntropyDspEngine\libDspAppCore.a
+[29/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/DspWindow.cpp.obj
+[30/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/CenterPage.cpp.obj
+[31/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/ParametricEqModel.cpp.obj
+[32/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/LoudnessPage.cpp.obj
+[33/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/ParametricEqPage.cpp.obj
+[34/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/ParametricEqResponseGraph.cpp.obj
+[35/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/DspGraphPage.cpp.obj
+[36/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/AlignmentPage.cpp.obj
+[37/39] Linking CXX static library Host\EntropyDspEngine\libDspUi.a
+[38/39] Building CXX object Host/EntropyDspEngine/CMakeFiles/EntropyDspEngine.dir/App/DspMain.cpp.obj
+[39/39] Linking CXX executable Host\EntropyDspEngine\EntropyDspEngine.exe

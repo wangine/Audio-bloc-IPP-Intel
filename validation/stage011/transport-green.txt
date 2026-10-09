@@ -1,0 +1,8 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/transport-test
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/transport-test
+    Start 1: StagePublishV2Tests
+1/1 Test #1: StagePublishV2Tests ..............   Passed    0.84 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.85 sec

@@ -28,6 +28,7 @@ class DspStageRuntime {
 public:
  ~DspStageRuntime(){stop();}
  bool attach(const StageBusSessionHeader&,std::string& error);
+ bool attachPassive(const std::wstring& endpoint,std::string& error);
  bool prepareEq(const std::filesystem::path&,const EqSettings&,std::string&,uint64_t revision=1);
  bool applyEq(const EqSettings&,uint64_t) noexcept;
  bool eqCommandPending() const noexcept{return eq_.pending();}
@@ -49,7 +50,7 @@ public:
  const StageBusSessionHeader& outputSession() const noexcept{return outputSession_;}
  const DspDiagnostics& diagnostics() const noexcept{return diag_;}
  void summarizeLatency(DspDiagnostics&) const noexcept; // control/diagnostics only
- bool pending() const noexcept{return requested_ || ready_ || ackPending_;}
+ bool pending() const noexcept{return ready_;}
  bool downstreamReady() const noexcept{return downstreamReady_;}
  bool faulted() const noexcept{return faulted_;}
  void setRecorder(DspRecorder* recorder) noexcept{if(!attached_)recorder_=recorder;}
@@ -58,9 +59,9 @@ private:
  void refreshAlignment() noexcept;
  void recordLatency(unsigned,uint64_t) noexcept;
  DspStepResult fail(bool invalid=false) noexcept;
- StageBusWin32 input_,output_;
+ bool resetHistory() noexcept;
+ entropy::publish::Subscriber input_;
  StageBusSessionHeader inputSession_{},outputSession_{};
- std::optional<StageBusDemand> demand_;
  TransparentDspExecutor executor_;
  DspCenterModule center_;
  DspEqModule eq_;
@@ -72,15 +73,13 @@ private:
  std::array<const double*,10> inputConst_{};
  std::array<double*,11> outputPointers_{};
  std::array<const double*,11> outputConst_{};
- StageBusFrameRequest request_{};
  StageBusBlockHeader pendingHeader_{},lastHeader_{};
- StageBusSourceControl pendingControl_{};
  DspDiagnostics diag_{};
  std::array<std::array<uint64_t,2049>,3> latencyBins_{};
  std::array<uint64_t,3> latencyCounts_{};
- uint64_t started_=0,received_=0,sourceRevision_=0,downstreamClaimedAt_=0;
- bool attached_=false,faulted_=false,requested_=false,sent_=false,ready_=false;
- bool ackPending_=false,duplicatePending_=false,controlPending_=false,downstreamSeen_=false,downstreamReady_=false;
+ uint64_t received_=0;
+ bool attached_=false,faulted_=false,ready_=false,downstreamReady_=false;
+ bool haveInput_=false;
  DspRecorder* recorder_=nullptr;
  entropy::publish::Publisher* publisher_=nullptr;
 };

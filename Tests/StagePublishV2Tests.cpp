@@ -20,10 +20,10 @@ struct Fixture {
     Audio input{},output{};
     std::array<const double*,11> in{};
     std::array<double*,11> out{};
-    Fixture() {
+    Fixture(uint32_t layout=LRC_CINEMA11_V1) {
         LARGE_INTEGER qpc{};QueryPerformanceFrequency(&qpc);
         const uint8_t uuid[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-        session=entropy::stage::makeSession(LRC_CINEMA11_V1,uuid,qpc.QuadPart);
+        session=entropy::stage::makeSession(layout,uuid,qpc.QuadPart);
         session.producer_pid=GetCurrentProcessId();
         endpoint=endpointName()+L".selftest."+std::to_wstring(GetCurrentProcessId());
         for(size_t c=0;c<11;c++){in[c]=input[c].data();out[c]=output[c].data();for(size_t i=0;i<1024;i++)input[c][i]=double(c*1024+i)/17.;}
@@ -70,6 +70,25 @@ int main(int argc,char** argv) {
         CloseHandle(ready);return 10;
     }
     try {
+        {
+            Fixture source(MIX_CINEMA10_V1); Subscriber passive;
+            source.in[10]=nullptr;source.out[10]=nullptr;
+            source.output[10].fill(-123.5);
+            check(source.connect(passive),"ten-channel Stage1 passive subscription accepted");
+            auto original=source.block(7001);source.publisher.publish(original,source.in.data());
+            StageBusBlockHeader received{};
+            check(passive.read(received,source.out.data())==ReadResult::Block,"Stage1 block delivered without eleven-channel pointers");
+            check(!std::memcmp(&received,&original,sizeof(original)),"Stage1 original metadata exact");
+            check(!std::memcmp(source.input.data(),source.output.data(),10*1024*sizeof(double)),"Stage1 ten FP64 planes bit exact");
+            for(double value:source.output[10])check(value==-123.5,"ten-channel delivery never touches eleventh plane");
+            passive.close();source.publisher.service();
+            check(source.connect(passive),"Stage1 same session reconnects after subscriber close");
+            check(!std::memcmp(&passive.session(),&source.session,sizeof(source.session)),"subscriber lifecycle never rotates Stage1 identity");
+            for(uint64_t i=0;i<40;i++)source.publisher.publish(source.block(8001+i),source.in.data());
+            check(source.publisher.dropped()==24,"Stage1 full subscription reports exact delivery loss");
+            check(passive.read(received,source.out.data())==ReadResult::Gap,"Stage1 full subscriber does not replay stale audio");
+            std::cout<<"PASS Stage1 ten-channel exact payload, ownership and delivery loss\n";
+        }
         Fixture f; Subscriber s;check(f.connect(s),"connect must create passive subscription");
         check(!std::memcmp(&s.session(),&f.session,sizeof(f.session)),"original session metadata preserved");
         StageBusBlockHeader received{};check(s.read(received,f.out.data())==ReadResult::Empty,"fresh queue empty");

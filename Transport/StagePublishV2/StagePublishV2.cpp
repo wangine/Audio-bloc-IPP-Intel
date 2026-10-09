@@ -14,14 +14,16 @@
 namespace entropy::publish {
 namespace {
 bool validSession(const StageBusSessionHeader& s) noexcept {
+    const bool source=s.layout_id==MIX_CINEMA10_V1 && s.channels==10;
+    const bool dsp=s.layout_id==LRC_CINEMA11_V1 && s.channels==11;
     return s.magic==STAGE_BUS_MAGIC && s.abi_version==STAGE_BUS_ABI && s.header_bytes==sizeof(s) &&
-        !wire::zero(s.session_id,16) && s.layout_id==LRC_CINEMA11_V1 && s.channels==11 &&
+        !wire::zero(s.session_id,16) && (source || dsp) &&
         s.sample_rate==192000 && s.sample_format==STAGE_BUS_BINARY64_LE && s.planar==STAGE_BUS_PLANAR &&
         s.frames_per_block==1024 && s.capacity==4 && s.block_header_bytes==128 &&
-        s.plane_stride==8192 && s.slot_stride==128+11*8192 && s.slots_offset==4096 &&
+        s.plane_stride==8192 && s.slot_stride==128+s.channels*8192 && s.slots_offset==4096 &&
         s.mapping_bytes==4096+4*s.slot_stride && s.qpc_frequency &&
         wire::zero(s.reserved,sizeof(s.reserved)) &&
-        !std::memcmp(s.layout_hash,layoutHash11,32) &&
+        !std::memcmp(s.layout_hash,source?layoutHash10:layoutHash11,32) &&
         !std::memcmp(s.contract_hash,contractHash,32);
 }
 bool validBlock(const StageBusSessionHeader& s,const StageBusBlockHeader& b) noexcept {
@@ -48,6 +50,10 @@ struct Subscription {
 std::wstring endpointName() {
     auto name=entropy::link::endpointName();auto pos=name.find(L"StageLink.V1");
     if(pos==std::wstring::npos)return {};name.replace(pos,12,L"StagePublish.V2");return name;
+}
+std::wstring sourceEndpointName() {
+    auto name=entropy::link::endpointName();auto pos=name.find(L"StageLink.V1");
+    if(pos==std::wstring::npos)return {};name.replace(pos,12,L"StagePublish.Source.V2");return name;
 }
 struct Publisher::Impl {
     std::array<Subscription,wire::subscribers> subscriptions{};
@@ -102,6 +108,9 @@ void Publisher::stop() {
 void Publisher::setSession(const StageBusSessionHeader& session) noexcept {
     auto& p=*impl_;if(std::memcmp(&p.session,&session,sizeof(session))){for(auto& s:p.subscriptions)s.clear();p.session=session;}
 }
+bool Publisher::needsService() noexcept {
+    auto& p=*impl_;std::lock_guard lock(p.mutex);return p.pending && !p.replied;
+}
 void Publisher::service() noexcept {
     auto& p=*impl_;const auto now=qpcNow();
     for(auto& s:p.subscriptions)if(s.queue){
@@ -135,13 +144,13 @@ void Publisher::service() noexcept {
 }
 void Publisher::publish(const StageBusBlockHeader& block,const double* const* planes) noexcept {
     auto& p=*impl_;const bool valid=validBlock(p.session,block) && planes;
-    bool pointers=valid;if(pointers)for(unsigned c=0;c<11;c++)pointers=pointers && planes[c];
+    bool pointers=valid;if(pointers)for(unsigned c=0;c<p.session.channels;c++)pointers=pointers && planes[c];
     for(auto& s:p.subscriptions){auto* q=s.queue;if(!q || q->connected.load(std::memory_order_acquire)!=1)continue;
         const auto read=q->read.load(std::memory_order_acquire);
         if(!pointers || q->write.load(std::memory_order_relaxed)!=s.write || read>s.write || s.write-read>wire::capacity || s.write==UINT64_MAX){q->connected.store(2,std::memory_order_release);continue;}
         if(s.write-read==wire::capacity){q->drops.fetch_add(1,std::memory_order_release);p.dropped.fetch_add(1,std::memory_order_relaxed);continue;}
         auto& slot=q->slots[s.write%wire::capacity];std::memcpy(&slot.header,&block,sizeof(block));
-        for(unsigned c=0;c<11;c++)std::memcpy(slot.planes[c],planes[c],1024*sizeof(double));
+        for(unsigned c=0;c<p.session.channels;c++)std::memcpy(slot.planes[c],planes[c],1024*sizeof(double));
         q->write.store(++s.write,std::memory_order_release);
     }
 }
@@ -194,13 +203,13 @@ ReadResult Subscriber::read(StageBusBlockHeader& block,double* const* planes) no
     if(write==s.read)return ReadResult::Empty;
     auto& slot=q->slots[s.read%wire::capacity];StageBusBlockHeader candidate{};std::memcpy(&candidate,&slot.header,sizeof(candidate));
     if(!validBlock(s.session,candidate) || !planes)return retire(ReadResult::Invalid);
-    for(unsigned c=0;c<11;c++)if(!planes[c])return retire(ReadResult::Invalid);
+    for(unsigned c=0;c<s.session.channels;c++)if(!planes[c])return retire(ReadResult::Invalid);
     // Source discontinuity_mask is immutable telemetry, which can be cumulative.
     // Only observed transport/source cursor discontinuity is a delivery Gap.
     if(s.cursor && (candidate.stream_epoch!=s.last.stream_epoch ||
         s.last.block_sequence==UINT64_MAX || candidate.block_sequence!=s.last.block_sequence+1 ||
         candidate.first_frame!=s.last.first_frame+1024))return retire(ReadResult::Gap);
-    for(unsigned c=0;c<11;c++)std::memcpy(planes[c],slot.planes[c],1024*sizeof(double));
+    for(unsigned c=0;c<s.session.channels;c++)std::memcpy(planes[c],slot.planes[c],1024*sizeof(double));
     if(q->drops.load(std::memory_order_acquire))return retire(ReadResult::Gap);
     block=candidate;s.last=candidate;s.cursor=true;q->read.store(++s.read,std::memory_order_release);return ReadResult::Block;
 }

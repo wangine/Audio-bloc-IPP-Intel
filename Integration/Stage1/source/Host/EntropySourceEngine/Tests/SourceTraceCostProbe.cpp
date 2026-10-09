@@ -1,0 +1,16 @@
+#include "SourceDomainStream.h"
+#include "SrcWorkerTrace.h"
+#include <entropy/src_abi.h>
+#include <iostream>
+#include <array>
+#include <vector>
+#include <cstring>
+using namespace entropy::host;
+struct Result {uint64_t bits=1469598103934665603ULL,frames=0,ticks=0;};
+static bool run(std::shared_ptr<ModuleLibrary> lib,unsigned rate,unsigned engine,bool instrumented,Result& result,std::string& error){ModuleInstance src(lib);if(!src.create(error)||!src.prepare(192000,1024,2,2,error))return false;EntropySrcApiV1 api{};api.struct_size=sizeof(api);if(!src.queryExtension(ENTROPY_SRC_EXTENSION_ID,ENTROPY_SRC_EXTENSION_VERSION,&api,sizeof(api),error))return false;EntropySrcConfig cfg{};cfg.struct_size=sizeof(cfg);cfg.engine=engine;cfg.source_rate=rate;cfg.destination_rate=192000;cfg.channels=2;cfg.maximum_input_frames=256;if(api.configure(src.handle(),&cfg)!=ENTROPY_OK)return false;std::array<std::array<double,256>,2> in;std::array<const double*,2> ip{in[0].data(),in[1].data()};std::vector<double>l(cfg.required_output_capacity),r(cfg.required_output_capacity);std::array<double*,2>op{l.data(),r.data()};SourceDomainStream dummy;if(instrumented)src_trace::prepare(2048);uint64_t index=0;auto begin=src_trace::now();for(unsigned n=0;n<2000;++n){for(unsigned i=0;i<256;++i){auto value=(int(index++%127)-63)/131072.0;in[0][i]=value;in[1][i]=-value;}EntropySrcBlockF64 b{};b.struct_size=sizeof(b);b.channels=2;b.input_frames=256;b.output_capacity=cfg.required_output_capacity;b.inputs=ip.data();b.outputs=op.data();EntropyResult ok;
+if(instrumented){src_trace::Iteration iteration(dummy);ok=src_trace::process([&]{return api.process(src.handle(),&b);},b);}else ok=api.process(src.handle(),&b);
+if(ok!=ENTROPY_OK||b.consumed_frames!=256)return false;result.frames+=b.produced_frames;for(unsigned c=0;c<2;++c)for(unsigned i=0;i<b.produced_frames;++i){uint64_t bits;std::memcpy(&bits,op[c]+i,8);result.bits=(result.bits^bits)*1099511628211ULL;}}
+result.ticks=src_trace::now()-begin;return true;}
+int main(){std::string error;auto lib=ModuleLibrary::load(std::filesystem::path(TEST_MODULE_ROOT)/"EntropySampleRateConverter.dll",error);if(!lib)return 2;ModuleInstance src(lib);if(!src.create(error)||!src.prepare(192000,1024,2,2,error))return 2;EntropySrcApiV1 api{};api.struct_size=sizeof(api);if(!src.queryExtension(ENTROPY_SRC_EXTENSION_ID,ENTROPY_SRC_EXTENSION_VERSION,&api,sizeof(api),error))return 2;unsigned count=0;if(api.get_engine_count(&count)!=ENTROPY_OK)return 2;std::cout<<"engine_count="<<count<<"\n";LARGE_INTEGER frequency;QueryPerformanceFrequency(&frequency);
+for(unsigned index=0;index<count;++index){EntropySrcEngineDescriptor d{};d.struct_size=sizeof(d);if(api.get_engine_descriptor(index,&d)!=ENTROPY_OK)return 2;std::cout<<"engine="<<d.engine<<" name="<<d.name<<"\n";for(unsigned rate:{44100u,48000u,88200u,96000u,176400u,192000u}){Result off,on;if(!run(lib,rate,d.engine,false,off,error)||!run(lib,rate,d.engine,true,on,error)||off.frames!=on.frames||off.bits!=on.bits){std::cerr<<"FAIL trace altered replay\n";return 1;}std::cout<<"PASS engine="<<d.engine<<" rate="<<rate<<" off_ms="<<double(off.ticks)*1000/frequency.QuadPart<<" on_ms="<<double(on.ticks)*1000/frequency.QuadPart<<" overhead_us_per_call="<<double(int64_t(on.ticks)-int64_t(off.ticks))*1000000/frequency.QuadPart/2000<<" frames="<<off.frames<<" bit_digest="<<off.bits<<"\n";}}
+}

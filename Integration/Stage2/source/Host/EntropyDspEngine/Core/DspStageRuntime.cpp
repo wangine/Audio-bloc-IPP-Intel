@@ -54,121 +54,79 @@ bool DspStageRuntime::applyCenter(const CenterSettings& settings,uint64_t revisi
  if(pending() || !center_.apply(settings,revision))return false;
  diag_.center=center_.snapshot();refreshAlignment();return true;
 }
-bool DspStageRuntime::attach(const StageBusSessionHeader& s,std::string& error){
- const auto previousAlignment=diag_.alignment;stop();diag_={};diag_.alignment=previousAlignment;latencyBins_={};latencyCounts_={};faulted_=false;sourceRevision_=0;downstreamSeen_=downstreamReady_=false;downstreamClaimedAt_=0;
- if(s.layout_id!=MIX_CINEMA10_V1 || validateSession(s,s.mapping_bytes)!=StageBusValidationResult::Ok){error="Invalid Source contract/layout";return false;}
- if(center_.loaded() && !center_.reset()){error="Center reset failed";return false;}
- diag_.center=center_.snapshot();
- if(eq_.loaded()&&!eq_.reset()){error="EQ reset failed";return false;}diag_.eq=eq_.snapshot();
- if(aligner_.loaded()){if(!aligner_.reset()){error="LRC reset failed";return false;}++diag_.alignment.generation;diag_.alignment.boundaryFrame=0;refreshAlignment();}
- inputSession_=s;outputSession_=makeSession(LRC_CINEMA11_V1,s.session_id,s.qpc_frequency);
- if(!input_.open(s,error))return false;
- if(!output_.create(outputSession_,error)){input_.fault();input_.close();return false;}
- outputSession_.producer_pid=GetCurrentProcessId();
+bool DspStageRuntime::resetHistory() noexcept{
+ if(center_.loaded() && !center_.reset())return false;diag_.center=center_.snapshot();
+ if(eq_.loaded() && !eq_.reset())return false;diag_.eq=eq_.snapshot();
+ if(aligner_.loaded()){if(!aligner_.reset())return false;++diag_.alignment.generation;diag_.alignment.boundaryFrame=diag_.blocksOut?diag_.lastHeader.first_frame+1024:0;refreshAlignment();}
+ return true;
+}
+bool DspStageRuntime::attach(const StageBusSessionHeader&,std::string& error){
+ error="Incompatible V1 demand session; Stage2 requires passive Stage1 StagePublish V2";return false;
+}
+bool DspStageRuntime::attachPassive(const std::wstring& endpoint,std::string& error){
+ stop();faulted_=false;
+ if(!input_.connect(endpoint,error))return false;
+ const auto s=input_.session();
+ if(s.layout_id!=MIX_CINEMA10_V1 || validateSession(s,s.mapping_bytes)!=StageBusValidationResult::Ok){input_.close();error="Incompatible passive Source contract; expected MIX_CINEMA10 V2";return false;}
+ if(!resetHistory()){input_.close();error="Native DSP history reset failed";return false;}
+ inputSession_=s;outputSession_=makeSession(LRC_CINEMA11_V1,s.session_id,s.qpc_frequency);outputSession_.producer_pid=GetCurrentProcessId();
  for(unsigned c=0;c<10;c++){inputPointers_[c]=inputPlanes_[c].data();inputConst_[c]=inputPointers_[c];}
  for(unsigned c=0;c<11;c++){outputPointers_[c]=outputPlanes_[c].data();outputConst_[c]=outputPointers_[c];}
- demand_.emplace(outputSession_);attached_=true;if(publisher_)publisher_->setSession(outputSession_);return true;
+ haveInput_=false;attached_=true;downstreamReady_=true;
+ if(publisher_)publisher_->setSession(outputSession_);error.clear();return true;
 }
 void DspStageRuntime::stop() noexcept{
  if(publisher_)publisher_->setSession({});
- if(attached_){input_.fault();output_.fault();}
- input_.close();output_.close();demand_.reset();attached_=false;
- requested_=sent_=ready_=ackPending_=duplicatePending_=controlPending_=false;
+ input_.close();attached_=false;ready_=false;haveInput_=false;downstreamReady_=false;
 }
 DspStepResult DspStageRuntime::fail(bool invalid) noexcept{
- if(!faulted_){diag_.faults++;if(invalid)diag_.invalid++;}faulted_=true;input_.fault();output_.fault();return DspStepResult::Fault;
+ if(!faulted_){diag_.faults++;if(invalid)diag_.invalid++;}faulted_=true;stop();return DspStepResult::Fault;
 }
-void DspStageRuntime::heartbeat(uint64_t now) noexcept{if(attached_){input_.heartbeat(now);output_.heartbeat(now);}}
-bool DspStageRuntime::peersAlive(uint64_t) noexcept{
- if(!attached_ || faulted_)return false;
- auto* raw=static_cast<StageBusSessionHeader*>(output_.address());
- auto pid=InterlockedCompareExchange(reinterpret_cast<volatile LONG*>(&raw->consumer_pid),0,0);
- if(pid && !downstreamSeen_){downstreamSeen_=true;downstreamClaimedAt_=tick();}
- // peerAlive(0) checks process/fault only. Sample shared heartbeat before QPC:
- // a peer can refresh between the caller's timestamp and the shared read.
- // Offsets are frozen StageBusSDK v1 cache-line offsets, not new wire fields.
- const auto heartbeatFresh=[&](StageBusWin32& bus,size_t offset){
-  auto* value=reinterpret_cast<volatile LONG64*>(static_cast<unsigned char*>(bus.address())+offset);
-  auto last=InterlockedCompareExchange64(value,0,0);auto current=tick();
-  return last>0 && static_cast<uint64_t>(last)<=current && current-static_cast<uint64_t>(last)<=inputSession_.qpc_frequency;
- };
- bool alive=input_.peerAlive(0) && heartbeatFresh(input_,384) &&
-     (!downstreamSeen_ || output_.peerAlive(0));
- if(alive && downstreamSeen_){
-  auto* hb=reinterpret_cast<volatile LONG64*>(static_cast<unsigned char*>(output_.address())+448);
-  const auto last=InterlockedCompareExchange64(hb,0,0);
-  if(last==0)alive=tick()-downstreamClaimedAt_<=inputSession_.qpc_frequency;
-  else {alive=heartbeatFresh(output_,448);downstreamReady_=alive;}
- }
- if(!alive)fail();return alive;
-}
-DspStepResult DspStageRuntime::step(uint64_t now) noexcept{
+void DspStageRuntime::heartbeat(uint64_t now) noexcept{if(attached_)input_.heartbeat(now);}
+bool DspStageRuntime::peersAlive(uint64_t now) noexcept{heartbeat(now);return attached_ && !faulted_;}
+DspStepResult DspStageRuntime::step(uint64_t) noexcept{
  if(!attached_ || faulted_)return DspStepResult::Fault;
- if((requested_ || ackPending_) && (now<started_ || now-started_>inputSession_.qpc_frequency)){diag_.deadlines++;diag_.missing+=!ready_;return fail();}
- bool progress=false;
- StageBusSourceControl update{};auto control=input_.tryReceiveSourceControl(update);
- if(control==StageBusIoResult::Fault)return fail(true);
- if(control==StageBusIoResult::Ok){if(update.source_revision<sourceRevision_)return fail(true);sourceRevision_=update.source_revision;pendingControl_=update;controlPending_=true;progress=true;}
- if(controlPending_){auto result=output_.trySendSourceControl(pendingControl_);if(result==StageBusIoResult::Fault)return fail(true);if(result==StageBusIoResult::Ok){controlPending_=false;progress=true;}}
- if(ackPending_){auto result=output_.trySendResponse(lastHeader_);if(result==StageBusIoResult::Fault)return fail(true);if(result==StageBusIoResult::Full){diag_.full++;return DspStepResult::Idle;}ackPending_=false;progress=true;}
- StageBusFrameRequest incoming{};auto io=output_.tryReceiveRequest(incoming);
- if(io==StageBusIoResult::Fault)return fail(true);
- if(io==StageBusIoResult::Ok){
-  auto accepted=demand_->accept(incoming);
-  if(accepted==DemandResult::Fault)return fail(true);
-  if(accepted==DemandResult::Duplicate){diag_.duplicates++;if(requested_)duplicatePending_=true;else {ackPending_=true;started_=now;auto a=output_.trySendResponse(lastHeader_);if(a==StageBusIoResult::Fault)return fail(true);if(a==StageBusIoResult::Ok)ackPending_=false;} }
-  else {request_=incoming;requested_=true;sent_=ready_=false;started_=now;}
-  progress=true;
+ StageBusBlockHeader b{};const auto read=input_.read(b,inputPointers_.data());
+ if(read==entropy::publish::ReadResult::Empty)return DspStepResult::Idle;
+ if(read!=entropy::publish::ReadResult::Block){if(read==entropy::publish::ReadResult::Gap)++diag_.missing;return fail(read==entropy::publish::ReadResult::Invalid);}
+ if(validateBlock(inputSession_,b,inputSession_.slot_stride)!=StageBusValidationResult::Ok)return fail(true);
+ // Transport gap/epoch changes retire the subscription. A fresh subscription
+ // resets native histories; source-generation/music-binding transitions reset
+ // locally too. Sticky provider discontinuity flags alone are not reset commands.
+ if(haveInput_ && (std::memcmp(lastHeader_.source_generation,b.source_generation,sizeof(b.source_generation)) || lastHeader_.music_session_revision!=b.music_session_revision)){
+  if(!resetHistory())return fail(true);
  }
- if(requested_ && !sent_){
-  // Source delivery is independent of Render's scene and hardware gate.
-  // Preserve transport identity, but request the complete upstream layout.
-  auto upstream=request_;upstream.program={};upstream.program.required_inputs=3;
-  upstream.program.music_program_active=1;upstream.program.analyze_music_final=1;
-  upstream.program.manual_mute_mask=upstream.program.effective_mute_mask=pendingControl_.manual_mute_mask;
-  auto sent=input_.trySendRequest(upstream);if(sent==StageBusIoResult::Fault)return fail(true);if(sent==StageBusIoResult::Ok){sent_=true;progress=true;}else diag_.full++;
+ received_=tick();diag_.queueQpc=received_>=b.qpc_timestamp?received_-b.qpc_timestamp:0;diag_.maxQueueQpc=std::max(diag_.maxQueueQpc,diag_.queueQpc);recordLatency(2,diag_.queueQpc);
+ const auto start=tick();
+ // Original executor is an epoch-1 V1 validator plus exact channel routing.
+ // Validate the real V2 header above, execute its unchanged routing with a local
+ // epoch view, then restore the complete original producer header.
+ auto executionHeader=b;executionHeader.stream_epoch=1;
+ auto done=executor_.process(inputSession_,outputSession_,executionHeader,inputConst_.data(),pendingHeader_,outputPointers_.data());
+ pendingHeader_=b;
+ if(done==DspExecuteResult::Ok && eq_.loaded()){
+  // Slot 2 affects MUSIC LR only. Center still receives the independent raw tap.
+  if(!eq_.process(inputConst_[0],inputConst_[1],outputPointers_[0],outputPointers_[1]))return fail(true);
+  diag_.eq=eq_.snapshot();
  }
- if(requested_ && sent_ && !ready_){
-  StageBusBlockHeader b{};auto result=input_.tryConsume(b,inputPointers_.data());
-  if(result==StageBusIoResult::Fault)return fail(true);
-  if(result==StageBusIoResult::Ok){
-   if(b.block_sequence!=request_.block_sequence || b.first_frame!=request_.first_frame || b.stream_epoch!=request_.stream_epoch || b.control_revision!=request_.control_revision)return fail(true);
-   received_=tick();diag_.queueQpc=received_>=b.qpc_timestamp?received_-b.qpc_timestamp:0;diag_.maxQueueQpc=std::max(diag_.maxQueueQpc,diag_.queueQpc);recordLatency(2,diag_.queueQpc);
-   const auto start=tick();auto done=executor_.process(inputSession_,outputSession_,b,inputConst_.data(),pendingHeader_,outputPointers_.data());
-   if(done==DspExecuteResult::Ok && eq_.loaded()){
-    // Slot 2 affects MUSIC LR only. Center still receives the independent raw tap.
-    if(!eq_.process(inputConst_[0],inputConst_[1],outputPointers_[0],outputPointers_[1]))return fail(true);
-    diag_.eq=eq_.snapshot();
-   }
-   if(done==DspExecuteResult::Ok && center_.loaded()){
-    if(!center_.process(inputConst_[0],inputConst_[1],outputPointers_[2]))return fail(true);
-    diag_.center=center_.snapshot();
-   }
-   if(done==DspExecuteResult::Ok && aligner_.loaded()){
-    refreshAlignment();const double* in[]={outputPointers_[0],outputPointers_[1],outputPointers_[2]};double* out[]={alignedPlanes_[0].data(),alignedPlanes_[1].data(),alignedPlanes_[2].data()};
-    if(!aligner_.process(in,out))return fail(true);for(unsigned c=0;c<3;c++)std::memcpy(outputPointers_[c],out[c],1024*sizeof(double));
-   }
-   diag_.executorQpc=tick()-start;diag_.maxExecutorQpc=std::max(diag_.maxExecutorQpc,diag_.executorQpc);recordLatency(0,diag_.executorQpc);
-   if(done!=DspExecuteResult::Ok)return fail(true);
-   diag_.blocksIn++;diag_.framesIn+=1024;ready_=true;progress=true;
-  }
+ if(done==DspExecuteResult::Ok && center_.loaded()){
+  if(!center_.process(inputConst_[0],inputConst_[1],outputPointers_[2]))return fail(true);
+  diag_.center=center_.snapshot();
  }
- if(ready_){
-  auto result=output_.tryPublish(pendingHeader_,outputConst_.data());
-  if(result==StageBusIoResult::Fault)return fail(true);
-  if(result==StageBusIoResult::Full){diag_.full++;return progress?DspStepResult::Progress:DspStepResult::Idle;}
-  // Copy the already completed FP64 output only after its V1 commit. A V2 full
-  // or disconnected subscription has no authority over input demand or faults.
-  if(publisher_){publisher_->publish(pendingHeader_,outputConst_.data());diag_.publishDrops=publisher_->dropped();}
-  lastHeader_=pendingHeader_;diag_.lastHeader=lastHeader_;diag_.blocksOut++;diag_.framesOut+=1024;
-  measureSignal(diag_.signal,inputConst_.data(),outputConst_.data(),lastHeader_.validity_mask,tick(),center_.loaded());
-  if(recorder_){recorder_->tryCapture(lastHeader_,outputConst_.data());diag_.captureDrops=recorder_->dropped();}
-  diag_.traversalQpc=tick()-received_;diag_.maxTraversalQpc=std::max(diag_.maxTraversalQpc,diag_.traversalQpc);recordLatency(1,diag_.traversalQpc);
-  if(!demand_->complete(request_.block_sequence))return fail(true);
-  ready_=requested_=sent_=false;
-  if(duplicatePending_){duplicatePending_=false;ackPending_=true;started_=now;}
-  return DspStepResult::Published;
+ if(done==DspExecuteResult::Ok && aligner_.loaded()){
+  refreshAlignment();const double* in[]={outputPointers_[0],outputPointers_[1],outputPointers_[2]};double* out[]={alignedPlanes_[0].data(),alignedPlanes_[1].data(),alignedPlanes_[2].data()};
+  if(!aligner_.process(in,out))return fail(true);for(unsigned c=0;c<3;c++)std::memcpy(outputPointers_[c],out[c],1024*sizeof(double));
  }
- return progress?DspStepResult::Progress:DspStepResult::Idle;
+ diag_.executorQpc=tick()-start;diag_.maxExecutorQpc=std::max(diag_.maxExecutorQpc,diag_.executorQpc);recordLatency(0,diag_.executorQpc);
+ if(done!=DspExecuteResult::Ok)return fail(true);
+ ++diag_.blocksIn;diag_.framesIn+=1024;ready_=true;
+ // Preserve source metadata verbatim. Clearing the Stage2 session on a local
+ // loss makes every output subscriber explicitly reconnect before new history.
+ if(publisher_){publisher_->publish(pendingHeader_,outputConst_.data());diag_.publishDrops=publisher_->dropped();}
+ lastHeader_=pendingHeader_;diag_.lastHeader=lastHeader_;++diag_.blocksOut;diag_.framesOut+=1024;
+ measureSignal(diag_.signal,inputConst_.data(),outputConst_.data(),lastHeader_.validity_mask,tick(),center_.loaded());
+ if(recorder_){recorder_->tryCapture(lastHeader_,outputConst_.data());diag_.captureDrops=recorder_->dropped();}
+ diag_.traversalQpc=tick()-received_;diag_.maxTraversalQpc=std::max(diag_.maxTraversalQpc,diag_.traversalQpc);recordLatency(1,diag_.traversalQpc);
+ ready_=false;haveInput_=true;return DspStepResult::Published;
 }
 }

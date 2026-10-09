@@ -1,0 +1,15 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/transport-test
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage011/transport-test
+    Start 1: StagePublishV2Tests
+1/1 Test #1: StagePublishV2Tests ..............***Failed    0.09 sec
+connect: Passive subscription identity, capacity or session validation failed
+FAIL ten-channel Stage1 passive subscription accepted
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.11 sec
+
+The following tests FAILED:
+	  1 - StagePublishV2Tests (Failed)
+Errors while running CTest

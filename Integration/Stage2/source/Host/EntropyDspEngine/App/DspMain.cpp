@@ -45,7 +45,7 @@ int main(int argc,char** argv){
  if(source.isEmpty() && !automatic){std::cerr<<"Headless fixture requires --automatic or explicit --source-session\n";return 2;}
  auto capture=value("--capture-file");if(!capture.isEmpty()){auto count=value("--capture-blocks").toULongLong();if(!controller.startCapture(std::filesystem::path(capture.toStdWString()),count,error)){std::cerr<<error<<"\n";return 2;}}
  auto endpoint=value("--link-endpoint");
- if(!(automatic?controller.startAutomatic(std::filesystem::path(root.toStdWString()),error,endpoint.isEmpty()?entropy::link::endpointName():endpoint.toStdWString()):controller.start(std::filesystem::path(root.toStdWString()),std::filesystem::path(source.toStdWString()),error))){std::cerr<<error<<"\n";return 2;}
+ if(!(automatic?controller.startAutomatic(std::filesystem::path(root.toStdWString()),error,endpoint.isEmpty()?entropy::publish::sourceEndpointName():endpoint.toStdWString()):controller.start(std::filesystem::path(root.toStdWString()),std::filesystem::path(source.toStdWString()),error))){std::cerr<<error<<"\n";return 2;}
  int code=0;
  auto writeDiagnostic=[&](const DspUiSnapshot& s,int status){
   if(diagnostic.isEmpty())return true;
