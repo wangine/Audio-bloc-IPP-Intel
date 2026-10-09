@@ -1,0 +1,175 @@
+{
+  "actualProfileIsolation": {
+    "actualProtectedFiltersRetained": true,
+    "bassScoopMaxDifference": 0.16221838760813026,
+    "comparedSamples": "786432",
+    "directLrcBitExact": true,
+    "directLrcEnergy": [
+      59.31692348760191,
+      98.05164277830796,
+      143.72222066636124
+    ],
+    "directLrcMaxAbsError": 0,
+    "status": "PASS"
+  },
+  "delayControl": {
+    "positiveControls": [
+      {
+        "acceptedMs": 6.103515625e-05,
+        "legacyBitExact": true,
+        "requestedMs": 6.103515625e-05
+      },
+      {
+        "acceptedMs": 0.00103759765625,
+        "legacyBitExact": true,
+        "requestedMs": 0.0010000000474974513
+      },
+      {
+        "acceptedMs": 0.50006103515625,
+        "legacyBitExact": true,
+        "requestedMs": 0.5
+      },
+      {
+        "acceptedMs": 1.32806396484375,
+        "legacyBitExact": true,
+        "requestedMs": 1.32806396484375
+      },
+      {
+        "acceptedMs": 1.5670166015625,
+        "legacyBitExact": true,
+        "requestedMs": 1.5670166015625
+      },
+      {
+        "acceptedMs": 2.75201416015625,
+        "legacyBitExact": true,
+        "requestedMs": 2.75201416015625
+      },
+      {
+        "acceptedMs": 3.39202880859375,
+        "legacyBitExact": true,
+        "requestedMs": 3.39202880859375
+      },
+      {
+        "acceptedMs": 800,
+        "legacyBitExact": true,
+        "requestedMs": 800
+      }
+    ],
+    "zeroMs": 0
+  },
+  "fixedMono": [
+    {
+      "input": "L=R",
+      "maxAbsError": 0,
+      "mode": 0
+    },
+    {
+      "input": "R=0",
+      "maxAbsError": 0,
+      "mode": 0
+    },
+    {
+      "input": "L=-R",
+      "maxAbsError": 0,
+      "mode": 0
+    },
+    {
+      "input": "L=R",
+      "maxAbsError": 0,
+      "mode": 1
+    },
+    {
+      "input": "R=0",
+      "maxAbsError": 0,
+      "mode": 1
+    },
+    {
+      "input": "L=-R",
+      "maxAbsError": 0,
+      "mode": 1
+    }
+  ],
+  "hardwareOpened": false,
+  "lr24": {
+    "frequencyHz": 1000,
+    "hpGainDb": -6.020599913279616,
+    "lpGainDb": -6.020599913280868,
+    "oracleMaxComplexError": 9.284731049704069e-14,
+    "sumMagnitude": 0.999999999999929,
+    "sumPhaseDegrees": 179.99999999999312
+  },
+  "pcaRankOne": [
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 32,
+      "gain": 3.486089548468406,
+      "gainDb": 10.846770775996937,
+      "peak": 0.4357611830697323,
+      "phaseDegrees": 4.092571219652287
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 50,
+      "gain": 3.5649641554471403,
+      "gainDb": 11.041103350406923,
+      "peak": 0.44562043855473793,
+      "phaseDegrees": -8.56576956363097
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 78,
+      "gain": 3.3584316743499603,
+      "gainDb": 10.522730344314724,
+      "peak": 0.41980395902268874,
+      "phaseDegrees": -19.719191028746913
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 122,
+      "gain": 3.060444912560001,
+      "gainDb": 9.715691333710968,
+      "peak": 0.3825556140638813,
+      "phaseDegrees": -31.39157422696563
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 190,
+      "gain": 2.6710006905097465,
+      "gainDb": 8.533480005912548,
+      "peak": 0.33387508593805615,
+      "phaseDegrees": -46.59646795905464
+    }
+  ],
+  "thiran": {
+    "designs": [
+      {
+        "delaySamples": 0,
+        "effectiveOrder": 0,
+        "integerTap": 0
+      },
+      {
+        "delaySamples": 1,
+        "effectiveOrder": 0,
+        "integerTap": 1
+      },
+      {
+        "delaySamples": 1.5,
+        "effectiveOrder": 1,
+        "integerTap": 1
+      },
+      {
+        "delaySamples": 2.5,
+        "effectiveOrder": 3,
+        "integerTap": 0
+      },
+      {
+        "delaySamples": 4.5,
+        "effectiveOrder": 5,
+        "integerTap": 0
+      }
+    ],
+    "editTransitionSamples": 7680,
+    "integerSignedZeroIdentity": true,
+    "status": "PASS"
+  }
+}

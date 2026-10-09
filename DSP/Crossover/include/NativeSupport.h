@@ -75,13 +75,14 @@ public:void setSize(size_t n,bool=false){bytes.resize(n);}void*getData()noexcept
 };
 template<class T>struct NormalisableRange {
  T start{},end{1},interval{},skew{1},encodingOffset{};bool nearestEven=false; NormalisableRange()=default;NormalisableRange(T a,T b,T step=T{},T power=T(1),bool integer=false):start(a),end(b),interval(step),skew(power),nearestEven(integer){}
- T snapToLegalValue(T v)const noexcept{if(nearestEven){v=jlimit(start,end,v);const auto lower=std::floor(v);const auto fraction=v-lower;return fraction>T(.5)?lower+T(1):fraction<T(.5)?lower:(std::fmod(lower,T(2))==T{}?lower:lower+T(1));}if(interval>T{}){const auto origin=start-encodingOffset;v=origin+interval*std::floor((v-origin)/interval+T(0.5));}return jlimit(start,end,v);}
+ T snapToLegalValue(T v)const noexcept{if(start==T{} && encodingOffset>T{} && v==T{})return T{};if(nearestEven){v=jlimit(start,end,v);const auto lower=std::floor(v);const auto fraction=v-lower;return fraction>T(.5)?lower+T(1):fraction<T(.5)?lower:(std::fmod(lower,T(2))==T{}?lower:lower+T(1));}if(interval>T{}){const auto origin=start-encodingOffset;v=origin+interval*std::floor((v-origin)/interval+T(0.5));}return jlimit(start,end,v);}
  T convertTo0to1(T v)const noexcept{v=jlimit(start,end,v);const auto origin=start-encodingOffset;auto n=jlimit(T{},T(1),(v-origin)/(end-origin));return skew==T(1)?n:std::pow(n,skew);}
  T convertFrom0to1(T n)const noexcept{n=jlimit(T{},T(1),n);if(skew!=T(1))n=std::exp(std::log(n)/skew);const auto origin=start-encodingOffset;return jlimit(start,end,origin+(end-origin)*n);}
 };
 // Retain the accepted positive FP32 control round-trip while narrowing the
 // legal millisecond range. This offset is parameter encoding only; legacy
-// control rounding is retained, with no Global Base or added signal delay.
+// control rounding is retained. Exact zero bypasses offset quantization, which
+// otherwise rounds 800000 * 0.001f above 800 and invents a fractional delay.
 inline NormalisableRange<float> nonnegativeDelayRange() {
  NormalisableRange<float> range(0.0f,800.0f,0.001f);range.encodingOffset=800.0f;return range;
 }

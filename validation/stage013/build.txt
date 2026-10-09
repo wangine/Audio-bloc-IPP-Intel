@@ -1,0 +1,226 @@
+AudioCore: compile MSVC x64 + static Intel IPP (OFFLINE)
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+-- Intel IPP headers: C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0/include
+-- Configuring done (1.2s)
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/data-io.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/dbesi0.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/filter.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/fft4g64.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/cr.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/cr32.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/fft4g32.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/cr64.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/vr32.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/cr32s.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/pffft32s.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/util32s.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/cr64s.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/pffft64s.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+CMake Warning (dev) at D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+  Policy CMP0115 is not set: Source file extensions must be explicit.  Run
+  "cmake --help-policy CMP0115" for policy details.  Use the cmake_policy
+  command to set the policy and suppress this warning.
+
+  File:
+
+    D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/util64s.c
+This warning is for project developers.  Use -Wno-dev to suppress it.
+
+-- Generating done (0.5s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+[1/56] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\NativeState.cpp.obj
+[2/56] Building CXX object CMakeFiles\entropy_graph.dir\Engine\Telemetry.cpp.obj
+[3/56] Building CXX object CMakeFiles\entropy_graph.dir\Engine\AudioGraph.cpp.obj
+[4/56] Building CXX object CMakeFiles\entropy_egress.dir\Engine\Egress\NativeEgress.cpp.obj
+[5/56] Building CXX object CMakeFiles\entropy_controls.dir\Engine\Control\ControlPlane.cpp.obj
+[6/56] Building CXX object CMakeFiles\entropy_controls.dir\Engine\Control\CrossoverAccess.cpp.obj
+[7/56] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\PluginProcessor.cpp.obj
+[8/56] Linking CXX static library entropy_crossover.lib
+[9/56] Linking CXX static library entropy_graph.lib
+[10/56] Linking CXX static library entropy_egress.lib
+[11/56] Linking CXX static library entropy_controls.lib
+[12/56] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\CoreRuntime.cpp.obj
+[13/56] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\AudioScheduler.cpp.obj
+[14/56] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\ProfileStore.cpp.obj
+[15/56] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\OfflineSinkWorkers.cpp.obj
+[16/56] Building CXX object CMakeFiles\entropy_control_runtime.dir\IPC\TelemetryServer.cpp.obj
+[17/56] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\LiveSinkWorkers.cpp.obj
+[18/56] Building CXX object CMakeFiles\EntropyAudioCore.dir\main.cpp.obj
+[19/56] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\LiveEligibility.cpp.obj
+[20/56] Linking CXX static library entropy_control_runtime.lib
+[21/56] Building CXX object CMakeFiles\EntropyAudioCore.dir\Engine\Egress\HardwareTest.cpp.obj
+[22/56] Building CXX object CMakeFiles\EntropyStage04HardwareGate.dir\Engine\Egress\HardwareTest.cpp.obj
+[23/56] Building CXX object CMakeFiles\EntropyStage06Input.dir\Stage06TestIngress.cpp.obj
+[24/56] Building CXX object CMakeFiles\EntropyStage04Validation.dir\Tests\Stage04Validation.cpp.obj
+[25/56] Building CXX object CMakeFiles\EntropyStage012Reference.dir\Tests\Stage012HeadroomReference.cpp.obj
+[26/56] Building CXX object CMakeFiles\EntropyStage07Live.dir\Tests\Stage07LiveWorkers.cpp.obj
+[27/56] Building CXX object CMakeFiles\EntropyStage013Crossover.dir\Tests\Stage013CrossoverEvidence.cpp.obj
+[28/56] Building CXX object CMakeFiles\EntropyStage05Validation.dir\Tests\Stage05Validation.cpp.obj
+[29/56] Building CXX object CMakeFiles\EntropyStage05Boundary.dir\Tests\Stage05BoundaryTests.cpp.obj
+[30/56] Building CXX object CMakeFiles\EntropyStage05Control.dir\Tests\Stage05ControlTests.cpp.obj
+[31/56] Building CXX object CMakeFiles\EntropyThiranDelay.dir\Tests\ThiranDelayTests.cpp.obj
+[32/56] Building CXX object CMakeFiles\EntropyStage04Policy.dir\Tests\Stage04PolicyTests.cpp.obj
+[33/56] Building CXX object CMakeFiles\EntropyOfflineConfig.dir\Tests\OfflineConfigTests.cpp.obj
+[34/56] Building CXX object CMakeFiles\EntropyThiranValidation.dir\Tests\ThiranValidation.cpp.obj
+[35/56] Linking CXX executable EntropyAudioCore.exe
+[36/56] Linking CXX executable EntropyStage04HardwareGate.exe
+[37/56] Linking CXX executable EntropyStage04Validation.exe
+[38/56] Building CXX object CMakeFiles\EntropyGraphSmoke.dir\Tests\GraphSmoke.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[39/56] Linking CXX executable EntropyStage012Reference.exe
+[40/56] Linking CXX executable EntropyStage07Live.exe
+[41/56] Linking CXX executable EntropyStage06Input.exe
+[42/56] Linking CXX executable EntropyStage013Crossover.exe
+[43/56] Linking CXX executable EntropyStage05Validation.exe
+[44/56] Linking CXX executable EntropyStage05Boundary.exe
+[45/56] Linking CXX executable EntropyStage05Control.exe
+[46/56] Linking CXX executable EntropyThiranDelay.exe
+[47/56] Building CXX object CMakeFiles\EntropyNativeStateUnit.dir\DSP\Crossover\tests\NativeSupportTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\memory(3666): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\memory(3666): note: the template instantiation context (the oldest one first) is
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\DSP\Crossover\tests\NativeSupportTests.cpp(26): note: see reference to function template instantiation 'std::unique_ptr<entropy::native::AudioParameterFloat,std::default_delete<entropy::native::AudioParameterFloat>> std::make_unique<entropy::native::AudioParameterFloat,entropy::native::ParameterID,const char(&)[6],entropy::native::NormalisableRange<float>,int,0>(entropy::native::ParameterID &&,const char (&)[6],entropy::native::NormalisableRange<float> &&,int &&)' being compiled
+[48/56] Linking CXX executable EntropyStage04Policy.exe
+[49/56] Linking CXX executable EntropyThiranValidation.exe
+[50/56] Linking CXX executable EntropyStage03Reset.exe
+[51/56] Linking CXX executable EntropyOfflineConfig.exe
+[52/56] Linking CXX executable EntropyGraphSmoke.exe
+[53/56] Linking CXX executable EntropyIppFirUnit.exe
+[54/56] Linking CXX executable EntropyNativeStateUnit.exe
+[55/56] Building CXX object CMakeFiles\EntropyV07Integration.dir\Tests\V07CrossoverIntegration.cpp.obj
+[56/56] Linking CXX executable EntropyV07Integration.exe
+PASS: native MSVC build (tests requested separately). No DAC/IPC started.

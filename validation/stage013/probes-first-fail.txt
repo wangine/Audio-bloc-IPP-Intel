@@ -1,0 +1,2 @@
+fixed mono first mismatch mode=0 case=0 frame=1 expected=0.00390561424816576 actual=0.0038151366980152019 trim=0 gain=0
+FAIL mono extraction altered direct L
