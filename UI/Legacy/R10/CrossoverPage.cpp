@@ -582,7 +582,7 @@ private:
             && telemetry.crossoverCommandAcceptedSequence == telemetry.crossoverCommandRequestedSequence
             && telemetry.crossoverCommandAppliedSequence != 0
             && telemetry.crossoverCommandAppliedSequence + 1 == telemetry.crossoverCommandRequestedSequence;
-        // Existing APVTS float normalization spans 1600 ms.
+        // Positive APVTS control encoding is retained for existing profiles.
         if (pending != pendingDelays_.end() && !pending->second.failed
             && (parameterAcknowledged || finalSetAcknowledgedBeforeEnd)
             && telemetry.crossoverCommandRequestedSequence != 0
@@ -601,7 +601,7 @@ private:
             const QSignalBlocker blocker(coarseDelaySlider_);
             coarseDelaySlider_->setValue(qRound(shown * 1000));
         }
-        coarseDelayLabel_->setText(QString("RELATIVE DELAY / COARSE   %1 ms").arg(shown,0,'f',3));
+        coarseDelayLabel_->setText(QString("CHANNEL DELAY / COARSE   %1 ms").arg(shown,0,'f',3));
         if (!fineDelayEdit_.active())
             fineDelayLabel_->setText(QString("FINE ADJUST   %1 ms").arg(shown,0,'f',3));
         const double effective = ui::DelayEditModel::effective(applied);
@@ -612,14 +612,11 @@ private:
             "SUB 2", "SCOOP 2", "CINEMA SL", "CINEMA SR", "CINEMA BL", "CINEMA BR", "CINEMA TSL", "CINEMA TSR"};
         const QString state = active ? "EDITING" : pending != pendingDelays_.end()
             ? pending->second.failed ? "FAILED — retry" : "REQUESTED — application unconfirmed" : "PARAMETER";
-        QString clamp;
-        if (applied < 0) clamp = " | CLAMPED AT 0 ms: negative relative changes here do not shift output";
-        else if (applied > 1600) clamp = " | CLAMPED AT 1600 ms";
-        delayStatus_->setText(QString("%1 | CH %2 | %3 | %4\nChannel delay %5 ms = effective target %6 ms%7")
+        delayStatus_->setText(QString("%1 | CH %2 | %3 | %4\nChannel delay %5 ms = effective target %6 ms")
             .arg(cinema ? "CINEMA" : "MUSIC").arg(channel+1)
             .arg(roles.value(role,"OFF"),state).arg(applied,0,'f',6)
-            .arg(effective,0,'f',6).arg(clamp));
-        delayStatus_->setToolTip(QString("Parameter: %1. Effective target clamps channel delay to [0,1600] ms. Parameter readback alone does not prove audio adoption. Existing FIR latency compensation and smoothing remain active.").arg(id));
+            .arg(effective,0,'f',6));
+        delayStatus_->setToolTip(QString("Parameter: %1. Channel delay range is [0,800] ms. Parameter readback alone does not prove audio adoption. Existing FIR latency compensation and smoothing remain active.").arg(id));
         const int fractionalMode=qRound(parameter(telemetry,channelId("fractionalDelayMode",channel),0));
         const int requestedOrder=fractionalMode==3?5:fractionalMode==2?3:fractionalMode==1?1:0;
         const int actualOrder=int(telemetry.crossoverFractionalDelayOrder[channel]);
@@ -776,9 +773,9 @@ private:
         fineDelayLabel_->setMinimumWidth(150);
         fineDelaySlider_ = new QSlider(Qt::Horizontal);
         fineDelaySlider_->setObjectName("fineDelaySlider");
-        fineDelaySlider_->setRange(-500, 500);
-        fineDelaySlider_->setValue(0);
-        fineDelaySlider_->setToolTip("Geared adjustment of RELATIVE DELAY for the selected logical output.");
+        fineDelaySlider_->setRange(0, 1000);
+        fineDelaySlider_->setValue(500);
+        fineDelaySlider_->setToolTip("Geared adjustment of channel delay [0,800] ms. Moving left reduces a positive delay and stops at zero.");
         styleRoutingSlider(fineDelaySlider_, true);
         fineRatio_ = new QComboBox;
         fineRatio_->addItems({"1/10", "1/100", "1/1000"});
@@ -802,19 +799,19 @@ private:
             const double ratio = ratios[size_t(std::clamp(fineRatio_->currentIndex(), 0, 2))];
             fineDelayEdit_.move(rawDelta, ratio, delaySink());
             fineDelayLabel_->setText(QString("FINE ADJUST   %1 ms").arg(fineDelayEdit_.value(), 0, 'f', 3));
-            if (raw >= 499)
+            if (raw >= 999)
             {
                 const QSignalBlocker blocker(fineDelaySlider_);
-                fineDelaySlider_->setValue(-499);
-                fineDelayLastRaw_ = -499;
+                fineDelaySlider_->setValue(1);
+                fineDelayLastRaw_ = 1;
                 QCursor::setPos(fineDelaySlider_->mapToGlobal(
                     QPoint(2, fineDelaySlider_->height() / 2)));
             }
-            else if (raw <= -499)
+            else if (raw <= 1)
             {
                 const QSignalBlocker blocker(fineDelaySlider_);
-                fineDelaySlider_->setValue(499);
-                fineDelayLastRaw_ = 499;
+                fineDelaySlider_->setValue(999);
+                fineDelayLastRaw_ = 999;
                 QCursor::setPos(fineDelaySlider_->mapToGlobal(
                     QPoint(fineDelaySlider_->width() - 3, fineDelaySlider_->height() / 2)));
             }
@@ -822,13 +819,13 @@ private:
         connect(fineDelaySlider_, &QSlider::sliderReleased, this, [this] {
             fineDelayEdit_.finish(delaySink());
             const QSignalBlocker blocker(fineDelaySlider_);
-            fineDelaySlider_->setValue(0);
+            fineDelaySlider_->setValue(500);
         });
 
-        coarseDelayLabel_ = label("RELATIVE DELAY / COARSE");
+        coarseDelayLabel_ = label("CHANNEL DELAY / COARSE");
         coarseDelaySlider_ = new QSlider(Qt::Horizontal);
         coarseDelaySlider_->setObjectName("coarseDelaySlider");
-        coarseDelaySlider_->setRange(-800000, 800000);
+        coarseDelaySlider_->setRange(0, 800000);
         grid->addWidget(coarseDelayLabel_, 7, 0);
         grid->addWidget(coarseDelaySlider_, 7, 1);
         styleRoutingSlider(coarseDelaySlider_, true);

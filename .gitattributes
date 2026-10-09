@@ -5,6 +5,8 @@
 /validation/stage03/** -text whitespace=cr-at-eol,-blank-at-eol
 /validation/stage04/** -text whitespace=cr-at-eol,-blank-at-eol
 /validation/stage04-blockers/** -text whitespace=cr-at-eol,-blank-at-eol
+# Preserve the focused delay verification logs, including their initial failures.
+/validation/nonnegative-delay-20261009/** -text whitespace=cr-at-eol,-blank-at-eol
 # Keep the pinned header's original CRLF bytes for its one authorized substitution.
 /Egress/ClockSync/include/EgressClockEstimator.h -text whitespace=cr-at-eol
 /VALIDATION-STAGE04-BLOCKERS.md -text whitespace=cr-at-eol

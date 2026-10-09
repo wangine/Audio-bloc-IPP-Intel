@@ -1,0 +1,52 @@
+Core ready True
+V07 global16 Headroom page controls missing: connected=1 initialContract=0 crossoverTabs=1 fineDelay=1 coarseDelay=1 mode=1 manual=1 reserve=1 transition=1 attack=1 release=1 sampleSafety=1 capacity=1 analyzer=1
+
+Headroom label 'HEADROOM OK' layout=QGridLayout
+
+Headroom label 'MODE' layout=QGridLayout
+
+Headroom label 'MANUAL GAIN / AUTO MAX' layout=QGridLayout
+
+Headroom label 'AUTO PREVENTIVE RESERVE' layout=QGridLayout
+
+Headroom label 'MODE / MANUAL TRANSITION' layout=QGridLayout
+
+Headroom label 'PREVENTIVE ATTACK' layout=QGridLayout
+
+Headroom label 'RELEASE' layout=QGridLayout
+
+Headroom label 'Immediate same-block sample safety  �  preventive attack 500 ms  �  hold 1000 ms  �  release 4000 ms' layout=QGridLayout
+
+Headroom label 'INPUT SAMPLE PEAK' layout=QGridLayout
+
+Headroom label '-60.00 dBFS' layout=QGridLayout
+
+Headroom label 'SAMPLE SAFETY REQUIRED' layout=QGridLayout
+
+Headroom label '0.00 dB' layout=QGridLayout
+
+Headroom label 'AUTO TARGET' layout=QGridLayout
+
+Headroom label '0.00 dB' layout=QGridLayout
+
+Headroom label 'APPLIED ATTENUATION' layout=QGridLayout
+
+Headroom label '0.00 dB' layout=QGridLayout
+
+Headroom label 'ANALYZER' layout=QGridLayout
+
+Headroom label 'IDLE' layout=QGridLayout
+
+Headroom label 'AUTO CAPACITY' layout=QGridLayout
+
+Headroom label 'N/A' layout=QGridLayout
+
+Headroom label 'BIT PERFECT  �  AUTO max 6.00 dB  �  reserve 0.00 dB  �  limiting CH1, CH2, CH3, CH4, CH5, CH6, CH7, CH8, CH9, CH10, CH11, CH12  �  fault NONE  �  non-finite 0  �  sample-peak safety; true-peak pending' layout=QVBoxLayout
+
+
+{'data': {'armed': False, 'status': 'STOPPING'}, 'ok': True, 'session': '35332534'}
+Core exit 0 stdout Stage05 native IPC READY: EntropyAudioCore.Stage08.Ui.be049b00ba0f498f98d31745153552f2; DISARMED; liveGate=BLOCKED; authorizedLiveTest=NO
+
+AudioCore stopped safely; all native DAC owners closed
+
+ stderr 

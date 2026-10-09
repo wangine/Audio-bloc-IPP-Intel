@@ -163,9 +163,9 @@ native::ParameterStore::ParameterLayout EntropyCrossoverAudioProcessor::createPa
         p.push_back (std::make_unique<native::AudioParameterBool> (native::ParameterID { channelParam ("mute", ch), 1 }, "CH " + n + " Mute", false));
         p.push_back (std::make_unique<native::AudioParameterBool> (native::ParameterID { channelParam ("solo", ch), 1 }, "CH " + n + " Solo", false));
         p.push_back (std::make_unique<native::AudioParameterBool> (native::ParameterID { channelParam ("polarity", ch), 1 }, "CH " + n + " Polarity Invert", false));
-        p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { channelParam ("delayMs", ch), 1 }, "CH " + n + " Relative Delay", native::NormalisableRange<float> (-800.0f, 800.0f, 0.001f), 0.0f, "ms"));
-        p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { channelParam ("musicDelayMs", ch), 1 }, "MUSIC CH " + n + " Relative Delay", native::NormalisableRange<float> (-800.0f, 800.0f, 0.001f), 0.0f, "ms"));
-        p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { channelParam ("cinemaDelayMs", ch), 1 }, "CINEMA CH " + n + " Relative Delay", native::NormalisableRange<float> (-800.0f, 800.0f, 0.001f), 0.0f, "ms"));
+        p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { channelParam ("delayMs", ch), 1 }, "CH " + n + " Channel Delay", native::nonnegativeDelayRange(), 0.0f, "ms"));
+        p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { channelParam ("musicDelayMs", ch), 1 }, "MUSIC CH " + n + " Channel Delay", native::nonnegativeDelayRange(), 0.0f, "ms"));
+        p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { channelParam ("cinemaDelayMs", ch), 1 }, "CINEMA CH " + n + " Channel Delay", native::nonnegativeDelayRange(), 0.0f, "ms"));
         const bool defaultBassLane = ch == 10 || ch == 11;
         p.push_back (std::make_unique<native::AudioParameterChoice> (native::ParameterID { channelParam ("processMode", ch), 1 }, "CH " + n + " Processing", bassProcessingNames(), 0));
         p.push_back (std::make_unique<native::AudioParameterChoice> (native::ParameterID { channelParam ("firLength", ch), 1 }, "CH " + n + " FIR Length", firLengthNames(), 1));

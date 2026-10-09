@@ -1,0 +1,16 @@
+Core ready True
+Delay observed=3.00006103515625
+
+Observed program=1 route=2 groups=1 membership=0 reserve=3 gain=-12 attack=600 release=3000 peak=0.00099999993108212948 error=BLOCKED: Stage04 live offline gate missing/stale
+
+Qt original pages + two-process control PASS
+
+Qt profile DAC cache refresh PASS
+
+
+{'data': {'armed': False, 'status': 'STOPPING'}, 'ok': True, 'session': '35802362'}
+Core exit 0 stdout Stage05 native IPC READY: EntropyAudioCore.Stage08.Ui.7ebe2fadfb984589aa318fcebd10b6de; DISARMED; liveGate=BLOCKED; authorizedLiveTest=NO
+
+AudioCore stopped safely; all native DAC owners closed
+
+ stderr 

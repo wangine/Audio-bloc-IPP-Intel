@@ -74,11 +74,17 @@ class MemoryBlock {
 public:void setSize(size_t n,bool=false){bytes.resize(n);}void*getData()noexcept{return bytes.data();}const void*getData()const noexcept{return bytes.data();}size_t getSize()const noexcept{return bytes.size();}void append(const void*p,size_t n){const auto*b=(const uint8_t*)p;bytes.insert(bytes.end(),b,b+n);}
 };
 template<class T>struct NormalisableRange {
- T start{},end{1},interval{},skew{1};bool nearestEven=false; NormalisableRange()=default;NormalisableRange(T a,T b,T step=T{},T power=T(1),bool integer=false):start(a),end(b),interval(step),skew(power),nearestEven(integer){}
- T snapToLegalValue(T v)const noexcept{if(nearestEven){v=jlimit(start,end,v);const auto lower=std::floor(v);const auto fraction=v-lower;return fraction>T(.5)?lower+T(1):fraction<T(.5)?lower:(std::fmod(lower,T(2))==T{}?lower:lower+T(1));}if(interval>T{})v=start+interval*std::floor((v-start)/interval+T(0.5));return jlimit(start,end,v);}
- T convertTo0to1(T v)const noexcept{auto n=jlimit(T{},T(1),(v-start)/(end-start));return skew==T(1)?n:std::pow(n,skew);}
- T convertFrom0to1(T n)const noexcept{n=jlimit(T{},T(1),n);if(skew!=T(1))n=std::exp(std::log(n)/skew);return start+(end-start)*n;}
+ T start{},end{1},interval{},skew{1},encodingOffset{};bool nearestEven=false; NormalisableRange()=default;NormalisableRange(T a,T b,T step=T{},T power=T(1),bool integer=false):start(a),end(b),interval(step),skew(power),nearestEven(integer){}
+ T snapToLegalValue(T v)const noexcept{if(nearestEven){v=jlimit(start,end,v);const auto lower=std::floor(v);const auto fraction=v-lower;return fraction>T(.5)?lower+T(1):fraction<T(.5)?lower:(std::fmod(lower,T(2))==T{}?lower:lower+T(1));}if(interval>T{}){const auto origin=start-encodingOffset;v=origin+interval*std::floor((v-origin)/interval+T(0.5));}return jlimit(start,end,v);}
+ T convertTo0to1(T v)const noexcept{v=jlimit(start,end,v);const auto origin=start-encodingOffset;auto n=jlimit(T{},T(1),(v-origin)/(end-origin));return skew==T(1)?n:std::pow(n,skew);}
+ T convertFrom0to1(T n)const noexcept{n=jlimit(T{},T(1),n);if(skew!=T(1))n=std::exp(std::log(n)/skew);const auto origin=start-encodingOffset;return jlimit(start,end,origin+(end-origin)*n);}
 };
+// Retain the accepted positive FP32 control round-trip while narrowing the
+// legal millisecond range. This offset is parameter encoding only; legacy
+// control rounding is retained, with no Global Base or added signal delay.
+inline NormalisableRange<float> nonnegativeDelayRange() {
+ NormalisableRange<float> range(0.0f,800.0f,0.001f);range.encodingOffset=800.0f;return range;
+}
 struct ParameterID{String id;int version;};
 inline bool approximatelyEqual(float a,float b)noexcept{const auto diff=std::abs(a-b);return diff<=std::numeric_limits<float>::min()||diff<=std::numeric_limits<float>::epsilon()*std::max(std::abs(a),std::abs(b));}
 class RangedAudioParameter {

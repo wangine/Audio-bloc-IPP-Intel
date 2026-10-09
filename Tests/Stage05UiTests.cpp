@@ -34,6 +34,7 @@ int main(int argc,char** argv){
   auto* tabs=window.moduleDialog(entropy::stage::RenderPage::Crossover)->findChild<QTabWidget*>("crossoverTabs");good=good&&tabs;good=good&&window.findChild<QPushButton*>("renderProgramShortcut")&&window.findChild<QPushButton*>("renderOutputShortcut");
   auto* crossover=window.moduleDialog(entropy::stage::RenderPage::Crossover);
   good=good&&crossover->findChild<QSlider*>("fineDelaySlider")&&crossover->findChild<QSlider*>("coarseDelaySlider")&&!crossover->findChild<QDoubleSpinBox*>("preciseRelativeDelay");
+  good=good&&crossover->findChild<QSlider*>("coarseDelaySlider")->minimum()==0&&crossover->findChild<QSlider*>("fineDelaySlider")->minimum()==0;
   for(auto* text:crossover->findChildren<QLabel*>())good=good&&!text->text().contains("GLOBAL BASE")&&!text->text().contains("PRECISE RELATIVE DELAY");
   const bool initialContract=good;
   using namespace entropy::host;uint64_t sequence=0;

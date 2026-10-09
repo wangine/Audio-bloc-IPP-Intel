@@ -242,8 +242,8 @@ private:
     int scoopRightPolarity = 1, scoopCenterPolarity = 1;
     int cinemaScoopRightPolarity = 1, cinemaScoopCenterPolarity = 1;
     ComplexPcaLane bassPca, scoopPca, cinemaScoopPca;
-    // 0..800 ms global causal base plus -800..+800 ms channel trim.
-    // The effective value is clamped to 0..1600 ms.
+    // Retain the existing buffer capacity and FIR alignment reserve.
+    // User channel delays are independently constrained to 0..800 ms.
     static constexpr double maxDelaySeconds = 1.6;
     static constexpr int maximumExpectedBlockSize = 4096;
 

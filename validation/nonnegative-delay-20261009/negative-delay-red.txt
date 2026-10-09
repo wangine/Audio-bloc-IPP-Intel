@@ -1,0 +1,1 @@
+Delay metadata still exposes negative milliseconds

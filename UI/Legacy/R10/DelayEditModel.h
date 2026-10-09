@@ -13,14 +13,14 @@ public:
     {
         if (active_) return;
         id_ = std::move(id);
-        accumulator_ = std::clamp(initial, -800.0, 800.0);
+        accumulator_ = std::clamp(initial, 0.0, 800.0);
         failed_ = !sink(id_, 0, value());
         active_ = !failed_;
     }
     template<class Sink> void set(double value, Sink&& sink)
     {
         if (!active_) return;
-        accumulator_ = std::clamp(value, -800.0, 800.0);
+        accumulator_ = std::clamp(value, 0.0, 800.0);
         failed_ = !sink(id_, 1, this->value()) || failed_;
     }
     template<class Sink> void move(int delta, double ratio, Sink&& sink)
@@ -36,8 +36,8 @@ public:
     bool failed() const { return failed_; }
     const std::string& id() const { return id_; }
     double value() const { return std::round(accumulator_ * 1000.0) / 1000.0; }
-    static double effective(double relative)
-    { return std::clamp(relative, 0.0, 1600.0); }
+    static double effective(double delay)
+    { return std::clamp(delay, 0.0, 800.0); }
 private:
     std::string id_;
     double accumulator_ = 0;

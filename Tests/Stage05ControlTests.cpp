@@ -3,8 +3,27 @@
 #include <stdexcept>
 #include <cmath>
 #include <algorithm>
+#include "UI/Legacy/R10/DelayEditModel.h"
 using entropy::ipc::Value;
 static void check(bool b,const char* m){if(!b)throw std::runtime_error(m);}
+static void nonnegativeDelayContract(){
+ entropy::engine::AudioGraph graph;check(graph.prepare(256),"delay fixture prepare");entropy::control::ControlPlane controls(graph);
+ const auto metadata=controls.metadata();unsigned delays=0;for(const auto& p:metadata.at("parameters").asArray()){
+  const auto& id=p.at("id").asString();if(!id.starts_with("delayMs")&&!id.starts_with("musicDelayMs")&&!id.starts_with("cinemaDelayMs"))continue;
+  ++delays;check(p.at("min").asNumber()==0&&p.at("max").asNumber()==800,"Delay metadata still exposes negative milliseconds");
+  bool rejected=false;try{controls.execute(Value::Object{{"action","parameter"},{"id",id},{"value",-.001}});}catch(const std::invalid_argument&){rejected=true;}
+  check(rejected,"IPC accepted negative channel delay");check(!graph.setOfflineParameter(id.c_str(),-.001),"Offline Core accepted negative channel delay");
+ }check(delays==48,"Missing legacy/MUSIC/CINEMA delay controls");
+ for(const char* xml:{"<PARAMETERS><PARAM id=\"musicDelayMs1\" value=\"-0.001\"/></PARAMETERS>","<PARAMETERS><CINEMA_CROSSOVER_SCENE cinemaDelayMs16=\"-1\"/></PARAMETERS>","<PARAMETERS><MANUAL_SAVE_ALL musicDelayMs1=\"-1\"/></PARAMETERS>","<PARAMETERS><MANUAL_SNAPSHOTS><CHANNEL_1 delayMs1=\"-1\"/></MANUAL_SNAPSHOTS></PARAMETERS>"}){
+  auto tree=entropy::native::XmlNode::parse(xml);entropy::native::MemoryBlock data;entropy::native::copyXmlToBinary(*tree,data);std::vector<unsigned char> bytes(static_cast<const unsigned char*>(data.getData()),static_cast<const unsigned char*>(data.getData())+data.getSize());
+  bool rejected=false;try{controls.crossover().importBytes(bytes);}catch(const std::invalid_argument&){rejected=true;}check(rejected,"Profile restored a negative delay from scalar/scene/manual snapshot");
+ }
+ entropy::host::ui::DelayEditModel edit;unsigned writes=0;
+ auto sink=[&](const std::string&,int kind,double value){check(value>=0&&value<=800,"UI emitted negative delay");if(kind==1)++writes;return true;};
+ edit.begin("musicDelayMs1",.001,sink);edit.move(-500,.001,sink);check(edit.value()==0,"Fine Adjust crossed zero");edit.set(-10,sink);check(edit.value()==0,"Coarse delay crossed zero");edit.set(900,sink);check(edit.value()==800,"Delay exceeded maximum");edit.finish(sink);check(writes>=3,"Delay fixture never sent real edits");
+ controls.execute(entropy::ipc::parse(R"({"action":"parameter","id":"musicDelayMs1","value":0})"));controls.atBlockBoundary();controls.afterBlock();
+ controls.execute(entropy::ipc::parse(R"({"action":"parameter","id":"musicDelayMs1","value":800})"));controls.atBlockBoundary();controls.afterBlock();
+}
 static void inactiveCinemaLedger(){
  entropy::engine::AudioGraph graph;check(graph.prepare(256),"descriptor fixture prepare");
  entropy::control::ControlPlane controls(graph);
@@ -27,6 +46,7 @@ static void inactiveCinemaLedger(){
  check(controls.snapshot().at("matrix").at("activeSourceMask").asUnsigned()&1,"unpublished APVTS topology truncated a frozen active lane");
 }
 int main(){try{
+ nonnegativeDelayContract();
  inactiveCinemaLedger();
  entropy::engine::AudioGraph graph;check(graph.prepare(256),"prepare");
  entropy::control::ControlPlane controls(graph);
