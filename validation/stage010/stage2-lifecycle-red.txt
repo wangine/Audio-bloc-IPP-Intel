@@ -1,0 +1,14 @@
+RED baseline before Stage2 transport changes, normal same-user named pipe access:
+DspSourceIsolationTests.exe exit 1
+upstream releases=1; Consumer already claimed; restart needs a new session
+FAIL DspSourceIsolationTests.cpp:40 state==DspAutoLinkState::Receiving
+
+RED after fixture-specific ownership isolation, before V2 integration:
+DspPublishedOutputTests.exe exit 1
+Passive publication endpoint unavailable: 2
+FAIL DspPublishedOutputTests.cpp:38 subscriber.session().layout_id==2
+
+Sandbox-only baseline limitation:
+Same-process local pipe clients were rejected with ERROR_ACCESS_DENIED(5).
+The baseline and green lifecycle runs used approved normal user pipe access.
+Original StageLinkTests failed in the sandbox at its receive timeout; this was not treated as a production failure.

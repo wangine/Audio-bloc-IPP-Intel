@@ -82,6 +82,11 @@ int main(){try{
  controls.execute(entropy::ipc::parse(R"({"action":"parameter","id":"cinemaSource","value":0})"));
  controls.execute(entropy::ipc::parse(R"({"action":"gesture","id":"cinemaSource","begin":false})"));
  check(!controls.settled(),"gesture bypassed pending audible save barrier");
+ // A quiescent subscriber reset must retain the earlier audible command,
+ // even though a subsequent gesture is now the most recently accepted tag.
+ const auto pendingAudible=controls.snapshot().at("crossoverApplied").asU64();
+ controls.crossover().resetQuiescent();
+ check(!controls.settled()&&controls.snapshot().at("crossoverApplied").asU64()==pendingAudible,"reset fabricated audible application");
  controls.atBlockBoundary();check(graph.process(input.readPointers(),output.writePointers(),256)==ENTROPY_OK,"gesture barrier process");controls.afterBlock();check(controls.settled(),"save barrier did not settle");
  auto musicLedger=controls.snapshot().at("headroom").at("groups").asArray()[0];
  check(std::abs(musicLedger.at("declaredPositiveDb").asNumber()-20*std::log10(4.0))<1e-12,"MUSIC plus Matrix sum reserve not derived");

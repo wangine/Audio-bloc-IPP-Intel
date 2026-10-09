@@ -2,6 +2,13 @@
 
 Native Stage3 C++20 **integration candidate** on a separate private repository.
 
+Local **0.1.0** source-isolation candidate requires the separately versioned
+**Stage2 v0007-source-isolation**. Core lifecycle tests on the real publisher pass,
+including forced termination without changing the source UUID. See
+[version pairing and launch](docs/RELEASE-0.1.0.md) and
+[verification evidence](docs/STAGE010-SOURCE-ISOLATION.md).
+The preserved stable reference below is unchanged; this candidate is not pushed.
+
 ## Current release: 0.0.3 stable beta
 
 Native AudioCore, IPC-only existing Qt UI, profile/device control and manual

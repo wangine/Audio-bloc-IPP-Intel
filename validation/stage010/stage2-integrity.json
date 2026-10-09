@@ -1,0 +1,138 @@
+{
+  "unchanged_source_files": 138,
+  "changed_source_paths": [
+    "CMakeLists.txt",
+    "Host\\EntropyDspEngine\\CMakeLists.txt",
+    "Host\\EntropyDspEngine\\App\\DspMain.cpp",
+    "Host\\EntropyDspEngine\\Core\\DspController.cpp",
+    "Host\\EntropyDspEngine\\Core\\DspController.h",
+    "Host\\EntropyDspEngine\\Core\\DspDownstreamLink.cpp",
+    "Host\\EntropyDspEngine\\Core\\DspDownstreamLink.h",
+    "Host\\EntropyDspEngine\\Core\\DspSessionDiscovery.cpp",
+    "Host\\EntropyDspEngine\\Core\\DspSessionDiscovery.h",
+    "Host\\EntropyDspEngine\\Core\\DspStageRuntime.cpp",
+    "Host\\EntropyDspEngine\\Core\\DspStageRuntime.h",
+    "Host\\EntropyDspEngine\\Tests\\DspAllocationTests.cpp",
+    "Host\\EntropyDspEngine\\UI\\DspVersion.h"
+  ],
+  "dsp_source_hashes": [
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspAlignment.cpp",
+      "original": "684B41C5259A8483ADEF8F92DCA53283CE4E0714E6C64DDD2B34C37C0F322C8C",
+      "copied": "684B41C5259A8483ADEF8F92DCA53283CE4E0714E6C64DDD2B34C37C0F322C8C",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspAlignment.h",
+      "original": "FFE6BE9D6212EABF91C4D8B4FB708940A939427C76D457AD24C9BF65C08485C9",
+      "copied": "FFE6BE9D6212EABF91C4D8B4FB708940A939427C76D457AD24C9BF65C08485C9",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspCenterModule.cpp",
+      "original": "44B406D0E7814A316CFB38319AEFFCC560117A2458A84857E387623404A6971F",
+      "copied": "44B406D0E7814A316CFB38319AEFFCC560117A2458A84857E387623404A6971F",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspCenterModule.h",
+      "original": "E53B099166C3FFD5949F3F0C3D16C8ECEDA8CED64B738DB336634C6A8C1DEC68",
+      "copied": "E53B099166C3FFD5949F3F0C3D16C8ECEDA8CED64B738DB336634C6A8C1DEC68",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspEqModule.cpp",
+      "original": "CC014B52CD1055F1F58E3A16D193D338D27D7D6143DA5DE104BAB151EDD0D560",
+      "copied": "CC014B52CD1055F1F58E3A16D193D338D27D7D6143DA5DE104BAB151EDD0D560",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspEqModule.h",
+      "original": "82D3BC85880CF1EEAC7E9E5DDE1C17A11F382306CFB914A07863236A984BEC22",
+      "copied": "82D3BC85880CF1EEAC7E9E5DDE1C17A11F382306CFB914A07863236A984BEC22",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspLrcModule.cpp",
+      "original": "46559CD3ECE5960A6E1A096E67DB96362050C53A4D3D3DD24E58A40A51FA96CF",
+      "copied": "46559CD3ECE5960A6E1A096E67DB96362050C53A4D3D3DD24E58A40A51FA96CF",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspLrcModule.h",
+      "original": "EC91B229DCBA70405812A3BC5E34C253F33C4BC97637896C2B7918BE0E89CF9D",
+      "copied": "EC91B229DCBA70405812A3BC5E34C253F33C4BC97637896C2B7918BE0E89CF9D",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspNativeRegistry.cpp",
+      "original": "1E1FBA8B47A4365DF636533EF154F1406E53D34702B1684E999FB4D511687F69",
+      "copied": "1E1FBA8B47A4365DF636533EF154F1406E53D34702B1684E999FB4D511687F69",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspNativeRegistry.h",
+      "original": "A8437894CCAA71D572328BB8C763C49DD42CC9355AD02C240D753D3692E9FCB2",
+      "copied": "A8437894CCAA71D572328BB8C763C49DD42CC9355AD02C240D753D3692E9FCB2",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\DspSignalTelemetry.h",
+      "original": "BF7D493AD559E21F1ABF19AA17B276827D15E58B74B16A888EF867480C006762",
+      "copied": "BF7D493AD559E21F1ABF19AA17B276827D15E58B74B16A888EF867480C006762",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\TransparentDspExecutor.cpp",
+      "original": "ED7B7217A7E65BAFF5DD6FC9ED8C94E786D2740739BA7AE19B9126A61FB66502",
+      "copied": "ED7B7217A7E65BAFF5DD6FC9ED8C94E786D2740739BA7AE19B9126A61FB66502",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Core\\TransparentDspExecutor.h",
+      "original": "068580CFED61DE28932107F1C6D3C72A0CFF0F5917E4F7CD0E63D2069658D4A9",
+      "copied": "068580CFED61DE28932107F1C6D3C72A0CFF0F5917E4F7CD0E63D2069658D4A9",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Tests\\DspAlignmentTests.cpp",
+      "original": "A42978BD95D0CC8CA0EDE806B729278FC14DDA22042095B59752A59830E1812E",
+      "copied": "A42978BD95D0CC8CA0EDE806B729278FC14DDA22042095B59752A59830E1812E",
+      "unchanged": true
+    },
+    {
+      "path": "Host\\EntropyDspEngine\\Tests\\DspSignalTelemetryTests.cpp",
+      "original": "3058B77C2501A26A8909253FD5BD94F6CF272E0B00F4EE5815B7F67A24D159A5",
+      "copied": "3058B77C2501A26A8909253FD5BD94F6CF272E0B00F4EE5815B7F67A24D159A5",
+      "unchanged": true
+    }
+  ],
+  "module_hashes": [
+    {
+      "name": "EntropyCenterExtractorFP64.dll",
+      "original": "C0EA325A815DDEF7ED897330382368FFD7347B3079B05B8CBC897518C06B8B3E",
+      "packaged": "C0EA325A815DDEF7ED897330382368FFD7347B3079B05B8CBC897518C06B8B3E"
+    },
+    {
+      "name": "EntropyCenterExtractorV2FP64.dll",
+      "original": "E96BF561BFA204F7AADA02E2245E264EB8DB2E3F1E9A06ECC07CAF43E0BA32F0",
+      "packaged": "E96BF561BFA204F7AADA02E2245E264EB8DB2E3F1E9A06ECC07CAF43E0BA32F0"
+    },
+    {
+      "name": "EntropyLoudness.dll",
+      "original": "D2A24BE264ADFB48AB3C854364EA0BE969833C496FE4329CE65573AF0876E198",
+      "packaged": "D2A24BE264ADFB48AB3C854364EA0BE969833C496FE4329CE65573AF0876E198"
+    },
+    {
+      "name": "EntropyLrcAlignerFP64.dll",
+      "original": "C7D383B38D63305A009213C575669C9CEDC133C2F5B227A5D6B368B462B404ED",
+      "packaged": "C7D383B38D63305A009213C575669C9CEDC133C2F5B227A5D6B368B462B404ED"
+    },
+    {
+      "name": "EntropyParametricEQ.dll",
+      "original": "ADB01F88CD58C3E4724422482C6970DFC7FB377D638DEDE2BF859EA87FD75E61",
+      "packaged": "ADB01F88CD58C3E4724422482C6970DFC7FB377D638DEDE2BF859EA87FD75E61"
+    }
+  ],
+  "original_executable_sha256": "82CA4821DF5651BED38D9841F3BD1CA8794574B0F75EE1E03439FAE2012FE1BE"
+}

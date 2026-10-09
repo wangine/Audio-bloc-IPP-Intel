@@ -6,7 +6,7 @@
 #include <stdexcept>
 namespace entropy::control {
 using J=ipc::Value;
-struct CrossoverAccess::Impl {CrossoverState state;std::vector<std::string> ids;std::array<std::atomic<int>,16> roles{};std::array<std::atomic<bool>,16> active{};std::array<std::atomic<float>,entropy::standalone::parameterCount> published{};std::array<float,entropy::standalone::parameterCount> owner{};std::atomic<uint64_t> revision{0};uint64_t lastAudible=0;
+struct CrossoverAccess::Impl {CrossoverState state;std::vector<std::string> ids;std::array<std::atomic<int>,16> roles{};std::array<std::atomic<bool>,16> active{};std::array<std::atomic<float>,entropy::standalone::parameterCount> published{};std::array<float,entropy::standalone::parameterCount> owner{};std::atomic<uint64_t> revision{0};uint64_t lastAudible=0;Engine::ControlCommandTag lastAudibleTag{};
  int capturedRole(int channel) const noexcept {using entropy::standalone::parameterIndex;return int(std::lround(owner[(owner[parameterIndex("cinemaSource")]>=.5f?parameterIndex("cinemaRole1"):parameterIndex("source1"))+channel]));}
  bool capturedActive(int role) const noexcept {
   using entropy::standalone::parameterIndex;
@@ -30,6 +30,14 @@ CrossoverAccess::CrossoverAccess(engine::AudioGraph& graph):impl_(std::make_uniq
 }
 CrossoverAccess::~CrossoverAccess()=default;
 bool CrossoverAccess::settled() const noexcept {auto s=impl_->state.engine->controlCommandStatus();return s.applied.sequence>=impl_->lastAudible;}
+void CrossoverAccess::resetQuiescent(){
+ auto& engine=*impl_->state.engine;const auto status=engine.controlCommandStatus();
+ const bool pending=status.applied.sequence<impl_->lastAudible;
+ engine.prepareToPlay(192000,int(impl_->state.prepare.maximum_frames));
+ // Native reset retires coefficient slots. Recompile the same accepted identity;
+ // only a subsequently processed real block can acknowledge it as applied.
+ if(pending&&!engine.publishControlSnapshot(impl_->lastAudibleTag))throw std::runtime_error("Crossover requeue after local reset failed");
+}
 J CrossoverAccess::metadata() const {
  J::Array a;
  for(const auto& id:impl_->ids){auto* p=impl_->state.engine->getAPVTS().getParameter(id.c_str());const auto& r=p->getNormalisableRange();unsigned kind=0,choices=0;if(dynamic_cast<entropy::native::AudioParameterBool*>(p))kind=1;else if(auto* c=dynamic_cast<entropy::native::AudioParameterChoice*>(p)){kind=2;choices=unsigned(c->choices.size());}
@@ -77,7 +85,7 @@ void CrossoverAccess::execute(const J& request,uint64_t session,uint64_t sequenc
   else if(action=="reset-all-protection")require(resetAllProtectionTrips(reinterpret_cast<EntropyModuleHandle>(&s)));
   else for(const auto& [key,value]:values)require(setParameter(reinterpret_cast<EntropyModuleHandle>(&s),key.c_str(),value));
   require(commitControlCommand(reinterpret_cast<EntropyModuleHandle>(&s)));
-  if(!values.empty())impl_->lastAudible=sequence;
+  if(!values.empty()){impl_->lastAudible=sequence;impl_->lastAudibleTag=s.engine->controlCommandStatus().accepted;}
   impl_->publish();
  }catch(...){if(s.controlTransactionOpen)cancelControlCommand(reinterpret_cast<EntropyModuleHandle>(&s),ENTROPY_CROSSOVER_COMMAND_REASON_INTERNAL_ERROR);throw;}
 }

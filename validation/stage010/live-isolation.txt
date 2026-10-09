@@ -1,0 +1,9 @@
+source-running-without-Core-before Stage1 94394 Stage2 94355 UUID f2c7171dd4ce434580d7982b57892db6
+source-without-Core-2s Stage1 94769 Stage2 94737 UUID f2c7171dd4ce434580d7982b57892db6
+Core-first-start-DISARMED Stage1 95001 Stage2 94963 UUID f2c7171dd4ce434580d7982b57892db6
+Core-clean-stop-absent-2s Stage1 95387 Stage2 95383 UUID f2c7171dd4ce434580d7982b57892db6
+Core-restart-same-source Stage1 95608 Stage2 95574 UUID f2c7171dd4ce434580d7982b57892db6
+Core-forced-kill-absent-2s Stage1 95989 Stage2 95954 UUID f2c7171dd4ce434580d7982b57892db6
+Core-after-kill-reconnect-same-source Stage1 96208 Stage2 96184 UUID f2c7171dd4ce434580d7982b57892db6
+final-source-running-no-cleanup Stage1 96406 Stage2 96375 UUID f2c7171dd4ce434580d7982b57892db6
+PASS live-source isolation: clean stop/restart/forced kill; same source UUID, both upstream counters advance; no DAC

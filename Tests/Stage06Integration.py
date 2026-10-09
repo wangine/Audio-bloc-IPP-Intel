@@ -8,7 +8,7 @@ def main():
     producer_path=core_path.parent/'EntropyStage06Input.exe'
     token=uuid.uuid4().hex
     endpoint='EntropyAudioCore.Stage06.Test.'+token
-    upstream=r'\\.\pipe\Entropy.StageLink.Stage06Fixture.'+token
+    upstream=r'\\.\pipe\Entropy.StagePublish.V2.Stage06Fixture.'+token
     fixture_endpoint=endpoint+'.Profile'
     profile=core_path.parent/('stage06-fixture-'+token+'.entropy')
     creator=subprocess.Popen([str(core_path),'--control-server','--endpoint',fixture_endpoint,'--offline-test-signal','--run-seconds','10'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -30,7 +30,7 @@ def main():
             if int(data['stage2']['consumed'])>3:break
             time.sleep(.03)
         assert int(data['stage2']['consumed'])>3, data['stage2']
-        assert data['inputState']=='STAGE2 FP64 / 192 kHz' and data['blockSize']==1024,data['inputState']
+        assert data['inputState']=='FP64 SOURCE / 192 kHz / PASSIVE V2' and data['blockSize']==1024,data['inputState']
         assert max(data['musicPeaks'])>1e-8 and max(data['cinemaPeaks'][:8])>1e-8,'All-zero input is FAIL'
         assert not data['armed'] and all(d['state']=='DISARMED' for d in data['domains'])
         assert client.call('parameter',id='cinemaDelayMs1',value=3)['ok']

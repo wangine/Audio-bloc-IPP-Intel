@@ -1,6 +1,16 @@
-# Known issues — AudioCore 0.0.9
+# Known issues — AudioCore 0.1.0 local candidate
 
-## Source independence: OPEN / FAIL (user-reported)
+## Source lifecycle: phase 01 PASS with Stage2 v0007
+
+The user subsequently authorized an isolated Stage2 modification. The compatible
+Stage2 v0007/Core 0.1.0 pair replaces Stage3 demand/leases with passive V2
+publication. The actual stop/restart/forced-kill scenario retains the same Stage1
+UUID and advancing Stage1/2 counters. See [evidence](STAGE010-SOURCE-ISOLATION.md).
+The preserved 0.0.9 binary still has the historical defect below. This does not
+certify independence of Stage1 from Stage2: stopping Stage2 can still release its
+upstream lease. Stage04 FAIL REALTIME and formal V07 BLOCKED remain unchanged.
+
+## Historical 0.0.9 source independence: OPEN / FAIL (user-reported)
 
 After accepting the nonnegative-delay change in 0.0.9, the user explicitly
 confirmed that Stage3 still blocks the Stage1 source. Earlier reports describe

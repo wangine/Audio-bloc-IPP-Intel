@@ -2,6 +2,7 @@ param(
     [Parameter(Mandatory=$true)][string]$Version,
     [ValidateSet('beta test','stable beta')][string]$Channel='beta test',
     [string]$NumericStatus,
+    [string]$Stage2ExecutableSha256,
     [string]$OutputRoot='release',
     [string]$NativeBuild='build/msvc-pcm24-v2',
     [string]$UiBuild='build/qt-stage07',
@@ -56,6 +57,10 @@ $files=@(Get-ChildItem -LiteralPath $bundle -Recurse -File | Sort-Object FullNam
 $numeric=if($Version -eq '0.0.1'){'PASS'}else{'NOT RERUN; historical 0.0.1 PASS'}
 if($NumericStatus){$numeric=$NumericStatus}
 $manifest=[ordered]@{version=$Version;channel=$Channel;sourceCommit=$sourceCommit;sourceDirty=$dirty;architecture='Windows x64; native Core, separate IPC-only Qt UI';stage04='FAIL REALTIME';numeric=$numeric;v07='BLOCKED';automaticArm=$false;files=$files}
+if($Version -eq '0.1.0'){
+    if($Stage2ExecutableSha256 -notmatch '^[A-Fa-f0-9]{64}$'){throw 'Stage010 requires the compatible Stage2 executable SHA256'}
+    $manifest.ingress=[ordered]@{protocol='StagePublish V2';compatibleStage2='v0007-source-isolation';stage2ExecutableSha256=$Stage2ExecutableSha256;sourceIsolation='PASS live clean stop/restart/forced Core kill';sourceControl=$false}
+}
 $manifest | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath (Join-Path $bundle 'manifest.json') -Encoding utf8
 $zip=Join-Path $output ('EntropyAudioCore-'+$Version+'-beta-win-x64.zip')
 Compress-Archive -LiteralPath $bundle -DestinationPath $zip -CompressionLevel Optimal

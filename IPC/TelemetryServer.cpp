@@ -8,6 +8,12 @@ Value telemetrySnapshot(const control::ControlPlane& controls,const control::Aud
   const bool fresh=s.state==input::State::Receiving&&s.lastBlockQpc&&uint64_t(now.QuadPart)>=s.lastBlockQpc&&uint64_t(now.QuadPart)-s.lastBlockQpc<uint64_t(frequency.QuadPart)/5;
   v["stage2"]=Value::Object{{"received",Value::u64(s.received)},{"consumed",Value::u64(s.consumed)},{"emptyPolls",Value::u64(s.empty)},{"faults",Value::u64(s.faults)},{"generation",Value::u64(s.generation)},{"queued",s.queued},{"producerPid",s.producerPid},{"validityMask",s.validityMask},{"lastBlockQpc",Value::u64(s.lastBlockQpc)},{"metersFresh",fresh}};
   v["stage2"]["releaseFailures"]=Value::u64(s.releaseFailures);
+  std::string uuid;constexpr char hex[]="0123456789abcdef";for(auto b:s.sourceSession){uuid+=hex[b>>4];uuid+=hex[b&15];}
+  v["stage2"]["transportVersion"]=2;v["stage2"]["sourceSession"]=uuid;
+  v["stage2"]["gaps"]=Value::u64(s.gaps);v["stage2"]["sourceQpc"]=Value::u64(s.sourceQpc);
+  v["stage2"]["sourceDiscontinuityMask"]=s.sourceDiscontinuityMask;
+  v["stage2"]["sourceFlaggedBlocks"]=Value::u64(s.sourceFlaggedBlocks);
+  v["stage2"]["blockSequence"]=Value::u64(s.lastSequence);v["stage2"]["firstFrame"]=Value::u64(s.lastFirstFrame);v["stage2"]["streamEpoch"]=Value::u64(s.lastEpoch);
   if(!fresh){for(const auto key:{"musicPeaks","cinemaPeaks","crossoverPeaks"})for(auto& peak:v[key].asArray())peak=0.0;for(auto& peak:v["matrix"]["peaks"].asArray())peak=0.0;for(auto& peak:v["headroom"]["peaks"].asArray())peak=0.0;if(s.state==input::State::Receiving)v["inputState"]="STAGE2 CONNECTED / WAITING FOR BLOCK";}
  }
  v["scheduler"]=Value::Object{{"callbackWallUs",t.callbackUs},{"maximumCallbackWallUs",t.maxCallbackUs},{"schedulerLatenessUs",t.latenessUs},{"maximumSchedulerLatenessUs",t.maxLatenessUs},{"callbackWallDeadlineMisses",Value::u64(t.misses)},{"faults",t.faults}};

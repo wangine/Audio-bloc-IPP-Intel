@@ -1,0 +1,30 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage010/stage2-build
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/local/stage010/stage2-build
+      Start  2: DspBypassIdentity
+ 1/12 Test  #2: DspBypassIdentity ................   Passed    0.04 sec
+      Start  3: DspBusIntegration
+ 2/12 Test  #3: DspBusIntegration ................   Passed    0.05 sec
+      Start  6: DspAllocation
+ 3/12 Test  #6: DspAllocation ....................   Passed    0.22 sec
+      Start 18: DspLocalDemand
+ 4/12 Test #18: DspLocalDemand ...................   Passed    0.06 sec
+      Start 19: DspSourceIsolation
+ 5/12 Test #19: DspSourceIsolation ...............   Passed    0.54 sec
+      Start 20: DspPublishedOutput
+ 6/12 Test #20: DspPublishedOutput ...............   Passed    1.89 sec
+      Start 23: DspCenterNative
+ 7/12 Test #23: DspCenterNative ..................   Passed    0.13 sec
+      Start 24: DspCenterRoute
+ 8/12 Test #24: DspCenterRoute ...................   Passed    0.11 sec
+      Start 30: DspAlignment
+ 9/12 Test #30: DspAlignment .....................   Passed    0.03 sec
+      Start 31: DspLrcRoute
+10/12 Test #31: DspLrcRoute ......................   Passed    0.11 sec
+      Start 38: DspEqRoute
+11/12 Test #38: DspEqRoute .......................   Passed    0.14 sec
+      Start 40: DspEqNative
+12/12 Test #40: DspEqNative ......................   Passed    0.81 sec
+
+100% tests passed, 0 tests failed out of 12
+
+Total Test time (real) =   4.16 sec

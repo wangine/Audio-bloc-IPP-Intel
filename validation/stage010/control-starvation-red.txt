@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\Tests\Stage010Starvation.py", line 50, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\Tests\Stage010Starvation.py", line 37, in main
+    raise AssertionError('Accepted Matrix/Headroom controls stalled without input')
+AssertionError: Accepted Matrix/Headroom controls stalled without input

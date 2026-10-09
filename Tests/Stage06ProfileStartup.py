@@ -6,7 +6,7 @@ def main():
     core_path=pathlib.Path(os.environ['STAGE05_CORE'])
     endpoint='EntropyAudioCore.Stage06.Profile.'+uuid.uuid4().hex
     missing=core_path.parent/'stage06-no-such-profile.entropy'
-    absent=r'\\.\pipe\Entropy.StageLink.Stage06.Absent.'+uuid.uuid4().hex
+    absent=r'\\.\pipe\Entropy.StagePublish.V2.Stage06.Absent.'+uuid.uuid4().hex
     core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--stage2-endpoint',absent,'--profile',str(missing),'--run-seconds','20'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     client=None;creator=None;fixture_client=None
     try:

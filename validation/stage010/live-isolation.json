@@ -1,0 +1,260 @@
+{
+  "status": "PASS",
+  "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+  "hardwareOpened": false,
+  "snapshots": [
+    {
+      "phase": "source-running-without-Core-before",
+      "monotonicSeconds": 42001.578,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 94394,
+        "blocksConsumed": 94394,
+        "producerHeartbeatQpc": 420015762537,
+        "requestWrite": 94394,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 94355,
+        "blocks_out": 94355,
+        "frames_out": 96619520,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 42001375,
+        "faults": 0
+      }
+    },
+    {
+      "phase": "source-without-Core-2s",
+      "monotonicSeconds": 42003.578,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 94769,
+        "blocksConsumed": 94769,
+        "producerHeartbeatQpc": 420035790170,
+        "requestWrite": 94770,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 94737,
+        "blocks_out": 94737,
+        "frames_out": 97010688,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 42003406,
+        "faults": 0
+      }
+    },
+    {
+      "phase": "Core-first-start-DISARMED",
+      "monotonicSeconds": 42004.812,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 95001,
+        "blocksConsumed": 95001,
+        "producerHeartbeatQpc": 420048311127,
+        "requestWrite": 95002,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 94963,
+        "blocks_out": 94963,
+        "frames_out": 97242112,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 42004625,
+        "faults": 0
+      },
+      "core": {
+        "blocks": "204",
+        "inputState": "FP64 SOURCE / 192 kHz / PASSIVE V2",
+        "input": {
+          "blockSequence": "95005",
+          "consumed": "204",
+          "emptyPolls": "1399",
+          "faults": "0",
+          "firstFrame": "97284096",
+          "gaps": "0",
+          "generation": "2",
+          "lastBlockQpc": "420049908478",
+          "metersFresh": true,
+          "producerPid": 20292,
+          "queued": 0,
+          "received": "204",
+          "releaseFailures": "0",
+          "sourceDiscontinuityMask": 1,
+          "sourceFlaggedBlocks": "204",
+          "sourceQpc": "420049898497",
+          "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+          "streamEpoch": "1",
+          "transportVersion": 2,
+          "validityMask": 5
+        },
+        "musicPeaks": [
+          0.15458707511425018,
+          0.2234918773174286,
+          0.05565928295254707
+        ]
+      }
+    },
+    {
+      "phase": "Core-clean-stop-absent-2s",
+      "monotonicSeconds": 42006.875,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 95387,
+        "blocksConsumed": 95387,
+        "producerHeartbeatQpc": 420068340241,
+        "requestWrite": 95387,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 95383,
+        "blocks_out": 95383,
+        "frames_out": 97672192,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 42006859,
+        "faults": 0
+      }
+    },
+    {
+      "phase": "Core-restart-same-source",
+      "monotonicSeconds": 42008.046,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 95608,
+        "blocksConsumed": 95608,
+        "producerHeartbeatQpc": 420080856133,
+        "requestWrite": 95608,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 95574,
+        "blocks_out": 95574,
+        "frames_out": 97867776,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 42007875,
+        "faults": 0
+      },
+      "core": {
+        "blocks": "203",
+        "inputState": "FP64 SOURCE / 192 kHz / PASSIVE V2",
+        "input": {
+          "blockSequence": "95611",
+          "consumed": "203",
+          "emptyPolls": "1355",
+          "faults": "0",
+          "firstFrame": "97904640",
+          "gaps": "0",
+          "generation": "2",
+          "lastBlockQpc": "420082232082",
+          "metersFresh": true,
+          "producerPid": 20292,
+          "queued": 0,
+          "received": "203",
+          "releaseFailures": "0",
+          "sourceDiscontinuityMask": 1,
+          "sourceFlaggedBlocks": "203",
+          "sourceQpc": "420082222198",
+          "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+          "streamEpoch": "1",
+          "transportVersion": 2,
+          "validityMask": 5
+        },
+        "musicPeaks": [
+          0.06747709959745407,
+          0.037427663803100586,
+          0.010196474380791187
+        ]
+      }
+    },
+    {
+      "phase": "Core-forced-kill-absent-2s",
+      "monotonicSeconds": 42010.078,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 95989,
+        "blocksConsumed": 95989,
+        "producerHeartbeatQpc": 420100882142,
+        "requestWrite": 95989,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 95954,
+        "blocks_out": 95954,
+        "frames_out": 98256896,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 42009906,
+        "faults": 0
+      }
+    },
+    {
+      "phase": "Core-after-kill-reconnect-same-source",
+      "monotonicSeconds": 42011.25,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 96208,
+        "blocksConsumed": 96208,
+        "producerHeartbeatQpc": 420113398249,
+        "requestWrite": 96208,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 96184,
+        "blocks_out": 96184,
+        "frames_out": 98492416,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 42011125,
+        "faults": 0
+      },
+      "core": {
+        "blocks": "203",
+        "inputState": "FP64 SOURCE / 192 kHz / PASSIVE V2",
+        "input": {
+          "blockSequence": "96211",
+          "consumed": "203",
+          "emptyPolls": "1406",
+          "faults": "0",
+          "firstFrame": "98519040",
+          "gaps": "0",
+          "generation": "2",
+          "lastBlockQpc": "420114233591",
+          "metersFresh": true,
+          "producerPid": 20292,
+          "queued": 0,
+          "received": "203",
+          "releaseFailures": "0",
+          "sourceDiscontinuityMask": 1,
+          "sourceFlaggedBlocks": "203",
+          "sourceQpc": "420114218934",
+          "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+          "streamEpoch": "1",
+          "transportVersion": 2,
+          "validityMask": 5
+        },
+        "musicPeaks": [
+          0.08159316331148148,
+          0.11782479286193848,
+          0.03712449222803116
+        ]
+      }
+    },
+    {
+      "phase": "final-source-running-no-cleanup",
+      "monotonicSeconds": 42012.296,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 96406,
+        "blocksConsumed": 96406,
+        "producerHeartbeatQpc": 420123414773,
+        "requestWrite": 96406,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 96375,
+        "blocks_out": 96375,
+        "frames_out": 98688000,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 42012140,
+        "faults": 0
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "status": "FAIL",
+  "error": "{'blockSequence': '0', 'consumed': '0', 'emptyPolls': '15535', 'faults': '1', 'firstFrame': '0', 'gaps': '1', 'generation': '3', 'lastBlockQpc': '0', 'metersFresh': False, 'producerPid': 0, 'queued': 0, 'received': '0', 'releaseFailures': '0', 'sourceQpc': '0', 'sourceSession': 'f2c7171dd4ce434580d7982b57892db6', 'streamEpoch': '0', 'transportVersion': 2, 'validityMask': 0}",
+  "snapshots": [
+    {
+      "phase": "source-running-without-Core-before",
+      "monotonicSeconds": 41585.218,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 16326,
+        "blocksConsumed": 16326,
+        "producerHeartbeatQpc": 415852872699,
+        "requestWrite": 16327,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 16315,
+        "blocks_out": 16315,
+        "frames_out": 16706560,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 41585156,
+        "faults": 0
+      }
+    },
+    {
+      "phase": "source-without-Core-2s",
+      "monotonicSeconds": 41587.218,
+      "sourceSession": "f2c7171dd4ce434580d7982b57892db6",
+      "stage1": {
+        "blocksPublished": 16702,
+        "blocksConsumed": 16702,
+        "producerHeartbeatQpc": 415872895164,
+        "requestWrite": 16702,
+        "fault": 0
+      },
+      "stage2": {
+        "blocks_in": 16693,
+        "blocks_out": 16693,
+        "frames_out": 17093632,
+        "publish_drops": 0,
+        "snapshot_tick_ms": 41587187,
+        "faults": 0
+      }
+    }
+  ]
+}

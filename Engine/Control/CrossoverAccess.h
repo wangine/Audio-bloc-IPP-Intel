@@ -18,6 +18,7 @@ public:
  void captureBeforeBlock() noexcept;
  unsigned capturedSourceMask() const noexcept;
  bool settled() const noexcept;
+ void resetQuiescent();
 private:
  struct Impl;std::unique_ptr<Impl> impl_;
 };

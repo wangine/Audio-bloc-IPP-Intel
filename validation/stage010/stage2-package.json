@@ -1,0 +1,33 @@
+{
+  "executable_sha256": "117B020DDF84587D266BFE71A58862B04D423A7111EF5B66AD9E5C88428D5F8A",
+  "version": "v0007-source-isolation",
+  "compatible_audio_core_version": "0.1.0",
+  "modules": [
+    {
+      "name": "EntropyCenterExtractorFP64.dll",
+      "sha256": "C0EA325A815DDEF7ED897330382368FFD7347B3079B05B8CBC897518C06B8B3E",
+      "unchanged": true
+    },
+    {
+      "name": "EntropyCenterExtractorV2FP64.dll",
+      "sha256": "E96BF561BFA204F7AADA02E2245E264EB8DB2E3F1E9A06ECC07CAF43E0BA32F0",
+      "unchanged": true
+    },
+    {
+      "name": "EntropyLoudness.dll",
+      "sha256": "D2A24BE264ADFB48AB3C854364EA0BE969833C496FE4329CE65573AF0876E198",
+      "unchanged": true
+    },
+    {
+      "name": "EntropyLrcAlignerFP64.dll",
+      "sha256": "C7D383B38D63305A009213C575669C9CEDC133C2F5B227A5D6B368B462B404ED",
+      "unchanged": true
+    },
+    {
+      "name": "EntropyParametricEQ.dll",
+      "sha256": "ADB01F88CD58C3E4724422482C6970DFC7FB377D638DEDE2BF859EA87FD75E61",
+      "unchanged": true
+    }
+  ],
+  "launcher": "@echo off\nsetlocal\nstart \"\" /wait \"%~dp0EntropyDspEngine.exe\" --verify-only\nif errorlevel 1 (\n  echo Stage2 package verification failed. See README-v0007.txt.\n  pause\n  exit /b 1\n)\nstart \"\" \"%~dp0EntropyDspEngine.exe\" --runtime-root \"%~dp0.\"\nexit /b 0\r\n"
+}

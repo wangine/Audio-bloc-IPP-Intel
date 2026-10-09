@@ -1,0 +1,25 @@
+A02_IMPORT_MODULE name=DspAllocationTests.exe hooks=8
+A02_IMPORT_MODULE name=ADVAPI32.dll hooks=10
+A02_IMPORT_MODULE name=msvcrt.dll hooks=8
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=ole32.dll hooks=10
+A02_IMPORT_MODULE name=msvcp_win.dll hooks=3
+A02_IMPORT_MODULE name=libgcc_s_seh-1.dll hooks=2
+A02_IMPORT_MODULE name=bcrypt.dll hooks=7
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=libwinpthread-1.dll hooks=4
+A02_IMPORT_MODULE name=GDI32.dll hooks=1
+A02_IMPORT_MODULE name=gdi32full.dll hooks=10
+A02_IMPORT_MODULE name=USER32.dll hooks=11
+A02_IMPORT_MODULE name=combase.dll hooks=11
+A02_IMPORT_MODULE name=libstdc++-6.dll hooks=2
+A02_IMPORT_MODULE name=IMM32.DLL hooks=3
+A02_IMPORT_MODULE name=bcryptPrimitives.dll hooks=3
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=120 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+A02_HOST_CPP_AUDIT blocks=1000 control_new=0 control_delete=0 control_nonzero_blocks=0 audio_new=0 audio_delete=0 audio_nonzero_blocks=0 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=120 heap_alloc_calls=0 heap_free_calls=0 wait_calls=0 lock_calls=0 io_calls=0 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+A02_HOST_CPP_AUDIT blocks=1000 control_new=0 control_delete=0 control_nonzero_blocks=0 audio_new=0 audio_delete=0 audio_nonzero_blocks=0 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=120 heap_alloc_calls=0 heap_free_calls=0 wait_calls=0 lock_calls=0 io_calls=0 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+PASS 1000 external-demand + 1000 local-monitor warmed steady-state request/consume/executor/publish cycles; V2 commit/full-delivery covered new/free/wait/lock/disk zero; lifecycle/peerAlive/worker scheduling excluded
