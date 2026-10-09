@@ -1,0 +1,5 @@
+Delay observed=3.00006103515625
+Observed program=1 route=2 groups=2 membership=1 reserve=3 gain=-12 attack=600 release=3000 peak=0.00099999376107007265 error=BLOCKED: Stage04 FAIL REALTIME
+Qt original pages + two-process control PASS
+Qt profile DAC cache refresh PASS
+EntropyUI executable IPC smoke PASS

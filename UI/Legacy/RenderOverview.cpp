@@ -23,7 +23,7 @@ void RenderOverview::paintEvent(QPaintEvent*){
  if(kind_==OverviewKind::Input){
   label(p,{8,37,w-16,19},"11 CHANNELS · MX IN",muted,10);const char* names[]={"MUSIC_L","MUSIC_R","MUSIC_CX","CINEMA_L","CINEMA_R","CINEMA_C","CINEMA_LFE","CINEMA_SL","CINEMA_SR","CINEMA_BL","CINEMA_BR"};
   const double top=77,row=std::min(39.0,(h-150)/11);for(unsigned c=0;c<11;c++){const double y=top+c*row+(c>=3?8:0);label(p,{12,y,w-24,16},names[c],c<3?cyan:purple,10,false,Qt::AlignLeft|Qt::AlignVCenter);meter(p,{12,y+19,w-24,9},inputPeak(c),c<3?cyan:purple);}
-  label(p,{10,h-48,w-20,19},fresh_?QString::fromUtf8(s.inputs[0].detail):QString("WAITING FOR CORE"),fresh_?green:amber,10,true);label(p,{8,h-27,w-16,17},"FP64 · 192 kHz",muted,10);
+  label(p,{10,h-48,w-20,19},s.graphReady?QString::fromUtf8(s.inputs[0].detail):QString("WAITING FOR CORE"),fresh_?green:amber,10,true);label(p,{8,h-27,w-16,17},"FP64 · 192 kHz",muted,10);
  }else if(kind_==OverviewKind::Crossover){
   label(p,{12,44,w-24,30},s.crossoverCinemaProgram?"PROGRAM  •  CINEMA":"PROGRAM  •  MUSIC",s.crossoverCinemaProgram?purple:cyan,15,true);
   label(p,{12,76,w-24,18},!s.crossoverTelemetryAvailable?"UNAVAILABLE":s.crossoverProtectionGlobalTrip?"PROTECTION TRIP":fresh_?"LIVE · 13 IN → 16 OUT":"READY · WAITING FOR DSP",s.crossoverProtectionGlobalTrip?QColor("#ff7070"):fresh_?green:amber,10,true);

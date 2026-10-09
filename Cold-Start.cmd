@@ -1,6 +1,6 @@
 @echo off
 setlocal
-powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0tools\Run-Stage05.ps1" %*
+powershell.exe -NoLogo -NoProfile -ExecutionPolicy Bypass -File "%~dp0tools\Run-Stage05.ps1" -Stage2Input %*
 set "launchResult=%ERRORLEVEL%"
 if "%launchResult%"=="0" exit /b 0
 echo.

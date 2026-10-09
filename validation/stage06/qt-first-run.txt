@@ -1,0 +1,1 @@
+Stage06 actual Qt first-run Create/Load/Keep waiting and reopening dialog PASS

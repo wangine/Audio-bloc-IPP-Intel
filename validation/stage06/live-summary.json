@@ -1,0 +1,62 @@
+{
+  "inputState": "STAGE2 FP64 / 192 kHz",
+  "profileRequired": false,
+  "profilePath": "C:\\Users\\bobi\\Documents\\entropy.entropy",
+  "profileError": "",
+  "stage2": {
+    "consumed": "11",
+    "emptyPolls": "35",
+    "faults": "0",
+    "generation": "1",
+    "lastBlockQpc": "5051792351396",
+    "metersFresh": true,
+    "producerPid": 24620,
+    "queued": 0,
+    "received": "11",
+    "validityMask": 4
+  },
+  "musicPeaks": [
+    0,
+    0,
+    0
+  ],
+  "cinemaPeaks": [
+    0.268414169549942,
+    0.2593017816543579,
+    0.27131104469299316,
+    0.0268718171864748,
+    8.549738811348094e-21,
+    8.549738811348094e-21,
+    0,
+    0,
+    0,
+    0
+  ],
+  "armed": false,
+  "domains": [
+    {
+      "clockValid": false,
+      "fifoFrames": 0,
+      "id": "DAC A",
+      "state": "DISARMED",
+      "xruns": "0"
+    },
+    {
+      "clockValid": false,
+      "fifoFrames": 0,
+      "id": "DAC B",
+      "state": "DISARMED",
+      "xruns": "0"
+    }
+  ],
+  "program": 0,
+  "blocks": "11",
+  "scheduler": {
+    "callbackWallDeadlineMisses": "0",
+    "callbackWallUs": 810.9,
+    "faults": 0,
+    "maximumCallbackWallUs": 1913.1,
+    "maximumSchedulerLatenessUs": 15795.2,
+    "schedulerLatenessUs": 14714.5
+  }
+}

@@ -3,7 +3,7 @@ project(EntropyUI LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network)
-add_library(entropy_ui STATIC Client/IpcClient.cpp Client/EngineFacade.cpp
+add_library(entropy_ui STATIC Client/IpcClient.cpp Client/EngineFacade.cpp Client/StartupProfilePrompt.cpp
  Legacy/RenderWindow.cpp Legacy/RenderOverview.cpp Legacy/RenderUiBridge.cpp
  Legacy/R10/CrossoverPage.cpp Legacy/R10/OutputMatrixPage.cpp Legacy/R10/HeadroomPage.cpp
  Legacy/R10/DeviceManagerPage.cpp Legacy/R10/OutputStatusSemantics.cpp)
@@ -14,3 +14,5 @@ add_executable(EntropyUI main.cpp)
 target_link_libraries(EntropyUI PRIVATE entropy_ui)
 add_executable(EntropyStage05Ui ../Tests/Stage05UiTests.cpp)
 target_link_libraries(EntropyStage05Ui PRIVATE entropy_ui)
+add_executable(EntropyStage06Ui ../Tests/Stage06UiTests.cpp)
+target_link_libraries(EntropyStage06Ui PRIVATE entropy_ui)

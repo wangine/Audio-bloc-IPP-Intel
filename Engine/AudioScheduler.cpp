@@ -3,7 +3,7 @@
 #include <avrt.h>
 #include <cmath>
 namespace entropy::control {
-AudioScheduler::AudioScheduler(engine::AudioGraph& g,ControlPlane& c,bool signal,OfflineSinkWorkers* sinks):graph_(g),controls_(c),signal_(signal),offlineSinks_(sinks){input_.prepare(13,256);output_.prepare(16,256);input_.clear(256);}
+AudioScheduler::AudioScheduler(engine::AudioGraph& g,ControlPlane& c,bool signal,OfflineSinkWorkers* sinks,input::Stage2Ingress* stage2):graph_(g),controls_(c),signal_(signal),offlineSinks_(sinks),stage2_(stage2),frames_(stage2?1024:256){input_.prepare(13,frames_);output_.prepare(16,frames_);input_.clear(frames_);}
 void AudioScheduler::start(){if(owner_.joinable())return;stopping_=false;owner_=std::thread([this]{run();});}
 void AudioScheduler::stop(){stopping_=true;if(owner_.joinable())owner_.join();}
 void AudioScheduler::disarm() noexcept { /* No physical sink is open while the Stage04 gate is FAIL. */ }
@@ -13,11 +13,15 @@ void AudioScheduler::run() noexcept {
  LARGE_INTEGER frequency{};QueryPerformanceFrequency(&frequency);uint64_t sample=0;double maxCost=0,maxLate=0;auto next=std::chrono::steady_clock::now();
  while(!stopping_.load(std::memory_order_acquire)){
   auto now=std::chrono::steady_clock::now();auto lateness=std::max(0.0,std::chrono::duration<double,std::micro>(now-next).count());maxLate=std::max(maxLate,lateness);late_=lateness;maxLate_=maxLate;
-  if(signal_)for(unsigned f=0;f<256;++f){double v=.001*std::sin(6.283185307179586476925286766559*1000*double(sample+f)/192000);for(unsigned c=0;c<11;++c)input_.channel(c)[f]=v;}sample+=256;
+  if(signal_)for(unsigned f=0;f<frames_;++f){double v=.001*std::sin(6.283185307179586476925286766559*1000*double(sample+f)/192000);for(unsigned c=0;c<11;++c)input_.channel(c)[f]=v;}sample+=frames_;
   LARGE_INTEGER begin{},end{};QueryPerformanceCounter(&begin);
-  controls_.atBlockBoundary();auto result=graph_.process(input_.readPointers(),output_.writePointers(),256);controls_.afterBlock();if(offlineSinks_&&result==ENTROPY_OK)offlineSinks_->publish(output_.readPointers(),256);
-  QueryPerformanceCounter(&end);double cost=double(end.QuadPart-begin.QuadPart)*1e6/double(frequency.QuadPart);maxCost=std::max(maxCost,cost);cost_=cost;maxCost_=maxCost;if(cost>256.0/192000*1e6)misses_.fetch_add(1);if(result!=ENTROPY_OK)faults_.fetch_or(1);blocks_.fetch_add(1);
-  next+=std::chrono::nanoseconds(1333333);std::this_thread::sleep_until(next); // Scheduler wait is outside processing, no sink/device is opened.
+  if(stage2_&&!stage2_->tryRead(input_.writePointers())){
+   // Transport starvation never inserts invented samples into DSP histories.
+   next=std::chrono::steady_clock::now();std::this_thread::sleep_for(std::chrono::microseconds(100));continue;
+  }
+  controls_.atBlockBoundary();auto result=graph_.process(input_.readPointers(),output_.writePointers(),frames_);controls_.afterBlock();if(offlineSinks_&&result==ENTROPY_OK)offlineSinks_->publish(output_.readPointers(),frames_);
+  QueryPerformanceCounter(&end);double cost=double(end.QuadPart-begin.QuadPart)*1e6/double(frequency.QuadPart);maxCost=std::max(maxCost,cost);cost_=cost;maxCost_=maxCost;if(cost>double(frames_)/192000*1e6)misses_.fetch_add(1);if(result!=ENTROPY_OK)faults_.fetch_or(1);blocks_.fetch_add(1);
+  next+=std::chrono::nanoseconds(uint64_t(frames_)*1000000000/192000);std::this_thread::sleep_until(next); // Scheduler wait is outside processing, no sink/device is opened.
  }
  if(mmcss)AvRevertMmThreadCharacteristics(mmcss);
 }

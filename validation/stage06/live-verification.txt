@@ -1,0 +1,65 @@
+Cold-start rejects incompatible offline/live owner without stopping it PASS
+Stage05 native IPC READY: EntropyAudioCore.Stage06.Mode.11f55cdc87f14848920f22d373b8772b; DISARMED; Stage04 FAIL REALTIME / hardware BLOCKED
+
+Stage05 stopped safely; no physical DAC opened
+Cold-start same-owner reuse, UI exit persistence and explicit safe stop PASS
+Stage05 native IPC READY: EntropyAudioCore.Stage06.Reuse.8db2f85d542743c0b07630f914ee832f; DISARMED; Stage04 FAIL REALTIME / hardware BLOCKED
+
+Stage05 stopped safely; no physical DAC opened
+{
+  "inputState": "STAGE2 FP64 / 192 kHz",
+  "profileRequired": false,
+  "profilePath": "C:\\Users\\bobi\\Documents\\entropy.entropy",
+  "profileError": "",
+  "stage2": {
+    "consumed": "11",
+    "emptyPolls": "35",
+    "faults": "0",
+    "generation": "1",
+    "lastBlockQpc": "5051792351396",
+    "metersFresh": true,
+    "producerPid": 24620,
+    "queued": 0,
+    "received": "11",
+    "validityMask": 4
+  },
+  "musicPeaks": [
+    0,
+    0,
+    0
+  ],
+  "cinemaPeaks": [
+    0.268414169549942,
+    0.2593017816543579,
+    0.27131104469299316,
+    0.0268718171864748,
+    8.549738811348094e-21,
+    8.549738811348094e-21,
+    0,
+    0,
+    0,
+    0
+  ],
+  "armed": false,
+  "domains": [
+    {
+      "clockValid": false,
+      "fifoFrames": 0,
+      "id": "DAC A",
+      "state": "DISARMED",
+      "xruns": "0"
+    },
+    {
+      "clockValid": false,
+      "fifoFrames": 0,
+      "id": "DAC B",
+      "state": "DISARMED",
+      "xruns": "0"
+    }
+  ]
+}
+EntropyUI executable IPC smoke PASS
+Original running Stage2 -> native Core -> existing Qt; mother profile autoload; DAC DISARMED PASS
+Stage05 native IPC READY: EntropyAudioCore.Stage06.Live.ce38e46b7efb4ee1ab50ce35bdc751f5; DISARMED; Stage04 FAIL REALTIME / hardware BLOCKED
+
+Stage05 stopped safely; no physical DAC opened

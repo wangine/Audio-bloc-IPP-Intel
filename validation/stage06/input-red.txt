@@ -1,0 +1,1 @@
+Stage06 FAIL: Stage2 lease handoff must deliver real FP64 input

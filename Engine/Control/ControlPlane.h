@@ -9,6 +9,7 @@ public:
  ipc::Value snapshot() const;
  uint64_t execute(const ipc::Value&);
  void atBlockBoundary() noexcept;
+ void drainAtQuiescentBoundary(); // Control owner only AFTER scheduler.stop()/join.
  void afterBlock() noexcept {crossover_.captureAfterBlock();}
  CrossoverAccess& crossover(){return crossover_;}
  ParameterSnapshot appliedState() const;

@@ -16,6 +16,9 @@ public:
  bool submit(const host::EngineControlSnapshot&,uint64_t&);
  bool request(QJsonObject,IpcClient::Reply={});
  const QJsonObject& devices()const{return devices_;}
+ bool profileRequired() const{return metadata_["profileRequired"].toBool();}
+ QString profilePath() const{return metadata_["profilePath"].toString();}
+ QString profileError() const{return metadata_["profileError"].toString();}
  void updateDevices(const QJsonObject& reply){if(reply["ok"].toBool())devices_=reply["data"].toObject();}
  static EngineFacade* current();
 private:

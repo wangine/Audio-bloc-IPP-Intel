@@ -45,6 +45,12 @@ void ControlPlane::atBlockBoundary() noexcept {
  if(s.clearFault)errors|=A::headroom(graph_).clearFault()!=ENTROPY_OK;
  applyFault_.store(errors,std::memory_order_release);if(!errors){if(s.matrixChanged)matrixApplied_.store(s.revision,std::memory_order_release);if(s.headroomChanged||s.timingChanged||s.policyChanged||s.clearFault)headroomApplied_.store(s.revision,std::memory_order_release);applied_.store(s.revision,std::memory_order_release);}
 }
+void ControlPlane::drainAtQuiescentBoundary(){
+ // A joined graph is between blocks. Apply accepted host snapshots without
+ // processing invented samples or acknowledging an inaudible Crossover change.
+ while(!queue_.empty()){atBlockBoundary();afterBlock();}
+ if(applyFault_.load(std::memory_order_acquire))throw std::runtime_error("Native state adoption failed");
+}
 ParameterSnapshot ControlPlane::appliedState() const {ParameterSnapshot s;s.matrix=A::matrix(graph_).state();s.headroom=A::headroom(graph_).state();s.timing=A::headroom(graph_).timing();s.mode=A::headroom(graph_).modeState().requested_mode;s.manualGainDb=A::headroom(graph_).controlState().manual_gain_db;return s;}
 J ControlPlane::snapshot() const {
  auto result=crossover_.snapshot();auto m=A::matrix(graph_).state();auto mt=A::matrix(graph_).telemetry();auto h=A::headroom(graph_).state();auto t=A::headroom(graph_).telemetry();auto timing=A::headroom(graph_).timing();auto mode=A::headroom(graph_).modeState();auto policy=A::headroom(graph_).controlState();

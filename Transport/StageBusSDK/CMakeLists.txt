@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.22)
+project(EntropyStageBusV1 LANGUAGES CXX)
+add_library(EntropyStageBusV1 STATIC src/StageBusWin32.cpp src/StageBusValidation.cpp)
+target_compile_features(EntropyStageBusV1 PUBLIC cxx_std_17)
+target_include_directories(EntropyStageBusV1 PUBLIC include)
+target_link_libraries(EntropyStageBusV1 PUBLIC advapi32)

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Tests\Stage06ProfileStartup.py", line 36, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Tests\Stage06ProfileStartup.py", line 12, in main
+    client=Client(endpoint)
+           ^^^^^^^^^^^^^^^^
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Tests\Stage05IpcIntegration.py", line 15, in __init__
+    if not self.handle:raise RuntimeError('pipe unavailable')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: pipe unavailable
