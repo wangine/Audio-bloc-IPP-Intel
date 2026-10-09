@@ -33,11 +33,11 @@ int main(){
   auto root=XmlNode::parse(xml);if(root){MemoryBlock bad;copyXmlToBinary(*root,bad);assert(!engine->restoreStateInformation(bad.getData(),(int)bad.getSize()));assert(hp->raw.load()==before);}
  }
  auto legacy=XmlNode::parse("<PARAMETERS extra=\"preserve\"><PARAM id=\"gainDb1\" value=\"-6\"/><PARAM id=\"globalDelayMs\" value=\"3\"/><PARAM id=\"delayMs1\" value=\"2\"/><MANUAL_SAVE_ALL note=\"old\"/><UNKNOWN metadata=\"yes\"/></PARAMETERS>");MemoryBlock saved;copyXmlToBinary(*legacy,saved);
- assert(engine->restoreStateInformation(saved.getData(),(int)saved.getSize()));assert(params.getRawParameterValue("musicGainDb1")->load()==-6);assert(params.getRawParameterValue("cinemaGainDb1")->load()==-6);assert(std::abs(params.getRawParameterValue("musicGlobalDelayMs")->load()-3)<1e-5);assert(std::abs(params.getRawParameterValue("cinemaDelayMs1")->load()-2)<1e-4);
+ assert(engine->restoreStateInformation(saved.getData(),(int)saved.getSize()));assert(params.getRawParameterValue("musicGainDb1")->load()==-6);assert(params.getRawParameterValue("cinemaGainDb1")->load()==-6);assert(!params.getRawParameterValue("musicGlobalDelayMs"));assert(std::abs(params.getRawParameterValue("cinemaDelayMs1")->load()-2)<1e-4);
  engine->getStateInformation(saved);auto resaved=getXmlFromBinary(saved.getData(),(int)saved.getSize());assert(resaved->getProperty("extra").toString()=="preserve");assert(resaved->getChildWithName("UNKNOWN").isValid());
  assert(!params.getRawParameterValue("musicTrimDb16"));
  const auto set=[&](const char* id,float value){auto*p=params.getParameter(id);p->setValueNotifyingHost(p->convertTo0to1(value));};
- set("musicGlobalDelayMs",0);set("musicDelayMs1",0);set("musicGainDb1",6);engine->prepareToPlay(48000,64);
+ set("musicDelayMs1",0);set("musicGainDb1",6);engine->prepareToPlay(48000,64);
  AudioBuffer<double> audio(16,64);MidiBuffer midi;for(int i=0;i<64;++i)audio.setSample(0,i,1.234567891234);engine->processBlock(audio,midi);
  const double expected=1.234567891234*std::pow(10.,6./20.);assert(std::abs(audio.getSample(0,63)-expected)<1e-11);assert(audio.getSample(0,63)>2.);
  engine->prepareToPlay(48000,64);audio.clear();for(int i=0;i<64;++i)audio.setSample(0,i,1.234567891334);engine->processBlock(audio,midi);

@@ -8,3 +8,8 @@
 # Keep the pinned header's original CRLF bytes for its one authorized substitution.
 /Egress/ClockSync/include/EgressClockEstimator.h -text whitespace=cr-at-eol
 /VALIDATION-STAGE04-BLOCKERS.md -text whitespace=cr-at-eol
+# Retain imported native Crossover CRLF bytes when editing its controls.
+/DSP/Crossover/include/NativeSupport.h -text whitespace=cr-at-eol
+/DSP/Crossover/include/ParameterIds.h -text whitespace=cr-at-eol
+/DSP/Crossover/src/PluginProcessor.cpp -text whitespace=cr-at-eol
+/DSP/Crossover/tests/NativeSupportTests.cpp -text whitespace=cr-at-eol

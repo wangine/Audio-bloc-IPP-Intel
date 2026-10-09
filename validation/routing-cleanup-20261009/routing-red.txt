@@ -1,0 +1,1 @@
+FAIL retired Global Base control still exposed: globalDelayMs

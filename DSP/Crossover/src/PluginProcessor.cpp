@@ -4,20 +4,18 @@ namespace entropy::standalone {
 
 namespace
 {
-constexpr int musicGainBase = 351;
-constexpr int cinemaGainBase = 367;
-constexpr int musicTrimBase = 319;
-constexpr int cinemaTrimBase = 335;
-constexpr int protectorOnBase = 303;
-constexpr int musicGlobalDelayIndex = 383;
-constexpr int cinemaGlobalDelayIndex = 384;
-constexpr int musicDelayBase = 385;
-constexpr int cinemaDelayBase = 401;
-constexpr int safetyMinBase = 417;
-constexpr int safetyMaxBase = 433;
-constexpr int tripHoldBase = 449;
-constexpr int fractionalDelayModeBase = 465;
-static_assert (parameterCount == 481,
+constexpr int musicGainBase = parameterIndex ("musicGainDb1");
+constexpr int cinemaGainBase = parameterIndex ("cinemaGainDb1");
+constexpr int musicTrimBase = parameterIndex ("musicTrimDb1");
+constexpr int cinemaTrimBase = parameterIndex ("cinemaTrimDb1");
+constexpr int protectorOnBase = parameterIndex ("protectorOn1");
+constexpr int musicDelayBase = parameterIndex ("musicDelayMs1");
+constexpr int cinemaDelayBase = parameterIndex ("cinemaDelayMs1");
+constexpr int safetyMinBase = parameterIndex ("safetyMinHz1");
+constexpr int safetyMaxBase = parameterIndex ("safetyMaxHz1");
+constexpr int tripHoldBase = parameterIndex ("tripHoldMs1");
+constexpr int fractionalDelayModeBase = parameterIndex ("fractionalDelayMode1");
+static_assert (parameterCount == 478,
                "Crossover parameter indices must match the canonical layout");
 }
 
@@ -104,9 +102,6 @@ native::ParameterStore::ParameterLayout EntropyCrossoverAudioProcessor::createPa
     p.push_back (std::make_unique<native::AudioParameterInt> (native::ParameterID { "subSpeakers", 1 }, "Sub Speakers", 1, 2, 1));
     p.push_back (std::make_unique<native::AudioParameterInt> (native::ParameterID { "scoopSpeakers", 1 }, "Scoop Speakers", 1, 2, 1));
     p.push_back (std::make_unique<native::AudioParameterChoice> (native::ParameterID { "lrBandLimit", 1 }, "L/R Working Band", native::StringArray { "40 kHz", "60 kHz" }, 0));
-    p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { "globalDelayMs", 1 }, "Global Causal Delay", native::NormalisableRange<float> (0.0f, 800.0f, 0.001f), 20.0f, "ms"));
-    p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { "musicGlobalDelayMs", 1 }, "MUSIC Global Causal Delay", native::NormalisableRange<float> (0.0f, 800.0f, 0.001f), 20.0f, "ms"));
-    p.push_back (std::make_unique<native::AudioParameterFloat> (native::ParameterID { "cinemaGlobalDelayMs", 1 }, "CINEMA Global Causal Delay", native::NormalisableRange<float> (0.0f, 800.0f, 0.001f), 20.0f, "ms"));
     p.push_back (std::make_unique<native::AudioParameterChoice> (native::ParameterID { "fineDelayRatio", 1 }, "Fine Delay Ratio", native::StringArray { "1/10", "1/100", "1/1000" }, 1));
     for (int ch = 0; ch < mainInputs; ++ch)
     {
@@ -194,8 +189,8 @@ native::ParameterStore::ParameterLayout EntropyCrossoverAudioProcessor::createPa
 int EntropyCrossoverAudioProcessor::roleForChannel (int channel) const noexcept
 {
     channel = native::jlimit (0, maxOutputs - 1, channel);
-    const bool cinema = rt (0) >= 0.5f;
-    return (int) std::lround (rt ((cinema ? 239 : 223) + channel));
+    const bool cinema = rt (parameterIndex ("cinemaSource")) >= 0.5f;
+    return (int) std::lround (rt ((cinema ? parameterIndex("cinemaRole1") : parameterIndex("source1")) + channel));
 }
 
 native::StringArray EntropyCrossoverAudioProcessor::activeOutputLabels() const
@@ -256,7 +251,7 @@ void EntropyCrossoverAudioProcessor::prepareToPlay (double sampleRate, int sampl
     cinemaScoopLaneScratch.setSize (1, scratchSize, false, false, true);
     cinemaMixScratch.setSize (1, scratchSize, false, false, true);
     cinemaSourceMix.reset (sampleRate, 0.03);
-    cinemaSourceMix.setCurrentAndTargetValue (rt (0) >= 0.5f ? 1.0f : 0.0f);
+    cinemaSourceMix.setCurrentAndTargetValue (rt (parameterIndex ("cinemaSource")) >= 0.5f ? 1.0f : 0.0f);
     for (int ch = 0; ch < mainInputs; ++ch)
     {
         auto& trim = musicTrimGains[(size_t) ch];
@@ -274,11 +269,11 @@ void EntropyCrossoverAudioProcessor::prepareToPlay (double sampleRate, int sampl
     cinemaScoopLrcGain.reset (sampleRate, 0.05);
     cinemaScoopLfeGain.reset (sampleRate, 0.05);
     cinemaLfeReferenceGain.reset (sampleRate, 0.02);
-    const int cinemaScoopSource = native::jlimit (0, 2, (int) std::lround (rt (1)));
+    const int cinemaScoopSource = native::jlimit (0, 2, (int) std::lround (rt (parameterIndex ("cinemaScoopSource"))));
     cinemaScoopLrcGain.setCurrentAndTargetValue (cinemaScoopSource == 1 ? 0.0f : 1.0f);
     cinemaScoopLfeGain.setCurrentAndTargetValue (cinemaScoopSource == 0 ? 0.0f : 1.0f);
     cinemaLfeReferenceGain.setCurrentAndTargetValue (
-        rt (2) >= 0.5f ? native::Decibels::decibelsToGain (10.0) : 1.0);
+        rt (parameterIndex ("cinemaLfeReferenceGain")) >= 0.5f ? native::Decibels::decibelsToGain (10.0) : 1.0);
     bassRightPolarity = bassCenterPolarity = scoopRightPolarity = scoopCenterPolarity
         = cinemaScoopRightPolarity = cinemaScoopCenterPolarity = 1;
     resetComplexPca (bassPca);
@@ -312,21 +307,20 @@ void EntropyCrossoverAudioProcessor::prepareToPlay (double sampleRate, int sampl
         c.gain.reset (sampleRate, 0.03);
         const int role = roleForChannel (ch);
         const bool startupSilence = ! isRoleEnabledByTopology (role)
-            || rt (255 + ch) >= 0.5f
-            || rt (271 + ch) >= 0.5f;
-        const bool cinemaScene = rt (0) >= 0.5f;
+            || rt (parameterIndex ("mute1") + ch) >= 0.5f
+            || rt (parameterIndex ("emergencyMute1") + ch) >= 0.5f;
+        const bool cinemaScene = rt (parameterIndex ("cinemaSource")) >= 0.5f;
         const double sceneGainDb = rt ((cinemaScene ? cinemaGainBase : musicGainBase) + ch);
         double startupGain = startupSilence
             ? 0.0
             : native::Decibels::decibelsToGain (sceneGainDb, -100.0);
-        if (rt (287 + ch) >= 0.5f)
+        if (rt (parameterIndex ("polarity1") + ch) >= 0.5f)
             startupGain = -startupGain;
         c.gain.setCurrentAndTargetValue (startupGain);
         c.delaySamples.reset (sampleRate, 0.04);
-        const int sceneGlobalDelay = cinemaScene ? cinemaGlobalDelayIndex : musicGlobalDelayIndex;
         const int sceneDelayBase = cinemaScene ? cinemaDelayBase : musicDelayBase;
         const double effectiveDelayMs = native::jlimit (0.0, maxDelaySeconds * 1000.0,
-            (double) rt (sceneGlobalDelay) + (double) rt (sceneDelayBase + ch));
+            (double) rt (sceneDelayBase + ch));
         c.delaySamples.setCurrentAndTargetValue (effectiveDelayMs * 0.001 * sampleRate);
         c.tripFrames = 0;
         c.protectionTripped = false;
@@ -395,19 +389,19 @@ void EntropyCrossoverAudioProcessor::updateFir (int channel, double sampleRate)
 {
     const int role = roleForChannel (channel);
     if (role == 0) return;
-    const int mode = native::jlimit (0, 1, (int) std::lround (rt (47 + channel)));
+    const int mode = native::jlimit (0, 1, (int) std::lround (rt (parameterIndex ("processMode1") + channel)));
     if (mode != 1) return;
 
     const bool bassLane = role >= 16 && role <= 19;
-    const bool cinemaLfeLane = rt (0) >= 0.5f && (role == 16 || role == 18);
-    const double requestedMax = cinemaLfeLane ? 240.0 : (bassLane ? 5000.0 : (((role >= 1 && role <= 10) && (int) std::lround (rt (4)) == 0) ? 40000.0 : 60000.0));
+    const bool cinemaLfeLane = rt (parameterIndex ("cinemaSource")) >= 0.5f && (role == 16 || role == 18);
+    const double requestedMax = cinemaLfeLane ? 240.0 : (bassLane ? 5000.0 : (((role >= 1 && role <= 10) && (int) std::lround (rt (parameterIndex ("lrBandLimit"))) == 0) ? 40000.0 : 60000.0));
     const double maxLane = native::jmax (2.0, native::jmin (requestedMax, sampleRate * 0.45));
-    const int lengthIndex = native::jlimit (0, 2, (int) std::lround (rt (63 + channel)));
+    const int lengthIndex = native::jlimit (0, 2, (int) std::lround (rt (parameterIndex ("firLength1") + channel)));
     const int taps = lengthIndex == 0 ? 2049 : (lengthIndex == 1 ? 4097 : 8193);
-    const bool hpOn = rt (79 + channel) >= 0.5f;
-    const bool lpOn = rt (95 + channel) >= 0.5f;
-    const double hp = native::jlimit (2.0, maxLane, (double) rt (111 + channel)); // lower edge
-    const double lp = native::jlimit (2.0, maxLane, (double) rt (127 + channel)); // upper edge
+    const bool hpOn = rt (parameterIndex ("hpOn1") + channel) >= 0.5f;
+    const bool lpOn = rt (parameterIndex ("lpOn1") + channel) >= 0.5f;
+    const double hp = native::jlimit (2.0, maxLane, (double) rt (parameterIndex ("hpHz1") + channel)); // lower edge
+    const double lp = native::jlimit (2.0, maxLane, (double) rt (parameterIndex ("lpHz1") + channel)); // upper edge
     building->effectiveHpHz[channel]=hp;
     building->effectiveLpHz[channel]=lp;
 
@@ -444,29 +438,29 @@ void EntropyCrossoverAudioProcessor::updateFir (int channel, double sampleRate)
 
 bool EntropyCrossoverAudioProcessor::isRoleEnabledByTopology (int role) const noexcept
 {
-    const int lrWays = native::jlimit (1, 5, (int) std::lround (rt (5)));
-    const int centerWays = native::jlimit (1, 2, (int) std::lround (rt (6)));
+    const int lrWays = native::jlimit (1, 5, (int) std::lround (rt (parameterIndex ("lrWays"))));
+    const int centerWays = native::jlimit (1, 2, (int) std::lround (rt (parameterIndex ("centerWays"))));
     if (role >= 1 && role <= 5) return role <= lrWays;
     if (role >= 6 && role <= 10) return role - 5 <= lrWays;
     if (role >= 11 && role <= 15) return role - 10 <= centerWays;
     if (role == 16) return true;
     if (role == 17) return true;
-    if (role == 18) return (int) std::lround (rt (7)) >= 2;
-    if (role == 19) return (int) std::lround (rt (8)) >= 2;
+    if (role == 18) return (int) std::lround (rt (parameterIndex ("subSpeakers"))) >= 2;
+    if (role == 19) return (int) std::lround (rt (parameterIndex ("scoopSpeakers"))) >= 2;
     if (role >= 20 && role <= 25) return true;
     return false;
 }
 
 bool EntropyCrossoverAudioProcessor::isRoleEnabledByLiveTopology (int role) const noexcept
 {
-    const int lrWays = native::jlimit (1, 5, (int) std::lround (liveRt (5)));
-    const int centerWays = native::jlimit (1, 2, (int) std::lround (liveRt (6)));
+    const int lrWays = native::jlimit (1, 5, (int) std::lround (liveRt (parameterIndex("lrWays"))));
+    const int centerWays = native::jlimit (1, 2, (int) std::lround (liveRt (parameterIndex("centerWays"))));
     if (role >= 1 && role <= 5) return role <= lrWays;
     if (role >= 6 && role <= 10) return role - 5 <= lrWays;
     if (role >= 11 && role <= 15) return role - 10 <= centerWays;
     if (role == 16 || role == 17) return true;
-    if (role == 18) return (int) std::lround (liveRt (7)) >= 2;
-    if (role == 19) return (int) std::lround (liveRt (8)) >= 2;
+    if (role == 18) return (int) std::lround (liveRt (parameterIndex("subSpeakers"))) >= 2;
+    if (role == 19) return (int) std::lround (liveRt (parameterIndex("scoopSpeakers"))) >= 2;
     if (role >= 20 && role <= 25) return true;
     return false;
 }
@@ -476,12 +470,12 @@ int EntropyCrossoverAudioProcessor::firGroupDelayForChannel (int channel) const 
     const int role = roleForChannel (channel);
     if (! isRoleEnabledByTopology (role))
         return 0;
-    if (rt (0) >= 0.5f && (role == 16 || role == 18)
-        && rt (9) >= 0.5f)
+    if (rt (parameterIndex ("cinemaSource")) >= 0.5f && (role == 16 || role == 18)
+        && rt (parameterIndex ("cinemaLfeFilterBypass")) >= 0.5f)
         return 0;
-    if ((int) std::lround (rt (47 + channel)) != 1)
+    if ((int) std::lround (rt (parameterIndex ("processMode1") + channel)) != 1)
         return 0;
-    const int index = native::jlimit (0, 2, (int) std::lround (rt (63 + channel)));
+    const int index = native::jlimit (0, 2, (int) std::lround (rt (parameterIndex ("firLength1") + channel)));
     return index == 0 ? 1024 : (index == 1 ? 2048 : 4096);
 }
 
@@ -519,16 +513,16 @@ void EntropyCrossoverAudioProcessor::compileCoefficients (int channel, double sa
     const int role = roleForChannel (channel);
     const bool bassLane = role >= 16 && role <= 19;
     const bool lrLane = role >= 1 && role <= 10;
-    const bool cinemaLfeLane = rt (0) >= 0.5f && (role == 16 || role == 18);
-    const float lrLimit = (int) std::lround (rt (4)) == 1 ? 60000.0f : 40000.0f;
+    const bool cinemaLfeLane = rt (parameterIndex ("cinemaSource")) >= 0.5f && (role == 16 || role == 18);
+    const float lrLimit = (int) std::lround (rt (parameterIndex ("lrBandLimit"))) == 1 ? 60000.0f : 40000.0f;
     const float maxForLane = cinemaLfeLane ? 240.0f : (bassLane ? 5000.0f : (lrLane ? lrLimit : maxFilterHz));
-    const float hp = native::jlimit (2.0f, maxForLane, rt (111 + channel));
-    const float lp = native::jlimit (2.0f, maxForLane, rt (127 + channel));
+    const float hp = native::jlimit (2.0f, maxForLane, rt (parameterIndex ("hpHz1") + channel));
+    const float lp = native::jlimit (2.0f, maxForLane, rt (parameterIndex ("lpHz1") + channel));
     building->effectiveHpHz[channel]=native::jlimit(2.0,sampleRate*0.45,(double)hp);
     building->effectiveLpHz[channel]=native::jlimit(2.0,sampleRate*0.45,(double)lp);
-    const bool hpOn = rt (79 + channel) >= 0.5f;
-    const bool lpOn = rt (95 + channel) >= 0.5f;
-    const int type = native::jlimit (0, 5, (int) std::lround (rt (143 + channel)));
+    const bool hpOn = rt (parameterIndex ("hpOn1") + channel) >= 0.5f;
+    const bool lpOn = rt (parameterIndex ("lpOn1") + channel) >= 0.5f;
+    const int type = native::jlimit (0, 5, (int) std::lround (rt (parameterIndex ("filterType1") + channel)));
 
 
     if (true)
@@ -552,7 +546,7 @@ void EntropyCrossoverAudioProcessor::compileCoefficients (int channel, double sa
         else { setLowPass (s[0], sampleRate, lp, qButterworth8a); setLowPass (s[1], sampleRate, lp, qButterworth8b); setLowPass (s[2], sampleRate, lp, qButterworth8c); setLowPass (s[3], sampleRate, lp, qButterworth8d); }
     }
 
-    setAllPass(building->ap[channel],sampleRate,native::jlimit(2.0f,maxForLane,rt(175+channel)),rt(191+channel));
+    setAllPass(building->ap[channel],sampleRate,native::jlimit(2.0f,maxForLane,rt (parameterIndex ("apFreq1")+channel)),rt (parameterIndex ("apQ1")+channel));
 }
 
 double EntropyCrossoverAudioProcessor::readDelayedSample (ChannelDSP& c, double input, double delaySamples, uint64_t epoch) noexcept
@@ -880,7 +874,7 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
         auto* cinemaData = cinemaScratch.getWritePointer (ch);
         if (ch == 3)
             cinemaLfeReferenceGain.setTargetValue (
-                rt (2) >= 0.5f ? native::Decibels::decibelsToGain (10.0) : 1.0);
+                rt (parameterIndex ("cinemaLfeReferenceGain")) >= 0.5f ? native::Decibels::decibelsToGain (10.0) : 1.0);
         for (int i = 0; i < samples; ++i)
             cinemaData[i] *= trim.getNextValue() * (ch == 3 ? cinemaLfeReferenceGain.getNextValue() : 1.0);
         const double peak = cinemaScratch.getMagnitude (ch, 0, samples);
@@ -890,14 +884,14 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
 
     // Program selection is a DSP-level interlock. Keep a per-sample ramp so
     // even completely different MUSIC/CINEMA output maps switch without clicks.
-    cinemaSourceMix.setTargetValue (rt (0) >= 0.5f ? 1.0f : 0.0f);
+    cinemaSourceMix.setTargetValue (rt (parameterIndex ("cinemaSource")) >= 0.5f ? 1.0f : 0.0f);
     auto* cinemaMixValues = cinemaMixScratch.getWritePointer (0);
     for (int i = 0; i < samples; ++i)
         cinemaMixValues[i] = cinemaSourceMix.getNextValue();
     // Observe the adopted RT snapshot; APVTS may already request another one.
     std::fill(blockOutputEpochs.begin(),blockOutputEpochs.end(),0);
     programBlock.firstTransitionFrame=UINT32_MAX; programBlock.transitions=0;
-    const uint32_t appliedProgram = rt (0) >= 0.5f ? 1u : 0u;
+    const uint32_t appliedProgram = rt (parameterIndex ("cinemaSource")) >= 0.5f ? 1u : 0u;
     const auto sourceSession=appliedProgram?0:inputMusicSession;
     const auto sourceGeneration=appliedProgram?inputCinemaGeneration:inputMusicGeneration;
     if(inputEpochToken==0 || (inputEpochToken&1u)!=appliedProgram ||
@@ -918,11 +912,11 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
                                 | (cinemaSourceMix.getCurrentValue() > 0.0 ? 2u : 0u)
                                 | (appliedProgram == 0 ? 1u : 2u);
 
-    const int linkMode = native::jlimit (0, 3, (int) std::lround (rt (10)));
-    const int bassFeed = native::jlimit (0, 4, (int) std::lround (rt (11)));
-    const int scoopFeed = linkMode == 0 ? native::jlimit (0, 4, (int) std::lround (rt (12))) : bassFeed;
-    const int bassExtractor = native::jlimit (0, 3, (int) std::lround (rt (13)));
-    const int scoopExtractor = linkMode >= 2 ? bassExtractor : native::jlimit (0, 3, (int) std::lround (rt (14)));
+    const int linkMode = native::jlimit (0, 3, (int) std::lround (rt (parameterIndex ("bassLinkMode"))));
+    const int bassFeed = native::jlimit (0, 4, (int) std::lround (rt (parameterIndex ("bassFeed"))));
+    const int scoopFeed = linkMode == 0 ? native::jlimit (0, 4, (int) std::lround (rt (parameterIndex ("scoopFeed")))) : bassFeed;
+    const int bassExtractor = native::jlimit (0, 3, (int) std::lround (rt (parameterIndex ("bassExtractor"))));
+    const int scoopExtractor = linkMode >= 2 ? bassExtractor : native::jlimit (0, 3, (int) std::lround (rt (parameterIndex ("scoopExtractor"))));
     buildBassLane (inputScratch, bassLaneScratch, samples, bassFeed, bassExtractor,
                    bassRightPolarity, bassCenterPolarity, bassPca);
     if (linkMode >= 2)
@@ -934,13 +928,13 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
     // CINEMA SUB and SCOOP are different sources. SUB roles read the dedicated
     // SW/LFE input directly. SCOOP is bass-managed from decoded CINEMA L/R/C.
     buildBassLane (cinemaScratch, cinemaScoopLaneScratch, samples,
-                   native::jlimit (0, 4, (int) std::lround (rt (12))),
-                   native::jlimit (0, 3, (int) std::lround (rt (14))),
+                   native::jlimit (0, 4, (int) std::lround (rt (parameterIndex ("scoopFeed")))),
+                   native::jlimit (0, 3, (int) std::lround (rt (parameterIndex ("scoopExtractor")))),
                    cinemaScoopRightPolarity, cinemaScoopCenterPolarity, cinemaScoopPca);
 
     // Cinema SCOOP can retain its L/R/C extractor, use the discrete LFE lane,
     // or sum both.  Smooth both contributors so changing the source is click-free.
-    const int cinemaScoopSource = native::jlimit (0, 2, (int) std::lround (rt (1)));
+    const int cinemaScoopSource = native::jlimit (0, 2, (int) std::lround (rt (parameterIndex ("cinemaScoopSource"))));
     cinemaScoopLrcGain.setTargetValue (cinemaScoopSource == 1 ? 0.0f : 1.0f);
     cinemaScoopLfeGain.setTargetValue (cinemaScoopSource == 0 ? 0.0f : 1.0f);
     auto* cinemaScoopData = cinemaScoopLaneScratch.getWritePointer (0);
@@ -952,7 +946,7 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
     const bool anySolo = [&]
     {
         for (int ch = 0; ch < maxOutputs; ++ch)
-            if (rt (207 + ch) >= 0.5f) return true;
+            if (rt (parameterIndex ("solo1") + ch) >= 0.5f) return true;
         return false;
     }();
     const double sr = native::jmax (1.0, runtimeSampleRate.load (std::memory_order_relaxed));
@@ -962,11 +956,11 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
 
         auto& c = channels[(size_t) ch];
         const int role = roleForChannel (ch);
-        const int musicRole = (int) std::lround (rt (223 + ch));
-        const int cinemaRole = (int) std::lround (rt (239 + ch));
-        const bool muted = rt (255 + ch) >= 0.5f;
-        const bool emergencyMute = liveRt (271 + ch) >= 0.5f;
-        const bool solo = rt (207 + ch) >= 0.5f;
+        const int musicRole = (int) std::lround (rt (parameterIndex ("source1") + ch));
+        const int cinemaRole = (int) std::lround (rt (parameterIndex ("cinemaRole1") + ch));
+        const bool muted = rt (parameterIndex ("mute1") + ch) >= 0.5f;
+        const bool emergencyMute = liveRt (parameterIndex("emergencyMute1") + ch) >= 0.5f;
+        const bool solo = rt (parameterIndex ("solo1") + ch) >= 0.5f;
         const bool protectorOn = liveRt (protectorOnBase + ch) >= 0.5f;
         if (protectionResetRequested[(size_t) ch].exchange (false))
         {
@@ -1007,35 +1001,35 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
             continue;
         }
         c.safetySilenced = false;
-        const bool cinemaScene = rt (0) >= 0.5f;
+        const bool cinemaScene = rt (parameterIndex ("cinemaSource")) >= 0.5f;
         const double sceneGainDb = rt ((cinemaScene ? cinemaGainBase : musicGainBase) + ch);
         double targetGain = silence ? 0.0 : native::Decibels::decibelsToGain (sceneGainDb, -100.0);
-        if (rt (287 + ch) >= 0.5f) targetGain = -targetGain;
+        if (rt (parameterIndex ("polarity1") + ch) >= 0.5f) targetGain = -targetGain;
         // Topology changes and Emergency Mute are safety interlocks. They must
         // not leave audio on a way that is no longer valid while the normal
         // click-free gain ramp completes. The ordinary Mute/Solo controls keep
         // their smooth transition.
         c.gain.setTargetValue (targetGain);
-        const bool hpOn = liveRt (79 + ch) >= 0.5f;
-        const bool lpOn = liveRt (95 + ch) >= 0.5f;
-        const int type = native::jlimit (0, 5, (int) std::lround (rt (143 + ch)));
-        const bool firMode = (int) std::lround (rt (47 + ch)) == 1;
-        const bool cinemaLfeFilterBypass = rt (0) >= 0.5f
+        const bool hpOn = liveRt (parameterIndex("hpOn1") + ch) >= 0.5f;
+        const bool lpOn = liveRt (parameterIndex("lpOn1") + ch) >= 0.5f;
+        const int type = native::jlimit (0, 5, (int) std::lround (rt (parameterIndex ("filterType1") + ch)));
+        const bool firMode = (int) std::lround (rt (parameterIndex ("processMode1") + ch)) == 1;
+        const bool cinemaLfeFilterBypass = rt (parameterIndex ("cinemaSource")) >= 0.5f
             && (cinemaRole == 16 || cinemaRole == 18)
-            && rt (9) >= 0.5f;
-        const bool allPassOn = rt (159 + ch) >= 0.5f;
+            && rt (parameterIndex ("cinemaLfeFilterBypass")) >= 0.5f;
+        const bool allPassOn = rt (parameterIndex ("allPass1") + ch) >= 0.5f;
         const float safeMin = native::jlimit (2.0f, (float) (sr * 0.44), liveRt (safetyMinBase + ch));
         const float safeMax = native::jlimit (safeMin, (float) (sr * 0.5), liveRt (safetyMaxBase + ch));
         const uint64_t tripHold = (uint64_t) (sr * liveRt (tripHoldBase + ch) * 0.001f);
         // Validate the band compiled for each audible path, not requested UI
         // cutoffs. FIR orders crossed edges; IIR retains the assigned HP/LP.
         const auto bandConfiguredSafe = [&](const Config* config,bool liveEnables) noexcept {
-            const int configRole=(int)std::lround(config->values[239+ch]);
-            const bool bypass=config->values[0]>=0.5f && (configRole==16 || configRole==18) && config->values[9]>=0.5f;
-            const bool highPass=(liveEnables ? hpOn : config->values[79+ch]>=0.5f) && !bypass;
-            const bool lowPass=(liveEnables ? lpOn : config->values[95+ch]>=0.5f) && !bypass;
+            const int configRole=(int)std::lround(config->values[parameterIndex ("cinemaRole1")+ch]);
+            const bool bypass=config->values[parameterIndex ("cinemaSource")]>=0.5f && (configRole==16 || configRole==18) && config->values[parameterIndex ("cinemaLfeFilterBypass")]>=0.5f;
+            const bool highPass=(liveEnables ? hpOn : config->values[parameterIndex ("hpOn1")+ch]>=0.5f) && !bypass;
+            const bool lowPass=(liveEnables ? lpOn : config->values[parameterIndex ("lpOn1")+ch]>=0.5f) && !bypass;
             double lower=config->effectiveHpHz[ch],upper=config->effectiveLpHz[ch];
-            if((int)std::lround(config->values[47+ch])==1 && highPass && lowPass && lower>upper)
+            if((int)std::lround(config->values[parameterIndex ("processMode1")+ch])==1 && highPass && lowPass && lower>upper)
                 std::swap(lower,upper);
             return (safeMin<=2.01f || (highPass && lower>=safeMin))
                 && (safeMax>=sr*0.449f || (lowPass && upper<=safeMax));
@@ -1056,11 +1050,10 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
         // Align every physical output to the longest active FIR, then add the
         // user's acoustic delay. FIR already contributes its own group delay.
         const double compensation = native::jmax (0, commonLatency - firGroupDelayForChannel (ch));
-        const int sceneGlobalDelay = cinemaScene ? cinemaGlobalDelayIndex : musicGlobalDelayIndex;
         const int sceneDelayBase = cinemaScene ? cinemaDelayBase : musicDelayBase;
         const double relativeDelayMs = (double) rt (sceneDelayBase + ch);
         const double effectiveDelayMs = native::jlimit (0.0, maxDelaySeconds * 1000.0,
-            (double) rt (sceneGlobalDelay) + relativeDelayMs);
+            relativeDelayMs);
         c.delaySamples.setTargetValue (effectiveDelayMs * 0.001 * sr + compensation);
         c.fractionalDelay.request(active->delays[ch],int(sr*0.04));
         c.peak = 0.0;
@@ -1091,20 +1084,20 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
                 auto& hp = enteringFir ? c.previousHp : c.hp;
                 auto& lp = enteringFir ? c.previousLp : c.lp;
                 auto& ap = enteringFir ? c.previousAllPass : c.allPass;
-                const int iirType = native::jlimit(0,5,(int)std::lround(iirConfig->values[143+ch]));
-                const int iirRole = (int)std::lround(iirConfig->values[239+ch]);
-                const bool bypass = iirConfig->values[0]>=0.5f && (iirRole==16 || iirRole==18) && iirConfig->values[9]>=0.5f;
+                const int iirType = native::jlimit(0,5,(int)std::lround(iirConfig->values[parameterIndex ("filterType1")+ch]));
+                const int iirRole = (int)std::lround(iirConfig->values[parameterIndex ("cinemaRole1")+ch]);
+                const bool bypass = iirConfig->values[parameterIndex ("cinemaSource")]>=0.5f && (iirRole==16 || iirRole==18) && iirConfig->values[parameterIndex ("cinemaLfeFilterBypass")]>=0.5f;
                 double iir = x;
                 auto iirEpoch = epoch;
-                if (!bypass && iirConfig->values[79+ch]>=0.5f) {
+                if (!bypass && iirConfig->values[parameterIndex ("hpOn1")+ch]>=0.5f) {
                     iir=processFilter(hp,iirType,iir);
                     if(traceOutputEpoch) iirEpoch=traceFilterEpoch(hp,iirType,iirEpoch);
                 }
-                if (!bypass && iirConfig->values[95+ch]>=0.5f) {
+                if (!bypass && iirConfig->values[parameterIndex ("lpOn1")+ch]>=0.5f) {
                     iir=processFilter(lp,iirType,iir);
                     if(traceOutputEpoch) iirEpoch=traceFilterEpoch(lp,iirType,iirEpoch);
                 }
-                if (!bypass && iirConfig->values[159+ch]>=0.5f) {
+                if (!bypass && iirConfig->values[parameterIndex ("allPass1")+ch]>=0.5f) {
                     iir=ap.process(iir);
                     if(traceOutputEpoch) iirEpoch=ap.trace(iirEpoch);
                 }
@@ -1123,14 +1116,14 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
             if (c.iirTransition && fading != nullptr)
             {
                 double previous = x;
-                const bool oldHpOn = fading->values[(size_t) (79 + ch)] >= 0.5f;
-                const bool oldLpOn = fading->values[(size_t) (95 + ch)] >= 0.5f;
-                const bool oldAllPassOn = fading->values[(size_t) (159 + ch)] >= 0.5f;
-                const int oldType = native::jlimit (0, 5, (int) std::lround (fading->values[(size_t) (143 + ch)]));
-                const bool oldBypass = fading->values[0] >= 0.5f
-                    && ((int) std::lround (fading->values[(size_t) (239 + ch)]) == 16
-                        || (int) std::lround (fading->values[(size_t) (239 + ch)]) == 18)
-                    && fading->values[9] >= 0.5f;
+                const bool oldHpOn = fading->values[(size_t) (parameterIndex ("hpOn1") + ch)] >= 0.5f;
+                const bool oldLpOn = fading->values[(size_t) (parameterIndex ("lpOn1") + ch)] >= 0.5f;
+                const bool oldAllPassOn = fading->values[(size_t) (parameterIndex ("allPass1") + ch)] >= 0.5f;
+                const int oldType = native::jlimit (0, 5, (int) std::lround (fading->values[(size_t) (parameterIndex ("filterType1") + ch)]));
+                const bool oldBypass = fading->values[parameterIndex ("cinemaSource")] >= 0.5f
+                    && ((int) std::lround (fading->values[(size_t) (parameterIndex ("cinemaRole1") + ch)]) == 16
+                        || (int) std::lround (fading->values[(size_t) (parameterIndex ("cinemaRole1") + ch)]) == 18)
+                    && fading->values[parameterIndex ("cinemaLfeFilterBypass")] >= 0.5f;
                 if (! oldBypass && oldHpOn) previous = processFilter (c.previousHp, oldType, previous);
                 if (! oldBypass && oldLpOn) previous = processFilter (c.previousLp, oldType, previous);
                 if (! oldBypass && oldAllPassOn) previous = c.previousAllPass.process (previous);
@@ -1177,11 +1170,11 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
             const bool enteringFir = firMode && ! cinemaLfeFilterBypass;
             const auto* firConfig = enteringFir ? active : fading;
             auto& firAllPass = enteringFir ? c.allPass : c.previousAllPass;
-            const bool firAllPassOn = firConfig->values[159+ch]>=0.5f;
+            const bool firAllPassOn = firConfig->values[parameterIndex ("allPass1")+ch]>=0.5f;
             c.fir.process(dst,samples,&firConfig->kernels[ch],nullptr,0.0,0.0);
             // Fill the destination FIR history before making its cold-start
             // response audible; retain the existing 9600-frame total window.
-            const int lengthIndex=native::jlimit(0,2,(int)std::lround(firConfig->values[63+ch]));
+            const int lengthIndex=native::jlimit(0,2,(int)std::lround(firConfig->values[parameterIndex ("firLength1")+ch]));
             const int warmup=enteringFir ? (lengthIndex==0 ? 2048 : (lengthIndex==1 ? 4096 : 8192)) : 0;
             c.peak=0.0;
             for(int i=0;i<samples;++i)
@@ -1226,7 +1219,7 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
                 const double apMix=apTransition ? native::jlimit(0.0,1.0,(double)(fadePosition+i)/9600.0) : 1.0;
                 const double current=allPassOn ? c.allPass.process(x) : x;
                 if(apTransition){
-                    const double previous=fading->values[159+ch]>=0.5f ? c.previousAllPass.process(x) : x;
+                    const double previous=fading->values[parameterIndex ("allPass1")+ch]>=0.5f ? c.previousAllPass.process(x) : x;
                     x=previous+(current-previous)*apMix;
                 }else x=current;
                 const auto* oldKernel=fading && fading->kernelKey[ch]!=active->kernelKey[ch] ? &fading->kernels[ch] : nullptr;
@@ -1240,7 +1233,7 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
                 const uint64_t firInputEpoch=tag;
                 const uint64_t currentEpoch=traceOutputEpoch && allPassOn ? c.allPass.trace(tag) : tag;
                 if(traceOutputEpoch && apTransition){
-                    const uint64_t previousEpoch=fading->values[159+ch]>=0.5f ? c.previousAllPass.trace(tag) : tag;
+                    const uint64_t previousEpoch=fading->values[parameterIndex ("allPass1")+ch]>=0.5f ? c.previousAllPass.trace(tag) : tag;
                     tag=std::max(apMix<1.0?previousEpoch:0,apMix>0.0?currentEpoch:0);
                 }else tag=currentEpoch;
                 if(i>=samples-2)recordFirAllPass(c,firInput,firInputEpoch);
@@ -1309,7 +1302,7 @@ void EntropyCrossoverAudioProcessor::saveAllSnapshots()
     auto root = apvts.state.getChildWithName ("MANUAL_SAVE_ALL");
     if (root.isValid()) apvts.state.removeChild (root, nullptr);
     root = native::XmlNode ("MANUAL_SAVE_ALL");
-    const char* globals[] = { "cinemaSource", "lrWays", "centerWays", "subSpeakers", "scoopSpeakers", "lrBandLimit", "globalDelayMs", "musicGlobalDelayMs", "cinemaGlobalDelayMs", "fineDelayRatio",
+    const char* globals[] = { "cinemaSource", "lrWays", "centerWays", "subSpeakers", "scoopSpeakers", "lrBandLimit", "fineDelayRatio",
                               "bassFeed", "scoopFeed", "bassLinkMode", "cinemaScoopSource", "cinemaLfeFilterBypass", "cinemaLfeReferenceGain", "bassExtractor", "scoopExtractor",
                               "bassProcess", "scoopProcess", "bassFirLength", "scoopFirLength",
                               "bassAllPass", "scoopAllPass", "bassAPFreq", "scoopAPFreq", "bassAPQ", "scoopAPQ" };
@@ -1451,10 +1444,10 @@ bool EntropyCrossoverAudioProcessor::restoreStateInformation (const void* data, 
                 const auto obsolete = restored.getChildWithName (type);
                 if (obsolete.isValid()) restored.removeChild (obsolete, nullptr);
             }
-            // 1.9.10 and older stored common gain and timing values for both program
+            // 1.9.10 and older stored common gain and per-channel timing values for both program
             // scenes. APVTS serialises parameters as PARAM children, so add the
-            // two new children before replaceState. This preserves the exact
-            // old sound on upgrade, then lets MUSIC and CINEMA diverge.
+            // two new children before replaceState. Channel values remain unchanged; retired common base delay is discarded.
+            // MUSIC and CINEMA retain their independent channel controls.
             const auto findParameterNode = [&restored] (const native::String& id)
             {
                 for (int index = 0; index < restored.getNumChildren(); ++index)
@@ -1489,11 +1482,6 @@ bool EntropyCrossoverAudioProcessor::restoreStateInformation (const void* data, 
                 parameterNode.setProperty ("value", value, nullptr);
                 restored.addChild (parameterNode, -1, nullptr);
             };
-            const auto legacyGlobal = findParameterNode ("globalDelayMs");
-            const auto legacyGlobalValue = legacyGlobal.isValid()
-                ? legacyGlobal.getProperty ("value") : native::Property (20.0f);
-            appendMigratedParameter ("musicGlobalDelayMs", legacyGlobalValue);
-            appendMigratedParameter ("cinemaGlobalDelayMs", legacyGlobalValue);
             for (int ch = 0; ch < maxOutputs; ++ch)
             {
                 const auto n = native::String (ch + 1);
@@ -1504,6 +1492,20 @@ bool EntropyCrossoverAudioProcessor::restoreStateInformation (const void* data, 
                 appendMigratedParameter ("cinemaDelayMs" + n, legacyDelayValue);
                 appendMigratedParameter ("fractionalDelayMode" + n, native::Property(0.0f));
             }
+            const auto discardRetired = [&](auto&& self, native::XmlNode node) -> void
+            {
+                for (auto* id : { "globalDelayMs", "musicGlobalDelayMs", "cinemaGlobalDelayMs" })
+                    node.removeProperty (id, nullptr);
+                for (int index = node.getNumChildren(); --index >= 0;)
+                {
+                    auto child = node.getChild (index);
+                    const auto id = child.getProperty ("id").toString();
+                    if (child.hasType ("PARAM") && (id == "globalDelayMs" || id == "musicGlobalDelayMs" || id == "cinemaGlobalDelayMs"))
+                        node.removeChild (child, nullptr);
+                    else self (self, child);
+                }
+            };
+            discardRetired (discardRetired, restored);
             apvts.replaceState (restored);
             readSceneStatesFromTree();
             return true;
@@ -1579,7 +1581,7 @@ void EntropyCrossoverAudioProcessor::serviceUpdates()
 }
 
 bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag tag) {
-    const bool requestedCinema = liveRt (0) >= 0.5f;
+    const bool requestedCinema = liveRt (parameterIndex("cinemaSource")) >= 0.5f;
     if (! sceneStatesInitialised)
     {
         activeSceneCinema = requestedCinema;
@@ -1615,7 +1617,7 @@ bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag ta
     tlsConfig=building;
     building->latency=0;
     const double compiledRate=getRuntimeSampleRate();uint64_t rateBits=0;std::memcpy(&rateBits,&compiledRate,sizeof(rateBits));
-    for(int ch=0;ch<16;++ch){uint64_t key=(1469598103934665603ULL^rateBits)*1099511628211ULL;for(int idx:{0,4,47+ch,63+ch,79+ch,95+ch,111+ch,127+ch,223+ch,239+ch}){uint32_t bits;std::memcpy(&bits,&building->values[idx],4);key=(key^bits)*1099511628211ULL;}building->kernelKey[ch]=key;}
+    for(int ch=0;ch<16;++ch){uint64_t key=(1469598103934665603ULL^rateBits)*1099511628211ULL;for(int idx:{parameterIndex("cinemaSource"),parameterIndex("lrBandLimit"),parameterIndex("processMode1")+ch,parameterIndex("firLength1")+ch,parameterIndex("hpOn1")+ch,parameterIndex("lpOn1")+ch,parameterIndex("hpHz1")+ch,parameterIndex("lpHz1")+ch,parameterIndex("source1")+ch,parameterIndex("cinemaRole1")+ch}){uint32_t bits;std::memcpy(&bits,&building->values[idx],4);key=(key^bits)*1099511628211ULL;}building->kernelKey[ch]=key;}
 
     for(int ch=0;ch<16;++ch){
         compileCoefficients(ch,getRuntimeSampleRate()); updateFir(ch,getRuntimeSampleRate());
@@ -1623,11 +1625,10 @@ bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag ta
     }
     // Immutable coefficients are compiled beside the existing kernels on the
     // control owner. Audio only adopts this snapshot at a block boundary.
-    const bool cinema=rt(0)>=0.5f;
+    const bool cinema=rt (parameterIndex ("cinemaSource"))>=0.5f;
     for(int ch=0;ch<16;++ch) {
         const double acousticMs=native::jlimit(0.0,maxDelaySeconds*1000.0,
-            double(rt(cinema?cinemaGlobalDelayIndex:musicGlobalDelayIndex))
-            +double(rt((cinema?cinemaDelayBase:musicDelayBase)+ch)));
+            double(rt((cinema?cinemaDelayBase:musicDelayBase)+ch)));
         const double compensation=native::jmax(0,building->latency-firGroupDelayForChannel(ch));
         building->delays[ch]=FractionalDelayDesign::compile(int(std::lround(rt(fractionalDelayModeBase+ch))),
             acousticMs*0.001*compiledRate+compensation);
@@ -1660,37 +1661,37 @@ void EntropyCrossoverAudioProcessor::beginRt() noexcept {
         for(int ch=0;ch<16;++ch){
             auto copy=[](Biquad& d,const Biquad& s){d.b0=s.b0;d.b1=s.b1;d.b2=s.b2;d.a1=s.a1;d.a2=s.a2;};
             auto& channel=channels[ch];
-            const bool oldIir=fading && (int)std::lround(fading->values[47+ch])==0;
-            const bool newIir=(int)std::lround(active->values[47+ch])==0;
-            bool changed=fading && (fading->values[79+ch]!=active->values[79+ch]
-                || fading->values[95+ch]!=active->values[95+ch]
-                || fading->values[111+ch]!=active->values[111+ch]
-                || fading->values[127+ch]!=active->values[127+ch]
-                || fading->values[143+ch]!=active->values[143+ch]
-                || fading->values[159+ch]!=active->values[159+ch]
-                || fading->values[175+ch]!=active->values[175+ch]
-                || fading->values[191+ch]!=active->values[191+ch]
-                || fading->values[9]!=active->values[9]);
+            const bool oldIir=fading && (int)std::lround(fading->values[parameterIndex ("processMode1")+ch])==0;
+            const bool newIir=(int)std::lround(active->values[parameterIndex ("processMode1")+ch])==0;
+            bool changed=fading && (fading->values[parameterIndex ("hpOn1")+ch]!=active->values[parameterIndex ("hpOn1")+ch]
+                || fading->values[parameterIndex ("lpOn1")+ch]!=active->values[parameterIndex ("lpOn1")+ch]
+                || fading->values[parameterIndex ("hpHz1")+ch]!=active->values[parameterIndex ("hpHz1")+ch]
+                || fading->values[parameterIndex ("lpHz1")+ch]!=active->values[parameterIndex ("lpHz1")+ch]
+                || fading->values[parameterIndex ("filterType1")+ch]!=active->values[parameterIndex ("filterType1")+ch]
+                || fading->values[parameterIndex ("allPass1")+ch]!=active->values[parameterIndex ("allPass1")+ch]
+                || fading->values[parameterIndex ("apFreq1")+ch]!=active->values[parameterIndex ("apFreq1")+ch]
+                || fading->values[parameterIndex ("apQ1")+ch]!=active->values[parameterIndex ("apQ1")+ch]
+                || fading->values[parameterIndex ("cinemaLfeFilterBypass")]!=active->values[parameterIndex ("cinemaLfeFilterBypass")]);
             // Lane/program limits can change coefficients without changing the
             // requested filter parameters. Reuse the existing IIR crossfade.
             if(oldIir && newIir && !changed){
                 auto differs=[](const Biquad& a,const Biquad& b){
                     return a.b0!=b.b0 || a.b1!=b.b1 || a.b2!=b.b2 || a.a1!=b.a1 || a.a2!=b.a2;
                 };
-                const int stages=stagesForFilterType(native::jlimit(0,5,(int)std::lround(active->values[143+ch])));
+                const int stages=stagesForFilterType(native::jlimit(0,5,(int)std::lround(active->values[parameterIndex ("filterType1")+ch])));
                 for(int k=0;k<stages;++k)
-                    changed=changed || (active->values[79+ch]>=0.5f && differs(fading->hp[ch][k],active->hp[ch][k]))
-                        || (active->values[95+ch]>=0.5f && differs(fading->lp[ch][k],active->lp[ch][k]));
-                changed=changed || (active->values[159+ch]>=0.5f && differs(fading->ap[ch],active->ap[ch]));
+                    changed=changed || (active->values[parameterIndex ("hpOn1")+ch]>=0.5f && differs(fading->hp[ch][k],active->hp[ch][k]))
+                        || (active->values[parameterIndex ("lpOn1")+ch]>=0.5f && differs(fading->lp[ch][k],active->lp[ch][k]));
+                changed=changed || (active->values[parameterIndex ("allPass1")+ch]>=0.5f && differs(fading->ap[ch],active->ap[ch]));
             }
             auto isFir=[ch](const Config* config){
-                if(!config || (int)std::lround(config->values[47+ch])!=1)return false;
-                const int role=(int)std::lround(config->values[239+ch]);
-                return !(config->values[0]>=0.5f && (role==16 || role==18) && config->values[9]>=0.5f);
+                if(!config || (int)std::lround(config->values[parameterIndex ("processMode1")+ch])!=1)return false;
+                const int role=(int)std::lround(config->values[parameterIndex ("cinemaRole1")+ch]);
+                return !(config->values[parameterIndex ("cinemaSource")]>=0.5f && (role==16 || role==18) && config->values[parameterIndex ("cinemaLfeFilterBypass")]>=0.5f);
             };
             const bool oldFir=isFir(fading),newFir=isFir(active);
             channel.modeTransition=fading && oldFir!=newFir;
-            const bool oldApOn=fading && fading->values[159+ch]>=0.5f,newApOn=active->values[159+ch]>=0.5f;
+            const bool oldApOn=fading && fading->values[parameterIndex ("allPass1")+ch]>=0.5f,newApOn=active->values[parameterIndex ("allPass1")+ch]>=0.5f;
             const auto& oldAp=fading ? fading->ap[ch] : active->ap[ch];const auto& newAp=active->ap[ch];
             const bool apChanged=oldAp.b0!=newAp.b0 || oldAp.b1!=newAp.b1 || oldAp.b2!=newAp.b2 || oldAp.a1!=newAp.a1 || oldAp.a2!=newAp.a2;
             channel.firAllPassTransition=oldFir && newFir && (oldApOn!=newApOn || (newApOn && apChanged));
@@ -1717,7 +1718,7 @@ void EntropyCrossoverAudioProcessor::beginRt() noexcept {
                 }
             }
             if(channel.modeTransition && newFir){channel.fir.reset();channel.firEpoch.reset();}
-            else if(!fading || (!(oldFir && newFir) && (fading->values[159+ch]!=active->values[159+ch] || fading->values[175+ch]!=active->values[175+ch] || fading->values[191+ch]!=active->values[191+ch])))channel.allPass.reset();
+            else if(!fading || (!(oldFir && newFir) && (fading->values[parameterIndex ("allPass1")+ch]!=active->values[parameterIndex ("allPass1")+ch] || fading->values[parameterIndex ("apFreq1")+ch]!=active->values[parameterIndex ("apFreq1")+ch] || fading->values[parameterIndex ("apQ1")+ch]!=active->values[parameterIndex ("apQ1")+ch])))channel.allPass.reset();
         }
     }}
     tlsConfig=active;

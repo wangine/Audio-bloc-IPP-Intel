@@ -106,6 +106,7 @@ class XmlNode {
 public:
  XmlNode()=default;XmlNode(String type):d(std::make_shared<Data>()){d->type=std::move(type);}bool isValid()const{return !!d;}String getType()const{return d?d->type:String();}bool hasType(String t)const{return d&&d->type==t;}bool hasTagName(String t)const{return hasType(t);}
  void setProperty(String key,Property value,void*){d->attrs[key]=std::move(value);}bool hasProperty(String key)const{return d&&d->attrs.count(key)>0;}Property getProperty(String key)const{if(d){auto i=d->attrs.find(key);if(i!=d->attrs.end())return i->second;}return {};}
+ void removeProperty(String key,void*){if(d)d->attrs.erase(key);}
  int getNumChildren()const{return d?(int)d->children.size():0;}XmlNode getChild(int i)const{return d->children[(size_t)i];}XmlNode getChildWithName(String type)const{if(d)for(auto&c:d->children)if(c.hasType(type))return c;return {};}
  void addChild(XmlNode n,int,void*){d->children.push_back(std::move(n));}void removeChild(XmlNode n,void*){auto&v=d->children;v.erase(std::remove_if(v.begin(),v.end(),[&](auto&c){return c.d==n.d;}),v.end());}
  std::unique_ptr<XmlNode> createXml()const{return std::make_unique<XmlNode>(*this);}static XmlNode fromXml(const XmlNode&n){return n;}

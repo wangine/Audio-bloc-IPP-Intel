@@ -1,4 +1,5 @@
 #pragma once
+#include <string_view>
 
 namespace entropy::standalone {
 
@@ -7,7 +8,7 @@ namespace entropy::standalone {
     BASE "9", BASE "10", BASE "11", BASE "12", BASE "13", BASE "14", BASE "15", BASE "16"
 
 inline constexpr const char* parameterIds[] = {
-    "cinemaSource", "cinemaScoopSource", "cinemaLfeReferenceGain", "globalDelayMs",
+    "cinemaSource", "cinemaScoopSource", "cinemaLfeReferenceGain",
     "lrBandLimit", "lrWays", "centerWays", "subSpeakers", "scoopSpeakers",
     "cinemaLfeFilterBypass", "bassLinkMode", "bassFeed", "scoopFeed",
     "bassExtractor", "scoopExtractor",
@@ -34,18 +35,25 @@ inline constexpr const char* parameterIds[] = {
     ENTROPY_CROSSOVER_16("cinemaTrimDb"),
     ENTROPY_CROSSOVER_16("musicGainDb"),
     ENTROPY_CROSSOVER_16("cinemaGainDb"),
-    "musicGlobalDelayMs", "cinemaGlobalDelayMs",
     ENTROPY_CROSSOVER_16("musicDelayMs"),
     ENTROPY_CROSSOVER_16("cinemaDelayMs"),
     ENTROPY_CROSSOVER_16("safetyMinHz"),
     ENTROPY_CROSSOVER_16("safetyMaxHz"),
     ENTROPY_CROSSOVER_16("tripHoldMs"),
-    // Append only: existing snapshot indices and controls retain their order.
     ENTROPY_CROSSOVER_16("fractionalDelayMode")
 };
 
 #undef ENTROPY_CROSSOVER_16
 
 inline constexpr int parameterCount = sizeof(parameterIds) / sizeof(parameterIds[0]);
+
+// Compile-time lookup prevents a removed control from changing the meaning
+// of positional DSP snapshot accesses. No lookup occurs in the callback.
+consteval int parameterIndex(std::string_view id)
+{
+    for (int i = 0; i < parameterCount; ++i)
+        if (id == parameterIds[i]) return i;
+    throw "Unknown canonical Crossover parameter";
+}
 
 }

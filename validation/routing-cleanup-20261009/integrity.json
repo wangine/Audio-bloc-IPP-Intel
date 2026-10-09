@@ -1,0 +1,23 @@
+{
+  "unchangedReadDelayedSampleSHA256": "BBEC9C23A3E4172989BE2572B008A1523A79C1D0FAB5445AE2D22E57739A30DD",
+  "protectedChangedFiles": [
+    "DSP/Crossover/include/NativeSupport.h",
+    "DSP/Crossover/include/ParameterIds.h",
+    "DSP/Crossover/src/PluginProcessor.cpp",
+    "DSP/Crossover/tests/NativeSupportTests.cpp"
+  ],
+  "unchangedAlgorithms": [
+    "FractionalDelay",
+    "FIR/IIR coefficients and normalization",
+    "OutputMatrix",
+    "Headroom",
+    "ClockSync",
+    "Guardian",
+    "PCM24",
+    "WASAPI"
+  ],
+  "executables": {
+    "build/msvc-thiran/EntropyAudioCore.exe": "D7FA01A1A8D45B520C05DFB488E664F5BFBC9F4ABD7BCEC310723BC778FF1D4E",
+    "build/qt-thiran/EntropyUI.exe": "458249751EC7A728DE372142DEEC3C51A8E505F6CD4F361FCB3C882AFD0C765D"
+  }
+}

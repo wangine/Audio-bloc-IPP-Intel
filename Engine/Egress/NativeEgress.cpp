@@ -115,7 +115,6 @@ EntropyHeadroomState FirstDacGraph::probeLedger() noexcept {
 }
 bool FirstDacGraph::configureProbeGraph(entropy::engine::AudioGraph& g,unsigned program) {
     if(program>1 || !g.setOfflineParameter("cinemaSource",program) || !g.applyOfflineParameters())return false;
-    for(auto key:{"globalDelayMs","musicGlobalDelayMs","cinemaGlobalDelayMs"}) if(!g.setOfflineParameter(key,0))return false;
     for(unsigned ch=1;ch<=16;++ch){auto set=[&](const char* key,double v){return g.setOfflineParameter((std::string(key)+std::to_string(ch)).c_str(),v);};
         for(auto key:{"hpOn","lpOn","allPass","processMode","mute","emergencyMute","protectorOn","musicGainDb","cinemaGainDb","musicDelayMs","cinemaDelayMs"}) if(!set(key,0))return false;
         double role=ch==1?1:ch==2?6:0;if(!set("source",role)||!set("cinemaRole",role))return false;

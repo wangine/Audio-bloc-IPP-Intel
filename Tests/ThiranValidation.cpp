@@ -78,7 +78,7 @@ struct Native {
     void input(int at,int n,int program,double f){audio.clear();for(int i=0;i<n;++i)audio.setSample(program?3:0,i,.125*std::sin(2*pi*f*(at+i)/rate));}
 };
 template<class Put> void configure(Put put,int program,int mode){
-    put("cinemaSource",float(program));put("musicGlobalDelayMs",0);put("cinemaGlobalDelayMs",0);put("lrBandLimit",1);
+    put("cinemaSource",float(program));put("lrBandLimit",1);
     for(int ch=1;ch<=16;++ch){std::string n=std::to_string(ch);for(auto id:{"source","cinemaRole"})put(std::string(id)+n,1);for(auto id:{"hpOn","lpOn","allPass","protectorOn","musicGainDb","cinemaGainDb"})put(std::string(id)+n,0);for(auto id:{"musicDelayMs","cinemaDelayMs"})put(std::string(id)+n,.044f+ch*.001f);if(mode>=0)put("fractionalDelayMode"+n,float(mode));}
 }
 void nativeChecks(std::ostream& csv){
@@ -118,7 +118,11 @@ void nativeChecks(std::ostream& csv){
     }
 #ifdef ENTROPY_THIRAN_BASELINE
     uint64_t mismatch=0;double maxAbs=0;
-    for(int program=0;program<2;++program){Native n;void* baseline=thiranBaselineCreate();configure([&](const std::string& id,float v){n.set(id,v);check(thiranBaselineSet(baseline,id.c_str(),v),"baseline parameter");},program,-1);n.engine->prepareToPlay(rate,1024);thiranBaselinePrepare(baseline);native::AudioBuffer<double> ref(16,1024);std::array<double*,16> ptr{};for(int i=0;i<16;++i)ptr[i]=ref.getWritePointer(i);
+    for(int program=0;program<2;++program){Native n;void* baseline=thiranBaselineCreate();
+        // The immutable baseline retains Global Base; compare the common
+        // per-channel-only configuration explicitly, with its base disabled.
+        check(thiranBaselineSet(baseline,"musicGlobalDelayMs",0)&&thiranBaselineSet(baseline,"cinemaGlobalDelayMs",0),"baseline global base disabled");
+        configure([&](const std::string& id,float v){n.set(id,v);check(thiranBaselineSet(baseline,id.c_str(),v),"baseline parameter");},program,-1);n.engine->prepareToPlay(rate,1024);thiranBaselinePrepare(baseline);native::AudioBuffer<double> ref(16,1024);std::array<double*,16> ptr{};for(int i=0;i<16;++i)ptr[i]=ref.getWritePointer(i);
         for(int at=0;at<16384;at+=1024){n.input(at,1024,program,40000);for(int ch=0;ch<16;++ch)for(int i=0;i<1024;++i)ref.setSample(ch,i,n.audio.getSample(ch,i));n.process(1024);thiranBaselineProcess(baseline,ptr.data(),1024);for(int ch=0;ch<16;++ch)for(int i=0;i<1024;++i){double a=n.audio.getSample(ch,i),b=ref.getSample(ch,i);mismatch+=std::bit_cast<uint64_t>(a)!=std::bit_cast<uint64_t>(b);maxAbs=std::max(maxAbs,std::abs(a-b));}}thiranBaselineDestroy(baseline);}
     std::printf("LINEAR v0.0.3 bit_mismatches=%llu max_abs=%.17g\n",mismatch,maxAbs);check(mismatch==0,"Linear changed vs v0.0.3");
 #else

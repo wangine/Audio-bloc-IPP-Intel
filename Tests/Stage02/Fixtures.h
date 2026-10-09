@@ -23,7 +23,7 @@ inline int role(const Configuration& c,int ch){
 inline int inputForRole(const Configuration& c,int r){if(r<=5)return c.cinema?3:0;if(r<=10)return c.cinema?4:1;if(r<=12)return c.cinema?5:2;if(r==16)return 6;if(r>=20)return r-13;throw std::runtime_error("unmapped fixture role");}
 template<class Set> void configure(const Configuration& c,Set set){
     auto put=[&](const std::string& id,double v){if(!set(id.c_str(),v))throw std::runtime_error("parameter rejected: "+id);};
-    put("cinemaSource",c.cinema);put("lrWays",5);put("centerWays",2);put("lrBandLimit",1);put("musicGlobalDelayMs",0);put("cinemaGlobalDelayMs",0);put("globalDelayMs",0);put("cinemaLfeFilterBypass",1);
+    put("cinemaSource",c.cinema);put("lrWays",5);put("centerWays",2);put("lrBandLimit",1);put("cinemaLfeFilterBypass",1);
     for(int ch=0;ch<16;++ch){auto channel=[&](const char* key,double v){put(std::string(key)+std::to_string(ch+1),v);};
         channel("source",c.allLeft?1:(ch%3==0?1:ch%3==1?6:11));channel("cinemaRole",role(Configuration{1,c.mode,c.length,c.filtered,c.allPass,c.allLeft},ch));
         channel("processMode",c.mode);channel("firLength",c.length);channel("filterType",0);channel("hpOn",c.filtered);channel("lpOn",c.filtered);channel("hpHz",100);channel("lpHz",10000);

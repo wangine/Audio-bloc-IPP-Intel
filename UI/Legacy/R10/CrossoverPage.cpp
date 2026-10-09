@@ -14,8 +14,6 @@
 #include <string>
 #include <vector>
 #include <QComboBox>
-#include <QDoubleSpinBox>
-#include <QFocusEvent>
 #include <map>
 #include <QCheckBox>
 #include <QCursor>
@@ -53,19 +51,6 @@ const std::array<QColor, 5> curveColours {
     QColor(0x48, 0xd6, 0xff), QColor(0xff, 0xc8, 0x57),
     QColor(0x7e, 0xe7, 0x87), QColor(0xff, 0x7b, 0x72),
     QColor(0xd2, 0xa8, 0xff)
-};
-
-class PreciseDelayEditor final : public QDoubleSpinBox
-{
-public:
-    using QDoubleSpinBox::QDoubleSpinBox;
-    std::function<void()> beginEdit;
-protected:
-    void focusInEvent(QFocusEvent* event) override
-    {
-        if (beginEdit) beginEdit();
-        QDoubleSpinBox::focusInEvent(event);
-    }
 };
 
 class ThinMeterBank final : public QWidget
@@ -569,7 +554,7 @@ private:
     void beginDelayEdit(ui::DelayEditModel& edit)
     {
         if (edit.active()) return;
-        if (fineDelayEdit_.active() || coarseDelayEdit_.active() || preciseDelayEdit_.active()) return;
+        if (fineDelayEdit_.active() || coarseDelayEdit_.active()) return;
         const auto id = selectedDelayId();
         const auto pending = pendingDelays_.find(id);
         const double initial = pending != pendingDelays_.end() && !pending->second.failed
@@ -579,8 +564,7 @@ private:
 
     void refreshDelay(const EngineTelemetrySnapshot& telemetry)
     {
-        const ui::DelayEditModel* active = preciseDelayEdit_.active() ? &preciseDelayEdit_
-            : fineDelayEdit_.active() ? &fineDelayEdit_
+        const ui::DelayEditModel* active = fineDelayEdit_.active() ? &fineDelayEdit_
             : coarseDelayEdit_.active() ? &coarseDelayEdit_ : nullptr;
         const QString id = active ? QString::fromStdString(active->id()) : selectedDelayId();
         const bool cinema = id.startsWith("cinema");
@@ -612,11 +596,6 @@ private:
         }
         const double shown = active ? active->value()
             : pending != pendingDelays_.end() ? pending->second.value : applied;
-        if (!preciseDelay_->hasFocus() && !preciseDelayEdit_.active())
-        {
-            const QSignalBlocker blocker(preciseDelay_);
-            preciseDelay_->setValue(shown);
-        }
         if (!coarseDelaySlider_->isSliderDown())
         {
             const QSignalBlocker blocker(coarseDelaySlider_);
@@ -625,8 +604,7 @@ private:
         coarseDelayLabel_->setText(QString("RELATIVE DELAY / COARSE   %1 ms").arg(shown,0,'f',3));
         if (!fineDelayEdit_.active())
             fineDelayLabel_->setText(QString("FINE ADJUST   %1 ms").arg(shown,0,'f',3));
-        const double global = parameter(telemetry, cinema ? "cinemaGlobalDelayMs" : "musicGlobalDelayMs",20);
-        const double effective = ui::DelayEditModel::effective(global, applied);
+        const double effective = ui::DelayEditModel::effective(applied);
         const int role = qRound(parameter(telemetry,channelId(cinema ? "cinemaRole" : "source",channel),0));
         const QStringList roles {"OFF", "L WAY 1", "L WAY 2", "L WAY 3", "L WAY 4", "L WAY 5",
             "R WAY 1", "R WAY 2", "R WAY 3", "R WAY 4", "R WAY 5", "CENTER WAY 1",
@@ -635,13 +613,13 @@ private:
         const QString state = active ? "EDITING" : pending != pendingDelays_.end()
             ? pending->second.failed ? "FAILED — retry" : "REQUESTED — application unconfirmed" : "PARAMETER";
         QString clamp;
-        if (global + applied < 0) clamp = " | CLAMPED AT 0 ms: negative relative changes here do not shift output";
-        else if (global + applied > 1600) clamp = " | CLAMPED AT 1600 ms";
-        delayStatus_->setText(QString("%1 | CH %2 | %3 | %4\nParameter relative %5 ms + global %6 ms = effective target %7 ms%8")
+        if (applied < 0) clamp = " | CLAMPED AT 0 ms: negative relative changes here do not shift output";
+        else if (applied > 1600) clamp = " | CLAMPED AT 1600 ms";
+        delayStatus_->setText(QString("%1 | CH %2 | %3 | %4\nChannel delay %5 ms = effective target %6 ms%7")
             .arg(cinema ? "CINEMA" : "MUSIC").arg(channel+1)
-            .arg(roles.value(role,"OFF"),state).arg(applied,0,'f',6).arg(global,0,'f',6)
+            .arg(roles.value(role,"OFF"),state).arg(applied,0,'f',6)
             .arg(effective,0,'f',6).arg(clamp));
-        delayStatus_->setToolTip(QString("Parameter: %1. Effective target clamps global + relative to [0,1600] ms. Parameter readback alone does not prove audio adoption. Existing FIR latency compensation and smoothing remain active.").arg(id));
+        delayStatus_->setToolTip(QString("Parameter: %1. Effective target clamps channel delay to [0,1600] ms. Parameter readback alone does not prove audio adoption. Existing FIR latency compensation and smoothing remain active.").arg(id));
         const int fractionalMode=qRound(parameter(telemetry,channelId("fractionalDelayMode",channel),0));
         const int requestedOrder=fractionalMode==3?5:fractionalMode==2?3:fractionalMode==1?1:0;
         const int actualOrder=int(telemetry.crossoverFractionalDelayOrder[channel]);
@@ -653,7 +631,6 @@ private:
             delayMode += actualOrder?" | short delay: lower causal order":" | integer bypass or inactive output";
         delayStatus_->setText(delayStatus_->text()+"\n"+delayMode);
         const bool available = telemetry.crossoverControlAvailable != 0;
-        preciseDelay_->setEnabled(available && (!active || active == &preciseDelayEdit_));
         fineDelaySlider_->setEnabled(available && (!active || active == &fineDelayEdit_));
         coarseDelaySlider_->setEnabled(available && (!active || active == &coarseDelayEdit_));
     }
@@ -756,7 +733,7 @@ private:
         combo(topologyGrid, 0, "SCOOP", {"1 MONO","2 STEREO"},
               []{return "scoopSpeakers";}, {1,2}, 6);
         grid->addWidget(topology, 1, 0, 1, 4);
-        auto* hint = label("MUSIC and CINEMA keep separate role maps, output gains, global delay and 16 relative delays. Switch program in CINEMA; ROUTING follows the active scene.");
+        auto* hint = label("MUSIC and CINEMA keep separate role maps, output gains and 16 channel delays. Switch program in CINEMA; ROUTING follows the active scene.");
         hint->setStyleSheet("color:#aeb6bf;");
         grid->addWidget(hint, 2, 0, 1, 4);
         auto* tiles = new QWidget;
@@ -867,31 +844,10 @@ private:
         connect(coarseDelaySlider_, &QSlider::sliderReleased, this,
             [this] { coarseDelayEdit_.finish(delaySink()); });
 
-        preciseDelay_ = new PreciseDelayEditor;
-        preciseDelay_->setObjectName("preciseRelativeDelay");
-        preciseDelay_->setDecimals(3);
-        preciseDelay_->setSingleStep(.001);
-        preciseDelay_->setRange(-800,800);
-        preciseDelay_->setSuffix(" ms");
-        preciseDelay_->setKeyboardTracking(false);
-        preciseDelay_->setToolTip("Relative delay for this scene and logical output. Enter commits; arrows step by 0.001 ms.");
-        preciseDelay_->beginEdit = [this] { beginDelayEdit(preciseDelayEdit_); };
-        connect(preciseDelay_, &QDoubleSpinBox::valueChanged, this, [this](double value) {
-            if (preciseDelay_->signalsBlocked()) return;
-            if (!preciseDelayEdit_.active()) beginDelayEdit(preciseDelayEdit_);
-            preciseDelayEdit_.set(value, delaySink());
-        });
-        connect(preciseDelay_, &QDoubleSpinBox::editingFinished, this,
-            [this] { preciseDelayEdit_.finish(delaySink()); });
-        auto* preciseRow = new QHBoxLayout;
-        preciseRow->addWidget(label("PRECISE RELATIVE DELAY"));
-        preciseRow->addWidget(preciseDelay_);
-        preciseRow->addStretch();
-        grid->addLayout(preciseRow, 10, 0, 1, 4);
         delayStatus_ = label("Waiting for applied delay");
         delayStatus_->setObjectName("relativeDelayStatus");
         delayStatus_->setWordWrap(true);
-        grid->addWidget(delayStatus_, 11, 0, 1, 4);
+        grid->addWidget(delayStatus_, 9, 0, 1, 4);
         auto* actions = new QWidget;
         auto* actionRow = new QHBoxLayout(actions);
         actionRow->setContentsMargins(0, 0, 0, 0);
@@ -923,19 +879,15 @@ private:
         });
         actionRow->addStretch();
         grid->addWidget(actions, 8, 0, 1, 4);
-        auto* globalDelay = slider(grid, 9, "GLOBAL BASE", 0, 800, 20, 1000, 3, " ms", [this]{
-            return lastTelemetry_.crossoverCinemaProgram
-                ? QStringLiteral("cinemaGlobalDelayMs") : QStringLiteral("musicGlobalDelayMs");});
-        styleRoutingSlider(globalDelay, true);
         routingSummary_ = label("LOGICAL OUTPUT 1 selected");
         routingSummary_->setAlignment(Qt::AlignTop | Qt::AlignLeft);
         routingSummary_->setStyleSheet("color:#aeb6bf;");
-        auto* interpolation=combo(grid,12,"FRACTIONAL DELAY",{"Linear (reference)","Thiran 1","Thiran 3","Thiran 5"},
+        auto* interpolation=combo(grid,10,"FRACTIONAL DELAY",{"Linear (reference)","Thiran 1","Thiran 3","Thiran 5"},
             [this]{return channelId("fractionalDelayMode",selectedOutput_->currentIndex());});
         interpolation->setObjectName("fractionalDelayMode");
         interpolation->setToolTip("FP64 per output. Unity magnitude at fixed delay; phase accuracy depends on order. Short delays use the highest causal order reported below. Integer delays bypass exactly. Thiran changes crossfade for 40 ms; Linear retains the reference ramp.");
-        grid->addWidget(routingSummary_, 13, 0, 1, 4);
-        grid->setRowStretch(14, 1);
+        grid->addWidget(routingSummary_, 11, 0, 1, 4);
+        grid->setRowStretch(12, 1);
     }
 
     void buildFilterPage(const QString& tab, bool lr, bool bass)
@@ -1786,10 +1738,9 @@ private:
     QSlider* bassLowPassSlider_{};
     QSlider* bassApFrequencySlider_{};
     QSlider* bassApQSlider_{};
-    PreciseDelayEditor* preciseDelay_{};
     QLabel* delayStatus_{};
     QLabel* coarseDelayLabel_{};
-    ui::DelayEditModel fineDelayEdit_, coarseDelayEdit_, preciseDelayEdit_;
+    ui::DelayEditModel fineDelayEdit_, coarseDelayEdit_;
     struct PendingDelay { double value; bool failed; std::uint64_t afterSequence; };
     std::map<QString, PendingDelay> pendingDelays_;
     int fineDelayLastRaw_ = 0;

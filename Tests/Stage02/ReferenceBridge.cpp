@@ -16,6 +16,13 @@ struct Reference {
     std::array<const double*,16> ca{},cb{};
     unsigned maximum;
     explicit Reference(unsigned n):maximum(n) {
+        // Candidate removed Global Base. Keep the immutable reference source
+        // pristine and select the common per-channel-only configuration.
+        for(auto* id:{"globalDelayMs","musicGlobalDelayMs","cinemaGlobalDelayMs"}) {
+            auto* parameter=crossover.getAPVTS().getParameter(id);
+            if(!parameter)throw std::runtime_error("reference common base control missing");
+            parameter->setValueNotifyingHost(parameter->convertTo0to1(0));
+        }
         for(int c=0;c<16;++c) {first[c].resize(n);second[c].resize(n);a[c]=first[c].data();b[c]=second[c].data();ca[c]=a[c];cb[c]=b[c];}
         crossover.prepareToPlay(192000,n);
         if(!matrix.prepare(192000,n)||!headroom.prepare(192000,n))throw std::runtime_error("reference prepare");

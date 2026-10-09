@@ -12,11 +12,17 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QComboBox>
+#include <QSlider>
+#include <QDoubleSpinBox>
+#include <QLabel>
 int main(int argc,char** argv){
  QApplication app(argc,argv);if(QFontDatabase::addApplicationFont("C:/Windows/Fonts/segoeui.ttf")<0){std::cerr<<"System Segoe UI font unavailable\n";return 1;}QFontDatabase::addApplicationFont("C:/Windows/Fonts/segoeuisb.ttf");entropy::ui::EngineFacade facade(argc>1?QString::fromUtf8(argv[1]):"EntropyAudioCore.Control.v1");entropy::stage::RenderWindow window(facade);window.show();
  QTimer::singleShot(800,&app,[&]{
   bool good=facade.connected();for(unsigned i=0;i<4;++i){window.openModule(entropy::stage::RenderPage(i));good=good&&window.moduleDialog(entropy::stage::RenderPage(i));}
   auto* tabs=window.moduleDialog(entropy::stage::RenderPage::Crossover)->findChild<QTabWidget*>("crossoverTabs");good=good&&tabs;good=good&&window.findChild<QPushButton*>("renderProgramShortcut")&&window.findChild<QPushButton*>("renderOutputShortcut");
+  auto* crossover=window.moduleDialog(entropy::stage::RenderPage::Crossover);
+  good=good&&crossover->findChild<QSlider*>("fineDelaySlider")&&crossover->findChild<QSlider*>("coarseDelaySlider")&&!crossover->findChild<QDoubleSpinBox*>("preciseRelativeDelay");
+  for(auto* text:crossover->findChildren<QLabel*>())good=good&&!text->text().contains("GLOBAL BASE")&&!text->text().contains("PRECISE RELATIVE DELAY");
   using namespace entropy::host;uint64_t sequence=0;
   good=good&&writeEngineParameterIntent("audio.entropy.crossover","cinemaSource",1);
   good=good&&writeEngineParameterIntent("audio.entropy.crossover","cinemaDelayMs1",3);

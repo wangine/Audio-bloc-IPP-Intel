@@ -1,0 +1,30 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+      Start  6: EntropyStage07Live
+ 1/12 Test  #6: EntropyStage07Live ................   Passed    4.24 sec
+      Start  7: EntropyStage07ProfilePreflight
+ 2/12 Test  #7: EntropyStage07ProfilePreflight ....   Passed    7.25 sec
+      Start  8: EntropyStage07LiveAuthorization
+ 3/12 Test  #8: EntropyStage07LiveAuthorization ...   Passed    2.82 sec
+      Start 14: EntropyStage05Boundary
+ 4/12 Test #14: EntropyStage05Boundary ............   Passed    0.15 sec
+      Start 15: EntropyStage05Control
+ 5/12 Test #15: EntropyStage05Control .............   Passed    0.21 sec
+      Start 16: EntropyStage05Protocol
+ 6/12 Test #16: EntropyStage05Protocol ............   Passed    0.01 sec
+      Start 18: EntropyThiranDelay
+ 7/12 Test #18: EntropyThiranDelay ................   Passed    0.13 sec
+      Start 19: EntropyThiranValidation
+ 8/12 Test #19: EntropyThiranValidation ...........   Passed    2.34 sec
+      Start 23: EntropyOfflineConfig
+ 9/12 Test #23: EntropyOfflineConfig ..............   Passed    0.09 sec
+      Start 24: EntropyGraphSmoke
+10/12 Test #24: EntropyGraphSmoke .................   Passed    0.10 sec
+      Start 32: EntropyNativeStateUnit
+11/12 Test #32: EntropyNativeStateUnit ............   Passed    0.09 sec
+      Start 33: EntropyAudioCoreProbe
+12/12 Test #33: EntropyAudioCoreProbe .............   Passed    0.04 sec
+
+100% tests passed, 0 tests failed out of 12
+
+Total Test time (real) =  17.47 sec

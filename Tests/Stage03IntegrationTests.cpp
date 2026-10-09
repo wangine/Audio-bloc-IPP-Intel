@@ -7,14 +7,16 @@
 int main(){
     using namespace stage02;int failures=0;
     auto check=[&](bool ok,const char* message){if(!ok){++failures;std::printf("FAIL %s\n",message);}};
-    // Full delay-ring wrap, maximum accepted scene + relative delay, all 16 outputs.
+    // Full delay-ring wrap, maximum per-channel delay, all 16 outputs.
     for(int program=0;program<2;++program)for(int mode=0;mode<2;++mode){
         auto graph=std::make_unique<entropy::engine::AudioGraph>();check(graph->prepare(1024),"graph prepare");
         void* reference=stage02ReferenceCreate(1024);Configuration c{program,mode,2,true,true,true};
         graph->setOfflineParameter("cinemaSource",program);graph->applyOfflineParameters();stage02ReferenceSet(reference,"cinemaSource",program);stage02ReferenceApply(reference,false);
         auto put=[&](const char* key,double value){check(graph->setOfflineParameter(key,value)&&stage02ReferenceSet(reference,key,value),"parameter");};
         configure(c,[&](const char* key,double value){put(key,value);return true;});
-        put(program?"cinemaGlobalDelayMs":"musicGlobalDelayMs",800);
+        // The immutable Stage02 reference retains a common base; disable it
+        // explicitly to compare the surviving per-channel delay contract.
+        check(stage02ReferenceSet(reference,"musicGlobalDelayMs",0)&&stage02ReferenceSet(reference,"cinemaGlobalDelayMs",0),"reference common base disabled");
         for(int ch=0;ch<16;++ch)put((std::string(program?"cinemaDelayMs":"musicDelayMs")+std::to_string(ch+1)).c_str(),800);
         check(graph->applyOfflineParameters(true)&&stage02ReferenceApply(reference,true),"prepare configured pair");
         Buffers in,out,ref;double maximum=0;uint64_t bits=0,nonfinite=0;std::array<double,16> peaks{};

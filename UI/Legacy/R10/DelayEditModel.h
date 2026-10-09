@@ -36,8 +36,8 @@ public:
     bool failed() const { return failed_; }
     const std::string& id() const { return id_; }
     double value() const { return std::round(accumulator_ * 1000.0) / 1000.0; }
-    static double effective(double global, double relative)
-    { return std::clamp(global + relative, 0.0, 1600.0); }
+    static double effective(double relative)
+    { return std::clamp(relative, 0.0, 1600.0); }
 private:
     std::string id_;
     double accumulator_ = 0;
