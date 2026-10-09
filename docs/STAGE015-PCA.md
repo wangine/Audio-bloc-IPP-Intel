@@ -1,4 +1,4 @@
-# PCA Bass + Scoop — candidate 0.1.4
+# PCA Bass + Scoop â€” candidate 0.1.4
 
 Baseline corrected by the user: **v0.1.3**, commit
 `ebd114e3e293f614cfeaae634fc103114f254105`. Branch `codex/pca-pr-bass-scoop`.
@@ -115,5 +115,7 @@ if the fragment is unavailable. Saved profiles may need normal-user execution
 outside the filesystem sandbox for weakly_canonical.
 
 Core SHA256: `C1871A96B8CF3C45A11EBEABB235888436A3E4EB410F7A948B31735086605CD9`.
-One local candidate commit only. No push, release or replacement of the listening
-runtime until user approval. Candidate numbering is **0.1.4**, not a stable claim.
+Implementation was delivered in one local candidate commit. The user then
+authorized a separate 0.1.4 test package and publication with sources/binaries.
+Release numbering is **0.1.4**; the artificial PCA reconstruction boost is
+removed, while the documented residual overrange FAIL remains visible.
