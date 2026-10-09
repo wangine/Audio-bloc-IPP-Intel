@@ -20,8 +20,11 @@ public:
     ~Stage2Ingress(){stop();}
     bool start(std::wstring endpoint={}, bool claimRenderOwner=true);
     void stop() noexcept;
+    void rebaseCalendar() noexcept { rebase_.store(true,std::memory_order_release); }
+    void outputAtTarget(bool value) noexcept { outputAtTarget_.store(value,std::memory_order_relaxed); }
     bool tryRead(double* const* output13) noexcept;
     Telemetry telemetry() const noexcept;
+    uint64_t minimumRequestGapNanoseconds() const noexcept {return minimumRequestGapNanoseconds_.load(std::memory_order_relaxed);}
     static const char* stateText(State) noexcept;
 private:
     struct Slot { uint64_t generation=0; StageBusBlockHeader header{};
@@ -34,8 +37,10 @@ private:
     std::atomic<unsigned> producerPid_{0},validityMask_{0};
     std::atomic<uint64_t> lastBlockQpc_{0};
     std::atomic<uint64_t> releaseFailures_{0};
+    std::atomic<uint64_t> minimumRequestGapNanoseconds_{UINT64_MAX};
     std::atomic<State> state_{State::Disabled};
     std::atomic<bool> stopping_{false};
+    std::atomic<bool> rebase_{false},outputAtTarget_{false};
     std::thread worker_;
 };
 }

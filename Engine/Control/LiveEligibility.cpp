@@ -14,6 +14,42 @@ struct PreflightMmcss {
  PreflightMmcss(){DWORD index=0;task=AvSetMmThreadCharacteristicsW(L"Pro Audio",&index);if(!task)throw std::runtime_error("Profile preflight MMCSS registration failed; no device opened");if(!AvSetMmThreadPriority(task,AVRT_PRIORITY_CRITICAL)){AvRevertMmThreadCharacteristics(task);task=nullptr;throw std::runtime_error("Profile preflight MMCSS priority failed; no device opened");}}
  ~PreflightMmcss(){if(task)AvRevertMmThreadCharacteristics(task);}
 };
+std::string requestedConfiguration(ControlPlane& live){
+ // Serialize only requested settings, never applied sequences, live peaks,
+ // gain ramps or histories. Compare the full representation, without hashes
+ // or ABI padding; the same fields feed the independent offline copy.
+ const auto s=live.desired();ipc::Value::Array routes,channelGroups,groups;
+ for(auto r:s.matrix.source_destination_mask)routes.emplace_back(r);
+ for(auto g:s.headroom.channel_group)channelGroups.emplace_back(g);
+ for(const auto& g:s.headroom.groups)groups.emplace_back(ipc::Value::Object{
+  {"bounded",g.bounded},{"declaredPositiveDb",g.declared_positive_contribution_db},
+  {"guaranteedInputDb",g.guaranteed_input_headroom_db},{"reserve",g.preventive_reserve_db}});
+ return ipc::dump(ipc::Value::Object{
+  {"parameters",live.crossover().snapshot().at("parameters")},
+  {"matrix",ipc::Value::Object{{"activeSourceMask",s.matrix.active_source_mask},{"enabledDestinationMask",s.matrix.enabled_destination_mask},{"routes",std::move(routes)}}},
+  {"headroom",ipc::Value::Object{{"groupCount",s.headroom.group_count},{"activeChannelMask",s.headroom.active_channel_mask},
+   {"channelGroups",std::move(channelGroups)},{"groups",std::move(groups)},{"transitionMs",s.headroom.transition_ms},
+   {"attackMs",s.timing.attack_ms},{"releaseMs",s.timing.release_ms},{"mode",s.mode},{"manualGainDb",s.manualGainDb}}}});
+}
+}
+void LiveProfilePreflightCache::invalidate() noexcept {
+ report_=ipc::Value{};configuration_.clear();crossoverState_.clear();
+}
+ipc::Value LiveProfilePreflightCache::run(ControlPlane& live){
+ const auto configuration=requestedConfiguration(live);
+ // Saved MUSIC/CINEMA scene settings are part of the exact imported profile.
+ // Their original serialization contains settings, not live telemetry.
+ auto crossoverState=live.crossover().exportBytes();
+ if(!report_.isNull()&&configuration_==configuration&&crossoverState_==crossoverState){
+  auto reused=report_;reused["cacheHit"]=true;return reused;
+ }
+ // Clear an older PASS before attempting a different profile, including when
+ // the strict validator throws. No failure can create a reusable report.
+ invalidate();++validationRun_;
+ auto validated=liveProfilePreflight(live);
+ validated["cacheHit"]=false;validated["validationRun"]=ipc::Value::u64(validationRun_);
+ configuration_=configuration;crossoverState_=std::move(crossoverState);report_=validated;
+ return validated;
 }
 bool liveHeadroomReady(engine::AudioGraph& graph,bool requireSettled) noexcept {
  const auto& h=A::headroom(graph);const auto ledger=h.state();const auto mode=h.modeState();const auto t=h.telemetry();

@@ -7,6 +7,17 @@
 namespace entropy::control {
 using J=ipc::Value;
 struct CrossoverAccess::Impl {CrossoverState state;std::vector<std::string> ids;std::array<std::atomic<int>,16> roles{};std::array<std::atomic<bool>,16> active{};std::array<std::atomic<float>,entropy::standalone::parameterCount> published{};std::array<float,entropy::standalone::parameterCount> owner{};std::atomic<uint64_t> revision{0};uint64_t lastAudible=0;
+ int capturedRole(int channel) const noexcept {using entropy::standalone::parameterIndex;return int(std::lround(owner[(owner[parameterIndex("cinemaSource")]>=.5f?parameterIndex("cinemaRole1"):parameterIndex("source1"))+channel]));}
+ bool capturedActive(int role) const noexcept {
+  using entropy::standalone::parameterIndex;
+  const auto lr=std::clamp(int(std::lround(owner[parameterIndex("lrWays")])),1,5);
+  const auto center=std::clamp(int(std::lround(owner[parameterIndex("centerWays")])),1,2);
+  if(role>=1&&role<=5)return role<=lr;if(role>=6&&role<=10)return role-5<=lr;
+  if(role>=11&&role<=15)return role-10<=center;if(role==16||role==17)return true;
+  if(role==18)return int(std::lround(owner[parameterIndex("subSpeakers")]))>=2;
+  if(role==19)return int(std::lround(owner[parameterIndex("scoopSpeakers")]))>=2;
+  return role>=20&&role<=25;
+ }
  void publish(){revision.fetch_add(1,std::memory_order_acq_rel);for(int i=0;i<entropy::standalone::parameterCount;++i){auto* raw=state.engine->getAPVTS().getRawParameterValue(entropy::standalone::parameterIds[i]);published[i].store(raw?raw->load():0,std::memory_order_relaxed);}revision.fetch_add(1,std::memory_order_release);}
 };
 static void require(EntropyResult r){if(r!=ENTROPY_OK)throw std::invalid_argument("Crossover rejected command: "+std::to_string(r));}
@@ -81,5 +92,6 @@ void CrossoverAccess::captureBeforeBlock() noexcept {
  std::array<float,entropy::standalone::parameterCount> candidate{};for(unsigned attempt=0;attempt<4;++attempt){auto begin=impl_->revision.load(std::memory_order_acquire);if(begin&1)continue;for(int i=0;i<entropy::standalone::parameterCount;++i)candidate[i]=impl_->published[i].load(std::memory_order_relaxed);std::atomic_thread_fence(std::memory_order_acquire);if(begin==impl_->revision.load(std::memory_order_acquire)){impl_->owner=candidate;break;}}
  impl_->state.engine->setHostBlockParameterView(impl_->owner.data());
 }
-void CrossoverAccess::captureAfterBlock() noexcept {for(int i=0;i<16;++i){impl_->roles[i].store(impl_->state.engine->roleForChannel(i),std::memory_order_relaxed);impl_->active[i].store(impl_->state.engine->outputRoleActive(i),std::memory_order_relaxed);}impl_->state.engine->setHostBlockParameterView(nullptr);}
+unsigned CrossoverAccess::capturedSourceMask() const noexcept {unsigned mask=0;for(int i=0;i<16;++i)if(impl_->capturedActive(impl_->capturedRole(i)))mask|=1u<<i;return mask;}
+void CrossoverAccess::captureAfterBlock() noexcept {for(int i=0;i<16;++i){const auto role=impl_->capturedRole(i);impl_->roles[i].store(role,std::memory_order_relaxed);impl_->active[i].store(impl_->capturedActive(role),std::memory_order_relaxed);}impl_->state.engine->setHostBlockParameterView(nullptr);}
 }

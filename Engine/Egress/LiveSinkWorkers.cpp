@@ -72,6 +72,13 @@ bool LiveSinkWorkers::armed() const noexcept {
  if(!enabled_.load(std::memory_order_acquire)||faulted_.load(std::memory_order_acquire)||stopping_)return false;
  for(const auto& d:domains_)if(d.config.enabled&&!d.running.load(std::memory_order_acquire))return false;return true;
 }
+bool LiveSinkWorkers::recoveryAtTarget() const noexcept {
+ if(!armed())return false;
+ // V07 stops accelerated recovery once any independently clocked sink has
+ // recovered its cushion; do not keep accelerating that sink for its peer.
+ for(const auto& d:domains_)if(d.config.enabled&&d.clockFill.load(std::memory_order_relaxed)>=4096)return true;
+ return false;
+}
 void LiveSinkWorkers::publish(const double* const* output,unsigned frames,bool policy) noexcept {
  if(!enabled_.load(std::memory_order_acquire)||faulted_||stopping_)return;
  if(!policy||!output){failAll(egress_host::Input);return;}

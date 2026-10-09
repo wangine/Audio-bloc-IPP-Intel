@@ -180,6 +180,8 @@ endif()
 # Guardian, WasapiSink, DeviceManager, IPC and separate DAC event-driven threads.
 # Never launch physical DACs in Phase 01.
 
+include(cmake/V07Integration.cmake)
+
 if(ENTROPY_STAGE02_VALIDATION)
     if(NOT BUILD_TESTING)
         message(FATAL_ERROR "Stage02 requires BUILD_TESTING")

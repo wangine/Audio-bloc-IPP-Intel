@@ -1,0 +1,17 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+    Start 7: EntropyStage07ProfilePreflight
+1/1 Test #7: EntropyStage07ProfilePreflight ...***Failed    3.14 sec
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\Tests\Stage07ProfilePreflight.py", line 29, in <module>
+    viewed=c.call('preflight-live');assert viewed['ok'] and viewed['data']['cacheHit'],('view-only command discarded validated configuration',action,viewed)
+AssertionError: ('view-only command discarded validated configuration', 'monitor', {'data': {'cacheHit': False, 'deadlineMisses': 0, 'deadlineUs': 5333.333333333333, 'frames': 1024, 'iterations': 1000, 'maximumOutputPeak': 0.000630953385623192, 'maximumUs': 1154.1, 'medianUs': 587.8499999999999, 'mmcssPriorityCritical': True, 'mmcssRegistered': True, 'p99Us': 835.1, 'source': 'independent offline copy; no live histories advanced', 'validationRun': '2', 'warmupBlocks': 940}, 'ok': True, 'session': '28503594'})
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   3.14 sec
+
+The following tests FAILED:
+	  7 - EntropyStage07ProfilePreflight (Failed)
+Errors while running CTest

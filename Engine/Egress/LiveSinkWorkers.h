@@ -21,6 +21,7 @@ public:
  void publish(const double* const* outputs,unsigned frames,bool policyReady) noexcept;
  void failAll(unsigned reason) noexcept;
  bool armed() const noexcept;
+ bool recoveryAtTarget() const noexcept;
  bool faulted() const noexcept {return faulted_.load(std::memory_order_acquire);}
  bool engaged() const noexcept {return enabled_.load(std::memory_order_acquire);}
  ipc::Value snapshot() const;

@@ -1,5 +1,32 @@
 # Exact input boundary and remaining coupling
 
+## 0.0.8 observed correction
+
+The earlier conclusion below was too broad as a diagnosis of normal Stage3
+shutdown. The accepted V07 host also uses the same Attach/Release contract.
+AudioCore has no Stage1 connection; its only transport peer is the compatible
+downstream FP64 publisher. DSP modules do not own that transport, and Qt owns
+neither transport nor audio state.
+
+The native receiver now follows V07's bounded request recovery calendar and
+heartbeat sampling order. After a graph pause, requests cannot run as an
+unbounded catch-up burst. Graph-only restart rebases the calendar without
+releasing/reacquiring the publisher lease. Clean Core shutdown drains the
+outstanding request and releases ownership without writing a local processing
+failure into shared publisher fault state.
+
+Live stop/start results and unchanged publisher process identities are recorded
+in `validation/v07-host-integration-20261009/report.md`. Those observed normal
+lifecycle checks pass without restarting Stage1 or Stage2. They are the relevant
+comparison with the old working host, not evidence of a direct Stage1 link.
+
+Arbitrary forced process death and a fully passive publication protocol are not
+certified by these checks. The protocol observations retained below describe
+that remaining boundary, rather than a requirement to modify Stage1 or Stage2
+to make normal Stage3 shutdown work.
+
+## Earlier protocol investigation (retained with the qualification above)
+
 Required topology: Stage1 -> Stage2 -> AudioCore. AudioCore must only receive
 the publisher's FP64/192 kHz L/R/C + eight CINEMA lanes. Qt remains IPC and
 telemetry only; it neither receives audio buffers nor owns the audio engine.

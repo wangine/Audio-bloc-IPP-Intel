@@ -16,6 +16,7 @@ public:
  void importBytes(const std::vector<unsigned char>&);
  void captureAfterBlock() noexcept;
  void captureBeforeBlock() noexcept;
+ unsigned capturedSourceMask() const noexcept;
  bool settled() const noexcept;
 private:
  struct Impl;std::unique_ptr<Impl> impl_;

@@ -1,0 +1,7 @@
+ARM 0 seconds 1.892741700001352 cache False PCM overrange ['23180', '0']
+ARM 1 seconds 0.09232469999915338 cache True PCM overrange ['50375', '0']
+ARM 2 seconds 0.10214220000125351 cache True PCM overrange ['20586', '0']
+Core lifecycle 0 PASS source PID unchanged=12656
+Core lifecycle 1 PASS source PID unchanged=12656
+Core lifecycle 2 PASS source PID unchanged=12656
+PASS three native Core stop/start cycles, one-command ARM and repeat ARM, original publishers untouched

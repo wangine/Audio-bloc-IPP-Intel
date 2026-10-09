@@ -1,0 +1,22 @@
+V07 SHA256=1B0F76BF38F2E387945CF16A8DE38B1AE8FA25A9A9AF2AC976473671D0A7889A
+V07 CASE MUSIC-extractor1-bypass failures=0
+V07 CASE MUSIC-extractor1-LR24 failures=0
+V07 CASE MUSIC-extractor1-LR48 failures=0
+V07 CASE MUSIC-extractor1-FIR2049 failures=0
+V07 CASE MUSIC-extractor1-FIR8193 failures=0
+V07 CASE MUSIC-extractor3-bypass failures=0
+V07 CASE MUSIC-extractor3-LR24 failures=0
+V07 CASE MUSIC-extractor3-LR48 failures=0
+V07 CASE MUSIC-extractor3-FIR2049 failures=0
+V07 CASE MUSIC-extractor3-FIR8193 failures=0
+V07 CASE CINEMA-extractor1-bypass failures=0
+V07 CASE CINEMA-extractor1-LR24 failures=0
+V07 CASE CINEMA-extractor1-LR48 failures=0
+V07 CASE CINEMA-extractor1-FIR2049 failures=0
+V07 CASE CINEMA-extractor1-FIR8193 failures=0
+V07 CASE CINEMA-extractor3-bypass failures=0
+V07 CASE CINEMA-extractor3-LR24 failures=0
+V07 CASE CINEMA-extractor3-LR48 failures=0
+V07 CASE CINEMA-extractor3-FIR2049 failures=0
+V07 CASE CINEMA-extractor3-FIR8193 failures=0
+V07 STRICT RESULT cases=90 failures=0 copied_profile=EXECUTED

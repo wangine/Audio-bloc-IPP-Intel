@@ -1,4 +1,5 @@
 #include "Stage2Ingress.h"
+#include "IngressCadence.h"
 #include "Engine/HighResolutionWait.h"
 #include <StageLinkClient.h>
 #include <windows.h>
@@ -21,6 +22,7 @@ bool Stage2Ingress::start(std::wstring endpoint,bool claimOwner) {
     generation_.fetch_add(1,std::memory_order_acq_rel);
     read_.store(written_.load(std::memory_order_acquire),std::memory_order_release);
     stopping_=false;state_=State::Waiting;
+    minimumRequestGapNanoseconds_=UINT64_MAX;
     worker_=std::thread(&Stage2Ingress::run,this,std::move(endpoint),claimOwner);return true;
 }
 void Stage2Ingress::stop() noexcept {
@@ -75,7 +77,7 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
     StageBusWin32 bus;StageLinkClient client(std::move(endpoint));
     StageLinkResponse bound{};bool attached=false,pending=false;std::array<uint8_t,16> failed{};
     StageBusFrameRequest request{};uint64_t sequence=1,revision=1,started=0;
-    auto next=std::chrono::steady_clock::now();std::string error;
+    auto next=std::chrono::steady_clock::now(),epoch=next,blockBegin=next,lastRequest=next;bool haveLastRequest=false;std::string error;
     auto invalidate=[&]{generation_.fetch_add(1,std::memory_order_acq_rel);producerPid_=0;validityMask_=0;};
     auto release=[&]{
         if(!zero(bound.lease,16)){
@@ -109,14 +111,16 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                 if(!client.transact(makeRequest(StageLinkAction::Query),confirmed,500,error)||confirmed.status!=StageLinkStatus::Ok||confirmed.sourcePid!=bound.sourcePid||std::memcmp(confirmed.session.session_id,bound.session.session_id,16)){
                     faults_.fetch_add(1);invalidate();release();continue;
                 }
-                generation_.fetch_add(1,std::memory_order_acq_rel);producerPid_=bound.sourcePid;sequence=1;revision=bound.controlRevision;attached=true;pending=false;next=std::chrono::steady_clock::now();
+                generation_.fetch_add(1,std::memory_order_acq_rel);producerPid_=bound.sourcePid;sequence=1;revision=bound.controlRevision;attached=true;pending=false;haveLastRequest=false;next=epoch=blockBegin=std::chrono::steady_clock::now();
             }
             const auto now=tick();bus.heartbeat(now);
-            // The publisher can update its heartbeat after our QPC snapshot.
-            // The immutable SDK rejects that future snapshot; retry with fresh
-            // time before faulting, retaining its process/one-second checks.
-            bool fault=!bus.peerAlive(now);
-            if(fault)fault=!bus.peerAlive(tick());
+            // Match V07: load the peer heartbeat BEFORE our timestamp. Calling
+            // peerAlive(now) with an earlier timestamp races a healthy refresh.
+            // The frozen SDK still validates process lifetime and shared faults.
+            const auto heartbeat=InterlockedCompareExchange64(
+                reinterpret_cast<volatile LONG64*>(static_cast<unsigned char*>(bus.address())+384),0,0);
+            const auto observed=tick();
+            bool fault=!bus.peerAlive(0)||heartbeat<=0||uint64_t(heartbeat)>observed||observed-uint64_t(heartbeat)>bound.session.qpc_frequency;
             StageBusSourceControl control{};const auto controlIo=bus.tryReceiveSourceControl(control);
             if(controlIo==StageBusIoResult::Fault)fault=true;
             else if(controlIo==StageBusIoResult::Ok){if(control.source_revision<revision)fault=true;else revision=control.source_revision;}
@@ -132,7 +136,13 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                     if(block.stream_epoch!=request.stream_epoch||block.block_sequence!=request.block_sequence||block.first_frame!=request.first_frame||block.control_revision!=request.control_revision)fault=true;
                     else {
                         for(const auto& plane:slot.planes)for(double value:plane)if(!std::isfinite(value))fault=true;
-                        if(!fault){slot.header=block;slot.generation=generation_.load(std::memory_order_acquire);written_.store(written+1,std::memory_order_release);received_.fetch_add(1);validityMask_=block.validity_mask;state_=State::Receiving;pending=false;++sequence;next+=std::chrono::nanoseconds(5333333);}
+                        if(!fault){slot.header=block;slot.generation=generation_.load(std::memory_order_acquire);written_.store(written+1,std::memory_order_release);received_.fetch_add(1);validityMask_=block.validity_mask;state_=State::Receiving;pending=false;++sequence;
+                            const auto calendar=std::chrono::steady_clock::now();
+                            const auto scheduled=epoch+std::chrono::nanoseconds(IngressCadence::elapsedNanoseconds(sequence-1));
+                            const bool atTarget=outputAtTarget_.load(std::memory_order_relaxed);
+                            next=IngressCadence::next(scheduled,calendar,blockBegin,atTarget);
+                            if(atTarget&&calendar>scheduled&&calendar-scheduled>std::chrono::nanoseconds(5333333))epoch=next-std::chrono::nanoseconds(IngressCadence::elapsedNanoseconds(sequence-1));
+                        }
                     }
                 }else if(now<started||now-started>bound.session.qpc_frequency)fault=true;
             }
@@ -143,12 +153,17 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                 std::memcpy(failed.data(),bound.session.session_id,16);state_=State::Fault;faults_.fetch_add(1);invalidate();release();continue;
             }
             // At most one queued block. Capacity is bounded headroom, never a fill target.
+            if(!pending&&rebase_.exchange(false,std::memory_order_acq_rel)){
+                next=std::chrono::steady_clock::now();epoch=next-std::chrono::nanoseconds(IngressCadence::elapsedNanoseconds(sequence-1));
+            }
             if(!pending&&written_.load(std::memory_order_relaxed)==read_.load(std::memory_order_acquire)&&std::chrono::steady_clock::now()>=next){
                 request={};std::memcpy(request.session_id,bound.session.session_id,16);request.stream_epoch=1;request.block_sequence=sequence;request.first_frame=(sequence-1)*frames;request.frames=frames;request.control_revision=revision;
                 // Original Stage3 demand requests the complete upstream layout independent of local scene/DAC state.
                 request.program.required_inputs=3;request.program.music_program_active=request.program.analyze_music_final=1;
                 const auto io=bus.trySendRequest(request);
-                if(io==StageBusIoResult::Ok){pending=true;started=now;}
+                if(io==StageBusIoResult::Ok){pending=true;started=now;blockBegin=std::chrono::steady_clock::now();
+                    if(haveLastRequest){const auto gap=uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(blockBegin-lastRequest).count());minimumRequestGapNanoseconds_.store(std::min(gap,minimumRequestGapNanoseconds_.load(std::memory_order_relaxed)),std::memory_order_relaxed);}
+                    lastRequest=blockBegin;haveLastRequest=true;}
                 else if(io==StageBusIoResult::Fault){state_=State::Fault;faults_.fetch_add(1);invalidate();release();}
             }
             wait.forDuration(std::chrono::microseconds(100));

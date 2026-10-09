@@ -1,0 +1,189 @@
+Start testing: Oct 09 18:00 GTB Daylight Time
+----------------------------------------------------------
+6/34 Testing: EntropyStage07Live
+6/34 Test: EntropyStage07Live
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyStage07Live.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage07Live" start time: Oct 09 18:00 GTB Daylight Time
+Output:
+----------------------------------------------------------
+A02_IMPORT_MODULE name=EntropyStage07Live.exe hooks=9
+A02_IMPORT_MODULE name=ole32.dll hooks=10
+A02_IMPORT_MODULE name=msvcp_win.dll hooks=3
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=bcrypt.dll hooks=7
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=GDI32.dll hooks=1
+A02_IMPORT_MODULE name=gdi32full.dll hooks=10
+A02_IMPORT_MODULE name=USER32.dll hooks=11
+A02_IMPORT_MODULE name=combase.dll hooks=11
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=IMM32.DLL hooks=3
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=92 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+PASS Stage07 separate owner threads, explicit dynamic lanes, active PCM, loss, starvation, policy, stop/recovery; no hardware
+<end of output>
+Test time =   4.21 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage07Live" end time: Oct 09 18:00 GTB Daylight Time
+"EntropyStage07Live" time elapsed: 00:00:04
+----------------------------------------------------------
+
+7/34 Testing: EntropyStage07ProfilePreflight
+7/34 Test: EntropyStage07ProfilePreflight
+Command: "C:/Users/bobi/AppData/Local/Programs/Python/Python39/python.exe" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Tests/Stage07ProfilePreflight.py"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage07ProfilePreflight" start time: Oct 09 18:00 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS independent strict native profile preflight, unchanged configuration cache, setting invalidation, failed PASS exclusion, missing gate refusal
+<end of output>
+Test time =  21.73 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage07ProfilePreflight" end time: Oct 09 18:01 GTB Daylight Time
+"EntropyStage07ProfilePreflight" time elapsed: 00:00:21
+----------------------------------------------------------
+
+9/34 Testing: EntropyStage06Input
+9/34 Test: EntropyStage06Input
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyStage06Input.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage06Input" start time: Oct 09 18:01 GTB Daylight Time
+Output:
+----------------------------------------------------------
+A02_IMPORT_MODULE name=EntropyStage06Input.exe hooks=10
+A02_IMPORT_MODULE name=ADVAPI32.dll hooks=10
+A02_IMPORT_MODULE name=msvcrt.dll hooks=8
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=ole32.dll hooks=10
+A02_IMPORT_MODULE name=msvcp_win.dll hooks=3
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=GDI32.dll hooks=1
+A02_IMPORT_MODULE name=gdi32full.dll hooks=10
+A02_IMPORT_MODULE name=USER32.dll hooks=11
+A02_IMPORT_MODULE name=combase.dll hooks=11
+A02_IMPORT_MODULE name=IMM32.DLL hooks=3
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=104 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+Native ingress blocks in 3 seconds: 565
+Minimum publisher request gap after graph pause: 3993.6 us
+FP64 ingress: lease release unconfirmed; status=1; Source integration endpoint unavailable: 2
+Stage06 FAIL: Receiver emitted an unbounded catch-up burst after graph pause
+<end of output>
+Test time =   5.45 sec
+----------------------------------------------------------
+Test Failed.
+"EntropyStage06Input" end time: Oct 09 18:01 GTB Daylight Time
+"EntropyStage06Input" time elapsed: 00:00:05
+----------------------------------------------------------
+
+10/34 Testing: EntropyStage06Integration
+10/34 Test: EntropyStage06Integration
+Command: "C:/Users/bobi/AppData/Local/Programs/Python/Python39/python.exe" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Tests/Stage06Integration.py"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage06Integration" start time: Oct 09 18:01 GTB Daylight Time
+Output:
+----------------------------------------------------------
+Stage06 StageBus -> graph -> IPC nonzero MUSIC/CINEMA meters PASS
+Stage06 UI detach/reconnect: same Core, advancing blocks, Crossover/Matrix state retained PASS
+Stage06 producer loss and explicit independent engine shutdown PASS
+core exit: 0
+core stdout: Stage05 native IPC READY: EntropyAudioCore.Stage06.Test.83c2850e90274f8fbd68933b63bab357; DISARMED; liveGate=BLOCKED; authorizedLiveTest=NO
+AudioCore stopped safely; all native DAC owners closed
+
+core stderr: FP64 ingress: lease release unconfirmed; status=1; Source integration endpoint unavailable: 2
+
+fixture exit: 1
+fixture stdout: Stage06 fixture producer READY
+
+<end of output>
+Test time =   0.83 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage06Integration" end time: Oct 09 18:01 GTB Daylight Time
+"EntropyStage06Integration" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/34 Testing: EntropyStage05Boundary
+14/34 Test: EntropyStage05Boundary
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyStage05Boundary.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage05Boundary" start time: Oct 09 18:01 GTB Daylight Time
+Output:
+----------------------------------------------------------
+Block-boundary interlock PASS; active output peak=0.000999994 then exact silence
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage05Boundary" end time: Oct 09 18:01 GTB Daylight Time
+"EntropyStage05Boundary" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/34 Testing: EntropyStage05Control
+15/34 Test: EntropyStage05Control
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyStage05Control.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage05Control" start time: Oct 09 18:01 GTB Daylight Time
+Output:
+----------------------------------------------------------
+Stage05 controls PASS: validation, deferred block snapshots, native Crossover status, Matrix, Headroom
+<end of output>
+Test time =   0.30 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage05Control" end time: Oct 09 18:01 GTB Daylight Time
+"EntropyStage05Control" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/34 Testing: EntropyHeadroomUnit
+27/34 Test: EntropyHeadroomUnit
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyHeadroomUnit.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyHeadroomUnit" start time: Oct 09 18:01 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS Headroom AUTO/MANUAL_SAFE/BIT_PERFECT transitions, bit-exact copy, deterministic ledger/analyzer and safe faults
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyHeadroomUnit" end time: Oct 09 18:01 GTB Daylight Time
+"EntropyHeadroomUnit" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/34 Testing: EntropyHeadroomNoAlloc
+28/34 Test: EntropyHeadroomNoAlloc
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyHeadroomNoAlloc.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyHeadroomNoAlloc" start time: Oct 09 18:01 GTB Daylight Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyHeadroomNoAlloc" end time: Oct 09 18:01 GTB Daylight Time
+"EntropyHeadroomNoAlloc" time elapsed: 00:00:00
+----------------------------------------------------------
+
+33/34 Testing: EntropyAudioCoreProbe
+33/34 Test: EntropyAudioCoreProbe
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyAudioCore.exe" "--probe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyAudioCoreProbe" start time: Oct 09 18:01 GTB Daylight Time
+Output:
+----------------------------------------------------------
+AudioGraph native FP64/192 prepare PASS; 13 inputs -> 16 outputs; no hardware or IPC started
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyAudioCoreProbe" end time: Oct 09 18:01 GTB Daylight Time
+"EntropyAudioCoreProbe" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 09 18:01 GTB Daylight Time

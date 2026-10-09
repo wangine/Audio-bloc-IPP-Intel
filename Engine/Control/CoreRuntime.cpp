@@ -22,7 +22,7 @@ int runControlServer(int argc,char** argv) try {
  if(stage2Enabled&&(signal||offlineSinks))throw std::invalid_argument("Real Stage2 and offline fixtures are mutually exclusive");
  auto barrier=[&](const ControlPlane& controls){auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!controls.settled()){if(std::chrono::steady_clock::now()>deadline)throw std::runtime_error("Profile barrier timed out; no state changed");std::this_thread::sleep_for(std::chrono::milliseconds(1));}};
  engine::AudioGraph graph;if(!graph.prepare(stage2Enabled?1024:256))throw std::runtime_error("Native graph prepare failed");graph.enableOriginalMusicAnalysis(true);ControlPlane controls(graph,GetTickCount64()+1);if(offlineSinks&&!signal)throw std::invalid_argument("Offline sinks require explicit offline signal");OfflineSinkWorkers sinkWorkers;auto liveOwner=std::make_unique<LiveSinkWorkers>();auto& liveWorkers=*liveOwner;auto stage2=std::make_unique<input::Stage2Ingress>();AudioScheduler scheduler(graph,controls,signal,offlineSinks?&sinkWorkers:nullptr,stage2Enabled?stage2.get():nullptr,&liveWorkers);DeviceService devices;ProfileStore profiles;ipc::CommandServer server;
- std::array<wchar_t,32768> currentExe{};GetModuleFileNameW(nullptr,currentExe.data(),unsigned(currentExe.size()));const bool liveGate=stage2Enabled&&!liveGatePath.empty()&&liveGateMatches(std::filesystem::u8path(liveGatePath),egress_host::fileSha256(currentExe.data()));J lastPreflight;
+ std::array<wchar_t,32768> currentExe{};GetModuleFileNameW(nullptr,currentExe.data(),unsigned(currentExe.size()));const bool liveGate=stage2Enabled&&!liveGatePath.empty()&&liveGateMatches(std::filesystem::u8path(liveGatePath),egress_host::fileSha256(currentExe.data()));J lastPreflight;LiveProfilePreflightCache preflightCache;
  struct ReplyEntry{ipc::Frame request,response;};std::deque<ReplyEntry> replies;uint64_t session=GetTickCount64()+1;
  bool profileRequired=stage2Enabled;std::string profileError;
  if(initialProfile.empty()&&stage2Enabled)initialProfile=profilePathUtf8(motherProfilePath());
@@ -42,14 +42,14 @@ int runControlServer(int argc,char** argv) try {
    else if(action=="approve-binding"||action=="clear-binding"){sinkWorkers.stop();scheduler.disarm();data=devices.bindingCommand(request);}
    else if(action=="configure-devices"){sinkWorkers.stop();scheduler.disarm();data=devices.configure(request);}
    else if(action=="offline-arm"){if(!offlineSinks)throw std::invalid_argument("Offline sink fixture not enabled");auto state=controls.appliedState();if(state.mode!=ENTROPY_HEADROOM_MODE_MANUAL_SAFE||state.manualGainDb>-6)throw std::invalid_argument("Offline fixture requires explicit safe Headroom policy");scheduler.stop();try{sinkWorkers.start();}catch(...){scheduler.start();throw;}scheduler.start();data=J::Object{{"offlineArmed",true},{"physicalArmed",false}};}
-   else if(action=="preflight-live") {if(profileRequired)throw std::invalid_argument("Load a profile first");lastPreflight=liveProfilePreflight(controls);data=lastPreflight;}
+   else if(action=="preflight-live") {if(profileRequired)throw std::invalid_argument("Load a profile first");lastPreflight=preflightCache.run(controls);data=lastPreflight;}
    else if(action=="arm") {
     if(!liveGate&&!authorizedLiveTest)throw std::invalid_argument("Physical ARM BLOCKED: Stage04 live offline gate missing/stale; no sink opened");
     if(profileRequired||stage2->telemetry().state!=input::State::Receiving)throw std::invalid_argument("Validated profile and active FP64 input transport required");
     if(liveWorkers.engaged())throw std::invalid_argument("Already armed/pending/faulted; DISARM before a new ARM");
     if(request.contains("domains"))devices.configure(request);
     auto verified=devices.refresh();devices.configure(J::Object{{"domains",verified.at("configuration")}});
-    lastPreflight=liveProfilePreflight(controls);
+    lastPreflight=preflightCache.run(controls);
     auto config=LiveSinkWorkers::decode(devices.snapshot().at("configuration"));
     scheduler.stop();try{controls.drainAtQuiescentBoundary();if(!liveHeadroomReady(graph))throw std::invalid_argument("Headroom reports an original module fault or unsettled transition; no device opened");if(!liveWorkers.prepare(config)||!liveWorkers.start())throw std::runtime_error("Live egress prepare/ARM failed");scheduler.start();}catch(...){liveWorkers.stop();scheduler.start();throw;}
     data=J::Object{{"status","ARMING"},{"physicalArmed",false},{"preflight",lastPreflight}};
@@ -65,15 +65,15 @@ int runControlServer(int argc,char** argv) try {
    }
    else if(action=="new-profile"){
     if(!profileRequired)throw std::invalid_argument("A profile is already active; use Save Project");auto path=std::filesystem::u8path(request.at("path").asString());scheduler.stop();
-    try{controls.execute(J::Object{{"action","headroom-policy"},{"mode",2},{"manualGainDb",-6}});controls.atBlockBoundary();controls.afterBlock();profiles.save(path,controls,devices.snapshot());initialProfile=profilePathUtf8(path);profileRequired=false;profileError.clear();if(stage2Enabled&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");scheduler.start();}
+    try{controls.execute(J::Object{{"action","headroom-policy"},{"mode",2},{"manualGainDb",-6}});preflightCache.invalidate();lastPreflight=J{};controls.atBlockBoundary();controls.afterBlock();profiles.save(path,controls,devices.snapshot());initialProfile=profilePathUtf8(path);profileRequired=false;profileError.clear();if(stage2Enabled&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");scheduler.start();}
     catch(...){scheduler.start();throw;}data=J::Object{{"status","CREATED"},{"devices",devices.snapshot()}};
    }
    else if(action=="load-profile"){
-    auto loaded=profiles.load(std::filesystem::u8path(request.at("path").asString()));if(!profileRequired&&!stage2Enabled)barrier(controls);scheduler.stop();scheduler.disarm();if(stage2Enabled)controls.drainAtQuiescentBoundary();sinkWorkers.stop();auto oldDevices=devices.snapshot();auto old=controls.crossover().exportBytes();auto state=controls.appliedState();
+    auto loaded=profiles.load(std::filesystem::u8path(request.at("path").asString()));if(!profileRequired&&!stage2Enabled)barrier(controls);scheduler.stop();scheduler.disarm();if(stage2Enabled)controls.drainAtQuiescentBoundary();sinkWorkers.stop();auto oldDevices=devices.snapshot();auto old=controls.crossover().exportBytes();auto state=controls.appliedState();preflightCache.invalidate();lastPreflight=J{};
     try{if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));if(profileRequired&&stage2Enabled&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");profileRequired=false;profileError.clear();initialProfile=request.at("path").asString();scheduler.start();}
     catch(...){devices.restore(oldDevices);controls.crossover().importBytes(old);controls.replace(state);controls.atBlockBoundary();controls.afterBlock();scheduler.start();throw;}
     data=J::Object{{"status","LOADED"},{"devices",devices.snapshot()}};
-   }else {if(liveWorkers.engaged()&&!liveCrossoverChangeAllowed(controls.crossover().snapshot(),request))throw std::invalid_argument("DISARM before changing saved MUSIC/CINEMA scenes or selecting FIR8193 x16; then run profile preflight and ARM");if(profileRequired)throw std::invalid_argument("Create or load a validated profile first");auto sequence=controls.execute(request);data=J::Object{{"accepted",J::u64(sequence)}};}
+   }else {if(liveWorkers.engaged()&&!liveCrossoverChangeAllowed(controls.crossover().snapshot(),request))throw std::invalid_argument("DISARM before changing saved MUSIC/CINEMA scenes or selecting FIR8193 x16; then run profile preflight and ARM");if(profileRequired)throw std::invalid_argument("Create or load a validated profile first");auto sequence=controls.execute(request);lastPreflight=J{};data=J::Object{{"accepted",J::u64(sequence)}};}
    reply=J::Object{{"ok",true},{"data",std::move(data)}};
   }catch(const std::exception& e){reply=J::Object{{"ok",false},{"error",e.what()}};}
   reply["session"]=J::u64(session);ipc::Frame response{frame.command,frame.requestId,ipc::dump(reply)};if(replies.size()==128)replies.pop_front();replies.push_back({frame,response});return response;

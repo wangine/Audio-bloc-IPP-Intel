@@ -23,6 +23,8 @@ struct Producer {
     std::array<uint8_t,16> lease{};
     std::atomic<bool> stop{false},starved{false},breakSession{false},nonFiniteBlock{false};
     std::atomic<unsigned> releases{0},poisonedReleases{0};
+    std::atomic<bool> observeRecovery{false};
+    std::atomic<uint64_t> recoveryLast{0},recoveryMinimum{UINT64_MAX};
     std::thread thread;
     std::array<std::array<double,1024>,11> samples{};
     explicit Producer(std::wstring endpoint):server(std::move(endpoint)) {
@@ -49,6 +51,7 @@ struct Producer {
             bus.heartbeat(tick());if(breakSession.exchange(false)){bus.fault();bus.close();fresh();}
             StageBusFrameRequest request{};
             if(!starved&&bus.tryReceiveRequest(request)==stage::StageBusIoResult::Ok){
+                if(observeRecovery){const auto stamp=tick(),previous=recoveryLast.exchange(stamp);if(previous){auto minimum=recoveryMinimum.load();while(stamp-previous<minimum&&!recoveryMinimum.compare_exchange_weak(minimum,stamp-previous)){} }}
                 StageBusBlockHeader header{};std::memcpy(header.session_id,request.session_id,16);header.stream_epoch=request.stream_epoch;header.block_sequence=request.block_sequence;header.first_frame=request.first_frame;header.control_revision=request.control_revision;header.frames=1024;header.validity_mask=7;header.qpc_timestamp=tick();
                 std::array<const double*,11> pointers{};
                 for(unsigned c=0;c<11;++c){pointers[c]=samples[c].data();for(unsigned f=0;f<1024;++f)samples[c][f]=f==0?-0.0:double((c+1)*100000+request.block_sequence*1024+f)/10000000.0;}
@@ -85,6 +88,19 @@ int main(int argc,char** argv) try {
     while(GetTickCount64()<throughputEnd){if(readAudited())++throughputBlocks;poll.forDuration(std::chrono::microseconds(100));}
     std::cout<<"Native ingress blocks in 3 seconds: "<<throughputBlocks<<std::endl;
     require(throughputBlocks>=500,"Native receiver throttled below sustained audio transport rate");
+    // A paused graph must not turn accumulated calendar debt into a burst of
+    // upstream requests. V07 bounds recovery to at most 8/7 production pace.
+    Sleep(500);producer.observeRecovery=true;
+    const auto recoveryEnd=GetTickCount64()+300;
+    while(GetTickCount64()<recoveryEnd){readAudited();poll.forDuration(std::chrono::microseconds(100));}
+    producer.observeRecovery=false;
+    const double recoveryMinimumUs=double(producer.recoveryMinimum.load())*1e6/double(frequency());
+    const double senderMinimumUs=double(input->minimumRequestGapNanoseconds())/1000.;
+    // Producer observations also contain that independent thread's scheduling
+    // jitter: a late dequeue followed by an on-time dequeue looks like a burst.
+    // Keep that diagnostic visible; gate the actual receiver send intervals.
+    std::cout<<"Minimum publisher-observed gap after graph pause: "<<recoveryMinimumUs<<" us; receiver send gap: "<<senderMinimumUs<<" us\n";
+    require(senderMinimumUs>=4000,"Receiver emitted an unbounded catch-up burst after graph pause");
     producer.starved=true;Sleep(40);bool drained=false;for(unsigned i=0;i<8;++i)if(!readAudited())drained=true;
     require(drained,"Starvation must not replay old blocks");producer.starved=false;
     bool resumed=false;auto timeout=GetTickCount64()+2000;while(GetTickCount64()<timeout&&!resumed){resumed=readAudited();Sleep(1);}require(resumed,"Starvation recovery failed");
