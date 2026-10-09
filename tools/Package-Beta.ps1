@@ -13,7 +13,7 @@ param(
 $ErrorActionPreference='Stop'
 if($Version -notmatch '^\d+\.\d+\.\d+$'){throw 'Invalid release version'}
 $root=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
-$output=Join-Path (Join-Path $root $OutputRoot) $Version
+$output=[IO.Path]::GetFullPath((Join-Path (Join-Path $root $OutputRoot) $Version))
 if(Test-Path -LiteralPath $output){throw "Version folder already exists: $output. Preserve it and choose a new version."}
 $bundle=Join-Path $output ('EntropyAudioCore-'+$Version+'-beta-win-x64')
 $runtime=Join-Path $bundle 'runtime'
