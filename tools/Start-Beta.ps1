@@ -66,5 +66,10 @@ try {
 }catch{Write-Host $_.Exception.Message -ForegroundColor Red;exit 1}
 finally{
     if($uiProcess -and !$uiProcess.HasExited){Stop-Process -Id $uiProcess.Id}
-    if($startedCore -and $coreProcess -and !$coreProcess.HasExited -and ($SmokeTest -or !$ready)){Stop-Process -Id $coreProcess.Id}
+    # A readiness timeout must not kill a live transport owner. The Core may
+    # already hold a lease; preserve it for reconnect or explicit IPC shutdown.
+    if($startedCore -and $coreProcess -and !$coreProcess.HasExited){
+        if($SmokeTest){Stop-Process -Id $coreProcess.Id}
+        elseif(!$ready){Write-Host "Core PID $($coreProcess.Id) retained after startup timeout. Use Stop-AudioCore.cmd for safe IPC shutdown."}
+    }
 }

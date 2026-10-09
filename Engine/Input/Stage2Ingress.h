@@ -11,6 +11,7 @@ struct Telemetry {
     uint64_t received=0, consumed=0, empty=0, faults=0, generation=0;
     unsigned queued=0, producerPid=0, validityMask=0;
     uint64_t lastBlockQpc=0;
+    uint64_t releaseFailures=0;
 };
 class Stage2Ingress {
 public:
@@ -32,6 +33,7 @@ private:
     std::atomic<uint64_t> generation_{0},received_{0},consumed_{0},empty_{0},faults_{0};
     std::atomic<unsigned> producerPid_{0},validityMask_{0};
     std::atomic<uint64_t> lastBlockQpc_{0};
+    std::atomic<uint64_t> releaseFailures_{0};
     std::atomic<State> state_{State::Disabled};
     std::atomic<bool> stopping_{false};
     std::thread worker_;

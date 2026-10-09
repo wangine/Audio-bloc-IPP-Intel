@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cstring>
 #include <cmath>
+#include <iostream>
 namespace entropy::input {
 namespace {
 uint64_t tick() noexcept { LARGE_INTEGER q{};QueryPerformanceCounter(&q);return q.QuadPart; }
@@ -17,12 +18,17 @@ bool Stage2Ingress::start(std::wstring endpoint,bool claimOwner) {
     if(worker_.joinable())return false;
     if(endpoint.empty())endpoint=entropy::link::endpointName()+L".Downstream.V1";
     if(endpoint.empty())return false;
+    generation_.fetch_add(1,std::memory_order_acq_rel);
+    read_.store(written_.load(std::memory_order_acquire),std::memory_order_release);
     stopping_=false;state_=State::Waiting;
     worker_=std::thread(&Stage2Ingress::run,this,std::move(endpoint),claimOwner);return true;
 }
 void Stage2Ingress::stop() noexcept {
     stopping_=true;generation_.fetch_add(1,std::memory_order_acq_rel);
     if(worker_.joinable())worker_.join();
+    // An iteration already running when stop began may have stamped the
+    // first invalidation generation. Invalidate again after its last write.
+    generation_.fetch_add(1,std::memory_order_acq_rel);
     state_=State::Disabled;producerPid_=0;validityMask_=0;
 }
 bool Stage2Ingress::tryRead(double* const* output) noexcept {
@@ -44,7 +50,7 @@ bool Stage2Ingress::tryRead(double* const* output) noexcept {
 }
 Telemetry Stage2Ingress::telemetry() const noexcept {
     const auto read=read_.load(std::memory_order_acquire),written=written_.load(std::memory_order_acquire);
-    return {state_.load(),received_.load(),consumed_.load(),empty_.load(),faults_.load(),generation_.load(),unsigned(std::min<uint64_t>(written>=read?written-read:0,capacity)),producerPid_.load(),validityMask_.load(),lastBlockQpc_.load()};
+    return {state_.load(),received_.load(),consumed_.load(),empty_.load(),faults_.load(),generation_.load(),unsigned(std::min<uint64_t>(written>=read?written-read:0,capacity)),producerPid_.load(),validityMask_.load(),lastBlockQpc_.load(),releaseFailures_.load()};
 }
 const char* Stage2Ingress::stateText(State state) noexcept {
     switch(state){case State::Receiving:return "STAGE2 FP64 / 192 kHz";case State::Fault:return "STAGE2 INPUT FAULT";case State::OwnershipBusy:return "STAGE2 OWNED BY ANOTHER RENDER";case State::Disabled:return "STAGE2 INPUT DISABLED";default:return "WAITING FOR STAGE2";}
@@ -74,7 +80,13 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
     auto release=[&]{
         if(!zero(bound.lease,16)){
             auto command=makeRequest(StageLinkAction::Release);std::memcpy(command.lease,bound.lease,16);std::memcpy(command.expectedSession,bound.session.session_id,16);
-            StageLinkResponse reply{};client.transact(command,reply,2000,error);
+            StageLinkResponse reply{};
+            if(!client.transact(command,reply,2000,error)||reply.status!=StageLinkStatus::Ok){
+                releaseFailures_.fetch_add(1,std::memory_order_relaxed);
+                // Transport worker only, never the DSP callback. Do not report
+                // a refused/unconfirmed release as a successful handoff.
+                std::cerr<<"FP64 ingress: lease release unconfirmed; status="<<unsigned(reply.status)<<"; "<<error<<'\n';
+            }
         }
         bound={};bus.close();attached=pending=false;
     };
@@ -95,7 +107,7 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                 }
                 StageLinkResponse confirmed{};
                 if(!client.transact(makeRequest(StageLinkAction::Query),confirmed,500,error)||confirmed.status!=StageLinkStatus::Ok||confirmed.sourcePid!=bound.sourcePid||std::memcmp(confirmed.session.session_id,bound.session.session_id,16)){
-                    bus.fault();faults_.fetch_add(1);invalidate();release();continue;
+                    faults_.fetch_add(1);invalidate();release();continue;
                 }
                 generation_.fetch_add(1,std::memory_order_acq_rel);producerPid_=bound.sourcePid;sequence=1;revision=bound.controlRevision;attached=true;pending=false;next=std::chrono::steady_clock::now();
             }
@@ -114,6 +126,9 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                 StageBusBlockHeader block{};const auto io=bus.tryConsume(block,pointers.data());
                 if(io==StageBusIoResult::Fault)fault=true;
                 else if(io==StageBusIoResult::Ok){
+                    // The transport request completed even if this receiver rejects
+                    // its samples. Do not leave a fictitious request pending.
+                    pending=false;
                     if(block.stream_epoch!=request.stream_epoch||block.block_sequence!=request.block_sequence||block.first_frame!=request.first_frame||block.control_revision!=request.control_revision)fault=true;
                     else {
                         for(const auto& plane:slot.planes)for(double value:plane)if(!std::isfinite(value))fault=true;
@@ -122,7 +137,10 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                 }else if(now<started||now-started>bound.session.qpc_frequency)fault=true;
             }
             if(fault){
-                std::memcpy(failed.data(),bound.session.session_id,16);state_=State::Fault;faults_.fetch_add(1);invalidate();bus.fault();release();continue;
+                // A receiver-local validation/timeout failure must not poison the
+                // publisher's shared bus. Silence locally and release the lease.
+                // The immutable SDK still rejects malformed transport contracts.
+                std::memcpy(failed.data(),bound.session.session_id,16);state_=State::Fault;faults_.fetch_add(1);invalidate();release();continue;
             }
             // At most one queued block. Capacity is bounded headroom, never a fill target.
             if(!pending&&written_.load(std::memory_order_relaxed)==read_.load(std::memory_order_acquire)&&std::chrono::steady_clock::now()>=next){
@@ -131,7 +149,7 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
                 request.program.required_inputs=3;request.program.music_program_active=request.program.analyze_music_final=1;
                 const auto io=bus.trySendRequest(request);
                 if(io==StageBusIoResult::Ok){pending=true;started=now;}
-                else if(io==StageBusIoResult::Fault){state_=State::Fault;faults_.fetch_add(1);invalidate();bus.fault();release();}
+                else if(io==StageBusIoResult::Fault){state_=State::Fault;faults_.fetch_add(1);invalidate();release();}
             }
             wait.forDuration(std::chrono::microseconds(100));
         }
@@ -141,8 +159,11 @@ void Stage2Ingress::run(std::wstring endpoint,bool claimOwner) noexcept {
             bus.heartbeat(tick());auto& slot=queue_[written_.load()%capacity];std::array<double*,channels> pointers{};for(unsigned c=0;c<channels;++c)pointers[c]=slot.planes[c].data();StageBusBlockHeader block{};
             auto io=bus.tryConsume(block,pointers.data());if(io!=StageBusIoResult::Empty){pending=false;break;}std::this_thread::sleep_for(std::chrono::milliseconds(1));
         }
-        if(pending)bus.fault();release();
-    }catch(...){state_=State::Fault;faults_.fetch_add(1);invalidate();bus.fault();bus.close();}
+        release();
+    }catch(...){
+        state_=State::Fault;faults_.fetch_add(1);invalidate();
+        try{release();}catch(...){bus.close();}
+    }
     if(owner)CloseHandle(owner);
 }
 }

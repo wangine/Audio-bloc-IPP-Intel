@@ -1,0 +1,13 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+    Start 5: EntropyConsoleShutdown
+1/1 Test #5: EntropyConsoleShutdown ...........***Failed    0.10 sec
+FAIL: console close returned before transport cleanup completed
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.11 sec
+
+The following tests FAILED:
+	  5 - EntropyConsoleShutdown (Failed)

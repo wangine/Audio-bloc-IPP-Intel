@@ -1,0 +1,16 @@
+core exit: 1
+core stdout: Stage05 native IPC READY: EntropyAudioCore.Stage06.Test.48cb0262d83447578efa1ee5fa4467dc; DISARMED; liveGate=BLOCKED; authorizedLiveTest=NO
+
+
+fixture exit: 1
+fixture stdout: Stage06 fixture producer READY
+
+Traceback (most recent call last):
+
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\Tests\Stage06Integration.py", line 69, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\Tests\Stage06Integration.py", line 26, in main
+    assert client.call('describe')['data']['consoleAttached'] is False,'Live Core still depends on launcher console lifetime'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Live Core still depends on launcher console lifetime

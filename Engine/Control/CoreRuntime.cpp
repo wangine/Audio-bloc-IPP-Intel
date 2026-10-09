@@ -3,6 +3,7 @@
 #include "ProfileStore.h"
 #include "StartupProfile.h"
 #include "LiveEligibility.h"
+#include "ConsoleShutdown.h"
 #include "Engine/Egress/HardwareTest.h"
 #include "DeviceService.h"
 #include "Engine/AudioScheduler.h"
@@ -13,7 +14,7 @@
 #include <deque>
 namespace entropy::control {
 using J=ipc::Value;
-namespace {std::atomic<bool> exitRequested{false};BOOL WINAPI consoleStop(DWORD event){if(event==CTRL_C_EVENT||event==CTRL_BREAK_EVENT||event==CTRL_CLOSE_EVENT){exitRequested=true;return TRUE;}return FALSE;}}
+namespace {ConsoleShutdown consoleShutdown;BOOL WINAPI consoleStop(DWORD event){return consoleShutdown.handle(event);}}
 int runControlServer(int argc,char** argv) try {
  std::string endpoint="EntropyAudioCore.Control.v1",initialProfile,liveGatePath;std::wstring stage2Endpoint;bool signal=false,offlineSinks=false,stage2Enabled=false,authorizedLiveTest=false;unsigned seconds=0;
  for(int i=1;i<argc;++i){std::string a=argv[i];if(a=="--control-server")continue;else if(a=="--endpoint"&&i+1<argc)endpoint=argv[++i];else if(a=="--offline-test-signal")signal=true;else if(a=="--offline-test-sinks")offlineSinks=true;else if(a=="--stage2-input")stage2Enabled=true;else if(a=="--authorized-live-test")authorizedLiveTest=true;else if(a=="--stage2-endpoint"&&i+1<argc){std::string name=argv[++i];if(name.rfind("\\\\.\\pipe\\Entropy.StageLink.",0)!=0)throw std::invalid_argument("Stage2 endpoint must be a local StageLink pipe");stage2Endpoint.assign(name.begin(),name.end());}else if(a=="--live-gate"&&i+1<argc)liveGatePath=argv[++i];else if(a=="--profile"&&i+1<argc)initialProfile=argv[++i];else if(a=="--run-seconds"&&i+1<argc){auto s=ipc::parse(argv[++i]);seconds=s.asUnsigned(86400);}else throw std::invalid_argument("Unknown control option: "+a);}
@@ -28,10 +29,14 @@ int runControlServer(int argc,char** argv) try {
  if(!initialProfile.empty())try{auto loaded=profiles.load(std::filesystem::u8path(initialProfile));if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));profileRequired=false;}
  catch(const std::exception& e){profileError=e.what();if(!stage2Enabled)throw;}
  const bool startInputImmediately=stage2Enabled&&!profileRequired;
- exitRequested=false;std::string error;scheduler.start();if(!server.start(std::wstring(endpoint.begin(),endpoint.end()),[&](const ipc::Frame& frame){
+ // Live Core is an independent process, not a child console's audio session.
+ // Detach before any source lease is acquired. Redirected log files remain
+ // the launcher's log destination; the UI continues to use IPC only.
+ if(stage2Enabled&&!FreeConsole())throw std::runtime_error("Cannot detach live Core from launcher console");
+ consoleShutdown.reset();std::string error;scheduler.start();if(!server.start(std::wstring(endpoint.begin(),endpoint.end()),[&](const ipc::Frame& frame){
   for(const auto& entry:replies)if(entry.request.requestId==frame.requestId){if(entry.request.command==frame.command&&entry.request.payload==frame.payload)return entry.response;return ipc::Frame{frame.command,frame.requestId,ipc::dump(J::Object{{"ok",false},{"session",J::u64(session)},{"error","Request ID reused with different payload"}})};}
   J reply;try{if(frame.command<1||frame.command>9)throw std::invalid_argument("Unknown opcode");auto request=ipc::parse(frame.payload);auto action=request.at("action").asString();if(action=="save-profile"&&profileRequired)action="new-profile";if(request.contains("session")&&request.at("session").asU64()!=session)throw std::invalid_argument("Stale control session");J data;
-   if(action=="describe"){data=controls.metadata();data["protocol"]=1;data["physicalArmAllowed"]=liveGate||authorizedLiveTest;data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;data["owner"]="EntropyAudioCore";data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;}
+   if(action=="describe"){data=controls.metadata();data["protocol"]=1;data["physicalArmAllowed"]=liveGate||authorizedLiveTest;data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;data["owner"]="EntropyAudioCore";data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;DWORD consolePid=0;data["consoleAttached"]=GetConsoleProcessList(&consolePid,1)!=0;}
    else if(action=="telemetry"){data=ipc::telemetrySnapshot(controls,scheduler,signal,stage2Enabled?stage2.get():nullptr);if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else if(liveWorkers.engaged())data["domains"]=liveWorkers.snapshot();data["armed"]=liveWorkers.armed();data["armPending"]=liveWorkers.engaged()&&!liveWorkers.armed()&&!liveWorkers.faulted();data["liveFault"]=liveWorkers.faulted();data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;data["hardwareGate"]=authorizedLiveTest?"USER AUTHORIZED LIVE TEST; offline PASS not claimed; explicit ARM and profile/device validation required":liveGate?"OFFLINE GATES PASS; explicit ARM and profile/device validation required":"BLOCKED: Stage04 live offline gate missing/stale";data["livePreflight"]=lastPreflight;data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;if(profileRequired)data["inputState"]="WAITING FOR PROFILE";}
    else if(action=="devices")data=devices.refresh();
    else if(action=="approve-binding"||action=="clear-binding"){sinkWorkers.stop();scheduler.disarm();data=devices.bindingCommand(request);}
@@ -75,7 +80,7 @@ int runControlServer(int argc,char** argv) try {
  },[&]{sinkWorkers.stop();replies.clear();++session;},error))throw std::runtime_error(error);
  if(startInputImmediately&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");
  SetConsoleCtrlHandler(consoleStop,TRUE);std::cout<<"Stage05 native IPC READY: "<<endpoint<<"; DISARMED; liveGate="<<(liveGate?"PASS":"BLOCKED")<<"; authorizedLiveTest="<<(authorizedLiveTest?"YES":"NO")<<"\n"<<std::flush;
- auto start=std::chrono::steady_clock::now();while(!exitRequested.load()&&!server.shutdownReplyComplete()&&(!seconds||std::chrono::steady_clock::now()-start<std::chrono::seconds(seconds)))std::this_thread::sleep_for(std::chrono::milliseconds(20));
- server.stop();scheduler.stop();liveWorkers.stop();stage2->stop();sinkWorkers.stop();SetConsoleCtrlHandler(consoleStop,FALSE);std::cout<<"AudioCore stopped safely; all native DAC owners closed\n";return 0;
-}catch(const std::exception& e){std::cerr<<"Stage05 FAIL: "<<e.what()<<'\n';return 1;}
+ auto start=std::chrono::steady_clock::now();while(!consoleShutdown.requested()&&!server.shutdownReplyComplete()&&(!seconds||std::chrono::steady_clock::now()-start<std::chrono::seconds(seconds)))std::this_thread::sleep_for(std::chrono::milliseconds(20));
+ server.stop();scheduler.stop();liveWorkers.stop();stage2->stop();sinkWorkers.stop();std::cout<<"AudioCore stopped safely; all native DAC owners closed\n"<<std::flush;consoleShutdown.complete();SetConsoleCtrlHandler(consoleStop,FALSE);return 0;
+}catch(const std::exception& e){std::cerr<<"Stage05 FAIL: "<<e.what()<<'\n';consoleShutdown.complete();SetConsoleCtrlHandler(consoleStop,FALSE);return 1;}
 }

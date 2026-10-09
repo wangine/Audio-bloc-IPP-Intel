@@ -9,6 +9,7 @@
 #include <cmath>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 
 using namespace entropy;
@@ -20,8 +21,8 @@ struct Producer {
     stage::StageBusWin32 bus;
     StageBusSessionHeader session{};
     std::array<uint8_t,16> lease{};
-    std::atomic<bool> stop{false},starved{false},breakSession{false};
-    std::atomic<unsigned> releases{0};
+    std::atomic<bool> stop{false},starved{false},breakSession{false},nonFiniteBlock{false};
+    std::atomic<unsigned> releases{0},poisonedReleases{0};
     std::thread thread;
     std::array<std::array<double,1024>,11> samples{};
     explicit Producer(std::wstring endpoint):server(std::move(endpoint)) {
@@ -38,7 +39,11 @@ struct Producer {
                 link::StageLinkResponse reply;reply.sourcePid=GetCurrentProcessId();std::memcpy(reply.nonce,command.nonce,16);
                 if(command.action==link::StageLinkAction::Attach){
                     bus.close();fresh();std::string error;require(bus.create(session,error),error.c_str());GUID id{};CoCreateGuid(&id);std::memcpy(lease.data(),&id,16);
-                }else if(command.action==link::StageLinkAction::Release){++releases;bus.close();fresh();}
+                }else if(command.action==link::StageLinkAction::Release){
+                    // A consumer's local signal rejection must not fault the publisher.
+                    if(!bus.peerAlive(0))++poisonedReleases;
+                    ++releases;bus.close();fresh();
+                }
                 reply.status=link::StageLinkStatus::Ok;reply.session=session;reply.controlRevision=1;reply.program.required_inputs=3;reply.program.music_program_active=reply.program.analyze_music_final=1;std::memcpy(reply.lease,lease.data(),16);server.complete(reply);
             }
             bus.heartbeat(tick());if(breakSession.exchange(false)){bus.fault();bus.close();fresh();}
@@ -47,6 +52,7 @@ struct Producer {
                 StageBusBlockHeader header{};std::memcpy(header.session_id,request.session_id,16);header.stream_epoch=request.stream_epoch;header.block_sequence=request.block_sequence;header.first_frame=request.first_frame;header.control_revision=request.control_revision;header.frames=1024;header.validity_mask=7;header.qpc_timestamp=tick();
                 std::array<const double*,11> pointers{};
                 for(unsigned c=0;c<11;++c){pointers[c]=samples[c].data();for(unsigned f=0;f<1024;++f)samples[c][f]=f==0?-0.0:double((c+1)*100000+request.block_sequence*1024+f)/10000000.0;}
+                if(nonFiniteBlock.exchange(false))samples[0][1]=std::numeric_limits<double>::quiet_NaN();
                 require(bus.tryPublish(header,pointers.data())==stage::StageBusIoResult::Ok,"Fixture publish failed");
             }
             wait.forDuration(std::chrono::microseconds(100));
@@ -82,6 +88,31 @@ int main(int argc,char** argv) try {
     producer.starved=true;Sleep(40);bool drained=false;for(unsigned i=0;i<8;++i)if(!readAudited())drained=true;
     require(drained,"Starvation must not replay old blocks");producer.starved=false;
     bool resumed=false;auto timeout=GetTickCount64()+2000;while(GetTickCount64()<timeout&&!resumed){resumed=readAudited();Sleep(1);}require(resumed,"Starvation recovery failed");
+    const auto localFaults=input->telemetry().faults;
+    const auto localReleases=producer.releases.load();
+    producer.nonFiniteBlock=true;
+    timeout=GetTickCount64()+6000;
+    while(GetTickCount64()<timeout&&producer.releases==localReleases){readAudited();Sleep(1);}
+    require(input->telemetry().faults>localFaults,"Non-finite block must be rejected locally");
+    require(producer.releases>localReleases,"Local rejection must release its transport lease");
+    require(producer.poisonedReleases==0,"Local rejection poisoned publisher before release");
+    resumed=false;timeout=GetTickCount64()+6000;
+    while(GetTickCount64()<timeout&&!resumed){resumed=readAudited();Sleep(1);}
+    require(resumed,"Local rejection recovery failed");
+    // Repeated consumer replacement must not poison a healthy publisher.
+    for(unsigned restart=0;restart<8;++restart){
+        Sleep(20); // Leave a real queued block in the old receiver generation.
+        input->stop();
+        require(input->telemetry().releaseFailures==0,"Healthy publisher refused clean release");
+        require(producer.poisonedReleases==0,"Clean stop poisoned publisher");
+        producer.starved=true; // New session cannot publish before the stale-read check.
+        require(input->start(endpoint,false),"Consumer restart failed");
+        require(!readAudited(),"Consumer replayed old queued audio before fresh attachment");
+        producer.starved=false;
+        resumed=false;timeout=GetTickCount64()+2000;
+        while(GetTickCount64()<timeout&&!resumed){resumed=readAudited();Sleep(1);}
+        require(resumed,"Consumer restart lost compatible FP64 publisher");
+    }
     const auto generation=input->telemetry().generation;producer.breakSession=true;
     timeout=GetTickCount64()+6000;bool recovered=false;while(GetTickCount64()<timeout&&!recovered){recovered=readAudited()&&input->telemetry().generation>generation;Sleep(1);}require(recovered,"Fresh session recovery failed");
     input->stop();require(producer.releases>0,"Clean stop did not release Stage2 lease");

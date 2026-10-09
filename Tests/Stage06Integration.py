@@ -18,10 +18,12 @@ def main():
     finally:
         if creator.poll() is None:creator.terminate();creator.communicate(timeout=8)
     producer=subprocess.Popen([str(producer_path),'--fixture-server',upstream],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-    core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--profile',str(profile),'--stage2-endpoint',upstream,'--run-seconds','25'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    hidden=subprocess.STARTUPINFO();hidden.dwFlags=subprocess.STARTF_USESHOWWINDOW;hidden.wShowWindow=0
+    core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--profile',str(profile),'--stage2-endpoint',upstream,'--run-seconds','25'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,creationflags=subprocess.CREATE_NEW_CONSOLE,startupinfo=hidden)
     client=None
     try:
         client=Client(endpoint)
+        assert client.call('describe')['data']['consoleAttached'] is False,'Live Core still depends on launcher console lifetime'
         until=time.monotonic()+8
         while time.monotonic()<until:
             data=client.call('telemetry')['data']

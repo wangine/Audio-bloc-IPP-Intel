@@ -7,6 +7,7 @@ Value telemetrySnapshot(const control::ControlPlane& controls,const control::Aud
   LARGE_INTEGER now{},frequency{};QueryPerformanceCounter(&now);QueryPerformanceFrequency(&frequency);
   const bool fresh=s.state==input::State::Receiving&&s.lastBlockQpc&&uint64_t(now.QuadPart)>=s.lastBlockQpc&&uint64_t(now.QuadPart)-s.lastBlockQpc<uint64_t(frequency.QuadPart)/5;
   v["stage2"]=Value::Object{{"received",Value::u64(s.received)},{"consumed",Value::u64(s.consumed)},{"emptyPolls",Value::u64(s.empty)},{"faults",Value::u64(s.faults)},{"generation",Value::u64(s.generation)},{"queued",s.queued},{"producerPid",s.producerPid},{"validityMask",s.validityMask},{"lastBlockQpc",Value::u64(s.lastBlockQpc)},{"metersFresh",fresh}};
+  v["stage2"]["releaseFailures"]=Value::u64(s.releaseFailures);
   if(!fresh){for(const auto key:{"musicPeaks","cinemaPeaks","crossoverPeaks"})for(auto& peak:v[key].asArray())peak=0.0;for(auto& peak:v["matrix"]["peaks"].asArray())peak=0.0;for(auto& peak:v["headroom"]["peaks"].asArray())peak=0.0;if(s.state==input::State::Receiving)v["inputState"]="STAGE2 CONNECTED / WAITING FOR BLOCK";}
  }
  v["scheduler"]=Value::Object{{"callbackWallUs",t.callbackUs},{"maximumCallbackWallUs",t.maxCallbackUs},{"schedulerLatenessUs",t.latenessUs},{"maximumSchedulerLatenessUs",t.maxLatenessUs},{"callbackWallDeadlineMisses",Value::u64(t.misses)},{"faults",t.faults}};

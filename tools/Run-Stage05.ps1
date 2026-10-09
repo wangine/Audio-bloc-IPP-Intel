@@ -94,5 +94,8 @@ try {
     exit 1
 } finally {
     if($uiProcess -and !$uiProcess.HasExited){Stop-Process -Id $uiProcess.Id -ErrorAction SilentlyContinue}
-    if($startedCore -and $coreProcess -and !$coreProcess.HasExited -and ($SmokeTest -or !$ready)){Stop-Process -Id $coreProcess.Id -ErrorAction SilentlyContinue}
+    if($startedCore -and $coreProcess -and !$coreProcess.HasExited){
+        if($SmokeTest){Stop-Process -Id $coreProcess.Id -ErrorAction SilentlyContinue}
+        elseif(!$ready){Write-Host "Core PID $($coreProcess.Id) retained after startup timeout. Use Stop-AudioCore.cmd for safe IPC shutdown."}
+    }
 }
