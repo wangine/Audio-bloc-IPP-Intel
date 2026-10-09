@@ -680,6 +680,7 @@ void EntropyCrossoverAudioProcessor::buildBassLane (
         buildComplexPcaLane (source, destination, samples, feed, pcaState);
         return;
     }
+    pcaState.running = false;
 
     const bool useL = feed == 0 || feed == 1 || feed == 2;
     const bool useR = feed == 0 || feed == 1 || feed == 3;
@@ -732,13 +733,23 @@ void EntropyCrossoverAudioProcessor::buildBassLane (
 void EntropyCrossoverAudioProcessor::resetComplexPca (ComplexPcaLane& lane)
 {
     lane = {};
+    static constexpr std::array<double, 5> boundaries { 40.0, 63.0, 98.0, 152.0, 240.0 };
+    static constexpr std::array<double, 5> centres { 32.0, 50.0, 78.0, 122.0, 190.0 };
+    const double sampleRate = native::jmax (1.0, runtimeSampleRate.load (std::memory_order_relaxed));
+    for (size_t k = 0; k < boundaries.size(); ++k)
+    {
+        lane.lowPassAlpha[k] = -std::expm1 (-native::MathConstants<double>::twoPi * boundaries[k] / sampleRate);
+        lane.envelopeAlpha[k] = -std::expm1 (-native::MathConstants<double>::twoPi * centres[k] * 0.55 / sampleRate);
+        lane.phaseIncrement[k] = native::MathConstants<double>::twoPi * centres[k] / sampleRate;
+    }
+    lane.covarianceAlpha = -std::expm1 (-1.0 / (sampleRate * 0.35));
+    lane.weightAlpha = -std::expm1 (-1.0 / (sampleRate * 0.03));
 }
 
 void EntropyCrossoverAudioProcessor::buildComplexPcaLane (
     const native::AudioBuffer<double>& source, native::AudioBuffer<double>& destination,
     int samples, int feed, ComplexPcaLane& lane)
 {
-    static constexpr std::array<double, 5> centres { 32.0, 50.0, 78.0, 122.0, 190.0 };
     auto* dst = destination.getWritePointer (0);
     const std::array<const double*, 3> inputs {
         source.getReadPointer (0), source.getReadPointer (1), source.getReadPointer (2)
@@ -750,7 +761,30 @@ void EntropyCrossoverAudioProcessor::buildComplexPcaLane (
         feed == 1 || feed == 4
     };
     const int enabledCount = native::jmax (1, (int) enabled[0] + (int) enabled[1] + (int) enabled[2]);
-    const double sampleRate = native::jmax (1.0, runtimeSampleRate.load (std::memory_order_relaxed));
+    const double fixedWeight = 1.0 / (double) enabledCount;
+    const bool cinemaLane = &lane == &cinemaScoopPca;
+    const uint64_t sourceSession = cinemaLane ? 0 : inputMusicSession;
+    const uint64_t sourceGeneration = cinemaLane ? inputCinemaGeneration : inputMusicGeneration;
+    const bool newSource = ! lane.running || lane.sourceSession != sourceSession || lane.sourceGeneration != sourceGeneration;
+    const bool newFeed = lane.feed != feed;
+    if (newSource || newFeed)
+    {
+        // Bounded estimator invalidation only. Coefficients are prepared off the
+        // callback; a feed edit keeps the continuously updated LP histories.
+        for (auto& band : lane.bands)
+        {
+            band.envelope = {}; band.covariance = {}; band.reference = -1;
+            for (int ch = 0; ch < 3; ++ch)
+            {
+                band.eigenvector[(size_t) ch] = enabled[(size_t) ch] ? std::complex<double> (1.0 / std::sqrt ((double) enabledCount), 0.0) : std::complex<double>();
+                if (newSource) band.weights[(size_t) ch] = enabled[(size_t) ch] ? fixedWeight : 0.0;
+            }
+            if (newSource) band.phase = 0.0;
+        }
+        if (newSource) lane.lowPass = {};
+        lane.feed = feed; lane.sourceSession = sourceSession; lane.sourceGeneration = sourceGeneration;
+        lane.running = true;
+    }
 
     // Power iteration on the smoothed complex covariance finds the dominant
     // coherent L/R/C component in each band. Aligning the new eigenvector to
@@ -759,26 +793,46 @@ void EntropyCrossoverAudioProcessor::buildComplexPcaLane (
     {
         auto old = band.eigenvector;
         auto v = old;
+        double trace = 0.0, maximumEnergy = 0.0;
         for (int ch = 0; ch < 3; ++ch)
-            if (! enabled[(size_t) ch]) v[(size_t) ch] = {};
-        for (int iteration = 0; iteration < 4; ++iteration)
-        {
-            std::array<std::complex<double>, 3> next {};
-            for (int row = 0; row < 3; ++row)
-                if (enabled[(size_t) row])
-                    for (int column = 0; column < 3; ++column)
-                        next[(size_t) row] += band.covariance[(size_t) row][(size_t) column] * v[(size_t) column];
-            double norm = 0.0;
-            for (const auto& value : next) norm += std::norm (value);
-            norm = std::sqrt (norm);
-            if (norm < 1.0e-12)
+            if (enabled[(size_t) ch])
             {
-                for (int ch = 0; ch < 3; ++ch)
-                    next[(size_t) ch] = enabled[(size_t) ch] ? std::complex<double> (1.0 / std::sqrt ((double) enabledCount), 0.0) : std::complex<double>();
+                const double energy = native::jmax (0.0, band.covariance[(size_t) ch][(size_t) ch].real());
+                trace += energy;
+                maximumEnergy = native::jmax (maximumEnergy, energy);
             }
-            else
+        // Retaining only the old seed can lock on a nonprincipal eigenvector
+        // after coherent polarity changes. Compare bounded four-step iterations
+        // from it and each selected coordinate; retain the best Rayleigh value.
+        double bestEnergy = -1.0;
+        for (int seed = -1; seed < 3; ++seed)
+        {
+            if (seed >= 0 && ! enabled[(size_t) seed]) continue;
+            auto candidate = seed < 0 ? old : std::array<std::complex<double>, 3> {};
+            if (seed >= 0) candidate[(size_t) seed] = 1.0;
+            for (size_t ch = 0; ch < 3; ++ch)
+                if (! enabled[ch]) candidate[ch] = {};
+            for (int iteration = 0; iteration < 4; ++iteration)
+            {
+                std::array<std::complex<double>, 3> next {};
+                for (size_t row = 0; row < 3; ++row)
+                    if (enabled[row])
+                        for (size_t column = 0; column < 3; ++column)
+                            if (enabled[column]) next[row] += band.covariance[row][column] * candidate[column];
+                double norm = 0.0;
+                for (const auto& value : next) norm += std::norm (value);
+                norm = std::sqrt (norm);
+                if (norm < 1.0e-24) break;
                 for (auto& value : next) value /= norm;
-            v = next;
+                candidate = next;
+            }
+            double energy = 0.0;
+            for (size_t row = 0; row < 3; ++row)
+                if (enabled[row])
+                    for (size_t column = 0; column < 3; ++column)
+                        if (enabled[column]) energy += (std::conj (candidate[row]) * band.covariance[row][column] * candidate[column]).real();
+            if (energy > bestEnergy + native::jmax (1.0e-24, trace * 1.0e-12))
+            { bestEnergy = energy; v = candidate; }
         }
         std::complex<double> continuity {};
         for (int ch = 0; ch < 3; ++ch) continuity += std::conj (old[(size_t) ch]) * v[(size_t) ch];
@@ -788,43 +842,94 @@ void EntropyCrossoverAudioProcessor::buildComplexPcaLane (
             for (auto& value : v) value *= rotation;
         }
         band.eigenvector = v;
+        // Keep the first usable reference until it is below 1% of the strongest
+        // channel energy. Targets are computed once per block, never per sample.
+        const double referenceFloor = native::jmax (1.0e-24, maximumEnergy * 0.01);
+        if (band.reference < 0 || ! enabled[(size_t) band.reference]
+            || band.covariance[(size_t) band.reference][(size_t) band.reference].real() < referenceFloor)
+        {
+            band.reference = -1;
+            for (int ch = 0; ch < 3; ++ch)
+                if (enabled[(size_t) ch] && band.covariance[(size_t) ch][(size_t) ch].real() >= referenceFloor)
+                { band.reference = ch; break; }
+        }
+        std::array<double, 3> q {};
+        double denominator = 0.0, lambda = 0.0;
+        for (int row = 0; row < 3; ++row)
+            if (enabled[(size_t) row])
+            {
+                std::complex<double> rv {};
+                for (int col = 0; col < 3; ++col)
+                    if (enabled[(size_t) col]) rv += band.covariance[(size_t) row][(size_t) col] * v[(size_t) col];
+                lambda += (std::conj (v[(size_t) row]) * rv).real();
+                if (band.reference >= 0)
+                {
+                    const auto ref = v[(size_t) band.reference];
+                    const double amplitude = std::abs (v[(size_t) row]);
+                    q[(size_t) row] = amplitude * (v[(size_t) row] * std::conj (ref)).real()
+                        / native::jmax (1.0e-24, amplitude * std::abs (ref));
+                    denominator += std::abs (q[(size_t) row]);
+                }
+            }
+        const double coherence = enabledCount == 1 ? 1.0 : native::jlimit (0.0, 1.0,
+            (lambda / native::jmax (1.0e-24, trace) - fixedWeight) / (1.0 - fixedWeight));
+        const double confidence = coherence * trace / (trace + 1.0e-16);
+        for (int ch = 0; ch < 3; ++ch)
+            band.targetWeights[(size_t) ch] = enabled[(size_t) ch]
+                ? (1.0 - confidence) * fixedWeight + confidence * (denominator > 1.0e-12 ? q[(size_t) ch] / denominator : fixedWeight)
+                : 0.0;
     }
 
-    std::fill (dst, dst + samples, 0.0);
-    const double covarianceAlpha = 1.0 - std::exp (-1.0 / (sampleRate * 0.35));
-    for (size_t bandIndex = 0; bandIndex < lane.bands.size(); ++bandIndex)
+    for (int i = 0; i < samples; ++i)
     {
-        auto& band = lane.bands[bandIndex];
-        const double centre = centres[bandIndex];
-        const double envelopeAlpha = 1.0 - std::exp (-native::MathConstants<double>::twoPi * centre * 0.55 / sampleRate);
-        const double phaseIncrement = native::MathConstants<double>::twoPi * centre / sampleRate;
-        for (int i = 0; i < samples; ++i)
+        std::array<double, 3> previousLowPass {};
+        double output = 0.0;
+        for (size_t k = 0; k < lane.bands.size(); ++k)
         {
+            auto& band = lane.bands[k];
+            // Existing complex analysis is an estimator only. All three inputs
+            // stay current, even when excluded from the active spatial feed.
             const std::complex<double> oscillator (std::cos (band.phase), -std::sin (band.phase));
-            for (int ch = 0; ch < 3; ++ch)
+            for (size_t ch = 0; ch < 3; ++ch)
             {
-                const std::complex<double> target = enabled[(size_t) ch] ? inputs[(size_t) ch][i] * oscillator : std::complex<double>();
-                band.envelope[(size_t) ch] += envelopeAlpha * (target - band.envelope[(size_t) ch]);
+                const auto target = inputs[ch][i] * oscillator;
+                band.envelope[ch] += lane.envelopeAlpha[k] * (target - band.envelope[ch]);
             }
-            for (int row = 0; row < 3; ++row)
-                for (int column = 0; column < 3; ++column)
+            for (size_t row = 0; row < 3; ++row)
+                for (size_t column = 0; column < 3; ++column)
                 {
-                    const auto observation = band.envelope[(size_t) row] * std::conj (band.envelope[(size_t) column]);
-                    band.covariance[(size_t) row][(size_t) column] += covarianceAlpha * (observation - band.covariance[(size_t) row][(size_t) column]);
+                    const auto observation = band.envelope[row] * std::conj (band.envelope[column]);
+                    band.covariance[row][column] += lane.covarianceAlpha * (observation - band.covariance[row][column]);
                 }
-
-            std::complex<double> principal {};
-            for (int ch = 0; ch < 3; ++ch)
-                if (enabled[(size_t) ch])
-                {
-                    principal += std::conj (band.eigenvector[(size_t) ch]) * band.envelope[(size_t) ch];
-                }
-            const auto carrier = std::conj (oscillator);
-            const double pcaSample = 2.0 * (principal * carrier).real() / std::sqrt ((double) enabledCount);
-            dst[i] += pcaSample;
-            band.phase += phaseIncrement;
+            band.phase += lane.phaseIncrement[k];
             if (band.phase >= native::MathConstants<double>::twoPi) band.phase -= native::MathConstants<double>::twoPi;
+
+            std::array<double, 3> weights {};
+            double denominator = 0.0;
+            for (size_t ch = 0; ch < 3; ++ch)
+            {
+                band.weights[ch] += lane.weightAlpha * (band.targetWeights[ch] - band.weights[ch]);
+                weights[ch] = enabled[ch] ? band.weights[ch] : 0.0;
+                denominator += std::abs (weights[ch]);
+            }
+            for (size_t ch = 0; ch < 3; ++ch)
+            {
+                auto& lp = lane.lowPass[k][ch];
+                lp[0] += lane.lowPassAlpha[k] * (inputs[ch][i] - lp[0]);
+                lp[1] += lane.lowPassAlpha[k] * (lp[0] - lp[1]);
+                const double subband = lp[1] - previousLowPass[ch];
+                previousLowPass[ch] = lp[1];
+                if (enabled[ch])
+                {
+                    const double w = enabledCount == 1 || denominator < 1.0e-12
+                        ? fixedWeight : weights[ch] / denominator;
+                    output += w * subband;
+                }
+            }
         }
+        for (size_t ch = 0; ch < 3; ++ch)
+            if (enabled[ch]) output += fixedWeight * (inputs[ch][i] - previousLowPass[ch]);
+        dst[i] = output;
     }
 
 }
@@ -920,7 +1025,10 @@ void EntropyCrossoverAudioProcessor::processBlock (native::AudioBuffer<double>& 
     buildBassLane (inputScratch, bassLaneScratch, samples, bassFeed, bassExtractor,
                    bassRightPolarity, bassCenterPolarity, bassPca);
     if (linkMode >= 2)
+    {
+        scoopPca.running = false; // Invalidate the independent estimator while unused.
         scoopLaneScratch.copyFrom (0, 0, bassLaneScratch, 0, 0, samples);
+    }
     else
         buildBassLane (inputScratch, scoopLaneScratch, samples, scoopFeed, scoopExtractor,
                        scoopRightPolarity, scoopCenterPolarity, scoopPca);

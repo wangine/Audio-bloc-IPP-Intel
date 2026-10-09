@@ -1,0 +1,287 @@
+{
+  "candidate": "0.1.4",
+  "baselineTag": "v0.1.3",
+  "baselineCommit": "ebd114e3e293f614cfeaae634fc103114f254105",
+  "pcaAcceptance": "PASS",
+  "fragmentPcmOverrange": "FAIL",
+  "rankOneBefore": [
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 32,
+      "gain": 3.486089548468406,
+      "gainDb": 10.846770775996937,
+      "peak": 0.4357611830697323,
+      "phaseDegrees": 4.092571219652287
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 50,
+      "gain": 3.5649641554471403,
+      "gainDb": 11.041103350406923,
+      "peak": 0.44562043855473793,
+      "phaseDegrees": -8.56576956363097
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 78,
+      "gain": 3.3584316743499603,
+      "gainDb": 10.522730344314724,
+      "peak": 0.41980395902268874,
+      "phaseDegrees": -19.719191028746913
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 122,
+      "gain": 3.060444912560001,
+      "gainDb": 9.715691333710968,
+      "peak": 0.3825556140638813,
+      "phaseDegrees": -31.39157422696563
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 190,
+      "gain": 2.6710006905097465,
+      "gainDb": 8.533480005912548,
+      "peak": 0.33387508593805615,
+      "phaseDegrees": -46.59646795905464
+    }
+  ],
+  "rankOneAfter": [
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 32,
+      "gain": 0.9999999999999989,
+      "gainDb": -9.643274665532877e-15,
+      "peak": 0.12500000000000003,
+      "phaseDegrees": 2.1390901007619913e-15
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 50,
+      "gain": 1.000000000000004,
+      "gainDb": 3.4715788795918267e-14,
+      "peak": 0.12500000000000003,
+      "phaseDegrees": -1.5587662178225666e-15
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 78,
+      "gain": 1.0000000000000069,
+      "gainDb": 5.97883029263036e-14,
+      "peak": 0.125,
+      "phaseDegrees": 8.822102372839758e-16
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 122,
+      "gain": 1.0000000000000069,
+      "gainDb": 5.97883029263036e-14,
+      "peak": 0.125,
+      "phaseDegrees": 1.913970735478979e-15
+    },
+    {
+      "directLrMaxAbsError": 0,
+      "frequencyHz": 190,
+      "gain": 1.0000000000000056,
+      "gainDb": 4.821637332766422e-14,
+      "peak": 0.125,
+      "phaseDegrees": -1.6453303402864825e-15
+    }
+  ],
+  "edgeCases": [
+    {
+      "case": "linked L=R impulse",
+      "maxAbsError": 5.421010862427522e-20
+    },
+    {
+      "case": "linked L=-R 50Hz",
+      "gainDb": -0.36903783370097093,
+      "peak": 0.11980035896500477,
+      "phaseDegrees": -23.44295058238551,
+      "unityExpected": false
+    },
+    {
+      "case": "independent MUSIC Sub/Scoop",
+      "directLrcBitExact": true,
+      "feed": 1,
+      "maxAbsError": 2.7755575615628914e-17
+    },
+    {
+      "case": "independent MUSIC Sub/Scoop",
+      "directLrcBitExact": true,
+      "feed": 2,
+      "maxAbsError": 1.3877787807814457e-17
+    },
+    {
+      "case": "independent MUSIC Sub/Scoop",
+      "directLrcBitExact": true,
+      "feed": 3,
+      "maxAbsError": 2.7755575615628914e-17
+    },
+    {
+      "case": "independent MUSIC Sub/Scoop",
+      "directLrcBitExact": true,
+      "feed": 4,
+      "maxAbsError": 5.551115123125783e-17
+    },
+    {
+      "case": "CINEMA Scoop L=R=C, SUB direct LFE",
+      "directLrcBitExact": true,
+      "feed": 1,
+      "maxAbsError": 2.7755575615628914e-17
+    }
+  ],
+  "replayBefore": {
+    "captureSeconds": 6,
+    "clockModel": "independent nominal 192k clocks; no hardware scheduling or live phase reconstruction",
+    "coverage": "Headroom covers full capture; ClockSync covers rendered subset after preroll, with buffered tail unflushed. RMS differences are not a gain measurement.",
+    "directLrcSampleHash": "12771570129609610592",
+    "domains": [
+      {
+        "clockRenderedFrames": "1146880",
+        "id": "DAC A",
+        "pcmClippedBlocks": "714",
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "379313",
+        "pcmRailClampSamples": "0",
+        "postClockSync": {
+          "overrangeSamples": "379313",
+          "peak": 2.7547460817300093,
+          "rms": 0.35866836669012514,
+          "samples": "9175040"
+        },
+        "postHeadroom": {
+          "overrangeSamples": "380799",
+          "peak": 2.7547460817300093,
+          "rms": 0.358390310961689,
+          "samples": "9216000"
+        },
+        "preHeadroom": {
+          "overrangeSamples": "380799",
+          "peak": 2.7547460817300093,
+          "rms": 0.358390310961689,
+          "samples": "9216000"
+        }
+      },
+      {
+        "clockRenderedFrames": "1146880",
+        "id": "DAC B",
+        "pcmClippedBlocks": "0",
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmRailClampSamples": "0",
+        "postClockSync": {
+          "overrangeSamples": "0",
+          "peak": 0.8374289251515186,
+          "rms": 0.1037360578443483,
+          "samples": "9175040"
+        },
+        "postHeadroom": {
+          "overrangeSamples": "0",
+          "peak": 0.8374289251515186,
+          "rms": 0.10365117816866949,
+          "samples": "9216000"
+        },
+        "preHeadroom": {
+          "overrangeSamples": "0",
+          "peak": 0.8374289251515186,
+          "rms": 0.10365117816866949,
+          "samples": "9216000"
+        }
+      }
+    ],
+    "graphFrames": 1152000,
+    "headroomMode": 1,
+    "layerWindowsIdentical": false,
+    "manualControlDb": -3,
+    "prePostHeadroomMaxDifference": 0,
+    "profileChanged": false,
+    "scoopOutputPeak": 0.8374289251515186,
+    "status": "FAIL POST-HEADROOM/PCM OVERRANGE",
+    "subOutputPeak": 2.7547460817300093
+  },
+  "replayAfter": {
+    "captureSeconds": 6,
+    "clockModel": "independent nominal 192k clocks; no hardware scheduling or live phase reconstruction",
+    "coverage": "Headroom covers full capture; ClockSync covers rendered subset after preroll, with buffered tail unflushed. RMS differences are not a gain measurement.",
+    "directLrcSampleHash": "12771570129609610592",
+    "domains": [
+      {
+        "clockRenderedFrames": "1146880",
+        "id": "DAC A",
+        "pcmClippedBlocks": "16",
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "1310",
+        "pcmRailClampSamples": "0",
+        "postClockSync": {
+          "overrangeSamples": "1310",
+          "peak": 1.4795621855186922,
+          "rms": 0.17300191139067161,
+          "samples": "9175040"
+        },
+        "postHeadroom": {
+          "overrangeSamples": "1310",
+          "peak": 1.4795621855186922,
+          "rms": 0.17288937116010103,
+          "samples": "9216000"
+        },
+        "preHeadroom": {
+          "overrangeSamples": "1310",
+          "peak": 1.4795621855186922,
+          "rms": 0.17288937116010103,
+          "samples": "9216000"
+        }
+      },
+      {
+        "clockRenderedFrames": "1146880",
+        "id": "DAC B",
+        "pcmClippedBlocks": "0",
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmRailClampSamples": "0",
+        "postClockSync": {
+          "overrangeSamples": "0",
+          "peak": 0.263313985891418,
+          "rms": 0.03464685974285739,
+          "samples": "9175040"
+        },
+        "postHeadroom": {
+          "overrangeSamples": "0",
+          "peak": 0.263313985891418,
+          "rms": 0.03461379791330062,
+          "samples": "9216000"
+        },
+        "preHeadroom": {
+          "overrangeSamples": "0",
+          "peak": 0.263313985891418,
+          "rms": 0.03461379791330062,
+          "samples": "9216000"
+        }
+      }
+    ],
+    "graphFrames": 1152000,
+    "headroomMode": 1,
+    "layerWindowsIdentical": false,
+    "manualControlDb": -3,
+    "prePostHeadroomMaxDifference": 0,
+    "profileChanged": false,
+    "scoopOutputPeak": 0.263313985891418,
+    "status": "FAIL POST-HEADROOM/PCM OVERRANGE",
+    "subOutputPeak": 0.8130023144141924
+  },
+  "directLrcReplayHashIdentical": true,
+  "hardwareOpened": false,
+  "liveProfileChanged": false,
+  "fullSuiteRun": false,
+  "sourceSha256": {
+    "DSP/Crossover/src/PluginProcessor.cpp": "160b8617ceafc265ff97f068bb0d392a7d9cabf19e250e54376460be42b9304e",
+    "DSP/Crossover/include/PluginProcessor.h": "9b0a4ab2eb36af002267f186e28a6748bc7cc0184a787c4d4c316ee84c774d45",
+    "Tests/Stage013CrossoverEvidence.cpp": "83e81e6cd95ad3f85f8304597e6b88761eea67d842aa42f1b367f123a54c0c70"
+  },
+  "coreSha256": "C1871A96B8CF3C45A11EBEABB235888436A3E4EB410F7A948B31735086605CD9",
+  "rawCaptureSha256": "23d1753c91fa203a8cc5471b60014bb79f1d93ce5766c982a33ebc23786cf018"
+}

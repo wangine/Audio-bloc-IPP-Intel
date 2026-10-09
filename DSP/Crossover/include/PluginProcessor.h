@@ -220,10 +220,19 @@ private:
             std::complex<double> (0.5773502691896258, 0.0)
         };
         double phase = 0.0;
+        std::array<double, 3> weights {};
+        std::array<double, 3> targetWeights {};
+        int reference = -1;
     };
     struct ComplexPcaLane
     {
         std::array<ComplexPcaBand, 5> bands;
+        std::array<std::array<std::array<double, 2>, 3>, 5> lowPass {};
+        std::array<double, 5> lowPassAlpha {}, envelopeAlpha {}, phaseIncrement {};
+        double covarianceAlpha = 0.0, weightAlpha = 0.0;
+        uint64_t sourceSession = 0, sourceGeneration = 0;
+        int feed = -1;
+        bool running = false;
     };
     void resetComplexPca (ComplexPcaLane&);
     void buildComplexPcaLane (const native::AudioBuffer<double>& source, native::AudioBuffer<double>& destination,
