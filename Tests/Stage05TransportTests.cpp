@@ -20,6 +20,13 @@ int main(){try{
  Framer parser;parser.push(data);auto responses=parser.take();require(responses.size()==1&&responses[0].payload==request.payload&&responses[0].requestId==71,"transport payload/correlation");
  Sleep(5500);require(disconnects.load()==1,"idle controlling peer lease was not revoked");
  CloseHandle(client);server.stop();require(disconnects.load()==1,"disconnect callback");
+ require(server.start(endpoint,[](const Frame& f){if(f.requestId==71)Sleep(5600);return f;},{},error),"long command ownership");
+ client=CreateFileW(path.c_str(),GENERIC_READ|GENERIC_WRITE,0,nullptr,OPEN_EXISTING,0,nullptr);require(client!=INVALID_HANDLE_VALUE,"long command connection");
+ auto roundTrip=[&](uint32_t id){auto f=request;f.requestId=id;auto sent=encode(f);require(WriteFile(client,sent.data(),DWORD(sent.size()),&count,nullptr)&&count==sent.size(),"long command send");
+  std::array<unsigned char,16> h{};size_t off=0;while(off<h.size()){require(ReadFile(client,h.data()+off,DWORD(h.size()-off),&count,nullptr)&&count,"long command header read: handler time consumed idle lease");off+=count;}
+  const auto n=load32(h.data()+4);std::vector<unsigned char> response(h.begin(),h.end());response.resize(n);while(off<n){require(ReadFile(client,response.data()+off,DWORD(n-off),&count,nullptr)&&count,"long command body read");off+=count;}
+  Framer p;p.push(response);auto result=p.take();require(result.size()==1&&result[0].requestId==id&&result[0].payload==f.payload,"long command reply");};
+ roundTrip(71);roundTrip(72);CloseHandle(client);server.stop();
  require(server.start(endpoint,[](const Frame& f){return f;},{},error),"restart ownership");server.stop();
  require(server.start(endpoint,[&](const Frame& f){server.requestStopAfterReply();return f;},{},error),"shutdown drain ownership");
  client=CreateFileW(path.c_str(),GENERIC_READ|GENERIC_WRITE,0,nullptr,OPEN_EXISTING,0,nullptr);require(client!=INVALID_HANDLE_VALUE,"shutdown drain connection");

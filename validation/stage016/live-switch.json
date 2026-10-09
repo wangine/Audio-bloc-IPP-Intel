@@ -1,0 +1,276 @@
+[
+  {
+    "action": "arm",
+    "fields": {},
+    "reply": {
+      "data": {
+        "physicalArmed": false,
+        "preflight": {
+          "cacheHit": false,
+          "deadlineMisses": 0,
+          "deadlineUs": 5333.333333333333,
+          "frames": 1024,
+          "iterations": 1000,
+          "maximumOutputPeak": 0.0010836885777659863,
+          "maximumUs": 3163.7,
+          "medianUs": 936,
+          "mmcssPriorityCritical": true,
+          "mmcssRegistered": true,
+          "p99Us": 1270.4,
+          "program": 0,
+          "source": "independent offline copy; no live histories advanced",
+          "sourceWarmupBlocks": 0,
+          "transitionBlocks": 0,
+          "transitionDeadlineMisses": 0,
+          "transitionMaximumOutputPeak": 0,
+          "transitionMaximumUs": 0,
+          "transitionMedianUs": 0,
+          "validationRun": "1",
+          "warmupBlocks": 940
+        },
+        "status": "ARMING"
+      },
+      "ok": true
+    }
+  },
+  {
+    "action": "program",
+    "fields": {
+      "program": 1
+    },
+    "reply": {
+      "data": {
+        "accepted": "3",
+        "preflight": {
+          "cacheHit": false,
+          "deadlineMisses": 0,
+          "deadlineUs": 5333.333333333333,
+          "frames": 1024,
+          "iterations": 1000,
+          "maximumOutputPeak": 0.0012782476628597134,
+          "maximumUs": 1456.5,
+          "medianUs": 629.4,
+          "mmcssPriorityCritical": true,
+          "mmcssRegistered": true,
+          "p99Us": 942.5,
+          "program": 1,
+          "source": "independent offline copy; no live histories advanced",
+          "sourceWarmupBlocks": 940,
+          "transitionBlocks": 20,
+          "transitionDeadlineMisses": 0,
+          "transitionMaximumOutputPeak": 0.0012782476628597202,
+          "transitionMaximumUs": 1626.8,
+          "transitionMedianUs": 917,
+          "validationRun": "2",
+          "warmupBlocks": 940
+        }
+      },
+      "ok": true
+    }
+  },
+  {
+    "observed": {
+      "program": 1,
+      "crossoverAccepted": "3",
+      "crossoverApplied": "3",
+      "armed": true,
+      "armPending": false,
+      "liveFault": false,
+      "blocks": "6539"
+    },
+    "domains": [
+      {
+        "id": "DAC A",
+        "state": "RUNNING",
+        "physicalSinkOpen": true,
+        "channels": 8,
+        "rate": 192000,
+        "format": 1,
+        "xruns": "0",
+        "deadlineMisses": "0",
+        "faults": 0,
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmClippedBlocks": "0",
+        "nonzeroPcmBlocks": "484"
+      },
+      {
+        "id": "DAC B",
+        "state": "RUNNING",
+        "physicalSinkOpen": true,
+        "channels": 8,
+        "rate": 192000,
+        "format": 1,
+        "xruns": "0",
+        "deadlineMisses": "0",
+        "faults": 0,
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmClippedBlocks": "0",
+        "nonzeroPcmBlocks": "484"
+      }
+    ]
+  },
+  {
+    "action": "program",
+    "fields": {
+      "program": 0
+    },
+    "reply": {
+      "data": {
+        "accepted": "4",
+        "preflight": {
+          "cacheHit": false,
+          "deadlineMisses": 0,
+          "deadlineUs": 5333.333333333333,
+          "frames": 1024,
+          "iterations": 1000,
+          "maximumOutputPeak": 0.0010836885777659863,
+          "maximumUs": 2394.5,
+          "medianUs": 957,
+          "mmcssPriorityCritical": true,
+          "mmcssRegistered": true,
+          "p99Us": 1384.3,
+          "program": 0,
+          "source": "independent offline copy; no live histories advanced",
+          "sourceWarmupBlocks": 940,
+          "transitionBlocks": 20,
+          "transitionDeadlineMisses": 0,
+          "transitionMaximumOutputPeak": 0.000897706126692741,
+          "transitionMaximumUs": 1801.8,
+          "transitionMedianUs": 1079.75,
+          "validationRun": "3",
+          "warmupBlocks": 940
+        }
+      },
+      "ok": true
+    }
+  },
+  {
+    "observed": {
+      "program": 0,
+      "crossoverAccepted": "4",
+      "crossoverApplied": "4",
+      "armed": true,
+      "armPending": false,
+      "liveFault": false,
+      "blocks": "7073"
+    },
+    "domains": [
+      {
+        "id": "DAC A",
+        "state": "RUNNING",
+        "physicalSinkOpen": true,
+        "channels": 8,
+        "rate": 192000,
+        "format": 1,
+        "xruns": "0",
+        "deadlineMisses": "0",
+        "faults": 0,
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmClippedBlocks": "0",
+        "nonzeroPcmBlocks": "1018"
+      },
+      {
+        "id": "DAC B",
+        "state": "RUNNING",
+        "physicalSinkOpen": true,
+        "channels": 8,
+        "rate": 192000,
+        "format": 1,
+        "xruns": "0",
+        "deadlineMisses": "0",
+        "faults": 0,
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmClippedBlocks": "0",
+        "nonzeroPcmBlocks": "1018"
+      }
+    ]
+  },
+  {
+    "action": "program",
+    "fields": {
+      "program": 1
+    },
+    "reply": {
+      "data": {
+        "accepted": "5",
+        "preflight": {
+          "cacheHit": false,
+          "deadlineMisses": 0,
+          "deadlineUs": 5333.333333333333,
+          "frames": 1024,
+          "iterations": 1000,
+          "maximumOutputPeak": 0.0012782476628597134,
+          "maximumUs": 2207.9,
+          "medianUs": 640.8499999999999,
+          "mmcssPriorityCritical": true,
+          "mmcssRegistered": true,
+          "p99Us": 939.8,
+          "program": 1,
+          "source": "independent offline copy; no live histories advanced",
+          "sourceWarmupBlocks": 940,
+          "transitionBlocks": 20,
+          "transitionDeadlineMisses": 0,
+          "transitionMaximumOutputPeak": 0.0012782476628597202,
+          "transitionMaximumUs": 1915.1,
+          "transitionMedianUs": 829.45,
+          "validationRun": "4",
+          "warmupBlocks": 940
+        }
+      },
+      "ok": true
+    }
+  },
+  {
+    "observed": {
+      "program": 1,
+      "crossoverAccepted": "5",
+      "crossoverApplied": "5",
+      "armed": true,
+      "armPending": false,
+      "liveFault": false,
+      "blocks": "7550"
+    },
+    "domains": [
+      {
+        "id": "DAC A",
+        "state": "RUNNING",
+        "physicalSinkOpen": true,
+        "channels": 8,
+        "rate": 192000,
+        "format": 1,
+        "xruns": "0",
+        "deadlineMisses": "0",
+        "faults": 0,
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmClippedBlocks": "0",
+        "nonzeroPcmBlocks": "1494"
+      },
+      {
+        "id": "DAC B",
+        "state": "RUNNING",
+        "physicalSinkOpen": true,
+        "channels": 8,
+        "rate": 192000,
+        "format": 1,
+        "xruns": "0",
+        "deadlineMisses": "0",
+        "faults": 0,
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmClippedBlocks": "0",
+        "nonzeroPcmBlocks": "1495"
+      }
+    ]
+  }
+]

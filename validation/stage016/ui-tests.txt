@@ -1,0 +1,11 @@
+Initial invocation with explicit empty mode: exit=1 (unsupported test argument; default no-argument invocation subsequently PASS, see ui-default.txt).
+PASS Qt bounded long preflight plus queued telemetry, no premature disconnect
+mode=program exit=0
+PASS Qt bounded long preflight plus queued telemetry, no premature disconnect
+mode=parameter exit=0
+PASS Qt bounded long preflight plus queued telemetry, no premature disconnect
+mode=parameters exit=0
+refresh row=1
+exact second endpoint format=1
+PASS Qt selected endpoint survives refresh/reorder; DAC B exact formats from resolved identity; IPC only
+uiExit=0

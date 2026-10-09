@@ -49,7 +49,7 @@ int runControlServer(int argc,char** argv) try {
    else if(action=="approve-binding"||action=="clear-binding"){sinkWorkers.stop();scheduler.disarm();data=deviceCommand(request,true);}
    else if(action=="configure-devices"){sinkWorkers.stop();scheduler.disarm();data=deviceCommand(request,false);}
    else if(action=="offline-arm"){if(!offlineSinks)throw std::invalid_argument("Offline sink fixture not enabled");auto state=controls.appliedState();if(state.mode!=ENTROPY_HEADROOM_MODE_MANUAL_SAFE||state.manualGainDb>-6)throw std::invalid_argument("Offline fixture requires explicit safe Headroom policy");scheduler.stop();try{sinkWorkers.start();}catch(...){scheduler.start();throw;}scheduler.start();data=J::Object{{"offlineArmed",true},{"physicalArmed",false}};}
-   else if(action=="preflight-live") {if(profileRequired)throw std::invalid_argument("Load a profile first");lastPreflight=preflightCache.run(controls);data=lastPreflight;}
+   else if(action=="preflight-live") {if(profileRequired)throw std::invalid_argument("Load a profile first");lastPreflight=preflightCache.run(controls,request.contains("change")?request.at("change"):J{});data=lastPreflight;}
    else if(action=="arm") {
     if(!liveGate&&!authorizedLiveTest)throw std::invalid_argument("Physical ARM BLOCKED: Stage04 live offline gate missing/stale; no sink opened");
     if(profileRequired||stage2->telemetry().state!=input::State::Receiving)throw std::invalid_argument("Validated profile and active FP64 input transport required");
@@ -80,7 +80,18 @@ int runControlServer(int argc,char** argv) try {
     try{if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));loaded.parameters.renderLaneMask=configuredMask();controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));if(profileRequired&&stage2Enabled&&!stage2->start(stage2Endpoint,stage2Endpoint.empty()))throw std::runtime_error("Stage2 input worker start failed");profileRequired=false;profileError.clear();initialProfile=request.at("path").asString();scheduler.start();}
     catch(...){devices.restore(oldDevices);controls.crossover().importBytes(old);controls.replace(state);controls.atBlockBoundary();controls.afterBlock();scheduler.start();throw;}
     data=J::Object{{"status","LOADED"},{"devices",devices.snapshot()}};
-   }else {if(liveWorkers.engaged()&&!liveCrossoverChangeAllowed(controls.crossover().snapshot(),request))throw std::invalid_argument("DISARM before changing saved MUSIC/CINEMA scenes or selecting FIR8193 x16; then run profile preflight and ARM");if(profileRequired)throw std::invalid_argument("Create or load a validated profile first");auto sequence=controls.execute(request);lastPreflight=J{};data=J::Object{{"accepted",J::u64(sequence)}};}
+   }else {
+    if(profileRequired)throw std::invalid_argument("Create or load a validated profile first");
+    J scenePreflight;
+    if(liveWorkers.engaged()){
+     if(liveSceneChangeRequested(request))scenePreflight=preflightCache.run(controls,request);
+     else if(!liveCrossoverChangeAllowed(controls.crossover().snapshot(),request))throw std::invalid_argument("FIR8193 x16 is not authorized for live; DISARM before changing this configuration");
+    }
+    // The same native command path publishes the validated target snapshot.
+    // The graph adopts it at a block boundary; no sink, clock or FIFO restarts.
+    auto sequence=controls.execute(request);lastPreflight=scenePreflight;data=J::Object{{"accepted",J::u64(sequence)}};
+    if(!scenePreflight.isNull())data["preflight"]=scenePreflight;
+   }
    reply=J::Object{{"ok",true},{"data",std::move(data)}};
   }catch(const std::exception& e){reply=J::Object{{"ok",false},{"error",e.what()}};}
   reply["session"]=J::u64(session);ipc::Frame response{frame.command,frame.requestId,ipc::dump(reply)};if(replies.size()==128)replies.pop_front();replies.push_back({frame,response});return response;

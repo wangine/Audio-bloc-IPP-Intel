@@ -73,6 +73,10 @@ void CommandServer::worker() noexcept {
                         started=WriteFile(pipe_,encoded.data()+done,DWORD(encoded.size()-done),&count,&op)!=FALSE;
                         if(!await(pipe_,stop_,op,count,started,kControlLeaseMs)||!count)throw std::runtime_error("Peer disconnected");done+=count;
                     }
+                    // The lease measures peer inactivity, not time spent in a
+                    // bounded Core handler (e.g. independent scene preflight).
+                    // Keep the same five-second idle and write timeout gates.
+                    lastTraffic=GetTickCount64();
                     if(stopAfterReply_)break; // Do not discard buffered reply with DisconnectNamedPipe.
                 }
             }

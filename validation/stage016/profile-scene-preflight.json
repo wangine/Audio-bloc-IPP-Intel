@@ -1,0 +1,27 @@
+{
+  "data": {
+    "cacheHit": false,
+    "deadlineMisses": 0,
+    "deadlineUs": 5333.333333333333,
+    "frames": 1024,
+    "iterations": 1000,
+    "maximumOutputPeak": 0.0012782476628597134,
+    "maximumUs": 2395.6,
+    "medianUs": 651.0999999999999,
+    "mmcssPriorityCritical": true,
+    "mmcssRegistered": true,
+    "p99Us": 878.7,
+    "program": 1,
+    "source": "independent offline copy; no live histories advanced",
+    "sourceWarmupBlocks": 940,
+    "transitionBlocks": 20,
+    "transitionDeadlineMisses": 0,
+    "transitionMaximumOutputPeak": 0.0012782476628597202,
+    "transitionMaximumUs": 1713.8,
+    "transitionMedianUs": 799.8,
+    "validationRun": "1",
+    "warmupBlocks": 940
+  },
+  "ok": true,
+  "session": "60074063"
+}
