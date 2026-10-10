@@ -1,0 +1,9 @@
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+Stage020TapAccess.cpp
+Tests/Stage020TapAccess.cpp(4): error C2039: 'crossoverOutput': is not a member of 'entropy::engine::GraphControlAccess'
+.\Engine/Control/GraphControlAccess.h(5): note: see declaration of 'entropy::engine::GraphControlAccess'
+Tests/Stage020TapAccess.cpp(4): error C3861: 'crossoverOutput': identifier not found

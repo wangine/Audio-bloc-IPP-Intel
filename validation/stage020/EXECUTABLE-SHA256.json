@@ -1,0 +1,14 @@
+[
+  {
+    "Hash": "0F3127469EC5E442615E3ACA35DD09948A72FD000AECCC4E8F4242608C45DFB9",
+    "Path": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.8\\EntropyAudioCore-0.1.8-32k-win-x64\\runtime\\EntropyAudioCore.exe"
+  },
+  {
+    "Hash": "4006099821A651CB4278D8F78BACA5917838F5D620299BF181B0A2F8B1F2E275",
+    "Path": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.8\\EntropyAudioCore-0.1.8-64k-win-x64\\runtime\\EntropyAudioCore.exe"
+  },
+  {
+    "Hash": "745B040E93E837078E416D175D2C946A4B2CD7F28F23A89E532CC2E7A42AAC10",
+    "Path": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\local\\worktrees\\crossover-thiran-delay\\build\\msvc-thiran\\EntropyStage020Transfer.exe"
+  }
+]

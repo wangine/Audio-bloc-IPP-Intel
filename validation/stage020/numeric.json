@@ -1,0 +1,2024 @@
+{
+  "numericStatus": "PASS",
+  "toleranceAbsolute": 2e-09,
+  "windowSeconds": [
+    0.75,
+    5.5
+  ],
+  "fftZeroPaddingSamples": 4194304,
+  "sameFragmentReused": true,
+  "originalProfileSha256": "0C7FB25B0A8A5910BBAFC004EBA984AB08DE28C4D9B1753BEAA4AF0383DE3292",
+  "variants": [
+    {
+      "variant": "active",
+      "linearChannels": [
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 5.826710641754218e-12,
+          "rmsError": 1.7349077203408988e-12,
+          "actual": {
+            "peak": 1.4612631947769439,
+            "rms": 0.24522490839052472,
+            "rmsDbFS": -12.208708380694883,
+            "crestDb": 15.503277295476146
+          },
+          "expected": {
+            "peak": 1.4612631947822643,
+            "rms": 0.24522490839038444,
+            "rmsDbFS": -12.208708380699854,
+            "crestDb": 15.50327729551274
+          },
+          "maximumEnvelopeRmsError20ms": 2.139288746150214e-12,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.11448217097102054,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 9.546841918877017e-13,
+              "relativePhaseDegrees": 3.730774214070581e-12
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.11147798708228417,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 6.325988180589334e-13,
+              "relativePhaseDegrees": -8.590296842138638e-15
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.07343826324068206,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -2.7001169063492082e-14,
+              "relativePhaseDegrees": -2.0479556369143746e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.020607781968650075,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -1.8322221864512472e-14,
+              "relativePhaseDegrees": -5.667768534252263e-13
+            }
+          ],
+          "channel": 1,
+          "role": 1,
+          "delaySamples": 2179.90625,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -1.4214585676142197,
+              "phaseDegrees": -78.08930024541668
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -1.2268133626430429,
+              "phaseDegrees": 98.0995026712723
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -1.4036700197319274,
+              "phaseDegrees": 135.4250380802301
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -1.6872405160296902,
+              "phaseDegrees": -19.024908372244443
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -3.984446721228005,
+              "phaseDegrees": -82.66848304296575
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -6.879856087309024,
+              "phaseDegrees": 21.47010493054459
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -25.19414842349373,
+              "phaseDegrees": -16.480662315953367
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 6.639133687258436e-14,
+          "rmsError": 9.866460096707798e-15,
+          "actual": {
+            "peak": 0.8965896199531627,
+            "rms": 0.0990824891060706,
+            "rmsDbFS": -20.080061835940207,
+            "crestDb": 19.131935968356807
+          },
+          "expected": {
+            "peak": 0.8965896199531744,
+            "rms": 0.09908248910607069,
+            "rmsDbFS": -20.080061835940203,
+            "crestDb": 19.131935968356917
+          },
+          "maximumEnvelopeRmsError20ms": 4.3298697960381105e-15,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.0055900909499721025,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 1.1764795091950022e-13,
+              "relativePhaseDegrees": -3.1308710568342683e-14
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.023910894694709833,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -4.821637332766449e-14,
+              "relativePhaseDegrees": -7.419493815225783e-13
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.07466254848188719,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -1.0607602132086164e-14,
+              "relativePhaseDegrees": -2.5263967869565303e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.0466156447499882,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 3.857309866213148e-15,
+              "relativePhaseDegrees": -7.76644353597468e-13
+            }
+          ],
+          "channel": 2,
+          "role": 2,
+          "delaySamples": 2348.8671875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -48.3286808522591,
+              "phaseDegrees": 120.05477179631282
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -24.801255195391107,
+              "phaseDegrees": -126.46303220362883
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -6.699744756542028,
+              "phaseDegrees": 92.11327867580486
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -3.883920057557889,
+              "phaseDegrees": -142.85220532975268
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -1.6766301457506747,
+              "phaseDegrees": -42.567474323287016
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -1.4187110583170996,
+              "phaseDegrees": -54.29425165061402
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -1.6006330520238867,
+              "phaseDegrees": 16.857948475974187
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 7.040895644294665e-14,
+          "rmsError": 4.997784905706748e-15,
+          "actual": {
+            "peak": 1.0296140410099888,
+            "rms": 0.05965313076911105,
+            "rmsDbFS": -24.48733516725969,
+            "crestDb": 24.74082429684867
+          },
+          "expected": {
+            "peak": 1.0296140410099974,
+            "rms": 0.05965313076911103,
+            "rmsDbFS": -24.487335167259694,
+            "crestDb": 24.740824296848743
+          },
+          "maximumEnvelopeRmsError20ms": 5.828670879282072e-16,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 1.9635744202495003e-05,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -1.429133305432089e-12,
+              "relativePhaseDegrees": -2.0807534815526305e-11
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.00010160530585792235,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -2.2883490781312517e-12,
+              "relativePhaseDegrees": -2.7353063856065508e-12
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.002515349236185137,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -1.5429239464852607e-14,
+              "relativePhaseDegrees": -3.8531871087798246e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.014008718644033153,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -4.821637332766436e-15,
+              "relativePhaseDegrees": -1.109396204469689e-12
+            }
+          ],
+          "channel": 3,
+          "role": 3,
+          "delaySamples": 2348.8671875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -99.84744130722582,
+              "phaseDegrees": 156.98572622093562
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -75.76619192601753,
+              "phaseDegrees": -48.37940618651645
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -51.706629687722426,
+              "phaseDegrees": -106.42783495665117
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -43.98998849049552,
+              "phaseDegrees": 47.218612019517735
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -27.998766799223116,
+              "phaseDegrees": -176.53438521498137
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -20.79624982338168,
+              "phaseDegrees": 175.11586029108105
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -4.904192535718844,
+              "phaseDegrees": -140.66089513708312
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 3.8126446444408657e-13,
+          "rmsError": 9.523192759310663e-14,
+          "actual": {
+            "peak": 0.7774125933080184,
+            "rms": 0.11848524736425628,
+            "rmsDbFS": -18.526714408630042,
+            "crestDb": 16.339745838416736
+          },
+          "expected": {
+            "peak": 0.777412593307983,
+            "rms": 0.1184852473642532,
+            "rmsDbFS": -18.52671440863027,
+            "crestDb": 16.339745838416565
+          },
+          "maximumEnvelopeRmsError20ms": 6.04793992664554e-14,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.07908860164605928,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 1.8707952851133568e-13,
+              "relativePhaseDegrees": 1.1254410593909535e-12
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.0694472595484089,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 6.210268884602947e-13,
+              "relativePhaseDegrees": 4.72493477194532e-14
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.04313434245824045,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -6.846725012528366e-14,
+              "relativePhaseDegrees": -5.327398763265964e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.019147531882943696,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 3.85730986621314e-14,
+              "relativePhaseDegrees": -8.046661685107421e-13
+            }
+          ],
+          "channel": 4,
+          "role": 11,
+          "delaySamples": 2576.38671875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -7.553766232024408,
+              "phaseDegrees": -65.71836721321695
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -1.7666007026422617,
+              "phaseDegrees": -49.096822702294034
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -1.2373551242533674,
+              "phaseDegrees": 127.05199347421649
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -1.2164406202154108,
+              "phaseDegrees": -130.39891841615722
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -1.2075498160064435,
+              "phaseDegrees": -169.51550526123745
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -1.211312672239191,
+              "phaseDegrees": 48.65161658394288
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -1.313087130147674,
+              "phaseDegrees": 71.10614222422782
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 5.9793281437237056e-12,
+          "rmsError": 1.7542792489097019e-12,
+          "actual": {
+            "peak": 1.4795621855186922,
+            "rms": 0.243913701251383,
+            "rmsDbFS": -12.255276071565177,
+            "crestDb": 15.657940534294028
+          },
+          "expected": {
+            "peak": 1.479562185523824,
+            "rms": 0.2439137012512433,
+            "rmsDbFS": -12.255276071570155,
+            "crestDb": 15.657940534329128
+          },
+          "maximumEnvelopeRmsError20ms": 2.096822715458302e-12,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.11668854299420829,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 8.100350719047233e-13,
+              "relativePhaseDegrees": 3.6184266684421727e-12
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.10160150450471467,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 9.141824382924681e-13,
+              "relativePhaseDegrees": 7.825156495944832e-13
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.07867284943064476,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -9.643274665532877e-15,
+              "relativePhaseDegrees": 5.3402203829810706e-14
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.020578559005675977,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 5.785964799319721e-15,
+              "relativePhaseDegrees": -4.4112065617119976e-13
+            }
+          ],
+          "channel": 5,
+          "role": 6,
+          "delaySamples": 2048.01171875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -1.4214449162587603,
+              "phaseDegrees": -28.62885081157031
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -1.2267587574670953,
+              "phaseDegrees": -162.97959717045805
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -1.4034516029652147,
+              "phaseDegrees": -26.733151278649814
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -1.6868992444456923,
+              "phaseDegrees": -131.72263539159513
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -3.9835731171638935,
+              "phaseDegrees": -46.98477916518894
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -6.878491154809019,
+              "phaseDegrees": 156.07481220962356
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -25.18869115767751,
+              "phaseDegrees": -107.2699573244896
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 5.2458037913538647e-14,
+          "rmsError": 9.463825546148521e-15,
+          "actual": {
+            "peak": 0.9318171344739482,
+            "rms": 0.09949381946607806,
+            "rmsDbFS": -20.04407793385853,
+            "crestDb": 19.430691775764913
+          },
+          "expected": {
+            "peak": 0.9318171344739676,
+            "rms": 0.09949381946607806,
+            "rmsDbFS": -20.04407793385853,
+            "crestDb": 19.43069177576509
+          },
+          "maximumEnvelopeRmsError20ms": 4.010680676458378e-15,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.005767664671145432,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 1.9093683837754875e-13,
+              "relativePhaseDegrees": 1.347581068370303e-12
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.022245851124762767,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -3.760877119557828e-14,
+              "relativePhaseDegrees": -1.3560219433467195e-13
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.07848083620588751,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -5.785964799319725e-15,
+              "relativePhaseDegrees": 4.6330887648111656e-14
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.04529574193012267,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 2.892982399659857e-14,
+              "relativePhaseDegrees": -6.808218516926002e-13
+            }
+          ],
+          "channel": 6,
+          "role": 7,
+          "delaySamples": 2048.01171875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -48.32868085225917,
+              "phaseDegrees": -127.12442742243715
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -24.801255195391025,
+              "phaseDegrees": 99.17856935887123
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -6.699744756541971,
+              "phaseDegrees": -176.60351819919475
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -3.88392005755799,
+              "phaseDegrees": 61.25179857649856
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -1.6766301457505695,
+              "phaseDegrees": 139.99893192675404
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -1.4187110583170304,
+              "phaseDegrees": -6.086243837919817
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -1.6006330520238,
+              "phaseDegrees": 113.27396412585492
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 4.52138326778595e-14,
+          "rmsError": 3.918622446216977e-15,
+          "actual": {
+            "peak": 0.8518252726496631,
+            "rms": 0.05419870256032507,
+            "rmsDbFS": -25.320222194559094,
+            "crestDb": 23.927232613222383
+          },
+          "expected": {
+            "peak": 0.8518252726496717,
+            "rms": 0.05419870256032507,
+            "rmsDbFS": -25.320222194559094,
+            "crestDb": 23.927232613222472
+          },
+          "maximumEnvelopeRmsError20ms": 4.85722573273506e-16,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 1.613385803300191e-05,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -9.257543678916489e-12,
+              "relativePhaseDegrees": 1.0819263180027184e-11
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 9.342812259574612e-05,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 3.297999935612179e-13,
+              "relativePhaseDegrees": 9.81443991672519e-12
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.0025512339660737978,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -2.7001169063492082e-14,
+              "relativePhaseDegrees": -1.681803196713747e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.01247787518686136,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 3.857309866213148e-15,
+              "relativePhaseDegrees": -9.439424589163922e-13
+            }
+          ],
+          "channel": 7,
+          "role": 8,
+          "delaySamples": 2048.01171875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -99.84744130722589,
+              "phaseDegrees": -90.19347299781441
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -75.76619192601744,
+              "phaseDegrees": 177.2621953759836
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -51.706629687722376,
+              "phaseDegrees": -15.144631831651083
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -43.98998849049563,
+              "phaseDegrees": -108.67738407423175
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -27.99876679922301,
+              "phaseDegrees": 6.032021035018812
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -20.796249823381604,
+              "phaseDegrees": -136.67613189641793
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -4.9041925357187575,
+              "phaseDegrees": -44.24487951208073
+            }
+          ]
+        }
+      ],
+      "matrixMaximumAbsoluteError": 0.0,
+      "headroomMaximumAbsoluteError": 0.0,
+      "frameContinuity": true,
+      "headroomGain": 0.7079457843841379,
+      "perOutputMetrics": [
+        {
+          "peak": 1.034495118618035,
+          "rms": 0.1736059401210584,
+          "rmsDbFS": -15.208708380694883,
+          "crestDb": 15.503277295476146
+        },
+        {
+          "peak": 1.04744981197214,
+          "rms": 0.1726776765544486,
+          "rmsDbFS": -15.255276071565177,
+          "crestDb": 15.657940534294028
+        },
+        {
+          "peak": 0.6347368417684178,
+          "rms": 0.07014503046892996,
+          "rmsDbFS": -23.08006183594021,
+          "crestDb": 19.131935968356807
+        },
+        {
+          "peak": 0.659676012167739,
+          "rms": 0.07043623006328645,
+          "rmsDbFS": -23.044077933858528,
+          "crestDb": 19.430691775764913
+        },
+        {
+          "peak": 0.7289109198757384,
+          "rms": 0.04223118245330788,
+          "rmsDbFS": -27.487335167259687,
+          "crestDb": 24.74082429684867
+        },
+        {
+          "peak": 0.6030461108041979,
+          "rms": 0.03836974299667192,
+          "rmsDbFS": -28.320222194559094,
+          "crestDb": 23.927232613222383
+        },
+        {
+          "peak": 0.5503659681595519,
+          "rms": 0.08388113138323702,
+          "rmsDbFS": -21.526714408630045,
+          "crestDb": 16.339745838416736
+        },
+        {
+          "peak": 0.595787752258482,
+          "rms": 0.20864304779745788,
+          "rmsDbFS": -13.611921637066411,
+          "crestDb": 9.113753058714384
+        },
+        {
+          "peak": 0.20684657565033718,
+          "rms": 0.04015792199554062,
+          "rmsDbFS": -27.924575364082997,
+          "crestDb": 14.237542074807624
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        }
+      ]
+    },
+    {
+      "variant": "without-manual-lr-ap",
+      "linearChannels": [
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 5.7990001689489645e-12,
+          "rmsError": 1.734968860972609e-12,
+          "actual": {
+            "peak": 1.5015433153358235,
+            "rms": 0.24519862521387936,
+            "rmsDbFS": -12.209639383211098,
+            "crestDb": 15.74039668121041
+          },
+          "expected": {
+            "peak": 1.501543315341101,
+            "rms": 0.24519862521373875,
+            "rmsDbFS": -12.209639383216079,
+            "crestDb": 15.740396681245919
+          },
+          "maximumEnvelopeRmsError20ms": 2.1240786907128495e-12,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.11448130316839265,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 9.797567060180845e-13,
+              "relativePhaseDegrees": 3.2065039400222792e-12
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.11143719966051056,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 6.80815191386594e-13,
+              "relativePhaseDegrees": 3.9676552186628634e-14
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.0734331194450463,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -4.435906346145132e-14,
+              "relativePhaseDegrees": -4.593317178907588e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.020568373519736657,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -1.8322221864512472e-14,
+              "relativePhaseDegrees": -6.197330625809864e-13
+            }
+          ],
+          "channel": 1,
+          "role": 1,
+          "delaySamples": 2179.90625,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -1.4214585676149263,
+              "phaseDegrees": -45.38592259686352
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -1.2268133626434439,
+              "phaseDegrees": 165.79280472614636
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -1.4036700197318006,
+              "phaseDegrees": -80.01718556925977
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -1.6872405160296702,
+              "phaseDegrees": 160.97509162775125
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -3.984446721227971,
+              "phaseDegrees": 166.73439349413707
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -6.879856087308975,
+              "phaseDegrees": -64.89856943370035
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -25.19414842349374,
+              "phaseDegrees": -57.59445778066656
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 5.007799730449847e-14,
+          "rmsError": 8.94457631973704e-15,
+          "actual": {
+            "peak": 0.9596267436370659,
+            "rms": 0.09907667823708059,
+            "rmsDbFS": -20.080571250341166,
+            "crestDb": 19.722618104872275
+          },
+          "expected": {
+            "peak": 0.9596267436370888,
+            "rms": 0.09907667823708075,
+            "rmsDbFS": -20.08057125034115,
+            "crestDb": 19.72261810487247
+          },
+          "maximumEnvelopeRmsError20ms": 4.378442053365461e-15,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.005574636929101385,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 1.6007835944784417e-13,
+              "relativePhaseDegrees": -9.689912720924268e-13
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.023916699599879385,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -4.72520458611112e-14,
+              "relativePhaseDegrees": -6.182153686811935e-13
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.0746544329810938,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -1.8322221864512472e-14,
+              "relativePhaseDegrees": -4.5446351939212674e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.046615941876872,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 1.928654933106574e-15,
+              "relativePhaseDegrees": -7.689065983238294e-13
+            }
+          ],
+          "channel": 2,
+          "role": 2,
+          "delaySamples": 2348.8671875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -48.32868085225981,
+              "phaseDegrees": 152.75814944486598
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -24.801255195391505,
+              "phaseDegrees": -58.76973014875475
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -6.699744756541902,
+              "phaseDegrees": -123.32894497368497
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -3.88392005755787,
+              "phaseDegrees": 37.14779467024303
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -1.676630145750644,
+              "phaseDegrees": -153.1645977861842
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -1.41871105831705,
+              "phaseDegrees": -140.66292601485895
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -1.600633052023896,
+              "phaseDegrees": -24.25584698873901
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 6.211697822777751e-14,
+          "rmsError": 4.902940239228442e-15,
+          "actual": {
+            "peak": 1.0520717622719167,
+            "rms": 0.0596530657039902,
+            "rmsDbFS": -24.48734464117598,
+            "crestDb": 24.92825192604286
+          },
+          "expected": {
+            "peak": 1.0520717622719111,
+            "rms": 0.05965306570399016,
+            "rmsDbFS": -24.487344641175987,
+            "crestDb": 24.928251926042822
+          },
+          "maximumEnvelopeRmsError20ms": 5.273559366969494e-16,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 2.2391583249399515e-05,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -3.191923914291439e-13,
+              "relativePhaseDegrees": -4.759136646413345e-13
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.00010291745300463049,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -8.486081705668968e-14,
+              "relativePhaseDegrees": -2.1645219107554015e-13
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.0025153903207028997,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -3.568011626247169e-14,
+              "relativePhaseDegrees": -5.396979075963511e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.014008634900441666,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -5.785964799319725e-15,
+              "relativePhaseDegrees": -1.100793179721497e-12
+            }
+          ],
+          "channel": 3,
+          "role": 3,
+          "delaySamples": 2348.8671875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -99.84744130722653,
+              "phaseDegrees": -170.31089613051125
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -75.76619192601794,
+              "phaseDegrees": 19.313895868357637
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -51.706629687722305,
+              "phaseDegrees": 38.129941393859
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -43.989988490495506,
+              "phaseDegrees": -132.78138798048658
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -27.998766799223084,
+              "phaseDegrees": 72.86849132212144
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -20.79624982338163,
+              "phaseDegrees": 88.7471859268361
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -4.904192535718853,
+              "phaseDegrees": 178.2253093982037
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 3.8126446444408657e-13,
+          "rmsError": 9.523192759310663e-14,
+          "actual": {
+            "peak": 0.7774125933080184,
+            "rms": 0.11848524736425628,
+            "rmsDbFS": -18.526714408630042,
+            "crestDb": 16.339745838416736
+          },
+          "expected": {
+            "peak": 0.777412593307983,
+            "rms": 0.1184852473642532,
+            "rmsDbFS": -18.52671440863027,
+            "crestDb": 16.339745838416565
+          },
+          "maximumEnvelopeRmsError20ms": 6.04793992664554e-14,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.07908860164605928,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 1.8707952851133568e-13,
+              "relativePhaseDegrees": 1.1254410593909535e-12
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.0694472595484089,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 6.210268884602947e-13,
+              "relativePhaseDegrees": 4.72493477194532e-14
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.04313434245824045,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -6.846725012528366e-14,
+              "relativePhaseDegrees": -5.327398763265964e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.019147531882943696,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 3.85730986621314e-14,
+              "relativePhaseDegrees": -8.046661685107421e-13
+            }
+          ],
+          "channel": 4,
+          "role": 11,
+          "delaySamples": 2576.38671875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -7.553766232024408,
+              "phaseDegrees": -65.71836721321695
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -1.7666007026422617,
+              "phaseDegrees": -49.096822702294034
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -1.2373551242533674,
+              "phaseDegrees": 127.05199347421649
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -1.2164406202154108,
+              "phaseDegrees": -130.39891841615722
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -1.2075498160064435,
+              "phaseDegrees": -169.51550526123745
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -1.211312672239191,
+              "phaseDegrees": 48.65161658394288
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -1.313087130147674,
+              "phaseDegrees": 71.10614222422782
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 5.9833145382715e-12,
+          "rmsError": 1.7543099862642538e-12,
+          "actual": {
+            "peak": 1.5122149603221047,
+            "rms": 0.24391229349286384,
+            "rmsDbFS": -12.255326202699091,
+            "crestDb": 15.847596807036606
+          },
+          "expected": {
+            "peak": 1.5122149603272002,
+            "rms": 0.2439122934927239,
+            "rmsDbFS": -12.255326202704076,
+            "crestDb": 15.847596807070856
+          },
+          "maximumEnvelopeRmsError20ms": 2.151556710572322e-12,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.11669432679030736,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 8.466795156337449e-13,
+              "relativePhaseDegrees": 2.850553339819053e-12
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.1015948500281454,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 9.315403326904255e-13,
+              "relativePhaseDegrees": 6.251994700866079e-13
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.07867101730102358,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -3.278713386281182e-14,
+              "relativePhaseDegrees": -2.9057459296464393e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.020556311742989466,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 2.121520426417229e-14,
+              "relativePhaseDegrees": -5.802390311799348e-13
+            }
+          ],
+          "channel": 5,
+          "role": 6,
+          "delaySamples": 2048.01171875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -1.4214449162594667,
+              "phaseDegrees": 4.0745268369828525
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -1.226758757467494,
+              "phaseDegrees": -95.28629511558395
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -1.4034516029650876,
+              "phaseDegrees": 117.82462507186035
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -1.6868992444456734,
+              "phaseDegrees": 48.277364608400575
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -3.9835731171638593,
+              "phaseDegrees": -157.5819026280861
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -6.8784911548089696,
+              "phaseDegrees": 69.7061378453786
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -25.188691157677525,
+              "phaseDegrees": -148.3837527892028
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 4.235500838944972e-14,
+          "rmsError": 8.528347028337443e-15,
+          "actual": {
+            "peak": 1.0690760419004361,
+            "rms": 0.09950077089654911,
+            "rmsDbFS": -20.043471089644193,
+            "crestDb": 20.623643031111214
+          },
+          "expected": {
+            "peak": 1.0690760419004448,
+            "rms": 0.0995007708965492,
+            "rmsDbFS": -20.043471089644186,
+            "crestDb": 20.623643031111282
+          },
+          "maximumEnvelopeRmsError20ms": 3.913536161803677e-15,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 0.00577225484471231,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 2.295099370396793e-13,
+              "relativePhaseDegrees": 2.2576413112325247e-13
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 0.022262922386002235,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -1.9286549331065764e-14,
+              "relativePhaseDegrees": -3.055271067693891e-13
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.07848059974383886,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -1.9286549331065764e-14,
+              "relativePhaseDegrees": -2.886531689360369e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.0453027213687372,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 2.121520426417229e-14,
+              "relativePhaseDegrees": -6.618181853001846e-13
+            }
+          ],
+          "channel": 6,
+          "role": 7,
+          "delaySamples": 2048.01171875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -48.328680852259865,
+              "phaseDegrees": -94.42104977388401
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -24.801255195391427,
+              "phaseDegrees": 166.8718714137453
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -6.699744756541845,
+              "phaseDegrees": -32.04574184868458
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -3.8839200575579707,
+              "phaseDegrees": -118.74820142350578
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -1.6766301457505377,
+              "phaseDegrees": 29.401808463856824
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -1.4187110583169804,
+              "phaseDegrees": -92.45491820216476
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -1.600633052023808,
+              "phaseDegrees": 72.16016866114173
+            }
+          ]
+        },
+        {
+          "status": "PASS",
+          "maximumAbsoluteError": 4.776734563449736e-14,
+          "rmsError": 3.8193681160612095e-15,
+          "actual": {
+            "peak": 0.8756775975954451,
+            "rms": 0.05419868630975433,
+            "rmsDbFS": -25.320224798877618,
+            "crestDb": 24.16710958530865
+          },
+          "expected": {
+            "peak": 0.8756775975954504,
+            "rms": 0.05419868630975432,
+            "rmsDbFS": -25.320224798877618,
+            "crestDb": 24.167109585308708
+          },
+          "maximumEnvelopeRmsError20ms": 5.273559366969494e-16,
+          "complexTransferRelativeToExpected": [
+            {
+              "bandHz": [
+                200,
+                400
+              ],
+              "expectedBandRms": 1.6990189471743936e-05,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -4.1176782821826333e-13,
+              "relativePhaseDegrees": 5.680303259870151e-14
+            },
+            {
+              "bandHz": [
+                400,
+                800
+              ],
+              "expectedBandRms": 9.4292004241012e-05,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -9.643274665532871e-16,
+              "relativePhaseDegrees": 1.0569991890921596e-13
+            },
+            {
+              "bandHz": [
+                800,
+                1600
+              ],
+              "expectedBandRms": 0.0025510409998153803,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": -4.532339092800461e-14,
+              "relativePhaseDegrees": -4.964534581870239e-13
+            },
+            {
+              "bandHz": [
+                1600,
+                4000
+              ],
+              "expectedBandRms": 0.0124778262808336,
+              "excitation": "INFORMATIVE",
+              "relativeMagnitudeDb": 3.857309866213148e-15,
+              "relativePhaseDegrees": -9.486391974807443e-13
+            }
+          ],
+          "channel": 7,
+          "role": 8,
+          "delaySamples": 2048.01171875,
+          "expectedElectricTransfer": [
+            {
+              "frequencyHz": 200.0,
+              "gainDb": -99.8474413072266,
+              "phaseDegrees": -57.49009534926123
+            },
+            {
+              "frequencyHz": 400.0,
+              "gainDb": -75.76619192601784,
+              "phaseDegrees": -115.04450256914234
+            },
+            {
+              "frequencyHz": 800.0,
+              "gainDb": -51.706629687722256,
+              "phaseDegrees": 129.41314451885907
+            },
+            {
+              "frequencyHz": 1000.0,
+              "gainDb": -43.98998849049561,
+              "phaseDegrees": 71.32261592576394
+            },
+            {
+              "frequencyHz": 1600.0,
+              "gainDb": -27.998766799222977,
+              "phaseDegrees": -104.56510242787839
+            },
+            {
+              "frequencyHz": 2000.0,
+              "gainDb": -20.796249823381558,
+              "phaseDegrees": 136.95519373933715
+            },
+            {
+              "frequencyHz": 4000.0,
+              "gainDb": -4.9041925357187655,
+              "phaseDegrees": -85.35867497679392
+            }
+          ]
+        }
+      ],
+      "matrixMaximumAbsoluteError": 0.0,
+      "headroomMaximumAbsoluteError": 0.0,
+      "frameContinuity": true,
+      "headroomGain": 0.7079457843841379,
+      "perOutputMetrics": [
+        {
+          "peak": 1.0630112601621786,
+          "rms": 0.1735873330569521,
+          "rmsDbFS": -15.209639383211098,
+          "crestDb": 15.74039668121041
+        },
+        {
+          "peak": 1.0705662062426604,
+          "rms": 0.17267667993773955,
+          "rmsDbFS": -15.255326202699091,
+          "crestDb": 15.847596807036606
+        },
+        {
+          "peak": 0.6793637077401387,
+          "rms": 0.07014091668872487,
+          "rmsDbFS": -23.080571250341166,
+          "crestDb": 19.722618104872275
+        },
+        {
+          "peak": 0.7568478770494937,
+          "rms": 0.07044115129918387,
+          "rmsDbFS": -23.043471089644193,
+          "crestDb": 20.623643031111214
+        },
+        {
+          "peak": 0.7448097689699943,
+          "rms": 0.042231136390729854,
+          "rmsDbFS": -27.48734464117598,
+          "crestDb": 24.92825192604286
+        },
+        {
+          "peak": 0.6199322636973248,
+          "rms": 0.03836973149214886,
+          "rmsDbFS": -28.32022479887762,
+          "crestDb": 24.167109585308655
+        },
+        {
+          "peak": 0.5503659681595519,
+          "rms": 0.08388113138323702,
+          "rmsDbFS": -21.526714408630045,
+          "crestDb": 16.339745838416736
+        },
+        {
+          "peak": 0.595787752258482,
+          "rms": 0.20864304779745788,
+          "rmsDbFS": -13.611921637066411,
+          "crestDb": 9.113753058714384
+        },
+        {
+          "peak": 0.20684657565033718,
+          "rms": 0.04015792199554062,
+          "rmsDbFS": -27.924575364082997,
+          "crestDb": 14.237542074807624
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        },
+        {
+          "peak": 0.0,
+          "rms": 0.0,
+          "rmsDbFS": null,
+          "crestDb": null
+        }
+      ]
+    }
+  ],
+  "onlyChangedParameters": [
+    "allPass1",
+    "allPass2",
+    "allPass3",
+    "allPass5",
+    "allPass6",
+    "allPass7"
+  ],
+  "unchangedCenterSubScoopMaximumAbsoluteError": {
+    "4": 0.0,
+    "8": 0.0,
+    "12": 0.0
+  },
+  "diagnosticElectricSums": [
+    {
+      "side": "L",
+      "lrOriginal": {
+        "peak": 1.7005257975672774,
+        "rms": 0.2625694757520184,
+        "rmsDbFS": -11.615115258988777,
+        "crestDb": 16.22677975332722
+      },
+      "lrWithoutManualAP": {
+        "peak": 1.5764756416677372,
+        "rms": 0.26255635900738516,
+        "rmsDbFS": -11.615549176304503,
+        "crestDb": 15.5692944721978
+      },
+      "lrOriginalCorrelationWithCenter": -0.1476867565881558,
+      "lrNoAPCorrelationWithCenter": -0.10439532773204131,
+      "lrOriginalCorrelationWithScoop": -0.26994688103864295,
+      "lrNoAPCorrelationWithScoop": -0.20665535102932722,
+      "graphUnitWeightSumWithCenterOriginal": {
+        "peak": 1.9003021060416623,
+        "rms": 0.27164725928703465,
+        "rmsDbFS": -11.319893446142613,
+        "crestDb": 16.896346439484486
+      },
+      "graphUnitWeightSumWithCenterNoAP": {
+        "peak": 1.7382286614378508,
+        "rms": 0.27654893867774966,
+        "rmsDbFS": -11.164560077997292,
+        "crestDb": 15.966698211488339
+      },
+      "graphUnitWeightSumWithCenterScoopOriginal": {
+        "peak": 1.646941733295537,
+        "rms": 0.26624095797340014,
+        "rmsDbFS": -11.494502654646402,
+        "crestDb": 15.828067347745806
+      },
+      "graphUnitWeightSumWithCenterScoopNoAP": {
+        "peak": 1.6324904706940508,
+        "rms": 0.27469434505868306,
+        "rmsDbFS": -11.223005620113575,
+        "crestDb": 15.480018717223414
+      }
+    },
+    {
+      "side": "R",
+      "lrOriginal": {
+        "peak": 1.4340336551289976,
+        "rms": 0.2321353573205719,
+        "rmsDbFS": -12.68517411292071,
+        "crestDb": 15.816360989839417
+      },
+      "lrWithoutManualAP": {
+        "peak": 1.4419468119080041,
+        "rms": 0.23213516438324658,
+        "rmsDbFS": -12.685181332126911,
+        "crestDb": 15.864166155316955
+      },
+      "lrOriginalCorrelationWithCenter": -0.039262416010948833,
+      "lrNoAPCorrelationWithCenter": 0.13629112354924108,
+      "lrOriginalCorrelationWithScoop": -0.011628474983374383,
+      "lrNoAPCorrelationWithScoop": 0.5676561234484048,
+      "graphUnitWeightSumWithCenterOriginal": {
+        "peak": 1.6321044204870025,
+        "rms": 0.2564484015747272,
+        "rmsDbFS": -11.820000070349355,
+        "crestDb": 16.07495889143379
+      },
+      "graphUnitWeightSumWithCenterNoAP": {
+        "peak": 1.348544153822648,
+        "rms": 0.2746320301439891,
+        "rmsDbFS": -11.224976253597026,
+        "crestDb": 13.822279666076787
+      },
+      "graphUnitWeightSumWithCenterScoopOriginal": {
+        "peak": 1.5713680160548904,
+        "rms": 0.26569307195266695,
+        "rmsDbFS": -11.512395396698833,
+        "crestDb": 15.437953580306232
+      },
+      "graphUnitWeightSumWithCenterScoopNoAP": {
+        "peak": 1.5076150275215836,
+        "rms": 0.3090397197931195,
+        "rmsDbFS": -10.19971397277321,
+        "crestDb": 13.76552312748579
+      }
+    }
+  ],
+  "sumCaveat": "Unit electrical weights on shared Graph timeline, not acoustic prediction or an aligned live A/B DAC sum.",
+  "measuredStage2Center": {
+    "peak": 0.9843463070344177,
+    "rms": 0.3678083216918908,
+    "rmsDbFS": -8.687568980806912,
+    "crestDb": 8.550527306642962
+  },
+  "stage2CenterCorrelationWithL": 0.2943588112964674,
+  "stage2CenterCorrelationWithR": 0.2918932816499959,
+  "asrcOfflineScalarCoefficientOracle": [
+    {
+      "variant": "active",
+      "domains": [
+        {
+          "domain": 0,
+          "hardwareReplay": false,
+          "maximumAbsoluteError": 6.661338147750939e-16,
+          "oracleSamples": "142976",
+          "rateHz": 192001.73211183018,
+          "resyncCount": 0,
+          "rmsError": 4.190048934735704e-17,
+          "samples": "1143808",
+          "effectivePositionContinuous": true,
+          "mapping": "frame f: start+sum(i=0..f-1, stepBegin+(stepEnd-stepBegin)*i/1023); sequential FP64 native origin = graph+4196",
+          "metricsGraphWindowSeconds": [
+            0.75,
+            5.5
+          ],
+          "perOutputMetrics": [
+            {
+              "peak": 1.034505172301308,
+              "rms": 0.17360579692911915,
+              "rmsDbFS": -15.20871554490766,
+              "crestDb": 15.503368872614091
+            },
+            {
+              "peak": 1.0474431838795553,
+              "rms": 0.17267783417177748,
+              "rmsDbFS": -15.255268143232307,
+              "crestDb": 15.657877642885893
+            },
+            {
+              "peak": 0.6348744684990912,
+              "rms": 0.07014509987207898,
+              "rmsDbFS": -23.080053241920208,
+              "crestDb": 19.13381048704838
+            },
+            {
+              "peak": 0.6595712296133283,
+              "rms": 0.0704363558243111,
+              "rmsDbFS": -23.044062425569617,
+              "crestDb": 19.429296496229647
+            },
+            {
+              "peak": 0.7292033711590745,
+              "rms": 0.04223123414480919,
+              "rmsDbFS": -27.48732453562745,
+              "crestDb": 24.744297890864924
+            },
+            {
+              "peak": 0.6066309089462922,
+              "rms": 0.038369786015935034,
+              "rmsDbFS": -28.320212456147182,
+              "crestDb": 23.97870314876346
+            },
+            {
+              "peak": 0.5503760505478562,
+              "rms": 0.0838812108180116,
+              "rmsDbFS": -21.526706183164464,
+              "crestDb": 16.33989673200106
+            },
+            {
+              "peak": 0.5957880472150658,
+              "rms": 0.2086429822570179,
+              "rmsDbFS": -13.611924365540347,
+              "crestDb": 9.113760087309782
+            }
+          ]
+        },
+        {
+          "domain": 1,
+          "hardwareReplay": false,
+          "maximumAbsoluteError": 1.3877787807814457e-16,
+          "oracleSamples": "142976",
+          "rateHz": 192001.69472620697,
+          "resyncCount": 0,
+          "rmsError": 4.803633157097223e-18,
+          "samples": "1143808",
+          "effectivePositionContinuous": true,
+          "mapping": "frame f: start+sum(i=0..f-1, stepBegin+(stepEnd-stepBegin)*i/1023); sequential FP64 native origin = graph+4196",
+          "metricsGraphWindowSeconds": [
+            0.75,
+            5.5
+          ],
+          "perOutputMetrics": [
+            {
+              "peak": 0.2068465862637949,
+              "rms": 0.04015792261568625,
+              "rmsDbFS": -27.924575229949653,
+              "crestDb": 14.237542386353983
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "variant": "without-manual-lr-ap",
+      "domains": [
+        {
+          "domain": 0,
+          "hardwareReplay": false,
+          "maximumAbsoluteError": 7.771561172376096e-16,
+          "oracleSamples": "142976",
+          "rateHz": 192001.73211183018,
+          "resyncCount": 0,
+          "rmsError": 4.197526532976191e-17,
+          "samples": "1143808",
+          "effectivePositionContinuous": true,
+          "mapping": "frame f: start+sum(i=0..f-1, stepBegin+(stepEnd-stepBegin)*i/1023); sequential FP64 native origin = graph+4196",
+          "metricsGraphWindowSeconds": [
+            0.75,
+            5.5
+          ],
+          "perOutputMetrics": [
+            {
+              "peak": 1.0629998468840884,
+              "rms": 0.17358749961210823,
+              "rmsDbFS": -15.209631049198556,
+              "crestDb": 15.740295088537486
+            },
+            {
+              "peak": 1.0705636624142953,
+              "rms": 0.17267669461253826,
+              "rmsDbFS": -15.255325464535277,
+              "crestDb": 15.847575429851533
+            },
+            {
+              "peak": 0.6787927544729744,
+              "rms": 0.07014100296710943,
+              "rmsDbFS": -23.080560566077246,
+              "crestDb": 19.715304525106692
+            },
+            {
+              "peak": 0.7573632279919418,
+              "rms": 0.07044123464526822,
+              "rmsDbFS": -23.043460812491578,
+              "crestDb": 20.62954511527851
+            },
+            {
+              "peak": 0.7502890096631905,
+              "rms": 0.0422311877053666,
+              "rmsDbFS": -27.487334087043674,
+              "crestDb": 24.99190578487042
+            },
+            {
+              "peak": 0.6234483336294024,
+              "rms": 0.0383697746853893,
+              "rmsDbFS": -28.32021502107898,
+              "crestDb": 24.216224390701967
+            },
+            {
+              "peak": 0.5503760505478562,
+              "rms": 0.0838812108180116,
+              "rmsDbFS": -21.526706183164464,
+              "crestDb": 16.33989673200106
+            },
+            {
+              "peak": 0.5957880472150658,
+              "rms": 0.2086429822570179,
+              "rmsDbFS": -13.611924365540347,
+              "crestDb": 9.113760087309782
+            }
+          ]
+        },
+        {
+          "domain": 1,
+          "hardwareReplay": false,
+          "maximumAbsoluteError": 1.3877787807814457e-16,
+          "oracleSamples": "142976",
+          "rateHz": 192001.69472620697,
+          "resyncCount": 0,
+          "rmsError": 4.803633157097223e-18,
+          "samples": "1143808",
+          "effectivePositionContinuous": true,
+          "mapping": "frame f: start+sum(i=0..f-1, stepBegin+(stepEnd-stepBegin)*i/1023); sequential FP64 native origin = graph+4196",
+          "metricsGraphWindowSeconds": [
+            0.75,
+            5.5
+          ],
+          "perOutputMetrics": [
+            {
+              "peak": 0.2068465862637949,
+              "rms": 0.04015792261568625,
+              "rmsDbFS": -27.924575229949653,
+              "crestDb": 14.237542386353983
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            },
+            {
+              "peak": 0.0,
+              "rms": 0.0,
+              "rmsDbFS": null,
+              "crestDb": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "stage2AppliedEqCenterAlignment": "BLOCKED: no acknowledged runtime export; saved JSON is not applied evidence",
+  "liveABAlignment": {
+    "status": "NOT VERIFIED",
+    "estimatedDifferenceFrames": -82.84245571565629,
+    "analogSkewMeasured": false
+  },
+  "limits": [
+    "No new recording; historical six-second source cannot prove current Stage2 runtime EQ/Center settings.",
+    "Nonlinear SUB/SCOOP measured and kept unchanged, not given a false LTI reference.",
+    "ASRC uses virtual calibrated sink clocks, not a replay of historical hardware callback timestamps."
+  ]
+}

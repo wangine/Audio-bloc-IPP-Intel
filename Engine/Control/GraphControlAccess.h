@@ -8,6 +8,10 @@ public:
  static auto& matrix(AudioGraph& g){return g.matrix_;}
  static auto& headroom(AudioGraph& g){return g.headroom_;}
  static auto maximumFrames(const AudioGraph& g){return g.maximumFrames_;}
+ // Offline processing owner only, immediately after process(). Read existing
+ // buffers; no recorder, extra audio copy or callback work is introduced.
+ static const auto& crossoverOutput(const AudioGraph& g){return g.crossoverBuffer_;}
+ static const auto& matrixOutput(const AudioGraph& g){return g.matrixBuffer_;}
  static void invalidateArm(AudioGraph& g){g.egressPolicyReady_=false;}
 };
 }
