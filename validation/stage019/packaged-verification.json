@@ -1,0 +1,28 @@
+[
+  {
+    "variant": "32k",
+    "fifoFrames": 32768,
+    "targetFrames": 4096,
+    "sourceCommit": "2f3c45aa71cbf1bc352aece848060dc7523b0649",
+    "sourceDirty": false,
+    "checkedFiles": 612,
+    "coreSHA256": "0F3127469EC5E442615E3ACA35DD09948A72FD000AECCC4E8F4242608C45DFB9",
+    "uiSHA256": "254CC0DA52626DD351AF24FC3CEDC70C12456E5AD3F089A8CA37F304A190B400",
+    "manifestPASS": true,
+    "offlineCoreUiSmokePASS": true,
+    "hardwareExecuted": false
+  },
+  {
+    "variant": "64k",
+    "fifoFrames": 65536,
+    "targetFrames": 4096,
+    "sourceCommit": "2f3c45aa71cbf1bc352aece848060dc7523b0649",
+    "sourceDirty": false,
+    "checkedFiles": 612,
+    "coreSHA256": "4006099821A651CB4278D8F78BACA5917838F5D620299BF181B0A2F8B1F2E275",
+    "uiSHA256": "254CC0DA52626DD351AF24FC3CEDC70C12456E5AD3F089A8CA37F304A190B400",
+    "manifestPASS": true,
+    "offlineCoreUiSmokePASS": true,
+    "hardwareExecuted": false
+  }
+]

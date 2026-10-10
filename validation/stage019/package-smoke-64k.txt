@@ -1,0 +1,5 @@
+Entropy AudioCore 0.1.8 / beta test; source 2f3c45aa71cbf1bc352aece848060dc7523b0649
+Core executable: D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\release\0.1.8\EntropyAudioCore-0.1.8-64k-win-x64\runtime\EntropyAudioCore.exe
+Manual LIVE test session: False; new Core starts DISARMED.
+Core PID 10892; new engine DISARMED. Offline Stage04 qualification remains FAIL.
+PASS packaged Core/UI IPC smoke, isolated offline endpoint; no source or DAC opened.
