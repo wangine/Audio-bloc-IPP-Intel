@@ -1,7 +1,8 @@
-# Live MUSIC/CINEMA control regression — local candidate 0.1.5
+# Live MUSIC/CINEMA control regression — stable beta 0.1.5
 
 Baseline: published 0.1.4, commit 4538aab0731a89aaf7430471294c501b5da79bb0.
-Branch: codex/live-program-switch. No push, main merge or stable reference change.
+Branch: codex/live-program-switch. GitHub publication authorized by the user
+on 2026-10-10. No main merge or changes to earlier release folders/tags.
 
 The native Core rejected `program`, `parameter(cinemaSource)` and bulk scene
 requests unconditionally while LiveSinkWorkers was engaged. The Qt selector
@@ -65,8 +66,14 @@ No changes in DSP/, Engine/AudioGraph.cpp, Engine/Egress/, Engine/Input/ or
 UI/Legacy/. PCA, Headroom gain/timing, PCM24, ClockSync, Guardian, WASAPI,
 source independence and visual layouts retain their 0.1.4 implementations.
 Historical Stage04 FAIL REALTIME, formal V07 BLOCKED and 0.1.4 residual PCM
-overrange remain visible. No full DSP suite or benchmark rerun; no claim of
-new acoustic acceptance. Evidence: validation/stage016.
+overrange remain visible. No full DSP suite or benchmark rerun, or automated
+acoustic certification. Evidence: validation/stage016.
+
+User live acceptance, 2026-10-10: stable operation and working MUSIC/CINEMA
+switching; publication approved. Version 0.1.5 becomes the accepted stable
+beta reference for subsequent integration work. The runtime is unchanged
+since the live test; release publication updates documentation/metadata only.
+Technical and historical gate limitations above remain explicit.
 
 Core SHA256: 0EC4B47A9A7F3377D12EE1EC4186949C34F8A0565482426E019610DBF16983EB.
 UI SHA256: 5F4D9F90A860F84B6CCA19E8D91DF60B6E0A6EDB5FCBD782CFE3AA2C94643515.

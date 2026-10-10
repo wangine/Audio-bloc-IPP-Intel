@@ -1,4 +1,4 @@
-# AudioCore 0.1.5 — beta test: live MUSIC/CINEMA selection
+# AudioCore 0.1.5 — stable beta: live MUSIC/CINEMA selection
 
 Fixes the control-plane rejection of every saved scene selection while physical
 output is engaged. Core validates the requested saved scene on an independent
@@ -29,13 +29,19 @@ Earlier release folders remain intact. Use this folder's Live-Test.cmd for
 the authorized manual live session, retaining your profile and DAC mapping.
 New Core starts DISARMED. Select/ARM explicitly; live scene changes validate
 before application. A validation failure is reported without changing scene.
-Closing Qt leaves the audio engine running. This is a local candidate until
-explicit publication is requested.
+Closing Qt leaves the audio engine running. Released as stable beta after the
+user confirmed stable live operation and MUSIC/CINEMA switching on 2026-10-10.
 
 Live verification PASS: MUSIC/CINEMA toggled three times by IPC, then in both
 directions from the existing Qt selector. Both physical eight-channel DAC
 workers stayed ARMED/RUNNING; observed XRUN, deadline-miss, PCM fault, nonfinite
 and clipping counters were zero during the recorded IPC toggles. Source1/2
 process identities remained unchanged. The UI was left on CINEMA/ARMED with
-active input, Crossover, Matrix and Headroom meters. This validates switching
-and transport state; acoustic listening acceptance belongs to the user.
+active input, Crossover, Matrix and Headroom meters. The user subsequently
+confirmed stable MUSIC/CINEMA switching and authorized GitHub publication.
+This acceptance does not replace the historical Stage04 realtime or V07 gates.
+
+Implementation commit: 9f0db3d8edccacbc68d6241764de698e34cc7dc8.
+Runtime binaries are identical to the local 0.1.5 build tested and accepted;
+publication changes documentation and release metadata only. Sources, tests,
+measurements and reproduction instructions accompany the GitHub release.
