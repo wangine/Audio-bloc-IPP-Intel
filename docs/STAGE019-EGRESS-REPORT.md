@@ -47,7 +47,7 @@ Integrity: Tests/Stage019Integrity.py compares101 protected files to v0.1.7 and 
 - Legacy lifecycle fixture initially failed its2-second RUNNING check when implicitly enabling new real4-second calibration; it now explicitly models nominal lifecycle timing, with no production timeout/estimate gate relaxed. It also no longer restarts Graph around ARM.
 - Stage05Transport initially failed local client connection in restricted sandbox; identical test passed outside sandbox, recorded in transport-unsandboxed.txt. No IPC production code was changed for this.
 - Fresh MSVC CMake Debug probe encountered C1902 PDB manager mismatch in sandbox; Release try-compile avoids unnecessary debug PDB tooling. Local pinned SRC dependency path must be supplied for fresh worktree builds. PowerShell logging no longer treats vendor CMake stderr warnings as successful-build failures; process exit status remains authoritative.
-- Historical Stage04 FAIL REALTIME and formal V07 BLOCKED remain. No new median/p99/maximum benchmark or analog skew measurement. Live acceptance of0.1.8 PENDING. Contract software verificat; skew analogic nemasurat.
+- Historical Stage04 FAIL REALTIME and formal V07 BLOCKED remain. No new median/p99/maximum benchmark or analog skew measurement. Live audible acceptance of both0.1.8 variants PASS USER CONFIRMED on2026-10-10; user could not distinguish their sound. Software/analog equivalence is not claimed. A later single read-only live snapshot showed estimated A/B=-82.84245571565629frames, softwareAlignmentVerified=false, resyncCount=0, faults=0 and deadlineMisses=0 on bothDACs. Preserve this unresolved software alignment limit; analog skew remains unmeasured. Contract software verificat; skew analogic nemasurat.
 
 ## Reproduce / live test
 

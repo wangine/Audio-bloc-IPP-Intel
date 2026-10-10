@@ -1,6 +1,6 @@
 # 0.1.8 beta test — egress chronology and re-ARM
 
-Candidate for manual live acceptance; 0.1.7 remains the user-accepted reference. Native C++20 / FP64 / 192 kHz; IPC-only Qt UI.
+Both32k/64k variants are user-accepted audible references on2026-10-10. User reports no audible difference between capacities; this is not a measured claim of sample or analog equivalence. Native C++20 / FP64 / 192 kHz; IPC-only Qt UI.
 
 Two separate folders provide FIFO capacity 32768 or 65536 frames. Both retain the original 4096-frame internal fill target (21.333 ms at nominal rate). Capacity is storage reserve, not a requested 32k/64k playback delay. Driver buffer, external queued data, initial silent calibration and hardware latency contribute separately to actual age/latency.
 
@@ -18,4 +18,4 @@ FAIL retained: a 4096-frame driver callback needs 4196 frames including the exis
 
 Build/probe PASS: MSVC19.51.36257 x64, IntelIPP2026.0 static; unchanged Qt6.11.2 UI. Seven targeted control/lifecycle/IPC/view/live-fixture regressions PASS. No live benchmark/soak, DAC activation or Stage1/2 edits. Full protected-source comparison PASS:101 files, including DSP/UI/PCM24/Guardian/Input/Transport, original sinc/estimator/controller and original render math. Historical Stage04 FAIL REALTIME and formal V07 BLOCKED are unchanged; this is not realtime or analog qualification.
 
-Details: docs/STAGE019-EGRESS-REPORT.md, validation/stage019/. Reproduction: tools/Build-Stage019.ps1 -FifoFrames 32768 or65536 -Verify (use spaces before parameter values). Live acceptance PENDING; candidate not published to GitHub yet.
+Details: docs/STAGE019-EGRESS-REPORT.md, validation/stage019/. Reproduction: tools/Build-Stage019.ps1 -FifoFrames 32768 or65536 -Verify (use spaces before parameter values). Live acceptance PASS USER CONFIRMED for both32k/64k variants. Historical realtime/V07 gates remain as stated. A single read-only live snapshot after acceptance reports estimatedABDifferenceFrames=-82.84245571565629, softwareAlignmentVerified=false, resyncCount=0, faults=0, deadlineMisses=0 for bothDACs. This software estimate is a visible unresolved limit, not measured analog skew.
