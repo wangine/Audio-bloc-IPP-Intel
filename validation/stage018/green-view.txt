@@ -1,0 +1,5 @@
+PASS axis: marker=119.5 Hz; 60k source cropped, not relabeled
+PASS FFT: N=16384, normalized Hann, 1500Hz peak=.125 -> -18.0618 dBFS peak; expected=-18.0618
+PASS time/identity: 10Hz=-36.0618;20Hz=-36.0618 dBFS after .3s; stale/channel/generation rejected
+PASS MUSIC-CINEMA-MUSIC: new capture epoch, unavailable until full new window
+PASS integration: worker frame=160; response builds=1; control getter is read-only

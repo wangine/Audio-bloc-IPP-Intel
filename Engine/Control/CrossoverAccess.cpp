@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "CrossoverAccess.h"
 #include "GraphControlAccess.h"
 // Generated from the immutable original compatibility/control implementation.
@@ -23,6 +24,7 @@ struct CrossoverAccess::Impl {CrossoverState state;std::vector<std::string> ids;
 static void require(EntropyResult r){if(r!=ENTROPY_OK)throw std::invalid_argument("Crossover rejected command: "+std::to_string(r));}
 CrossoverAccess::CrossoverAccess(engine::AudioGraph& graph):impl_(std::make_unique<Impl>()){
  impl_->state.engine=engine::GraphControlAccess::crossover(graph);if(!impl_->state.engine)throw std::invalid_argument("Graph not prepared");
+ impl_->state.viewWorker=std::make_unique<entropy::standalone::visual::Worker>(*impl_->state.engine);
  impl_->state.prepared=true;impl_->state.prepare.struct_size=sizeof(EntropyPrepareInfo);impl_->state.prepare.sample_rate=192000;impl_->state.prepare.maximum_frames=engine::GraphControlAccess::maximumFrames(graph);impl_->state.prepare.input_channels=13;impl_->state.prepare.output_channels=16;
  for(const auto& p:Engine::createParameterLayout())impl_->ids.emplace_back(p->paramID.toRawUTF8());
  impl_->publish();for(int i=0;i<entropy::standalone::parameterCount;++i)impl_->owner[i]=impl_->published[i].load();
@@ -71,9 +73,14 @@ J CrossoverAccess::snapshot() const {
  uint32_t program=0;getProgram(reinterpret_cast<EntropyModuleHandle>(&impl_->state),&program);auto status=impl_->state.engine->controlCommandStatus();
  J::Array peaks;for(int i=0;i<16;++i)peaks.emplace_back(impl_->state.engine->getOutputPeak(i));
  J::Array music,cinema,protection,response,frequency,spectrum;for(int i=0;i<3;++i)music.emplace_back(impl_->state.engine->getMainInputPeak(i));for(int i=0;i<10;++i)cinema.emplace_back(impl_->state.engine->getCinemaInputPeak(i));for(int i=0;i<16;++i)protection.emplace_back(unsigned(impl_->state.engine->getProtectionState(i)));
- EntropyCrossoverViewTelemetry view{};view.struct_size=sizeof(view);require(getViewTelemetry(reinterpret_cast<EntropyModuleHandle>(&impl_->state),&view));for(auto& row:view.response_db){J::Array points;for(auto point:row)points.emplace_back(point);response.emplace_back(std::move(points));}for(auto p:view.spectrum_frequency_hz)frequency.emplace_back(p);for(auto p:view.spectrum_db)spectrum.emplace_back(p);
+ const auto view=impl_->state.viewWorker->snapshot();J::Array responseFrequency,phase;
+ for(const auto& row:view.responseDb){J::Array values;for(auto point:row)values.emplace_back(point);response.emplace_back(std::move(values));}
+ for(const auto& row:view.responsePhaseRadians){J::Array values;for(auto point:row)values.emplace_back(point);phase.emplace_back(std::move(values));}
+ for(auto point:view.responseFrequencyHz)responseFrequency.emplace_back(point);for(auto p:view.frequency)frequency.emplace_back(p);for(auto p:view.spectrum)spectrum.emplace_back(p);
+ LARGE_INTEGER qpf{};QueryPerformanceFrequency(&qpf);
+
  EntropyCrossoverProtectionSummary summary{};summary.struct_size=sizeof(summary);require(getProtectionSummary(reinterpret_cast<EntropyModuleHandle>(&impl_->state),&summary));
- return J::Object{{"parameters",std::move(parameters)},{"outputs",std::move(outputs)},{"program",program},{"blockSize",unsigned(impl_->state.engine->getRuntimeBlockSize())},{"crossoverAccepted",J::u64(status.accepted.sequence)},{"crossoverApplied",J::u64(status.applied.sequence)},{"crossoverFailed",J::u64(status.failed.sequence)},{"crossoverReason",status.reason},{"crossoverKind",status.accepted.kind},{"crossoverPeaks",std::move(peaks)},{"musicPeaks",std::move(music)},{"cinemaPeaks",std::move(cinema)},{"firLatency",unsigned(impl_->state.engine->getReportedFirLatencySamples())},{"protectionState",std::move(protection)},{"protectionEnabled",summary.enabled_mask},{"protectionWarning",summary.warning_mask},{"protectionTripped",summary.tripped_mask},{"view",J::Object{{"response",std::move(response)},{"frequency",std::move(frequency)},{"spectrum",std::move(spectrum)},{"spectrumAvailable",bool(view.spectrum_available)},{"monitor",view.monitored_channel}}}};
+ return J::Object{{"parameters",std::move(parameters)},{"outputs",std::move(outputs)},{"program",program},{"blockSize",unsigned(impl_->state.engine->getRuntimeBlockSize())},{"crossoverAccepted",J::u64(status.accepted.sequence)},{"crossoverApplied",J::u64(status.applied.sequence)},{"crossoverFailed",J::u64(status.failed.sequence)},{"crossoverReason",status.reason},{"crossoverKind",status.accepted.kind},{"crossoverPeaks",std::move(peaks)},{"musicPeaks",std::move(music)},{"cinemaPeaks",std::move(cinema)},{"firLatency",unsigned(impl_->state.engine->getReportedFirLatencySamples())},{"protectionState",std::move(protection)},{"protectionEnabled",summary.enabled_mask},{"protectionWarning",summary.warning_mask},{"protectionTripped",summary.tripped_mask},{"view",J::Object{{"version",2},{"units","dBFS peak (bin amplitude, Hann sum N)"},{"N",16384},{"points",256},{"response",std::move(response)},{"responseFrequencyHz",std::move(responseFrequency)},{"responsePhaseRadians",std::move(phase)},{"responseAvailable",view.responseAvailable},{"responseState",view.transition?"TRANSITION":view.responseAvailable?"APPLIED":"UNAVAILABLE"},{"responseGeneration",J::u64(view.generation)},{"responseBuilds",J::u64(view.responseBuilds)},{"frequency",std::move(frequency)},{"spectrum",std::move(spectrum)},{"spectrumAvailable",view.spectrumAvailable},{"state",view.stale?"STALE":view.capture.transition?"TRANSITION":"LIVE"},{"monitor",view.capture.channel},{"channel",view.capture.channel},{"program",view.capture.program},{"generation",J::u64(view.capture.generation)},{"frameSequence",J::u64(view.capture.frameSequence)},{"captureQpc",J::u64(view.capture.captureQpc)},{"qpcFrequency",double(qpf.QuadPart)},{"sampleRate",view.capture.sampleRate}}}};
 }
 void CrossoverAccess::execute(const J& request,uint64_t session,uint64_t sequence){
  const auto action=request.at("action").asString();auto& s=impl_->state;

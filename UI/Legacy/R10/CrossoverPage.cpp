@@ -1,3 +1,4 @@
+#include "../../../Shared/Visualization/FrequencyAxis.h"
 #include "LiveUiRefresh.h"
 #include "CrossoverPage.h"
 #include "OutputStatusSemantics.h"
@@ -122,10 +123,13 @@ public:
     void setData(std::vector<Curve> curves, int selectedChannel,
                  double minimumHz, double maximumHz,
                  double hpHz, double lpHz,
+                 const double* responseHz, bool responseAvailable, bool transition,
                  const float* spectrumHz, const float* spectrumDb,
                  std::uint32_t spectrumPoints, bool telemetryAvailable)
     {
         curves_ = std::move(curves);
+        std::copy_n(responseHz, crossoverResponsePointCount, responseHz_.begin());
+        responseAvailable_=responseAvailable;transition_=transition;
         selectedChannel_ = selectedChannel;
         minimumHz_ = std::max(1.0, minimumHz);
         maximumHz_ = std::max(minimumHz_ + 1.0, maximumHz);
@@ -149,15 +153,12 @@ protected:
     {
         const auto plot = plotBounds();
         const double unit = std::clamp((x - plot.left()) / plot.width(), 0.0, 1.0);
-        return std::exp(std::log(minimumHz_) +
-                        unit * (std::log(maximumHz_) - std::log(minimumHz_)));
+        return entropy::visual::frequencyAt(unit,minimumHz_,maximumHz_);
     }
     double xFor(double frequency) const
     {
         const auto plot = plotBounds();
-        const double unit = (std::log(std::clamp(frequency, minimumHz_, maximumHz_))
-                           - std::log(minimumHz_))
-                          / (std::log(maximumHz_) - std::log(minimumHz_));
+        const double unit=entropy::visual::frequencyUnit(std::clamp(frequency,minimumHz_,maximumHz_),minimumHz_,maximumHz_);
         return plot.left() + unit * plot.width();
     }
     double yFor(double db) const
@@ -217,16 +218,16 @@ protected:
             painter.restore();
         }
         int legend = 0;
-        for (const auto& curve : curves_)
+        if(transition_){painter.setPen(QColor(0xa8,0xb2,0xbc));painter.drawText(plot,Qt::AlignCenter,"TRANSITION");}
+        if(responseAvailable_)for (const auto& curve : curves_)
         {
-            QPainterPath path;
+            QPainterPath path;bool first=true;
             for (std::uint32_t point = 0; point < crossoverResponsePointCount; ++point)
             {
-                const double unit = point / double(crossoverResponsePointCount - 1u);
-                const double frequency = std::exp(std::log(minimumHz_) +
-                    unit * (std::log(maximumHz_) - std::log(minimumHz_)));
+                const double frequency=responseHz_[point];
+                if(frequency<minimumHz_||frequency>maximumHz_)continue;
                 const QPointF p(xFor(frequency), yFor(curve.decibels[point]));
-                point == 0 ? path.moveTo(p) : path.lineTo(p);
+                if(first){path.moveTo(p);first=false;}else path.lineTo(p);
             }
             painter.setBrush(Qt::NoBrush);
             painter.setPen(QPen(curve.colour, curve.channel == selectedChannel_ ? 3.2 : 1.8));
@@ -311,6 +312,8 @@ protected:
     }
 private:
     std::vector<Curve> curves_;
+    std::array<double,crossoverResponsePointCount> responseHz_{};
+    bool responseAvailable_=false,transition_=false;
     std::vector<std::pair<float, float>> spectrum_;
     int selectedChannel_ = -1;
     double minimumHz_ = 20.0;
@@ -1336,6 +1339,7 @@ private:
                 telemetry.crossoverSpectrumPoints > 0;
             page.graph->setData(
                 std::move(curves), selected, 20.0, maximumHz, hpHz, lpHz,
+                telemetry.crossoverResponseFrequencyHz, telemetry.crossoverResponseAvailable!=0, telemetry.crossoverViewTransition!=0,
                 telemetry.crossoverSpectrumFrequencyHz,
                 telemetry.crossoverSpectrumDb,
                 spectrumForSelection ? telemetry.crossoverSpectrumPoints : 0u,

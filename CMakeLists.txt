@@ -35,6 +35,7 @@ endfunction()
 add_library(entropy_crossover STATIC
     DSP/Crossover/src/FractionalDelay.cpp
     DSP/Crossover/src/PluginProcessor.cpp
+    DSP/Crossover/src/VisualizationWorker.cpp
     DSP/Crossover/src/NativeState.cpp)
 target_include_directories(entropy_crossover PUBLIC
     "${CMAKE_CURRENT_SOURCE_DIR}/DSP/Crossover/include" "${IPP_INCLUDE_DIR}")

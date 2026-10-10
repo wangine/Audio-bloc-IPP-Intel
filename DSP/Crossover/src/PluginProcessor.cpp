@@ -1,3 +1,4 @@
+#include <windows.h>
 #include "PluginProcessor.h"
 #include <string_view>
 #include <cmath>
@@ -232,6 +233,10 @@ void EntropyCrossoverAudioProcessor::prepareToPlay (double sampleRate, int sampl
     runtimeBlockSize = samplesPerBlock;
     runtimeInputs = getTotalNumInputChannels();
     runtimeOutputs = getMainBusNumOutputChannels();
+    visualization.applied.store(0,std::memory_order_release);
+    visualization.monitorIdentity.fetch_add(32,std::memory_order_acq_rel);
+    viewCaptureRevision.fetch_add(1,std::memory_order_acq_rel);
+    viewCaptureQpc.store(0,std::memory_order_relaxed);
     liveSpectrumActiveChannel = -1;
     liveSpectrumProducerSamples = 0;
     liveSpectrumPublishedSamples.store (0, std::memory_order_release);
@@ -241,6 +246,7 @@ void EntropyCrossoverAudioProcessor::prepareToPlay (double sampleRate, int sampl
     liveSpectrumPreviousSample = 0.0f;
     liveSpectrumHasPreviousSample = false;
     for (auto& sample : liveSpectrumRing) sample.store (0.0f, std::memory_order_relaxed);
+    viewCaptureRevision.fetch_add(1,std::memory_order_release);
 
     const int scratchSize = native::jmax (samplesPerBlock, maximumExpectedBlockSize);
     blockOutputEpochs.assign((size_t)scratchSize,0);
@@ -590,9 +596,13 @@ double EntropyCrossoverAudioProcessor::readDelayedSample (ChannelDSP& c, double 
 void EntropyCrossoverAudioProcessor::captureLiveSpectrumBlock (
     int channel, const double* samples, int sampleCount) noexcept
 {
-    const int requested = liveSpectrumRequestedChannel.load (std::memory_order_relaxed);
-    if (requested != liveSpectrumActiveChannel)
+    const uint64_t monitor=visualization.monitorIdentity.load(std::memory_order_acquire);
+    const uint64_t generation=active?active->viewGeneration:0;
+    const int requested=int(monitor&31u)-1;
+    viewCaptureRevision.fetch_add(1,std::memory_order_acq_rel);
+    if (requested != liveSpectrumActiveChannel || monitor!=viewActiveMonitor || generation!=viewActiveGeneration)
     {
+        viewActiveMonitor=monitor;viewActiveGeneration=generation;viewTransitionUntil=0;
         liveSpectrumActiveChannel = requested;
         liveSpectrumProducerSamples = 0;
         liveSpectrumPublishedSamples.store (0, std::memory_order_release);
@@ -602,8 +612,7 @@ void EntropyCrossoverAudioProcessor::captureLiveSpectrumBlock (
         liveSpectrumPreviousSample = 0.0f;
         liveSpectrumHasPreviousSample = false;
     }
-    if (channel != liveSpectrumActiveChannel || samples == nullptr || sampleCount <= 0)
-        return;
+    if (channel != liveSpectrumActiveChannel || samples == nullptr || sampleCount <= 0){viewCaptureRevision.fetch_add(1,std::memory_order_release);return;}
 
     constexpr uint64_t mask = (uint64_t) liveSpectrumSamples - 1u;
     static_assert ((liveSpectrumSamples & (liveSpectrumSamples - 1)) == 0,
@@ -638,6 +647,12 @@ void EntropyCrossoverAudioProcessor::captureLiveSpectrumBlock (
     liveSpectrumStatSamples.fetch_add ((uint64_t) sampleCount, std::memory_order_release);
     liveSpectrumProducerSamples += (uint64_t) sampleCount;
     liveSpectrumPublishedSamples.store (liveSpectrumProducerSamples, std::memory_order_release);
+    if(visualizationTransition())viewTransitionUntil=liveSpectrumProducerSamples+visual::fftSize;
+    LARGE_INTEGER captured{};QueryPerformanceCounter(&captured);
+    viewCaptureMonitor.store(monitor,std::memory_order_relaxed);viewCaptureGeneration.store(generation,std::memory_order_relaxed);
+    viewCaptureDescriptor.store((uint64_t(active && active->values[parameterIndex("cinemaSource")]>=.5f))|(liveSpectrumProducerSamples<viewTransitionUntil?2u:0u),std::memory_order_relaxed);
+    viewCaptureQpc.store(uint64_t(captured.QuadPart),std::memory_order_relaxed);viewFrameSequence.fetch_add(1,std::memory_order_relaxed);
+    viewCaptureRevision.fetch_add(1,std::memory_order_release);
 }
 
 bool EntropyCrossoverAudioProcessor::copyLiveSpectrumSamples (
@@ -1782,9 +1797,11 @@ bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag ta
             lastPreparationFinite=false;return false;
         }
         if(!cached.config)cached.config=std::make_unique<Config>();
+        building->viewGeneration=++viewGenerationCounter;
         *cached.config=*building;cached.key=key;cached.rate=compiledRate;cached.frames=getRuntimeBlockSize();++preparationBuilds;
     }
     lastPreparationFinite=finiteConfig(*building);
+    prepareVisualization(unsigned(slot));
     tlsConfig=nullptr;
     lastCompiled=building->values;hasCompiled=true;building=nullptr;
     const int replaced = pending.exchange(slot, std::memory_order_acq_rel);
@@ -1806,6 +1823,7 @@ bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag ta
 void EntropyCrossoverAudioProcessor::beginRt() noexcept {
     if(!fading){const int next=pending.exchange(-1,std::memory_order_acquire);if(next>=0){
         fading=active;fadingIndex=activeIndex;active=&configs[next];activeIndex=next;fadePosition=fading?0:9600;
+        if(!fading||fading->viewGeneration!=active->viewGeneration)visualization.monitorIdentity.fetch_add(32,std::memory_order_acq_rel);
         // Publish only the adopted graph. Avoid AudioProcessor listeners/GUI
         // dispatch in the realtime callback; ABI readers use this atomic.
         reportedFirLatency.store(active->latency, std::memory_order_relaxed);
@@ -1874,10 +1892,45 @@ void EntropyCrossoverAudioProcessor::beginRt() noexcept {
         }
     }}
     tlsConfig=active;
+    if(active)visualization.publish(active->viewGeneration,active->values[parameterIndex("cinemaSource")]>=.5f,visualizationTransition());
 }
 void EntropyCrossoverAudioProcessor::endRt(int samples) noexcept {
     tlsConfig=nullptr;
     if(fading && (fadePosition+=samples)>=9600){slotState[fadingIndex].store(0,std::memory_order_release);fading=nullptr;fadingIndex=-1;}
+    if(active)visualization.publish(active->viewGeneration,active->values[parameterIndex("cinemaSource")]>=.5f,visualizationTransition());
 }
 
+}
+
+namespace entropy::standalone {
+void EntropyCrossoverAudioProcessor::prepareVisualization(unsigned slot){
+ visualization.prepare(slot,[&](visual::Configuration& model){
+  model.generation=building->viewGeneration;model.sampleRate=getRuntimeSampleRate();model.program=rt(parameterIndex("cinemaSource"))>=.5f;
+  bool anySolo=false;for(int ch=0;ch<16;++ch)anySolo|=rt(parameterIndex("solo1")+ch)>=.5f;
+  auto section=[](const Biquad& b){return visual::Section{b.b0,b.b1,b.b2,b.a1,b.a2};};
+  for(int ch=0;ch<16;++ch){auto& c=model.channels[ch];const int role=int(std::lround(rt((model.program?parameterIndex("cinemaRole1"):parameterIndex("source1"))+ch)));
+   c.enabled=isRoleEnabledByTopology(role)&&rt(parameterIndex("mute1")+ch)<.5f&&rt(parameterIndex("emergencyMute1")+ch)<.5f&&(!anySolo||rt(parameterIndex("solo1")+ch)>=.5f);
+   c.gain=std::pow(10.0,rt((model.program?parameterIndex("cinemaGainDb1"):parameterIndex("musicGainDb1"))+ch)/20.0)*(rt(parameterIndex("polarity1")+ch)>=.5f?-1:1);
+   c.stages=stagesForFilterType(int(std::lround(rt(parameterIndex("filterType1")+ch))));
+   c.hpOn=rt(parameterIndex("hpOn1")+ch)>=.5f;c.lpOn=rt(parameterIndex("lpOn1")+ch)>=.5f;c.apOn=rt(parameterIndex("allPass1")+ch)>=.5f;c.fir=rt(parameterIndex("processMode1")+ch)>=.5f;
+   c.bypass=model.program&&(role==16||role==18)&&rt(parameterIndex("cinemaLfeFilterBypass"))>=.5f;
+   for(int i=0;i<4;++i){c.hp[i]=section(building->hp[ch][i]);c.lp[i]=section(building->lp[ch][i]);}c.ap=section(building->ap[ch]);
+   if(c.fir)c.kernel=building->kernels[ch];c.delay=building->delays[ch];
+  }
+ });
+}
+bool EntropyCrossoverAudioProcessor::visualizationTransition()const noexcept{
+ if(fading||pending.load(std::memory_order_acquire)>=0||cinemaSourceMix.isSmoothing())return true;
+ for(const auto& c:channels)if(!c.safetySilenced&&(c.gain.isSmoothing()||c.delaySamples.isSmoothing()||c.fractionalDelay.transitioning()))return true;
+ return false;
+}
+bool EntropyCrossoverAudioProcessor::copyLiveSpectrumFrame(float* destination,int count,visual::Capture& capture)const noexcept{
+ if(!destination||count!=int(visual::fftSize))return false;
+ const auto revision=viewCaptureRevision.load(std::memory_order_acquire);if(revision&1u)return false;
+ const auto end=liveSpectrumPublishedSamples.load(std::memory_order_acquire);if(end<uint64_t(count))return false;
+ capture.monitorIdentity=viewCaptureMonitor.load();capture.generation=viewCaptureGeneration.load();capture.captureQpc=viewCaptureQpc.load();capture.frameSequence=viewFrameSequence.load();capture.samples=end;
+ capture.sampleRate=runtimeSampleRate.load();capture.channel=int(capture.monitorIdentity&31u)-1;const auto descriptor=viewCaptureDescriptor.load();capture.program=descriptor&1u;capture.transition=bool(descriptor&2u);
+ for(int i=0;i<count;++i)destination[i]=liveSpectrumRing[(end-count+i)&(liveSpectrumSamples-1)].load(std::memory_order_relaxed);
+ return revision==viewCaptureRevision.load(std::memory_order_acquire);
+}
 }

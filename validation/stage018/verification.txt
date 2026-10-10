@@ -1,0 +1,10 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+    Start 5: EntropyStage018View
+1/1 Test #5: EntropyStage018View ..............   Passed    0.17 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   0.18 sec
+{"PASS": true, "unchangedCrossoverMethods": 48, "protectedFiles": 57, "baseline": "ae4b90339e7c60f99d09ba5cac412822af524ada"}
+PASS Stage018 display checks only. No live benchmark or physical output.

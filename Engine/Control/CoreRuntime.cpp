@@ -48,7 +48,7 @@ int runControlServer(int argc,char** argv) try {
  auto publishCache=[&]{
   auto next=std::make_shared<Cached>();
   next->description=controls.metadata();auto& description=next->description;
-  description["protocol"]=1;description["physicalArmAllowed"]=liveGate||authorizedLiveTest;
+  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=liveGate||authorizedLiveTest;
   description["offlineGatePassed"]=liveGate;description["authorizedLiveTest"]=authorizedLiveTest;description["owner"]="EntropyAudioCore";
   description["profileRequired"]=profileRequired;description["profilePath"]=initialProfile;description["profileError"]=profileError;
   DWORD consolePid=0;description["consoleAttached"]=GetConsoleProcessList(&consolePid,1)!=0;
@@ -139,7 +139,10 @@ int runControlServer(int argc,char** argv) try {
    J data;auto latest=cache.load();
    if(action=="describe")data=latest->description;
    else if(action=="telemetry"){
-    data=latest->telemetry;data["lifecycleStatus"]=executor.stateText();
+    data=latest->telemetry;
+    if(!request.contains("viewContractVersion")||request.at("viewContractVersion").asUnsigned()!=2)data["view"]=J::Object{{"version",2},{"state","INCOMPATIBLE CLIENT"},{"spectrumAvailable",false},{"responseAvailable",false}};
+    else{auto& view=data["view"];LARGE_INTEGER now{};QueryPerformanceCounter(&now);const auto captured=view.at("captureQpc").asU64();if(!captured||double(uint64_t(now.QuadPart)-captured)>view.at("qpcFrequency").asNumber()*.5){view["spectrumAvailable"]=false;view["state"]="STALE";}}
+    data["lifecycleStatus"]=executor.stateText();
     if(std::string(executor.stateText())=="STOPPING"){data["armed"]=false;data["armPending"]=false;data["publicationGateClosed"]=true;}
    }else if(action=="command-results")data=executor.results(request.at("ids"));
    else if(action=="preflight-live")throw std::invalid_argument("Qualification is explicit offline only: EntropyLiveQualification.exe PROFILE.entropy [MUSIC|CINEMA]");

@@ -8,6 +8,7 @@
 #include "ProgramEpochTrace.h"
 #include "ParameterIds.h"
 #include "FractionalDelay.h"
+#include "VisualizationData.h"
 namespace entropy::standalone {
 
 class EntropyCrossoverAudioProcessor final
@@ -66,10 +67,15 @@ public:
     };
     void setLiveSpectrumChannel (int channel) noexcept
     {
-        liveSpectrumRequestedChannel.store (native::jlimit (-1, maxOutputs - 1, channel),
-                                            std::memory_order_relaxed);
+        channel=native::jlimit(-1,maxOutputs-1,channel);
+        auto old=visualization.monitorIdentity.load(std::memory_order_acquire);
+        while(int(old&31u)-1!=channel){const auto next=(((old>>5)+1)<<5)|uint64_t(channel+1);
+            if(visualization.monitorIdentity.compare_exchange_weak(old,next,std::memory_order_acq_rel))break;}
+        liveSpectrumRequestedChannel.store(channel,std::memory_order_relaxed);
     }
     bool copyLiveSpectrumSamples (float* destination, int sampleCount) const noexcept;
+    bool copyLiveSpectrumFrame(float*,int,visual::Capture&) const noexcept;
+    visual::Source& visualizationSource() noexcept{return visualization;}
     LiveSpectrumStats consumeLiveSpectrumStats() noexcept;
 
     static native::String channelParam (const char* base, int channel);
@@ -271,6 +277,8 @@ private:
     std::array<std::atomic<float>, liveSpectrumSamples> liveSpectrumRing {};
     std::atomic<int> liveSpectrumRequestedChannel { -1 };
     std::atomic<uint64_t> liveSpectrumPublishedSamples { 0 };
+    std::atomic<uint64_t> viewCaptureRevision{0},viewCaptureMonitor{0},viewCaptureGeneration{0},viewCaptureQpc{0},viewFrameSequence{0},viewCaptureDescriptor{0};
+    uint64_t viewActiveMonitor=0,viewActiveGeneration=0,viewTransitionUntil=0;
     std::atomic<float> liveSpectrumPeakHold { 0.0f };
     std::atomic<float> liveSpectrumDeltaHold { 0.0f };
     std::atomic<uint64_t> liveSpectrumStatSamples { 0 };
@@ -294,6 +302,7 @@ private:
     bool traceOutputEpoch = false;
     uint32_t outputEpochSourceMask=0xffff;
     struct alignas(64) Config {
+        uint64_t viewGeneration=0;
         std::array<float,parameterCount> values{};
         std::array<std::array<Biquad,4>,16> hp{},lp{};
         std::array<double,16> effectiveHpHz{},effectiveLpHz{};
@@ -313,6 +322,9 @@ private:
     std::array<PreparedScene,2> preparedScenes;
     uint64_t preparationBuilds=0,preparationHits=0;
     bool lastPreparationFinite=false;
+    visual::Source visualization;uint64_t viewGenerationCounter=0;
+    void prepareVisualization(unsigned slot);
+    bool visualizationTransition()const noexcept;
     std::array<Config,3> configs;
     std::array<std::atomic<int>,3> slotState{};
     std::atomic<int> pending{-1};

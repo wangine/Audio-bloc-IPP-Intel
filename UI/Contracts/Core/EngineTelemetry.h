@@ -311,6 +311,8 @@ struct EngineTelemetrySnapshot
     std::int32_t crossoverMonitoredChannel = -1;
     double crossoverResponseMinimumHz = 20.0;
     double crossoverResponseMaximumHz = 60000.0;
+    std::uint32_t crossoverResponseAvailable=0, crossoverViewTransition=0;
+    double crossoverResponseFrequencyHz[crossoverResponsePointCount]{};
     float crossoverResponseDb[16][crossoverResponsePointCount]{};
     float crossoverSpectrumFrequencyHz[crossoverSpectrumPointCount]{};
     float crossoverSpectrumDb[crossoverSpectrumPointCount]{};

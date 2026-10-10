@@ -1,3 +1,4 @@
+#include "VisualizationWorker.h"
 #include "PluginProcessor.h"
 #include "IppSpectrum.h"
 
@@ -51,19 +52,7 @@ struct CrossoverState
     entropy::native::MidiBuffer midi;
     EntropyPrepareInfo prepare {};
     bool prepared = false;
-    static constexpr int viewFftOrder = 14;
-    static constexpr int viewFftSize = 1 << viewFftOrder;
-    entropy::native::IppSpectrum viewFft { viewFftOrder };
-    std::array<float, viewFftSize> viewFftData {};
-    std::array<double, viewFftSize> viewWindow {}, viewFftInput {};
-    std::array<double, viewFftSize / 2 + 1> viewFftMagnitude {};
-    std::array<float, viewFftSize / 2 + 1> viewSpectrumSmoothed {};
-    std::array<std::array<float, ENTROPY_CROSSOVER_RESPONSE_POINTS>, 16> viewResponseCache {};
-    std::array<float, ENTROPY_CROSSOVER_SPECTRUM_POINTS> viewSpectrumFrequencyCache {};
-    std::array<float, ENTROPY_CROSSOVER_SPECTRUM_POINTS> viewSpectrumDbCache {};
-    double viewResponseLastUpdateMs = -1000.0;
-    double viewSpectrumLastUpdateMs = -1000.0;
-    bool viewSpectrumAvailable = false;
+    std::unique_ptr<entropy::standalone::visual::Worker> viewWorker;
     int monitoredChannel = -1;
     bool controlTransactionOpen = false;
     bool controlDuplicateCandidate = false;
@@ -72,16 +61,7 @@ struct CrossoverState
     bool lastCommittedValid = false;
     Engine::ControlCommandTag lastCommitted {};
 
-    CrossoverState()
-    {
-        viewSpectrumSmoothed.fill(-120.0f);
-        double windowSum = 0.0;
-        for (int i=0; i<viewFftSize; ++i) {
-            viewWindow[i] = 0.5 - 0.5 * std::cos(6.283185307179586476925286766559 * i / (viewFftSize-1));
-            windowSum += viewWindow[i];
-        }
-        for (auto& value : viewWindow) value *= viewFftSize / windowSum;
-    }
+
 };
 
 constexpr uint64_t fnvOffset = 1469598103934665603ULL;
@@ -414,6 +394,7 @@ EntropyResult ENTROPY_ABI_CALL prepareModule(EntropyModuleHandle handle, const E
                                         false, false, true);
         state->prepare = *info;
         state->engine->prepareToPlay(info->sample_rate, static_cast<int> (info->maximum_frames));
+        if(!state->viewWorker)state->viewWorker=std::make_unique<entropy::standalone::visual::Worker>(*state->engine);
         state->prepared = true;
         return ENTROPY_OK;
     }
@@ -868,49 +849,6 @@ EntropyResult ENTROPY_ABI_CALL getProtectionSummary(
     return ENTROPY_OK;
 }
 
-double responseMagnitude(const CrossoverState& state, int channel, double frequency)
-{
-    const auto suffix = std::to_string(channel + 1);
-    const bool hpOn = parameterValue(state, "hpOn" + suffix) >= 0.5;
-    const bool lpOn = parameterValue(state, "lpOn" + suffix) >= 0.5;
-    const double hpHz = (std::max)(2.0, parameterValue(state, "hpHz" + suffix, 2.0));
-    const double lpHz = (std::max)(2.0, parameterValue(state, "lpHz" + suffix, 60000.0));
-    const int filterType = static_cast<int>(std::lround(
-        parameterValue(state, "filterType" + suffix)));
-    const int processMode = static_cast<int>(std::lround(
-        parameterValue(state, "processMode" + suffix)));
-    const int firIndex = (std::clamp)(static_cast<int>(std::lround(
-        parameterValue(state, "firLength" + suffix))), 0, 2);
-    const int firTaps = firIndex == 0 ? 2049 : (firIndex == 1 ? 4097 : 8193);
-    const bool cinema = parameterValue(state, "cinemaSource") >= 0.5;
-    const double gainDb = parameterValue(
-        state, std::string(cinema ? "cinemaGainDb" : "musicGainDb") + suffix);
-    double magnitude = std::pow(10.0, gainDb / 20.0);
-    if (processMode == 1)
-    {
-        const double sampleRate = (std::max)(1.0, state.engine->getRuntimeSampleRate());
-        const double transition = (std::max)(1.0, sampleRate / (double) firTaps);
-        const auto edge = [transition](double delta) {
-            return 1.0 / std::sqrt(1.0 + std::exp(
-                (std::clamp)(-delta / transition * 8.0, -60.0, 60.0)));
-        };
-        if (hpOn) magnitude *= edge(frequency - hpHz);
-        if (lpOn) magnitude *= edge(lpHz - frequency);
-        return magnitude;
-    }
-    const auto section = [filterType](double ratio) {
-        if (filterType == 0) return 1.0 / std::sqrt(1.0 + std::pow(ratio, 4.0));
-        if (filterType == 1) return 1.0 / std::sqrt(1.0 + std::pow(ratio, 8.0));
-        if (filterType == 2) return 1.0 / (1.0 + std::pow(ratio, 4.0));
-        if (filterType == 3) return 1.0 / (1.0 + std::pow(ratio, 8.0));
-        if (filterType == 4) return 1.0 / std::sqrt(1.0 + std::pow(ratio, 12.0));
-        return 1.0 / std::sqrt(1.0 + std::pow(ratio, 16.0));
-    };
-    if (hpOn) magnitude *= section(hpHz / frequency);
-    if (lpOn) magnitude *= section(frequency / lpHz);
-    return magnitude;
-}
-
 EntropyResult ENTROPY_ABI_CALL requestSpectrumChannel(
     EntropyModuleHandle handle, int32_t channel)
 {
@@ -919,9 +857,7 @@ EntropyResult ENTROPY_ABI_CALL requestSpectrumChannel(
         return ENTROPY_ERROR_INVALID_ARGUMENT;
     state->monitoredChannel = channel;
     state->engine->setLiveSpectrumChannel(channel);
-    state->viewSpectrumSmoothed.fill(-120.0f);
-    state->viewSpectrumAvailable = false;
-    state->viewSpectrumLastUpdateMs = -1000.0;
+
     return ENTROPY_OK;
 }
 
@@ -940,94 +876,12 @@ EntropyResult ENTROPY_ABI_CALL getViewTelemetry(
     telemetry->sample_rate = state->engine->getRuntimeSampleRate();
     telemetry->minimum_frequency_hz = 20.0;
     telemetry->maximum_frequency_hz = 60000.0;
-    const double logMinimum = std::log(telemetry->minimum_frequency_hz);
-    const double logMaximum = std::log(telemetry->maximum_frequency_hz);
-    const double nowMs = std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now().time_since_epoch()).count();
-    if (nowMs - state->viewResponseLastUpdateMs >= 150.0)
-    {
-        for (uint32_t point = 0; point < ENTROPY_CROSSOVER_RESPONSE_POINTS; ++point)
-        {
-            const double unit = point / double(ENTROPY_CROSSOVER_RESPONSE_POINTS - 1u);
-            const double frequency = std::exp(logMinimum + unit * (logMaximum - logMinimum));
-            for (int channel = 0; channel < 16; ++channel)
-            {
-                const double magnitude = responseMagnitude(*state, channel, frequency);
-                state->viewResponseCache[(size_t) channel][point] = static_cast<float>(
-                    (std::max)(-120.0, 20.0 * std::log10((std::max)(1.0e-9, magnitude))));
-            }
-        }
-        state->viewResponseLastUpdateMs = nowMs;
-    }
-    for (int channel = 0; channel < 16; ++channel)
-        std::copy(state->viewResponseCache[(size_t) channel].begin(),
-                  state->viewResponseCache[(size_t) channel].end(),
-                  telemetry->response_db[channel]);
-
-    if (state->monitoredChannel >= 0 &&
-        nowMs - state->viewSpectrumLastUpdateMs >= 50.0 &&
-        state->engine->copyLiveSpectrumSamples(
-            state->viewFftData.data(), CrossoverState::viewFftSize))
-    {
-        for (int i=0; i<CrossoverState::viewFftSize; ++i)
-            state->viewFftInput[i] = static_cast<double>(state->viewFftData[i]) * state->viewWindow[i];
-        state->viewFft.magnitudes(state->viewFftInput.data(), state->viewFftMagnitude.data());
-        constexpr float amplitudeScale = 4.0f / CrossoverState::viewFftSize;
-        for (int bin = 0; bin <= CrossoverState::viewFftSize / 2; ++bin)
-        {
-            const float db = entropy::native::Decibels::gainToDecibels(
-                (std::max)(1.0e-9f, static_cast<float>(state->viewFftMagnitude[(size_t) bin] * amplitudeScale)),
-                -120.0f);
-            auto& smooth = state->viewSpectrumSmoothed[(size_t) bin];
-            smooth = (std::max)(db, smooth - 1.5f);
-        }
-        const double nyquist = (std::max)(1.0, telemetry->sample_rate * 0.5);
-        for (uint32_t point = 0; point < ENTROPY_CROSSOVER_SPECTRUM_POINTS; ++point)
-        {
-            const double unit = point / double(ENTROPY_CROSSOVER_SPECTRUM_POINTS - 1u);
-            const double frequency = std::exp(logMinimum + unit * (logMaximum - logMinimum));
-            state->viewSpectrumFrequencyCache[point] = static_cast<float>(frequency);
-        }
-        constexpr int lastFftBin = CrossoverState::viewFftSize / 2;
-        for (uint32_t point = 0; point < ENTROPY_CROSSOVER_SPECTRUM_POINTS; ++point)
-        {
-            const double centre = state->viewSpectrumFrequencyCache[point];
-            const double lower = point == 0
-                ? telemetry->minimum_frequency_hz
-                : std::sqrt(static_cast<double>(state->viewSpectrumFrequencyCache[point - 1])
-                            * centre);
-            const double upper = point + 1 == ENTROPY_CROSSOVER_SPECTRUM_POINTS
-                ? telemetry->maximum_frequency_hz
-                : std::sqrt(centre
-                            * static_cast<double>(state->viewSpectrumFrequencyCache[point + 1]));
-            int firstBin = (std::clamp)(static_cast<int>(std::ceil(
-                lower / nyquist * lastFftBin)), 0, lastFftBin);
-            int finalBin = (std::clamp)(static_cast<int>(std::floor(
-                upper / nyquist * lastFftBin)), 0, lastFftBin);
-            if (firstBin > finalBin)
-            {
-                firstBin = (std::clamp)(static_cast<int>(std::lround(
-                    centre / nyquist * lastFftBin)), 0, lastFftBin);
-                finalBin = firstBin;
-            }
-            float bucketPeak = -120.0f;
-            for (int bin = firstBin; bin <= finalBin; ++bin)
-                bucketPeak = (std::max)(bucketPeak,
-                    state->viewSpectrumSmoothed[(size_t) bin]);
-            state->viewSpectrumDbCache[point] = bucketPeak;
-        }
-        state->viewSpectrumAvailable = true;
-        state->viewSpectrumLastUpdateMs = nowMs;
-    }
-    if (state->viewSpectrumAvailable)
-    {
-        std::copy(state->viewSpectrumFrequencyCache.begin(),
-                  state->viewSpectrumFrequencyCache.end(),
-                  telemetry->spectrum_frequency_hz);
-        std::copy(state->viewSpectrumDbCache.begin(),
-                  state->viewSpectrumDbCache.end(),
-                  telemetry->spectrum_db);
-        telemetry->spectrum_available = 1u;
-    }
+    if(!state->viewWorker)return ENTROPY_OK;
+    const auto frame=state->viewWorker->snapshot();
+    for(int channel=0;channel<16;++channel)std::copy(frame.responseDb[channel].begin(),frame.responseDb[channel].end(),telemetry->response_db[channel]);
+    std::copy(frame.frequency.begin(),frame.frequency.end(),telemetry->spectrum_frequency_hz);
+    std::copy(frame.spectrum.begin(),frame.spectrum.end(),telemetry->spectrum_db);
+    telemetry->spectrum_available=frame.spectrumAvailable;
     return ENTROPY_OK;
 }
 
