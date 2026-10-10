@@ -2,11 +2,14 @@ param([string]$OutputRoot='D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/release',[s
 $ErrorActionPreference='Stop'
 $root=(Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $destination=[IO.Path]::GetFullPath((Join-Path $OutputRoot '0.1.8'))
-if(Test-Path -LiteralPath $destination){throw 'Preserve existing0.1.8; choose a fresh output root.'}
-New-Item -ItemType Directory -Path $destination | Out-Null
+if((Test-Path -LiteralPath $destination) -and @(Get-ChildItem -LiteralPath $destination -Force).Count){throw 'Preserve existing0.1.8; choose a fresh output root.'}
+New-Item -ItemType Directory -Path $destination -Force | Out-Null
 foreach($variant in @(@{name='32k';frames=32768;build=$Build32},@{name='64k';frames=65536;build=$Build64})){
- $staging=Join-Path $root ('local/stage019/package-'+$variant.name+'-'+[Guid]::NewGuid().ToString('N'))
- & (Join-Path $PSScriptRoot 'Package-Beta.ps1') -Version 0.1.8 -NumericStatus 'PASS targeted software contract; driver4096 unsupported; LIVE PENDING' -OutputRoot ('local/stage019/'+[IO.Path]::GetFileName($staging)) -NativeBuild $variant.build -UiBuild $UiBuild | Out-Null
+ # Short staging path avoids Windows PowerShell's legacy260-character copy
+ # limit for historical validation files. Keep every stage inside this workspace.
+ $relativeStaging='../../../local/p019-'+$variant.name+'-'+[Guid]::NewGuid().ToString('N').Substring(0,8)
+ $staging=[IO.Path]::GetFullPath((Join-Path $root $relativeStaging))
+ & (Join-Path $PSScriptRoot 'Package-Beta.ps1') -Version 0.1.8 -NumericStatus 'PASS targeted software contract; driver4096 unsupported; LIVE PENDING' -OutputRoot $relativeStaging -NativeBuild $variant.build -UiBuild $UiBuild | Out-Null
  $original=Join-Path $staging '0.1.8/EntropyAudioCore-0.1.8-beta-win-x64'
  $bundle=Join-Path $destination ('EntropyAudioCore-0.1.8-'+$variant.name+'-win-x64')
  Copy-Item -LiteralPath $original -Destination $bundle -Recurse
