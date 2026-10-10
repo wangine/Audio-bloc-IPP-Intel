@@ -1,0 +1,14 @@
+{
+  "version": "0.1.7",
+  "date": "2026-10-10",
+  "implementationCommit": "55b289b3c691c502c18f2a68fb92856a85ecdccb",
+  "source": "Direct user confirmation in this conversation",
+  "userStatement": "Da sefu', este perfect. Poti face push",
+  "liveAcceptance": "PASS USER CONFIRMED",
+  "hardwareTimingMeasurement": "NOT PERFORMED",
+  "CoreSha256": "62E64447389019717C745FD0A543A770D3AD18E00F8AF333162CAA6D4D68FAE3",
+  "UiSha256": "254CC0DA52626DD351AF24FC3CEDC70C12456E5AD3F089A8CA37F304A190B400",
+  "stage04": "FAIL REALTIME",
+  "v07": "BLOCKED",
+  "DSPAlgorithmsChanged": false
+}
