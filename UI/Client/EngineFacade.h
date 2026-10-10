@@ -3,6 +3,7 @@
 #include "Legacy/RenderUiBridge.h"
 #include <QJsonArray>
 #include <memory>
+#include <vector>
 namespace entropy::ui {
 class EngineFacade final:public QObject {
 public:
@@ -23,8 +24,11 @@ public:
  static EngineFacade* current();
 private:
  void poll();void receive(const QJsonObject&);
+ void pollCommands();
  IpcClient client_;QTimer poll_;stage::RenderUiBridge bridge_;
  std::unique_ptr<host::EngineTelemetrySnapshot> telemetry_=std::make_unique<host::EngineTelemetrySnapshot>();
- QJsonObject metadata_,devices_;uint64_t sequence_=0,lastQpc_=0,session_=0;bool polling_=false;QString lastError_;
+ QJsonObject metadata_,devices_;uint64_t sequence_=0,lastQpc_=0,session_=0,pendingArmSequence_=0;bool polling_=false;QString lastError_;
+ struct PendingCommand {QString id;IpcClient::Reply callback;};
+ std::vector<PendingCommand> commands_;bool pollingCommands_=false;
 };
 }

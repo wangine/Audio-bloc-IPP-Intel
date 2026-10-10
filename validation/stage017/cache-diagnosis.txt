@@ -1,0 +1,15 @@
+{"id":"bassAPFreq","value":80.000007629394531} -> {"id":"bassAPFreq","value":80}
+{"id":"lpHz2","value":20000.001953125} -> {"id":"lpHz2","value":20000}
+{"id":"lpHz3","value":20000.001953125} -> {"id":"lpHz3","value":20000}
+{"id":"lpHz4","value":20000.001953125} -> {"id":"lpHz4","value":20000}
+{"id":"lpHz5","value":20000.001953125} -> {"id":"lpHz5","value":20000}
+{"id":"lpHz6","value":20000.001953125} -> {"id":"lpHz6","value":20000}
+{"id":"lpHz7","value":20000.001953125} -> {"id":"lpHz7","value":20000}
+{"id":"lpHz8","value":20000.001953125} -> {"id":"lpHz8","value":20000}
+{"id":"lpHz9","value":20000.001953125} -> {"id":"lpHz9","value":20000}
+{"id":"lpHz10","value":20000.001953125} -> {"id":"lpHz10","value":20000}
+{"id":"lpHz13","value":20000.001953125} -> {"id":"lpHz13","value":20000}
+{"id":"lpHz14","value":20000.001953125} -> {"id":"lpHz14","value":20000}
+{"id":"lpHz15","value":20000.001953125} -> {"id":"lpHz15","value":20000}
+{"id":"lpHz16","value":20000.001953125} -> {"id":"lpHz16","value":20000}
+FAIL return to prepared MUSIC recompiles kernels

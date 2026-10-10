@@ -1,0 +1,4 @@
+[1/4] Building CXX object CMakeFiles/entropy_ui.dir/Client/EngineFacade.cpp.obj
+[2/4] Linking CXX static library libentropy_ui.a
+[3/4] Linking CXX executable EntropyStage017Ui.exe
+[4/4] Linking CXX executable EntropyUI.exe

@@ -108,6 +108,10 @@ public:
         uint32_t reason = 0;
     };
     bool publishControlSnapshot(ControlCommandTag tag);
+    // Control-owner preparation cache. These are immutable coefficient copies,
+    // never histories and never objects retained by the processing owner.
+    bool preparedCoefficientsFinite() const noexcept;
+    std::array<uint64_t,2> preparationCacheCounts() const noexcept {return {preparationBuilds,preparationHits};}
     void publishControlAccepted(ControlCommandTag tag) noexcept;
     void publishControlFailure(ControlCommandTag tag, uint32_t reason) noexcept;
     ControlCommandStatus controlCommandStatus() const noexcept;
@@ -300,6 +304,15 @@ private:
         int latency=0;
         ControlCommandTag controlTag{};
     };
+    struct PreparedScene {
+        std::unique_ptr<Config> config;
+        std::array<float,parameterCount> key{};
+        double rate=0; int frames=0;
+    };
+    static bool finiteConfig(const Config&) noexcept;
+    std::array<PreparedScene,2> preparedScenes;
+    uint64_t preparationBuilds=0,preparationHits=0;
+    bool lastPreparationFinite=false;
     std::array<Config,3> configs;
     std::array<std::atomic<int>,3> slotState{};
     std::atomic<int> pending{-1};

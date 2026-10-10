@@ -1,4 +1,5 @@
 #include "PluginProcessor.h"
+#include <string_view>
 #include <cmath>
 namespace entropy::standalone {
 
@@ -1688,6 +1689,20 @@ void EntropyCrossoverAudioProcessor::serviceUpdates()
     (void) publishControlSnapshot({});
 }
 
+bool EntropyCrossoverAudioProcessor::finiteConfig(const Config& c) noexcept {
+    auto finiteBiquad=[](const Biquad& b){return std::isfinite(b.b0)&&std::isfinite(b.b1)&&std::isfinite(b.b2)&&std::isfinite(b.a1)&&std::isfinite(b.a2);};
+    for(int ch=0;ch<16;++ch){
+        for(const auto& b:c.hp[ch])if(!finiteBiquad(b))return false;
+        for(const auto& b:c.lp[ch])if(!finiteBiquad(b))return false;
+        if(!finiteBiquad(c.ap[ch]))return false;
+        for(double a:c.delays[ch].a)if(!std::isfinite(a))return false;
+        const auto& k=c.kernels[ch];for(double tap:k.head)if(!std::isfinite(tap))return false;
+        for(int p=0;p<k.partitions;++p)for(auto bin:k.tail[p])if(!std::isfinite(bin.re)||!std::isfinite(bin.im))return false;
+    }
+    return true;
+}
+bool EntropyCrossoverAudioProcessor::preparedCoefficientsFinite() const noexcept {return hasCompiled&&lastPreparationFinite;}
+
 bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag tag) {
     const bool requestedCinema = liveRt (parameterIndex("cinemaSource")) >= 0.5f;
     if (! sceneStatesInitialised)
@@ -1727,6 +1742,26 @@ bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag ta
     const double compiledRate=getRuntimeSampleRate();uint64_t rateBits=0;std::memcpy(&rateBits,&compiledRate,sizeof(rateBits));
     for(int ch=0;ch<16;++ch){uint64_t key=(1469598103934665603ULL^rateBits)*1099511628211ULL;for(int idx:{parameterIndex("cinemaSource"),parameterIndex("lrBandLimit"),parameterIndex("processMode1")+ch,parameterIndex("firLength1")+ch,parameterIndex("hpOn1")+ch,parameterIndex("lpOn1")+ch,parameterIndex("hpHz1")+ch,parameterIndex("lpHz1")+ch,parameterIndex("source1")+ch,parameterIndex("cinemaRole1")+ch}){uint32_t bits;std::memcpy(&bits,&building->values[idx],4);key=(key^bits)*1099511628211ULL;}building->kernelKey[ch]=key;}
 
+    auto key=requestedValues;
+    // UI selection/fine-gesture resolution, legacy migration fields, and the
+    // other scene's per-lane settings do not affect this scene's preparation.
+    // selectedChannel/fineDelayRatio/FFT monitoring are not canonical DSP
+    // parameters at all. Compare only the effective scene's canonical values.
+    for(int ch=0;ch<16;++ch){
+        key[parameterIndex("gainDb1")+ch]=0;key[parameterIndex("delayMs1")+ch]=0;
+        if(requestedCinema){key[parameterIndex("musicGainDb1")+ch]=0;key[parameterIndex("musicDelayMs1")+ch]=0;key[parameterIndex("source1")+ch]=0;}
+        else{key[parameterIndex("cinemaGainDb1")+ch]=0;key[parameterIndex("cinemaDelayMs1")+ch]=0;key[parameterIndex("cinemaRole1")+ch]=0;}
+    }
+    for(int ch=0;ch<(requestedCinema?3:10);++ch){
+        if(requestedCinema)key[parameterIndex("musicTrimDb1")+ch]=0;
+        else key[parameterIndex("cinemaTrimDb1")+ch]=0;
+    }
+    auto& cached=preparedScenes[requestedCinema?1:0];
+    const bool cacheHit=cached.config&&cached.key==key&&cached.rate==compiledRate
+        &&cached.frames==getRuntimeBlockSize(); // fixed layout 13 -> 16, this implementation only
+    if(cacheHit){
+        *building=*cached.config;building->values=requestedValues;building->controlTag=tag;++preparationHits;
+    }else{
     for(int ch=0;ch<16;++ch){
         compileCoefficients(ch,getRuntimeSampleRate()); updateFir(ch,getRuntimeSampleRate());
         building->latency=std::max(building->latency,firGroupDelayForChannel(ch));
@@ -1741,6 +1776,15 @@ bool EntropyCrossoverAudioProcessor::publishControlSnapshot(ControlCommandTag ta
         building->delays[ch]=FractionalDelayDesign::compile(int(std::lround(rt(fractionalDelayModeBase+ch))),
             acousticMs*0.001*compiledRate+compensation);
     }
+        if(!finiteConfig(*building)){
+            tlsConfig=nullptr;building=nullptr;slotState[slot].store(0,std::memory_order_release);
+            if(reusedPending&&reusedTag.sequence)failedCommand.publish(reusedTag,4u);
+            lastPreparationFinite=false;return false;
+        }
+        if(!cached.config)cached.config=std::make_unique<Config>();
+        *cached.config=*building;cached.key=key;cached.rate=compiledRate;cached.frames=getRuntimeBlockSize();++preparationBuilds;
+    }
+    lastPreparationFinite=finiteConfig(*building);
     tlsConfig=nullptr;
     lastCompiled=building->values;hasCompiled=true;building=nullptr;
     const int replaced = pending.exchange(slot, std::memory_order_acq_rel);

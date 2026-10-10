@@ -1,8 +1,12 @@
 #include "CommandServer.h"
+#include "Json.h"
 #include <sddl.h>
 #include <array>
 #include <vector>
 #include <stdexcept>
+#include <deque>
+#include <mutex>
+#include <condition_variable>
 namespace entropy::ipc {
 namespace {
 struct Handle {HANDLE value=nullptr;~Handle(){if(value&&value!=INVALID_HANDLE_VALUE)CloseHandle(value);}};
@@ -56,31 +60,56 @@ void CommandServer::worker() noexcept {
         if(!connected&&GetLastError()==ERROR_PIPE_CONNECTED)connected=true;
         else if(!connected)connected=await(pipe_,stop_,op,count,false);
         if(!connected){if(WaitForSingleObject(stop_,0)==WAIT_OBJECT_0)break;DisconnectNamedPipe(pipe_);continue;}
+        // The reader admits DISARM while the sole writer is backpressured by
+        // a large telemetry response. No other thread writes this connection.
+        Handle connectionStop;connectionStop.value=CreateEventW(nullptr,TRUE,FALSE,nullptr);
+        std::mutex outputMutex;std::condition_variable outputReady;
+        struct PendingReply {Frame frame;bool telemetry=false;};std::deque<PendingReply> output;
+        std::atomic<bool> writerFailed{false};
+        std::thread writer([&]{
+            Handle written;written.value=CreateEventW(nullptr,TRUE,FALSE,nullptr);
+            try {
+                while(WaitForSingleObject(connectionStop.value,0)!=WAIT_OBJECT_0){
+                    PendingReply pending;
+                    {std::unique_lock lock(outputMutex);outputReady.wait_for(lock,std::chrono::milliseconds(20),[&]{return !output.empty()||WaitForSingleObject(connectionStop.value,0)==WAIT_OBJECT_0;});
+                     if(output.empty())continue;pending=std::move(output.front());output.pop_front();}
+                    auto encoded=encode(pending.frame);size_t done=0;
+                    while(done<encoded.size()){
+                        ResetEvent(written.value);OVERLAPPED write{};write.hEvent=written.value;DWORD bytesWritten=0;
+                        const bool started=WriteFile(pipe_,encoded.data()+done,DWORD(encoded.size()-done),&bytesWritten,&write)!=FALSE;
+                        if(!await(pipe_,connectionStop.value,write,bytesWritten,started,kControlLeaseMs)||!bytesWritten)throw std::runtime_error("Peer disconnected");
+                        done+=bytesWritten;
+                    }
+                }
+            }catch(...){writerFailed=true;CancelIoEx(pipe_,nullptr);}
+        });
         try {
             Framer reader;auto lastTraffic=GetTickCount64();
-            while(WaitForSingleObject(stop_,0)!=WAIT_OBJECT_0){
+            while(WaitForSingleObject(stop_,0)!=WAIT_OBJECT_0&&!writerFailed){
                 ResetEvent(event.value);op={};op.hEvent=event.value;count=0;
                 auto idle=GetTickCount64()-lastTraffic;if(idle>=kControlLeaseMs)break;
                 bool started=ReadFile(pipe_,bytes.data(),DWORD(bytes.size()),&count,&op)!=FALSE;
                 if(!await(pipe_,stop_,op,count,started,DWORD(kControlLeaseMs-idle))||count==0)break;
-                if(stopAfterReply_)continue; // Ignore inbound traffic until EOF/fixed lease; it does not prove reply consumption.
+                if(stopAfterReply_)continue;
                 reader.push(std::span(bytes.data(),count));
                 for(const auto& request:reader.take()){
-                    lastTraffic=GetTickCount64(); // Renew only a complete valid frame, not partial bytes.
-                    auto reply=handler_(request);reply.requestId=request.requestId;auto encoded=encode(reply);size_t done=0;
-                    while(done<encoded.size()){
-                        ResetEvent(event.value);op={};op.hEvent=event.value;count=0;
-                        started=WriteFile(pipe_,encoded.data()+done,DWORD(encoded.size()-done),&count,&op)!=FALSE;
-                        if(!await(pipe_,stop_,op,count,started,kControlLeaseMs)||!count)throw std::runtime_error("Peer disconnected");done+=count;
-                    }
-                    // The lease measures peer inactivity, not time spent in a
-                    // bounded Core handler (e.g. independent scene preflight).
-                    // Keep the same five-second idle and write timeout gates.
                     lastTraffic=GetTickCount64();
-                    if(stopAfterReply_)break; // Do not discard buffered reply with DisconnectNamedPipe.
+                    auto reply=handler_(request);reply.requestId=request.requestId;
+                    bool telemetry=false;try{const auto message=parse(request.payload);telemetry=message.contains("action")&&message.at("action").asString()=="telemetry";}catch(...){}
+                    {std::lock_guard lock(outputMutex);
+                     if(telemetry)for(auto& pending:output)if(pending.telemetry){
+                         // Preserve correlation even when an unsent old view is
+                         // redundant. Never drop semantic command responses.
+                         pending.frame.payload="{\"ok\":false,\"error\":\"Telemetry superseded; poll current snapshot\"}";pending.telemetry=false;
+                     }
+                     output.push_back({std::move(reply),telemetry});
+                     if(output.size()>256)throw std::runtime_error("IPC reply backlog exceeded");}
+                    outputReady.notify_one();lastTraffic=GetTickCount64();
+                    if(stopAfterReply_)break;
                 }
             }
-        }catch(...){} // Framing failure closes the controlling session, never audio processing.
+        }catch(...){}
+        SetEvent(connectionStop.value);outputReady.notify_one();writer.join();
         if(stopAfterReply_){replyComplete_.store(true,std::memory_order_release);SetEvent(stop_);}
         try{if(disconnect_)disconnect_();}catch(...){}
         DisconnectNamedPipe(pipe_);

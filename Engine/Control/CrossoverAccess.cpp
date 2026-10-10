@@ -38,6 +38,26 @@ void CrossoverAccess::resetQuiescent(){
  // only a subsequently processed real block can acknowledge it as applied.
  if(pending&&!engine.publishControlSnapshot(impl_->lastAudibleTag))throw std::runtime_error("Crossover requeue after local reset failed");
 }
+bool CrossoverAccess::preparedFinite() const noexcept {return impl_->state.engine->preparedCoefficientsFinite();}
+J CrossoverAccess::preparationCache() const {auto counts=impl_->state.engine->preparationCacheCounts();return J::Object{{"builds",J::u64(counts[0])},{"hits",J::u64(counts[1])},{"finite",preparedFinite()}};}
+J CrossoverAccess::preparationParameters(const J& change) const {
+ J::Array parameters;for(const auto& id:impl_->ids){double value=0;require(getParameter(reinterpret_cast<EntropyModuleHandle>(&impl_->state),id.c_str(),&value));parameters.emplace_back(J::Object{{"id",id},{"value",value}});}
+ auto set=[&](const std::string& id,const J& value){for(auto& p:parameters)if(p.at("id").asString()==id)p["value"]=value;};
+ bool sceneChange=false;int target=0,current=impl_->state.engine->getAPVTS().getRawParameterValue("cinemaSource")->load()>=.5f?1:0;
+ if(!change.isNull()){
+  auto action=change.at("action").asString();
+  auto entry=[&](const J& p){set(p.at("id").asString(),p.at("value"));if(p.at("id").asString()=="cinemaSource"){target=p.at("value").asUnsigned(1);sceneChange=target!=current;}};
+  if(action=="program"){target=change.at("program").asUnsigned(1);sceneChange=target!=current;set("cinemaSource",target);}
+  else if(action=="parameter")entry(change);
+  else if(action=="parameters")for(const auto& p:change.at("values").asArray())entry(p);
+ }
+ if(sceneChange){auto bytes=exportBytes();auto xml=entropy::native::getXmlFromBinary(bytes.data(),int(bytes.size()));if(!xml)throw std::runtime_error("Scene state unavailable");auto tree=entropy::native::XmlNode::fromXml(*xml);
+  for(int n=0;n<tree.getNumChildren();++n){auto node=tree.getChild(n);if(!node.hasType(target?"CINEMA_CROSSOVER_SCENE":"MUSIC_CROSSOVER_SCENE"))continue;
+   for(const auto& id:impl_->ids)if(node.hasProperty(id.c_str())){auto text=node.getProperty(id.c_str()).toString().toStdString();float value=0;auto parsed=std::from_chars(text.data(),text.data()+text.size(),value);if(parsed.ec!=std::errc{}||!std::isfinite(value))throw std::invalid_argument("Nonfinite saved scene");set(id,double(value));}
+  }
+ }
+ return J::Object{{"parameters",std::move(parameters)}};
+}
 J CrossoverAccess::metadata() const {
  J::Array a;
  for(const auto& id:impl_->ids){auto* p=impl_->state.engine->getAPVTS().getParameter(id.c_str());const auto& r=p->getNormalisableRange();unsigned kind=0,choices=0;if(dynamic_cast<entropy::native::AudioParameterBool*>(p))kind=1;else if(auto* c=dynamic_cast<entropy::native::AudioParameterChoice*>(p)){kind=2;choices=unsigned(c->choices.size());}

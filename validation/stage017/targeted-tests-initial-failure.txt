@@ -1,0 +1,20 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+    Start 5: EntropyStage017Preparation
+1/4 Test #5: EntropyStage017Preparation .......***Failed    0.16 sec
+FAIL return to prepared MUSIC recompiles kernels
+
+    Start 6: EntropyStage017Transport
+2/4 Test #6: EntropyStage017Transport .........   Passed    0.12 sec
+    Start 7: EntropyStage017Lifecycle
+3/4 Test #7: EntropyStage017Lifecycle .........   Passed    0.54 sec
+    Start 8: EntropyStage017Control
+4/4 Test #8: EntropyStage017Control ...........   Passed    0.38 sec
+
+75% tests passed, 1 tests failed out of 4
+
+Total Test time (real) =   1.23 sec
+
+The following tests FAILED:
+	  5 - EntropyStage017Preparation (Failed)
+Errors while running CTest

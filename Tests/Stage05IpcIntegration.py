@@ -22,13 +22,22 @@ class Client:
    if not K.ReadFile(self.handle,b,len(b),C.byref(read),None) or not read.value:raise OSError(C.get_last_error())
    out+=b.raw[:read.value]
   return out
- def call(self,action,**fields):
+ def call(self,action,_admission_only=False,**fields):
   self.id+=1;
   if self.session:fields.setdefault("session",self.session)
   p=json.dumps(dict(action=action,**fields),allow_nan=False).encode();b=struct.pack('<4I',1,16+len(p),2,self.id)+p;n=C.c_uint32()
   if not K.WriteFile(self.handle,b,len(b),C.byref(n),None):raise OSError(C.get_last_error())
   v,size,cmd,rid=struct.unpack('<4I',self.exact(16));assert v==1 and rid==self.id
-  reply=json.loads(self.exact(size-16));self.session=reply.get("session");return reply
+  reply=json.loads(self.exact(size-16));self.session=reply.get("session")
+  if reply.get('ok') and reply.get('data',{}).get('status')=='ACCEPTED' and not _admission_only:
+   identity=reply['data']['commandId'];until=time.monotonic()+10
+   while True:
+    progress=self.call('command-results',ids=[identity])['data']['results'][0]
+    if progress['complete']:
+     reply=progress['reply'];reply['session']=self.session;break
+    if time.monotonic()>until:raise RuntimeError('accepted command completion timeout')
+    time.sleep(.01)
+  return reply
 class CoreProcessContract(unittest.TestCase):
  @classmethod
  def setUpClass(cls):

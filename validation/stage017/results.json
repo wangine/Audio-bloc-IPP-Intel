@@ -1,0 +1,51 @@
+{
+  "version": "0.1.6",
+  "scope": "audit01 only; candidate awaiting user live confirmation",
+  "baseline": "3afb8d77b3bdd984a2f5bb53095cb99c37de72c0",
+  "compiler": "MSVC 19.51.36257 x64",
+  "IPP": "2026.0",
+  "build": "PASS",
+  "nativeTargetedTests": "4/4 PASS",
+  "uiBackend": "PASS",
+  "existingPipeContract": "PASS",
+  "CoreUiOfflineSmoke": "PASS",
+  "numericPreparationCache": {
+    "PASS": true,
+    "bitExact": true,
+    "comparedSamples": 307200,
+    "maximumAbsoluteDifference": 0,
+    "nonzeroSamples": "230342",
+    "preparedCache": {
+      "builds": "6",
+      "finite": true,
+      "hits": "9"
+    }
+  },
+  "simulatedLifecycle": {
+    "PASS": true,
+    "activePcmBlocks": 13,
+    "benchmarkCalls": "0",
+    "lateSinkOpens": 0,
+    "runningDisarmAdmissionUs": 4.7,
+    "runningGateUs": 0.6,
+    "simulatedTeardownUs": 67.5,
+    "slowPreparationDisarmAdmissionUs": 1,
+    "slowPreparationGateUs": 0.2
+  },
+  "CoreProgramAdmission": {
+    "PASS": true,
+    "programAdmissionMs": 0.7096999999999798,
+    "benchmarkCalls": 0
+  },
+  "backpressuredReplyDisarmAdmissionMs": 15,
+  "hardware": "NOT RUN",
+  "listening": "PENDING",
+  "fullSuiteAndTimedDiagnostic": "NOT RERUN",
+  "stage04": "FAIL REALTIME",
+  "V07": "BLOCKED",
+  "CoreSha256": "A7B1AF6C7B00E768311138C5B0997D864668194DCDB0B89EFD08BD8C703369CB",
+  "UiSha256": "3D8CCF1B83D207ACFD8759074EB005B84B39C25E05F80EDD4A4C7CD17C5B4680",
+  "stableProfileSha256": "D1ECFACF5B8168D93B5EECDD8F1B109F184F77AE5AA861B3B32E7BF3760F8F7C",
+  "automaticArm": false,
+  "push": false
+}

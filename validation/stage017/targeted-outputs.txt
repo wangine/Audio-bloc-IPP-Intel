@@ -1,0 +1,67 @@
+Start testing: Oct 10 12:20 GTB Daylight Time
+----------------------------------------------------------
+5/44 Testing: EntropyStage017Preparation
+5/44 Test: EntropyStage017Preparation
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyStage017Preparation.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage017Preparation" start time: Oct 10 12:20 GTB Daylight Time
+Output:
+----------------------------------------------------------
+{"PASS":true,"bitExact":true,"comparedSamples":307200,"maximumAbsoluteDifference":0,"nonzeroSamples":"230342","preparedCache":{"builds":"6","finite":true,"hits":"9"}}
+<end of output>
+Test time =   0.35 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage017Preparation" end time: Oct 10 12:20 GTB Daylight Time
+"EntropyStage017Preparation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/44 Testing: EntropyStage017Transport
+6/44 Test: EntropyStage017Transport
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyStage017Transport.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage017Transport" start time: Oct 10 12:20 GTB Daylight Time
+Output:
+----------------------------------------------------------
+PASS unread 250k FFT response; DISARM admission 15 ms; correlated single writer
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage017Transport" end time: Oct 10 12:20 GTB Daylight Time
+"EntropyStage017Transport" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/44 Testing: EntropyStage017Lifecycle
+7/44 Test: EntropyStage017Lifecycle
+Command: "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran/EntropyStage017Lifecycle.exe"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage017Lifecycle" start time: Oct 10 12:20 GTB Daylight Time
+Output:
+----------------------------------------------------------
+{"PASS":true,"activePcmBlocks":13,"benchmarkCalls":"0","lateSinkOpens":0,"runningDisarmAdmissionUs":4.7000000000000002,"runningGateUs":0.59999999999999998,"simulatedTeardownUs":67.5,"slowPreparationDisarmAdmissionUs":1,"slowPreparationGateUs":0.20000000000000001}
+<end of output>
+Test time =   0.42 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage017Lifecycle" end time: Oct 10 12:20 GTB Daylight Time
+"EntropyStage017Lifecycle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/44 Testing: EntropyStage017Control
+8/44 Test: EntropyStage017Control
+Command: "C:/Users/bobi/AppData/Local/Programs/Python/Python39/python.exe" "D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/Tests/Stage017Control.py"
+Directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+"EntropyStage017Control" start time: Oct 10 12:20 GTB Daylight Time
+Output:
+----------------------------------------------------------
+{"PASS": true, "programAdmissionMs": 0.7096999999999798, "benchmarkCalls": 0}
+<end of output>
+Test time =   0.40 sec
+----------------------------------------------------------
+Test Passed.
+"EntropyStage017Control" end time: Oct 10 12:20 GTB Daylight Time
+"EntropyStage017Control" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Oct 10 12:20 GTB Daylight Time

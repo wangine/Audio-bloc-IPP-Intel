@@ -24,3 +24,6 @@ add_executable(EntropyStage07IpcTimeout ../Tests/Stage07IpcTimeout.cpp)
 target_link_libraries(EntropyStage07IpcTimeout PRIVATE entropy_ui)
 add_executable(EntropyStage07DeviceInventory ../Tests/Stage07DeviceInventory.cpp)
 target_link_libraries(EntropyStage07DeviceInventory PRIVATE entropy_ui)
+
+add_executable(EntropyStage017Ui ../Tests/Stage017Ui.cpp)
+target_link_libraries(EntropyStage017Ui PRIVATE entropy_ui)

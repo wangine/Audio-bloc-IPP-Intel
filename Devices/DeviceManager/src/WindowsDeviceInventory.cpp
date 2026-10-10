@@ -368,7 +368,9 @@ std::string formatSummary(const EntropyDeviceInfo& info)
 }
 }
 
-EntropyResult WindowsDeviceInventory::refresh()
+EntropyResult WindowsDeviceInventory::refresh(){return refreshImpl(nullptr);}
+EntropyResult WindowsDeviceInventory::refreshSelected(const std::vector<std::string>& endpoints){return refreshImpl(&endpoints);}
+EntropyResult WindowsDeviceInventory::refreshImpl(const std::vector<std::string>* selected)
 {
     ComScope com;
     if (!com.usable()) return ENTROPY_ERROR_PROCESSING;
@@ -393,18 +395,20 @@ EntropyResult WindowsDeviceInventory::refresh()
     }
 
     IMMDeviceCollection* collection = nullptr;
-    result = enumerator->EnumAudioEndpoints(eRender, DEVICE_STATEMASK_ALL,
-                                             &collection);
-    if (FAILED(result)) { enumerator->Release(); return ENTROPY_ERROR_PROCESSING; }
-    UINT count = 0;
-    collection->GetCount(&count);
+    UINT count = selected ? static_cast<UINT>(selected->size()) : 0;
+    if(!selected){
+        result = enumerator->EnumAudioEndpoints(eRender, DEVICE_STATEMASK_ALL, &collection);
+        if (FAILED(result)) { enumerator->Release(); return ENTROPY_ERROR_PROCESSING; }
+        collection->GetCount(&count);
+    }
     std::vector<EntropyDeviceInfo> found;
     found.reserve(count);
 
     for (UINT index = 0; index < count; ++index)
     {
         IMMDevice* endpoint = nullptr;
-        if (FAILED(collection->Item(index, &endpoint))) continue;
+        if(selected){auto id=wide((*selected)[index]);if(FAILED(enumerator->GetDevice(id.c_str(),&endpoint)))continue;}
+        else if (FAILED(collection->Item(index, &endpoint))) continue;
         LPWSTR endpointIdWide = nullptr;
         std::string endpointId;
         if (SUCCEEDED(endpoint->GetId(&endpointIdWide)))
@@ -505,9 +509,16 @@ EntropyResult WindowsDeviceInventory::refresh()
         endpoint->Release();
     }
 
-    collection->Release();
+    if(collection)collection->Release();
     enumerator->Release();
-    devices_ = std::move(found);
+    if(selected){
+        for(const auto& id:*selected){
+            auto old=std::find_if(devices_.begin(),devices_.end(),[&](const auto& d){return id==d.endpoint_id_utf8;});
+            auto now=std::find_if(found.begin(),found.end(),[&](const auto& d){return id==d.endpoint_id_utf8;});
+            if(now!=found.end()){if(old==devices_.end())devices_.push_back(*now);else *old=*now;}
+            else if(old!=devices_.end()){old->active=0;old->format_count=0;}
+        }
+    }else devices_ = std::move(found);
     return ENTROPY_OK;
 }
 }

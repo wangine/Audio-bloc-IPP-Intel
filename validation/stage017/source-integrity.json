@@ -1,0 +1,396 @@
+{
+  "PASS": true,
+  "baseline": "3afb8d77b3bdd984a2f5bb53095cb99c37de72c0",
+  "crossoverOriginalMethodsChecked": 51,
+  "changedControlPreparationOnly": [
+    "publishControlSnapshot"
+  ],
+  "strictDiagnosticBodyUnchanged": true,
+  "protectedFiles": [
+    {
+      "path": "DSP/Crossover/compat/src/CrossoverModule.cpp",
+      "sha256": "2F421EFCC9A16BE3A11D12B250B263531D08F3A31FAF45C8C7C84438E85501D0",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/include/FractionalDelay.h",
+      "sha256": "A1EEF5762B1C5AB0236C7C14FA9EFB9B993DBDA3E75026E474B98F7EB99D5DC3",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/include/IppSpectrum.h",
+      "sha256": "2EC6A2A4D16014D747D88338FEF59F9F05FD1D165068C34D2641E64097C8108D",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/include/NativeSupport.h",
+      "sha256": "D93640FC9B6478ADD43A72FE46411EB77B48AAEA9E72FE746EAD8504D104461B",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/include/ParameterIds.h",
+      "sha256": "A90FA48022F2E5BD0F59A9E8B83A40A5C5DA6297BF11B7A9C62F0831DC7ECB3B",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/include/ProgramEpochTrace.h",
+      "sha256": "90F914527092E286558333B8E2847364DC0245B0B227A67BF1FC6585936481D5",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/include/RealtimeFir.h",
+      "sha256": "74A38E47390D39B0C1D10E7724BEB0C60A9D8E8BD4404C2B169E570F3AB8CB2E",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/notices/license.rtf",
+      "sha256": "37F11C79F36FB5E1B00ACA31C1234A7435C2929D83E181EE802A349CA8571749",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/notices/third-party-programs.txt",
+      "sha256": "A1A3DE9138323BA77D63C81E93984090BAEECF3F85A61E70323B4D9876B89BC9",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/src/FractionalDelay.cpp",
+      "sha256": "718F92347383628539B286038C1A9F3FBCA6FBF8D1D967CF49D7BB1A8109F73D",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/src/NativeState.cpp",
+      "sha256": "9F5823BD07BC9CC8269F5645E0D1860868408C9CA6CDE91A6E263198D7D28EA0",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/tests/IppFirTests.cpp",
+      "sha256": "251AC4117147506D714AE6D9C5A275BBDC6D8409208D7D0D39BAAC5D5B05A0A3",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Crossover/tests/NativeSupportTests.cpp",
+      "sha256": "3B591940763473D4C09C9324F36709840FF9D6DEB332EB46A4C76D19CD4726E6",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Headroom/include/HeadroomEngine.h",
+      "sha256": "873B9A380DC9F60BBE3CB6B5587433245AE3FC8438C8C550F97B996472A9FC63",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Headroom/src/HeadroomEngine.cpp",
+      "sha256": "44B7BBD68A9F093C87DDCA61A22EEF82DEA72E7C876C657F2E259E314DD05934",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Headroom/tests/HeadroomEngineTests.cpp",
+      "sha256": "9AAA51AD560EC609C93B33845FDC8427FD0A4834E2FB67F236B1BF1100B633A3",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/Headroom/tests/HeadroomRealtimeAllocationTests.cpp",
+      "sha256": "6B75D14F1B4ECF31277D71BE8E32C2B7CC719CBDBE27DFD48432D898D7B24C85",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/OutputMatrix/include/OutputMatrixEngine.h",
+      "sha256": "F41D10081874FCAEE9017C5D6BC403A7C4DD24543053A79A9A5FD0F05B623AB7",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/OutputMatrix/src/OutputMatrixEngine.cpp",
+      "sha256": "1BE82F4910DEF65FA6232D71000A19CBD7D8F8A6F63E2838E53551A24816769E",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/OutputMatrix/tests/OutputMatrixEngineTests.cpp",
+      "sha256": "9DF788AB585A62319DDDEBB44B4EDEC4B99780015C3EA7366B901D73C45ACDA9",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "DSP/OutputMatrix/tests/OutputMatrixRealtimeAllocationTests.cpp",
+      "sha256": "146240AF90E6D6BF588056E842246317EA83B672055DD19019102059773669CB",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/EgressClockEngine.h",
+      "sha256": "157E282F8F5E8490BA88825F15734BFCDD8695C3F516B33A9E6CD289733C6B6B",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/EgressClockEstimator.h",
+      "sha256": "B0C7E882499878DC3992EFCE5D1B64BC9E5D670F639D89DBF845A0B36C989A7D",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/EgressFirstFaultCapture.h",
+      "sha256": "CEDF8FB4ACD7DE78C6D3B4CF4347767799B25C53A0D92DD29C65BB02CF06551D",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/EgressForensicTrace.h",
+      "sha256": "8EE21F81201B29B84D286FC54871CD364A4075D7F63A22FAEE088A8150207C90",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/EgressRatioController.h",
+      "sha256": "7329A40AED347D8AA91AEB1154EB87C78CE45CAAB80E0B45CDD0BDAAE7BF5DB1",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/EntropyBandlimitedAsrc.h",
+      "sha256": "AF86C99663465BDD73E3A39115508A82E692FFE024760DD17F9975B8C345D7CB",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/EntropySincMatrix.h",
+      "sha256": "CCB1345B3EAD567CBB73657CF0E5D3CB6EB063CE5443F4364C941A935AEA630C",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/FirstFaultSlot.h",
+      "sha256": "888CA517BCAF4FD785E1472CB483488147F840C34F0ACD5F1686AAC1CCFF9895",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/include/ForensicQueue.h",
+      "sha256": "7A45A1237EC1E591BB294211DBBE1103186555D0BB2AD89CE97ED7512EF9D6F7",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/src/EgressClockEngine.cpp",
+      "sha256": "28FBE76734912C01DD4BD8D70D96C5C259A31DCE17390FF1C3F8C077AB634139",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/src/EgressClockEstimator.cpp",
+      "sha256": "E7D8C2D013F9613849097B017EF71944794EA9220DABF387244574F94943E640",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/ClockSync/src/EgressRatioController.cpp",
+      "sha256": "112F476289CAC8EEF74B72D6F6FD22B908F1C322D02CC8E6DDF2ABD991772FEF",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/Guardian/include/FinalGuardianEngine.h",
+      "sha256": "C743852910374CD7BCAA2ED3D6E8E2886F9F9DB58B5DDD77EDCE9CF3294BA6E7",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/Guardian/include/GuardianPhaseKernel.h",
+      "sha256": "981EC7CFF830F58B62C459C91C0F8BDC873B965B3F4B7DEE7D52221B68049D64",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/Guardian/src/FinalGuardianEngine.cpp",
+      "sha256": "E9E0328D45105D9743C88ED930F19A36F7B61356B6D06B080454523BFB7F2A41",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/Guardian/src/GuardianCpuFeatures.cpp",
+      "sha256": "7CB1F95FC896FEE3AB26A4C13CCBB6DBED45EA8A65D96E5CDD3CE86E77A68B2E",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/Guardian/src/GuardianPhaseKernelAvx2.cpp",
+      "sha256": "17F43BCFE3CB6487C7D071EE4BA37B08DE00A022B891DFE9EAA65D398304B048",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/PCM24/include/entropy/pcm24/Pcm24Converter.h",
+      "sha256": "6596FCF7681A6D007FB56461767D536BEECFE74CB347743F12118A854AD633D6",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/PCM24/include/entropy/pcm24/Pcm24ModuleEngine.h",
+      "sha256": "1AF440159C5F9EF6763738F506DF02FC88E485C9E491F077CA25BB64F27202EE",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/PCM24/src/Pcm24Converter.cpp",
+      "sha256": "F88FF6BED1B9794A881E545370E5F4FAFA68E1CF420ABBDCA5F0C5E78B7AC750",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/PCM24/src/Pcm24ModuleEngine.cpp",
+      "sha256": "79E794ED0F766C2BB06FDA84D9A69C06B081FD426A36C987D3D0814ECF16F966",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/PCM24/tests/Pcm24ConverterTests.cpp",
+      "sha256": "A7EEA9F5E074FACFE9DAF8ABF1C8BFC1438B95F4AD97FD1E9BF74DC471CEB6AC",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/PCM24/tests/Pcm24ModuleEngineTests.cpp",
+      "sha256": "71E0A9B394F990E69C7332A672501BAE1858796EDE6D27DA0DD9D71FA2FC4335",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/WasapiSink/include/EntropyDacIdentity.h",
+      "sha256": "BA37D0154FB7C7EE72D624772A7EB938A5C99ABD6224271F194D1BAF8CA43808",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/WasapiSink/include/EntropyPhysicalIpc.h",
+      "sha256": "4284B0FE8380AF351B728BEDA3EC25BE72CF72311A5C9DFE15991F28E4DCB231",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/WasapiSink/include/EntropyRenderDiagnostics.h",
+      "sha256": "5C242CA078E27FB12C3D50ECCF513EC0ACC484D6932ABB15D21302BE369B3E82",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/WasapiSink/include/EntropySinkRecovery.h",
+      "sha256": "C0898952CE61554A5C9CB9B81B3AAA25CA2DABD0B5AB2A31EF8C659E9903EA1D",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/WasapiSink/include/entropy/dac/DacSinkCore.h",
+      "sha256": "AFE45BBA4756CF925E4E8F38513F9D28FF1B3B131DA48F70D03506AAF1CAAC2D",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/WasapiSink/include/entropy/dac/WasapiDacSink.h",
+      "sha256": "7ED7B5447353E8B62867568CF7A86746FA8BA5703D82486F40416D84D04003E0",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/WasapiSink/src/DacSinkCore.cpp",
+      "sha256": "8E6A73F1366A54D95F457C6D15A8B7D1A5E3C82F7BD2E55ACB8B37C54E78C6EF",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Egress/WasapiSink/src/WasapiDacSink.cpp",
+      "sha256": "3C7106E7F02F3A58CE56417906CFEB72A9322B2876AB79BF77F7BDD0E66EEA9C",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Engine/AudioScheduler.cpp",
+      "sha256": "6542EBD05A498A20E96FCB4313E8E06EA1D8F35F8163439EF58D24624D0BCE76",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Engine/Egress/NativeEgress.cpp",
+      "sha256": "B396FADBCBA06300FF04C10E23D8B1E020E20D5224D187D7A795E4C8964B4E2D",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "Engine/Input/Stage2Ingress.cpp",
+      "sha256": "B36A886F97688F13F86B95D6729DCB29CCB8E4B09197D4CB8D1A6A9998F620C1",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/DspGraphNodes.h",
+      "sha256": "4186137C208B063E34D44B166FE72453B0EA3C62EA0D8B4D7B9D045B70E39097",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/CrossoverPage.cpp",
+      "sha256": "27364DF43F443A567DE194C06408A951805AC397D0818AD0C50FD3CFAB02BB52",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/CrossoverPage.h",
+      "sha256": "732C02FF99509789CA7B3B2EA459F7E025704EA7C8AAC38064614C77FE361A03",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/CrossoverProgramNavigation.h",
+      "sha256": "595DB94066F1946F035C0DCDC0D49BBEB20F6DB6F394A3FE2F4A27ADACA8EF9C",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/DelayEditModel.h",
+      "sha256": "F2C2BA8C2B7CD3E07C6EA3D0F52CF4F39ACA12F55D9B66A8927E0E0D90F59A9E",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/DeviceAssignmentPresentation.h",
+      "sha256": "93875A6A5FCA890985B311400A4128033CA3D8E4E6D8D2AEC7A82B922A978ACA",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/DeviceManagerPage.cpp",
+      "sha256": "5AB9EE92451CAB4395B51BABC1D94504476F1A82412DC984A5AFE288A9F5E377",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/DeviceManagerPage.h",
+      "sha256": "331C1D9A5EAF9057D3ACEE000E7F9B8696E76887FA7BB5072C64DB5C9A48BD08",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/HeadroomPage.cpp",
+      "sha256": "DAD322E4107BB6EB0B5FBFBC131B788BAEC513421315E3257D0A52B601456698",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/HeadroomPage.h",
+      "sha256": "FA170CC074DAE3B36E6900719DC1D9045C49993C075680DE4E33230DF62EAEAF",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/LiveUiRefresh.h",
+      "sha256": "77F67F05A7A92C0FBC2C052E3C91B1CDC1E3E78FC15F4A1EE6BB5029B243A609",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/OutputMatrixPage.cpp",
+      "sha256": "68779900D6D8BE7C03BAA369A53C774D9A8B250991383193837064E3A7181615",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/OutputMatrixPage.h",
+      "sha256": "A3A6C5A34E83CF7872016A0B3B5DF88F381402827E9FFECDEF1C8F678285B525",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/OutputStatusSemantics.cpp",
+      "sha256": "835446F9E890E13F1130628F813B6913EF92CECD5E514B8DD24ABDDA23D91CCB",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/R10/OutputStatusSemantics.h",
+      "sha256": "D65C223423621685719FC4E57013009FDC9C65F674CCCE9430C6D22D05212410",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/RenderOverview.cpp",
+      "sha256": "3AF3514E1C093359B75A086C98EDAF1F876549BE98A9EB04F0F14B0BAFF5600F",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/RenderOverview.h",
+      "sha256": "71042E236A60C940ACE06DEB4B7FD4304B3F28A7C5D33661A693D410ECDF7979",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/RenderStyle.h",
+      "sha256": "9BBD6670C51896B732318D39B6E9788087CDBE11A93B76B884287441E3733CFF",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/RenderUiBridge.cpp",
+      "sha256": "E9E24E26EF33E956A4FD34ECB562B135CEA0542C7AAF8122F0A1A34C46B8C7A8",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/RenderUiBridge.h",
+      "sha256": "B4C67BDE21BFBF11C7E3B6FB5C3E6478B80AAA95EF5FBB511D6C63B5EA6EEE6D",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/RenderWindow.cpp",
+      "sha256": "C7BD4E8E4724C68127AEAE6E84DCB39C66C0F57B976B7E48E8714E92A63C035B",
+      "unchangedFromBaseline": true
+    },
+    {
+      "path": "UI/Legacy/RenderWindow.h",
+      "sha256": "F990E9DEE01A9897490B6AEF945B6F63A43E270A3877527D8F7893A8D1F9A378",
+      "unchangedFromBaseline": true
+    }
+  ]
+}

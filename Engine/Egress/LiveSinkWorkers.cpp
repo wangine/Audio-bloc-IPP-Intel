@@ -66,8 +66,9 @@ bool LiveSinkWorkers::start(){
  try{for(unsigned i=0;i<2;++i)if(domains_[i].config.enabled)domains_[i].owner=std::thread([this,i]{run(i);});return true;}
  catch(...){stop();return false;}
 }
+void LiveSinkWorkers::closePublicationGate() noexcept {enabled_.store(false,std::memory_order_release);stopping_.store(true,std::memory_order_release);}
 void LiveSinkWorkers::stop() noexcept {
- enabled_=false;stopping_=true;for(auto& d:domains_)d.pipeline.disarm();
+ closePublicationGate();for(auto& d:domains_)d.pipeline.disarm();
  for(auto& d:domains_)if(d.owner.joinable())d.owner.join();
 }
 void LiveSinkWorkers::failAll(unsigned reason) noexcept {

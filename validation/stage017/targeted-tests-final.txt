@@ -1,0 +1,14 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+    Start 5: EntropyStage017Preparation
+1/4 Test #5: EntropyStage017Preparation .......   Passed    0.34 sec
+    Start 6: EntropyStage017Transport
+2/4 Test #6: EntropyStage017Transport .........   Passed    0.07 sec
+    Start 7: EntropyStage017Lifecycle
+3/4 Test #7: EntropyStage017Lifecycle .........   Passed    0.44 sec
+    Start 8: EntropyStage017Control
+4/4 Test #8: EntropyStage017Control ...........   Passed    0.39 sec
+
+100% tests passed, 0 tests failed out of 4
+
+Total Test time (real) =   1.26 sec

@@ -1,0 +1,21 @@
+# Stage01 control contract — candidate 0.1.6
+
+Baseline: stable 0.1.5, `3afb8d77b3bdd984a2f5bb53095cb99c37de72c0`. Only audit01 is implemented. Stable binaries, original profile, Stage1/2 and visual UI pages are preserved. Physical listening acceptance is pending.
+
+The IPC reader admits mutations with `data.status=ACCEPTED` and a string `commandId`. This acknowledges ownership of the request, not application. Poll `command-results` with `ids` for each completion. Parameter completion reports `ACCEPTED_AT_CONTROL` and `audioApplied=false`; original module applied sequences remain the authority for audio block application. ARM preparation completes as ARMING; telemetry reports RUNNING only after actual sinks run. DISARM immediately closes publication and increments the cancellation generation; the serial owner later completes teardown.
+
+Unknown/expired identities return a terminal `RESULT_EXPIRED` reply individually, preserving other identities in the batch. A disconnected UI reports COMPLETION_UNKNOWN for admitted operations and does not replay them. Accepted profile operations remain owned by Core even if UI disconnects. A failed gate-closing load/configuration/binding operation completes teardown and leaves DISARMED or FAULT. DISARM alone may overtake ordinary queued commands; gesture/parameter order is preserved. No intermediate edit coalescing is introduced.
+
+The serial non-audio owner prepares native coefficients, handles files and selected-device validation, and publishes cached telemetry. The pipe writer is separate from the reader and writes correlated responses in order. Only unsent telemetry payloads may be replaced by a small correlated superseded reply. Completed request history is bounded; an expired result is explicitly unknown, never reported as success.
+
+Two immutable Crossover coefficient caches retain MUSIC/CINEMA configurations keyed by native effective parameters, exact sample rate and block layout. Audio histories and state are never cached. UI selection, FFT monitoring, gesture boundaries and save timestamps are excluded. The first original scene restoration changes a few default float values (e.g. 20000.001953125 to 20000); those different values deliberately rebuild coefficients. Cache reuse does not round keys or weaken tolerances. All original processing/math method bodies remain unchanged.
+
+ARM revalidates selected identities, strict approved format/routing and active endpoint state. Device notifications invalidate cached evidence. Refresh Devices remains an explicit full enumeration. FIR8193 × 16 remains unauthorized live; original Headroom eligibility and finite-value protection remain intact. No new gain, interpolation, SRC or rate law is introduced.
+
+Timed qualification exists only in the separate `EntropyLiveQualification` build target. `preflight-live` is rejected by the normal server. The old strict 1000-block diagnostic gate is preserved verbatim in the diagnostic source; Stage07/016 tests invoke it explicitly in a subprocess. They were migrated but **not executed in this stage**; no full CTest or timed benchmark was run. Do not run this diagnostic during listening.
+
+Reproduce targeted checks after building Core, the four Stage017 native targets, UI and EntropyStage017Ui: `powershell -NoProfile -File tools/Verify-Stage017.ps1`. Explicit diagnostic use, if separately requested: `build/msvc-thiran/EntropyLiveQualification.exe <copy.entropy> MUSIC` or CINEMA; `--change-json` accepts original scene command aliases. Diagnostic EXE is excluded from the normal packaged runtime.
+
+Evidence: `validation/stage017/`. Initial FAIL logs are retained: baseline synchronous program admission and an initial cache-test expectation that ignored original float restoration. The fixture now establishes identical effective scene state before checking exact reuse; DSP coefficients and numeric tolerances were not changed. Hardware timing, hot-unplug exercises, listening and audit03 continuity/stop-event work remain pending. Historical Stage04 FAIL REALTIME and V07 BLOCKED are unchanged.
+
+The user's three audit source documents are stored verbatim in `audit/2026-10-10-stage01/`. They are not copied into the runtime release until live verification and user confirmation, as requested.

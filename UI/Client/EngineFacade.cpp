@@ -11,13 +11,37 @@ namespace {EngineFacade* active=nullptr;uint64_t integer(const QJsonValue& v){re
 EngineFacade* EngineFacade::current(){return active;}
 EngineFacade::~EngineFacade(){active=nullptr;client_.connectionChanged={};client_.fault={};}
 EngineFacade::EngineFacade(const QString& endpoint,QObject* parent):QObject(parent){active=this;
- client_.connectionChanged=[this](bool connected){polling_=false;session_=0;telemetry_->graphReady=connected;if(connected){request({{"action","describe"}},[this](const QJsonObject& r){if(r["ok"].toBool())metadata_=r["data"].toObject();});request({{"action","devices"}},[this](const QJsonObject& r){if(r["ok"].toBool())devices_=r["data"].toObject();});poll();}else{lastQpc_=0;telemetry_->outputGateClosed=1;bridge_.publish(*telemetry_);}};
+ client_.connectionChanged=[this](bool connected){polling_=pollingCommands_=false;auto pending=std::move(commands_);commands_.clear();pendingArmSequence_=0;session_=0;telemetry_->graphReady=connected;
+  for(auto& command:pending)if(command.callback)command.callback({{"ok",false},{"status","COMPLETION_UNKNOWN"},{"error","Control connection lost after acceptance; completion unknown. Reconnect to inspect Core state before retrying."}});
+  if(connected){request({{"action","describe"}},[this](const QJsonObject& r){if(r["ok"].toBool())metadata_=r["data"].toObject();});request({{"action","devices"}},[this](const QJsonObject& r){if(r["ok"].toBool())devices_=r["data"].toObject();});poll();}else{lastQpc_=0;telemetry_->outputGateClosed=1;bridge_.publish(*telemetry_);}};
  client_.fault=[this](QString error){text(telemetry_->outputDetail,error);bridge_.publish(*telemetry_);};
  poll_.setInterval(100);connect(&poll_,&QTimer::timeout,this,[this]{poll();});poll_.start();client_.connectToCore(endpoint);
 }
-bool EngineFacade::request(QJsonObject q,IpcClient::Reply callback){if(session_)q["session"]=QString::number(session_);return client_.send(q,[this,callback=std::move(callback)](const QJsonObject& reply){if(reply.contains("session"))session_=integer(reply["session"]);if(callback)callback(reply);});}
+bool EngineFacade::request(QJsonObject q,IpcClient::Reply callback){if(session_)q["session"]=QString::number(session_);return client_.send(q,[this,callback=std::move(callback)](const QJsonObject& reply){
+ if(reply.contains("session"))session_=integer(reply["session"]);
+ const auto data=reply["data"].toObject();
+ if(reply["ok"].toBool()&&data["status"].toString()=="ACCEPTED"&&data.contains("commandId")){
+  // Admission is not application. Preserve the correlated completion callback
+  // until the serial Core owner reports a result; UI owns no audio lifecycle.
+  commands_.push_back({data["commandId"].toString(),std::move(callback)});return;
+ }
+ if(callback)callback(reply);
+});}
+void EngineFacade::pollCommands(){
+ if(pollingCommands_||commands_.empty()||!connected())return;
+ QJsonArray ids;for(const auto& command:commands_)ids.append(command.id);
+ pollingCommands_=request({{"action","command-results"},{"ids",ids}},[this](const QJsonObject& reply){
+  pollingCommands_=false;if(!reply["ok"].toBool()){lastError_=reply["error"].toString();return;}
+  for(const auto value:reply["data"].toObject()["results"].toArray()){
+   const auto result=value.toObject();if(!result["complete"].toBool())continue;
+   auto found=std::find_if(commands_.begin(),commands_.end(),[&](const auto& command){return command.id==result["commandId"].toString();});
+   if(found==commands_.end())continue;auto callback=std::move(found->callback);commands_.erase(found);
+   if(callback)callback(result["reply"].toObject());
+  }
+ });
+}
 void EngineFacade::updateDevices(const QJsonObject& reply){if(reply["ok"].toBool()){devices_=reply["data"].toObject();lastError_.clear();}else{lastError_=reply["error"].toString();text(telemetry_->outputDetail,lastError_);bridge_.publish(*telemetry_);}}
-void EngineFacade::poll(){if(polling_||!connected())return;polling_=request({{"action","telemetry"}},[this](const QJsonObject& r){polling_=false;if(r["ok"].toBool())receive(r["data"].toObject());});}
+void EngineFacade::poll(){pollCommands();if(polling_||!connected())return;polling_=request({{"action","telemetry"}},[this](const QJsonObject& r){polling_=false;if(r["ok"].toBool())receive(r["data"].toObject());});}
 void EngineFacade::receive(const QJsonObject& v){
  if(v.contains("profileRequired")){metadata_["profileRequired"]=v["profileRequired"];metadata_["profilePath"]=v["profilePath"];metadata_["profileError"]=v["profileError"];}
  for(const auto key:{"crossoverPeaks","outputs","protectionState"})if(v[key].toArray().size()!=16){client_.fault("Malformed telemetry dimensions");return;}
@@ -40,6 +64,10 @@ void EngineFacade::receive(const QJsonObject& v){
  }
  auto configs=devices_["configuration"].toArray();for(int i=0;i<configs.size()&&i<2;++i){auto j=configs[i].toObject();for(auto lane:j["lanes"].toArray()){const int n=lane.toInt(-1);if(n>=0&&n<16)s.outputMatrixLaneStatus[n]=(s.outputDomains[i].sinkState==ENTROPY_DAC_SINK_RUNNING)?host::EngineOutputLaneOnline:host::EngineOutputLaneOffline;}}
  if(v["armPending"].toBool())text(s.outputDetail,"ARMING / PREROLL; "+lastError_);if(v["liveFault"].toBool())text(s.outputDetail,"LIVE FAULT; inspect DAC counters, DISARM before recovery");
+ const auto lifecycle=v["lifecycleStatus"].toString();
+ if(lifecycle=="STOPPING"||lifecycle=="DISARMED"||lifecycle=="FAULT")pendingArmSequence_=0;
+ if(pendingArmSequence_&&lifecycle=="RUNNING"&&s.outputArmed){s.outputAppliedSequence=pendingArmSequence_;pendingArmSequence_=0;}
+ if(lifecycle=="PREPARING"||lifecycle=="STOPPING"||lifecycle=="FAULT")text(s.outputDetail,lifecycle+"; "+lastError_);
  auto scheduling=v["scheduler"].toObject();s.engineCycleUs=scheduling["callbackWallUs"].toDouble();s.engineCycleMaxUs=scheduling["maximumCallbackWallUs"].toDouble();s.engineMaxLatenessUs=scheduling["maximumSchedulerLatenessUs"].toDouble();s.engineDeadlineMisses=integer(scheduling["callbackWallDeadlineMisses"]);s.outputFaultLatched=scheduling["faults"].toInt();LARGE_INTEGER now;QueryPerformanceCounter(&now);lastQpc_=uint64_t(now.QuadPart);if(v.contains("stage2")){auto input=v["stage2"].toObject();lastQpc_=input["metersFresh"].toBool()?integer(input["lastBlockQpc"]):0;}bridge_.publish(s);
 }
 bool EngineFacade::submit(const host::EngineControlSnapshot& c,uint64_t& sequence){
@@ -53,6 +81,6 @@ bool EngineFacade::submit(const host::EngineControlSnapshot& c,uint64_t& sequenc
  else if(c.projectSequence){action=c.projectAction==EngineProjectSave?"save-profile":"load-profile";q["path"]=QString::fromWCharArray(c.projectPath);}else return false;
  q["action"]=action;sequence=++sequence_;q["sequence"]=QString::number(sequence);auto requested=sequence;if(c.parameterSequence||c.crossoverBulkSequence||c.crossoverMonitorSequence)telemetry_->crossoverCommandRequestedSequence=requested;
  return request(q,[this,requested,c](const QJsonObject& r){auto& s=*telemetry_;if(!r["ok"].toBool()){lastError_=r["error"].toString();text(s.outputDetail,lastError_);if(c.parameterSequence||c.crossoverBulkSequence||c.crossoverMonitorSequence){s.crossoverCommandFailedSequence=requested;s.crossoverCommandState=ENTROPY_CROSSOVER_COMMAND_FAILED;}if(c.projectSequence){s.projectStatus=host::EngineProjectFailed;text(s.projectDetail,r["error"].toString());s.projectAppliedSequence=requested;}}
- else{lastError_.clear();auto data=r["data"].toObject();sequence_=std::max(sequence_,integer(data["accepted"]));if(c.parameterSequence&&c.parameterAction==host::EngineParameterSet){text(s.crossoverLastParameter,QString::fromUtf8(c.parameterIdentifier));s.crossoverLastValue=c.parameterValue;}if(c.projectSequence){s.projectStatus=c.projectAction==host::EngineProjectSave?host::EngineProjectSaved:host::EngineProjectLoaded;s.projectAppliedSequence=requested;if(c.projectAction==host::EngineProjectLoad&&data.contains("devices"))devices_=data["devices"].toObject();}if(c.hardwareOutputSequence){s.outputAppliedSequence=requested;if(data.contains("configuration"))devices_=data;}}bridge_.publish(s);poll();});
+ else{lastError_.clear();auto data=r["data"].toObject();sequence_=std::max(sequence_,integer(data["accepted"]));if(c.parameterSequence&&c.parameterAction==host::EngineParameterSet){text(s.crossoverLastParameter,QString::fromUtf8(c.parameterIdentifier));s.crossoverLastValue=c.parameterValue;}if(c.projectSequence){s.projectStatus=c.projectAction==host::EngineProjectSave?host::EngineProjectSaved:host::EngineProjectLoaded;s.projectAppliedSequence=requested;if(c.projectAction==host::EngineProjectLoad){pendingArmSequence_=0;if(data.contains("devices"))devices_=data["devices"].toObject();}}if(c.hardwareOutputSequence){if(c.hardwareOutputAction==host::EngineHardwareOutputArm)pendingArmSequence_=requested;else{pendingArmSequence_=0;s.outputAppliedSequence=requested;}if(data.contains("configuration"))devices_=data;}}bridge_.publish(s);poll();});
 }
 }

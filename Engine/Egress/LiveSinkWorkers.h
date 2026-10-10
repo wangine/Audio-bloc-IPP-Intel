@@ -18,6 +18,7 @@ public:
  bool prepare(const std::array<LiveDomain,2>&); // joined Graph + joined sink owners
  bool start(); // explicit ARM; asynchronous preroll is reported honestly
  void stop() noexcept; // control owner; Graph joined before reconfiguration
+ void closePublicationGate() noexcept; // admission thread; no join/reset/COM
  void publish(const double* const* outputs,unsigned frames,bool policyReady) noexcept;
  void failAll(unsigned reason) noexcept;
  bool armed() const noexcept;

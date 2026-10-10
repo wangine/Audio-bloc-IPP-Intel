@@ -10,7 +10,22 @@ template<class T>J facts(const T& d){J::Array evidence,formats;for(unsigned i=0;
 void validateDomains(const J::Array& domains){if(domains.size()>2)throw std::invalid_argument("At most DAC A/B");std::set<std::string> endpoints;std::set<unsigned> lanes;for(size_t slot=0;slot<domains.size();++slot){const auto& d=domains[slot];if(!d.at("enabled").asBool())continue;if(d.at("logicalId").asString()!=(slot?"DAC_B":"DAC_A")||!d.at("approvalRevision").asU64())throw std::invalid_argument("Invalid DAC binding request");if(!endpoints.insert(d.at("endpoint").asString()).second)throw std::invalid_argument("Duplicate DAC endpoint");auto channels=d.at("channels").asUnsigned(16);if(d.at("rate").asUnsigned()!=192000||!channels||d.at("format").asUnsigned(1)>1||d.at("lanes").asArray().size()!=channels)throw std::invalid_argument("Invalid DAC format/lanes");for(const auto& lane:d.at("lanes").asArray())if(!lanes.insert(lane.asUnsigned(15)).second)throw std::invalid_argument("Duplicate physical output lane");}}
 }
 
-J DeviceService::refresh(){auto com=CoInitializeEx(nullptr,COINIT_MULTITHREADED);auto r=inventory_.refresh();if(SUCCEEDED(com))CoUninitialize();if(r!=ENTROPY_OK)throw std::runtime_error("Native device inventory unavailable");return snapshot();}
+J DeviceService::refresh(){auto com=CoInitializeEx(nullptr,COINIT_MULTITHREADED);auto r=inventory_.refresh();if(SUCCEEDED(com))CoUninitialize();if(r!=ENTROPY_OK)throw std::runtime_error("Native device inventory unavailable");evidenceGeneration_=0;return snapshot();}
+J DeviceService::revalidateSelected(){
+ changes_.ensure();std::vector<std::string> selected;
+ for(const auto& domain:config_.asArray())if(domain.at("enabled").asBool())selected.push_back(domain.at("endpoint").asString());
+ if(selected.empty())throw std::invalid_argument("No enabled DAC configured");
+ const auto generation=changes_.generation();
+ if(generation!=evidenceGeneration_||selected!=validatedEndpoints_){
+  if(inventory_.refreshSelected(selected)!=ENTROPY_OK)throw std::runtime_error("Selected device inventory unavailable");
+  if(generation!=changes_.generation())throw std::runtime_error("Device changed during validation; retry explicit ARM");
+  evidenceGeneration_=generation;validatedEndpoints_=selected;
+ }
+ // Even a warm evidence cache checks the actual selected endpoints at ARM.
+ if(!changes_.selectedActive(selected)){evidenceGeneration_=0;throw std::invalid_argument("Selected DAC offline");}
+ if(generation!=changes_.generation()){evidenceGeneration_=0;throw std::runtime_error("Selected DAC changed during validation");}
+ return configure(J::Object{{"domains",config_}});
+}
 J DeviceService::snapshot() const {
  J::Array list;for(const auto& d:inventory_.devices()){J::Array formats,evidence;
  for(unsigned i=0;i<d.format_count;++i){auto& f=d.formats[i];formats.emplace_back(J::Object{{"rate",f.sample_rate},{"channels",f.channels},{"containerBits",f.container_bits},{"validBits",f.valid_bits},{"encoding",f.encoding}});}

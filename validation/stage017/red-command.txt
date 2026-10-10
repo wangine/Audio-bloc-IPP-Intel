@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\Tests\Stage017Control.py", line 15, in <module>
+    assert reply['data'].get('status') == 'ACCEPTED', ('command reader still applies synchronously', reply)
+AssertionError: ('command reader still applies synchronously', {'data': {'accepted': '2'}, 'ok': True, 'session': '92170110'})

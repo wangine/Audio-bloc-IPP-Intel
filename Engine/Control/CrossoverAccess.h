@@ -19,6 +19,9 @@ public:
  unsigned capturedSourceMask() const noexcept;
  bool settled() const noexcept;
  void resetQuiescent();
+ bool preparedFinite() const noexcept;
+ ipc::Value preparationParameters(const ipc::Value& change=ipc::Value{}) const;
+ ipc::Value preparationCache() const;
 private:
  struct Impl;std::unique_ptr<Impl> impl_;
 };
