@@ -1,0 +1,30 @@
+[
+  {
+    "variant": "32k",
+    "path": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9\\EntropyAudioCore-0.1.9-32k-win-x64",
+    "sourceCommit": "293bc60c84c4b888095294b86dbb994e0d6c6a97",
+    "sourceDirty": false,
+    "capacityFrames": 32768,
+    "targetFrames": 4096,
+    "coreSha256": "732F64F8D28CA597717B01F17D15869274A0B32A4C0FD347AF4B6850A80F6308",
+    "uiSha256": "254CC0DA52626DD351AF24FC3CEDC70C12456E5AD3F089A8CA37F304A190B400",
+    "zipSha256": "A93D4988C8EC408078D7C972126A8BD1C7333AAD26C5B93F6868A9776C13AA6C",
+    "manifestVerification": "PASS",
+    "automaticArm": false,
+    "liveAudio": "PENDING user audition"
+  },
+  {
+    "variant": "64k",
+    "path": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9\\EntropyAudioCore-0.1.9-64k-win-x64",
+    "sourceCommit": "293bc60c84c4b888095294b86dbb994e0d6c6a97",
+    "sourceDirty": false,
+    "capacityFrames": 65536,
+    "targetFrames": 4096,
+    "coreSha256": "602CDF3D343AA45E5D66E1C97D334F6F34906A43488C0BF57630CBE9B209A775",
+    "uiSha256": "254CC0DA52626DD351AF24FC3CEDC70C12456E5AD3F089A8CA37F304A190B400",
+    "zipSha256": "21C5905FF99A546D8D79D9446B37D9E09DEB54E998E7B3F971A4A64F20BD8450",
+    "manifestVerification": "PASS",
+    "automaticArm": false,
+    "liveAudio": "PENDING user audition"
+  }
+]
