@@ -1,6 +1,6 @@
 # Stage01 control contract — candidate 0.1.6
 
-Baseline: stable 0.1.5, `3afb8d77b3bdd984a2f5bb53095cb99c37de72c0`. Only audit01 is implemented. Stable binaries, original profile, Stage1/2 and visual UI pages are preserved. Physical listening acceptance is pending.
+Baseline: stable 0.1.5, `3afb8d77b3bdd984a2f5bb53095cb99c37de72c0`. Only audit01 is implemented. Stable binaries, original profile, Stage1/2 and visual UI pages are preserved. The user confirmed live testing on 2026-10-10; no hardware timing instrumentation is claimed.
 
 The IPC reader admits mutations with `data.status=ACCEPTED` and a string `commandId`. This acknowledges ownership of the request, not application. Poll `command-results` with `ids` for each completion. Parameter completion reports `ACCEPTED_AT_CONTROL` and `audioApplied=false`; original module applied sequences remain the authority for audio block application. ARM preparation completes as ARMING; telemetry reports RUNNING only after actual sinks run. DISARM immediately closes publication and increments the cancellation generation; the serial owner later completes teardown.
 
@@ -18,4 +18,4 @@ Reproduce targeted checks after building Core, the four Stage017 native targets,
 
 Evidence: `validation/stage017/`. Initial FAIL logs are retained: baseline synchronous program admission and an initial cache-test expectation that ignored original float restoration. The fixture now establishes identical effective scene state before checking exact reuse; DSP coefficients and numeric tolerances were not changed. Hardware timing, hot-unplug exercises, listening and audit03 continuity/stop-event work remain pending. Historical Stage04 FAIL REALTIME and V07 BLOCKED are unchanged.
 
-The user's three audit source documents are stored verbatim in `audit/2026-10-10-stage01/`. They are not copied into the runtime release until live verification and user confirmation, as requested.
+The user's three audit source documents are stored verbatim in `audit/2026-10-10-stage01/` and included in release 0.1.6 after the user's live confirmation, as requested. Original pre-confirmation results remain preserved; `validation/stage017/live-acceptance.json` records the subsequent acceptance.

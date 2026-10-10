@@ -3,6 +3,7 @@ param(
     [ValidateSet('beta test','stable beta')][string]$Channel='beta test',
     [string]$NumericStatus,
     [string]$Stage2ExecutableSha256,
+    [string]$AuditFolder,
     [string]$OutputRoot='release',
     [string]$NativeBuild='build/msvc-pcm24-v2',
     [string]$UiBuild='build/qt-stage07',
@@ -34,6 +35,9 @@ Copy-Item -LiteralPath (Join-Path $root 'Stop-AudioCore.cmd') -Destination $bund
 Copy-Item -LiteralPath (Join-Path $root ('docs/RELEASE-'+$Version+'.md')) -Destination (Join-Path $bundle 'README.md')
 Copy-Item -LiteralPath (Join-Path $root 'docs') -Destination $bundle -Recurse
 Copy-Item -LiteralPath (Join-Path $root 'validation') -Destination $bundle -Recurse
+if($AuditFolder){
+    Copy-Item -LiteralPath (Join-Path $root $AuditFolder) -Destination (Join-Path $bundle 'audit') -Recurse
+}
 $qtNotices=Join-Path $bundle 'notices/Qt';New-Item -ItemType Directory -Path $qtNotices -Force | Out-Null
 Copy-Item -LiteralPath 'C:/Qt/Licenses/LICENSE' -Destination (Join-Path $qtNotices 'Qt-license-overview.txt')
 foreach($module in @('qtdoc','qtcore','qtgui','qtwidgets','qtnetwork','qtsvg')){
