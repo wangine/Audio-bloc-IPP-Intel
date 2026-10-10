@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\local\worktrees\crossover-thiran-delay\Tests\Stage019LifecycleSource.py", line 4, in <module>
+    assert 'scheduler.stop()' not in arm, 'FAIL: ARM stops Graph and resets source subscription'
+AssertionError: FAIL: ARM stops Graph and resets source subscription

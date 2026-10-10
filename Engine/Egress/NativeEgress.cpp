@@ -28,10 +28,29 @@ bool DacPipeline::prepare(const PipelineConfig& c) try {
     if(BCryptGenRandom(nullptr,reinterpret_cast<PUCHAR>(&pc.seed),sizeof(pc.seed),
         BCRYPT_USE_SYSTEM_PREFERRED_RNG)<0 || pc.seed==0) return false;
     if(!pcm_.configure(pc)) return false;
+    metadataTransfer_.resize(c.maximumFrames);metadataRing_.resize(c.fifoFrames);
     transfer_.prepare(c.channels,c.maximumFrames);rendered_.prepare(c.channels,c.maximumFrames);
     pcmBytes_.assign(static_cast<size_t>(c.channels)*c.maximumFrames*(c.format?4:3),0);
-    config_=c;faults_=0;xruns_=0;nominalAtLastRender_=0;state_=State::Prepared;return true;
+    silentPrefix_=0;stream_={};transferred_=published_=0;haveStream_=contract_=false;lastRenderFirst_=0;config_=c;faults_=0;xruns_=0;nominalAtLastRender_=0;state_=State::Prepared;return true;
 } catch(...) {fail(Input);return false;}
+bool DacPipeline::prepareSilentCalibration() noexcept {
+    if(state()!=State::Prepared)return false;
+    transfer_.clear(config_.maximumFrames);
+    for(unsigned remaining=config_.targetFrames;remaining;){const auto n=(std::min)(remaining,config_.maximumFrames);
+        EntropyEgressClockPushBlockF64 b{};b.struct_size=sizeof(b);b.channels=config_.channels;b.frames=n;b.inputs=transfer_.readPointers();
+        if(clock_.push(b)!=ENTROPY_OK||b.consumed_frames!=n)return false;remaining-=n;silentPrefix_+=n;}
+    return true;
+}
+void DacPipeline::silencePrefix(unsigned frames,unsigned prefix) noexcept {
+    if(frames<=config_.maximumFrames&&prefix<=frames)std::fill_n(pcmBytes_.data(),prefix*config_.channels*(config_.format?4:3),uint8_t{0});
+}
+bool DacPipeline::renderOffset(unsigned frames,unsigned offset,uint64_t p,uint64_t q) noexcept {
+    if(offset>=frames)return false;
+    if(!render(frames-offset,p,q))return false;
+    const auto stride=config_.channels*(config_.format?4:3);
+    std::memmove(pcmBytes_.data()+offset*stride,pcmBytes_.data(),(frames-offset)*stride);
+    std::fill_n(pcmBytes_.data(),offset*stride,uint8_t{0});return true;
+}
 bool DacPipeline::arm(bool policy,bool allowed) noexcept {
     if(!policy||!allowed||state()!=State::Prepared) return false;
     state_=State::Armed;return true;
@@ -42,31 +61,53 @@ void DacPipeline::disarm() noexcept {
 }
 void DacPipeline::fail(unsigned f) noexcept {faults_.fetch_or(f);state_.store(State::Fault,std::memory_order_release);}
 bool DacPipeline::publish(const double* const* src,unsigned n) noexcept {
+    GraphInterval v{0,published_,0,n};return publish(src,n,v);
+}
+bool DacPipeline::publish(const double* const* src,unsigned n,GraphInterval interval) noexcept {
     if(!active() || !n || n>config_.maximumFrames) return false;
     if(!src){fail(Input);return false;}
     for(unsigned c=0;c<config_.channels;++c){if(!src[c]){fail(Input);return false;}
         for(unsigned f=0;f<n;++f) if(!std::isfinite(src[c][f])){fail(Input);return false;}}
-    if(!fifo_.push(src,n)){xruns_.fetch_add(1);fail(Overflow);return false;}return true;
+    if(!fifo_.push(src,n,interval)){xruns_.fetch_add(1);fail(Overflow);return false;}published_+=n;return true;
 }
 bool DacPipeline::transfer(unsigned n) noexcept {
     if(!active() || !n || n>config_.maximumFrames) return false;
-    if(!fifo_.pop(transfer_.writePointers(),n)){xruns_.fetch_add(1);fail(Starvation);return false;}
+    GraphInterval interval{};
+    if(!fifo_.pop(transfer_.writePointers(),n,&interval,metadataTransfer_.data())){xruns_.fetch_add(1);fail(Starvation);return false;}
+    if(!haveStream_){stream_=interval;stream_.frames=0;haveStream_=true;}
+    if(interval.epoch!=stream_.epoch||interval.firstGraphFrame!=stream_.firstGraphFrame+transferred_){fail(Clock);return false;}
+    for(unsigned f=0;f<n;++f)metadataRing_[(transferred_+f)&(config_.fifoFrames-1)]=metadataTransfer_[f];
+    transferred_+=n;stream_.capture100ns=interval.capture100ns;
     EntropyEgressClockPushBlockF64 b{};b.struct_size=sizeof(b);b.channels=config_.channels;
     b.frames=n;b.inputs=transfer_.readPointers();
     if(clock_.push(b)!=ENTROPY_OK || b.consumed_frames!=n){fail(Clock);return false;}return true;
+}
+bool DacPipeline::primeGraphPosition(double first,unsigned frames) noexcept {
+    // Select from the shared graph timeline, including the required sinc history.
+    if(!haveStream_){if(!readable()||!transfer((std::min)(readable(),config_.maximumFrames)))return false;}
+    const double offset=first-double(stream_.firstGraphFrame)+silentPrefix_;
+    if(!std::isfinite(offset)||offset<48)return false;
+    const double required=offset+(std::max)(config_.targetFrames,frames+100);
+    for(unsigned k=0;k<64&&double(clock_.telemetry().nominal_frames)<required;++k){
+        const unsigned missing=static_cast<unsigned>(std::ceil(required-double(clock_.telemetry().nominal_frames)));
+        const auto n=(std::min)({readable(),config_.maximumFrames,missing});if(!n||!transfer(n))return false;
+    }
+    if(!clock_.primeNominalPosition(offset,frames))return false;
+    contract_=true;return true;
 }
 unsigned DacPipeline::feedUntilTarget(unsigned frames) noexcept {
     unsigned moved=0;
     // Finite work bound even if a concurrent producer keeps publishing.
     for(unsigned k=0;k<64 && active();++k){
         const auto t=clock_.telemetry();
-        const double fill=t.output_frames==0 ? double(t.nominal_frames)
+        const double fill=contract_ ? double(t.nominal_frames)-clock_.nominalReadPosition() : t.output_frames==0 ? double(t.nominal_frames)
             : t.fill_frames+double(t.nominal_frames-nominalAtLastRender_);
         const unsigned target=t.state==ENTROPY_EGRESS_CLOCK_PREROLL ? config_.targetFrames+frames+100
             : (std::max)(config_.targetFrames,frames+100);
         if(fill>=target) break;
         auto available=fifo_.readable();if(!available) break;
         auto n=(std::min)(available,config_.maximumFrames);
+        if(contract_)n=(std::min)(n,static_cast<unsigned>(std::ceil(target-fill)));
         if(!transfer(n)) break;moved+=n;
     }
     return moved;
@@ -91,7 +132,10 @@ bool DacPipeline::render(unsigned n,uint64_t pos,uint64_t time) noexcept {
     if(!active()) return false;
     EntropyEgressClockRenderBlockF64 b{};b.struct_size=sizeof(b);b.channels=config_.channels;
     b.frames=n;b.outputs=rendered_.writePointers();b.sink_position_frames=pos;b.host_time_100ns=time;
+    const auto previousResync=clock_.telemetry().resync_count;
+    lastRenderFirst_=graphReadPosition();
     const auto result=clock_.render(b);nominalAtLastRender_=clock_.telemetry().nominal_frames;
+    if(contract_&&clock_.telemetry().resync_count!=previousResync){fail(Clock);silence(n);return false;}
     if(result!=ENTROPY_OK || b.produced_frames!=n || b.state==ENTROPY_EGRESS_CLOCK_FAULT){fail(Clock);silence(n);return false;}
     if(b.state==ENTROPY_EGRESS_CLOCK_STARVED){xruns_.fetch_add(1);fail(Starvation);silence(n);return false;}
     // Optional Guardian is the exact same FP64 view, no phase kernel or gain.

@@ -1,0 +1,22 @@
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+[1/17] Building CXX object CMakeFiles\entropy_clocksync.dir\Egress\ClockSync\src\EgressClockEngine.cpp.obj
+[2/17] Linking CXX static library entropy_clocksync.lib
+[3/17] Building CXX object CMakeFiles\entropy_egress.dir\Engine\Egress\NativeEgress.cpp.obj
+[4/17] Linking CXX static library entropy_egress.lib
+[5/17] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\AudioScheduler.cpp.obj
+[6/17] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\ProfileStore.cpp.obj
+[7/17] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\CoreRuntime.cpp.obj
+[8/17] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\OfflineSinkWorkers.cpp.obj
+[9/17] Building CXX object CMakeFiles\entropy_control_runtime.dir\IPC\TelemetryServer.cpp.obj
+[10/17] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\LiveSinkWorkers.cpp.obj
+[11/17] Building CXX object CMakeFiles\EntropyAudioCore.dir\Engine\Egress\HardwareTest.cpp.obj
+[12/17] Linking CXX static library entropy_control_runtime.lib
+[13/17] Linking CXX executable EntropyAudioCore.exe
+[14/17] Building CXX object CMakeFiles\EntropyStage019Egress.dir\Tests\Stage019Egress.cpp.obj
+[15/17] Linking CXX executable EntropyStage019Egress.exe
+[16/17] Building CXX object CMakeFiles\EntropyStage07Live.dir\Tests\Stage07LiveWorkers.cpp.obj
+[17/17] Linking CXX executable EntropyStage07Live.exe

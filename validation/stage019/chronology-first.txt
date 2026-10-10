@@ -1,0 +1,2 @@
+FAIL Stage019 all-zero startup is not PASS
+frames=1536000 calibratedA=1 calibratedB=0 ppmA=-100.000000 ppmB=170.004754 capacity=32768 target=4096

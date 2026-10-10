@@ -250,6 +250,9 @@ EntropyResult WasapiDacSink::open(const EntropyDacSinkConfig& requested)
         close();
         return ENTROPY_ERROR_PROCESSING;
     }
+    streamLatency100ns_=0;latencyValid_=false;freshClock_=false;precisePositionFrames_=0;
+    REFERENCE_TIME latency=0;
+    if(SUCCEEDED(audioClient_->GetStreamLatency(&latency))){streamLatency100ns_=static_cast<uint64_t>(latency);latencyValid_=true;}
     config_ = requested;
     config_.struct_size = sizeof(config_);
     blockAlignment_ = format.Format.nBlockAlign;
@@ -319,7 +322,11 @@ EntropyResult WasapiDacSink::waitBuffer(EntropyDacSinkBufferRequest& request) no
     const auto timeout = request.timeout_ms;
     request.frames = 0;
     request.bytes = 0;
-    const auto wait = WaitForSingleObject(static_cast<HANDLE>(event_), timeout);
+    // Cancel has priority if audio and DISARM become ready together.
+    HANDLE handles[2]={static_cast<HANDLE>(cancelEvent_),static_cast<HANDLE>(event_)};
+    const auto wait=cancelEvent_?WaitForMultipleObjects(2,handles,FALSE,timeout):WaitForSingleObject(handles[1],timeout);
+    if(cancelEvent_&&wait==WAIT_OBJECT_0)return ENTROPY_ERROR_INVALID_STATE;
+    const auto audioReady=cancelEvent_?WAIT_OBJECT_0+1:WAIT_OBJECT_0;
     if (wait == WAIT_TIMEOUT)
     {
         timeouts_.fetch_add(1);
@@ -328,7 +335,7 @@ EntropyResult WasapiDacSink::waitBuffer(EntropyDacSinkBufferRequest& request) no
         lastResult_.store(static_cast<std::int32_t>(HRESULT_FROM_WIN32(ERROR_TIMEOUT)));
         return ENTROPY_ERROR_PROCESSING;
     }
-    if (wait != WAIT_OBJECT_0)
+    if (wait != audioReady)
     {
         setDriverFailure(HRESULT_FROM_WIN32(GetLastError()), false);
         return ENTROPY_ERROR_PROCESSING;
@@ -339,6 +346,7 @@ EntropyResult WasapiDacSink::waitBuffer(EntropyDacSinkBufferRequest& request) no
 #endif
     request.frames = bufferFrames_;
     request.bytes = bufferFrames_ * blockAlignment_;
+    freshClock_=false;request.device_position_frames=0;request.device_qpc_position=0;
     if (audioClock_ != nullptr)
     {
         UINT64 position = 0, qpc = 0;
@@ -346,18 +354,18 @@ EntropyResult WasapiDacSink::waitBuffer(EntropyDacSinkBufferRequest& request) no
 #if ENTROPY_A06_R04_DIAG
         quality_.observe(static_cast<std::int32_t>(clockResult),position,qpc);
 #endif
-        if (SUCCEEDED(clockResult))
+        if (clockResult==S_OK && clockFrequency_!=0 && qpc!=0 && qpc>deviceQpc_.load())
         {
             const auto frames = clockFrequency_ != 0
                 ? static_cast<std::uint64_t>((static_cast<long double>(position) *
                     config_.sample_rate) / clockFrequency_)
                 : 0;
+            precisePositionFrames_=static_cast<double>(static_cast<long double>(position)*config_.sample_rate/clockFrequency_);
             devicePosition_.store(frames);
-            deviceQpc_.store(qpc);
+            deviceQpc_.store(qpc);freshClock_=true;
         }
     }
-    request.device_position_frames = devicePosition_.load();
-    request.device_qpc_position = deviceQpc_.load();
+    if(freshClock_){request.device_position_frames=devicePosition_.load();request.device_qpc_position=deviceQpc_.load();}
     return ENTROPY_OK;
 }
 

@@ -1,0 +1,7 @@
+FAIL Stage019 software chronology exceeds 1 sample
+buffers=1024/1024 frames=1536000 calibratedA=1 calibratedB=1 ppmA=-99.866982 ppmB=70.043958 capacity=32768 target=4096
+comparisons=731 pcmOracleSamples=1428 maximumSameTimeDifferenceFrames=0.031867519 firstNonzeroOnsetDifferenceFrames=0.057600000
+buffers=512/1024 frames=1536000 calibratedA=1 calibratedB=1 ppmA=-99.844450 ppmB=70.071509 capacity=32768 target=4096
+comparisons=755 pcmOracleSamples=1504 maximumSameTimeDifferenceFrames=0.015946222 firstNonzeroOnsetDifferenceFrames=0.172800000
+buffers=1024/4096 frames=1536000 calibratedA=1 calibratedB=1 ppmA=-99.935654 ppmB=87.373490 capacity=32768 target=4096
+comparisons=701 pcmOracleSamples=1380 maximumSameTimeDifferenceFrames=5.807994074 firstNonzeroOnsetDifferenceFrames=0.441600000

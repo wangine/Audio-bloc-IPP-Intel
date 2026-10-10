@@ -1,0 +1,3 @@
+frames=1536000 calibratedA=1 calibratedB=1 ppmA=-99.831857 ppmB=70.083970 capacity=32768 target=4096
+comparisons=376 pcmOracleSamples=735 maximumSameTimeDifferenceFrames=0.015526032 firstNonzeroOnsetDifferenceFrames=0.172800000
+PASS contract software verificat; skew analogic nemasurat; sideband, different ppm/start, sample onset, cancel; no hardware

@@ -39,7 +39,9 @@ int main()try{
  // admission, allowing a canceled prepare to start sinks, or dropping Save.
  engine::AudioGraph graph;check(graph.prepare(256),"graph prepare");control::ControlPlane controls(graph);
  controls.execute(J::Object{{"action","headroom-policy"},{"mode",2},{"manualGainDb",-6}});controls.atBlockBoundary();
- Seen seen;control::LiveSinkWorkers sinks([&](unsigned){return std::make_unique<SimulatedSink>(seen);});
+ // Legacy lifecycle fixture supplies synthetic nominal timestamps. Actual
+ // original-estimator calibration is covered by Stage019's dual-clock model.
+ Seen seen;control::LiveSinkWorkers sinks([&](unsigned){return std::make_unique<SimulatedSink>(seen);},false);
  control::AudioScheduler scheduler(graph,controls,true,nullptr,nullptr,&sinks);scheduler.start();
  std::array<control::LiveDomain,2> domains{};auto& d=domains[0];d.enabled=true;d.channels=2;d.format=1;d.endpoint="offline-simulated";d.logicalId="DAC_A";d.lanes[0]=0;d.lanes[1]=1;
  std::promise<void> preparing,release;auto releaseFuture=release.get_future();std::atomic<bool> slow{true};unsigned saved=0;
@@ -48,8 +50,8 @@ int main()try{
   const auto action=request.at("action").asString();
   if(action=="arm"){
    if(slow.exchange(false)){preparing.set_value();releaseFuture.wait();}
-   scheduler.stop();check(sinks.prepare(domains),"prepared sink configuration");
-   const bool activated=executor->activate(generation,[&]{return sinks.start();});scheduler.start();
+   check(sinks.prepare(domains),"prepared sink configuration");
+   const bool activated=executor->activate(generation,[&]{return sinks.start();});
    if(!activated)throw std::runtime_error("ARM canceled");return J::Object{{"status","ARMING"}};
   }
   if(action=="disarm"){const auto start=std::chrono::steady_clock::now();sinks.stop();return J::Object{{"teardownUs",std::chrono::duration<double,std::micro>(std::chrono::steady_clock::now()-start).count()}};}
@@ -65,12 +67,14 @@ int main()try{
  release.set_value();check(!waitResult(owner,arm).at("ok").asBool(),"canceled ARM completed successfully");
  check(waitResult(owner,disarm).at("ok").asBool(),"DISARM completion");
  check(waitResult(owner,save).at("ok").asBool()&&saved==1,"DISARM discarded confirmed profile request");check(seen.opens==0,"late preparation opened sink");
+ const auto beforeArm=scheduler.telemetry().blocks;
  auto next=owner.admit(J::Object{{"action","arm"}});check(waitResult(owner,next).at("ok").asBool(),"explicit new ARM");
  auto until=GetTickCount64()+2000;while(!sinks.armed()&&GetTickCount64()<until)Sleep(1);check(sinks.armed(),"simulated sink did not reach RUNNING");
  auto cinema=owner.admit(J::Object{{"action","program"},{"program",1}});check(waitResult(owner,cinema).at("ok").asBool(),"CINEMA command");Sleep(65);
  auto music=owner.admit(J::Object{{"action","program"},{"program",0}});check(waitResult(owner,music).at("ok").asBool(),"MUSIC command");Sleep(65);
  auto stopped=owner.admit(J::Object{{"action","disarm"}},true);auto stoppedResult=waitResult(owner,stopped);
  check(stoppedResult.at("ok").asBool()&&!sinks.armed()&&seen.nonzero>0,"simulated ARM/program/DISARM did not render active PCM");
+ const auto afterDisarm=scheduler.telemetry().blocks;Sleep(10);check(afterDisarm>beforeArm&&scheduler.telemetry().blocks>afterDisarm,"Graph did not continue through ARM/DISARM");
  check(control::diagnosticBenchmarkCalls()==0,"normal commands invoked benchmark");owner.stop();scheduler.stop();
  // Native safety is still applied, including duplicate lanes and bad PCM width.
  auto invalid=domains;invalid[0].lanes[1]=invalid[0].lanes[0];check(!sinks.prepare(invalid),"duplicate routing accepted");invalid=domains;invalid[0].format=2;check(!sinks.prepare(invalid),"invalid PCM format accepted");

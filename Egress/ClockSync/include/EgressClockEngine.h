@@ -38,6 +38,13 @@ public:
         return v;
     }
 #endif
+    // Render owner, before the first render only. Select a position from the
+    // host's presentation contract; no change to the estimator/sinc/servo law.
+    unsigned lastResetReasonOnOwner() const noexcept {return lastResetReason_;}
+    bool observeSilentClock(uint64_t position,uint64_t qpc,unsigned frames) noexcept;
+    ClockEstimate clockEstimateOnOwner() const noexcept {return lastEstimate_;}
+    bool primeNominalPosition(double offset, unsigned frames) noexcept;
+    double nominalReadPosition() const noexcept {return readPosition_-kGuardFrames;}
     bool configure(const EntropyEgressClockConfig& requested);
     void reset() noexcept;
     EntropyResult push(EntropyEgressClockPushBlockF64& block) noexcept;
@@ -95,6 +102,7 @@ private:
     std::uint64_t consumerEpoch_ = 0;
     std::int64_t consumerBoundaryFrame_ = 0;
     double readPosition_ = 0.0;
+    unsigned lastResetReason_=0;ClockEstimate lastEstimate_{};
     double correctionPpm_ = 0.0;
     bool configured_ = false;
     bool active_ = false;

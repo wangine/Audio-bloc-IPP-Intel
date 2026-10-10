@@ -53,7 +53,7 @@ int runControlServer(int argc,char** argv) try {
   description["profileRequired"]=profileRequired;description["profilePath"]=initialProfile;description["profileError"]=profileError;
   DWORD consolePid=0;description["consoleAttached"]=GetConsoleProcessList(&consolePid,1)!=0;
   auto& data=next->telemetry;data=ipc::telemetrySnapshot(controls,scheduler,signal,stage2Enabled?stage2.get():nullptr);
-  if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else if(liveWorkers.engaged())data["domains"]=liveWorkers.snapshot();
+  if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else data["domains"]=liveWorkers.snapshot();
   data["armed"]=liveWorkers.armed();data["armPending"]=liveWorkers.engaged()&&!liveWorkers.armed()&&!liveWorkers.faulted();data["liveFault"]=liveWorkers.faulted();
   data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;
   data["hardwareGate"]=authorizedLiveTest?"USER AUTHORIZED LIVE TEST; offline PASS not claimed; explicit ARM and profile/device validation required":liveGate?"OFFLINE GATES PASS; explicit ARM and profile/device validation required":"BLOCKED: Stage04 live offline gate missing/stale";
@@ -86,9 +86,11 @@ int runControlServer(int argc,char** argv) try {
     devices.revalidateSelected();
     if(!liveFirAllowed(controls.crossover().preparationParameters())||!controls.crossover().preparedFinite())throw std::invalid_argument("Unprepared/nonfinite or unauthorized FIR profile; no device opened");
     auto config=LiveSinkWorkers::decode(devices.snapshot().at("configuration"));
-    scheduler.stop();try{controls.drainAtQuiescentBoundary();if(!liveHeadroomReady(graph))throw std::invalid_argument("Headroom reports an original module fault or unsettled transition; no device opened");if(!liveWorkers.prepare(config))throw std::runtime_error("Live egress prepare failed");
-     if(!lifecycle.load()->activate(generation,[&]{return liveWorkers.start();}))throw std::runtime_error("ARM canceled or egress start failed");
-     scheduler.start();}catch(...){liveWorkers.stop();scheduler.start();throw;}
+    barrier(controls);
+    if(!liveHeadroomReady(graph))throw std::invalid_argument("Headroom reports an original module fault or unsettled transition; no device opened");
+    if(!liveWorkers.prepare(config))throw std::runtime_error("Live egress prepare failed");
+    try{if(!lifecycle.load()->activate(generation,[&]{return liveWorkers.start();}))throw std::runtime_error("ARM canceled or egress start failed");}
+    catch(...){liveWorkers.stop();throw;}
     data=J::Object{{"status","ARMING"},{"physicalArmed",false},{"prepared",controls.crossover().preparationCache()}};
    }
    else if(action=="disarm"){sinkWorkers.stop();scheduler.disarm();data=J::Object{{"armed",false}};}

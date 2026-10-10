@@ -1,0 +1,18 @@
+A02_IMPORT_MODULE name=EntropyStage07Live.exe hooks=10
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_IMPORT_MODULE name=ole32.dll hooks=10
+A02_IMPORT_MODULE name=msvcp_win.dll hooks=3
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=GDI32.dll hooks=1
+A02_IMPORT_MODULE name=bcrypt.dll hooks=7
+A02_IMPORT_MODULE name=gdi32full.dll hooks=10
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=USER32.dll hooks=11
+A02_IMPORT_MODULE name=combase.dll hooks=11
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=IMM32.DLL hooks=3
+A02_IMPORT_MODULE name=kernel.appcore.dll hooks=3
+A02_IMPORT_MODULE name=msvcrt.dll hooks=8
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=111 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+PASS Stage07 separate owner threads, explicit dynamic lanes, active PCM, loss, starvation, policy, stop/recovery; no hardware

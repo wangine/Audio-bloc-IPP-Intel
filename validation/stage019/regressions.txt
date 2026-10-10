@@ -1,0 +1,26 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/local/worktrees/crossover-thiran-delay/build/msvc-thiran
+    Start  6: EntropyStage018View
+1/7 Test  #6: EntropyStage018View ..............   Passed    0.20 sec
+    Start  9: EntropyStage017Lifecycle
+2/7 Test  #9: EntropyStage017Lifecycle .........   Passed    0.38 sec
+    Start 15: EntropyStage07Live
+3/7 Test #15: EntropyStage07Live ...............   Passed    4.26 sec
+    Start 26: EntropyStage05Boundary
+4/7 Test #26: EntropyStage05Boundary ...........   Passed    0.17 sec
+    Start 27: EntropyStage05Control
+5/7 Test #27: EntropyStage05Control ............   Passed    0.45 sec
+    Start 28: EntropyStage05Protocol
+6/7 Test #28: EntropyStage05Protocol ...........   Passed    0.08 sec
+    Start 29: EntropyStage05Transport
+7/7 Test #29: EntropyStage05Transport ..........***Failed    0.03 sec
+FAIL client connection
+
+
+86% tests passed, 1 tests failed out of 7
+
+Total Test time (real) =   5.60 sec
+
+The following tests FAILED:
+	 29 - EntropyStage05Transport (Failed)
+Errors while running CTest

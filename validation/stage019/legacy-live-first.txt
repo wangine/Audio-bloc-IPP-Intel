@@ -1,0 +1,19 @@
+A02_IMPORT_MODULE name=EntropyStage07Live.exe hooks=10
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_IMPORT_MODULE name=ole32.dll hooks=10
+A02_IMPORT_MODULE name=msvcp_win.dll hooks=3
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=bcrypt.dll hooks=7
+A02_IMPORT_MODULE name=GDI32.dll hooks=1
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=gdi32full.dll hooks=10
+A02_IMPORT_MODULE name=USER32.dll hooks=11
+A02_IMPORT_MODULE name=combase.dll hooks=11
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=IMM32.DLL hooks=3
+A02_IMPORT_MODULE name=kernel.appcore.dll hooks=3
+A02_IMPORT_MODULE name=msvcrt.dll hooks=8
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=111 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+STARVATION DIAGNOSTIC [{"analogSkewMeasured":false,"bufferFrames":1024,"callbackThreadCycles":"384300","callbackWallExcludingWaitUs":129.19999999999999,"callbacks":"32","channels":2,"clockControllerLocked":true,"clockFillFrames":2240.0063999999984,"clockFrequency":"192000","clockReadingValid":true,"clockState":1,"commonPresentationQpc100ns":"10596666","configured":true,"dataAgeMs":138.75880000000001,"deadlineMisses":"0","devicePositionFrames":"32768","driverResult":0,"endpoint":"fixture-A","epoch":"1","estimatedABDifferenceFrames":0.0063999999999850843,"eventWaitUs":14999.9,"faults":0,"fifoCapacity":32768,"fifoFrames":0,"firstGraphFrame":22335.993600000002,"format":1,"groupReplans":0,"guardian":"EXACT BYPASS","id":"DAC A","maximumCallbackWallExcludingWaitUs":284.19999999999999,"mmcssRegistered":true,"nonzeroPcmBlocks":"21","offlineFixture":false,"pcmClippedBlocks":"0","pcmDitherMode":1,"pcmFaults":0,"pcmNonfiniteSamples":"0","pcmOverrangeSamples":"0","pcmProcessedFrames":"21504","pcmRailClampSamples":"0","pcmSeedMode":1,"physicalSinkOpen":true,"ppm":0,"presentationQpc100ns":"11706666","rate":192000,"resyncCount":"0","sinkFaults":0,"sinkState":2,"softwareAlignmentVerified":false,"startupSkippedFrames":"1855","state":"RUNNING","streamLatency100ns":"0","submittedFrames":"126976","targetFrames":4096,"xruns":"0"},{"analogSkewMeasured":false,"bufferFrames":1024,"callbackThreadCycles":"516600","callbackWallExcludingWaitUs":173.30000000000001,"callbacks":"31","channels":2,"clockControllerLocked":true,"clockFillFrames":3072.0063999999984,"clockFrequency":"192000","clockReadingValid":true,"clockState":1,"commonPresentationQpc100ns":"10596666","configured":true,"dataAgeMs":138.75880000000001,"deadlineMisses":"0","devicePositionFrames":"31744","driverResult":0,"endpoint":"fixture-B","epoch":"1","estimatedABDifferenceFrames":0.0063999999999850843,"eventWaitUs":14964.5,"faults":0,"fifoCapacity":32768,"fifoFrames":0,"firstGraphFrame":22335.993600000002,"format":1,"groupReplans":0,"guardian":"EXACT BYPASS","id":"DAC B","maximumCallbackWallExcludingWaitUs":287.80000000000001,"mmcssRegistered":true,"nonzeroPcmBlocks":"20","offlineFixture":false,"pcmClippedBlocks":"0","pcmDitherMode":1,"pcmFaults":0,"pcmNonfiniteSamples":"0","pcmOverrangeSamples":"0","pcmProcessedFrames":"20480","pcmRailClampSamples":"0","pcmSeedMode":1,"physicalSinkOpen":true,"ppm":0,"presentationQpc100ns":"11706666","rate":192000,"resyncCount":"0","sinkFaults":0,"sinkState":2,"softwareAlignmentVerified":false,"startupSkippedFrames":"1855","state":"RUNNING","streamLatency100ns":"0","submittedFrames":"128000","targetFrames":4096,"xruns":"0"}]
+FAIL Stage07 starvation invisible

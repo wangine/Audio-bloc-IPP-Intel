@@ -1,0 +1,10 @@
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+[1/5] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\LiveSinkWorkers.cpp.obj
+[2/5] Linking CXX static library entropy_control_runtime.lib
+[3/5] Linking CXX executable EntropyStage019Egress.exe
+[4/5] Linking CXX executable EntropyStage07Live.exe
+[5/5] Linking CXX executable EntropyAudioCore.exe

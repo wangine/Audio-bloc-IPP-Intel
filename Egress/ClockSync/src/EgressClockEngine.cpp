@@ -118,6 +118,32 @@ bool EgressClockEngine::configure(const EntropyEgressClockConfig& requested)
     return true;
 }
 
+bool EgressClockEngine::observeSilentClock(uint64_t position,uint64_t qpc,unsigned frames) noexcept
+{
+    if(!configured_||active_||renderCallbacks_.load()!=0)return false;
+    ClockObservation o{};o.sinkFrame=position;o.host100ns=qpc;o.renderFrames=frames;
+    o.nominalPublished=nominalFrames_.load();
+    o.fillBefore=double(writeFrame_.load())-readPosition_;o.continuous=position&&qpc;
+    lastEstimate_=clockEstimator_.observe(o);
+    const auto d=ratioController_.update(o,lastEstimate_);
+    correctionPpm_=d.appliedPpm;requestedCorrectionPpm_=d.requestedPpm;publishedCorrectionPpm_=d.appliedPpm;
+    if(!lastEstimate_.valid||lastEstimate_.sinkFramesPerSecond<=0)return false;
+    const double wanted=(double(config_.sink_rate)/lastEstimate_.sinkFramesPerSecond-1)*1e6;
+    return std::abs(d.appliedPpm-wanted)<=.1;
+}
+
+bool EgressClockEngine::primeNominalPosition(double offset,unsigned frames) noexcept
+{
+    if(!configured_||active_||renderCallbacks_.load()!=0||!std::isfinite(offset)||offset<0)return false;
+    const double position=kGuardFrames+offset;
+    const auto written=writeFrame_.load(std::memory_order_acquire);
+    if(position+frames+asrc::PolyphaseSinc::kLastOffset>=written)return false;
+    readPosition_=position;active_=true;
+    publishedReadFrame_.store(static_cast<int64_t>(std::floor(position)),std::memory_order_release);
+    lastFill_=double(written)-position;
+    return true;
+}
+
 void EgressClockEngine::resetStream() noexcept
 {
     if (!configured_) return;
@@ -125,6 +151,7 @@ void EgressClockEngine::resetStream() noexcept
     // B2-FF-001: same existing stopped lifecycle. Caller archives before reset.
     firstFault_.resetQuiescent();
 #endif
+    lastResetReason_=0;lastEstimate_={};
     nominalSrc_.reset();
     std::fill(ring_.begin(), ring_.end(), 0.0);
     writeFrame_.store(kGuardFrames, std::memory_order_relaxed);
@@ -362,6 +389,7 @@ EntropyResult EgressClockEngine::render(EntropyEgressClockRenderBlockF64& block)
         return starve(block, ENTROPY_EGRESS_CLOCK_FAULT);
     if ((block.flags & ENTROPY_EGRESS_CLOCK_DISCONTINUITY) != 0)
     {
+        lastResetReason_=1;
 #if ENTROPY_A06_R04_DIAG
         diagnostic_.engine_reset_reason=1; // render discontinuity
 #endif
@@ -378,6 +406,7 @@ EntropyResult EgressClockEngine::render(EntropyEgressClockRenderBlockF64& block)
     const auto producerEpoch = producerEpoch_.load(std::memory_order_acquire);
     if (producerEpoch != consumerEpoch_)
     {
+        lastResetReason_=2;
 #if ENTROPY_A06_R04_DIAG
         diagnostic_.engine_reset_reason=2; // producer generation boundary
 #endif
@@ -418,6 +447,7 @@ EntropyResult EgressClockEngine::render(EntropyEgressClockRenderBlockF64& block)
     if (readPosition_ + asrc::PolyphaseSinc::kFirstOffset < oldest ||
         fill > static_cast<double>(config_.fifo_capacity_frames - kGuardFrames))
     {
+        lastResetReason_=3;
 #if ENTROPY_A06_R04_DIAG
         diagnostic_.engine_reset_reason=3; // FIFO phase recenter
 #endif
@@ -443,7 +473,7 @@ EntropyResult EgressClockEngine::render(EntropyEgressClockRenderBlockF64& block)
         block.sink_position_frames != 0 &&
         block.host_time_100ns != 0;
 
-    const auto estimate = clockEstimator_.observe(observation);
+    const auto estimate = clockEstimator_.observe(observation);lastEstimate_=estimate;
 #if ENTROPY_A06_R04_DIAG
     diagnostic_.control_called=1;
     diagnostic_.read_position_begin=readPosition_;
@@ -473,6 +503,7 @@ EntropyResult EgressClockEngine::render(EntropyEgressClockRenderBlockF64& block)
     if (static_cast<std::int64_t>(std::floor(finalPosition)) +
             asrc::PolyphaseSinc::kLastOffset >= writeFrame)
     {
+        lastResetReason_=4;
 #if ENTROPY_A06_R04_DIAG
         diagnostic_.engine_reset_reason=4; // ASRC exhausted available input
 #endif

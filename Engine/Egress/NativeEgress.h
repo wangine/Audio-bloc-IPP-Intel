@@ -26,6 +26,20 @@ public:
     void disarm() noexcept;
     void fail(unsigned reason) noexcept;
     bool publish(const double* const*,unsigned frames) noexcept;
+    bool publish(const double* const*,unsigned frames,GraphInterval) noexcept;
+    bool prepareSilentCalibration() noexcept; // inactive lifecycle worker only
+    bool observeSilentClock(uint64_t p,uint64_t q,unsigned n) noexcept {return clock_.observeSilentClock(p,q,n);}
+    bool haveGraphStream() const noexcept {return haveStream_;}
+    bool estimateValid() const noexcept {return clock_.clockEstimateOnOwner().valid;}
+    unsigned resetReason() const noexcept {return clock_.lastResetReasonOnOwner();}
+    double estimatedSinkRate() const noexcept {return clock_.clockEstimateOnOwner().sinkFramesPerSecond;}
+    void silencePrefix(unsigned frames,unsigned prefix) noexcept;
+    bool renderOffset(unsigned frames,unsigned offset,uint64_t p,uint64_t q) noexcept;
+    bool primeGraphPosition(double first,unsigned frames) noexcept;
+    double graphReadPosition() const noexcept {return double(stream_.firstGraphFrame)+clock_.nominalReadPosition()-silentPrefix_;}
+    GraphInterval streamInterval() const noexcept {auto s=stream_;if(contract_&&transferred_){const auto n=static_cast<uint64_t>((std::max)(0.0,std::floor(lastRenderFirst_-double(stream_.firstGraphFrame))));s.capture100ns=metadataRing_[n&(config_.fifoFrames-1)].capture100ns;}return s;}
+    double lastRenderFirstGraphFrame() const noexcept {return lastRenderFirst_;}
+    void silentBuffer(unsigned frames) noexcept {silence(frames);}
     bool transfer(unsigned frames) noexcept;
     unsigned feedUntilTarget(unsigned renderFrames) noexcept;
     bool render(unsigned frames,uint64_t position,uint64_t qpc100ns) noexcept;
@@ -50,9 +64,12 @@ private:
     entropy::pcm24::Pcm24ModuleEngine pcm_;
     entropy::engine::PlanarBuffer transfer_,rendered_;
     std::vector<uint8_t> pcmBytes_;
+    std::vector<GraphInterval> metadataTransfer_,metadataRing_;
     std::atomic<State> state_{State::Disarmed};
     std::atomic<unsigned> faults_{None};
     std::atomic<uint64_t> xruns_{0};
+    GraphInterval stream_{};uint64_t transferred_=0,published_=0;
+    unsigned silentPrefix_=0;bool haveStream_=false,contract_=false;double lastRenderFirst_=0;
     uint64_t nominalAtLastRender_=0; // DAC owner only
 };
 
@@ -96,9 +113,12 @@ private:
 };
 
 // Hardware and scripted fake sinks exercise the same lifecycle adapter.
+struct SinkTiming {uint64_t clockFrequency=0,latency100ns=0;bool freshClock=false;double precisePositionFrames=-1;bool latencyValid=true;};
 class Sink {
 public:
     virtual ~Sink()=default;
+    virtual void setCancelEvent(void*) noexcept {}
+    virtual SinkTiming timing() const noexcept {return {192000,0,true};} // scripted transport default
     virtual EntropyResult open(const EntropyDacSinkConfig&)=0;
     virtual EntropyResult start() noexcept=0;
     virtual EntropyResult wait(EntropyDacSinkBufferRequest&) noexcept=0;

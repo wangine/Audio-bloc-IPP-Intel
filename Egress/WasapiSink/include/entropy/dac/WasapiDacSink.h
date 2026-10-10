@@ -27,6 +27,12 @@ public:
     WasapiDacSink(const WasapiDacSink&) = delete;
     WasapiDacSink& operator=(const WasapiDacSink&) = delete;
 
+    void setCancelEvent(void* event) noexcept {cancelEvent_=event;} // borrowed; owner joined before release
+    uint64_t clockFrequency() const noexcept {return clockFrequency_;}
+    bool latencyValid() const noexcept {return latencyValid_;}
+    uint64_t streamLatency100ns() const noexcept {return streamLatency100ns_;}
+    double precisePositionFrames() const noexcept {return precisePositionFrames_;}
+    bool freshClock() const noexcept {return freshClock_;}
     EntropyResult refreshDevices();
     std::uint32_t deviceCount() const noexcept;
     EntropyResult getDevice(std::uint32_t index, EntropyDacSinkDeviceInfo& info) const noexcept;
@@ -52,6 +58,7 @@ private:
     IAudioRenderClient* renderClient_ = nullptr;
     IAudioClock* audioClock_ = nullptr;
     void* event_ = nullptr;
+    void* cancelEvent_=nullptr;uint64_t streamLatency100ns_=0;bool latencyValid_=false;bool freshClock_=false;double precisePositionFrames_=0;
     EntropyDacSinkConfig config_{};
     std::uint32_t bufferFrames_ = 0;
     std::uint32_t blockAlignment_ = 0;

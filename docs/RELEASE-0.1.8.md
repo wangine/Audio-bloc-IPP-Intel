@@ -1,0 +1,21 @@
+# 0.1.8 beta test — egress chronology and re-ARM
+
+Candidate for manual live acceptance; 0.1.7 remains the user-accepted reference. Native C++20 / FP64 / 192 kHz; IPC-only Qt UI.
+
+Two separate folders provide FIFO capacity 32768 or 65536 frames. Both retain the original 4096-frame internal fill target (21.333 ms at nominal rate). Capacity is storage reserve, not a requested 32k/64k playback delay. Driver buffer, external queued data, initial silent calibration and hardware latency contribute separately to actual age/latency.
+
+Save the current profile, close the old UI and stop its Core with its own Stop-AudioCore.cmd. Launch one candidate's Live-Test.cmd, select/load your profile and DACs, then explicitly ARM. Do not run both variants against the same IPC endpoint. The launcher refuses a different existing Core owner rather than terminating it. Closing Qt leaves Core running; Stage1/2 remain independent.
+
+ARM/DISARM now changes only the egress session. Graph and passive ingress continue. Inactive preparation runs on the lifecycle worker; publication/retirement is acknowledged at an audio block boundary, including input starvation. Cancel events wake each DAC owner; Stop/Close/COM release remain on that owner. STOPPING remains visible until teardown completes.
+
+Both devices open before Start. The initial driver buffer is silent. Before audible playback, each original estimator observes its own hardware clock for at least four seconds; the original bounded/slew controller settles while the DAC receives SILENT buffers. Expect roughly 4–6 seconds or more of ARMING/PREROLL; click ARM once and wait. No startup benchmark is run. A shared QPC presentation contract selects actual graph frames; startup sample prefixes remain silent until the common onset. Internal target remains 4096. External producer/peer reserves and sample age are reported separately.
+
+SPSC sideband preserves epoch/graph-frame identity through splits, merges and wrap, without changing FP64 payload. Active resync/recenter faults mute locally and require explicit re-ARM. Clock/fill/data-age, resync reason, common/onset QPC and estimated A/B mapping difference are reported. LOCKED alone does not certify alignment. Degraded readings cannot claim softwareAlignmentVerified.
+
+Offline software contract PASS for both capacities: simulated +100/-70 ppm, different Start/Open times, 1024/1024 and 512/1024 driver blocks. Maximum same-time mapping difference 0.015807012 frame; first nonzero onset difference 0.1728 frame. 2970 PCM ramp sample checks per capacity passed within 2 PCM24 LSB, away from the ramp discontinuity. Cancel-in-wait and graph progress across ARM/DISARM passed. Contract software verificat; skew analogic nemasurat.
+
+FAIL retained: a 4096-frame driver callback needs 4196 frames including the existing sinc guard. With target4096, the unchanged servo trims the permanent surplus and the diagnostic reached 5.807994074 frames of drift (onset0.4416). Driver buffers above3996 are therefore explicitly unsupported and rejected after Open, before either Start. Both owners close with zero Starts/submissions in the negative test. This restriction concerns driver callback size, not FIFO capacity; it is identical in both variants. No controller rewrite or acceptance-tolerance change.
+
+Build/probe PASS: MSVC19.51.36257 x64, IntelIPP2026.0 static; unchanged Qt6.11.2 UI. Seven targeted control/lifecycle/IPC/view/live-fixture regressions PASS. No live benchmark/soak, DAC activation or Stage1/2 edits. Full protected-source comparison PASS:101 files, including DSP/UI/PCM24/Guardian/Input/Transport, original sinc/estimator/controller and original render math. Historical Stage04 FAIL REALTIME and formal V07 BLOCKED are unchanged; this is not realtime or analog qualification.
+
+Details: docs/STAGE019-EGRESS-REPORT.md, validation/stage019/. Reproduction: tools/Build-Stage019.ps1 -FifoFrames 32768 or65536 -Verify (use spaces before parameter values). Live acceptance PENDING; candidate not published to GitHub yet.
