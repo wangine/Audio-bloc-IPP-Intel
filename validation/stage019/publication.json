@@ -1,0 +1,16 @@
+{
+  "version": "0.1.8",
+  "publishedCommit": "eb0a6a224d19e0d78c352f5e25fb16a522e2e619",
+  "tag": "v0.1.8",
+  "url": "https://github.com/wangine/Audio-bloc-IPP-Intel/releases/tag/v0.1.8",
+  "branch": "codex/egress-presentation-rearm",
+  "mergeMain": false,
+  "variants": [
+    "32k",
+    "64k"
+  ],
+  "sourceAndAuditIncluded": true,
+  "binaryCoreHashesUnchanged": true,
+  "recordedAudioIncluded": false,
+  "privateProfileIncluded": false
+}
