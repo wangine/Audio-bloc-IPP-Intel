@@ -1,0 +1,9 @@
+{
+  "policyVariantEquality": "PASS",
+  "pcmReplayVariantEquality": "PASS",
+  "auditSha256": "7E1323E6034F70E7594E2397C87B658CAC0DD39E0C23014C3731D0D60E9D0B70",
+  "review": "Read-only review: no important findings; final crossfade uses distinct sources; observed overrange FAIL kept separate",
+  "hardwareOpened": false,
+  "liveAudio": "PENDING user audition",
+  "scope": "One targeted offline target per variant; probe only; no benchmark/full suite"
+}

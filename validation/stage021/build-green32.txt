@@ -1,0 +1,23 @@
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+[1/18] Building CXX object CMakeFiles\entropy_graph.dir\Engine\Telemetry.cpp.obj
+[2/18] Building CXX object CMakeFiles\entropy_graph.dir\Engine\AudioGraph.cpp.obj
+[3/18] Linking CXX static library entropy_graph.lib
+[4/18] Building CXX object CMakeFiles\entropy_egress.dir\Engine\Egress\NativeEgress.cpp.obj
+[5/18] Building CXX object CMakeFiles\entropy_controls.dir\Engine\Control\CrossoverAccess.cpp.obj
+[6/18] Linking CXX static library entropy_egress.lib
+[7/18] Building CXX object CMakeFiles\entropy_controls.dir\Engine\Control\ControlPlane.cpp.obj
+[8/18] Linking CXX static library entropy_controls.lib
+[9/18] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\CoreRuntime.cpp.obj
+[10/18] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\ProfileStore.cpp.obj
+[11/18] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\AudioScheduler.cpp.obj
+[12/18] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\OfflineSinkWorkers.cpp.obj
+[13/18] Building CXX object CMakeFiles\entropy_control_runtime.dir\IPC\TelemetryServer.cpp.obj
+[14/18] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\LiveSinkWorkers.cpp.obj
+[15/18] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\LiveEligibility.cpp.obj
+[16/18] Linking CXX static library entropy_control_runtime.lib
+[17/18] Building CXX object CMakeFiles\EntropyStage021Headroom.dir\Tests\Stage021Headroom.cpp.obj
+[18/18] Linking CXX executable EntropyStage021Headroom.exe

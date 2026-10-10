@@ -1,0 +1,1 @@
+PASS MUSIC/CINEMA AUTO same samples/decision; MANUAL exact scalar; BIT PERFECT exact payload; one switch with gain tail

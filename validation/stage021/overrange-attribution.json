@@ -1,0 +1,88 @@
+{
+  "scope": "historical Stage020 active fragment; no current-live inference",
+  "rangeStatus": "FAIL OBSERVED OVERRANGE",
+  "effectiveMode": 2,
+  "appliedGain": 0.7079457843841379,
+  "truePeak": "NOT IMPLEMENTED",
+  "profileChanged": false,
+  "findings": [
+    {
+      "dac": 0,
+      "physicalPin": 1,
+      "matrixDestination": 1,
+      "crossoverChannel": 1,
+      "firstOverrangeTap": "post-crossover",
+      "stages": {
+        "post-crossover": {
+          "samplePeak": 1.4612631947769439,
+          "overrangeSamples": 683,
+          "firstFrame": 119450,
+          "firstValue": 1.0038694331884508,
+          "firstSeconds": 0.6221354166666667
+        },
+        "post-matrix": {
+          "samplePeak": 1.4612631947769439,
+          "overrangeSamples": 683,
+          "firstFrame": 119450,
+          "firstValue": 1.0038694331884508,
+          "firstSeconds": 0.6221354166666667
+        },
+        "post-headroom": {
+          "samplePeak": 1.034495118618035,
+          "overrangeSamples": 31,
+          "firstFrame": 1025954,
+          "firstValue": 1.0030415104248267,
+          "firstSeconds": 5.343510416666667
+        },
+        "post-asrc": {
+          "samplePeak": 1.034505172301308,
+          "overrangeSamples": 32,
+          "firstFrame": 1025707,
+          "firstValue": 1.0023541239585678,
+          "firstSeconds": 5.342223958333333
+        }
+      },
+      "asrcFirstMappedGraphFrameApproximate": 1025953.8349114611,
+      "observedMissingMarginDb": 0.2946533277064307
+    },
+    {
+      "dac": 0,
+      "physicalPin": 2,
+      "matrixDestination": 2,
+      "crossoverChannel": 5,
+      "firstOverrangeTap": "post-crossover",
+      "stages": {
+        "post-crossover": {
+          "samplePeak": 1.4795621855186922,
+          "overrangeSamples": 624,
+          "firstFrame": 115067,
+          "firstValue": -1.0004051360490192,
+          "firstSeconds": 0.5993072916666666
+        },
+        "post-matrix": {
+          "samplePeak": 1.4795621855186922,
+          "overrangeSamples": 624,
+          "firstFrame": 115067,
+          "firstValue": -1.0004051360490192,
+          "firstSeconds": 0.5993072916666666
+        },
+        "post-headroom": {
+          "samplePeak": 1.04744981197214,
+          "overrangeSamples": 36,
+          "firstFrame": 1025819,
+          "firstValue": 1.0033381781376745,
+          "firstSeconds": 5.3428072916666665
+        },
+        "post-asrc": {
+          "samplePeak": 1.0474431838795553,
+          "overrangeSamples": 36,
+          "firstFrame": 1025572,
+          "firstValue": 1.0025005437349797,
+          "firstSeconds": 5.341520833333333
+        }
+      },
+      "asrcFirstMappedGraphFrameApproximate": 1025818.8361256741,
+      "observedMissingMarginDb": 0.40260949965358456
+    }
+  ]
+}

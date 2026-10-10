@@ -34,6 +34,7 @@ public:
     // DSP thread only; no allocations, locks, device I/O, dynamic module loading.
     EntropyResult process(const double* const* input13, double* const* output16,
                           std::uint32_t frames);
+    // Legacy method name retained for hosts; final analysis covers both programs.
     void enableOriginalMusicAnalysis(bool enabled) noexcept { musicAnalysis_=enabled; } // Quiescent host integration.
     GraphTelemetry telemetry() const noexcept;
     bool prepared() const noexcept { return prepared_; }

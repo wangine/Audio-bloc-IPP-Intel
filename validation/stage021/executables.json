@@ -1,0 +1,14 @@
+[
+  {
+    "path": "build\\msvc-thiran\\EntropyAudioCore.exe",
+    "sha256": "732F64F8D28CA597717B01F17D15869274A0B32A4C0FD347AF4B6850A80F6308"
+  },
+  {
+    "path": "build\\msvc-egress-65536\\EntropyAudioCore.exe",
+    "sha256": "602CDF3D343AA45E5D66E1C97D334F6F34906A43488C0BF57630CBE9B209A775"
+  },
+  {
+    "path": "build\\qt-thiran\\EntropyUI.exe",
+    "sha256": "254CC0DA52626DD351AF24FC3CEDC70C12456E5AD3F089A8CA37F304A190B400"
+  }
+]

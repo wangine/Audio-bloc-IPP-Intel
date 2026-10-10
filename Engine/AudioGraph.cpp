@@ -135,8 +135,10 @@ EntropyResult AudioGraph::process(const double* const* input13, double* const* o
     auto result = matrix_.process(block);
     if (result != ENTROPY_OK) return result;
 
-    // The original Stage3 analyzer observes Matrix FP64 before the gain actuator.
-    if (musicAnalysis_ && crossover_->programBlockState().program == 0) {
+    // Analyze the actual final Matrix FP64 block in both MUSIC and CINEMA,
+    // including their emitted crossfade. Headroom itself owns the selected
+    // AUTO / MANUAL / BIT PERFECT policy and the existing gain law.
+    if (musicAnalysis_) {
         EntropyHeadroomAnalysisBlockF64 analysis{};
         analysis.struct_size=sizeof(analysis);analysis.channels=kOutputChannels;
         analysis.frames=frames;analysis.inputs=matrixBuffer_.readPointers();
