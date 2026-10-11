@@ -1,4 +1,5 @@
 #include "ProviderRegistry.h"
+#include "endpoint_stream_state_v1.h"
 #include <cstring>
 namespace entropy::music {
 namespace {
@@ -32,7 +33,7 @@ bool ProviderRegistry::discover(const std::filesystem::path &directory) {
             api.abiVersion != ENTROPY_PROVIDER_ABI_V2 || api.structSize != sizeof(api) ||
             api.info.abiVersion != ENTROPY_PROVIDER_ABI_V2 || api.info.structSize != sizeof(api.info) ||
             !terminated(api.info.providerId) || !terminated(api.info.name) || !api.info.roles ||
-            (api.info.roles & ~3u) || !api.info.capabilities || (api.info.capabilities & ~3u) ||
+            (api.info.roles & ~3u) || !api.info.capabilities || (api.info.capabilities & ~(3u | ENTROPY_CAP_STREAM_STATE_V1)) ||
             !api.enumerate || !api.open || !api.read || !api.cancel || !api.close) {
             fail("Incompatible provider ABI");
             continue;

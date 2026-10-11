@@ -1,4 +1,5 @@
 #include "endpoint_provider_v2.h"
+#include "endpoint_stream_state_v1.h"
 #include <algorithm>
 #include <cstring>
 #include <windows.h>
@@ -13,6 +14,7 @@
 struct Stream {
     uint64_t sequence = 0, frame = 0;
     bool burst44 = false;
+    unsigned lifecycle = 0;
     LARGE_INTEGER origin{}, frequency{};
     HANDLE stop = CreateEventW(nullptr, TRUE, FALSE, nullptr),
            timer = CreateWaitableTimerExW(nullptr, nullptr, 2, TIMER_ALL_ACCESS);
@@ -26,7 +28,7 @@ struct Stream {
     }
 };
 int32_t enumerate(uint32_t index, EntropyEndpointInfoV2 *out) {
-    if (index > 1)
+    if (index > 3)
         return 0;
     *out = {};
     out->abiVersion = ENTROPY_PROVIDER_ABI_V2;
@@ -35,15 +37,17 @@ int32_t enumerate(uint32_t index, EntropyEndpointInfoV2 *out) {
     out->eligible = 1;
     out->state = 1;
     out->accessModes = 2;
-    strcpy_s(out->endpointId, index ? "burst44" : "fixture");
+    const char* ids[]={"fixture","burst44","idle-running","idle-unknown"};
+    strcpy_s(out->endpointId,ids[index]);
     strcpy_s(out->name, "Synthetic stereo fixture (offline only)");
     return 1;
 }
 int32_t open(const char *id, uint32_t, void **out) {
-    if (std::strcmp(id, "fixture") && std::strcmp(id, "burst44"))
+    if (std::strcmp(id, "fixture") && std::strcmp(id, "burst44") && std::strcmp(id,"idle-running") && std::strcmp(id,"idle-unknown"))
         return -1;
     auto stream = new Stream;
     stream->burst44 = !std::strcmp(id, "burst44");
+    stream->lifecycle=!std::strcmp(id,"idle-running")?1:!std::strcmp(id,"idle-unknown")?2:0;
     *out = stream;
     return 1;
 }
@@ -55,6 +59,15 @@ int32_t read(void *opaque, EntropyIngressPacketV2 *out, void *payload, uint32_t 
         return -1;
     LARGE_INTEGER now, due;
     QueryPerformanceCounter(&now);
+    if(s.lifecycle && (now.QuadPart-s.origin.QuadPart)*1000/s.frequency.QuadPart>=100) {
+        *out={};out->abiVersion=ENTROPY_PROVIDER_ABI_V2;out->structSize=sizeof(*out);
+        const bool idle=(now.QuadPart-s.origin.QuadPart)*1000/s.frequency.QuadPart<500;
+        if(idle || s.lifecycle==1) {
+            out->flags=ENTROPY_PACKET_STREAM_STATE_V1;
+            out->reserved[0]=idle?ENTROPY_STREAM_IDLE_V1:ENTROPY_STREAM_RUNNING_V1;
+        }
+        Sleep(2);return 0;
+    }
     if (s.burst44 && s.sequence == 8)
         s.origin = now;
     const uint64_t pacedFrame = s.burst44 ? (s.frame > 16384 ? s.frame - 16384 : 0) : s.frame;
@@ -117,7 +130,7 @@ extern "C" ENTROPY_PROVIDER_EXPORT int32_t entropy_endpoint_provider_v2(uint32_t
     out->info.abiVersion = abi;
     out->info.structSize = sizeof(out->info);
     out->info.roles = 3;
-    out->info.capabilities = ENTROPY_CAP_RAW_PCM;
+    out->info.capabilities = ENTROPY_CAP_RAW_PCM | ENTROPY_CAP_STREAM_STATE_V1;
     strcpy_s(out->info.providerId, SYNTHETIC_ID);
     strcpy_s(out->info.name, "Offline fixture");
     out->enumerate = enumerate;

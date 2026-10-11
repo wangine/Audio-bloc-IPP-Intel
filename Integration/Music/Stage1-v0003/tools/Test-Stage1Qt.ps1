@@ -21,6 +21,7 @@ try {
   if($stage1Qt.ExitCode -or !(Test-Path -LiteralPath $stage1Image)){Get-Content "$stage1TestRoot\qt-stderr.txt";throw "Qt IPC smoke failed: $($stage1Qt.ExitCode)"}
   $stage1Status=Get-Content -LiteralPath "$stage1Image.json" -Raw | ConvertFrom-Json
   if($stage1Status.musicFormat -ne '24/192'){throw 'Original source format missing from Qt'}
+  if($stage1Status.musicAccess -ne 'WASAPI access unverified'){throw 'Unconfirmed access must not be presented as Shared or Exclusive'}
   if($stage1Attempt -and ($stage1Status.sessionId -ne $stage1FirstStatus.sessionId -or $stage1Status.blocksPublished -le $stage1FirstStatus.blocksPublished)){throw 'Qt restart changed source identity or interrupted publication'}
   $stage1FirstStatus=$stage1Status
  }

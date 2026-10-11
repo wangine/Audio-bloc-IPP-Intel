@@ -143,7 +143,7 @@ void architectureCase() {
     CHECK(registry.discover(TEST_PROVIDER_DIR));
     CHECK(registry.find("synthetic.music"));
     CHECK(registry.find("synthetic.aux"));
-    CHECK(registry.enumerate().size() == 4);
+    CHECK(registry.enumerate().size() == 8);
     auto negativeRoot = std::filesystem::path(TEST_EVIDENCE_DIR) /
                         ("negative-providers-" + std::to_string(GetCurrentProcessId()));
     std::filesystem::create_directories(negativeRoot);
@@ -368,6 +368,18 @@ void architectureCase() {
     CHECK(burst.sources[0].faults == 0 && burst.sources[0].overruns == 0);
     CHECK(burst.blocksPublished > continued.blocksPublished &&
           !memcmp(burst.sessionId, continued.sessionId, 16));
+    for(const char* endpoint : {"idle-running","idle-unknown"}) {
+        request={};request.operation=2;request.role=1;request.mode=1;
+        strcpy_s(request.providerId,"synthetic.music");strcpy_s(request.endpointId,endpoint);
+        CHECK(transact(request).status==0);
+        Sleep(250);request={};auto idle=transact(request);
+        CHECK(idle.sources[0].state==1 && idle.sources[0].fillFrames==0);
+        Sleep(100);auto stillIdle=transact(request);
+        CHECK(stillIdle.sources[0].underruns==idle.sources[0].underruns);
+        Sleep(300);auto starved=transact(request);
+        CHECK(starved.sources[0].faults==0);
+        CHECK(starved.sources[0].underruns>stillIdle.sources[0].underruns);
+    }
     std::ofstream(stop).put('1');
     CHECK(WaitForSingleObject(child.hProcess, 5000) == WAIT_OBJECT_0);
     DWORD exitCode = 99;
@@ -525,6 +537,14 @@ void pipelineCase() {
 }
 int main(int argc, char **argv) {
     try {
+        if(argc==3 && std::string(argv[1])=="--raw-provider-registry") {
+            ProviderRegistry actual;
+            CHECK(actual.discover(argv[2]));
+            auto* raw=actual.find("entropy.music.render.v2.raw");
+            CHECK(raw && raw->api.info.capabilities==5);
+            std::cout<<"PASS candidate registry loads the actual raw PCM + lifecycle Provider DLL\n";
+            return 0;
+        }
         CHECK(argc == 2);
         if (std::string(argv[1]) == "--pcm")
             pcmCase();

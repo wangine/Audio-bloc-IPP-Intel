@@ -1,0 +1,18 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage1-v0003/build
+Test project D:/Projects/3Stage-3/Stage1-v0003/build
+    Start 2: Stage1Architecture
+1/2 Test #2: Stage1Architecture ...............***Failed    4.90 sec
+Stage2 test consumer GAP: bounded queue overflow; reconnecting without changing producer
+PASS MSVC Stage1 -> actual packaged MinGW Stage2 MUSIC2/LRC3 native DLLs; stop/restart with stable source UUID
+FAIL line 381: starved.sources[0].underruns>stillIdle.sources[0].underruns
+
+    Start 5: Stage1SourceClock
+2/2 Test #5: Stage1SourceClock ................   Passed    0.36 sec
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =   5.27 sec
+
+The following tests FAILED:
+	  2 - Stage1Architecture (Failed)
+Errors while running CTest

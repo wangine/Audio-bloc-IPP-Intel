@@ -104,6 +104,13 @@ struct Reply : Stage1ControlResponse {
 QString peakText(double peak) {
     return peak > 0 ? QString::number(20 * std::log10(peak), 'f', 2) : QString("−inf");
 }
+QString accessText(const Stage1SourceSnapshot& s) {
+    if(s.mode==1)return "Shared";
+    if(s.mode==2)return "Exclusive";
+    if(QByteArray(s.providerId)=="entropy.music.render.v2.raw")
+        return "Raw PCM · WASAPI access unverified";
+    return "WASAPI access unverified";
+}
 QString format(const Stage1SourceSnapshot &s) {
     if (!s.rate)
         return "UNKNOWN";
@@ -310,9 +317,7 @@ int main(int argc, char **argv) {
                 info[i]->setText(QString("Input: %1 · %2 · %3\nSource clock: QPC %4 Hz · generation %5%6")
                                      .arg(format(s))
                                      .arg(s.state < 5 ? states[s.state] : "unknown")
-                                     .arg(s.mode == 1   ? "Shared"
-                                          : s.mode == 2 ? "Exclusive"
-                                                        : "access UNKNOWN")
+                                     .arg(accessText(s))
                                      .arg(s.qpcFrequency)
                                      .arg(s.generation)
                                      .arg(s.metadataFlags & ENTROPY_PACKET_METADATA_PARTIAL
@@ -339,6 +344,7 @@ int main(int argc, char **argv) {
                 evidence["sessionId"] =
                     QString::fromLatin1(QByteArray(reinterpret_cast<const char *>(r.sessionId), 16).toHex());
                 evidence["musicFormat"] = format(r.sources[0]);
+                evidence["musicAccess"] = accessText(r.sources[0]);
                 QFile file(smoke + ".json");
                 if (file.open(QIODevice::WriteOnly))
                     file.write(QJsonDocument(evidence).toJson());

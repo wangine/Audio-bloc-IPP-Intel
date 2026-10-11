@@ -1,0 +1,1 @@
+PASS Qt MinGW IPC with MSVC Core; original 24/192 input and native clock; screenshot: D:\Projects\3Stage-3\Stage1-v0003\evidence\qt-smoke.png

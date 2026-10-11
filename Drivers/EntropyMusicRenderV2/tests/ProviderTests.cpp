@@ -9,7 +9,7 @@ namespace entropy::music::provider {struct BridgeClientTestProbe {static void ba
 DeviceIdentity identity(){DeviceIdentity d{bridge::HardwareId,bridge::ServiceName,L"private-interface",L"windows-render-id",{}, {},{},0,1,L"ROOT\\MEDIA\\0003",L"ROOT\\MEDIA\\0003"};std::memcpy(d.interfaceGuid.data(),bridge::InterfaceGuid,16);d.containerId[0]=d.endpointContainerId[0]=1;return d;}
 struct FakeBridge:BridgeTransport {
     std::mutex mutex;std::condition_variable changed;bool claimed=false,cancelled=false,block=false,entered=false;
-    std::vector<uint8_t> packet;
+    std::vector<uint8_t> packet;uint32_t streamState=0;bool infoAvailable=true;
     void(*onClose)(void*)=nullptr;void* closeContext=nullptr;
     bool open(const DeviceIdentity&) override{std::lock_guard guard(mutex);if(claimed)return false;claimed=true;cancelled=false;return true;}
     IoResult read(void* out,uint32_t capacity,uint32_t& copied) override{
@@ -17,7 +17,7 @@ struct FakeBridge:BridgeTransport {
         copied=0;if(cancelled)return IoResult::Cancelled;if(packet.empty())return IoResult::NoData;
         if(capacity<packet.size())return IoResult::TooSmall;std::memcpy(out,packet.data(),packet.size());copied=static_cast<uint32_t>(packet.size());packet.clear();return IoResult::Success;
     }
-    bool info(bridge::Info& out) override {out={};out.header={bridge::Magic,bridge::Version,sizeof(out),2};std::memcpy(out.interfaceGuid,bridge::InterfaceGuid,16);out.driverBuild=1;return true;}
+    bool info(bridge::Info& out) override {if(!infoAvailable)return false;out={};out.header={bridge::Magic,bridge::Version,sizeof(out),2};std::memcpy(out.interfaceGuid,bridge::InterfaceGuid,16);out.driverBuild=1;out.state=streamState;return true;}
     void cancel() override{std::lock_guard guard(mutex);cancelled=true;changed.notify_all();}
     void close() override{std::lock_guard guard(mutex);if(onClose)onClose(closeContext);claimed=false;}
     void make(){bridge::Packet p{{bridge::Magic,bridge::Version,176,1},format(96000,32),{7,9,42,123456,10000000,0,2,RawIdentity,0,0},16,0,0};packet.resize(176);std::memcpy(packet.data(),&p,sizeof(p));for(size_t i=160;i<176;++i)packet[i]=static_cast<uint8_t>(i);}
@@ -49,6 +49,15 @@ void SharedContainerRequiresExactAdapter(){
     d.endpointAdapterInstanceId.clear();CHECK(!validIdentity(d));
     d=identity();d.instanceId.clear();CHECK(!validIdentity(d));
 }
+void NoDataCarriesExplicitLifecycleWithoutPcm(){
+    FakeBridge fake;BridgeClient client(fake);CHECK(client.open(identity()));
+    uint8_t pcm[16]{};EntropyIngressPacketV2 p{};
+    for(uint32_t state=0;state<=3;++state){fake.streamState=state;p={};CHECK(client.read(p,pcm,sizeof(pcm))==0);
+        CHECK(p.abiVersion==ENTROPY_PROVIDER_ABI_V2 && p.structSize==sizeof(p));
+        CHECK(p.flags==16 && p.reserved[0]==(state==2?2u:1u));CHECK(!p.frames && !p.payloadBytes && !p.mode);}
+    fake.infoAvailable=false;p={};CHECK(client.read(p,pcm,sizeof(pcm))==0);CHECK(!p.flags && !p.reserved[0]);
+    fake.infoAvailable=true;fake.streamState=4;p={};CHECK(client.read(p,pcm,sizeof(pcm))==-1);
+}
 void CloseWaitsUntilReaderMutexReleased(){
     struct Barrier {std::mutex lock;std::condition_variable cv;bool entered=false,release=false;};Barrier b;FakeBridge fake;fake.make();auto client=std::make_unique<BridgeClient>(fake);CHECK(client->open(identity()));
     BridgeClientTestProbe::barrier(*client,[](void* context){auto& p=*static_cast<Barrier*>(context);std::unique_lock guard(p.lock);p.entered=true;p.cv.notify_all();p.cv.wait(guard,[&](){return p.release;});},&b);
@@ -56,4 +65,4 @@ void CloseWaitsUntilReaderMutexReleased(){
     auto pointer=client.get();std::thread reader([&](){uint8_t bytes[16]{};EntropyIngressPacketV2 p{};pointer->read(p,bytes,16);});{std::unique_lock guard(b.lock);b.cv.wait(guard,[&](){return b.entered;});}
     client.reset();{std::lock_guard guard(b.lock);b.release=true;b.cv.notify_all();}reader.join();CHECK(check.released);
 }
-int main(){const Case tests[]={{"ProviderAbiExactRaw",ProviderAbiExactRaw},{"ReadTooSmallDoesNotConsume",ReadTooSmallDoesNotConsume},{"CloseCancelsPendingRead",CloseCancelsPendingRead},{"SecondReaderRefused",SecondReaderRefused},{"WrongDeviceRejected",WrongDeviceRejected},{"AccessModeDoesNotInventWasapiMode",AccessModeDoesNotInventWasapiMode},{"CloseWaitsUntilReaderMutexReleased",CloseWaitsUntilReaderMutexReleased},{"SharedContainerRequiresExactAdapter",SharedContainerRequiresExactAdapter}};return runTests(tests,8);}
+int main(){const Case tests[]={{"ProviderAbiExactRaw",ProviderAbiExactRaw},{"ReadTooSmallDoesNotConsume",ReadTooSmallDoesNotConsume},{"CloseCancelsPendingRead",CloseCancelsPendingRead},{"SecondReaderRefused",SecondReaderRefused},{"WrongDeviceRejected",WrongDeviceRejected},{"AccessModeDoesNotInventWasapiMode",AccessModeDoesNotInventWasapiMode},{"CloseWaitsUntilReaderMutexReleased",CloseWaitsUntilReaderMutexReleased},{"SharedContainerRequiresExactAdapter",SharedContainerRequiresExactAdapter},{"NoDataCarriesExplicitLifecycleWithoutPcm",NoDataCarriesExplicitLifecycleWithoutPcm}};return runTests(tests,9);}

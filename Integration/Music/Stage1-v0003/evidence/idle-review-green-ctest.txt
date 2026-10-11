@@ -1,0 +1,18 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage1-v0003/build
+Test project D:/Projects/3Stage-3/Stage1-v0003/build
+    Start 1: Stage1Pcm
+1/6 Test #1: Stage1Pcm ........................   Passed    0.05 sec
+    Start 2: Stage1Architecture
+2/6 Test #2: Stage1Architecture ...............   Passed    4.74 sec
+    Start 3: Stage1Pipeline
+3/6 Test #3: Stage1Pipeline ...................   Passed    0.85 sec
+    Start 4: Stage1CaptureQueue
+4/6 Test #4: Stage1CaptureQueue ...............   Passed    0.02 sec
+    Start 5: Stage1SourceClock
+5/6 Test #5: Stage1SourceClock ................   Passed    0.35 sec
+    Start 6: Stage1Telemetry
+6/6 Test #6: Stage1Telemetry ..................   Passed    0.19 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Total Test time (real) =   6.20 sec

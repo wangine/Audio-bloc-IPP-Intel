@@ -19,6 +19,7 @@ struct SourceDomain::Impl {
     uint32_t pendingFrames{}, maxFrames{};
     bool first = true;
     std::atomic<uint32_t> clockPrimeFrames{0};
+    std::atomic<bool> ingressRunning{true};
     uint64_t clockToken{};
     bool clockPrimed=false;
     uint64_t clockPrimeStarted{};
@@ -84,6 +85,7 @@ bool SourceDomain::prepare(const EntropyIngressFormatV2 &f, uint64_t generation,
     p.pendingFrames = 0;
     p.first = true;
     p.clockPrimeFrames=0;
+    p.ingressRunning.store(true,std::memory_order_release);
     p.lastSequence = p.lastFirst = p.lastCount = 0;
     p.begin();
     p.telemetryGeneration = generation;
@@ -216,6 +218,9 @@ bool SourceDomain::pop1024(StereoBlock &b) noexcept {
     impl_->underruns++;
     return false;
 }
+void SourceDomain::setIngressRunning(bool running) noexcept {
+    impl_->ingressRunning.store(running,std::memory_order_release);
+}
 bool SourceDomain::popClocked1024(StereoBlock &b,uint64_t now,uint64_t frequency) noexcept {
     auto& p=*impl_;
     const auto token=p.activeToken.load(std::memory_order_acquire);
@@ -224,7 +229,10 @@ bool SourceDomain::popClocked1024(StereoBlock &b,uint64_t now,uint64_t frequency
     if(!p.clockPrimed) {
         const auto required=p.clockPrimeFrames.load(std::memory_order_acquire);
         const auto available=p.fifo.currentFill(p.activeToken,token);
-        if(!required || !available)return false;
+        if(!required)return false;
+        if(!available && !p.ingressRunning.load(std::memory_order_acquire)) {
+            p.clockPrimeStarted=0;return false;
+        }
         if(!p.clockPrimeStarted)p.clockPrimeStarted=now;
         const auto window=static_cast<uint64_t>((static_cast<long double>(required)*frequency+191999)/192000);
         const bool expired=frequency && now>=p.clockPrimeStarted && now-p.clockPrimeStarted>=window;
@@ -232,6 +240,12 @@ bool SourceDomain::popClocked1024(StereoBlock &b,uint64_t now,uint64_t frequency
         p.clockPrimed=true;
     }
     if(p.fifo.pop(b,p.activeToken,token))return true;
+    if(!p.ingressRunning.load(std::memory_order_acquire)) {
+        // The completed FIFO was drained. An explicit stopped stream has no
+        // expected PCM. Resume uses the same existing prime window, no gain,
+        // sample edits, discard, counter reset or timeout-based concealment.
+        p.clockPrimed=false;p.clockPrimeStarted=0;return false;
+    }
     if(token==p.activeToken.load(std::memory_order_acquire))p.underruns++;
     return false;
 }

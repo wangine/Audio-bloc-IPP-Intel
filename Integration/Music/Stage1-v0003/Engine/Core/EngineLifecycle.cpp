@@ -3,6 +3,7 @@
 #include "InputMatrix.h"
 #include "MusicPublisher.h"
 #include "SourceDomain.h"
+#include "endpoint_stream_state_v1.h"
 #include "WindowsEndpointCatalog.h"
 #include <avrt.h>
 #include <cstring>
@@ -132,6 +133,16 @@ struct EngineLifecycle::Impl {
                             break;
                         }
                         if (!rc) {
+                            if((s.provider->api.info.capabilities & ENTROPY_CAP_STREAM_STATE_V1) &&
+                               (p.flags & ENTROPY_PACKET_STREAM_STATE_V1)) {
+                                if(p.abiVersion!=ENTROPY_PROVIDER_ABI_V2 || p.structSize!=sizeof(p) ||
+                                   p.flags!=ENTROPY_PACKET_STREAM_STATE_V1 || p.frames || p.payloadBytes ||
+                                   p.reserved[1] || (p.reserved[0]!=ENTROPY_STREAM_IDLE_V1 &&
+                                   p.reserved[0]!=ENTROPY_STREAM_RUNNING_V1)) {s.state=4;break;}
+                                const bool active=p.reserved[0]==ENTROPY_STREAM_RUNNING_V1;
+                                s.domain.setIngressRunning(active);
+                                if(!active)s.state=1;
+                            } else s.domain.setIngressRunning(true);
                             // A provider that already waited must be read again immediately.
                             // Nonblocking providers receive one local high resolution idle wait.
                             if(trace.end-trace.start < ingressFrequency.QuadPart/1000) {
@@ -168,6 +179,7 @@ struct EngineLifecycle::Impl {
                             s.state = 4;
                             break;
                         }
+                        s.domain.setIngressRunning(true);
                         s.state = 2;
                         if(traceIndex<s.trace.size()) {QueryPerformanceCounter(&traceClock);s.trace[traceIndex].processed=traceClock.QuadPart;}
                     }

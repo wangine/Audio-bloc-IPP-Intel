@@ -1,4 +1,5 @@
 #include "NativeBridge.h"
+#include "../protocol/ProviderStreamStateV1.h"
 #include <cstring>
 #include <new>
 #ifdef ENTROPY_AUDIT_PROVIDER
@@ -36,7 +37,7 @@ extern "C" ENTROPY_PROVIDER_EXPORT int32_t entropy_endpoint_provider_v2(uint32_t
     using namespace entropy::music::provider;
     if(!out || abi!=ENTROPY_PROVIDER_ABI_V2 || out->structSize!=sizeof(*out))return -1;
     *out={};out->abiVersion=abi;out->structSize=sizeof(*out);out->info.abiVersion=abi;out->info.structSize=sizeof(out->info);
-    out->info.capabilities=ENTROPY_CAP_RAW_PCM;out->info.roles=ENTROPY_ROLE_MUSIC;
+    out->info.capabilities=ENTROPY_CAP_RAW_PCM|ENTROPY_CAP_STREAM_STATE_V1;out->info.roles=ENTROPY_ROLE_MUSIC;
     strcpy_s(out->info.providerId,entropy::music::bridge::ProviderId);strcpy_s(out->info.name,"Entropy Music Render V2 raw PCM Provider");
     out->enumerate=enumerate;out->open=open;out->read=read;out->cancel=cancel;out->close=close;return 1;
 }

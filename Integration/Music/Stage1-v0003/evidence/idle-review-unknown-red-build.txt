@@ -1,0 +1,22 @@
+[1/20] Building CXX object CMakeFiles\Syntheticmusic.dir\tests\SyntheticProvider.cpp.obj
+[2/20] Building CXX object CMakeFiles\Stage1Pipeline.dir\Engine\SRC\SourceDomain.cpp.obj
+D:\Projects\3Stage-3\Stage1-v0003\Engine\Transport\InputFifo.h(14): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\Stage1-v0003\Engine\Transport\InputFifo.h(15): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+[3/20] Linking CXX static library Stage1Pipeline.lib
+[4/20] Building CXX object CMakeFiles\Syntheticaux.dir\tests\SyntheticProvider.cpp.obj
+[5/20] Linking CXX executable Stage1ControlProbe.exe
+[6/20] Linking CXX executable Stage1SourceClockTests.exe
+[7/20] Building CXX object CMakeFiles\BadAbiFixture.dir\tests\SyntheticProvider.cpp.obj
+[8/20] Linking CXX executable Stage1TelemetryTests.exe
+[9/20] Linking CXX executable Stage1OutputPublisherFixture.exe
+[10/20] Linking CXX shared library test-providers\Syntheticmusic.dll
+[11/20] Linking CXX shared library test-providers\Syntheticaux.dll
+[12/20] Linking CXX shared library negative-providers\BadAbiFixture.dll
+[13/20] Building CXX object CMakeFiles\Stage1Ingress.dir\Engine\Ingress\ProviderRegistry.cpp.obj
+[14/20] Linking CXX static library Stage1Ingress.lib
+[15/20] Linking CXX executable Stage1IngressProbe.exe
+[16/20] Linking CXX shared library providers\WindowsCapture.dll
+[17/20] Linking CXX executable Stage1Acceptance.exe
+[18/20] Building CXX object CMakeFiles\Stage1Runtime.dir\Engine\Core\EngineLifecycle.cpp.obj
+[19/20] Linking CXX static library Stage1Runtime.lib
+[20/20] Linking CXX executable EntropyMusicSourceCore.exe

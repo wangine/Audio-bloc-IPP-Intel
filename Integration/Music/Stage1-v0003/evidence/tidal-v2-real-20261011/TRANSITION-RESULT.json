@@ -1,0 +1,564 @@
+{
+  "scope": "r3 diagnostic window, user confirmed three TIDAL pause/play cycles; not full-session acceptance",
+  "sourceSnapshots": 2127,
+  "driverSnapshots": 2235,
+  "sourceDurationMs": 239828,
+  "musicGenerations": [
+    67,
+    69,
+    71,
+    73,
+    75
+  ],
+  "musicUnderrunsStart": 683,
+  "musicUnderrunsEnd": 2444,
+  "musicUnderrunsDelta": 1761,
+  "musicFaultsDelta": 0,
+  "musicLostFramesDelta": 0,
+  "driverStates": [
+    0,
+    2
+  ],
+  "driverNoOwnerSnapshots": 86,
+  "driverMaxLostFrames": 0,
+  "driverLifetimeLostDelta": 0,
+  "driverLifetimeCancelledDelta": 16384,
+  "driverWriteFailureDelta": 0,
+  "changes": [
+    {
+      "tickMs": 212535265,
+      "generation": 67,
+      "underruns": 705,
+      "delta": 22
+    },
+    {
+      "tickMs": 212535375,
+      "generation": 67,
+      "underruns": 728,
+      "delta": 23
+    },
+    {
+      "tickMs": 212535484,
+      "generation": 67,
+      "underruns": 748,
+      "delta": 20
+    },
+    {
+      "tickMs": 212535593,
+      "generation": 67,
+      "underruns": 768,
+      "delta": 20
+    },
+    {
+      "tickMs": 212535703,
+      "generation": 67,
+      "underruns": 788,
+      "delta": 20
+    },
+    {
+      "tickMs": 212535812,
+      "generation": 67,
+      "underruns": 809,
+      "delta": 21
+    },
+    {
+      "tickMs": 212535921,
+      "generation": 67,
+      "underruns": 829,
+      "delta": 20
+    },
+    {
+      "tickMs": 212536031,
+      "generation": 67,
+      "underruns": 849,
+      "delta": 20
+    },
+    {
+      "tickMs": 212536140,
+      "generation": 67,
+      "underruns": 872,
+      "delta": 23
+    },
+    {
+      "tickMs": 212536250,
+      "generation": 67,
+      "underruns": 892,
+      "delta": 20
+    },
+    {
+      "tickMs": 212536359,
+      "generation": 67,
+      "underruns": 912,
+      "delta": 20
+    },
+    {
+      "tickMs": 212536468,
+      "generation": 67,
+      "underruns": 932,
+      "delta": 20
+    },
+    {
+      "tickMs": 212536578,
+      "generation": 67,
+      "underruns": 953,
+      "delta": 21
+    },
+    {
+      "tickMs": 212536687,
+      "generation": 67,
+      "underruns": 973,
+      "delta": 20
+    },
+    {
+      "tickMs": 212536796,
+      "generation": 67,
+      "underruns": 993,
+      "delta": 20
+    },
+    {
+      "tickMs": 212536906,
+      "generation": 67,
+      "underruns": 1013,
+      "delta": 20
+    },
+    {
+      "tickMs": 212537031,
+      "generation": 67,
+      "underruns": 1036,
+      "delta": 23
+    },
+    {
+      "tickMs": 212537156,
+      "generation": 67,
+      "underruns": 1059,
+      "delta": 23
+    },
+    {
+      "tickMs": 212537265,
+      "generation": 67,
+      "underruns": 1082,
+      "delta": 23
+    },
+    {
+      "tickMs": 212537375,
+      "generation": 69,
+      "underruns": 1088,
+      "delta": 6
+    },
+    {
+      "tickMs": 212541625,
+      "generation": 69,
+      "underruns": 1099,
+      "delta": 11
+    },
+    {
+      "tickMs": 212541734,
+      "generation": 69,
+      "underruns": 1119,
+      "delta": 20
+    },
+    {
+      "tickMs": 212541843,
+      "generation": 69,
+      "underruns": 1140,
+      "delta": 21
+    },
+    {
+      "tickMs": 212541953,
+      "generation": 69,
+      "underruns": 1160,
+      "delta": 20
+    },
+    {
+      "tickMs": 212542062,
+      "generation": 69,
+      "underruns": 1180,
+      "delta": 20
+    },
+    {
+      "tickMs": 212542187,
+      "generation": 69,
+      "underruns": 1203,
+      "delta": 23
+    },
+    {
+      "tickMs": 212542296,
+      "generation": 69,
+      "underruns": 1226,
+      "delta": 23
+    },
+    {
+      "tickMs": 212542406,
+      "generation": 69,
+      "underruns": 1246,
+      "delta": 20
+    },
+    {
+      "tickMs": 212542515,
+      "generation": 69,
+      "underruns": 1266,
+      "delta": 20
+    },
+    {
+      "tickMs": 212542625,
+      "generation": 69,
+      "underruns": 1286,
+      "delta": 20
+    },
+    {
+      "tickMs": 212542734,
+      "generation": 69,
+      "underruns": 1307,
+      "delta": 21
+    },
+    {
+      "tickMs": 212542843,
+      "generation": 69,
+      "underruns": 1327,
+      "delta": 20
+    },
+    {
+      "tickMs": 212542953,
+      "generation": 69,
+      "underruns": 1347,
+      "delta": 20
+    },
+    {
+      "tickMs": 212543062,
+      "generation": 69,
+      "underruns": 1367,
+      "delta": 20
+    },
+    {
+      "tickMs": 212543187,
+      "generation": 69,
+      "underruns": 1390,
+      "delta": 23
+    },
+    {
+      "tickMs": 212543296,
+      "generation": 69,
+      "underruns": 1413,
+      "delta": 23
+    },
+    {
+      "tickMs": 212543406,
+      "generation": 69,
+      "underruns": 1433,
+      "delta": 20
+    },
+    {
+      "tickMs": 212543515,
+      "generation": 69,
+      "underruns": 1454,
+      "delta": 21
+    },
+    {
+      "tickMs": 212543625,
+      "generation": 69,
+      "underruns": 1474,
+      "delta": 20
+    },
+    {
+      "tickMs": 212543734,
+      "generation": 69,
+      "underruns": 1494,
+      "delta": 20
+    },
+    {
+      "tickMs": 212543843,
+      "generation": 69,
+      "underruns": 1514,
+      "delta": 20
+    },
+    {
+      "tickMs": 212543953,
+      "generation": 69,
+      "underruns": 1534,
+      "delta": 20
+    },
+    {
+      "tickMs": 212544078,
+      "generation": 69,
+      "underruns": 1557,
+      "delta": 23
+    },
+    {
+      "tickMs": 212544187,
+      "generation": 69,
+      "underruns": 1580,
+      "delta": 23
+    },
+    {
+      "tickMs": 212544296,
+      "generation": 69,
+      "underruns": 1600,
+      "delta": 20
+    },
+    {
+      "tickMs": 212544406,
+      "generation": 69,
+      "underruns": 1621,
+      "delta": 21
+    },
+    {
+      "tickMs": 212544515,
+      "generation": 69,
+      "underruns": 1641,
+      "delta": 20
+    },
+    {
+      "tickMs": 212544625,
+      "generation": 69,
+      "underruns": 1661,
+      "delta": 20
+    },
+    {
+      "tickMs": 212544734,
+      "generation": 69,
+      "underruns": 1681,
+      "delta": 20
+    },
+    {
+      "tickMs": 212544843,
+      "generation": 69,
+      "underruns": 1702,
+      "delta": 21
+    },
+    {
+      "tickMs": 212544968,
+      "generation": 69,
+      "underruns": 1725,
+      "delta": 23
+    },
+    {
+      "tickMs": 212545078,
+      "generation": 71,
+      "underruns": 1728,
+      "delta": 3
+    },
+    {
+      "tickMs": 212548671,
+      "generation": 71,
+      "underruns": 1736,
+      "delta": 8
+    },
+    {
+      "tickMs": 212548781,
+      "generation": 71,
+      "underruns": 1756,
+      "delta": 20
+    },
+    {
+      "tickMs": 212548890,
+      "generation": 71,
+      "underruns": 1776,
+      "delta": 20
+    },
+    {
+      "tickMs": 212549000,
+      "generation": 71,
+      "underruns": 1796,
+      "delta": 20
+    },
+    {
+      "tickMs": 212549109,
+      "generation": 71,
+      "underruns": 1816,
+      "delta": 20
+    },
+    {
+      "tickMs": 212549234,
+      "generation": 71,
+      "underruns": 1839,
+      "delta": 23
+    },
+    {
+      "tickMs": 212549343,
+      "generation": 71,
+      "underruns": 1862,
+      "delta": 23
+    },
+    {
+      "tickMs": 212549453,
+      "generation": 71,
+      "underruns": 1883,
+      "delta": 21
+    },
+    {
+      "tickMs": 212549562,
+      "generation": 71,
+      "underruns": 1903,
+      "delta": 20
+    },
+    {
+      "tickMs": 212549671,
+      "generation": 71,
+      "underruns": 1923,
+      "delta": 20
+    },
+    {
+      "tickMs": 212549781,
+      "generation": 71,
+      "underruns": 1943,
+      "delta": 20
+    },
+    {
+      "tickMs": 212549890,
+      "generation": 71,
+      "underruns": 1964,
+      "delta": 21
+    },
+    {
+      "tickMs": 212550000,
+      "generation": 71,
+      "underruns": 1984,
+      "delta": 20
+    },
+    {
+      "tickMs": 212550109,
+      "generation": 71,
+      "underruns": 2004,
+      "delta": 20
+    },
+    {
+      "tickMs": 212550218,
+      "generation": 71,
+      "underruns": 2024,
+      "delta": 20
+    },
+    {
+      "tickMs": 212550343,
+      "generation": 71,
+      "underruns": 2047,
+      "delta": 23
+    },
+    {
+      "tickMs": 212550468,
+      "generation": 71,
+      "underruns": 2071,
+      "delta": 24
+    },
+    {
+      "tickMs": 212550578,
+      "generation": 71,
+      "underruns": 2094,
+      "delta": 23
+    },
+    {
+      "tickMs": 212550687,
+      "generation": 73,
+      "underruns": 2099,
+      "delta": 5
+    },
+    {
+      "tickMs": 212553703,
+      "generation": 73,
+      "underruns": 2106,
+      "delta": 7
+    },
+    {
+      "tickMs": 212553812,
+      "generation": 73,
+      "underruns": 2127,
+      "delta": 21
+    },
+    {
+      "tickMs": 212553921,
+      "generation": 73,
+      "underruns": 2147,
+      "delta": 20
+    },
+    {
+      "tickMs": 212554031,
+      "generation": 73,
+      "underruns": 2167,
+      "delta": 20
+    },
+    {
+      "tickMs": 212554140,
+      "generation": 73,
+      "underruns": 2187,
+      "delta": 20
+    },
+    {
+      "tickMs": 212554250,
+      "generation": 73,
+      "underruns": 2207,
+      "delta": 20
+    },
+    {
+      "tickMs": 212554359,
+      "generation": 73,
+      "underruns": 2227,
+      "delta": 20
+    },
+    {
+      "tickMs": 212554484,
+      "generation": 73,
+      "underruns": 2250,
+      "delta": 23
+    },
+    {
+      "tickMs": 212554593,
+      "generation": 73,
+      "underruns": 2274,
+      "delta": 24
+    },
+    {
+      "tickMs": 212554703,
+      "generation": 73,
+      "underruns": 2294,
+      "delta": 20
+    },
+    {
+      "tickMs": 212554812,
+      "generation": 73,
+      "underruns": 2314,
+      "delta": 20
+    },
+    {
+      "tickMs": 212554921,
+      "generation": 73,
+      "underruns": 2334,
+      "delta": 20
+    },
+    {
+      "tickMs": 212555031,
+      "generation": 73,
+      "underruns": 2354,
+      "delta": 20
+    },
+    {
+      "tickMs": 212555140,
+      "generation": 73,
+      "underruns": 2374,
+      "delta": 20
+    },
+    {
+      "tickMs": 212555250,
+      "generation": 73,
+      "underruns": 2395,
+      "delta": 21
+    },
+    {
+      "tickMs": 212555375,
+      "generation": 73,
+      "underruns": 2417,
+      "delta": 22
+    },
+    {
+      "tickMs": 212555484,
+      "generation": 73,
+      "underruns": 2441,
+      "delta": 24
+    },
+    {
+      "tickMs": 212555593,
+      "generation": 75,
+      "underruns": 2444,
+      "delta": 3
+    }
+  ],
+  "interpretation": "Core r3 counted explicit upstream idle as scheduler underrun. Stop cancellation is separately reported, not certified lossless EOS. No original TIDAL PCM reference; no byte identity claim."
+}

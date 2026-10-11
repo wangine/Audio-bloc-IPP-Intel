@@ -41,6 +41,34 @@ int main(int argc,char** argv) {
         if(!shortStream.prepare(p.format,1,2048) || !shortStream.processPacket({p,{reinterpret_cast<const std::byte*>(input.data()),p.payloadBytes}}))throw std::runtime_error("Short stream prepare");
         if(shortStream.popClocked1024(block,1,192000))throw std::runtime_error("Short stream skipped startup window");
         if(!shortStream.popClocked1024(block,4096,192000) || !shortStream.popClocked1024(block,5120,192000))throw std::runtime_error("Complete short stream remained stuck in FIFO");
+        // A stopped upstream stream is not a RUN underrun. Do not discard
+        // queued audio; after it drains, wait and prime again on resumption.
+        shortStream.setIngressRunning(false);
+        for(uint64_t t=6144;t<192000*3;t+=1024)
+            if(shortStream.popClocked1024(block,t,192000))throw std::runtime_error("Idle stream invented PCM");
+        if(shortStream.telemetry().underruns)throw std::runtime_error("A legitimate stream pause counted as underrun");
+        shortStream.setIngressRunning(true);
+        const auto resumeStart=uint64_t(192000*3);
+        if(shortStream.popClocked1024(block,resumeStart,192000))throw std::runtime_error("RUN invented PCM");
+        if(shortStream.popClocked1024(block,resumeStart+4096,192000) || shortStream.telemetry().underruns!=1)throw std::runtime_error("Empty resumed RUN starvation was hidden");
+        // Start a fresh legitimate idle interval for the PCM resumption test.
+        shortStream.setIngressRunning(false);
+        shortStream.popClocked1024(block,resumeStart+5120,192000);
+        const auto resumeUnderruns=shortStream.telemetry().underruns;
+        shortStream.setIngressRunning(true);
+        if(!shortStream.processPacket({p,{reinterpret_cast<const std::byte*>(input.data()),p.payloadBytes}}))throw std::runtime_error("Resume packet rejected");
+        if(shortStream.popClocked1024(block,192000*3,192000))throw std::runtime_error("Resume skipped existing prime window");
+        if(!shortStream.processPacket({p,{reinterpret_cast<const std::byte*>(input.data()),p.payloadBytes}}))throw std::runtime_error("Second resume packet rejected");
+        shortStream.setIngressRunning(false);
+        for(unsigned i=0;i<4;i++) {
+            if(!shortStream.popClocked1024(block,192000*3+1024*(i+1),192000))throw std::runtime_error("Idle transition discarded queued PCM");
+            for(unsigned j=0;j<1024;j++)if(block.left[j]!=.5 || block.right[j]!=.5)throw std::runtime_error("Pause changed audio");
+        }
+        if(shortStream.popClocked1024(block,192000*3+5120,192000) || shortStream.telemetry().underruns!=resumeUnderruns)throw std::runtime_error("Idle drain counted underrun");
+        shortStream.setIngressRunning(true);
+        for(unsigned i=0;i<2;i++)if(!shortStream.processPacket({p,{reinterpret_cast<const std::byte*>(input.data()),p.payloadBytes}}))throw std::runtime_error("RUN packet rejected");
+        for(unsigned i=0;i<4;i++)if(!shortStream.popClocked1024(block,192000*4+1024*i,192000))throw std::runtime_error("RUN failed to prime");
+        if(shortStream.popClocked1024(block,192000*4+4096,192000) || shortStream.telemetry().underruns!=resumeUnderruns+1)throw std::runtime_error("Real RUN starvation was hidden");
         InputFifo fenced;
         std::atomic<uint64_t> active{1};
         block.status.generation=1;fenced.push(block,1);

@@ -1,0 +1,12 @@
+[1/12] Building CXX object CMakeFiles\EntropyMusicRawProviderV2.dir\provider\RawMusicProvider.cpp.obj
+[2/12] Building CXX object CMakeFiles\MusicRenderProviderTests.dir\provider\BridgeClient.cpp.obj
+[3/12] Building CXX object CMakeFiles\MusicRenderProviderCommon.dir\provider\BridgeClient.cpp.obj
+[4/12] Building CXX object CMakeFiles\EntropyMusicRawProviderV2Audit.dir\provider\RawMusicProvider.cpp.obj
+[5/12] Linking CXX static library MusicRenderProviderCommon.lib
+[6/12] Linking CXX executable MusicRenderProviderTests.exe
+[7/12] Linking CXX executable MusicRenderAuditTests.exe
+[8/12] Linking CXX executable EntropyMusicPcmAudit.exe
+[9/12] Linking CXX executable MusicRenderOutputPublisherFixture.exe
+[10/12] Linking CXX shared library EntropyMusicRawProviderV2.dll
+[11/12] Linking CXX executable MusicRenderObserverTests.exe
+[12/12] Linking CXX shared library EntropyMusicRawProviderV2Audit.dll

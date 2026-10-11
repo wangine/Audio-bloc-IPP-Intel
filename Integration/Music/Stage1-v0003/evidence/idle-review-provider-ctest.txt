@@ -1,0 +1,136 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/Drivers/EntropyMusicRenderV2/build/model
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/Drivers/EntropyMusicRenderV2/build/model
+      Start  1: MusicRenderReference
+ 1/12 Test  #1: MusicRenderReference .................   Passed    0.25 sec
+      Start  2: MusicRenderReviewContract
+ 2/12 Test  #2: MusicRenderReviewContract ............   Passed    0.19 sec
+      Start  3: MusicRenderModel
+ 3/12 Test  #3: MusicRenderModel .....................   Passed    0.05 sec
+      Start  4: MusicRenderBridge
+ 4/12 Test  #4: MusicRenderBridge ....................   Passed    0.02 sec
+      Start  5: MusicRenderKernelBinding
+ 5/12 Test  #5: MusicRenderKernelBinding .............   Passed    0.03 sec
+      Start  6: MusicRenderAudit
+ 6/12 Test  #6: MusicRenderAudit .....................   Passed    0.04 sec
+      Start  7: MusicRenderOutputBoundary
+ 7/12 Test  #7: MusicRenderOutputBoundary ............***Failed    0.79 sec
+test_abnormal_producer_exit (__main__.OutputBoundary) ... FAIL
+test_abort_at_final_queue_drain (__main__.OutputBoundary) ... FAIL
+test_ambiguous_normal_stop_is_not_certification (__main__.OutputBoundary) ... FAIL
+test_cancel_is_not_completion (__main__.OutputBoundary) ... FAIL
+test_clean_producer_exit (__main__.OutputBoundary) ... FAIL
+test_delayed_extra_after_expected_count (__main__.OutputBoundary) ... FAIL
+test_error_state_erased_by_retirement (__main__.OutputBoundary) ... FAIL
+test_retired_session_with_later_extra_output (__main__.OutputBoundary) ... FAIL
+
+======================================================================
+FAIL: test_abnormal_producer_exit (__main__.OutputBoundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 53, in test_abnormal_producer_exit
+    def test_abnormal_producer_exit(self):self.exercise('badexit')
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 29, in exercise
+    stdout,stderr=collector.communicate();self.fail('premature collector exit: '+stderr.decode()+stdout.decode())
+AssertionError: premature collector exit: Audit failed: Output pipe unavailable
+
+
+======================================================================
+FAIL: test_abort_at_final_queue_drain (__main__.OutputBoundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 57, in test_abort_at_final_queue_drain
+    def test_abort_at_final_queue_drain(self):self.exercise('abortfinal')
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 29, in exercise
+    stdout,stderr=collector.communicate();self.fail('premature collector exit: '+stderr.decode()+stdout.decode())
+AssertionError: premature collector exit: Audit failed: Output pipe unavailable
+
+
+======================================================================
+FAIL: test_ambiguous_normal_stop_is_not_certification (__main__.OutputBoundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 56, in test_ambiguous_normal_stop_is_not_certification
+    def test_ambiguous_normal_stop_is_not_certification(self):self.exercise('clean-retire')
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 29, in exercise
+    stdout,stderr=collector.communicate();self.fail('premature collector exit: '+stderr.decode()+stdout.decode())
+AssertionError: premature collector exit: Audit failed: Output pipe unavailable
+
+
+======================================================================
+FAIL: test_cancel_is_not_completion (__main__.OutputBoundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 52, in test_cancel_is_not_completion
+    def test_cancel_is_not_completion(self):self.exercise('abort')
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 29, in exercise
+    stdout,stderr=collector.communicate();self.fail('premature collector exit: '+stderr.decode()+stdout.decode())
+AssertionError: premature collector exit: Audit failed: Output pipe unavailable
+
+
+======================================================================
+FAIL: test_clean_producer_exit (__main__.OutputBoundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 50, in test_clean_producer_exit
+    def test_clean_producer_exit(self):self.exercise('clean')
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 29, in exercise
+    stdout,stderr=collector.communicate();self.fail('premature collector exit: '+stderr.decode()+stdout.decode())
+AssertionError: premature collector exit: Audit failed: Output pipe unavailable
+
+
+======================================================================
+FAIL: test_delayed_extra_after_expected_count (__main__.OutputBoundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 51, in test_delayed_extra_after_expected_count
+    def test_delayed_extra_after_expected_count(self):self.exercise('extra')
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 29, in exercise
+    stdout,stderr=collector.communicate();self.fail('premature collector exit: '+stderr.decode()+stdout.decode())
+AssertionError: premature collector exit: Audit failed: Output pipe unavailable
+
+
+======================================================================
+FAIL: test_error_state_erased_by_retirement (__main__.OutputBoundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 55, in test_error_state_erased_by_retirement
+    def test_error_state_erased_by_retirement(self):self.exercise('error-retire')
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 29, in exercise
+    stdout,stderr=collector.communicate();self.fail('premature collector exit: '+stderr.decode()+stdout.decode())
+AssertionError: premature collector exit: Audit failed: Output pipe unavailable
+
+
+======================================================================
+FAIL: test_retired_session_with_later_extra_output (__main__.OutputBoundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 54, in test_retired_session_with_later_extra_output
+    def test_retired_session_with_later_extra_output(self):self.exercise('retire')
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputBoundaryTests.py", line 29, in exercise
+    stdout,stderr=collector.communicate();self.fail('premature collector exit: '+stderr.decode()+stdout.decode())
+AssertionError: premature collector exit: Audit failed: Output pipe unavailable
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.581s
+
+FAILED (failures=8)
+
+      Start  8: MusicRenderProvider
+ 8/12 Test  #8: MusicRenderProvider ..................   Passed    0.04 sec
+      Start  9: MusicRenderObserver
+ 9/12 Test  #9: MusicRenderObserver ..................   Passed    0.04 sec
+      Start 10: MusicRenderInbox
+10/12 Test #10: MusicRenderInbox .....................   Passed    0.03 sec
+      Start 11: EntropyMusicRawProviderV2Load
+11/12 Test #11: EntropyMusicRawProviderV2Load ........   Passed    0.06 sec
+      Start 12: EntropyMusicRawProviderV2AuditLoad
+12/12 Test #12: EntropyMusicRawProviderV2AuditLoad ...   Passed    0.05 sec
+
+92% tests passed, 1 tests failed out of 12
+
+Total Test time (real) =   1.62 sec
+
+The following tests FAILED:
+	  7 - MusicRenderOutputBoundary (Failed)
+Errors while running CTest

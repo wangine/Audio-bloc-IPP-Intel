@@ -55,3 +55,25 @@ diferă. Nu calculăm din ele un gain sau o modificare stereo ca și cum ar repr
 aceleași eșantioane. Maximele din sumar sunt ale snapshoturilor observate, nu
 maxime continue ale întregii redări. Rezultatele sintetice PCM/FP64 anterioare și
 arhivele semnate rămân neschimbate.
+
+## Tranziții ulterioare: r3 nu este calificat ca sesiune completă fără underrun
+
+După ferestrele PASS, MUSIC a trecut din generația 65 în 67 și din 16 în 24
+biți; contorul cumulativ a crescut de la 540 la 683. Nu avem o captură a acelui
+moment suficientă pentru atribuirea celor 143 de incrementări.
+
+Proba controlată următoare a capturat 2.127 snapshoturi Core în 239,828 s și
+2.235 snapshoturi driver. Utilizatorul a efectuat trei pauze/rel uări TIDAL de
+3–6 s. Core r3 a crescut de la 683 la 2.444 underruns (+1.761), în timp ce
+driverul a raportat inclusiv stream absent (86 snapshoturi), lostFrames=0,
+lifetimeLost neschimbat și writeFailure neschimbat. Core nu avea încă metadata
+de IDLE și număra golirea FIFO în pauză drept starvation. Această eroare de
+contorizare este reprodusă separat în regresii, fără presupunerea că toate
+incrementările istorice au aceeași cauză.
+
+LifetimeCancelled a crescut cu 16.384 cadre la STOP; anularea este păstrată
+separat și nu este prezentată drept EOS fără pierdere. Datele se află în
+`Integration/Music/Stage1-v0003/evidence/tidal-v2-real-20261011/TRANSITION-RESULT.json`,
+împreună cu capturile și sumarizatorul reproductibil. Candidatul r4 și Providerul
+usermode r3 corectează IDLE/RUN/UNKNOWN fără schimbarea kernelului .11 sau PCM/SRC;
+rezultatele sale live trebuie citite separat.

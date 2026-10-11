@@ -1,0 +1,12 @@
+[1/10] Building CXX object CMakeFiles\Syntheticaux.dir\tests\SyntheticProvider.cpp.obj
+[2/10] Building CXX object CMakeFiles\Syntheticmusic.dir\tests\SyntheticProvider.cpp.obj
+[3/10] Building CXX object CMakeFiles\Stage1SourceClockTests.dir\tests\SourceClockTests.cpp.obj
+D:\Projects\3Stage-3\Stage1-v0003\Engine\Transport\InputFifo.h(14): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\Stage1-v0003\Engine\Transport\InputFifo.h(15): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+[4/10] Linking CXX shared library test-providers\Syntheticmusic.dll
+[5/10] Linking CXX executable Stage1SourceClockTests.exe
+[6/10] Linking CXX shared library test-providers\Syntheticaux.dll
+[7/10] Building CXX object CMakeFiles\BadAbiFixture.dir\tests\SyntheticProvider.cpp.obj
+[8/10] Linking CXX shared library negative-providers\BadAbiFixture.dll
+[9/10] Building CXX object CMakeFiles\Stage1Acceptance.dir\tests\Stage1Acceptance.cpp.obj
+[10/10] Linking CXX executable Stage1Acceptance.exe

@@ -1,4 +1,5 @@
 #include "BridgeClient.h"
+#include "../protocol/ProviderStreamStateV1.h"
 #include <cstring>
 namespace entropy::music::provider {
 bool BridgeClient::open(const DeviceIdentity& identity){
@@ -28,7 +29,23 @@ int32_t BridgeClient::read(EntropyIngressPacketV2& out,void* payload,uint32_t ca
     const auto pcmCapacity=capacity<MaxPacketFrames*8?capacity:MaxPacketFrames*8;
     uint32_t copied=0;
     const auto result=transport_.read(wire_.data(),static_cast<uint32_t>(sizeof(bridge::Packet))+pcmCapacity,copied);
-    if(cancelled_ || result==IoResult::Cancelled || result==IoResult::NoData)return 0;
+    if(cancelled_ || result==IoResult::Cancelled)return 0;
+    if(result==IoResult::NoData) {
+        out={};
+        bridge::Info info{};
+        // A transient busy INFO leaves the state unknown, never invents IDLE.
+        if(!transport_.info(info))return 0;
+        if(info.header.magic!=bridge::Magic || info.header.version!=bridge::Version ||
+           info.header.kind!=2 || info.header.totalBytes!=sizeof(info) ||
+           std::memcmp(info.interfaceGuid,bridge::InterfaceGuid,16) || info.state>4)return -1;
+        for(auto v:info.reserved)if(v)return -1;
+        if(info.state==4)return -1;
+        out.abiVersion=ENTROPY_PROVIDER_ABI_V2;out.structSize=sizeof(out);
+        out.flags=ENTROPY_PACKET_STREAM_STATE_V1;
+        out.reserved[0]=info.state==2?ENTROPY_STREAM_RUNNING_V1:ENTROPY_STREAM_IDLE_V1;
+        out.generation=info.generation;
+        return 0;
+    }
     if(result!=IoResult::Success || copied<sizeof(bridge::Packet) || copied>wire_.size())return -1;
     bridge::Packet packet{};std::memcpy(&packet,wire_.data(),sizeof(packet));
     if(bridge::validate(packet,copied,static_cast<uint32_t>(sizeof(packet))+pcmCapacity)!=bridge::DecodeResult::Valid)return -1;

@@ -1,0 +1,5 @@
+[1/5] Building CXX object CMakeFiles\Stage1Runtime.dir\Engine\Core\EngineLifecycle.cpp.obj
+[2/5] Linking CXX static library Stage1Runtime.lib
+[3/5] Linking CXX executable EntropyMusicSourceCore.exe
+[4/5] Building CXX object CMakeFiles\Stage1Acceptance.dir\tests\Stage1Acceptance.cpp.obj
+[5/5] Linking CXX executable Stage1Acceptance.exe

@@ -36,6 +36,7 @@ class SourceDomain {
     bool processPacket(const IngressPacketView &, WaitForSpace wait = nullptr,
                        void *waitContext = nullptr) noexcept;
     bool pop1024(StereoBlock &) noexcept;
+    void setIngressRunning(bool) noexcept;
     bool popClocked1024(StereoBlock &,uint64_t now=0,uint64_t frequency=0) noexcept;
     uint32_t queuedFrames() const noexcept;
     SourceTelemetry telemetry() const noexcept;

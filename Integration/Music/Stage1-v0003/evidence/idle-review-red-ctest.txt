@@ -1,0 +1,19 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage1-v0003/build
+Test project D:/Projects/3Stage-3/Stage1-v0003/build
+    Start 2: Stage1Architecture
+1/2 Test #2: Stage1Architecture ...............***Failed    0.08 sec
+FAIL line 143: registry.discover(TEST_PROVIDER_DIR)
+
+    Start 5: Stage1SourceClock
+2/2 Test #5: Stage1SourceClock ................***Failed    0.38 sec
+Empty resumed RUN starvation was hidden
+
+
+0% tests passed, 2 tests failed out of 2
+
+Total Test time (real) =   0.47 sec
+
+The following tests FAILED:
+	  2 - Stage1Architecture (Failed)
+	  5 - Stage1SourceClock (Failed)
+Errors while running CTest
