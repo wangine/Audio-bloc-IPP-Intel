@@ -1,4 +1,4 @@
-param([switch]$RunLive,[switch]$Stress,[switch]$ValidatePackageOnly,[ValidateRange(1,1800)][int]$Seconds=10,[string]$Output,[string]$Package,[string]$Repository)
+param([switch]$RunLive,[switch]$Stress,[switch]$ValidatePackageOnly,[switch]$ContinueOnFailure,[ValidateSet('all','event','polling')][string]$Servicing='all',[ValidateRange(1,1800)][int]$Seconds=10,[string]$Output,[string]$Package,[string]$Repository)
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 $repo=Split-Path (Split-Path $root -Parent) -Parent
@@ -29,6 +29,7 @@ $hashes=@{packageManifestSha256=(Get-FileHash -LiteralPath (Join-Path $Package '
 if($hashes.coreSha256 -ne $hashes.frozenCoreSha256){throw 'Frozen Core copy differs'}
 $hashes | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $Output 'provenance.json')
 $cases=if($Stress){@(@{rate=192000;bits=32;servicing='event';seconds=1800})}else{@(foreach($rate in @(44100,48000,88200,96000,176400,192000)){foreach($bits in @(16,32)){foreach($mode in @('event','polling')){@{rate=$rate;bits=$bits;servicing=$mode;seconds=$Seconds}}}})}
+if(!$Stress -and $Servicing -ne 'all'){$cases=@($cases | Where-Object servicing -eq $Servicing)}
 $results=@()
 foreach($case in $cases){
     $null=Assert-MusicPackage $Package;$null=Assert-MusicInstalledDriver $manifest
@@ -71,7 +72,7 @@ mode=8
         & $audit --action verify --capture $capture --frames $rendered.emittedFrames --rate $case.rate --bits $case.bits --generation $rendered.generation --drained ($rendered.drained.ToString().ToLowerInvariant()) > $report
         if($LASTEXITCODE){throw 'Raw PCM comparison failed'}
         $results+=@{case=$case;pass=$true;report=$report;frames=$rendered.emittedFrames;observedAllocation=$rendered.observedAllocation}
-    }catch{$results+=@{case=$case;pass=$false;reason=$_.Exception.Message};throw}
+    }catch{$results+=@{case=$case;pass=$false;reason=$_.Exception.Message};if(!$ContinueOnFailure){throw}}
     finally{
         $env:ENTROPY_MUSIC_AUDIT_PIPE=$previousPipe
         if($coreProcess -and !$coreProcess.HasExited){Set-Content -LiteralPath $stop -Value 'cancel isolated qualification';if(!$coreProcess.WaitForExit(10000)){Stop-Process -Id $coreProcess.Id}}
@@ -79,4 +80,5 @@ mode=8
         $results | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $Output 'results.json')
     }
 }
+if(@($results | Where-Object {!$_.pass}).Count){throw "Qualification contains failed cases; inspect $Output/results.json and the preserved per-case evidence"}
 Write-Output "Evidence: $Output; this covers only the recorded formats, servicing, duration and transitions. TIDAL/PAUSE/EOS qualification remains separate."
