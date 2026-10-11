@@ -1,5 +1,5 @@
 #pragma once
-#include <stdint.h>
+#include "Types.h"
 namespace entropy::music {
 // All times are QPC ticks. The caller serializes lifecycle changes and queries.
 class Clock {

@@ -8,10 +8,16 @@ $sdk=Join-Path $cache 'sdk'
 New-Item -ItemType Directory -Force $cache,$sdk | Out-Null
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 $manifest=@()
+$expected=@{
+    'microsoft.windows.sdk.cpp'='BE1B419491607EAE6F7C57844EBAB39FACE9643C51E2AF1D9176A3BA0D0B23FC'
+    'microsoft.windows.sdk.cpp.x64'='A9CAE2A8C5DA7F5DC5838AE6A76D06D0D2E2FDC3D8CFC69CA6C184E4B9193A00'
+    'microsoft.windows.wdk.x64'='63C939FB5A79295BF40E941DB592681272219B04EDFF095FE2F3D123E5579A90'
+}
 foreach($id in @('microsoft.windows.sdk.cpp','microsoft.windows.sdk.cpp.x64','microsoft.windows.wdk.x64')) {
     $url="https://api.nuget.org/v3-flatcontainer/$id/$Version/$id.$Version.nupkg"
     $file=Join-Path $cache "$id.$Version.nupkg"
     if(!(Test-Path -LiteralPath $file)){Invoke-WebRequest -UseBasicParsing -Uri $url -OutFile $file}
+    if((Get-FileHash -LiteralPath $file -Algorithm SHA256).Hash -ne $expected[$id]){throw "Pinned package hash mismatch: $id"}
     $archive=[IO.Compression.ZipFile]::OpenRead($file)
     try {
         foreach($entry in $archive.Entries) {

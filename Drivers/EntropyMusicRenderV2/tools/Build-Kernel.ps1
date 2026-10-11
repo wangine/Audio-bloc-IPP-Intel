@@ -21,7 +21,8 @@ $output=Join-Path $root "build/$label/"
 New-Item -ItemType Directory -Force $output | Out-Null
 $log=Join-Path $logs "$label-build.log"
 # The unmodified sample links sibling LIBs by their default relative paths.
-$outputArgs=if($ReferenceOnly){@()}else{@("/p:OutDir=$output")}
+$outputArgs=@()
+if(!$ReferenceOnly){$outputArgs=@("/p:OutDir=$output")}
 & $msbuild $project /m:2 /nr:false /nologo /v:minimal "/p:Configuration=$Configuration" "/p:Platform=$Platform" "/p:WindowsTargetPlatformVersion=$wdk" "/p:WindowsSdkDir=$sdk" "/p:WindowsSdkDir_10=$sdk" "/p:UniversalCRTSdkDir=$sdk" "/p:UCRTContentRoot=$sdk" "/p:WDKContentRoot=$sdk" "/p:WindowsSdkVerBinPath=$sdk/bin/$wdk/" '/p:PreferredToolArchitecture=x64' "/p:InfToolPath=$sdk/bin/$wdk/x64/" '/p:InfToolArchitecture=Native64Bit' "/p:RCToolPath=$sdk/bin/$wdk/x64/" '/p:RCToolArchitecture=Native64Bit' '/p:SignMode=Off' '/p:EnableInf2Cat=false' @outputArgs *> $log
 $code=$LASTEXITCODE
 if($ReferenceOnly -and !$code){Get-ChildItem -LiteralPath (Join-Path $root 'upstream') -Recurse -Filter *.sys -File | ForEach-Object {Copy-Item -LiteralPath $_.FullName -Destination $output -Force}}
