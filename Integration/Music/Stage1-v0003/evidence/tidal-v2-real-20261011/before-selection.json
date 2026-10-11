@@ -1,0 +1,372 @@
+{
+  "status": 0,
+  "message": "",
+  "blocksPublished": 3851173,
+  "publisherDrops": 0,
+  "controlRevision": 7,
+  "clockQpcFrequency": 10000000,
+  "clockLateBlocks": 0,
+  "clockRunning": 1,
+  "outputRate": 192000,
+  "sessionId": "84E722857C833046A42EAC33153D38F8",
+  "sources": [
+    {
+      "role": "MUSIC",
+      "providerId": "entropy.music.render.v2.raw",
+      "endpointId": "entropy.music.render.v2.raw:{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}",
+      "state": 2,
+      "representation": 1,
+      "mode": 0,
+      "rate": 44100,
+      "containerBits": 16,
+      "validBits": 16,
+      "fillFrames": 14336,
+      "metadataFlags": 4,
+      "generation": 65,
+      "packets": 595325,
+      "framesIn": 1218789696,
+      "framesOut": 3940035117,
+      "lostFrames": 0,
+      "overruns": 0,
+      "underruns": 540,
+      "faults": 0,
+      "qpcFrequency": 10000000,
+      "samplePeakL": 0.034881591796875,
+      "samplePeakR": 0.043975830078125,
+      "outputPeakL": 0.039718067359142004,
+      "outputPeakR": 0.054920608961547934,
+      "truePeakL": 0.039713573586146245,
+      "truePeakR": 0.05492068293692794,
+      "startupPeakL": 0.07545422880512191,
+      "startupPeakR": 0.0700105303109525,
+      "startupFrames": 8192,
+      "truePeakReady": 1,
+      "startupComplete": 1
+    },
+    {
+      "role": "AUX",
+      "providerId": "windows.capture.v2",
+      "endpointId": "{0.0.1.00000000}.{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+      "state": 2,
+      "representation": 1,
+      "mode": 1,
+      "rate": 44100,
+      "containerBits": 32,
+      "validBits": 24,
+      "fillFrames": 3072,
+      "metadataFlags": 4,
+      "generation": 1,
+      "packets": 2053958,
+      "framesIn": 905795478,
+      "framesOut": 3943588866,
+      "lostFrames": 0,
+      "overruns": 0,
+      "underruns": 0,
+      "faults": 0,
+      "qpcFrequency": 10000000,
+      "samplePeakL": 0.0,
+      "samplePeakR": 0.0,
+      "outputPeakL": 0.0,
+      "outputPeakR": 0.0,
+      "truePeakL": 0.0,
+      "truePeakR": 0.0,
+      "startupPeakL": 0.0,
+      "startupPeakR": 0.0,
+      "startupFrames": 8192,
+      "truePeakReady": 1,
+      "startupComplete": 1
+    }
+  ],
+  "catalogTotal": 60,
+  "catalogTruncated": 1,
+  "endpoints": [
+    {
+      "providerId": "entropy.music.render.v2.raw",
+      "roles": 1,
+      "eligible": 1,
+      "accessModes": 256,
+      "endpointId": "entropy.music.render.v2.raw:{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}",
+      "name": "Entropy Music Render V2 - raw PCM",
+      "windowsEndpointId": "{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}"
+    },
+    {
+      "providerId": "legacy.private-tap",
+      "roles": 1,
+      "eligible": 1,
+      "accessModes": 16,
+      "endpointId": "private-tap",
+      "name": "Entropy Audio Virtual Device",
+      "windowsEndpointId": ""
+    },
+    {
+      "providerId": "legacy.music-transport",
+      "roles": 1,
+      "eligible": 1,
+      "accessModes": 256,
+      "endpointId": "entropy-music-transport:main",
+      "name": "Entropy Direct — Music Transport",
+      "windowsEndpointId": ""
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 1,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{045bf381-7b27-4bcc-b100-d93ef0510177}",
+      "name": "Microphone (GV-200 USB microphone)",
+      "windowsEndpointId": "{0.0.1.00000000}.{045bf381-7b27-4bcc-b100-d93ef0510177}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{07e57b25-eab6-4f51-a607-a17d9b0a2db9}",
+      "name": "Internal AUX Jack (NVIDIA High Definition Audio)",
+      "windowsEndpointId": "{0.0.1.00000000}.{07e57b25-eab6-4f51-a607-a17d9b0a2db9}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{2f335979-fb92-4f70-8bb0-6d483e7330a1}",
+      "name": "Internal AUX Jack (NVIDIA High Definition Audio)",
+      "windowsEndpointId": "{0.0.1.00000000}.{2f335979-fb92-4f70-8bb0-6d483e7330a1}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{4364c4dc-8808-4f9b-b14a-4d5ead3cb9f2}",
+      "name": "Jack Mic (Realtek(R) Audio)",
+      "windowsEndpointId": "{0.0.1.00000000}.{4364c4dc-8808-4f9b-b14a-4d5ead3cb9f2}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{5c471e26-a2f8-47b1-b404-97903fb62210}",
+      "name": "Internal AUX Jack (High Definition Audio Device)",
+      "windowsEndpointId": "{0.0.1.00000000}.{5c471e26-a2f8-47b1-b404-97903fb62210}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{69e9a1cc-10c2-46d7-89e9-b99b9ae61399}",
+      "name": "Internal AUX Jack (High Definition Audio Device)",
+      "windowsEndpointId": "{0.0.1.00000000}.{69e9a1cc-10c2-46d7-89e9-b99b9ae61399}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{6ec3dcb8-46c8-4962-b2d8-0fe53b05162d}",
+      "name": "Internal AUX Jack (NVIDIA High Definition Audio)",
+      "windowsEndpointId": "{0.0.1.00000000}.{6ec3dcb8-46c8-4962-b2d8-0fe53b05162d}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{7ec3306c-3528-4dc8-8dfd-c1f228a620f4}",
+      "name": "Line (2- DIYINHK USB Audio 2009)",
+      "windowsEndpointId": "{0.0.1.00000000}.{7ec3306c-3528-4dc8-8dfd-c1f228a620f4}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 1,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{a5bd57b3-c3b1-4955-aa2e-ca950569b5d0}",
+      "name": "Line (DIYINHK USB Audio 2009)",
+      "windowsEndpointId": "{0.0.1.00000000}.{a5bd57b3-c3b1-4955-aa2e-ca950569b5d0}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{bed6b4e1-94a1-4a23-8131-28dbb6237b87}",
+      "name": "Internal AUX Jack (High Definition Audio Device)",
+      "windowsEndpointId": "{0.0.1.00000000}.{bed6b4e1-94a1-4a23-8131-28dbb6237b87}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 1,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{ca8ff9ef-e234-4dff-99e7-39fd2fc017d9}",
+      "name": "Line (3- DIYINHK USB Audio 2009)",
+      "windowsEndpointId": "{0.0.1.00000000}.{ca8ff9ef-e234-4dff-99e7-39fd2fc017d9}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 1,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{e2456064-fa8b-45ae-922f-6615b3ee9919}",
+      "name": "SPDIF Interface (UR23 USB SPDIF Rx)",
+      "windowsEndpointId": "{0.0.1.00000000}.{e2456064-fa8b-45ae-922f-6615b3ee9919}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 1,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+      "name": "Entropy AUX Capture (Entropy AUX)",
+      "windowsEndpointId": "{0.0.1.00000000}.{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{f2bdcc9c-6f3f-49e2-bd73-fed5a2feed35}",
+      "name": "Internal AUX Jack (High Definition Audio Device)",
+      "windowsEndpointId": "{0.0.1.00000000}.{f2bdcc9c-6f3f-49e2-bd73-fed5a2feed35}"
+    },
+    {
+      "providerId": "windows.capture.v2",
+      "roles": 3,
+      "eligible": 0,
+      "accessModes": 6,
+      "endpointId": "{0.0.1.00000000}.{fc5231de-d6ee-4c25-b0c5-00fee8d558f4}",
+      "name": "Stereo Mix (Realtek(R) Audio)",
+      "windowsEndpointId": "{0.0.1.00000000}.{fc5231de-d6ee-4c25-b0c5-00fee8d558f4}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{47a0093d-998b-4095-97ef-2e138e19accf}",
+      "name": "SyncMaster (High Definition Audio Device)",
+      "windowsEndpointId": "{0.0.0.00000000}.{47a0093d-998b-4095-97ef-2e138e19accf}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{5a5a66d6-fea7-40c0-87d9-c67f4211fa9f}",
+      "name": "Speakers/Headphones (Realtek(R) Audio)",
+      "windowsEndpointId": "{0.0.0.00000000}.{5a5a66d6-fea7-40c0-87d9-c67f4211fa9f}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{5c713ee3-d209-4d18-8e39-bd085075c65d}",
+      "name": "",
+      "windowsEndpointId": "{0.0.0.00000000}.{5c713ee3-d209-4d18-8e39-bd085075c65d}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{6543e41a-0442-4db7-9c3f-3030fbe86a89}",
+      "name": "Speakers (3- TOPPING USB DAC)",
+      "windowsEndpointId": "{0.0.0.00000000}.{6543e41a-0442-4db7-9c3f-3030fbe86a89}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{755b6809-15d7-4c01-94f3-817926db83a6}",
+      "name": "",
+      "windowsEndpointId": "{0.0.0.00000000}.{755b6809-15d7-4c01-94f3-817926db83a6}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{7889c20b-37db-46f3-b469-c912d3c46d23}",
+      "name": "SyncMaster (NVIDIA High Definition Audio)",
+      "windowsEndpointId": "{0.0.0.00000000}.{7889c20b-37db-46f3-b469-c912d3c46d23}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{7bade030-3308-4891-bfa2-3069c1575e89}",
+      "name": "SAMSUNG (NVIDIA High Definition Audio)",
+      "windowsEndpointId": "{0.0.0.00000000}.{7bade030-3308-4891-bfa2-3069c1575e89}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{8000044f-aa88-4760-b100-d4451c8ee816}",
+      "name": "Speakers (Entropy Music Transport)",
+      "windowsEndpointId": "{0.0.0.00000000}.{8000044f-aa88-4760-b100-d4451c8ee816}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{812cc84c-399d-420a-930f-66b07fd2eaba}",
+      "name": "NVIDIA Output (NVIDIA High Definition Audio)",
+      "windowsEndpointId": "{0.0.0.00000000}.{812cc84c-399d-420a-930f-66b07fd2eaba}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{88789dfb-5b91-470f-be57-c56277a939ec}",
+      "name": "",
+      "windowsEndpointId": "{0.0.0.00000000}.{88789dfb-5b91-470f-be57-c56277a939ec}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{88ad942b-7b7a-4f24-8a6b-554aa8f5c9d8}",
+      "name": "NVIDIA Output (NVIDIA High Definition Audio)",
+      "windowsEndpointId": "{0.0.0.00000000}.{88ad942b-7b7a-4f24-8a6b-554aa8f5c9d8}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{8e9c9ad3-7c3a-4d84-9e65-f014378afbab}",
+      "name": "Digital Audio (HDMI) (High Definition Audio Device)",
+      "windowsEndpointId": "{0.0.0.00000000}.{8e9c9ad3-7c3a-4d84-9e65-f014378afbab}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}",
+      "name": "Speakers (Entropy Music Render V2)",
+      "windowsEndpointId": "{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}"
+    },
+    {
+      "providerId": "",
+      "roles": 0,
+      "eligible": 0,
+      "accessModes": 0,
+      "endpointId": "{0.0.0.00000000}.{aee25ff8-198b-4674-a48d-5a0d96de0a7c}",
+      "name": "",
+      "windowsEndpointId": "{0.0.0.00000000}.{aee25ff8-198b-4674-a48d-5a0d96de0a7c}"
+    }
+  ]
+}

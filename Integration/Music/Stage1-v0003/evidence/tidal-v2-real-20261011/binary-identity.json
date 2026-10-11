@@ -1,0 +1,11 @@
+{
+  "package": "0.3.0.11-signed-dev-r2",
+  "installed": {
+    "service": "EntropyMusicRenderV2",
+    "sha256": "FB78EC3CC6066CDF3A039CCE95CD13C26199F2EC630F188351155F84EBB610AA",
+    "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_26f4a0766080c004\\EntropyMusicRenderV2.sys",
+    "state": "Running"
+  },
+  "coreSha256": "C36CE4148FC50BBF4DFA002AD7592BA50D4AF79A1ECF8960063BF30FB091A147",
+  "providerSha256": "55ED8E315E2630F82B167814FD0D60F09CA19792AE2A4455C4583E39955BC051"
+}

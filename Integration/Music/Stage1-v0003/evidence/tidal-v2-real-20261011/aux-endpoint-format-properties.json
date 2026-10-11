@@ -1,0 +1,27 @@
+[
+  {
+    "id": "{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "names": [
+      "Entropy AUX",
+      "{1}.ROOT\\ENTROPY_ENDPOINT\\0001",
+      "oem15.inf:ed86ca111a0c57ac:SYSVAD_SA.NT:1.1.1.5:Root\\EntropyAudio_AuxInput",
+      "Root\\EntropyAudio_AuxInput",
+      "{2}.\\\\?\\root#entropy_endpoint#0001#{6994ad04-93ef-11d0-a3cc-00a0c9223196}\\wavespeaker"
+    ],
+    "flow": "Render",
+    "formats": []
+  },
+  {
+    "id": "{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+    "names": [
+      "Entropy AUX Capture",
+      "Entropy AUX",
+      "{1}.ROOT\\ENTROPY_ENDPOINT\\0001",
+      "oem15.inf:ed86ca111a0c57ac:SYSVAD_SA.NT:1.1.1.5:Root\\EntropyAudio_AuxInput",
+      "Root\\EntropyAudio_AuxInput",
+      "{2}.\\\\?\\root#entropy_endpoint#0001#{6994ad04-93ef-11d0-a3cc-00a0c9223196}\\wavemicin"
+    ],
+    "flow": "Capture",
+    "formats": []
+  }
+]

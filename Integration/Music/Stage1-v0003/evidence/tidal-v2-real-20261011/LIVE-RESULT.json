@@ -1,0 +1,223 @@
+{
+  "date": "2026-10-11",
+  "binaries": {
+    "package": "0.3.0.11-signed-dev-r2",
+    "installed": {
+      "service": "EntropyMusicRenderV2",
+      "sha256": "FB78EC3CC6066CDF3A039CCE95CD13C26199F2EC630F188351155F84EBB610AA",
+      "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_26f4a0766080c004\\EntropyMusicRenderV2.sys",
+      "state": "Running"
+    },
+    "coreSha256": "C36CE4148FC50BBF4DFA002AD7592BA50D4AF79A1ECF8960063BF30FB091A147",
+    "providerSha256": "55ED8E315E2630F82B167814FD0D60F09CA19792AE2A4455C4583E39955BC051"
+  },
+  "selection": {
+    "beforeProvider": "entropy.music.render.v2.raw",
+    "responseStatus": 0,
+    "note": "MUSIC was already raw at the first current snapshot. The same raw endpoint was reopened through IPC. 540 cumulative MUSIC underruns existed before this request; no reset or attribution was made."
+  },
+  "exclusive": {
+    "userConfirmed": true,
+    "sourcePacketMode": 0,
+    "note": "Exclusive is user-reported in TIDAL. The kernel emits mode=UNKNOWN metadata; no access failure is inferred."
+  },
+  "firstWindow": {
+    "file": "snapshots-180s.jsonl",
+    "sha256": "b062a6186520093005f61542a4246957dd8b39b09887186944af96de2443b657",
+    "durationMs": 179359,
+    "snapshots": 352,
+    "bothSignalSnapshots": 51,
+    "sources": [
+      {
+        "role": "MUSIC",
+        "providerIds": [
+          "entropy.music.render.v2.raw"
+        ],
+        "states": [
+          2
+        ],
+        "formats": [
+          "16-valid-in-16/44100"
+        ],
+        "modes": [
+          0
+        ],
+        "generations": [
+          65
+        ],
+        "startUnderruns": 540,
+        "endUnderruns": 540,
+        "deltas": {
+          "packets": 3864,
+          "framesIn": 7913472,
+          "framesOut": 34453212,
+          "faults": 0,
+          "underruns": 0,
+          "overruns": 0
+        },
+        "lostFramesMax": 0,
+        "nonzeroSignalSnapshots": 352,
+        "nonzeroSideSnapshots": 352,
+        "sampledPrePeakMax": 0.542572021484375,
+        "sampledPostPeakMax": 0.44525940959386834
+      },
+      {
+        "role": "AUX",
+        "providerIds": [
+          "windows.capture.v2"
+        ],
+        "states": [
+          2
+        ],
+        "formats": [
+          "24-valid-in-32/44100"
+        ],
+        "modes": [
+          1
+        ],
+        "generations": [
+          1
+        ],
+        "startUnderruns": 0,
+        "endUnderruns": 0,
+        "deltas": {
+          "packets": 17942,
+          "framesIn": 7912422,
+          "framesOut": 34448640,
+          "faults": 0,
+          "underruns": 0,
+          "overruns": 0
+        },
+        "lostFramesMax": 0,
+        "nonzeroSignalSnapshots": 51,
+        "nonzeroSideSnapshots": 0,
+        "sampledPrePeakMax": 0.5307208299636841,
+        "sampledPostPeakMax": 0.5895848125806553
+      }
+    ],
+    "publisherDropsStart": 0,
+    "publisherDropsEnd": 0,
+    "clockLateBlocksStart": 0,
+    "clockLateBlocksEnd": 0,
+    "boundedContinuityPass": true
+  },
+  "dualWindow": {
+    "file": "snapshots-dual-180s.jsonl",
+    "sha256": "5f65b477060620e846d147b5bd7f96996072fe5d04912909025526ba8afdec8c",
+    "durationMs": 179625,
+    "snapshots": 353,
+    "bothSignalSnapshots": 352,
+    "sources": [
+      {
+        "role": "MUSIC",
+        "providerIds": [
+          "entropy.music.render.v2.raw"
+        ],
+        "states": [
+          2
+        ],
+        "formats": [
+          "16-valid-in-16/44100"
+        ],
+        "modes": [
+          0
+        ],
+        "generations": [
+          65
+        ],
+        "startUnderruns": 540,
+        "endUnderruns": 540,
+        "deltas": {
+          "packets": 3870,
+          "framesIn": 7925760,
+          "framesOut": 34506712,
+          "faults": 0,
+          "underruns": 0,
+          "overruns": 0
+        },
+        "lostFramesMax": 0,
+        "nonzeroSignalSnapshots": 353,
+        "nonzeroSideSnapshots": 353,
+        "sampledPrePeakMax": 0.35211181640625,
+        "sampledPostPeakMax": 0.36637796260334454
+      },
+      {
+        "role": "AUX",
+        "providerIds": [
+          "windows.capture.v2"
+        ],
+        "states": [
+          2
+        ],
+        "formats": [
+          "24-valid-in-32/44100"
+        ],
+        "modes": [
+          1
+        ],
+        "generations": [
+          1
+        ],
+        "startUnderruns": 0,
+        "endUnderruns": 0,
+        "deltas": {
+          "packets": 17971,
+          "framesIn": 7925211,
+          "framesOut": 34504320,
+          "faults": 0,
+          "underruns": 0,
+          "overruns": 0
+        },
+        "lostFramesMax": 0,
+        "nonzeroSignalSnapshots": 352,
+        "nonzeroSideSnapshots": 0,
+        "sampledPrePeakMax": 0.5130388736724854,
+        "sampledPostPeakMax": 0.5997056012184121
+      }
+    ],
+    "publisherDropsStart": 0,
+    "publisherDropsEnd": 0,
+    "clockLateBlocksStart": 0,
+    "clockLateBlocksEnd": 0,
+    "boundedContinuityPass": true
+  },
+  "auxFormat": {
+    "renderConfigured": "24-valid-in-32/96000",
+    "captureConfigured": "16/44100",
+    "captureActual": "24-valid-in-32/44100",
+    "sharedMixReportedByProbe": 44100,
+    "note": "Read-only endpoint registry properties and actual ingress distinguish the configured render format from the capture format. No original AUX PCM 24/96 identity certification."
+  },
+  "auxStereo": {
+    "observation": "Every AUX pre-SRC Side RMS snapshot in dual window was zero; L/R RMS equal.",
+    "antiPhaseProbe": {
+      "sharedMixRate": 44100,
+      "emittedFrames": 532287,
+      "testPeak": 0.001,
+      "loopbackFrames": 527877,
+      "loopbackLrms": 0,
+      "loopbackRrms": 0,
+      "loopbackMidRms": 0,
+      "loopbackSideRms": 0
+    },
+    "leftOnlyControl": {
+      "leftOnly": true,
+      "sharedMixRate": 44100,
+      "emittedFrames": 532728,
+      "testPeak": 0.001,
+      "loopbackFrames": 528318,
+      "loopbackLrms": 0,
+      "loopbackRrms": 0,
+      "loopbackMidRms": 0,
+      "loopbackSideRms": 0
+    },
+    "conclusion": "INCONCLUSIVE localization: both Windows loopback probes returned zero. No independent witness that the known signal reached the AUX capture stream; do not blame Spotify, Windows or the driver from this test alone."
+  },
+  "limitations": [
+    "Three-minute windows do not certify all host loads or explain historical 540 underruns.",
+    "Telemetry observes source continuity/counters, not every original TIDAL PCM byte.",
+    "Instantaneous pre/post SRC meter windows differ and cannot prove unity or stereo preservation sample-for-sample.",
+    "Peak maxima are maxima of sampled telemetry snapshots, not full-session sample maxima.",
+    "AUX rate mismatch and mono observation remain unresolved. No DSP, driver or Windows settings were modified."
+  ]
+}

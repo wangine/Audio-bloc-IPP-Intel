@@ -1,0 +1,7 @@
+{
+  "startTickMs": 211700890,
+  "endpoint": "{0.0.0.00000000}.{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+  "testPeak": 0.001,
+  "seconds": 12,
+  "signal": "L sine997Hz, R minusL, WASAPI Shared actual mix format"
+}

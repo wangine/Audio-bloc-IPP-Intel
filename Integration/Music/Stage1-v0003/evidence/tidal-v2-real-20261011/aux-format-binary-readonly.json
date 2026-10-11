@@ -1,0 +1,122 @@
+[
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{f19f064d-082c-4e27-bc73-6882a1bb8e4c},0",
+    "rate": 96000,
+    "bits": 32,
+    "validBits": 24,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{e4870e26-3cc5-4cd2-ba46-ca0a9a70ed04},8",
+    "rate": 48000,
+    "bits": 16,
+    "validBits": 16,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},3",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},2",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{e4870e26-3cc5-4cd2-ba46-ca0a9a70ed04},0",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},6",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},7",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},4",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Render\\{cbd9235e-6e13-4663-8f0a-56927a262ab8}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},8",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Capture\\{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+    "property": "{f19f064d-082c-4e27-bc73-6882a1bb8e4c},0",
+    "rate": 44100,
+    "bits": 16,
+    "validBits": 16,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Capture\\{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},3",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Capture\\{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+    "property": "{624f56de-fd24-473e-814a-de40aacaed16},3",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Capture\\{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},2",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Capture\\{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+    "property": "{e4870e26-3cc5-4cd2-ba46-ca0a9a70ed04},0",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  },
+  {
+    "endpoint": "Capture\\{f0d218fd-25cb-4db9-b2f9-e58e3ab46f7a}",
+    "property": "{3d6e1656-2e50-4c4c-8d85-d0acae3c6c68},4",
+    "rate": 44100,
+    "bits": 32,
+    "validBits": 32,
+    "tag": 65534
+  }
+]
