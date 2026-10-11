@@ -10,12 +10,13 @@ public:
     void reset(uint64_t generation,uint64_t frequency,uint32_t frames,uint32_t notifications,uint32_t align) noexcept {
         next_=sequence_=0;generation_=generation;frequency_=frequency;frames_=frames;notifications_=notifications;align_=align;eos_=false;
     }
-    CommitResult accept(uint32_t number,bool eos,uint32_t bytes,uint64_t source,uint64_t qpc,PacketDescriptor& d) noexcept {
+    CommitResult accept(uint32_t number,bool eos,uint32_t bytes,uint64_t source,uint64_t qpc,PacketDescriptor& d,bool running=true) noexcept {
         if(!frames_ || !notifications_ || eos_)return CommitResult::Invalid;
         const uint32_t delta=number-static_cast<uint32_t>(next_);
         if(delta>0x7fffffffU)return CommitResult::Duplicate;
         if(next_>UINT64_MAX-delta)return CommitResult::Invalid;
         const auto index=next_+delta,current=source/frames_;
+        if(!running && index!=current)return CommitResult::Overrun;
         if(index>=current+notifications_)return CommitResult::Overrun;
         const auto count=eos?bytes/align_:frames_;
         // EosPacketLength is undefined/ignored without the EOS flag (PortCls).

@@ -64,7 +64,7 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
     }
     if(code==bridge::IoctlInfo) {
         if(!HeaderIs(header,input,2,sizeof(header)) || output!=sizeof(bridge::Info))return Complete(irp,STATUS_INVALID_PARAMETER);
-        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030008;
+        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030009;
         KIRQL old;KeAcquireSpinLock(&sessionsLock,&old);info.readerAttached=reader?1:0;KeReleaseSpinLock(&sessionsLock,old);
         Totals lifetime{},ended{};GetPcmEvidence(0,{},lifetime,ended);
         info.lifetimeLost=lifetime.lostFrames;info.lifetimeCancelled=lifetime.cancelledFrames;info.terminatedLost=ended.lostFrames;info.terminatedCancelled=ended.cancelledFrames;

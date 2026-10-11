@@ -29,5 +29,12 @@ void SingleBufferFuturePacketCannotConsumePrefill(){
     CHECK(p.accept(1,false,16,3,103,d)==CommitResult::Overrun);
     CHECK(p.accept(1,false,16,4,104,d)==CommitResult::Accepted && d.sequence==2 && d.firstSourceFrame==4);
 }
-int main(){const Case cases[]={{"PublicationContentionPreservesCommit",PublicationContentionPreservesCommit},{"FullPayloadRecordsKnownLoss",FullPayloadRecordsKnownLoss},{"ConcurrentSnapshotsAreImmutable",ConcurrentSnapshotsAreImmutable},{"UnprovenAllocationIsRefused",UnprovenAllocationIsRefused},{"ValidSnapshotCanBePublishedAfterClockElapsed",ValidSnapshotCanBePublishedAfterClockElapsed},{"IndependentAdmission",IndependentAdmission},{"LifetimeSurvivesAllocation",LifetimeSurvivesAllocation},{"NonEosLengthIsIgnored",NonEosLengthIsIgnored},{"SingleBufferFuturePacketCannotConsumePrefill",SingleBufferFuturePacketCannotConsumePrefill}};return runTests(cases,9);}
+void PausedPrefillMustStartAtCurrentPacket(){
+    PacketAdmission p;p.reset(3,48000,4,2,4);PacketDescriptor d{};
+    CHECK(p.accept(1,false,16,0,100,d,false)==CommitResult::Overrun);
+    CHECK(p.accept(0,false,16,0,100,d,false)==CommitResult::Accepted && d.sequence==1);
+    CHECK(p.accept(1,false,16,0,101,d,true)==CommitResult::Accepted && d.sequence==2);
+}
+int main(){const Case cases[]={{"PublicationContentionPreservesCommit",PublicationContentionPreservesCommit},{"FullPayloadRecordsKnownLoss",FullPayloadRecordsKnownLoss},{"ConcurrentSnapshotsAreImmutable",ConcurrentSnapshotsAreImmutable},{"UnprovenAllocationIsRefused",UnprovenAllocationIsRefused},{"ValidSnapshotCanBePublishedAfterClockElapsed",ValidSnapshotCanBePublishedAfterClockElapsed},{"IndependentAdmission",IndependentAdmission},{"LifetimeSurvivesAllocation",LifetimeSurvivesAllocation},{"NonEosLengthIsIgnored",NonEosLengthIsIgnored},{"SingleBufferFuturePacketCannotConsumePrefill",SingleBufferFuturePacketCannotConsumePrefill},{"PausedPrefillMustStartAtCurrentPacket",PausedPrefillMustStartAtCurrentPacket}};return runTests(cases,10);}
+
 
