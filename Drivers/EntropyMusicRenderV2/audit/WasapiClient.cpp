@@ -22,7 +22,7 @@ void validateSession(const std::wstring& s){if(s.empty() || s.size()>64)throw st
 std::wstring pipeName(const std::wstring& session){validateSession(session);return L"\\\\.\\pipe\\EntropyMusicAudit-"+session;}
 std::wstring progressName(const std::wstring& session){validateSession(session);return L"Local\\EntropyMusicAudit-"+session;}
 RunReport WasapiClient::run(const RunConfig& c){
-    Apartment apartment;pipeName(c.session);if(!c.seconds || c.seconds>1800)throw std::runtime_error("Duration must be 1..1800 seconds");
+    Apartment apartment;pipeName(c.session);if(!c.seconds || c.seconds>1800 || c.pauseMs>2000)throw std::runtime_error("Duration must be 1..1800 seconds and pause 0..2000ms");
     PcmFormat f{64,c.rate,2,c.bits,c.bits==16?16u:24u,c.bits/4,c.rate*(c.bits/4),3,0xfffe,1,{},{}};std::memcpy(f.subFormat,PcmGuid,16);if(!validateFormat(f))throw std::runtime_error("Unsupported format; no fallback");
     const auto devices=provider::resolveEndpoints();if(devices.size()!=1 || !provider::validIdentity(devices[0]))throw std::runtime_error("Exact Entropy Music Render V2 identity absent or ambiguous; no audio opened");
     const auto& identity=devices[0];RunReport report;report.endpointId=provider::utf8(identity.windowsEndpointId);
@@ -33,6 +33,14 @@ RunReport WasapiClient::run(const RunConfig& c){
     auto trace=[&](bridge::Trace& result){bridge::Header request{bridge::Magic,bridge::Version,sizeof(request),4};DWORD copied=0;
         if(!DeviceIoControl(privateDevice.value,bridge::IoctlTrace,&request,sizeof(request),&result,sizeof(result),&copied,nullptr) || copied!=sizeof(result) || result.header.kind!=4)throw std::runtime_error("Loaded driver trace unavailable");};
     trace(report.traceBefore);
+    auto pausedInfo=[&](){
+        bridge::Header request{bridge::Magic,bridge::Version,sizeof(request),2};bridge::Info result{};DWORD copied=0;
+        for(unsigned attempt=0;attempt<100;++attempt){
+            if(DeviceIoControl(privateDevice.value,bridge::IoctlInfo,&request,sizeof(request),&result,sizeof(result),&copied,nullptr) && copied==sizeof(result) && result.header.magic==bridge::Magic && result.header.version==bridge::Version && result.generation && result.state==1)return result;
+            Sleep(1);
+        }
+        throw std::runtime_error("Paused driver diagnostics unavailable or not paused");
+    };
     ComPtr<IMMDeviceEnumerator> enumerator;ComPtr<IMMDevice> device;ComPtr<IAudioClient> client;ComPtr<IAudioRenderClient> renderer;ComPtr<IAudioClock> clock;
     check(CoCreateInstance(__uuidof(MMDeviceEnumerator),nullptr,CLSCTX_ALL,IID_PPV_ARGS(&enumerator)),"MMDeviceEnumerator");check(enumerator->GetDevice(identity.windowsEndpointId.c_str(),&device),"exact endpoint");
     check(device->Activate(__uuidof(IAudioClient),CLSCTX_ALL,nullptr,reinterpret_cast<void**>(client.GetAddressOf())),"IAudioClient");auto w=wave(f);
@@ -50,8 +58,18 @@ RunReport WasapiClient::run(const RunConfig& c){
     auto fill=[&](uint32_t count){BYTE* bytes=nullptr;check(renderer->GetBuffer(count,&bytes),"GetBuffer");for(uint32_t i=0;i<count;++i)PcmPattern::frame(report.emittedFrames+i,f,bytes+i*f.blockAlign);check(renderer->ReleaseBuffer(count,0),"ReleaseBuffer");report.emittedFrames+=count;};
     AudioPriority priority;if(!priority.value)throw std::runtime_error("Audit MMCSS registration failed");
     fill(static_cast<uint32_t>(target<report.bufferFrames?target:report.bufferFrames));trace(report.traceAfterPrefill);check(client->Start(),"Start after prefill");Started started{client.Get(),true};
-    const auto deadline=GetTickCount64()+static_cast<uint64_t>(c.seconds)*1000+5000;
+    const auto deadline=GetTickCount64()+static_cast<uint64_t>(c.seconds)*1000+c.pauseMs+5000;
     while(GetTickCount64()<deadline){
+        if(c.pauseMs && !report.pause.observed && report.emittedFrames>=target/2){
+            check(client->Stop(),"Pause without Reset");started.active=false;
+            UINT64 ignoredQpc=0;check(clock->GetPosition(&report.pause.clockBefore,&ignoredQpc),"paused clock before");
+            const auto before=pausedInfo();report.pause.sourceBefore=before.sourceFrames;report.pause.generationBefore=before.generation;
+            Sleep(c.pauseMs);
+            check(clock->GetPosition(&report.pause.clockAfter,&ignoredQpc),"paused clock after");
+            const auto after=pausedInfo();report.pause.sourceAfter=after.sourceFrames;report.pause.generationAfter=after.generation;report.pause.observed=1;
+            if(!report.pause.valid())throw std::runtime_error("Clock advanced or generation changed while paused");
+            check(client->Start(),"Resume without Reset");started.active=true;
+        }
         if(report.emittedFrames<target){
             UINT32 available=report.bufferFrames;
             if(c.eventDriven){if(WaitForSingleObject(event.value,2000)!=WAIT_OBJECT_0)throw std::runtime_error("Event timeout");}
@@ -71,6 +89,6 @@ RunReport WasapiClient::run(const RunConfig& c){
     trace(report.traceAfter);check(client->Stop(),"Stop after observed drain");started.active=false;
     // A finite client without an OS EOS may have an unwritten interval after
     // its requested tail. Interior gaps are rejected by complete frame indices.
-    if(report.driver.state==4 || report.driver.lostFrames || report.observedAllocation!=1 || report.driver.qpcFrequency==0)report.drained=false;return report;
+    if(report.driver.state==4 || report.driver.lostFrames || report.observedAllocation!=1 || report.driver.qpcFrequency==0 || (c.pauseMs && !report.pause.valid()))report.drained=false;return report;
 }
 }

@@ -4,11 +4,14 @@ Independent stereo virtual WaveRT/PortCls render driver for MUSIC, with raw PCM
 transport to the frozen Stage1 Provider V2 ABI. This is implementation nr3; `V2`
 names the ingress ABI. Existing Transport/Virtual drivers are separate products.
 
-Status: uninstalled kernel candidate and offline model. No live mode or PCM
-identity acceptance is claimed yet. Raw bridge, production/audit Provider DLLs
-and WASAPI verifier compile and pass offline tests. Candidate0.3.0.1 packages an
-unsigned catalog; deployment needs the explicit approval described in
-`DEPLOYMENT.md`. AUX diagnosis remains deferred.
+Status2026-10-11: development-signed kernel0.3.0.10 is installed on the explicitly
+approved sole ROOT\\MEDIA\\0003 device. All12 Exclusive Event-Driven format cases
+pass complete raw PCM comparison inside the unchanged Stage1v0002 Core:
+12,894,000 stereo frames, zero mismatched bytes/lost frames/audit overflow.
+All12 Polling cases fail Initialize with0x80070032 (unsupported position-only
+allocation); they are not PASS. Long stress/lifecycle qualification is in progress.
+The initial unsigned0.3.0.1 package is retained as historical provenance.
+No TIDAL listening or full A/B/C acceptance is claimed. AUX remains deferred.
 
 ## Build (no deployment)
 
@@ -26,7 +29,9 @@ is for after authorized deployment and requires `-Package <manifested-package>`.
 It verifies package artifacts, installed SYS and frozen Core hashes before any
 audio action, and runs the packaged audit executable/DLL. It uses separate config/publish/control
 endpoints and a hash-identical copy of frozen Core; raw capture comes from that
-Core's sole Provider reader. All live acceptance is currently `NOT_RUN`.
+Core's sole Provider reader. Every new bundle starts with `acceptance=NOT_RUN`;
+external validation reports qualify only its recorded modes/formats/durations.
+See `audit/TEST-TOOL.md` for preserving/repeating raw and native192k FP64 tests.
 
 The installed MSVC x64 compiler is required. SDK/WDK binaries are build
 dependencies, not part of the driver source import. Their provenance is recorded

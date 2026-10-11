@@ -145,8 +145,11 @@ three acceptance groups; Task6 owns the deployment boundary. Each Review Focus
 item has a named test. No AUX repair, new Stage1 DSP or current-driver modification
 is hidden in these tasks.
 
-Plan status: approved and executing inline. Tasks1–5 are implemented; Task6 has
-an unsigned candidate and offline verification, with explicit installation
-authorization pending. Task7 has not started. Source review restricted the
-production driver to valid packet-commit allocations; position-only ownership
-remains unproven and is refused. No loaded-driver PASS is claimed.
+Plan status2026-10-11: approved and executing inline. Tasks1–6 are implemented.
+The user approved signing with the existing DEV certificate and installation of
+only the new root device plus isolated tests. Task7 is in progress: installed
+kernel0.3.0.10 passed all12 Exclusive Event-Driven raw cases (12,894,000 frames);
+all12 Polling cases are explicitly refused at Initialize0x80070032. Continuous
+1800s stress is running. Lifecycle/period, FP64 publication and real TIDAL remain
+separate acceptance work. Position-only ownership is refused; full A/B/C is not
+complete and no production or unbounded stability claim is made.

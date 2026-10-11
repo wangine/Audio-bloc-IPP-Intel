@@ -1,6 +1,7 @@
 #include "WasapiClient.h"
 #include "PcmVerifier.h"
 #include "StereoMetrics.h"
+#include "Fp64Capture.h"
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -16,12 +17,12 @@ bool readExact(HANDLE pipe,void* bytes,DWORD size){auto out=static_cast<uint8_t*
 std::string quoted(const std::string& s){std::string out="\"";for(auto c:s){if(c=='"' || c=='\\')out+='\\';if(static_cast<unsigned char>(c)<32)out+='?';else out+=c;}return out+'"';}
 std::string traceJson(const RunReport& r){
     std::ostringstream out;out<<",\"driverRate\":"<<r.driver.format.sampleRate<<",\"driverState\":"<<r.driver.state<<",\"driverSourceFrames\":"<<r.driver.sourceFrames<<",\"readerAttached\":"<<r.driver.readerAttached<<",\"uncommittedFrames\":"<<r.driver.currentUnderrunFrames<<",\"traceBefore\":[";
-    out.seekp(0,std::ios::end);
     for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceBefore.counters[i];}out<<"],\"traceAfter\":[";
     for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceAfter.counters[i];}out<<"],\"lastWrite\":{\"number\":"<<r.traceAfter.lastPacketNumber<<",\"flags\":"<<r.traceAfter.lastFlags<<",\"eosBytes\":"<<r.traceAfter.lastEosBytes<<",\"status\":"<<r.traceAfter.lastStatus<<'}';
     out<<",\"writesAfterInitialize\":"<<r.traceAfterInitialize.counters[1]<<",\"writesAfterPrefill\":"<<r.traceAfterPrefill.counters[1];
     out<<",\"firstWrite\":{\"number\":"<<r.traceAfter.firstPacketNumber<<",\"flags\":"<<r.traceAfter.firstFlags<<",\"eosBytes\":"<<r.traceAfter.firstEosBytes<<",\"status\":"<<r.traceAfter.firstStatus<<"},\"startupWrites\":[";
-    for(unsigned i=0;i<8;++i){if(i)out<<',';const auto& w=r.traceAfter.startup[i];out<<"{\"number\":"<<w.number<<",\"status\":"<<w.status<<",\"state\":"<<w.state<<",\"generation\":"<<w.generation<<'}';}out<<']';return out.str();
+    for(unsigned i=0;i<8;++i){if(i)out<<',';const auto& w=r.traceAfter.startup[i];out<<"{\"number\":"<<w.number<<",\"status\":"<<w.status<<",\"state\":"<<w.state<<",\"generation\":"<<w.generation<<'}';}out<<']';
+    const auto& p=r.pause;out<<",\"pause\":{\"observed\":"<<p.observed<<",\"clockBefore\":"<<p.clockBefore<<",\"clockAfter\":"<<p.clockAfter<<",\"sourceBefore\":"<<p.sourceBefore<<",\"sourceAfter\":"<<p.sourceAfter<<",\"generationBefore\":"<<p.generationBefore<<",\"generationAfter\":"<<p.generationAfter<<'}';return out.str();
 }
 int collect(const std::wstring& session,const std::filesystem::path& output){
     OwnedHandle mapping{CreateFileMappingW(INVALID_HANDLE_VALUE,nullptr,PAGE_READWRITE,0,sizeof(SharedProgress),progressName(session).c_str())};if(!mapping.value || GetLastError()==ERROR_ALREADY_EXISTS)throw std::runtime_error("Collector session already exists");
@@ -57,8 +58,17 @@ int wmain(int argc,wchar_t** argv){try{
     if(action==L"identify"){const auto devices=provider::resolveEndpoints();if(devices.size()!=1)throw std::runtime_error("Exact new endpoint unavailable");std::cout<<"{\"providerId\":"<<quoted(bridge::ProviderId)<<",\"endpointId\":"<<quoted(provider::endpointKey(devices[0]))<<",\"windowsEndpointId\":"<<quoted(provider::utf8(devices[0].windowsEndpointId))<<"}\n";return 0;}
     if(action==L"ready"){OwnedHandle mapping{OpenFileMappingW(FILE_MAP_ALL_ACCESS,FALSE,progressName(args[L"--session"]).c_str())};if(!mapping.value)return 2;Mapped view{MapViewOfFile(mapping.value,FILE_MAP_ALL_ACCESS,0,0,sizeof(SharedProgress))};return view.value && InterlockedCompareExchange(&static_cast<SharedProgress*>(view.value)->clientPid,0,0)?0:2;}
     if(action==L"collect")return collect(args[L"--session"],args[L"--capture"]);
+    if(action==L"collect-output")return collectFp64(args[L"--session"],args[L"--endpoint"],static_cast<uint32_t>(std::stoul(args[L"--core-pid"])),args[L"--capture"],args[L"--stop-file"]);
+    if(action==L"verify-output")return verifyFp64(args[L"--capture"],std::stoull(args[L"--frames"]),static_cast<uint32_t>(std::stoul(args[L"--bits"])),std::stoull(args[L"--generation"]),static_cast<uint32_t>(std::stoul(args[L"--core-pid"])));
+    if(action==L"output-ready" || action==L"output-drained"){
+        OwnedHandle mapping{OpenFileMappingW(FILE_MAP_ALL_ACCESS,FALSE,progressName(args[L"--session"]).c_str())};if(!mapping.value)return 2;
+        Mapped view{MapViewOfFile(mapping.value,FILE_MAP_ALL_ACCESS,0,0,sizeof(SharedProgress))};if(!view.value)return 2;auto p=static_cast<SharedProgress*>(view.value);
+        if(!InterlockedCompareExchange(&p->outputReady,0,0) || InterlockedCompareExchange(&p->outputErrors,0,0))return 2;
+        return action==L"output-ready" || static_cast<uint64_t>(InterlockedCompareExchange64(&p->outputFrames,0,0))==std::stoull(args[L"--frames"])?0:2;
+    }
     if(action==L"verify")return verify(args[L"--capture"],std::stoull(args[L"--frames"]),args[L"--drained"]==L"true",static_cast<uint32_t>(std::stoul(args[L"--rate"])),static_cast<uint32_t>(std::stoul(args[L"--bits"])),std::stoull(args[L"--generation"]));
     if(action!=L"render")throw std::runtime_error("Unknown action");RunConfig c;c.session=args[L"--session"];c.rate=static_cast<uint32_t>(std::stoul(args[L"--rate"]));c.bits=static_cast<uint32_t>(std::stoul(args[L"--bits"]));if(args.contains(L"--seconds"))c.seconds=static_cast<uint32_t>(std::stoul(args[L"--seconds"]));if(args.contains(L"--period-frames"))c.periodFrames=static_cast<uint32_t>(std::stoul(args[L"--period-frames"]));
+    if(args.contains(L"--pause-ms"))c.pauseMs=static_cast<uint32_t>(std::stoul(args[L"--pause-ms"]));
     if(args[L"--servicing"]!=L"event" && args[L"--servicing"]!=L"polling")throw std::runtime_error("Explicit event/polling servicing required");c.eventDriven=args[L"--servicing"]==L"event";
     auto r=WasapiClient::run(c);std::cout<<"{\"mode\":\"WASAPI_EXCLUSIVE\",\"servicing\":"<<quoted(c.eventDriven?"event":"polling")<<",\"endpointId\":"<<quoted(r.endpointId)<<",\"rate\":"<<c.rate<<",\"containerBits\":"<<c.bits<<",\"bufferFrames\":"<<r.bufferFrames<<",\"emittedFrames\":"<<r.emittedFrames<<",\"clockFrames\":"<<r.clockFrames<<",\"receivedFrames\":"<<r.receivedFrames<<",\"observedAllocation\":"<<r.observedAllocation<<",\"generation\":"<<r.driver.generation<<",\"committedFrames\":"<<r.driver.committedFrames<<",\"publishedFrames\":"<<r.driver.publishedFrames<<",\"deliveredFrames\":"<<r.driver.deliveredFrames<<",\"lostFrames\":"<<r.driver.lostFrames<<",\"drained\":"<<(r.drained?"true":"false")<<traceJson(r)<<"}\n";return r.drained?0:2;
 }catch(const std::exception& e){std::cerr<<"Audit failed: "<<e.what()<<"\n";return 1;}}

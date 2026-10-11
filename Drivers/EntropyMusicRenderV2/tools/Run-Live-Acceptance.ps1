@@ -1,9 +1,10 @@
-param([switch]$RunLive,[switch]$Stress,[switch]$ValidatePackageOnly,[switch]$ContinueOnFailure,[ValidateSet('all','event','polling')][string]$Servicing='all',[ValidateRange(1,1800)][int]$Seconds=10,[string]$Output,[string]$Package,[string]$Repository)
+param([switch]$RunLive,[switch]$Stress,[switch]$VerifyFp64,[switch]$ValidatePackageOnly,[switch]$ContinueOnFailure,[ValidateSet('all','event','polling')][string]$Servicing='all',[ValidateRange(1,1800)][int]$Seconds=10,[ValidateRange(0,2000)][int]$PauseMs=0,[ValidateRange(0,65536)][int]$PeriodFrames=0,[string]$Output,[string]$Package,[string]$Repository)
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 $repo=Split-Path (Split-Path $root -Parent) -Parent
 if(!$RunLive -and !$ValidatePackageOnly){Write-Output 'No live action. After approved installation: supply -Package and -Repository, then -RunLive for24 Exclusive cases or -RunLive -Stress for1800s. Position-only allocations remain unsupported; polling must prove an OS commit path.';return}
 if(!$Package){throw 'An explicit manifested qualification package is required'}
+if($VerifyFp64 -and !$Stress -and $Seconds%2){throw 'Native192k output verification needs an even duration to include the complete1024-frame tail'}
 . (Join-Path $PSScriptRoot 'Assert-Package.ps1')
 $manifest=Assert-MusicPackage $Package
 if($ValidatePackageOnly){Write-Output 'Package hashes verified; no device or audio action';return}
@@ -30,6 +31,7 @@ if($hashes.coreSha256 -ne $hashes.frozenCoreSha256){throw 'Frozen Core copy diff
 $hashes | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $Output 'provenance.json')
 $cases=if($Stress){@(@{rate=192000;bits=32;servicing='event';seconds=1800})}else{@(foreach($rate in @(44100,48000,88200,96000,176400,192000)){foreach($bits in @(16,32)){foreach($mode in @('event','polling')){@{rate=$rate;bits=$bits;servicing=$mode;seconds=$Seconds}}}})}
 if(!$Stress -and $Servicing -ne 'all'){$cases=@($cases | Where-Object servicing -eq $Servicing)}
+if($VerifyFp64){$cases=@($cases | Where-Object rate -eq 192000)}
 $results=@()
 foreach($case in $cases){
     $null=Assert-MusicPackage $Package;$null=Assert-MusicInstalledDriver $manifest
@@ -47,7 +49,8 @@ providerId=
 endpointId=
 mode=8
 "@ | Set-Content -LiteralPath $config -Encoding utf8
-    $collector=$null;$coreProcess=$null;$previousPipe=$env:ENTROPY_MUSIC_AUDIT_PIPE
+    $collector=$null;$outputCollector=$null;$coreProcess=$null;$previousPipe=$env:ENTROPY_MUSIC_AUDIT_PIPE
+    $fp64Capture=Join-Path $folder 'core-output-fp64.bin';$fp64Stop=Join-Path $folder 'output-stop.flag';$fp64Report=Join-Path $folder 'output-comparison.json'
     try{
         $collector=Start-Process -FilePath $audit -ArgumentList @('--action','collect','--session',$session,'--capture',('"'+$capture+'"')) -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $folder 'collector.log') -RedirectStandardError (Join-Path $folder 'collector-error.log')
         $deadline=[datetime]::UtcNow.AddSeconds(10);$listening=$false
@@ -59,8 +62,22 @@ mode=8
         $deadline=[datetime]::UtcNow.AddSeconds(15);$ready=$false
         while([datetime]::UtcNow -lt $deadline){& $audit --action ready --session $session; if(!$LASTEXITCODE){$ready=$true;break};if($coreProcess.HasExited -or $collector.HasExited){break};Start-Sleep -Milliseconds 100}
         if(!$ready){throw 'Isolated frozen Core audit connection not ready'}
-        & $audit --action render --session $session --rate $case.rate --bits $case.bits --servicing $case.servicing --seconds $case.seconds > $render 2> (Join-Path $folder 'render-error.log')
+        if($VerifyFp64){
+            $outputCollector=Start-Process -FilePath $audit -ArgumentList @('--action','collect-output','--session',$session,'--endpoint',$publishEndpoint,'--core-pid',$coreProcess.Id,'--capture',('"'+$fp64Capture+'"'),'--stop-file',('"'+$fp64Stop+'"')) -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $folder 'output-collector.log') -RedirectStandardError (Join-Path $folder 'output-collector-error.log')
+            $deadline=[datetime]::UtcNow.AddSeconds(10);$outputReady=$false
+            while([datetime]::UtcNow -lt $deadline){& $audit --action output-ready --session $session;if(!$LASTEXITCODE){$outputReady=$true;break};if($outputCollector.HasExited){break};Start-Sleep -Milliseconds 20}
+            if(!$outputReady){throw 'FP64 subscriber not attached before first input frame'}
+        }
+        & $audit --action render --session $session --rate $case.rate --bits $case.bits --servicing $case.servicing --seconds $case.seconds --pause-ms $PauseMs --period-frames $PeriodFrames > $render 2> (Join-Path $folder 'render-error.log')
         $renderExit=$LASTEXITCODE
+        if($VerifyFp64 -and !$renderExit){
+            $rendered=Get-Content -LiteralPath $render -Raw | ConvertFrom-Json
+            $deadline=[datetime]::UtcNow.AddSeconds(10);$outputDrained=$false
+            while([datetime]::UtcNow -lt $deadline){& $audit --action output-drained --session $session --frames $rendered.emittedFrames;if(!$LASTEXITCODE){$outputDrained=$true;break};if($outputCollector.HasExited){break};Start-Sleep -Milliseconds 20}
+            if(!$outputDrained){throw 'FP64 output did not account for the complete first-to-last input sequence'}
+            Set-Content -LiteralPath $fp64Stop -Value 'complete output drain observed'
+            if(!$outputCollector.WaitForExit(5000) -or $outputCollector.ExitCode){throw 'FP64 collector failed or footer timed out'}
+        }
         Set-Content -LiteralPath $stop -Value 'qualification case finished'
         if(!$coreProcess.WaitForExit(10000)){throw 'Isolated Core did not stop after its own stop-file'}
         if(!$collector.WaitForExit(10000)){throw 'Audit footer/drain timed out'}
@@ -71,10 +88,15 @@ mode=8
         if($rendered.rate -ne $case.rate -or $rendered.containerBits -ne $case.bits -or !$rendered.generation){throw 'Render report differs from the requested format/generation'}
         & $audit --action verify --capture $capture --frames $rendered.emittedFrames --rate $case.rate --bits $case.bits --generation $rendered.generation --drained ($rendered.drained.ToString().ToLowerInvariant()) > $report
         if($LASTEXITCODE){throw 'Raw PCM comparison failed'}
-        $results+=@{case=$case;pass=$true;report=$report;frames=$rendered.emittedFrames;observedAllocation=$rendered.observedAllocation}
+        if($VerifyFp64){
+            & $audit --action verify-output --capture $fp64Capture --frames $rendered.emittedFrames --bits $case.bits --generation $rendered.generation --core-pid $coreProcess.Id > $fp64Report
+            if($LASTEXITCODE){throw 'Exact native192k FP64 output comparison failed'}
+        }
+        $results+=@{case=$case;pass=$true;report=$report;frames=$rendered.emittedFrames;observedAllocation=$rendered.observedAllocation;fp64Report=$(if($VerifyFp64){$fp64Report}else{$null})}
     }catch{$results+=@{case=$case;pass=$false;reason=$_.Exception.Message};if(!$ContinueOnFailure){throw}}
     finally{
         $env:ENTROPY_MUSIC_AUDIT_PIPE=$previousPipe
+        if($outputCollector -and !$outputCollector.HasExited){Set-Content -LiteralPath $fp64Stop -Value 'cancel output qualification';if(!$outputCollector.WaitForExit(3000)){Stop-Process -Id $outputCollector.Id}}
         if($coreProcess -and !$coreProcess.HasExited){Set-Content -LiteralPath $stop -Value 'cancel isolated qualification';if(!$coreProcess.WaitForExit(10000)){Stop-Process -Id $coreProcess.Id}}
         if($collector -and !$collector.HasExited){Stop-Process -Id $collector.Id}
         $results | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $Output 'results.json')
