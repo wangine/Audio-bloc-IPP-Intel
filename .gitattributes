@@ -21,4 +21,4 @@
 /local/thiran-baseline/** -text whitespace=cr-at-eol,-blank-at-eol
 /validation/music-cinema-v2/** -text whitespace=cr-at-eol,-blank-at-eol
 /release/music-cinema/** -text whitespace=cr-at-eol,-blank-at-eol
-/Drivers/EntropyMusicRenderV2/upstream/** -text whitespace=cr-at-eol,-blank-at-eol
+/Drivers/EntropyMusicRenderV2/upstream/** -text whitespace=cr-at-eol,-blank-at-eof,-space-before-tab
