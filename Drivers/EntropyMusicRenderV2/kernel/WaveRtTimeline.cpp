@@ -50,7 +50,7 @@ CommitResult WaveRtTimeline::capturePacket(uint32_t packetNumber,bool eos,uint32
     const auto candidate=writtenPackets_+delta;
     if(!advance(qpc,false))return CommitResult::Invalid;
     const uint64_t current=nominalFrames_/packetFrames_;
-    if(candidate>current+notifications_ || (notifications_>1 && candidate==current+notifications_))return CommitResult::Overrun;
+    if(candidate>=current+notifications_)return CommitResult::Overrun;
     if(candidate>UINT64_MAX/packetFrames_ || sequence_==UINT64_MAX)return CommitResult::Invalid;
     const uint32_t frames=eos?eosBytes/format_.blockAlign:packetFrames_;
     if(eos && (eosBytes%format_.blockAlign || frames>packetFrames_))return CommitResult::Invalid;

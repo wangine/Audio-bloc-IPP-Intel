@@ -16,7 +16,7 @@ public:
         if(delta>0x7fffffffU)return CommitResult::Duplicate;
         if(next_>UINT64_MAX-delta)return CommitResult::Invalid;
         const auto index=next_+delta,current=source/frames_;
-        if(index>current+notifications_ || (notifications_>1 && index==current+notifications_))return CommitResult::Overrun;
+        if(index>=current+notifications_)return CommitResult::Overrun;
         const auto count=eos?bytes/align_:frames_;
         // EosPacketLength is undefined/ignored without the EOS flag (PortCls).
         if((eos && (bytes%align_ || count>frames_)) || index>UINT64_MAX/frames_ || sequence_==UINT64_MAX || index==UINT64_MAX)return CommitResult::Invalid;

@@ -22,5 +22,12 @@ void NonEosLengthIsIgnored(){
     CHECK(p.accept(1,true,3,4,104,d)==CommitResult::Invalid);
     CHECK(p.accept(1,true,8,4,104,d)==CommitResult::Accepted && d.frames==2);
 }
-int main(){const Case cases[]={{"PublicationContentionPreservesCommit",PublicationContentionPreservesCommit},{"FullPayloadRecordsKnownLoss",FullPayloadRecordsKnownLoss},{"ConcurrentSnapshotsAreImmutable",ConcurrentSnapshotsAreImmutable},{"UnprovenAllocationIsRefused",UnprovenAllocationIsRefused},{"ValidSnapshotCanBePublishedAfterClockElapsed",ValidSnapshotCanBePublishedAfterClockElapsed},{"IndependentAdmission",IndependentAdmission},{"LifetimeSurvivesAllocation",LifetimeSurvivesAllocation},{"NonEosLengthIsIgnored",NonEosLengthIsIgnored}};return runTests(cases,8);}
+void SingleBufferFuturePacketCannotConsumePrefill(){
+    PacketAdmission p;p.reset(3,48000,4,1,4);PacketDescriptor d{};
+    CHECK(p.accept(1,false,16,0,100,d)==CommitResult::Overrun);
+    CHECK(p.accept(0,false,16,0,100,d)==CommitResult::Accepted && d.sequence==1 && d.firstSourceFrame==0);
+    CHECK(p.accept(1,false,16,3,103,d)==CommitResult::Overrun);
+    CHECK(p.accept(1,false,16,4,104,d)==CommitResult::Accepted && d.sequence==2 && d.firstSourceFrame==4);
+}
+int main(){const Case cases[]={{"PublicationContentionPreservesCommit",PublicationContentionPreservesCommit},{"FullPayloadRecordsKnownLoss",FullPayloadRecordsKnownLoss},{"ConcurrentSnapshotsAreImmutable",ConcurrentSnapshotsAreImmutable},{"UnprovenAllocationIsRefused",UnprovenAllocationIsRefused},{"ValidSnapshotCanBePublishedAfterClockElapsed",ValidSnapshotCanBePublishedAfterClockElapsed},{"IndependentAdmission",IndependentAdmission},{"LifetimeSurvivesAllocation",LifetimeSurvivesAllocation},{"NonEosLengthIsIgnored",NonEosLengthIsIgnored},{"SingleBufferFuturePacketCannotConsumePrefill",SingleBufferFuturePacketCannotConsumePrefill}};return runTests(cases,9);}
 
