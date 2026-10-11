@@ -16,8 +16,10 @@ bool readExact(HANDLE pipe,void* bytes,DWORD size){auto out=static_cast<uint8_t*
 std::string quoted(const std::string& s){std::string out="\"";for(auto c:s){if(c=='"' || c=='\\')out+='\\';if(static_cast<unsigned char>(c)<32)out+='?';else out+=c;}return out+'"';}
 std::string traceJson(const RunReport& r){
     std::ostringstream out;out<<",\"driverRate\":"<<r.driver.format.sampleRate<<",\"driverState\":"<<r.driver.state<<",\"driverSourceFrames\":"<<r.driver.sourceFrames<<",\"readerAttached\":"<<r.driver.readerAttached<<",\"uncommittedFrames\":"<<r.driver.currentUnderrunFrames<<",\"traceBefore\":[";
+    out.seekp(0,std::ios::end);
     for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceBefore.counters[i];}out<<"],\"traceAfter\":[";
     for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceAfter.counters[i];}out<<"],\"lastWrite\":{\"number\":"<<r.traceAfter.lastPacketNumber<<",\"flags\":"<<r.traceAfter.lastFlags<<",\"eosBytes\":"<<r.traceAfter.lastEosBytes<<",\"status\":"<<r.traceAfter.lastStatus<<'}';
+    out<<",\"writesAfterInitialize\":"<<r.traceAfterInitialize.counters[1]<<",\"writesAfterPrefill\":"<<r.traceAfterPrefill.counters[1];
     out<<",\"firstWrite\":{\"number\":"<<r.traceAfter.firstPacketNumber<<",\"flags\":"<<r.traceAfter.firstFlags<<",\"eosBytes\":"<<r.traceAfter.firstEosBytes<<",\"status\":"<<r.traceAfter.firstStatus<<"},\"startupWrites\":[";
     for(unsigned i=0;i<8;++i){if(i)out<<',';const auto& w=r.traceAfter.startup[i];out<<"{\"number\":"<<w.number<<",\"status\":"<<w.status<<",\"state\":"<<w.state<<",\"generation\":"<<w.generation<<'}';}out<<']';return out.str();
 }
