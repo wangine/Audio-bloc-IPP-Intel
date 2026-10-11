@@ -36,6 +36,7 @@ int collectFp64(const std::wstring& session,const std::wstring& endpoint,uint32_
     write(1,&source,sizeof(source));InterlockedExchange(&progress.view->outputReady,1);
     std::array<std::array<double,1024>,2> storage{};double* planes[]{storage[0].data(),storage[1].data()};StageBusBlockHeader h{};uint64_t errors=0;
     for(;;){
+        if(std::filesystem::exists(stop)){++errors;InterlockedExchange(&progress.view->outputErrors,1);break;}
         const auto result=subscriber.read(h,planes[0],planes[1]);
         if(result==DrainSubscriber::Result::Block){
             CaptureHeader record;record.kind=2;record.bytes=sizeof(h)+sizeof(storage);file.write(reinterpret_cast<const char*>(&record),sizeof(record));file.write(reinterpret_cast<const char*>(&h),sizeof(h));file.write(reinterpret_cast<const char*>(storage.data()),sizeof(storage));if(!file)throw std::runtime_error("FP64 capture disk write failed");
@@ -44,6 +45,7 @@ int collectFp64(const std::wstring& session,const std::wstring& endpoint,uint32_
         else if(result==DrainSubscriber::Result::Empty && !std::filesystem::exists(stop)){Sleep(1);}
         else {++errors;InterlockedExchange(&progress.view->outputErrors,1);break;}
     }
+    if(std::filesystem::exists(stop) && !errors){++errors;InterlockedExchange(&progress.view->outputErrors,1);}
     write(3,nullptr,0,errors);return errors?2:0;
 }
 int verifyFp64(const std::filesystem::path& input,uint64_t frames,uint32_t bits,uint64_t generation,uint32_t corePid){

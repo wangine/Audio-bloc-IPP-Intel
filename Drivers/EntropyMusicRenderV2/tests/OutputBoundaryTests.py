@@ -18,7 +18,7 @@ class OutputBoundary(unittest.TestCase):
             view=k.MapViewOfFile(mapping,0xf001f,0,0,32);self.assertTrue(view)
             ctypes.memset(view,0,32);publisher=collector=None
             try:
-                publisher=subprocess.Popen([PUBLISHER,token,kind,str(ready)])
+                publisher=subprocess.Popen([PUBLISHER,token,kind,str(ready),str(stop)])
                 deadline=time.monotonic()+5
                 while not ready.exists() and time.monotonic()<deadline:time.sleep(.01)
                 self.assertTrue(ready.exists())
@@ -51,4 +51,8 @@ class OutputBoundary(unittest.TestCase):
     def test_delayed_extra_after_expected_count(self):self.exercise('extra')
     def test_cancel_is_not_completion(self):self.exercise('abort')
     def test_abnormal_producer_exit(self):self.exercise('badexit')
+    def test_retired_session_with_later_extra_output(self):self.exercise('retire')
+    def test_error_state_erased_by_retirement(self):self.exercise('error-retire')
+    def test_ambiguous_normal_stop_is_not_certification(self):self.exercise('clean-retire')
+    def test_abort_at_final_queue_drain(self):self.exercise('abortfinal')
 if __name__=='__main__':unittest.main(argv=[sys.argv[0]],verbosity=2)

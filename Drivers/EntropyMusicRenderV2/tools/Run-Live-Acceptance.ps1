@@ -9,6 +9,9 @@ if($VerifyFp64 -and $PauseMs){throw 'Run intentional PAUSE clock tests separatel
 . (Join-Path $PSScriptRoot 'Assert-Package.ps1')
 $manifest=Assert-MusicPackage $Package
 if($ValidatePackageOnly){Write-Output 'Package hashes verified; no device or audio action';return}
+$runnerHash=(Get-FileHash -LiteralPath $PSCommandPath).Hash
+$manifestRunner=@($manifest.artifacts | Where-Object path -eq 'tools/Run-Live-Acceptance.ps1')
+if($manifestRunner.Count -ne 1 -or $runnerHash -ne $manifestRunner[0].sha256){throw 'Runner differs from the manifested package; invoke the packaged tools/Run-Live-Acceptance.ps1'}
 if($Repository){$repo=[IO.Path]::GetFullPath($Repository)}
 $audit=Join-Path $Package 'user/EntropyMusicPcmAudit.exe'
 $provider=Join-Path $Package 'user/EntropyMusicRawProviderV2Audit.dll'
@@ -27,7 +30,7 @@ $core=Join-Path $Output 'EntropyMusicSourceCore.exe'
 Copy-Item -LiteralPath $frozen -Destination $core
 $providers=Join-Path $Output 'providers';New-Item -ItemType Directory -Path $providers | Out-Null
 Copy-Item -LiteralPath $provider -Destination $providers
-$hashes=@{packageManifestSha256=(Get-FileHash -LiteralPath (Join-Path $Package 'manifest.json')).Hash;installedDriver=$installed;sourceRevision=$manifest.sourceRevision;coreSha256=(Get-FileHash -LiteralPath $core).Hash;frozenCoreSha256=(Get-FileHash -LiteralPath $frozen).Hash;providerSha256=(Get-FileHash -LiteralPath $provider).Hash;auditSha256=(Get-FileHash -LiteralPath $audit).Hash;identity=$identity;acceptance='pending; no model result promoted to kernel acceptance'}
+$hashes=@{packageManifestSha256=(Get-FileHash -LiteralPath (Join-Path $Package 'manifest.json')).Hash;runnerSha256=$runnerHash;installedDriver=$installed;sourceRevision=$manifest.sourceRevision;coreSha256=(Get-FileHash -LiteralPath $core).Hash;frozenCoreSha256=(Get-FileHash -LiteralPath $frozen).Hash;providerSha256=(Get-FileHash -LiteralPath $provider).Hash;auditSha256=(Get-FileHash -LiteralPath $audit).Hash;identity=$identity;acceptance='pending; no model result promoted to kernel acceptance'}
 if($hashes.coreSha256 -ne $hashes.frozenCoreSha256){throw 'Frozen Core copy differs'}
 $hashes | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $Output 'provenance.json')
 $cases=if($Stress){@(@{rate=192000;bits=32;servicing='event';seconds=1800})}else{@(foreach($rate in @(44100,48000,88200,96000,176400,192000)){foreach($bits in @(16,32)){foreach($mode in @('event','polling')){@{rate=$rate;bits=$bits;servicing=$mode;seconds=$Seconds}}}})}
@@ -79,7 +82,7 @@ mode=8
         }
         Set-Content -LiteralPath $stop -Value 'qualification case finished'
         if(!$coreProcess.WaitForExit(10000)){throw 'Isolated Core did not stop after its own stop-file'}
-        if($VerifyFp64 -and (!$outputCollector.WaitForExit(10000) -or $outputCollector.ExitCode)){throw 'FP64 capture did not reach clean producer exit and complete final queue drain'}
+        if($VerifyFp64 -and !$outputCollector.WaitForExit(10000)){throw 'FP64 collector did not reach a final queue boundary'}
         if(!$collector.WaitForExit(10000)){throw 'Audit footer/drain timed out'}
         $client=Get-Content -LiteralPath ($capture+'.client.json') -Raw | ConvertFrom-Json
         if($client.providerClientPid -ne $coreProcess.Id){throw 'Capture did not originate in the exact frozen Core process'}
@@ -103,4 +106,4 @@ mode=8
     }
 }
 if(@($results | Where-Object {!$_.pass}).Count){throw "Qualification contains failed cases; inspect $Output/results.json and the preserved per-case evidence"}
-Write-Output "Evidence: $Output; this covers only the recorded formats, servicing, duration and transitions. TIDAL/PAUSE/EOS qualification remains separate."
+Write-Output "Evidence: $Output; this covers only the recorded formats, servicing, duration and transitions. TIDAL and untested transitions remain separate."

@@ -27,6 +27,22 @@ conversions are exact in FP64. Tests use even durations so the full emitted sour
 tail fits Stage1's immutable1024-frame publication boundary; no remainder is
 discarded. Core/SRC/matrix/ABI are not modified for the test.
 
+The actual rounded WASAPI target must also be divisible by1024. Incompatible
+custom periods are refused before PCM prefill; an even duration alone is not
+sufficient. Completion requires a clean producer process exit, intact subscription,
+no drops and a fully drained queue. An abort marker always makes an error footer.
+The frozen publisher clears normal shutdown and premature/error retirement to the
+same state0. The final Core diagnostic is sampled before scheduler shutdown, so it
+cannot prove final publication count. The audit drains saved slots but rejects this
+ambiguous terminal state; **frozen v0002 output completion is not certified**.
+A later Stage1 must supply durable, distinguishable publication termination.
+
+`Inspect-Native-Captures.py <case-folder> ...` separately compares all valid FP64
+blocks against the complete, already-verified native192k PCM capture and reports
+every startup/interior/tail invalid clock run. It is an offline diagnostic, with
+no PASS verdict: concatenating valid blocks does not restore output chronology.
+Keep its reports alongside the unchanged failed official comparisons.
+
 At44.1/48/88.2/96/176.4k the raw PCM test remains valid, but post-SRC sample equality
 to the original is mathematically inappropriate. An independent, specified
 r8brain reference, including latency/startup/flush, must be added before that
