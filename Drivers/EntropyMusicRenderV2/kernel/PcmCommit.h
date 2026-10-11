@@ -24,7 +24,7 @@ class PcmCommit {
     entropy::music::AtomicCount terminalFrames_,terminalPackets_;
     uint8_t* dma_=nullptr;uint32_t dmaFrames_=0,packetFrames_=0,notifications_=0,align_=0;
     entropy::music::Clock cachedClock_;
-    KEVENT readIdle_;
+    KEVENT readIdle_,operationReleased_;
     entropy::music::OperationGate operation_;
     uint64_t cachedFrames_=0,cachedPackets_=0,cachedQpc_=0;
 public:

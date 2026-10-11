@@ -16,13 +16,14 @@ struct Mapped{void* value;~Mapped(){if(value)UnmapViewOfFile(value);}};
 bool readExact(HANDLE pipe,void* bytes,DWORD size){auto out=static_cast<uint8_t*>(bytes);while(size){DWORD got=0;if(!ReadFile(pipe,out,size,&got,nullptr) || !got)return false;out+=got;size-=got;}return true;}
 std::string quoted(const std::string& s){std::string out="\"";for(auto c:s){if(c=='"' || c=='\\')out+='\\';if(static_cast<unsigned char>(c)<32)out+='?';else out+=c;}return out+'"';}
 std::string traceJson(const RunReport& r){
+    std::ostringstream timing;timing<<",\"maxCommitIntervalMs\":"<<r.maxCommitIntervalMs<<",\"maxCommitIntervalFirstFrame\":"<<r.maxCommitIntervalFirstFrame;
     std::ostringstream out;out<<",\"driverRate\":"<<r.driver.format.sampleRate<<",\"driverState\":"<<r.driver.state<<",\"driverSourceFrames\":"<<r.driver.sourceFrames<<",\"readerAttached\":"<<r.driver.readerAttached<<",\"uncommittedFrames\":"<<r.driver.currentUnderrunFrames<<",\"traceBefore\":[";
     for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceBefore.counters[i];}out<<"],\"traceAfter\":[";
     for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceAfter.counters[i];}out<<"],\"lastWrite\":{\"number\":"<<r.traceAfter.lastPacketNumber<<",\"flags\":"<<r.traceAfter.lastFlags<<",\"eosBytes\":"<<r.traceAfter.lastEosBytes<<",\"status\":"<<r.traceAfter.lastStatus<<'}';
     out<<",\"writesAfterInitialize\":"<<r.traceAfterInitialize.counters[1]<<",\"writesAfterPrefill\":"<<r.traceAfterPrefill.counters[1];
     out<<",\"firstWrite\":{\"number\":"<<r.traceAfter.firstPacketNumber<<",\"flags\":"<<r.traceAfter.firstFlags<<",\"eosBytes\":"<<r.traceAfter.firstEosBytes<<",\"status\":"<<r.traceAfter.firstStatus<<"},\"startupWrites\":[";
     for(unsigned i=0;i<8;++i){if(i)out<<',';const auto& w=r.traceAfter.startup[i];out<<"{\"number\":"<<w.number<<",\"status\":"<<w.status<<",\"state\":"<<w.state<<",\"generation\":"<<w.generation<<'}';}out<<']';
-    const auto& p=r.pause;out<<",\"pause\":{\"observed\":"<<p.observed<<",\"clockBefore\":"<<p.clockBefore<<",\"clockAfter\":"<<p.clockAfter<<",\"sourceBefore\":"<<p.sourceBefore<<",\"sourceAfter\":"<<p.sourceAfter<<",\"generationBefore\":"<<p.generationBefore<<",\"generationAfter\":"<<p.generationAfter<<'}';return out.str();
+    const auto& p=r.pause;out<<",\"pause\":{\"observed\":"<<p.observed<<",\"clockBefore\":"<<p.clockBefore<<",\"clockAfter\":"<<p.clockAfter<<",\"sourceBefore\":"<<p.sourceBefore<<",\"sourceAfter\":"<<p.sourceAfter<<",\"generationBefore\":"<<p.generationBefore<<",\"generationAfter\":"<<p.generationAfter<<'}';return out.str()+timing.str();
 }
 int collect(const std::wstring& session,const std::filesystem::path& output){
     OwnedHandle mapping{CreateFileMappingW(INVALID_HANDLE_VALUE,nullptr,PAGE_READWRITE,0,sizeof(SharedProgress),progressName(session).c_str())};if(!mapping.value || GetLastError()==ERROR_ALREADY_EXISTS)throw std::runtime_error("Collector session already exists");

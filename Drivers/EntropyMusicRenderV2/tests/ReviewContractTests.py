@@ -11,6 +11,14 @@ def source(name):
         return subprocess.check_output(['git','show',REV+':Drivers/EntropyMusicRenderV2/'+name],cwd=ROOT.parents[1]).decode('utf-8-sig')
     return (ROOT/name).read_text(encoding='utf-8-sig')
 class ReviewContracts(unittest.TestCase):
+    def test_PassiveReadFinishWaitsForGateRelease(self):
+        text=source('kernel/PcmCommit.cpp')
+        wait=text.split('void PcmCommit::EnterPassive()',1)[1].split('void PcmCommit::Leave',1)[0]
+        self.assertNotIn('KeDelayExecutionThread',wait)
+        self.assertIn('KeWaitForSingleObject(&operationReleased_',wait)
+        self.assertIn('SynchronizationEvent',text)
+        leave=text.split('void PcmCommit::Leave',1)[1].split('void PcmCommit::PositionCache',1)[0]
+        self.assertLess(leave.index('operation_.leave()'),leave.index('KeSetEvent(&operationReleased_'))
     def test_CommitDoesNotTakePublicationGate(self):
         text=source('kernel/shell/minwavertstream.cpp').split('CMiniportWaveRTStream::SetWritePacket',1)[1].split('CMiniportWaveRTStream::GetPosition',1)[0]
         self.assertNotIn('TryEnter',text)

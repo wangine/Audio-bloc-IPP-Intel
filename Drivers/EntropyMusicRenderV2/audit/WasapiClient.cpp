@@ -57,7 +57,8 @@ RunReport WasapiClient::run(const RunConfig& c){
     uint64_t target=static_cast<uint64_t>(c.rate)*c.seconds;if(c.eventDriven)target=((target+report.bufferFrames-1)/report.bufferFrames)*report.bufferFrames;
     if(c.completeFp64Tail && !completeFp64Tail(c.rate,target))throw std::runtime_error("Actual WASAPI period creates an incomplete1024-frame FP64 tail; refused before PCM prefill");
     trace(report.traceAfterInitialize);
-    auto fill=[&](uint32_t count){BYTE* bytes=nullptr;check(renderer->GetBuffer(count,&bytes),"GetBuffer");for(uint32_t i=0;i<count;++i)PcmPattern::frame(report.emittedFrames+i,f,bytes+i*f.blockAlign);check(renderer->ReleaseBuffer(count,0),"ReleaseBuffer");report.emittedFrames+=count;};
+    LARGE_INTEGER commitFrequency{},lastCommit{};QueryPerformanceFrequency(&commitFrequency);
+    auto fill=[&](uint32_t count){BYTE* bytes=nullptr;check(renderer->GetBuffer(count,&bytes),"GetBuffer");for(uint32_t i=0;i<count;++i)PcmPattern::frame(report.emittedFrames+i,f,bytes+i*f.blockAlign);check(renderer->ReleaseBuffer(count,0),"ReleaseBuffer");LARGE_INTEGER now{};QueryPerformanceCounter(&now);if(lastCommit.QuadPart){auto ms=1000.0*(now.QuadPart-lastCommit.QuadPart)/commitFrequency.QuadPart;if(ms>report.maxCommitIntervalMs){report.maxCommitIntervalMs=ms;report.maxCommitIntervalFirstFrame=report.emittedFrames;}}lastCommit=now;report.emittedFrames+=count;};
     AudioPriority priority;if(!priority.value)throw std::runtime_error("Audit MMCSS registration failed");
     fill(static_cast<uint32_t>(target<report.bufferFrames?target:report.bufferFrames));trace(report.traceAfterPrefill);check(client->Start(),"Start after prefill");Started started{client.Get(),true};
     const auto deadline=GetTickCount64()+static_cast<uint64_t>(c.seconds)*1000+c.pauseMs+5000;

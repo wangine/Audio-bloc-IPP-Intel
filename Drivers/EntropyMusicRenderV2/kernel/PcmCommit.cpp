@@ -18,7 +18,7 @@ bool ParseMusicFormat(PKSDATAFORMAT data,PcmFormat& f) noexcept {
     // in the PCM24/32 container.
     return validateFormat(f);
 }
-PcmCommit::PcmCommit() noexcept {KeInitializeSpinLock(&lock);ExInitializeRundownProtection(&rundown);ExInitializeRundownProtection(&writers_);KeInitializeEvent(&readIdle_,NotificationEvent,TRUE);}
+PcmCommit::PcmCommit() noexcept {KeInitializeSpinLock(&lock);ExInitializeRundownProtection(&rundown);ExInitializeRundownProtection(&writers_);KeInitializeEvent(&readIdle_,NotificationEvent,TRUE);KeInitializeEvent(&operationReleased_,SynchronizationEvent,FALSE);}
 PcmCommit::~PcmCommit() {
     Stop();
     if(pendingBytes_)ExFreePoolWithTag(pendingBytes_,Tag);
@@ -138,13 +138,20 @@ NTSTATUS PcmCommit::Read(void* output,uint32_t capacity,uint32_t& copied) {
     if(!timeline.prepared())Archive();KeSetEvent(&readIdle_,IO_NO_INCREMENT,FALSE);Leave();
     return capacity>=total?STATUS_SUCCESS:STATUS_BUFFER_TOO_SMALL;
 }
-void PcmCommit::EnterPassive(){PAGED_CODE();LARGE_INTEGER retry;retry.QuadPart=-10000;while(!TryEnter())KeDelayExecutionThread(KernelMode,FALSE,&retry);}
+void PcmCommit::EnterPassive(){
+    PAGED_CODE();
+    // Wake on release, including a release between TryEnter and this wait.
+    // A periodic 1ms delay rounds to the system tick and stalls read-finish
+    // for ~16ms under rare DPC/control contention. RT callers only TryEnter.
+    while(!TryEnter())KeWaitForSingleObject(&operationReleased_,Executive,KernelMode,FALSE,nullptr);
+}
 void PcmCommit::Leave(uint64_t qpc){
     // Only a bounded cache metadata copy is protected by the spin lock.
     // PCM copies use the nonblocking operation gate; realtime callers never
     // wait for another owner or for a consumer's lease.
     if(qpc){KIRQL old;KeAcquireSpinLock(&lock,&old);cachedFrames_=timeline.frames();cachedPackets_=timeline.packetCount();cachedQpc_=qpc;cachedClock_=timeline.clockSnapshot();KeReleaseSpinLock(&lock,old);}
     operation_.leave();
+    KeSetEvent(&operationReleased_,IO_NO_INCREMENT,FALSE);
 }
 void PcmCommit::PositionCache(uint64_t& frames,uint64_t& packets,uint64_t& qpc){KIRQL old;KeAcquireSpinLock(&lock,&old);frames=cachedFrames_;packets=cachedPackets_;qpc=cachedQpc_;KeReleaseSpinLock(&lock,old);}
 void InitializePcmOwners(){KeInitializeSpinLock(&ownerLock);}
