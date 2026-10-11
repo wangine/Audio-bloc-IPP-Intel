@@ -1,0 +1,124 @@
+{
+  "frozenCoreSha256": "AB6B817CF3A0C65379B349FA8E01F3302E08F5119B9ACBF874916D54D24D3C4A",
+  "catalogGenerationExit": 0,
+  "sourceWorkingTreeDirty": false,
+  "signatures": {
+    "user/EntropyMusicPcmAudit.exe": "NotSigned",
+    "user/EntropyMusicRawProviderV2Audit.dll": "NotSigned",
+    "user/EntropyMusicRawProviderV2.dll": "NotSigned",
+    "driver/EntropyMusicRenderV2.sys": "NotSigned",
+    "driver/EntropyMusicRenderV2.cat": "NotSigned"
+  },
+  "kernelSignatureVerificationExit": 1,
+  "artifacts": [
+    {
+      "path": "DEPLOYMENT.md",
+      "sha256": "22A38475368B724BBA9BC34633719ACE10DC3FAC12597F85AF5073CC6D0FAE67",
+      "bytes": 4297
+    },
+    {
+      "path": "driver/entropymusicrenderv2.cat",
+      "sha256": "E564173A67B9206A8ACF327CF89F527EE33A7F0EBF35D40D50DD41A9FAC330C1",
+      "bytes": 1290
+    },
+    {
+      "path": "driver/EntropyMusicRenderV2.inf",
+      "sha256": "7ACE84DA1F1CF1F0B929D104FFA89B62640A88E9EB6DA325F111C09B4B0D3C5A",
+      "bytes": 2660
+    },
+    {
+      "path": "driver/EntropyMusicRenderV2.sys",
+      "sha256": "20C0DE11D8C710B80D9EFE6E673F71927F380879838B196428925F177E9F2C45",
+      "bytes": 60928
+    },
+    {
+      "path": "Microsoft-MS-PL.txt",
+      "sha256": "07639618C7B94AB9953CC61715F6325877E1854DCA611ED9B1BD54497CF5E93A",
+      "bytes": 2665
+    },
+    {
+      "path": "provenance/acceptance-matrix.json",
+      "sha256": "3D3820C2D2AEF577B21C2059E78E4862F156D8682E64592B30E3767F7DE5E5A2",
+      "bytes": 1734
+    },
+    {
+      "path": "provenance/catalog-generation.log",
+      "sha256": "A817EBE821414F7B02993E416CF3C0FF4F3E2DCE9444D69CF32B1540848C32D4",
+      "bytes": 249
+    },
+    {
+      "path": "provenance/kernel-build.json",
+      "sha256": "DE10F80405CA3E215EA2A2BF6DB3DA3C9D8A9DF23F48A02E01823F699E8AB4CB",
+      "bytes": 984
+    },
+    {
+      "path": "provenance/kernel-signature.log",
+      "sha256": "5E008BE3940B4AD3CD2A9BDEF567B09D65BE791EE875DB2000416754BFE9D4BF",
+      "bytes": 655
+    },
+    {
+      "path": "provenance/sdk-provenance.json",
+      "sha256": "AB7B0007692B20F6E544771FAABDE3C52D9595E85BD0F3962C99F22610A76070",
+      "bytes": 1215
+    },
+    {
+      "path": "provenance/upstream-manifest.json",
+      "sha256": "4C2F2E56E8D14D444B1424D78A595DEE7158EEADA218517A162A706BC0E219CA",
+      "bytes": 11133
+    },
+    {
+      "path": "README.md",
+      "sha256": "0227C865D47C4C9E090F589411AD0B35BA805172433C13D19D0985AD21F278E9",
+      "bytes": 4929
+    },
+    {
+      "path": "source-files.json",
+      "sha256": "85CB3AB523FF177B455EB10484DC7CC12A884D3B02876F6EE6E10FE90562FCFA",
+      "bytes": 28781
+    },
+    {
+      "path": "source.zip",
+      "sha256": "B4FA948C2F73444DD0F5DBBA823BA3A53BAE6CDE8F5558194C20E36A81998B73",
+      "bytes": 299806
+    },
+    {
+      "path": "tools/Assert-Package.ps1",
+      "sha256": "DFEF473E4EF9B58CBC08BDCB6EE1386486CCB29AE094DD67E845B2FBF6C78336",
+      "bytes": 2404
+    },
+    {
+      "path": "tools/Run-Live-Acceptance.ps1",
+      "sha256": "52E14A1B6B90BC890B7D8B0619EE46F8080F40F43526BB91237A95AD09B72AC6",
+      "bytes": 7748
+    },
+    {
+      "path": "tools/Run-Qualification.ps1",
+      "sha256": "C985CA8556125181CA71CE49972A10EBA1A95A3FFD222D19C1E5574AC900DDF9",
+      "bytes": 323
+    },
+    {
+      "path": "user/EntropyMusicPcmAudit.exe",
+      "sha256": "1C97CB5C8A71D51EB3D6122EAE8E2AE0AEB4CBF8800B2FFC93316F99A74C3801",
+      "bytes": 99840
+    },
+    {
+      "path": "user/EntropyMusicRawProviderV2.dll",
+      "sha256": "42BCBB8F287DE513A643301DB2815FB189C9D0F29E4A6C37758B56706CE90DD9",
+      "bytes": 35328
+    },
+    {
+      "path": "user/EntropyMusicRawProviderV2Audit.dll",
+      "sha256": "8C7554AF8B0DE4CEF8D1B1BA0FC45BA296FA900CA174044B690D50A0211F6FF1",
+      "bytes": 52224
+    }
+  ],
+  "acceptance": "NOT_RUN",
+  "version": "0.3.0.1-candidate",
+  "identity": {
+    "privateGuid": "ab93289e-2692-47a9-bc47-ed1711f6e430",
+    "service": "EntropyMusicRenderV2",
+    "hardwareId": "ROOT\\EntropyMusicRenderV2",
+    "channels": 2
+  },
+  "sourceRevision": "0e93fb35b220f2f8af2c2668659ea6f9f979b833"
+}

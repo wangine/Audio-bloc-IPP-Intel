@@ -1,0 +1,19 @@
+{
+  "version": "0.3.0.1-candidate",
+  "sourceRevision": "0e93fb35b220f2f8af2c2668659ea6f9f979b833",
+  "sourceWorkingTreeDirty": false,
+  "archive": "EntropyMusicRenderV2-0.3.0.1-candidate-win-x64.zip",
+  "archiveBytes": 420642,
+  "archiveSha256": "83AD38B3AA38958B1F53ADF69E086D9D6DE4375EAFDF848A5FEA125963E2CD3D",
+  "manifestSha256": "64E56D75780D73238FFE2C6146DF95B17CB618CA27EF77023AAEE80A99CFE77D",
+  "tests": {
+    "offlineSuitesPassed": 11,
+    "packageChecksPassed": 9,
+    "archiveCrcAndEveryFile": "PASS"
+  },
+  "signing": "SYS/CAT NotSigned; kernel signature verification correctly rejects unsigned catalog",
+  "installation": "NOT_INSTALLED",
+  "liveAcceptance": "NOT_RUN",
+  "localRelease": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\EntropyMusicRenderV2\\0.3.0.1-candidate",
+  "kernelSha256": "20C0DE11D8C710B80D9EFE6E673F71927F380879838B196428925F177E9F2C45"
+}
