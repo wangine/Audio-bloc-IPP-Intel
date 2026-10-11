@@ -1,10 +1,13 @@
 # Entropy Music Render V2 — driverul independent nr. 3
 
 Data: 2026-10-11. Stare: direcție și specificație aprobate de utilizator;
-planul se execută direct în acest chat. Există candidatul kernel0.3.0.1, Provider-ul
-raw și auditul WASAPI, compilate și testate offline. Instalarea și calificarea
-driverului încărcat rămân neexecutate. Vezi raportul
-[candidatului](../../Drivers/EntropyMusicRenderV2/REVIEW.md).
+planul se execută direct în acest chat. Kernel0.3.0.10 este semnat DEV și instalat
+cu aprobarea explicită a utilizatorului. Cele12 formate Exclusive Event, proba
+de30minute și PAUSE/RUN trec comparația PCM integrală; Polling rămâne refuzat.
+Probele native192k au identificat goluri în publicația FP64 a Stage1v0002, cu AUX
+dezactivat. Core rămâne nemodificat, iar calificarea completă a lanțului nu este
+încheiată. Vezi [rezultatele și limitele](../../validation/music-render-v2/LOADED-DRIVER-0.3.0.10.md)
+și [pachetul permanent](../../Integration/Drivers/EntropyMusicRenderV2/0.3.0.10-signed-dev-r6).
 
 Acest handoff completează [documentul păstrat în snapshotul Stage1 v0002](../../Integration/Music/Stage1/docs/DRIVER-V2-HANDOFF.md).
 Snapshotul, arhivele acceptate și codul Stage1 v0002 rămân nemodificate.
@@ -320,6 +323,6 @@ păstrează execuția direct în acest chat, conform preferinței utilizatorului
 5. Pachet INF/SYS/CAT verificabil și raport de build/signing, apoi instalare autorizată explicit.
 6. A+B pe driverul încărcat, apoi măsurarea C cu TIDAL și lanțul stabil Stage1/2/3.
 
-În acest handoff nu se pretinde niciun PASS pentru driverul viitor. Instalarea,
-activarea, certificatele și modificarea politicii de boot sunt acțiuni separate;
-nu sunt executate prin pregătirea documentației sau prin build.
+Rezultatele încărcate sunt consemnate separat; această specificație nu înlocuiește
+probe reale. Instalarea și semnarea au fost autorizate explicit. Nu s-au schimbat
+certificatele sau politica de boot și nicio instalare nu este efect secundar de build.

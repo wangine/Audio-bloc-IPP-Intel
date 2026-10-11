@@ -9,9 +9,15 @@ approved sole ROOT\\MEDIA\\0003 device. All12 Exclusive Event-Driven format case
 pass complete raw PCM comparison inside the unchanged Stage1v0002 Core:
 12,894,000 stereo frames, zero mismatched bytes/lost frames/audit overflow.
 All12 Polling cases fail Initialize with0x80070032 (unsupported position-only
-allocation); they are not PASS. Long stress/lifecycle qualification is in progress.
+allocation); they are not PASS. The1800s raw stress passed345,600,000 frames;
+all12 PAUSE/RUN and period2208-frame cases passed raw comparisons. Requested
+192-frame periods passed at44.1/48k and were refused below the device minimum at
+higher rates. Native192k FP64 tests found inserted interior zero clock blocks in
+frozen Stage1, even with AUX disabled. Valid sample values compare exactly, but
+output continuity and ambiguous publication shutdown do not pass. Core is unchanged.
 The initial unsigned0.3.0.1 package is retained as historical provenance.
 No TIDAL listening or full A/B/C acceptance is claimed. AUX remains deferred.
+See [loaded results and limitations](../../validation/music-render-v2/LOADED-DRIVER-0.3.0.10.md).
 
 ## Build (no deployment)
 

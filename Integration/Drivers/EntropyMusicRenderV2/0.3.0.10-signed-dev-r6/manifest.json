@@ -1,0 +1,159 @@
+{
+  "artifacts": [
+    {
+      "sha256": "7E51845FB6BD27626C60C3B8ECB6D948D040959D2DA5E5CC23421C4005FFBD25",
+      "path": "DEPLOYMENT.md",
+      "bytes": 4654
+    },
+    {
+      "sha256": "D4130F07FB7C06CC612929D55D91674475CFEAE27A27C44A18A347A7864701DA",
+      "path": "driver/entropymusicrenderv2.cat",
+      "bytes": 2992
+    },
+    {
+      "sha256": "800C687CB25D1FC143E17DE25C0FEC2C20589E6415476B3D86F7DBAC977D5691",
+      "path": "driver/EntropyMusicRenderV2.inf",
+      "bytes": 2661
+    },
+    {
+      "sha256": "23A28749893F13A03C0A5E06FAE76B779669547882EB83E2E465250EA9A09428",
+      "path": "driver/EntropyMusicRenderV2.sys",
+      "bytes": 64304
+    },
+    {
+      "sha256": "07639618C7B94AB9953CC61715F6325877E1854DCA611ED9B1BD54497CF5E93A",
+      "path": "Microsoft-MS-PL.txt",
+      "bytes": 2665
+    },
+    {
+      "sha256": "3D3820C2D2AEF577B21C2059E78E4862F156D8682E64592B30E3767F7DE5E5A2",
+      "path": "provenance/acceptance-matrix.json",
+      "bytes": 1734
+    },
+    {
+      "sha256": "B2AB72488556AC9D3ED29676D0DC7BEA940C29D7252036AB20531FDFC21F0CC3",
+      "path": "provenance/catalog-generation.log",
+      "bytes": 496
+    },
+    {
+      "sha256": "12E225872B7AE9D91F5A552FBAF5F8C2B5D7CF231E52CD330A88467494AC20C9",
+      "path": "provenance/catalog-test-signature.log",
+      "bytes": 1730
+    },
+    {
+      "sha256": "9A3A3F9A6956F19B3F8253C87617E2BF2F59AAC854FE197A73B0F9E66D82EB3F",
+      "path": "provenance/development-signing.json",
+      "bytes": 558
+    },
+    {
+      "sha256": "424426CC9E53BD1FE9DA5D0736FCFEB530DF2475CF200B72514E0385912C1A92",
+      "path": "provenance/kernel-build.json",
+      "bytes": 984
+    },
+    {
+      "sha256": "2AAB98155B85DD47473ACA384ED67CC04C30DE0499D8EA682F1DB12D3845A29A",
+      "path": "provenance/kernel-signature.log",
+      "bytes": 2804
+    },
+    {
+      "sha256": "AB7B0007692B20F6E544771FAABDE3C52D9595E85BD0F3962C99F22610A76070",
+      "path": "provenance/sdk-provenance.json",
+      "bytes": 1215
+    },
+    {
+      "sha256": "D651DD3E7136DC8842639516A0218A9358ED4C0E1025A56F887B7A62674A9D3E",
+      "path": "provenance/sign-cat.log",
+      "bytes": 1144
+    },
+    {
+      "sha256": "DF9C89DD6C556471963AA5EF9D39661D51165E7761E08F3E2C79DAEED312BCEB",
+      "path": "provenance/sign-sys.log",
+      "bytes": 1144
+    },
+    {
+      "sha256": "D91A15D26FC4032E87B0C282258E369692FDC1A800163EADEB946D25935C4187",
+      "path": "provenance/sys-test-signature.log",
+      "bytes": 1564
+    },
+    {
+      "sha256": "4C2F2E56E8D14D444B1424D78A595DEE7158EEADA218517A162A706BC0E219CA",
+      "path": "provenance/upstream-manifest.json",
+      "bytes": 11133
+    },
+    {
+      "sha256": "1F546164C7B8483BE71F5F206F4E94BE6718D84F1E87C6BED42100A8F58C2223",
+      "path": "README.md",
+      "bytes": 5184
+    },
+    {
+      "sha256": "F81B7F6EB6B44348F1DD8D3E7B1A4020A4B66F4554FA94D4AABB0DAD4CEBFFE0",
+      "path": "source-files.json",
+      "bytes": 34029
+    },
+    {
+      "sha256": "608E1D098F4422EF38D2F5037A152372E413A2591077A6EC7BE3BFDF4E486DCB",
+      "path": "source.zip",
+      "bytes": 341840
+    },
+    {
+      "sha256": "DFEF473E4EF9B58CBC08BDCB6EE1386486CCB29AE094DD67E845B2FBF6C78336",
+      "path": "tools/Assert-Package.ps1",
+      "bytes": 2404
+    },
+    {
+      "sha256": "36D4B4A60AB71EA579CCFCDD5625514ECAEE60E603B15C63640F810C81F22D3A",
+      "path": "tools/Run-Live-Acceptance.ps1",
+      "bytes": 11465
+    },
+    {
+      "sha256": "C985CA8556125181CA71CE49972A10EBA1A95A3FFD222D19C1E5574AC900DDF9",
+      "path": "tools/Run-Qualification.ps1",
+      "bytes": 323
+    },
+    {
+      "sha256": "7CE84593BE163FC38CD3373B53E9E5FA80A36343043293E643B1E320582AF13E",
+      "path": "user/EntropyMusicPcmAudit.exe",
+      "bytes": 131072
+    },
+    {
+      "sha256": "76B23B42F10DFEFFC807D7B8BE90FA81789416C663051206B2E413E32CCBC55C",
+      "path": "user/EntropyMusicRawProviderV2.dll",
+      "bytes": 37888
+    },
+    {
+      "sha256": "6E8A16C35F230E531EE1477B117E169FDAED46465D4C0289ACC3C06C0F2066D6",
+      "path": "user/EntropyMusicRawProviderV2Audit.dll",
+      "bytes": 55296
+    }
+  ],
+  "sourceWorkingTreeDirty": false,
+  "sourceRevision": "1322849a322542f776ce4fd9f7e8bf2c706b43ee",
+  "frozenCoreSha256": "AB6B817CF3A0C65379B349FA8E01F3302E08F5119B9ACBF874916D54D24D3C4A",
+  "identity": {
+    "channels": 2,
+    "service": "EntropyMusicRenderV2",
+    "hardwareId": "ROOT\\EntropyMusicRenderV2",
+    "privateGuid": "ab93289e-2692-47a9-bc47-ed1711f6e430"
+  },
+  "kernelSignatureVerificationExit": 1,
+  "signatures": {
+    "user/EntropyMusicRawProviderV2.dll": "NotSigned",
+    "driver/EntropyMusicRenderV2.cat": "Valid",
+    "user/EntropyMusicRawProviderV2Audit.dll": "NotSigned",
+    "user/EntropyMusicPcmAudit.exe": "NotSigned",
+    "driver/EntropyMusicRenderV2.sys": "Valid"
+  },
+  "catalogGenerationExit": 0,
+  "acceptance": "NOT_RUN",
+  "version": "0.3.0.10-signed-dev-r6",
+  "developmentSigning": {
+    "testSignatureVerificationExit": 0,
+    "trustChanges": false,
+    "bootChanges": false,
+    "catalogMembershipVerificationExit": 0,
+    "thumbprint": "89EE6700145A65ED29B0B129052933D17560AFB3",
+    "testSigningAlreadyEnabled": true
+  },
+  "kernelSourceRevision": "758110906b015e85973464ef3c098053fc7fdfe0",
+  "parentManifestSha256": "B1D0998AF8F7DC402AC5789D0691318CEDA1797E74B4CB9802B6DB3F128E5E99"
+}

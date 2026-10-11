@@ -150,6 +150,11 @@ The user approved signing with the existing DEV certificate and installation of
 only the new root device plus isolated tests. Task7 is in progress: installed
 kernel0.3.0.10 passed all12 Exclusive Event-Driven raw cases (12,894,000 frames);
 all12 Polling cases are explicitly refused at Initialize0x80070032. Continuous
-1800s stress is running. Lifecycle/period, FP64 publication and real TIDAL remain
-separate acceptance work. Position-only ownership is refused; full A/B/C is not
-complete and no production or unbounded stability claim is made.
+1800s raw stress passed345,600,000 frames, all12 PAUSE/RUN and requested2208-frame
+period cases passed raw comparison. Smaller192-frame requests passed at44.1/48k;
+the eight higher-rate cases were refused below device minimum. Native192k output
+tests reject inserted interior zero blocks despite exact valid FP64 values.
+The final audit also rejects frozen publication's ambiguous terminal0. Core is
+unchanged; full A/B/C, native OS EOS and real TIDAL remain incomplete.
+See validation/music-render-v2/LOADED-DRIVER-0.3.0.10.md and the complete recorded
+evidence. No production or unbounded stability claim is made.

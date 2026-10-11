@@ -1,0 +1,17 @@
+{
+  "acceptance": "PARTIAL; raw Event recorded tests pass; frozen Core FP64 continuity/completion fails; Polling unsupported",
+  "installedDriver": {
+    "state": "Running",
+    "sha256": "23A28749893F13A03C0A5E06FAE76B779669547882EB83E2E465250EA9A09428",
+    "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_bf5df8ce27d97580\\EntropyMusicRenderV2.sys",
+    "service": "EntropyMusicRenderV2"
+  },
+  "manifestSha256": "9F379CD6978291D0FE80DB7299D9FC6D1CAC1DBCE4173628F6C2B438CDBF52A1",
+  "sourceRevision": "1322849a322542f776ce4fd9f7e8bf2c706b43ee",
+  "archiveBytes": 489025,
+  "signing": "Existing approved DEV certificate only; no private keys",
+  "archive": "EntropyMusicRenderV2-0.3.0.10-signed-dev-r6-win-x64.zip",
+  "report": "validation/music-render-v2/LOADED-DRIVER-0.3.0.10.md",
+  "archiveSha256": "D819ECADA96C487E4BDD73DB987DC97B339A6B4CA8FEF9EAA3E2B883CD87E0C9",
+  "kernelSourceRevision": "758110906b015e85973464ef3c098053fc7fdfe0"
+}

@@ -1,0 +1,2693 @@
+{
+  "status": "PARTIAL:12 event PASS;12 polling explicitly unsupported",
+  "source": "7581109",
+  "kernelSource": "d3ba51e",
+  "driverVersion": "0.3.0.10",
+  "localCaptureDirectory": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\build\\live\\installed-0.3.0.10-matrix",
+  "provenance": {
+    "packageManifestSha256": "ABA3011A2461B32E4000E0299650F574F566D57627E0C55E0FDB1553C679A91E",
+    "identity": {
+      "providerId": "entropy.music.render.v2.raw",
+      "endpointId": "entropy.music.render.v2.raw:{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+      "windowsEndpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}"
+    },
+    "acceptance": "pending; no model result promoted to kernel acceptance",
+    "coreSha256": "AB6B817CF3A0C65379B349FA8E01F3302E08F5119B9ACBF874916D54D24D3C4A",
+    "providerSha256": "6E8A16C35F230E531EE1477B117E169FDAED46465D4C0289ACC3C06C0F2066D6",
+    "installedDriver": {
+      "service": "EntropyMusicRenderV2",
+      "state": "Running",
+      "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_bf5df8ce27d97580\\EntropyMusicRenderV2.sys",
+      "sha256": "23A28749893F13A03C0A5E06FAE76B779669547882EB83E2E465250EA9A09428"
+    },
+    "frozenCoreSha256": "AB6B817CF3A0C65379B349FA8E01F3302E08F5119B9ACBF874916D54D24D3C4A",
+    "sourceRevision": "758110906b015e85973464ef3c098053fc7fdfe0",
+    "auditSha256": "1D212CCD6D5C903111C450DBFC2AFF2FF9F6FCFC8DA36C110598357C1951C377"
+  },
+  "cases": [
+    {
+      "case": {
+        "rate": 44100,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 16
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 441000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288754,
+          "rightRms": 0.288761,
+          "midRms": 0.204028,
+          "sideRms": 0.204337,
+          "pearson": -0.001513,
+          "uncentered": -0.001513
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 44100,
+        "containerBits": 16,
+        "bufferFrames": 441,
+        "emittedFrames": 441000,
+        "clockFrames": 441000,
+        "receivedFrames": 441000,
+        "observedAllocation": 1,
+        "generation": 27,
+        "committedFrames": 441000,
+        "publishedFrames": 441000,
+        "deliveredFrames": 441000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 44100,
+        "driverState": 2,
+        "driverSourceFrames": 441925,
+        "readerAttached": 1,
+        "uncommittedFrames": 925,
+        "traceBefore": [
+          14,
+          200,
+          200,
+          0,
+          0,
+          20,
+          3,
+          202
+        ],
+        "traceAfter": [
+          15,
+          1200,
+          1200,
+          0,
+          0,
+          115,
+          6,
+          1204
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "writesAfterInitialize": 200,
+        "writesAfterPrefill": 201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1900,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 44100,
+            "original_container_bits": 16,
+            "original_valid_bits": 16,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 27,
+            "packet_sequence": 1000,
+            "first_source_frame": 440559,
+            "qpc_timestamp": 1822821234196,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 441000,
+            "frames_out": 1909506,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 40,
+            "faults": 0,
+            "sample_peak_L": 0.498901,
+            "sample_peak_R": 0.49884,
+            "true_peak_estimate_L": 0.768927,
+            "true_peak_estimate_R": 0.764109,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.849409,
+            "src_startup_peak_R": 0.90374,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1904,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 1956032,
+      "captureSha256": "9AB7C7CB4C7F910B88CDF8832AD62C81CAB575117C26E8AB9F462F9C0640C72C"
+    },
+    {
+      "case": {
+        "rate": 44100,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 16
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 44100,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 32
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 441000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288872,
+          "rightRms": 0.288434,
+          "midRms": 0.204111,
+          "sideRms": 0.204106,
+          "pearson": 2.9E-05,
+          "uncentered": 2.8E-05
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 44100,
+        "containerBits": 32,
+        "bufferFrames": 441,
+        "emittedFrames": 441000,
+        "clockFrames": 441000,
+        "receivedFrames": 441000,
+        "observedAllocation": 1,
+        "generation": 29,
+        "committedFrames": 441000,
+        "publishedFrames": 441000,
+        "deliveredFrames": 441000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 44100,
+        "driverState": 2,
+        "driverSourceFrames": 442776,
+        "readerAttached": 1,
+        "uncommittedFrames": 1776,
+        "traceBefore": [
+          16,
+          1200,
+          1200,
+          0,
+          0,
+          115,
+          6,
+          1204
+        ],
+        "traceAfter": [
+          17,
+          2200,
+          2200,
+          0,
+          0,
+          211,
+          9,
+          2208
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 3528,
+          "status": 0
+        },
+        "writesAfterInitialize": 1200,
+        "writesAfterPrefill": 1201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1910,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 44100,
+            "original_container_bits": 32,
+            "original_valid_bits": 24,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 29,
+            "packet_sequence": 1000,
+            "first_source_frame": 440559,
+            "qpc_timestamp": 1822933720581,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 441000,
+            "frames_out": 1909506,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 49,
+            "faults": 0,
+            "sample_peak_L": 0.499849,
+            "sample_peak_R": 0.499315,
+            "true_peak_estimate_L": 0.855522,
+            "true_peak_estimate_R": 0.767831,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.862784,
+            "src_startup_peak_R": 0.88527,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1913,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 3720032,
+      "captureSha256": "3AD525A8A7EDB0094FCF2DBACA305FFE6ADF52C8C697ED5EA1E45ABC78061F69"
+    },
+    {
+      "case": {
+        "rate": 44100,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 32
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 48000,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 16
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 480000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288791,
+          "rightRms": 0.288694,
+          "midRms": 0.204069,
+          "sideRms": 0.204274,
+          "pearson": -0.001003,
+          "uncentered": -0.001002
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 48000,
+        "containerBits": 16,
+        "bufferFrames": 480,
+        "emittedFrames": 480000,
+        "clockFrames": 480000,
+        "receivedFrames": 480000,
+        "observedAllocation": 1,
+        "generation": 31,
+        "committedFrames": 480000,
+        "publishedFrames": 480000,
+        "deliveredFrames": 480000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 48000,
+        "driverState": 2,
+        "driverSourceFrames": 480978,
+        "readerAttached": 1,
+        "uncommittedFrames": 978,
+        "traceBefore": [
+          18,
+          2200,
+          2200,
+          0,
+          0,
+          211,
+          9,
+          2208
+        ],
+        "traceAfter": [
+          19,
+          3200,
+          3200,
+          0,
+          0,
+          306,
+          12,
+          3210
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 1920,
+          "status": 0
+        },
+        "writesAfterInitialize": 2200,
+        "writesAfterPrefill": 2201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1900,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 48000,
+            "original_container_bits": 16,
+            "original_valid_bits": 16,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 31,
+            "packet_sequence": 1000,
+            "first_source_frame": 479520,
+            "qpc_timestamp": 1823046216245,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 480000,
+            "frames_out": 1913476,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 36,
+            "faults": 0,
+            "sample_peak_L": 0.49762,
+            "sample_peak_R": 0.497833,
+            "true_peak_estimate_L": 0.754792,
+            "true_peak_estimate_R": 0.819667,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.844578,
+            "src_startup_peak_R": 0.903755,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1903,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 2112032,
+      "captureSha256": "914D91FBEE5DADF2E5E97885FD4DF1FAE21370296998AE7527027778A1CF3D2D"
+    },
+    {
+      "case": {
+        "rate": 48000,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 16
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 48000,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 32
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 480000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.2889,
+          "rightRms": 0.28845,
+          "midRms": 0.204133,
+          "sideRms": 0.204115,
+          "pearson": 9.2E-05,
+          "uncentered": 9E-05
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 48000,
+        "containerBits": 32,
+        "bufferFrames": 480,
+        "emittedFrames": 480000,
+        "clockFrames": 480000,
+        "receivedFrames": 480000,
+        "observedAllocation": 1,
+        "generation": 33,
+        "committedFrames": 480000,
+        "publishedFrames": 480000,
+        "deliveredFrames": 480000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 48000,
+        "driverState": 2,
+        "driverSourceFrames": 481972,
+        "readerAttached": 1,
+        "uncommittedFrames": 1972,
+        "traceBefore": [
+          20,
+          3200,
+          3200,
+          0,
+          0,
+          306,
+          12,
+          3210
+        ],
+        "traceAfter": [
+          21,
+          4200,
+          4200,
+          0,
+          0,
+          402,
+          15,
+          4214
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 3840,
+          "status": 0
+        },
+        "writesAfterInitialize": 3200,
+        "writesAfterPrefill": 3201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1914,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 48000,
+            "original_container_bits": 32,
+            "original_valid_bits": 24,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 33,
+            "packet_sequence": 1000,
+            "first_source_frame": 479520,
+            "qpc_timestamp": 1823157695767,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 480000,
+            "frames_out": 1913476,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 49,
+            "faults": 0,
+            "sample_peak_L": 0.499079,
+            "sample_peak_R": 0.496876,
+            "true_peak_estimate_L": 0.752854,
+            "true_peak_estimate_R": 0.846252,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.865292,
+            "src_startup_peak_R": 0.887188,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1917,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 4032032,
+      "captureSha256": "89CD45C7FE0C1BB2BAAF98BB528A325164FB6B78E0641B6C2C9B1D871F2642D1"
+    },
+    {
+      "case": {
+        "rate": 48000,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 32
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 88200,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 16
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 882000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.28867,
+          "rightRms": 0.28885,
+          "midRms": 0.204096,
+          "sideRms": 0.204272,
+          "pearson": -0.000859,
+          "uncentered": -0.00086
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 88200,
+        "containerBits": 16,
+        "bufferFrames": 882,
+        "emittedFrames": 882000,
+        "clockFrames": 882000,
+        "receivedFrames": 882000,
+        "observedAllocation": 1,
+        "generation": 35,
+        "committedFrames": 882000,
+        "publishedFrames": 882000,
+        "deliveredFrames": 882000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 88200,
+        "driverState": 2,
+        "driverSourceFrames": 884659,
+        "readerAttached": 1,
+        "uncommittedFrames": 2659,
+        "traceBefore": [
+          22,
+          4200,
+          4200,
+          0,
+          0,
+          402,
+          15,
+          4214
+        ],
+        "traceAfter": [
+          23,
+          5200,
+          5200,
+          0,
+          0,
+          498,
+          18,
+          5217
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 3528,
+          "status": 0
+        },
+        "writesAfterInitialize": 4200,
+        "writesAfterPrefill": 4201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1910,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 88200,
+            "original_container_bits": 16,
+            "original_valid_bits": 16,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 35,
+            "packet_sequence": 1000,
+            "first_source_frame": 881118,
+            "qpc_timestamp": 1823269644907,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 882000,
+            "frames_out": 1916449,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 43,
+            "faults": 0,
+            "sample_peak_L": 0.498413,
+            "sample_peak_R": 0.499146,
+            "true_peak_estimate_L": 0.79119,
+            "true_peak_estimate_R": 0.830779,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.849409,
+            "src_startup_peak_R": 0.90374,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1914,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 3720032,
+      "captureSha256": "981EBA875F3C30BED2E62E581E2975F9AF4FBC8F36839FD5806FAF249B287982"
+    },
+    {
+      "case": {
+        "rate": 88200,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 16
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 88200,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 32
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 882000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288767,
+          "rightRms": 0.288652,
+          "midRms": 0.204219,
+          "sideRms": 0.204078,
+          "pearson": 0.000694,
+          "uncentered": 0.000693
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 88200,
+        "containerBits": 32,
+        "bufferFrames": 882,
+        "emittedFrames": 882000,
+        "clockFrames": 882000,
+        "receivedFrames": 882000,
+        "observedAllocation": 1,
+        "generation": 37,
+        "committedFrames": 882000,
+        "publishedFrames": 882000,
+        "deliveredFrames": 882000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 88200,
+        "driverState": 2,
+        "driverSourceFrames": 884719,
+        "readerAttached": 1,
+        "uncommittedFrames": 2719,
+        "traceBefore": [
+          24,
+          5200,
+          5200,
+          0,
+          0,
+          498,
+          18,
+          5217
+        ],
+        "traceAfter": [
+          25,
+          6200,
+          6200,
+          0,
+          0,
+          593,
+          21,
+          6220
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 7056,
+          "status": 0
+        },
+        "writesAfterInitialize": 5200,
+        "writesAfterPrefill": 5201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1903,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 88200,
+            "original_container_bits": 32,
+            "original_valid_bits": 24,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 37,
+            "packet_sequence": 1000,
+            "first_source_frame": 881118,
+            "qpc_timestamp": 1823381162803,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 882000,
+            "frames_out": 1916449,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 36,
+            "faults": 0,
+            "sample_peak_L": 0.499047,
+            "sample_peak_R": 0.499797,
+            "true_peak_estimate_L": 0.764828,
+            "true_peak_estimate_R": 0.920211,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.82879,
+            "src_startup_peak_R": 0.88527,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1907,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 7248032,
+      "captureSha256": "7D43A6DF973FAA1114E90BFF9222D21008288E48449ECE2EB4DFD9C2476A64F6"
+    },
+    {
+      "case": {
+        "rate": 88200,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 32
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 96000,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 16
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 960000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288614,
+          "rightRms": 0.288783,
+          "midRms": 0.204017,
+          "sideRms": 0.204264,
+          "pearson": -0.001207,
+          "uncentered": -0.001208
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 96000,
+        "containerBits": 16,
+        "bufferFrames": 960,
+        "emittedFrames": 960000,
+        "clockFrames": 960000,
+        "receivedFrames": 960000,
+        "observedAllocation": 1,
+        "generation": 39,
+        "committedFrames": 960000,
+        "publishedFrames": 960000,
+        "deliveredFrames": 960000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 96000,
+        "driverState": 2,
+        "driverSourceFrames": 964809,
+        "readerAttached": 1,
+        "uncommittedFrames": 4809,
+        "traceBefore": [
+          26,
+          6200,
+          6200,
+          0,
+          0,
+          593,
+          21,
+          6220
+        ],
+        "traceAfter": [
+          27,
+          7200,
+          7200,
+          0,
+          0,
+          688,
+          24,
+          7225
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 3840,
+          "status": 0
+        },
+        "writesAfterInitialize": 6200,
+        "writesAfterPrefill": 6201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1917,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 96000,
+            "original_container_bits": 16,
+            "original_valid_bits": 16,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 39,
+            "packet_sequence": 1000,
+            "first_source_frame": 959040,
+            "qpc_timestamp": 1823492975182,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 960000,
+            "frames_out": 1916752,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 49,
+            "faults": 0,
+            "sample_peak_L": 0.5,
+            "sample_peak_R": 0.499603,
+            "true_peak_estimate_L": 0.863508,
+            "true_peak_estimate_R": 0.920431,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.858339,
+            "src_startup_peak_R": 0.903755,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1920,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 4032032,
+      "captureSha256": "C9D72950367386FB74A2D103ABC08DA357E6E0592B9EC154E31C3A723717BF89"
+    },
+    {
+      "case": {
+        "rate": 96000,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 16
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 96000,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 32
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 960000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.28875,
+          "rightRms": 0.288621,
+          "midRms": 0.204205,
+          "sideRms": 0.204058,
+          "pearson": 0.000722,
+          "uncentered": 0.00072
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 96000,
+        "containerBits": 32,
+        "bufferFrames": 960,
+        "emittedFrames": 960000,
+        "clockFrames": 960000,
+        "receivedFrames": 960000,
+        "observedAllocation": 1,
+        "generation": 41,
+        "committedFrames": 960000,
+        "publishedFrames": 960000,
+        "deliveredFrames": 960000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 96000,
+        "driverState": 2,
+        "driverSourceFrames": 963848,
+        "readerAttached": 1,
+        "uncommittedFrames": 3848,
+        "traceBefore": [
+          28,
+          7200,
+          7200,
+          0,
+          0,
+          688,
+          24,
+          7225
+        ],
+        "traceAfter": [
+          29,
+          8200,
+          8200,
+          0,
+          0,
+          784,
+          27,
+          8229
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 7680,
+          "status": 0
+        },
+        "writesAfterInitialize": 7200,
+        "writesAfterPrefill": 7201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1909,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 96000,
+            "original_container_bits": 32,
+            "original_valid_bits": 24,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 41,
+            "packet_sequence": 1000,
+            "first_source_frame": 959040,
+            "qpc_timestamp": 1823604972884,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 960000,
+            "frames_out": 1916752,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 42,
+            "faults": 0,
+            "sample_peak_L": 0.499269,
+            "sample_peak_R": 0.499976,
+            "true_peak_estimate_L": 0.850618,
+            "true_peak_estimate_R": 0.843305,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.865292,
+            "src_startup_peak_R": 0.887188,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1913,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 7872032,
+      "captureSha256": "FC86299A6C2EF9AB79FF6751D37E93D3D79D300686CE106171C729D77796AC6D"
+    },
+    {
+      "case": {
+        "rate": 96000,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 32
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 176400,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 16
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 1764000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288642,
+          "rightRms": 0.288756,
+          "midRms": 0.204073,
+          "sideRms": 0.204209,
+          "pearson": -0.000665,
+          "uncentered": -0.000665
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 176400,
+        "containerBits": 16,
+        "bufferFrames": 1764,
+        "emittedFrames": 1764000,
+        "clockFrames": 1764000,
+        "receivedFrames": 1764000,
+        "observedAllocation": 1,
+        "generation": 43,
+        "committedFrames": 1764000,
+        "publishedFrames": 1764000,
+        "deliveredFrames": 1764000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 176400,
+        "driverState": 2,
+        "driverSourceFrames": 1771165,
+        "readerAttached": 1,
+        "uncommittedFrames": 7165,
+        "traceBefore": [
+          30,
+          8200,
+          8200,
+          0,
+          0,
+          784,
+          27,
+          8229
+        ],
+        "traceAfter": [
+          31,
+          9200,
+          9200,
+          0,
+          0,
+          879,
+          30,
+          9233
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 7056,
+          "status": 0
+        },
+        "writesAfterInitialize": 8200,
+        "writesAfterPrefill": 8201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1911,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 176400,
+            "original_container_bits": 16,
+            "original_valid_bits": 16,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 43,
+            "packet_sequence": 1000,
+            "first_source_frame": 1762236,
+            "qpc_timestamp": 1823717327750,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 1764000,
+            "frames_out": 1918225,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 41,
+            "faults": 0,
+            "sample_peak_L": 0.499573,
+            "sample_peak_R": 0.499817,
+            "true_peak_estimate_L": 0.884358,
+            "true_peak_estimate_R": 0.869265,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.849409,
+            "src_startup_peak_R": 0.90374,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1914,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 7248032,
+      "captureSha256": "4802C734F9109193A80B947230572F2267B97A65DA64C8F913DD8DD7D138ADC7"
+    },
+    {
+      "case": {
+        "rate": 176400,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 16
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 176400,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 32
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 1764000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288638,
+          "rightRms": 0.288591,
+          "midRms": 0.204149,
+          "sideRms": 0.204013,
+          "pearson": 0.000666,
+          "uncentered": 0.000665
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 176400,
+        "containerBits": 32,
+        "bufferFrames": 1764,
+        "emittedFrames": 1764000,
+        "clockFrames": 1764000,
+        "receivedFrames": 1764000,
+        "observedAllocation": 1,
+        "generation": 45,
+        "committedFrames": 1764000,
+        "publishedFrames": 1764000,
+        "deliveredFrames": 1764000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 176400,
+        "driverState": 2,
+        "driverSourceFrames": 1772825,
+        "readerAttached": 1,
+        "uncommittedFrames": 8825,
+        "traceBefore": [
+          32,
+          9200,
+          9200,
+          0,
+          0,
+          879,
+          30,
+          9233
+        ],
+        "traceAfter": [
+          33,
+          10200,
+          10200,
+          0,
+          0,
+          974,
+          33,
+          10238
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 14112,
+          "status": 0
+        },
+        "writesAfterInitialize": 9200,
+        "writesAfterPrefill": 9201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1909,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 176400,
+            "original_container_bits": 32,
+            "original_valid_bits": 24,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 45,
+            "packet_sequence": 1000,
+            "first_source_frame": 1762236,
+            "qpc_timestamp": 1823829889648,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 1764000,
+            "frames_out": 1918225,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 39,
+            "faults": 0,
+            "sample_peak_L": 0.49981,
+            "sample_peak_R": 0.499671,
+            "true_peak_estimate_L": 0.797937,
+            "true_peak_estimate_R": 0.769222,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.82879,
+            "src_startup_peak_R": 0.900216,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1912,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 14304032,
+      "captureSha256": "5B5F920CCCAF568B2DE2C4E506084E325CEBF2E78F6C246BADCD975651B38433"
+    },
+    {
+      "case": {
+        "rate": 176400,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 32
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 192000,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 16
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 1920000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288625,
+          "rightRms": 0.288744,
+          "midRms": 0.204085,
+          "sideRms": 0.204176,
+          "pearson": -0.000445,
+          "uncentered": -0.000445
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 192000,
+        "containerBits": 16,
+        "bufferFrames": 1920,
+        "emittedFrames": 1920000,
+        "clockFrames": 1920000,
+        "receivedFrames": 1920000,
+        "observedAllocation": 1,
+        "generation": 47,
+        "committedFrames": 1920000,
+        "publishedFrames": 1920000,
+        "deliveredFrames": 1920000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 192000,
+        "driverState": 2,
+        "driverSourceFrames": 1925785,
+        "readerAttached": 1,
+        "uncommittedFrames": 5785,
+        "traceBefore": [
+          34,
+          10200,
+          10200,
+          0,
+          0,
+          974,
+          33,
+          10238
+        ],
+        "traceAfter": [
+          35,
+          11200,
+          11200,
+          0,
+          0,
+          1070,
+          36,
+          11241
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 7680,
+          "status": 0
+        },
+        "writesAfterInitialize": 10200,
+        "writesAfterPrefill": 10201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1911,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 192000,
+            "original_container_bits": 16,
+            "original_valid_bits": 16,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 47,
+            "packet_sequence": 1000,
+            "first_source_frame": 1918080,
+            "qpc_timestamp": 1823942114655,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 1920000,
+            "frames_out": 1920000,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 39,
+            "faults": 0,
+            "sample_peak_L": 0.5,
+            "sample_peak_R": 0.499664,
+            "true_peak_estimate_L": 0.834726,
+            "true_peak_estimate_R": 0.856793,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.499908,
+            "src_startup_peak_R": 0.499817,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1914,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 7872032,
+      "captureSha256": "2A332F6EA29868BCB687E3214135511F5AD2369761A9FE665041A8E2594B1EAB"
+    },
+    {
+      "case": {
+        "rate": 192000,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 16
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    },
+    {
+      "case": {
+        "rate": 192000,
+        "seconds": 10,
+        "servicing": "event",
+        "bits": 32
+      },
+      "pass": true,
+      "comparison": {
+        "pass": true,
+        "frames": 1920000,
+        "mismatchedBytes": 0,
+        "lostFrames": 0,
+        "auditOverflow": 0,
+        "failedWrites": 0,
+        "reason": "",
+        "preSrc": {
+          "leftPeak": 0.5,
+          "rightPeak": 0.5,
+          "leftRms": 0.288681,
+          "rightRms": 0.288618,
+          "midRms": 0.204165,
+          "sideRms": 0.204048,
+          "pearson": 0.000572,
+          "uncentered": 0.000572
+        }
+      },
+      "render": {
+        "mode": "WASAPI_EXCLUSIVE",
+        "servicing": "event",
+        "endpointId": "{0.0.0.00000000}.{66bd2b29-f110-4c61-91ee-e62f00748491}",
+        "rate": 192000,
+        "containerBits": 32,
+        "bufferFrames": 1920,
+        "emittedFrames": 1920000,
+        "clockFrames": 1920000,
+        "receivedFrames": 1920000,
+        "observedAllocation": 1,
+        "generation": 49,
+        "committedFrames": 1920000,
+        "publishedFrames": 1920000,
+        "deliveredFrames": 1920000,
+        "lostFrames": 0,
+        "drained": true,
+        "driverRate": 192000,
+        "driverState": 2,
+        "driverSourceFrames": 1925770,
+        "readerAttached": 1,
+        "uncommittedFrames": 5770,
+        "traceBefore": [
+          36,
+          11200,
+          11200,
+          0,
+          0,
+          1070,
+          36,
+          11241
+        ],
+        "traceAfter": [
+          37,
+          12200,
+          12200,
+          0,
+          0,
+          1166,
+          39,
+          12244
+        ],
+        "lastWrite": {
+          "number": 999,
+          "flags": 0,
+          "eosBytes": 15360,
+          "status": 0
+        },
+        "writesAfterInitialize": 11200,
+        "writesAfterPrefill": 11201,
+        "firstWrite": {
+          "number": 1,
+          "flags": 0,
+          "eosBytes": 1764,
+          "status": 0
+        },
+        "startupWrites": [
+          {
+            "number": 1,
+            "status": 0,
+            "state": 2,
+            "generation": 25
+          },
+          {
+            "number": 1,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 2,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 3,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 4,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 5,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 6,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          },
+          {
+            "number": 7,
+            "status": 0,
+            "state": 3,
+            "generation": 25
+          }
+        ]
+      },
+      "coreFinal": {
+        "input_channels": 2,
+        "output_channels": 2,
+        "sample_rate": 192000,
+        "frames": 1024,
+        "blocks_published": 1908,
+        "publisher_drops": 0,
+        "clock_qpc_frequency": 10000000,
+        "clock_late_blocks": 0,
+        "sources": [
+          {
+            "state": 2,
+            "rate": 192000,
+            "original_container_bits": 32,
+            "original_valid_bits": 24,
+            "payload_representation": 1,
+            "metadata_flags": 4,
+            "mode": 0,
+            "generation": 49,
+            "packet_sequence": 1000,
+            "first_source_frame": 1918080,
+            "qpc_timestamp": 1824054454570,
+            "qpc_frequency": 10000000,
+            "packets": 1000,
+            "frames_in": 1920000,
+            "frames_out": 1920000,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 36,
+            "faults": 0,
+            "sample_peak_L": 0.499935,
+            "sample_peak_R": 0.499615,
+            "true_peak_estimate_L": 0.827811,
+            "true_peak_estimate_R": 0.806179,
+            "true_peak_ready": 1,
+            "src_startup_peak_L": 0.499923,
+            "src_startup_peak_R": 0.49996,
+            "startup_frames_measured": 8192,
+            "startup_complete": 1
+          },
+          {
+            "state": 0,
+            "rate": 0,
+            "original_container_bits": 0,
+            "original_valid_bits": 0,
+            "payload_representation": 0,
+            "metadata_flags": 0,
+            "mode": 0,
+            "generation": 0,
+            "packet_sequence": 0,
+            "first_source_frame": 0,
+            "qpc_timestamp": 0,
+            "qpc_frequency": 0,
+            "packets": 0,
+            "frames_in": 0,
+            "frames_out": 0,
+            "lost_frames": 0,
+            "overruns": 0,
+            "underruns": 1911,
+            "faults": 0,
+            "sample_peak_L": 0,
+            "sample_peak_R": 0,
+            "true_peak_estimate_L": 0,
+            "true_peak_estimate_R": 0,
+            "true_peak_ready": 0,
+            "src_startup_peak_L": 0,
+            "src_startup_peak_R": 0,
+            "startup_frames_measured": 0,
+            "startup_complete": 0
+          }
+        ]
+      },
+      "captureBytes": 15552032,
+      "captureSha256": "2379DCB342C7F9B8E8DA87FE68D2107E2243A9DA582D3C0A94E58B45CAB7960F"
+    },
+    {
+      "case": {
+        "rate": 192000,
+        "seconds": 10,
+        "servicing": "polling",
+        "bits": 32
+      },
+      "pass": false,
+      "reason": "Live render/drain failed; preserve all evidence",
+      "renderError": "Audit failed: Exclusive Initialize failed HRESULT=0x80070032\r\n",
+      "captureBytes": 32,
+      "captureSha256": "867D67C2C774E24B9869BFAAC269EFC9E5385A4D5EC5F95FC7C76BFB857CB27C"
+    }
+  ]
+}

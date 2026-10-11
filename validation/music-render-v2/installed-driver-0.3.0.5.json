@@ -1,0 +1,15 @@
+﻿{
+    "signedSysSha256":  "8B70319189A2A3954E89BBD280FDCEAFB5D35182104342AF9DC90FFC3CE6E352",
+    "devices":  {
+                    "Name":  "Entropy Music Render V2",
+                    "PNPDeviceID":  "ROOT\\MEDIA\\0003",
+                    "Service":  "EntropyMusicRenderV2",
+                    "ConfigManagerErrorCode":  0
+                },
+    "installExit":  0,
+    "service":  {
+                    "Name":  "EntropyMusicRenderV2",
+                    "State":  "Running",
+                    "PathName":  "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_8b2eb4b500ce4f3c\\EntropyMusicRenderV2.sys"
+                }
+}

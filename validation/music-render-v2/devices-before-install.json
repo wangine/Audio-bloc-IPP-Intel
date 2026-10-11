@@ -1,0 +1,62 @@
+[
+  {
+    "Name": "TOPPING USB DAC",
+    "PNPDeviceID": "TUSBAUDIO_ENUM\\VID_152A&PID_8750&KS\\6&10722D1F&0&4",
+    "Service": "ToppingUsbAudioks",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "NVIDIA High Definition Audio",
+    "PNPDeviceID": "HDAUDIO\\FUNC_01&VEN_10DE&DEV_0080&SUBSYS_14623511&REV_1001\\5&14D3EB6B&0&0001",
+    "Service": "NVHDA",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "DIYINHK USB Audio 2009",
+    "PNPDeviceID": "TUSBAUDIO_ENUM\\VID_20B1&PID_2009&KS\\8&2146F5E1&0&1",
+    "Service": "DIYINHK_usbaudioks",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "Realtek(R) Audio",
+    "PNPDeviceID": "HDAUDIO\\FUNC_01&VEN_10EC&DEV_0255&SUBSYS_10280930&REV_1000\\4&2658B380&0&0001",
+    "Service": "IntcAzAudAddService",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "Entropy AUX",
+    "PNPDeviceID": "ROOT\\ENTROPY_ENDPOINT\\0001",
+    "Service": "EntropyAudioAux",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "UR23 USB SPDIF Rx",
+    "PNPDeviceID": "USB\\VID_262A&PID_10E7&MI_01\\6&138B72D9&0&0001",
+    "Service": "usbaudio",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "GV-200 USB microphone",
+    "PNPDeviceID": "USB\\VID_35DE&PID_000B&MI_00\\6&37DB6349&0&0000",
+    "Service": "usbaudio",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "DIYINHK USB Audio 2009",
+    "PNPDeviceID": "TUSBAUDIO_ENUM\\VID_20B1&PID_2009&KS\\8&1DD93DC9&0&4",
+    "Service": "DIYINHK_usbaudioks",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "Entropy Audio Virtual Device",
+    "PNPDeviceID": "ROOT\\MEDIA\\0000",
+    "Service": "EntropyAudioMusic",
+    "ConfigManagerErrorCode": 0
+  },
+  {
+    "Name": "Entropy Music Transport",
+    "PNPDeviceID": "ROOT\\MEDIA\\0001",
+    "Service": "EntropyMusicTransport",
+    "ConfigManagerErrorCode": 0
+  }
+]

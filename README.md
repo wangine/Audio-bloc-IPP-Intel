@@ -12,9 +12,13 @@ the selected **0.1.8** baseline, and the independent MUSIC source snapshots:
 See [architecture, source provenance and next steps](docs/architecture/MUSIC-CINEMA.md),
 [Stage3 operation](docs/MUSIC-CINEMA-v2.md) and
 [accepted validation](docs/VALIDATION-MUSIC-CINEMA-v2.json).
-The Cinema decoder with its own SRC and the third independent Stage1 driver
-are future work. The target for that driver is WASAPI Exclusive, Event-Driven,
-complete PCM delivery, correct clock synchronization and zero lost frames.
+The Cinema decoder with its own SRC remains future work. The third independent
+MUSIC driver, [Entropy Music Render V2](Drivers/EntropyMusicRenderV2), is now built
+and development-signed. Its recorded Exclusive Event raw tests pass, including
+30minutes/345,600,000 frames and PAUSE/RUN. Native192k output tests found inserted
+zero clock blocks in unchanged Stage1v0002; output continuity/completion and full
+chain acceptance remain incomplete. See [loaded evidence](validation/music-render-v2/LOADED-DRIVER-0.3.0.10.md)
+and the [preserved signed driver/audit/source package](Integration/Drivers/EntropyMusicRenderV2/0.3.0.10-signed-dev-r6).
 
 The complete source snapshots include the existing DLL/runtime dependencies.
 [Original source and runtime ZIPs](release/music-cinema) for all three Stages
