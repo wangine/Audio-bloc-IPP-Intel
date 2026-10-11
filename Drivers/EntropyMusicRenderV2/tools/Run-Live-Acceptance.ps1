@@ -14,6 +14,7 @@ $frozen=Join-Path $repo 'Integration/Music/Stage1/release/stage1-native-music-v0
 if((Get-FileHash -LiteralPath $frozen).Hash -ne $manifest.frozenCoreSha256){throw 'Core differs from the frozen package reference'}
 $installed=Assert-MusicInstalledDriver $manifest
 if(!$Output){$Output=Join-Path $root ('build/live/'+[guid]::NewGuid().ToString('N'))}
+$Output=[IO.Path]::GetFullPath($Output)
 if(Test-Path -LiteralPath $Output){throw 'Use a new output directory; previous evidence is not overwritten'}
 foreach($file in @($audit,$provider,$frozen)){if(!(Test-Path -LiteralPath $file)){throw "Required artifact unavailable: $file"}}
 $identityJson=& $audit --action identify
@@ -32,6 +33,8 @@ $results=@()
 foreach($case in $cases){
     $null=Assert-MusicPackage $Package;$null=Assert-MusicInstalledDriver $manifest
     $session=[guid]::NewGuid().ToString('N');$folder=Join-Path $Output "$($case.rate)-$($case.bits)-$($case.servicing)";New-Item -ItemType Directory -Path $folder | Out-Null
+    $publishEndpoint='\\.\pipe\Entropy.Stage1.Audit.'+$session
+    $controlEndpoint=$publishEndpoint+'.Control'
     $capture=Join-Path $folder 'core-raw.bin';$config=Join-Path $folder 'Stage1Audit.ini';$stop=Join-Path $folder 'stop.flag';$render=Join-Path $folder 'render.json';$report=Join-Path $folder 'comparison.json'
     @"
 [music]
@@ -50,7 +53,7 @@ mode=8
         while([datetime]::UtcNow -lt $deadline){if((Test-Path -LiteralPath (Join-Path $folder 'collector.log')) -and ((Get-Content -LiteralPath (Join-Path $folder 'collector.log') -Raw) -match 'Audit collector ready')){$listening=$true;break};if($collector.HasExited){break};Start-Sleep -Milliseconds 100}
         if(!$listening){throw 'Collector did not create its pipe before Core startup'}
         $env:ENTROPY_MUSIC_AUDIT_PIPE="\\.\pipe\EntropyMusicAudit-$session"
-        $coreProcess=Start-Process -FilePath $core -ArgumentList @('--config',('"'+$config+'"'),'--provider-directory',('"'+$providers+'"'),'--publish-endpoint',"Entropy.Stage1.Audit.$session",'--control-endpoint',"Entropy.Stage1.Audit.$session.Control",'--stop-file',('"'+$stop+'"'),'--diagnostic-file',('"'+(Join-Path $folder 'core-final.json')+'"')) -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $folder 'core.log') -RedirectStandardError (Join-Path $folder 'core-error.log')
+        $coreProcess=Start-Process -FilePath $core -ArgumentList @('--config',('"'+$config+'"'),'--provider-directory',('"'+$providers+'"'),'--publish-endpoint',$publishEndpoint,'--control-endpoint',$controlEndpoint,'--stop-file',('"'+$stop+'"'),'--diagnostic-file',('"'+(Join-Path $folder 'core-final.json')+'"')) -PassThru -WindowStyle Hidden -RedirectStandardOutput (Join-Path $folder 'core.log') -RedirectStandardError (Join-Path $folder 'core-error.log')
         $env:ENTROPY_MUSIC_AUDIT_PIPE=$previousPipe
         $deadline=[datetime]::UtcNow.AddSeconds(15);$ready=$false
         while([datetime]::UtcNow -lt $deadline){& $audit --action ready --session $session; if(!$LASTEXITCODE){$ready=$true;break};if($coreProcess.HasExited -or $collector.HasExited){break};Start-Sleep -Milliseconds 100}
