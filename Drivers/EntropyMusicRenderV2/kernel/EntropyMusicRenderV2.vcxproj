@@ -36,7 +36,7 @@
     <ClCompile Include="BridgeDevice.cpp" /><ClCompile Include="..\model\Format.cpp" /><ClCompile Include="..\model\Clock.cpp" /><ClCompile Include="..\model\PcmRing.cpp" />
     <ClCompile Include="..\model\PacketTimeline.cpp" /><ClCompile Include="..\protocol\PcmBridgeV1.cpp" />
     <ResourceCompile Include="shell\SimpleAudioSample.rc" />
-    <Inf Include="EntropyMusicRenderV2.inx"><SpecifyDriverVerDirectiveDate>true</SpecifyDriverVerDirectiveDate><DateStamp>10/11/2026</DateStamp><SpecifyDriverVerDirectiveVersion>true</SpecifyDriverVerDirectiveVersion><TimeStamp>0.3.0.3</TimeStamp></Inf>
+    <Inf Include="EntropyMusicRenderV2.inx"><SpecifyDriverVerDirectiveDate>true</SpecifyDriverVerDirectiveDate><DateStamp>10/11/2026</DateStamp><SpecifyDriverVerDirectiveVersion>true</SpecifyDriverVerDirectiveVersion><TimeStamp>0.3.0.4</TimeStamp></Inf>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
 </Project>

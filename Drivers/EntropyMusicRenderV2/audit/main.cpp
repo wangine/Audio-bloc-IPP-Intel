@@ -17,7 +17,7 @@ std::string quoted(const std::string& s){std::string out="\"";for(auto c:s){if(c
 std::string traceJson(const RunReport& r){
     std::ostringstream out;out<<",\"driverRate\":"<<r.driver.format.sampleRate<<",\"driverState\":"<<r.driver.state<<",\"driverSourceFrames\":"<<r.driver.sourceFrames<<",\"readerAttached\":"<<r.driver.readerAttached<<",\"uncommittedFrames\":"<<r.driver.currentUnderrunFrames<<",\"traceBefore\":[";
     for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceBefore.counters[i];}out<<"],\"traceAfter\":[";
-    for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceAfter.counters[i];}out<<']';return out.str();
+    for(unsigned i=0;i<8;++i){if(i)out<<',';out<<r.traceAfter.counters[i];}out<<"],\"lastWrite\":{\"number\":"<<r.traceAfter.lastPacketNumber<<",\"flags\":"<<r.traceAfter.lastFlags<<",\"eosBytes\":"<<r.traceAfter.lastEosBytes<<",\"status\":"<<r.traceAfter.lastStatus<<'}';return out.str();
 }
 int collect(const std::wstring& session,const std::filesystem::path& output){
     OwnedHandle mapping{CreateFileMappingW(INVALID_HANDLE_VALUE,nullptr,PAGE_READWRITE,0,sizeof(SharedProgress),progressName(session).c_str())};if(!mapping.value || GetLastError()==ERROR_ALREADY_EXISTS)throw std::runtime_error("Collector session already exists");

@@ -86,13 +86,13 @@ NTSTATUS CMiniportWaveRTStream::SetState(KSSTATE state) {
 }
 NTSTATUS CMiniportWaveRTStream::SetWritePacket(ULONG number,DWORD flags,ULONG eosBytes) {
     TraceMusicEvent(bridge::TraceEvent::WriteCall);
-    if(!m_ulNotificationsPerBuffer)return STATUS_NOT_SUPPORTED;
-    if(flags&~KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)return STATUS_INVALID_PARAMETER;
+    if(!m_ulNotificationsPerBuffer)return TraceMusicWrite(number,flags,eosBytes,STATUS_NOT_SUPPORTED);
+    if(flags&~KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)return TraceMusicWrite(number,flags,eosBytes,STATUS_INVALID_PARAMETER);
     // Prepare before prefill, including a new generation after STOP.
-    if(!m_Pcm)return STATUS_INVALID_DEVICE_STATE;
+    if(!m_Pcm)return TraceMusicWrite(number,flags,eosBytes,STATUS_INVALID_DEVICE_STATE);
     const auto qpc=KeQueryPerformanceCounter(nullptr).QuadPart;
     const auto status=m_Pcm->Submit(number,(flags&KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)!=0,eosBytes,qpc);
-    TraceMusicEvent(NT_SUCCESS(status)?bridge::TraceEvent::WriteSuccess:bridge::TraceEvent::WriteFailure);return status;
+    return TraceMusicWrite(number,flags,eosBytes,status);
 }
 NTSTATUS CMiniportWaveRTStream::GetPosition(KSAUDIO_POSITION* position) {
     TraceMusicEvent(bridge::TraceEvent::Position);

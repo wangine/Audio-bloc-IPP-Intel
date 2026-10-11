@@ -18,7 +18,8 @@ public:
         const auto index=next_+delta,current=source/frames_;
         if(index>current+notifications_ || (notifications_>1 && index==current+notifications_))return CommitResult::Overrun;
         const auto count=eos?bytes/align_:frames_;
-        if((eos && (bytes%align_ || count>frames_)) || (!eos && bytes) || index>UINT64_MAX/frames_ || sequence_==UINT64_MAX || index==UINT64_MAX)return CommitResult::Invalid;
+        // EosPacketLength is undefined/ignored without the EOS flag (PortCls).
+        if((eos && (bytes%align_ || count>frames_)) || index>UINT64_MAX/frames_ || sequence_==UINT64_MAX || index==UINT64_MAX)return CommitResult::Invalid;
         const auto first=index*frames_;if(first>UINT64_MAX-count)return CommitResult::Invalid;
         d={generation_,++sequence_,first,qpc,frequency_,0,count,RawIdentity|(eos?EndOfStream:0),0,0};
         next_=index+1;eos_=eos;
