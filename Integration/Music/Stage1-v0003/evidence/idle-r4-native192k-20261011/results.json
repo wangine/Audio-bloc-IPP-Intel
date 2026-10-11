@@ -1,0 +1,28 @@
+[
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-native192k-20261011\\192000-16-event\\comparison.json",
+    "frames": 3840000,
+    "case": {
+      "servicing": "event",
+      "bits": 16,
+      "seconds": 20,
+      "rate": 192000
+    },
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-native192k-20261011\\192000-16-event\\output-comparison.json"
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-native192k-20261011\\192000-32-event\\comparison.json",
+    "frames": 3840000,
+    "case": {
+      "servicing": "event",
+      "bits": 32,
+      "seconds": 20,
+      "rate": 192000
+    },
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-native192k-20261011\\192000-32-event\\output-comparison.json"
+  }
+]

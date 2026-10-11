@@ -1,4 +1,4 @@
-# Stage1 v0003-r4: upstream idle and access reporting
+# Stage1 v0003-r6: upstream idle and access reporting
 
 The r3 real TIDAL pause/play capture revealed that the driver had no running
 stream while the Core continued counting missing scheduler blocks as underruns.
@@ -12,6 +12,8 @@ gain and FIFO contents are unchanged. The scheduler drains completed audio durin
 IDLE and does not count expected silence as starvation. Resumption uses the
 existing priming duration. RUNNING or unconfirmed status with no PCM counts
 starvation after that window; unconfirmed status cannot retain idle suppression.
+The new empty-FIFO deadline applies only after confirmed idle. A new source token
+retains the existing initial SRC settling until the first completed output block.
 
 Candidate registry accepts the capability. Frozen v0002 rejects it and must keep
 its original Provider. No old release has been overwritten. The ABI header and
@@ -35,6 +37,14 @@ Microsoft distinguishes [shared/exclusive user-mode paths](https://learn.microso
 from [signal processing modes](https://learn.microsoft.com/en-us/windows-hardware/drivers/audio/audio-signal-processing-modes).
 RAW processing mode is not proof of Exclusive access. Automatic mode reporting
 requires a separately verified metadata source; it is not implemented here.
+
+The intermediate local r4/r5 trials are retained. r4 exposed false startup
+underruns, fixed by the SRC-settling regression. r5's strict aggregate check at
+48 kHz caught post-tail RUN-without-PCM: traced r5 recorded its only increment
+17.089 ms after the last PCM read, with the provider still confirming RUN.
+That counter remains observable. Continuity checks through the last supplied
+packet include startup, pause and resumed RUN; later finite-client termination
+counters are reported separately and are not erased.
 
 Live candidate results are recorded separately and must be read with their
 duration, binary hashes, known-pattern scope and startup/stop boundaries.

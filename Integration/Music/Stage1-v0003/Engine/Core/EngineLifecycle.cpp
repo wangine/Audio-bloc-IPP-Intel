@@ -15,8 +15,8 @@
 #include <iostream>
 namespace entropy::music {
 struct EngineLifecycle::Impl {
-    struct IngressTrace { int64_t start{}, end{}, processed{}; int32_t rc{}; uint32_t frames{}, fill{}; uint64_t first{}; };
-    struct TickTrace { int64_t time{}; uint32_t musicFill{}, auxFill{}, valid{}; };
+    struct IngressTrace { int64_t start{}, end{}, processed{}; int32_t rc{}; uint32_t frames{}, fill{}, flags{}, streamState{}; uint64_t first{}; };
+    struct TickTrace { int64_t time{}; uint32_t musicFill{}, auxFill{}, valid{}; uint64_t musicUnderruns{}; };
     std::wstring traceDirectory = _wgetenv(L"ENTROPY_STAGE1_TRACE_DIRECTORY") ? _wgetenv(L"ENTROPY_STAGE1_TRACE_DIRECTORY") : L"";
     bool traceWritten=false;
     std::array<TickTrace, 4096> tickTrace{};
@@ -125,6 +125,7 @@ struct EngineLifecycle::Impl {
                         if(s.tracing && s.traceCount<s.trace.size()) {
                             QueryPerformanceCounter(&traceClock);trace.end=traceClock.QuadPart;
                             trace.rc=rc;trace.frames=p.frames;trace.first=p.firstSourceFrame;
+                            trace.flags=p.flags;trace.streamState=static_cast<uint32_t>(p.reserved[0]);
                             trace.fill=s.domain.queuedFrames();traceIndex=s.traceCount;s.trace[s.traceCount++]=trace;
                         }
                         if (rc < 0) {
@@ -216,7 +217,7 @@ struct EngineLifecycle::Impl {
         block.sources[0] = music.status;
         block.sources[1] = aux.status;
         block.validity = (validMusic ? 1u : 0u) | (validAux ? 2u : 0u);
-        if(!traceDirectory.empty() && tickTraceCount<tickTrace.size()) {trace.valid=block.validity;tickTrace[tickTraceCount++]=trace;}
+        if(!traceDirectory.empty() && tickTraceCount<tickTrace.size()) {trace.valid=block.validity;trace.musicUnderruns=slots[0].domain.underrunCount();tickTrace[tickTraceCount++]=trace;}
         block.discontinuity = (music.status.flags & 1 ? 1u : 0u) | (aux.status.flags & 1 ? 2u : 0u);
         block.controlRevision = revision;
         block.musicRevision = musicRevision;
@@ -388,14 +389,14 @@ void EngineLifecycle::stop() {
         std::filesystem::create_directories(p.traceDirectory);
         std::ofstream ticks(std::filesystem::path(p.traceDirectory)/L"ticks.csv");
         if(!ticks)throw std::runtime_error("Cannot open scheduler timing trace");
-        ticks<<"qpc,music_fill,aux_fill,valid\n";
-        for(size_t i=0;i<p.tickTraceCount;i++) {auto& t=p.tickTrace[i];ticks<<t.time<<','<<t.musicFill<<','<<t.auxFill<<','<<t.valid<<'\n';}
+        ticks<<"qpc,music_fill,aux_fill,valid,music_underruns\n";
+        for(size_t i=0;i<p.tickTraceCount;i++) {auto& t=p.tickTrace[i];ticks<<t.time<<','<<t.musicFill<<','<<t.auxFill<<','<<t.valid<<','<<t.musicUnderruns<<'\n';}
         ticks.flush();if(!ticks)throw std::runtime_error("Cannot write scheduler timing trace");
         for(unsigned role=0;role<2;role++) {
             std::ofstream input(std::filesystem::path(p.traceDirectory)/(role?L"aux-read.csv":L"music-read.csv"));
             if(!input)throw std::runtime_error("Cannot open ingress timing trace");
-            input<<"start,end,processed,rc,frames,fill,first\n";
-            for(size_t i=0;i<p.slots[role].traceCount;i++) {auto& t=p.slots[role].trace[i];input<<t.start<<','<<t.end<<','<<t.processed<<','<<t.rc<<','<<t.frames<<','<<t.fill<<','<<t.first<<'\n';}
+            input<<"start,end,processed,rc,frames,fill,first,flags,stream_state\n";
+            for(size_t i=0;i<p.slots[role].traceCount;i++) {auto& t=p.slots[role].trace[i];input<<t.start<<','<<t.end<<','<<t.processed<<','<<t.rc<<','<<t.frames<<','<<t.fill<<','<<t.first<<','<<t.flags<<','<<t.streamState<<'\n';}
             input.flush();if(!input)throw std::runtime_error("Cannot write ingress timing trace");
         }
         } catch(const std::exception& e) {std::cerr<<"Timing trace export failed: "<<e.what()<<'\n';}

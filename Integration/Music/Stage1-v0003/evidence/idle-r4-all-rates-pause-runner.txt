@@ -1,0 +1,1 @@
+Evidence: D:\Projects\3Stage-3\Stage1-v0003\evidence\idle-r4-all-rates-pause-20261011; this covers only the recorded formats, servicing, duration and transitions. TIDAL and untested transitions remain separate.

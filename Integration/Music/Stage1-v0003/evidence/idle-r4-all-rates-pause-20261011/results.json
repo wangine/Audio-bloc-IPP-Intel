@@ -1,0 +1,158 @@
+[
+  {
+    "fp64Report": null,
+    "frames": 88200,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 44100,
+      "bits": 16
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\44100-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 88200,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 44100,
+      "bits": 32
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\44100-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 96000,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 48000,
+      "bits": 16
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\48000-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 96000,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 48000,
+      "bits": 32
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\48000-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 176400,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 88200,
+      "bits": 16
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\88200-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 176400,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 88200,
+      "bits": 32
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\88200-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 192000,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 96000,
+      "bits": 16
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\96000-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 192000,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 96000,
+      "bits": 32
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\96000-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 352800,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 176400,
+      "bits": 16
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\176400-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 352800,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 176400,
+      "bits": 32
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\176400-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 384000,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 192000,
+      "bits": 16
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\192000-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 384000,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "rate": 192000,
+      "bits": 32
+    },
+    "observedAllocation": 1,
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r4-all-rates-pause-20261011\\192000-32-event\\comparison.json"
+  }
+]

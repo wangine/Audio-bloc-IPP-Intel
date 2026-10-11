@@ -39,6 +39,7 @@ class SourceDomain {
     void setIngressRunning(bool) noexcept;
     bool popClocked1024(StereoBlock &,uint64_t now=0,uint64_t frequency=0) noexcept;
     uint32_t queuedFrames() const noexcept;
+    uint64_t underrunCount() const noexcept;
     SourceTelemetry telemetry() const noexcept;
     void invalidate(bool clearTelemetry=true) noexcept;
 };

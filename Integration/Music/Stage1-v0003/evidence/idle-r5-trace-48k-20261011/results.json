@@ -1,0 +1,30 @@
+[
+  {
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r5-trace-48k-20261011\\48000-16-event\\comparison.json",
+    "frames": 96000,
+    "observedAllocation": 1,
+    "pass": true,
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "rate": 48000,
+      "bits": 16,
+      "servicing": "event",
+      "seconds": 2
+    },
+    "fp64Report": null
+  },
+  {
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r5-trace-48k-20261011\\48000-32-event\\comparison.json",
+    "frames": 96000,
+    "observedAllocation": 1,
+    "pass": true,
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "rate": 48000,
+      "bits": 32,
+      "servicing": "event",
+      "seconds": 2
+    },
+    "fp64Report": null
+  }
+]

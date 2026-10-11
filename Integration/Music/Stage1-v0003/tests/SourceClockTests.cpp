@@ -69,6 +69,14 @@ int main(int argc,char** argv) {
         for(unsigned i=0;i<2;i++)if(!shortStream.processPacket({p,{reinterpret_cast<const std::byte*>(input.data()),p.payloadBytes}}))throw std::runtime_error("RUN packet rejected");
         for(unsigned i=0;i<4;i++)if(!shortStream.popClocked1024(block,192000*4+1024*i,192000))throw std::runtime_error("RUN failed to prime");
         if(shortStream.popClocked1024(block,192000*4+4096,192000) || shortStream.telemetry().underruns!=resumeUnderruns+1)throw std::runtime_error("Real RUN starvation was hidden");
+        SourceDomain settling;
+        p.format.sampleRate=44100;p.format.averageBytesPerSecond=44100*16;
+        p.frames=441;p.payloadBytes=441*16;input.assign(882,.25);
+        if(!settling.prepare(p.format,1,441) || !settling.processPacket({p,{reinterpret_cast<const std::byte*>(input.data()),p.payloadBytes}}))throw std::runtime_error("SRC startup packet rejected");
+        if(settling.queuedFrames())throw std::runtime_error("Fixture must be before the first completed SRC block");
+        settling.popClocked1024(block,1,192000);
+        settling.popClocked1024(block,10000,192000);
+        if(settling.telemetry().underruns)throw std::runtime_error("Initial SRC settling counted as resumed RUN starvation");
         InputFifo fenced;
         std::atomic<uint64_t> active{1};
         block.status.generation=1;fenced.push(block,1);

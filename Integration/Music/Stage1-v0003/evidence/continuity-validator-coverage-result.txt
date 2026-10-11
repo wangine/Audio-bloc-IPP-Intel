@@ -1,0 +1,1 @@
+PASS recorded post-tail RUN counter retained; startup/interior starvation, truncated ticks, truncated ingress and both-truncated traces rejected

@@ -1,0 +1,42 @@
+[
+  {
+    "frames": 3840000,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2146247904116,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-native192k-20261011\\192000-16-event\\output-comparison.json",
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-native192k-20261011\\192000-16-event\\comparison.json",
+    "zeroSourceCountersRequired": true,
+    "case": {
+      "bits": 16,
+      "servicing": "event",
+      "rate": 192000,
+      "seconds": 20
+    },
+    "pass": true
+  },
+  {
+    "frames": 3840000,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2146460870363,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-native192k-20261011\\192000-32-event\\output-comparison.json",
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-native192k-20261011\\192000-32-event\\comparison.json",
+    "zeroSourceCountersRequired": true,
+    "case": {
+      "bits": 32,
+      "servicing": "event",
+      "rate": 192000,
+      "seconds": 20
+    },
+    "pass": true
+  }
+]

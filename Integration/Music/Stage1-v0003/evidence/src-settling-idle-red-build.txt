@@ -1,0 +1,4 @@
+[1/2] Building CXX object CMakeFiles\Stage1SourceClockTests.dir\tests\SourceClockTests.cpp.obj
+D:\Projects\3Stage-3\Stage1-v0003\Engine\Transport\InputFifo.h(14): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\Stage1-v0003\Engine\Transport\InputFifo.h(15): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+[2/2] Linking CXX executable Stage1SourceClockTests.exe

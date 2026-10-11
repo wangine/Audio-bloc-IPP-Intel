@@ -1,0 +1,242 @@
+[
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145387867838,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\44100-16-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 16,
+      "rate": 44100
+    },
+    "frames": 88200,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145424177156,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\44100-32-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 32,
+      "rate": 44100
+    },
+    "frames": 88200,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145460151043,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\48000-16-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 16,
+      "rate": 48000
+    },
+    "frames": 96000,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145495880812,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\48000-32-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 32,
+      "rate": 48000
+    },
+    "frames": 96000,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145531586747,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\88200-16-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 16,
+      "rate": 88200
+    },
+    "frames": 176400,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145566965043,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\88200-32-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 32,
+      "rate": 88200
+    },
+    "frames": 176400,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145602557388,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\96000-16-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 16,
+      "rate": 96000
+    },
+    "frames": 192000,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145638188741,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\96000-32-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 32,
+      "rate": 96000
+    },
+    "frames": 192000,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145673842423,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\176400-16-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 16,
+      "rate": 176400
+    },
+    "frames": 352800,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 1,
+      "lastPacketQpc": 2145709708310,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\176400-32-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 32,
+      "rate": 176400
+    },
+    "frames": 352800,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145745645399,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\192000-16-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 16,
+      "rate": 192000
+    },
+    "frames": 384000,
+    "pass": true
+  },
+  {
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "sourceContinuity": {
+      "underrunsBeforeLastPacket": 0,
+      "underrunsTotal": 0,
+      "lastPacketQpc": 2145781395618,
+      "scope": "Includes startup, pause and resumed RUN through the last supplied PCM packet; later RUN-without-PCM counters remain visible"
+    },
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r6-all-rates-pause-20261011\\192000-32-event\\comparison.json",
+    "zeroSourceCountersRequired": false,
+    "case": {
+      "servicing": "event",
+      "seconds": 2,
+      "bits": 32,
+      "rate": 192000
+    },
+    "frames": 384000,
+    "pass": true
+  }
+]

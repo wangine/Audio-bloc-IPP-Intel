@@ -1,5 +1,6 @@
-﻿param([switch]$RunLive,[switch]$Stress,[switch]$VerifyFp64,[switch]$ValidatePackageOnly,[switch]$ContinueOnFailure,[ValidateSet('all','event','polling')][string]$Servicing='all',[ValidateRange(1,1800)][int]$Seconds=10,[ValidateRange(0,2000)][int]$PauseMs=0,[ValidateRange(0,65536)][int]$PeriodFrames=0,[string]$Output,[string]$Package,[string]$Repository,[Parameter(Mandatory=$true)][string]$CoreCandidate,[Parameter(Mandatory=$true)][string]$CandidateSha256)
+﻿param([switch]$RunLive,[switch]$Stress,[switch]$VerifyFp64,[switch]$RequireZeroSourceCounters,[switch]$RequireInteriorSourceContinuity,[switch]$ValidatePackageOnly,[switch]$ContinueOnFailure,[ValidateSet('all','event','polling')][string]$Servicing='all',[ValidateRange(1,1800)][int]$Seconds=10,[ValidateRange(0,2000)][int]$PauseMs=0,[ValidateRange(0,65536)][int]$PeriodFrames=0,[uint32]$OnlyRate=0,[string]$Output,[string]$Package,[string]$Repository,[Parameter(Mandatory=$true)][string]$CoreCandidate,[Parameter(Mandatory=$true)][string]$CandidateSha256)
 $ErrorActionPreference='Stop'
+. (Join-Path $PSScriptRoot 'Assert-Source-Continuity.ps1')
 $root=Split-Path $PSScriptRoot -Parent
 $repo=Split-Path (Split-Path $root -Parent) -Parent
 if(!$RunLive -and !$ValidatePackageOnly){Write-Output 'No live action. After approved installation: supply -Package and -Repository, then -RunLive for24 Exclusive cases or -RunLive -Stress for1800s. Position-only allocations remain unsupported; polling must prove an OS commit path.';return}
@@ -37,6 +38,7 @@ if($hashes.coreSha256 -ne $CandidateSha256){throw 'Candidate Core copy differs'}
 $hashes | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $Output 'provenance.json')
 $cases=if($Stress){@(@{rate=192000;bits=32;servicing='event';seconds=1800})}else{@(foreach($rate in @(44100,48000,88200,96000,176400,192000)){foreach($bits in @(16,32)){foreach($mode in @('event','polling')){@{rate=$rate;bits=$bits;servicing=$mode;seconds=$Seconds}}}})}
 if(!$Stress -and $Servicing -ne 'all'){$cases=@($cases | Where-Object servicing -eq $Servicing)}
+if($OnlyRate){$cases=@($cases | Where-Object rate -eq $OnlyRate);if(!$cases.Count){throw 'Selected rate has no qualification cases'}}
 if($VerifyFp64){$cases=@($cases | Where-Object rate -eq 192000)}
 $results=@()
 foreach($case in $cases){
@@ -94,11 +96,20 @@ mode=8
         if($rendered.rate -ne $case.rate -or $rendered.containerBits -ne $case.bits -or !$rendered.generation){throw 'Render report differs from the requested format/generation'}
         & $audit --action verify --capture $capture --frames $rendered.emittedFrames --rate $case.rate --bits $case.bits --generation $rendered.generation --drained ($rendered.drained.ToString().ToLowerInvariant()) > $report
         if($LASTEXITCODE){throw 'Raw PCM comparison failed'}
+        if($RequireZeroSourceCounters){
+            $sourceFinal=Get-Content -LiteralPath (Join-Path $folder 'core-final.json') -Raw | ConvertFrom-Json
+            foreach($counter in @('lost_frames','overruns','underruns','faults')){
+                if($sourceFinal.sources[0].$counter -ne 0){throw "Candidate MUSIC source counter is not zero: $counter=$($sourceFinal.sources[0].$counter)"}
+            }
+            if($sourceFinal.publisher_drops -ne 0 -or $sourceFinal.clock_late_blocks -ne 0){throw 'Candidate publication counters are not zero'}
+        }
+        $sourceContinuity=$null
+        if($RequireInteriorSourceContinuity){$sourceContinuity=Assert-SourceContinuity $folder}
         if($VerifyFp64){
             & $audit --action verify-output --capture $fp64Capture --frames $rendered.emittedFrames --bits $case.bits --generation $rendered.generation --core-pid $coreProcess.Id > $fp64Report
             if($LASTEXITCODE){throw 'Exact native192k FP64 output comparison failed'}
         }
-        $results+=@{case=$case;pass=$true;report=$report;frames=$rendered.emittedFrames;observedAllocation=$rendered.observedAllocation;fp64Report=$(if($VerifyFp64){$fp64Report}else{$null})}
+        $results+=@{case=$case;pass=$true;report=$report;frames=$rendered.emittedFrames;observedAllocation=$rendered.observedAllocation;zeroSourceCountersRequired=[bool]$RequireZeroSourceCounters;sourceContinuity=$sourceContinuity;fp64Report=$(if($VerifyFp64){$fp64Report}else{$null})}
     }catch{$results+=@{case=$case;pass=$false;reason=$_.Exception.Message};if(!$ContinueOnFailure){throw}}
     finally{
         $env:ENTROPY_MUSIC_AUDIT_PIPE=$previousPipe;$env:ENTROPY_STAGE1_TRACE_DIRECTORY=$previousTrace

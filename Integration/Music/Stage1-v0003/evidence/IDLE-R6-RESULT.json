@@ -1,0 +1,439 @@
+{
+  "version": "stage1-native-music-v0003-r6",
+  "native192k": {
+    "scope": "idle-r6-native192k-20261011",
+    "cases": [
+      {
+        "bits": 16,
+        "servicing": "event",
+        "rate": 192000,
+        "seconds": 20,
+        "frames": 3840000,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 3840000,
+          "verifiedPackets": 2000,
+          "generation": 147,
+          "lastPacketQpc": 2146247904116,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 0,
+          "clockBefore": 0,
+          "clockAfter": 0,
+          "sourceBefore": 0,
+          "sourceAfter": 0,
+          "generationBefore": 0,
+          "generationAfter": 0
+        },
+        "exactBinary64": true,
+        "invalidBoundaryFrames": 31744,
+        "interiorInvalidFrames": 0
+      },
+      {
+        "bits": 32,
+        "servicing": "event",
+        "rate": 192000,
+        "seconds": 20,
+        "frames": 3840000,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 3840000,
+          "verifiedPackets": 2000,
+          "generation": 149,
+          "lastPacketQpc": 2146460870363,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 0,
+          "clockBefore": 0,
+          "clockAfter": 0,
+          "sourceBefore": 0,
+          "sourceAfter": 0,
+          "generationBefore": 0,
+          "generationAfter": 0
+        },
+        "exactBinary64": true,
+        "invalidBoundaryFrames": 25600,
+        "interiorInvalidFrames": 0
+      }
+    ],
+    "frames": 7680000,
+    "provenance": {
+      "acceptance": "not frozen Core qualification",
+      "frozenCoreSha256": "AB6B817CF3A0C65379B349FA8E01F3302E08F5119B9ACBF874916D54D24D3C4A",
+      "scope": "DIAGNOSTIC_CANDIDATE_ONLY",
+      "candidateSha256": "FE3479AE0060A3D90336526C45417CADDBB0A95ECD48FDA87542CE3402334F87",
+      "sourceRevision": "fa9e126d4bcbde2aaaf033de78509c6f601f8dbb",
+      "identity": {
+        "providerId": "entropy.music.render.v2.raw",
+        "endpointId": "entropy.music.render.v2.raw:{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}",
+        "windowsEndpointId": "{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}"
+      },
+      "installedDriver": {
+        "service": "EntropyMusicRenderV2",
+        "sha256": "FB78EC3CC6066CDF3A039CCE95CD13C26199F2EC630F188351155F84EBB610AA",
+        "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_26f4a0766080c004\\EntropyMusicRenderV2.sys",
+        "state": "Running"
+      },
+      "coreSha256": "FE3479AE0060A3D90336526C45417CADDBB0A95ECD48FDA87542CE3402334F87",
+      "auditSha256": "82966C6B24EA19FA2CADE6356CF9451CDB4FD11FB21A3B13FC106AB8CEAC8402",
+      "runnerSha256": "A4734DE23A713DE862BBADA510908D4B6178ED8F690835FC2A66F4DF0404558D",
+      "providerSha256": "0238CD518D4697AAF98684DB4B376D57DD3163273BB77C2F0180F1978281BB1A",
+      "packageManifestSha256": "54EAE83831297D2E292297A0D74A6227416ED63B2CFCD5F3D10DE1EA8C0C8CE9"
+    }
+  },
+  "allRatesPause": {
+    "scope": "idle-r6-all-rates-pause-20261011",
+    "cases": [
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 16,
+        "rate": 44100,
+        "frames": 88200,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 88200,
+          "verifiedPackets": 200,
+          "generation": 123,
+          "lastPacketQpc": 2145387867838,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 45019,
+          "clockAfter": 45019,
+          "sourceBefore": 45020,
+          "sourceAfter": 45020,
+          "generationBefore": 123,
+          "generationAfter": 123
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 32,
+        "rate": 44100,
+        "frames": 88200,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 88200,
+          "verifiedPackets": 200,
+          "generation": 125,
+          "lastPacketQpc": 2145424177156,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 44993,
+          "clockAfter": 44993,
+          "sourceBefore": 44995,
+          "sourceAfter": 44995,
+          "generationBefore": 125,
+          "generationAfter": 125
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 16,
+        "rate": 48000,
+        "frames": 96000,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 96000,
+          "verifiedPackets": 200,
+          "generation": 127,
+          "lastPacketQpc": 2145460151043,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 48509,
+          "clockAfter": 48509,
+          "sourceBefore": 48513,
+          "sourceAfter": 48513,
+          "generationBefore": 127,
+          "generationAfter": 127
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 32,
+        "rate": 48000,
+        "frames": 96000,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 96000,
+          "verifiedPackets": 200,
+          "generation": 129,
+          "lastPacketQpc": 2145495880812,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 48514,
+          "clockAfter": 48514,
+          "sourceBefore": 48515,
+          "sourceAfter": 48515,
+          "generationBefore": 129,
+          "generationAfter": 129
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 16,
+        "rate": 88200,
+        "frames": 176400,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 176400,
+          "verifiedPackets": 200,
+          "generation": 131,
+          "lastPacketQpc": 2145531586747,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 90056,
+          "clockAfter": 90056,
+          "sourceBefore": 90062,
+          "sourceAfter": 90062,
+          "generationBefore": 131,
+          "generationAfter": 131
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 32,
+        "rate": 88200,
+        "frames": 176400,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 176400,
+          "verifiedPackets": 200,
+          "generation": 133,
+          "lastPacketQpc": 2145566965043,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 89981,
+          "clockAfter": 89981,
+          "sourceBefore": 89983,
+          "sourceAfter": 89983,
+          "generationBefore": 133,
+          "generationAfter": 133
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 16,
+        "rate": 96000,
+        "frames": 192000,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 192000,
+          "verifiedPackets": 200,
+          "generation": 135,
+          "lastPacketQpc": 2145602557388,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 97049,
+          "clockAfter": 97049,
+          "sourceBefore": 97052,
+          "sourceAfter": 97052,
+          "generationBefore": 135,
+          "generationAfter": 135
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 32,
+        "rate": 96000,
+        "frames": 192000,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 192000,
+          "verifiedPackets": 200,
+          "generation": 137,
+          "lastPacketQpc": 2145638188741,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 96978,
+          "clockAfter": 96978,
+          "sourceBefore": 96983,
+          "sourceAfter": 96983,
+          "generationBefore": 137,
+          "generationAfter": 137
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 16,
+        "rate": 176400,
+        "frames": 352800,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 352800,
+          "verifiedPackets": 200,
+          "generation": 139,
+          "lastPacketQpc": 2145673842423,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 178352,
+          "clockAfter": 178352,
+          "sourceBefore": 178369,
+          "sourceAfter": 178369,
+          "generationBefore": 139,
+          "generationAfter": 139
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 32,
+        "rate": 176400,
+        "frames": 352800,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 1,
+          "verifiedFrames": 352800,
+          "verifiedPackets": 200,
+          "generation": 141,
+          "lastPacketQpc": 2145709708310,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 178318,
+          "clockAfter": 178318,
+          "sourceBefore": 178324,
+          "sourceAfter": 178324,
+          "generationBefore": 141,
+          "generationAfter": 141
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 16,
+        "rate": 192000,
+        "frames": 384000,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 384000,
+          "verifiedPackets": 200,
+          "generation": 143,
+          "lastPacketQpc": 2145745645399,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 194177,
+          "clockAfter": 194177,
+          "sourceBefore": 194185,
+          "sourceAfter": 194185,
+          "generationBefore": 143,
+          "generationAfter": 143
+        }
+      },
+      {
+        "servicing": "event",
+        "seconds": 2,
+        "bits": 32,
+        "rate": 192000,
+        "frames": 384000,
+        "rawIdentical": true,
+        "sourceCounters": {
+          "underrunsBeforeLastPacket": 0,
+          "underrunsTotal": 0,
+          "verifiedFrames": 384000,
+          "verifiedPackets": 200,
+          "generation": 145,
+          "lastPacketQpc": 2145781395618,
+          "scope": "Includes startup, pause and resumed RUN through the complete independently verified PCM sequence; later RUN-without-PCM counters remain visible"
+        },
+        "pause": {
+          "observed": 1,
+          "clockBefore": 194016,
+          "clockAfter": 194016,
+          "sourceBefore": 194024,
+          "sourceAfter": 194024,
+          "generationBefore": 145,
+          "generationAfter": 145
+        }
+      }
+    ],
+    "frames": 2578800,
+    "provenance": {
+      "auditSha256": "82966C6B24EA19FA2CADE6356CF9451CDB4FD11FB21A3B13FC106AB8CEAC8402",
+      "frozenCoreSha256": "AB6B817CF3A0C65379B349FA8E01F3302E08F5119B9ACBF874916D54D24D3C4A",
+      "identity": {
+        "providerId": "entropy.music.render.v2.raw",
+        "endpointId": "entropy.music.render.v2.raw:{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}",
+        "windowsEndpointId": "{0.0.0.00000000}.{90e4c2e8-bd06-4739-b8bb-73d4395f7339}"
+      },
+      "coreSha256": "FE3479AE0060A3D90336526C45417CADDBB0A95ECD48FDA87542CE3402334F87",
+      "acceptance": "not frozen Core qualification",
+      "providerSha256": "0238CD518D4697AAF98684DB4B376D57DD3163273BB77C2F0180F1978281BB1A",
+      "sourceRevision": "fa9e126d4bcbde2aaaf033de78509c6f601f8dbb",
+      "scope": "DIAGNOSTIC_CANDIDATE_ONLY",
+      "runnerSha256": "A4734DE23A713DE862BBADA510908D4B6178ED8F690835FC2A66F4DF0404558D",
+      "candidateSha256": "FE3479AE0060A3D90336526C45417CADDBB0A95ECD48FDA87542CE3402334F87",
+      "installedDriver": {
+        "service": "EntropyMusicRenderV2",
+        "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_26f4a0766080c004\\EntropyMusicRenderV2.sys",
+        "sha256": "FB78EC3CC6066CDF3A039CCE95CD13C26199F2EC630F188351155F84EBB610AA",
+        "state": "Running"
+      },
+      "packageManifestSha256": "54EAE83831297D2E292297A0D74A6227416ED63B2CFCD5F3D10DE1EA8C0C8CE9"
+    }
+  },
+  "limits": [
+    "Known test PCM; not a reference capture of original TIDAL PCM",
+    "Native 192k FP64 equality only; SRC at other rates changes sampling grid",
+    "Finite probes, not long stress qualification",
+    "Kernel packet mode0 remains unverified Shared/Exclusive access",
+    "Earlier r4 raw PASS does not qualify its false startup underrun counters",
+    "AUX format/stereo investigation remains unresolved"
+  ]
+}

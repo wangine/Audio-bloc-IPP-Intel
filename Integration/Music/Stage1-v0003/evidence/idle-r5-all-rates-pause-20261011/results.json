@@ -1,0 +1,40 @@
+[
+  {
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r5-all-rates-pause-20261011\\44100-16-event\\comparison.json",
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "bits": 16,
+      "rate": 44100
+    },
+    "frames": 88200,
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "zeroSourceCountersRequired": true
+  },
+  {
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\idle-r5-all-rates-pause-20261011\\44100-32-event\\comparison.json",
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "bits": 32,
+      "rate": 44100
+    },
+    "frames": 88200,
+    "observedAllocation": 1,
+    "fp64Report": null,
+    "zeroSourceCountersRequired": true
+  },
+  {
+    "reason": "Candidate MUSIC source counter is not zero: underruns=2",
+    "pass": false,
+    "case": {
+      "seconds": 2,
+      "servicing": "event",
+      "bits": 16,
+      "rate": 48000
+    }
+  }
+]

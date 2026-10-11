@@ -63,7 +63,7 @@ biți; contorul cumulativ a crescut de la 540 la 683. Nu avem o captură a acelu
 moment suficientă pentru atribuirea celor 143 de incrementări.
 
 Proba controlată următoare a capturat 2.127 snapshoturi Core în 239,828 s și
-2.235 snapshoturi driver. Utilizatorul a efectuat trei pauze/rel uări TIDAL de
+2.235 snapshoturi driver. Utilizatorul a efectuat trei pauze/reluări TIDAL de
 3–6 s. Core r3 a crescut de la 683 la 2.444 underruns (+1.761), în timp ce
 driverul a raportat inclusiv stream absent (86 snapshoturi), lostFrames=0,
 lifetimeLost neschimbat și writeFailure neschimbat. Core nu avea încă metadata
