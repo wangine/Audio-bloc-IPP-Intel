@@ -108,7 +108,11 @@ Release, new release tag or driver installation is created by this publication.
 ## Next phase: independent Stage1 driver number 3
 
 Update11October2026: this phase is now implemented as development-signed
-Music Render V2 **0.3.0.11** and separate Stage1 **v0003-r3**. The
+Music Render V2 **0.3.0.11** and separate Stage1 **v0003-r6**, paired with
+user-mode Provider bundle **0.3.0.11-signed-dev-r3**. The kernel is unchanged.
+The [r6 report](../../Integration/Music/Stage1-v0003/docs/V0003-R6-LIVE-RESULT.md)
+records confirmed IDLE handling, known PCM/FP64 qualification and the remaining
+unverified WASAPI access metadata. Historical r3 results are separate. The
 [loaded report](../../validation/music-render-v2/LOADED-DRIVER-0.3.0.11.md)
 records raw/FP64 continuity, the kernel passive-wait correction, AUX tests and
 remaining qualification limits. Stage1v0002 and Stage2/Stage3 remain references.

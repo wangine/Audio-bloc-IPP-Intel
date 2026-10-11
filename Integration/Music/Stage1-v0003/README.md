@@ -1,12 +1,22 @@
-# Stage 1 MUSIC/AUX v0003-r3
+# Stage 1 MUSIC/AUX v0003-r6
 
 Core C++20 nativ, independent de Qt. MUSIC și AUX au conversie PCM→FP64, SRC r8brain și FIFO separate. Ieșirea este stereo FP64/192 kHz pentru Stage2 MUSIC L/R→L/R/C. Cele două surse active se însumează unitar; fără mute, gain, normalizare sau limiter. Cinema rămâne independent.
 
 ## Pornire
 
-Livrarea locală activă este `release/stage1-native-music-v0003-r3`. Dublu-click pe **Start-Stage1-Music.cmd** din acel folder. **ColdStart-Stage1-Music.cmd** repornește controlat numai Core-ul propriu; **Stop-Stage1-Music.cmd** îl oprește. Închiderea Qt lasă Core activ. Profilul și selecțiile se păstrează; PID-ul și momentul creării se verifică înainte de orice oprire.
+Livrarea locală activă este `release/stage1-native-music-v0003-r6`. După extragerea runtime ZIP, folosiți **Start-Stage1-Music.cmd** din folderul r6. **ColdStart-Stage1-Music.cmd** repornește controlat numai Core-ul propriu; **Stop-Stage1-Music.cmd** îl oprește. Închiderea Qt lasă Core activ. Profilul și selecțiile se păstrează; PID-ul și momentul creării se verifică înainte de orice oprire.
 
-TIDAL a rămas pe Music Transport legacy, iar Spotify pe ieșirea Windows implicită AUX Shared. Providerul nou Music Render V2 este disponibil în catalog. Testele lui folosesc un generator WASAPI separat și nu certifică identitatea PCM a adaptorului legacy sau echivalența TIDAL Shared/Exclusive.
+Profilul livrat selectează MUSIC raw Music Render V2 și AUX Windows Capture Shared. Endpointurile sunt locale acestei mașini. TIDAL este selectat pe V2 de utilizator; Spotify folosește ieșirea Windows implicită AUX. Testele cu PCM cunoscut nu certifică PCM-ul original TIDAL sau echivalența Shared/Exclusive.
+
+## Rezultatul r6
+
+Pauza IDLE confirmată nu crește underrun; RUN și UNKNOWN fără PCM rămân detectabile după fereastra de reluare. Startup-ul SRC inițial este păstrat. Kernelul semnat .11 este neschimbat; numai Providerul usermode r3 adaugă metadata de lifecycle. Frozen v0002 trebuie să păstreze Providerul său original, deoarece nu acceptă noua capabilitate.
+
+Cele 12 probe cu STOP/RUN compară 2.578.800 cadre stereo raw, fără neconcordanțe sau underruns până la ultimul pachet. Un contor RUN de după tail rămâne vizibil. Două probe de 20 s native 192 kHz compară 7.680.000 cadre exact binary64, fără goluri interioare și cu toate contoarele zero. Core 6/6, Provider 12/12, terminal 9/9, Qt și launchere verificate. [Raportul r6](docs/V0003-R6-LIVE-RESULT.md) păstrează duratele, hashurile și limitele; erorile candidaților intermediari r4/r5 rămân în evidence.
+
+Qt afișează pentru V2 `Raw PCM · WASAPI access unverified`. Mode0 din kernel nu confirmă automat Shared/Exclusive; PCM brut sau Event-Driven nu permit această inferență. AUX își raportează modul clientului propriu. [Contractul și afișarea](docs/IDLE-AND-ACCESS-R4.md) explică extensia separată, fără modificarea ABI-ului înghețat.
+
+Următoarele probe r3 sunt istorice; ele nu reprezintă calificarea r6 sau rezolvarea integrală a AUX.
 
 ## Rectificări și probe
 

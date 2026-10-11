@@ -1,0 +1,47 @@
+-- The CXX compiler identification is MSVC 19.51.36257.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (1.4s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Stage1-v0003/evidence/source-closure-r6/stage1-native-music-v0003-r6-source/build
+[39/58] Building CXX object CMakeFiles\Stage1Acceptance.dir\tests\Stage1Acceptance.cpp.obj
+[40/58] Building CXX object CMakeFiles\Legacytransport.dir\Providers\Legacy\LegacyProvider.cpp.obj
+[41/58] Building CXX object CMakeFiles\WindowsCapture.dir\Providers\WindowsCapture\WindowsCaptureProvider.cpp.obj
+[42/58] Linking CXX executable Stage1IngressProbe.exe
+[43/58] Linking CXX executable Stage1Acceptance.exe
+[44/58] Linking CXX executable Stage1ControlProbe.exe
+[45/58] Linking CXX executable Stage1SourceClockTests.exe
+[46/58] Linking CXX executable Stage1CaptureQueueTests.exe
+[47/58] Linking CXX executable Stage1TelemetryTests.exe
+[48/58] Building CXX object CMakeFiles\Legacytap.dir\Providers\Legacy\LegacyProvider.cpp.obj
+[49/58] Linking CXX executable Stage1OutputPublisherFixture.exe
+[50/58] Linking CXX shared library test-providers\Syntheticmusic.dll
+[51/58] Linking CXX executable EntropyMusicSourceCore.exe
+[52/58] Linking CXX shared library test-providers\Syntheticaux.dll
+[53/58] Linking CXX shared library negative-providers\BadAbiFixture.dll
+[54/58] Linking CXX shared library providers\Legacytransport.dll
+[55/58] Building CXX object CMakeFiles\Legacyaux.dir\Providers\Legacy\LegacyProvider.cpp.obj
+[56/58] Linking CXX shared library providers\Legacytap.dll
+[57/58] Linking CXX shared library providers\WindowsCapture.dll
+[58/58] Linking CXX shared library providers\Legacyaux.dll
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage1-v0003/evidence/source-closure-r6/stage1-native-music-v0003-r6-source/build
+Test project D:/Projects/3Stage-3/Stage1-v0003/evidence/source-closure-r6/stage1-native-music-v0003-r6-source/build
+    Start 1: Stage1Pcm
+1/6 Test #1: Stage1Pcm ........................   Passed    0.04 sec
+    Start 2: Stage1Architecture
+2/6 Test #2: Stage1Architecture ...............   Passed    4.79 sec
+    Start 3: Stage1Pipeline
+3/6 Test #3: Stage1Pipeline ...................   Passed    0.56 sec
+    Start 4: Stage1CaptureQueue
+4/6 Test #4: Stage1CaptureQueue ...............   Passed    0.04 sec
+    Start 5: Stage1SourceClock
+5/6 Test #5: Stage1SourceClock ................   Passed    0.33 sec
+    Start 6: Stage1Telemetry
+6/6 Test #6: Stage1Telemetry ..................   Passed    0.17 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Total Test time (real) =   5.95 sec
