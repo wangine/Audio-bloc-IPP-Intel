@@ -16,8 +16,9 @@ constexpr uint8_t InterfaceGuid[16]={0x9e,0x28,0x93,0xab,0x92,0x26,0xa9,0x47,0xb
 constexpr wchar_t ReferenceName[]=L"EntropyMusicPcmV1";
 constexpr uint32_t CoreTransportAccess=8;
 struct Header {uint32_t magic, version, totalBytes, kind;};
-struct Trace {Header header;uint64_t counters[8];uint32_t lastPacketNumber,lastFlags,lastEosBytes,lastStatus;uint32_t firstPacketNumber,firstFlags,firstEosBytes,firstStatus;};
-static_assert(sizeof(Trace)==112);
+struct WriteTrace {uint32_t number,flags,eosBytes,status,state,reserved;uint64_t generation;};
+struct Trace {Header header;uint64_t counters[8];uint32_t lastPacketNumber,lastFlags,lastEosBytes,lastStatus;uint32_t firstPacketNumber,firstFlags,firstEosBytes,firstStatus;WriteTrace startup[8];};
+static_assert(sizeof(WriteTrace)==32 && sizeof(Trace)==368);
 struct Packet {
     Header header;
     PcmFormat format;
