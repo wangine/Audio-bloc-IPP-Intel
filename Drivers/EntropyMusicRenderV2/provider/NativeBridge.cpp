@@ -3,6 +3,8 @@ namespace entropy::music::provider {
 bool NativeBridge::open(const DeviceIdentity& identity){
     if(device_!=INVALID_HANDLE_VALUE || !validIdentity(identity))return false;
     stop_=CreateEventW(nullptr,TRUE,FALSE,nullptr);if(!stop_)return false;
+    idleTimer_=CreateWaitableTimerExW(nullptr,nullptr,CREATE_WAITABLE_TIMER_HIGH_RESOLUTION,TIMER_ALL_ACCESS);
+    if(!idleTimer_){close();return false;}
     device_=CreateFileW(identity.interfacePath.c_str(),GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,OPEN_EXISTING,0,nullptr);
     if(device_==INVALID_HANDLE_VALUE){close();return false;}
     LARGE_INTEGER qpc;QueryPerformanceCounter(&qpc);
@@ -16,7 +18,13 @@ IoResult NativeBridge::read(void* output,uint32_t capacity,uint32_t& copied){
     bridge::Header request{bridge::Magic,bridge::Version,sizeof(request),1};DWORD bytes=0;
     if(DeviceIoControl(device_,bridge::IoctlRead,&request,sizeof(request),output,capacity,&bytes,nullptr)){copied=bytes;return IoResult::Success;}
     const auto error=GetLastError();
-    if(error==ERROR_NOT_READY || error==ERROR_BUSY || error==ERROR_NO_DATA){return WaitForSingleObject(stop_,2)==WAIT_OBJECT_0?IoResult::Cancelled:IoResult::NoData;}
+    if(error==ERROR_NOT_READY || error==ERROR_BUSY || error==ERROR_NO_DATA){
+        LARGE_INTEGER due;due.QuadPart=-20000;
+        if(!SetWaitableTimer(idleTimer_,&due,0,nullptr,nullptr,FALSE))return IoResult::Failure;
+        HANDLE waits[]={stop_,idleTimer_};
+        auto result=WaitForMultipleObjects(2,waits,FALSE,INFINITE);
+        return result==WAIT_OBJECT_0?IoResult::Cancelled:(result==WAIT_OBJECT_0+1?IoResult::NoData:IoResult::Failure);
+    }
     if(error==ERROR_INSUFFICIENT_BUFFER)return IoResult::TooSmall;
     if(error==ERROR_OPERATION_ABORTED)return IoResult::Cancelled;
     return IoResult::Failure;
@@ -27,5 +35,5 @@ bool NativeBridge::info(bridge::Info& info){
     return DeviceIoControl(device_,bridge::IoctlInfo,&request,sizeof(request),&info,sizeof(info),&bytes,nullptr) && bytes==sizeof(info);
 }
 void NativeBridge::cancel(){if(stop_)SetEvent(stop_);if(device_!=INVALID_HANDLE_VALUE)CancelIoEx(device_,nullptr);}
-void NativeBridge::close(){if(device_!=INVALID_HANDLE_VALUE){CloseHandle(device_);device_=INVALID_HANDLE_VALUE;}if(stop_){CloseHandle(stop_);stop_=nullptr;}}
+void NativeBridge::close(){if(device_!=INVALID_HANDLE_VALUE){CloseHandle(device_);device_=INVALID_HANDLE_VALUE;}if(idleTimer_){CloseHandle(idleTimer_);idleTimer_=nullptr;}if(stop_){CloseHandle(stop_);stop_=nullptr;}}
 }

@@ -18,6 +18,7 @@ class DrainSubscriber {
     using Queue=entropy::publish::wire::Queue;
     HANDLE process_=nullptr,mapping_=nullptr;Queue* queue_=nullptr;
     uint64_t read_=0;StageBusBlockHeader last_{};bool haveLast_=false,identityValid_=false,retired_=false;
+    bool terminal_=false;uint64_t terminalWrite_=0;
 public:
     enum class Result {Block,Empty,End,Invalid};
     ~DrainSubscriber(){if(queue_){if(identityValid_)queue_->connected.store(0,std::memory_order_release);UnmapViewOfFile(queue_);}if(mapping_)CloseHandle(mapping_);if(process_)CloseHandle(process_);}
@@ -50,14 +51,18 @@ public:
         if(!queue_)return Result::Invalid;
         const bool exited=WaitForSingleObject(process_,0)==WAIT_OBJECT_0;DWORD exitCode=STILL_ACTIVE;if(exited && !GetExitCodeProcess(process_,&exitCode))return Result::Invalid;
         const auto state=queue_->connected.load(std::memory_order_acquire);
-        if(state!=1)retired_=true;
-        if(state>1 || queue_->drops.load(std::memory_order_acquire) || (exited && exitCode!=0))return Result::Invalid;
+        if(state==0)retired_=true;
+        if(state==2 || state>3 || (terminal_ && state!=3) || queue_->drops.load(std::memory_order_acquire) || (exited && exitCode!=0))return Result::Invalid;
         LARGE_INTEGER qpc;QueryPerformanceCounter(&qpc);queue_->heartbeat.store(qpc.QuadPart,std::memory_order_release);
         const auto write=queue_->write.load(std::memory_order_acquire);
+        if(state==3) {
+            if(retired_ || (terminal_ && terminalWrite_!=write))return Result::Invalid;
+            terminal_=true;terminalWrite_=write;
+        }
         if(queue_->read.load(std::memory_order_relaxed)!=read_ || write<read_ || write-read_>wire::capacity)return Result::Invalid;
-        // Frozen Publisher clears both clean and failed/expired subscriptions to0.
-        // No immutable terminal record distinguishes them. Preserve queued bytes,
-        // but a retired mapping cannot certify complete publication, even at exit.
+        // Frozen retirement0 is still ambiguous and never certifies completion.
+        // Candidate clean terminal3 release-publishes an immutable final cursor;
+        // producer exit0 and complete drain remain mandatory.
         if(write==read_){if(retired_)return Result::Invalid;return completeOutputBoundary(exited,exitCode,read_,write,queue_->drops.load())?Result::End:Result::Empty;}
         auto& slot=queue_->slots[read_%wire::capacity];StageBusBlockHeader candidate;std::memcpy(&candidate,&slot.header,sizeof(candidate));
         if(entropy::stage::validateBlock(queue_->session,candidate,static_cast<size_t>(queue_->session.slot_stride))!=entropy::stage::StageBusValidationResult::Ok ||

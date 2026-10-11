@@ -40,6 +40,16 @@ int wmain(int argc,wchar_t** argv){
             std::memcpy(block.session_id,session.session_id,16);block.frames=1024;block.block_sequence=2;block.first_frame=1024;publisher.publish(block,planes);
         }
         if(kind==L"extra"){block.block_sequence=2;block.first_frame=1024;publisher.publish(block,planes);}
+        if(kind==L"terminal-queued") {
+            for(unsigned sequence=2;sequence<=3;sequence++) {
+                for(unsigned i=0;i<1024;i++) {
+                    entropy::music::audit::PcmPattern::frame((sequence-1)*1024+i,format,bytes);
+                    int16_t a,b;std::memcpy(&a,bytes,2);std::memcpy(&b,bytes+2,2);l[i]=a/32768.0;r[i]=b/32768.0;
+                }
+                block.block_sequence=sequence;block.first_frame=(sequence-1)*1024;publisher.publish(block,planes);
+            }
+            publisher.stop();
+        }
         if(kind==L"clean-retire")publisher.stop();
         // A process exit with the intact queue is distinguishable from frozen
         // Publisher.stop(), which erases both normal and error terminal states.
