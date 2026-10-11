@@ -5,6 +5,7 @@
 #include "minwavert.h"
 #include "minwavertstream.h"
 #include "../AllocationPolicy.h"
+#include "../BridgeDevice.h"
 using namespace entropy::music;
 namespace {constexpr ULONG Tag='2SWM';volatile LONG64 generations=0;}
 CMiniportWaveRTStream::~CMiniportWaveRTStream() {
@@ -27,7 +28,7 @@ STDMETHODIMP_(NTSTATUS) CMiniportWaveRTStream::NonDelegatingQueryInterface(REFII
     PAGED_CODE();if(!object)return STATUS_INVALID_PARAMETER;*object=nullptr;
     if(IsEqualGUID(iid,IID_IUnknown) || IsEqualGUID(iid,IID_IMiniportWaveRTStream))*object=static_cast<IMiniportWaveRTStream*>(this);
     else if(IsEqualGUID(iid,IID_IMiniportWaveRTStreamNotification))*object=static_cast<IMiniportWaveRTStreamNotification*>(this);
-    else if(IsEqualGUID(iid,IID_IMiniportWaveRTOutputStream))*object=static_cast<IMiniportWaveRTOutputStream*>(this);
+    else if(IsEqualGUID(iid,IID_IMiniportWaveRTOutputStream)){TraceMusicEvent(bridge::TraceEvent::OutputInterface);*object=static_cast<IMiniportWaveRTOutputStream*>(this);}
     else if(IsEqualGUID(iid,IID_IDrmAudioStream))*object=static_cast<IDrmAudioStream*>(this);
     if(!*object)return STATUS_NOINTERFACE;static_cast<PUNKNOWN>(*object)->AddRef();return STATUS_SUCCESS;
 }
@@ -84,14 +85,17 @@ NTSTATUS CMiniportWaveRTStream::SetState(KSSTATE state) {
     return STATUS_SUCCESS;
 }
 NTSTATUS CMiniportWaveRTStream::SetWritePacket(ULONG number,DWORD flags,ULONG eosBytes) {
+    TraceMusicEvent(bridge::TraceEvent::WriteCall);
     if(!m_ulNotificationsPerBuffer)return STATUS_NOT_SUPPORTED;
     if(flags&~KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)return STATUS_INVALID_PARAMETER;
     // Prepare before prefill, including a new generation after STOP.
     if(!m_Pcm)return STATUS_INVALID_DEVICE_STATE;
     const auto qpc=KeQueryPerformanceCounter(nullptr).QuadPart;
-    return m_Pcm->Submit(number,(flags&KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)!=0,eosBytes,qpc);
+    const auto status=m_Pcm->Submit(number,(flags&KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)!=0,eosBytes,qpc);
+    TraceMusicEvent(NT_SUCCESS(status)?bridge::TraceEvent::WriteSuccess:bridge::TraceEvent::WriteFailure);return status;
 }
 NTSTATUS CMiniportWaveRTStream::GetPosition(KSAUDIO_POSITION* position) {
+    TraceMusicEvent(bridge::TraceEvent::Position);
     if(!position)return STATUS_INVALID_PARAMETER;position->PlayOffset=position->WriteOffset=0;if(!m_Pcm)return STATUS_SUCCESS;
     uint64_t frames=0,packets=0,qpc=0;bool ok=true;
     if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;m_Pcm->Flush();ok=!m_Pcm->timeline.prepared() || m_Pcm->timeline.advance(qpc,true);frames=m_Pcm->timeline.frames();m_Pcm->Leave(qpc);}
@@ -100,6 +104,7 @@ NTSTATUS CMiniportWaveRTStream::GetPosition(KSAUDIO_POSITION* position) {
     position->PlayOffset=position->WriteOffset=offset;return ok?STATUS_SUCCESS:STATUS_DATA_ERROR;
 }
 NTSTATUS CMiniportWaveRTStream::GetPresentationPosition(KSAUDIO_PRESENTATION_POSITION* position) {
+    TraceMusicEvent(bridge::TraceEvent::Presentation);
     if(!position)return STATUS_INVALID_PARAMETER;RtlZeroMemory(position,sizeof(*position));if(!m_Pcm)return STATUS_SUCCESS;
     uint64_t frames=0,packets=0,qpc=0;bool ok=true;
     if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;m_Pcm->Flush();ok=!m_Pcm->timeline.prepared() || m_Pcm->timeline.advance(qpc,true);frames=m_Pcm->timeline.frames();m_Pcm->Leave(qpc);}
@@ -108,6 +113,7 @@ NTSTATUS CMiniportWaveRTStream::GetPresentationPosition(KSAUDIO_PRESENTATION_POS
 }
 NTSTATUS CMiniportWaveRTStream::GetOutputStreamPresentationPosition(KSAUDIO_PRESENTATION_POSITION* p){if(!m_ulNotificationsPerBuffer)return STATUS_NOT_SUPPORTED;return GetPresentationPosition(p);}
 NTSTATUS CMiniportWaveRTStream::GetPacketCount(ULONG* count) {
+    TraceMusicEvent(bridge::TraceEvent::PacketCount);
     if(!count)return STATUS_INVALID_PARAMETER;if(!m_ulNotificationsPerBuffer)return STATUS_NOT_SUPPORTED;
     uint64_t frames=0,packets=0,qpc=0;
     if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;m_Pcm->Flush();if(m_Pcm->timeline.prepared())m_Pcm->timeline.advance(qpc,false);packets=m_Pcm->timeline.packetCount();m_Pcm->Leave(qpc);}
@@ -149,6 +155,6 @@ void TimerNotifyRT(PEX_TIMER timer,PVOID context) {
         }
     }
     pcm->Leave(qpc);
-    if(notify){KIRQL old;KeAcquireSpinLock(&self->m_EventLock,&old);for(auto p=self->m_NotificationList.Flink;p!=&self->m_NotificationList;p=p->Flink)KeSetEvent(CONTAINING_RECORD(p,NotificationListEntry,ListEntry)->NotificationEvent,IO_NO_INCREMENT,FALSE);KeReleaseSpinLock(&self->m_EventLock,old);}
+    if(notify){TraceMusicEvent(bridge::TraceEvent::Notification);KIRQL old;KeAcquireSpinLock(&self->m_EventLock,&old);for(auto p=self->m_NotificationList.Flink;p!=&self->m_NotificationList;p=p->Flink)KeSetEvent(CONTAINING_RECORD(p,NotificationListEntry,ListEntry)->NotificationEvent,IO_NO_INCREMENT,FALSE);KeReleaseSpinLock(&self->m_EventLock,old);}
     if(eos)ExCancelTimer(self->m_pNotificationTimer,nullptr);
 }

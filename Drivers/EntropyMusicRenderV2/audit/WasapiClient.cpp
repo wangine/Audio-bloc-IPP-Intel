@@ -28,6 +28,9 @@ RunReport WasapiClient::run(const RunConfig& c){
     View mapped{MapViewOfFile(mapping.value,FILE_MAP_ALL_ACCESS,0,0,sizeof(SharedProgress))};if(!mapped.value)throw std::runtime_error("Audit progress mapping unavailable");auto progress=static_cast<SharedProgress*>(mapped.value);
     if(!InterlockedCompareExchange(&progress->clientPid,0,0))throw std::runtime_error("Frozen Core audit provider must connect before rendering");
     Handle privateDevice{CreateFileW(identity.interfacePath.c_str(),GENERIC_READ|GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,nullptr,OPEN_EXISTING,0,nullptr)};if(privateDevice.value==INVALID_HANDLE_VALUE)throw std::runtime_error("Private diagnostics unavailable");
+    auto trace=[&](bridge::Trace& result){bridge::Header request{bridge::Magic,bridge::Version,sizeof(request),4};DWORD copied=0;
+        if(!DeviceIoControl(privateDevice.value,bridge::IoctlTrace,&request,sizeof(request),&result,sizeof(result),&copied,nullptr) || copied!=sizeof(result) || result.header.kind!=4)throw std::runtime_error("Loaded driver trace unavailable");};
+    trace(report.traceBefore);
     ComPtr<IMMDeviceEnumerator> enumerator;ComPtr<IMMDevice> device;ComPtr<IAudioClient> client;ComPtr<IAudioRenderClient> renderer;ComPtr<IAudioClock> clock;
     check(CoCreateInstance(__uuidof(MMDeviceEnumerator),nullptr,CLSCTX_ALL,IID_PPV_ARGS(&enumerator)),"MMDeviceEnumerator");check(enumerator->GetDevice(identity.windowsEndpointId.c_str(),&device),"exact endpoint");
     check(device->Activate(__uuidof(IAudioClient),CLSCTX_ALL,nullptr,reinterpret_cast<void**>(client.GetAddressOf())),"IAudioClient");auto w=wave(f);
@@ -58,7 +61,7 @@ RunReport WasapiClient::run(const RunConfig& c){
         if(report.emittedFrames==target && report.clockFrames>=target && report.receivedFrames>=target){report.drained=report.receivedFrames==target && !InterlockedCompareExchange(&progress->errors,0,0);break;}
         Sleep(c.eventDriven?1:std::max<DWORD>(1,static_cast<DWORD>(period/40000)));
     }
-    check(client->Stop(),"Stop after observed drain");started.active=false;
+    trace(report.traceAfter);check(client->Stop(),"Stop after observed drain");started.active=false;
     // A finite client without an OS EOS may have an unwritten interval after
     // its requested tail. Interior gaps are rejected by complete frame indices.
     if(report.driver.state==4 || report.driver.lostFrames || report.observedAllocation!=1 || report.driver.qpcFrequency==0)report.drained=false;return report;

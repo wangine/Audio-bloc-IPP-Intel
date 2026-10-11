@@ -7,6 +7,8 @@ constexpr uint32_t Magic=0x324d5045, Version=0x00010000;
 constexpr uint32_t IoctlRead=(0x22u<<16)|(3u<<14)|(0x800u<<2);
 constexpr uint32_t IoctlInfo=(0x22u<<16)|(3u<<14)|(0x801u<<2);
 constexpr uint32_t IoctlClaim=(0x22u<<16)|(3u<<14)|(0x802u<<2);
+constexpr uint32_t IoctlTrace=(0x22u<<16)|(3u<<14)|(0x803u<<2);
+enum class TraceEvent:uint32_t {OutputInterface,WriteCall,WriteSuccess,WriteFailure,Position,Presentation,PacketCount,Notification};
 constexpr wchar_t HardwareId[]=L"ROOT\\EntropyMusicRenderV2";
 constexpr wchar_t ServiceName[]=L"EntropyMusicRenderV2";
 constexpr char ProviderId[]="entropy.music.render.v2.raw";
@@ -14,6 +16,8 @@ constexpr uint8_t InterfaceGuid[16]={0x9e,0x28,0x93,0xab,0x92,0x26,0xa9,0x47,0xb
 constexpr wchar_t ReferenceName[]=L"EntropyMusicPcmV1";
 constexpr uint32_t CoreTransportAccess=8;
 struct Header {uint32_t magic, version, totalBytes, kind;};
+struct Trace {Header header;uint64_t counters[8];};
+static_assert(sizeof(Trace)==80);
 struct Packet {
     Header header;
     PcmFormat format;

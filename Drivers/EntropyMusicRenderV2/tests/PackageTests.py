@@ -39,7 +39,7 @@ class DeliveryTests(unittest.TestCase):
         text=(PACKAGE/'driver/EntropyMusicRenderV2.inf').read_text(encoding='utf-8-sig')
         self.assertEqual(len(re.findall(r'(?im)^%DeviceName%=Music,ROOT\\EntropyMusicRenderV2\s*$',text)),1)
         version=data['version'].removesuffix('-candidate')
-        self.assertRegex(version,r'^0\.3\.0\.[12]$')
+        self.assertRegex(version,r'^0\.3\.0\.[1-9][0-9]*$')
         self.assertRegex(text,r'(?im)^DriverVer\s*=\s*10/11/2026,'+re.escape(version)+r'\s*$')
         self.assertTrue((PACKAGE/'driver/EntropyMusicRenderV2.cat').stat().st_size>0)
         self.assertEqual(data['catalogGenerationExit'],0)

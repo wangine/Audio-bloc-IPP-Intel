@@ -11,6 +11,7 @@ int fileMarker=0;
 PFILE_OBJECT reader=nullptr;
 ULONG sessions=0;
 volatile LONG enabled=0;
+volatile LONG64 traceCounters[8]{};
 struct Session {volatile LONG closing;uint64_t nonce;};
 NTSTATUS Complete(PIRP irp,NTSTATUS status,ULONG bytes=0){irp->IoStatus.Status=status;irp->IoStatus.Information=bytes;IoCompleteRequest(irp,IO_NO_INCREMENT);return status;}
 bool HeaderIs(const bridge::Header& h,ULONG length,uint32_t kind,ULONG expected){return length==expected && h.magic==bridge::Magic && h.version==bridge::Version && h.totalBytes==expected && h.kind==kind;}
@@ -60,7 +61,7 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
     }
     if(code==bridge::IoctlInfo) {
         if(!HeaderIs(header,input,2,sizeof(header)) || output!=sizeof(bridge::Info))return Complete(irp,STATUS_INVALID_PARAMETER);
-        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030002;
+        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030003;
         KIRQL old;KeAcquireSpinLock(&sessionsLock,&old);info.readerAttached=reader?1:0;KeReleaseSpinLock(&sessionsLock,old);
         Totals lifetime{},ended{};GetPcmEvidence(0,{},lifetime,ended);
         info.lifetimeLost=lifetime.lostFrames;info.lifetimeCancelled=lifetime.cancelledFrames;info.terminatedLost=ended.lostFrames;info.terminatedCancelled=ended.cancelledFrames;
@@ -78,9 +79,16 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
         }
         RtlCopyMemory(buffer,&info,sizeof(info));return Complete(irp,STATUS_SUCCESS,sizeof(info));
     }
+    if(code==bridge::IoctlTrace) {
+        if(!HeaderIs(header,input,4,sizeof(header)) || output!=sizeof(bridge::Trace))return Complete(irp,STATUS_INVALID_PARAMETER);
+        bridge::Trace trace{{bridge::Magic,bridge::Version,sizeof(bridge::Trace),4},{}};
+        for(uint32_t i=0;i<8;++i)trace.counters[i]=InterlockedCompareExchange64(&traceCounters[i],0,0);
+        RtlCopyMemory(buffer,&trace,sizeof(trace));return Complete(irp,STATUS_SUCCESS,sizeof(trace));
+    }
     return Complete(irp,STATUS_INVALID_DEVICE_REQUEST);
 }
 }
+void TraceMusicEvent(bridge::TraceEvent event) noexcept{InterlockedIncrement64(&traceCounters[static_cast<uint32_t>(event)]);}
 void InitializeBridgeDispatch(PDRIVER_OBJECT driver) {
     KeInitializeSpinLock(&sessionsLock);
     const ULONG majors[]={IRP_MJ_CREATE,IRP_MJ_CLEANUP,IRP_MJ_CLOSE,IRP_MJ_DEVICE_CONTROL};
