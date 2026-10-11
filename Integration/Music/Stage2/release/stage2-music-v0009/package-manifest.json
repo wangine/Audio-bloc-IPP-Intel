@@ -1,0 +1,264 @@
+{
+  "schema": 3,
+  "stage": "DSP_STAGE2",
+  "version": "stage2-music-v0009",
+  "dsp_mode": "CENTER_V2_LRC_STATIC",
+  "input_channels": 2,
+  "output_channels": 3,
+  "input_layout": "MUSIC_STEREO2_V1",
+  "output_layout": "MUSIC_LRC3_V1",
+  "sample_rate": 192000,
+  "frames_per_block": 1024,
+  "stagepublish_protocol": "StagePublishV2",
+  "hardware_auto_arm": false,
+  "parametric_eq_available": true,
+  "lrc_alignment_available": true,
+  "lrc_alignment_active": false,
+  "stagebus_contract_sha256": "1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb",
+  "music_stagebus_contract_sha256": "8d1dd0d0b733489a83ebb5a84ed287ad211175d27d7fbea64fa969130f55318e",
+  "baseline_executable_sha256": "79945155c782c0677a8aea2fd405a996ab464c5b2c2481c16badf4f0738f807c",
+  "source_archive_sha256": "dad485108cb12273f48104294b4af688099a356e45aeeaa55ac87ae99a5957fc",
+  "source_release": "Audio-bloc-IPP-Intel v0.1.9 / Stage2 v0008",
+  "native_modules": [
+    {
+      "name": "EntropyCenterExtractorFP64.dll",
+      "sha256": "c0ea325a815ddef7ed897330382368ffd7347b3079b05b8cbc897518c06b8b3e",
+      "optional": true,
+      "loaded": false
+    },
+    {
+      "name": "EntropyCenterExtractorV2FP64.dll",
+      "sha256": "e96bf561bfa204f7aada02e2245e264eb8db2e3f1e9a06ecc07caf43e0ba32f0",
+      "optional": false,
+      "loaded": true
+    },
+    {
+      "name": "EntropyLoudness.dll",
+      "sha256": "d2a24be264adfb48ab3c854364ea0be969833c496fe4329ce65573af0876e198",
+      "optional": true,
+      "loaded": false
+    },
+    {
+      "name": "EntropyParametricEQ.dll",
+      "sha256": "adb01f88cd58c3e4724422482c6970dfc7fb377d638dede2bf859ea87fd75e61",
+      "optional": false,
+      "loaded": true
+    },
+    {
+      "name": "EntropyLrcAlignerFP64.dll",
+      "sha256": "c7d383b38d63305a009213c575669c9cedc133c2f5b227a5d6b368b462b404ed",
+      "optional": false,
+      "loaded": true
+    }
+  ],
+  "built_utc": "2026-10-10T18:05:25.6432277Z",
+  "legacy_stage1_10ch_compatible": false,
+  "legacy_stage3_11ch_compatible": false,
+  "files": [
+    {
+      "path": "ColdStart-DSP-Music.cmd",
+      "sha256": "f108ffb71210517ab31fadb8a49c0ce27b61421fe65134848b2e2407b94c9d5e",
+      "optional": false
+    },
+    {
+      "path": "EntropyDspEngine.exe",
+      "sha256": "a9e8f777a870185152f3df92de410c02ff54486363affce7f3877cc83572d3f3",
+      "optional": false
+    },
+    {
+      "path": "libgcc_s_seh-1.dll",
+      "sha256": "5e27589147caa6d7a30f4cc058a14c455dc62233901ffff9a1797ede425e9f86",
+      "optional": false
+    },
+    {
+      "path": "libstdc++-6.dll",
+      "sha256": "8013488c5528bad7966ca07f3ea2e7a9b743cacb258fe76b46a326f821cc83b0",
+      "optional": false
+    },
+    {
+      "path": "libwinpthread-1.dll",
+      "sha256": "c7c7dced65fff71c7bb61f80c771c562f533d26d72722d9d6091129a3b03d5ce",
+      "optional": false
+    },
+    {
+      "path": "qt.conf",
+      "sha256": "a70feb82850a09203a8cdc652c7086273b6af4f03db86f4f98c16c0d5db26256",
+      "optional": false
+    },
+    {
+      "path": "Qt6Core.dll",
+      "sha256": "a0bf79817c19768c4b2bd01258d7d8d15818c0d3a56f86dd65d80354e749cc16",
+      "optional": false
+    },
+    {
+      "path": "Qt6Gui.dll",
+      "sha256": "67d3fd988e45f4aa31b9fe0144434465fa87a23c27cc3d573257eb1c6c5df2e7",
+      "optional": false
+    },
+    {
+      "path": "Qt6Network.dll",
+      "sha256": "aa2322a989a52d205cff4da2b455962fc54373ae4dbd756ec8eb6fbb3d56cce8",
+      "optional": false
+    },
+    {
+      "path": "Qt6Svg.dll",
+      "sha256": "4452c8c2bc0bb011e90a9f7d4736b1aab1dec05210613f1c031e9f3a1c9ae90a",
+      "optional": false
+    },
+    {
+      "path": "Qt6Widgets.dll",
+      "sha256": "48d47d048217da9f6bd787e368ce71c041bc9a9feba3dc9c094fc794955e4db2",
+      "optional": false
+    },
+    {
+      "path": "README.md",
+      "sha256": "2a4d2e13af70dcc31024c2c7e692a8aa73ea1c9c04ebcf00b3e91b7afd392de6",
+      "optional": false
+    },
+    {
+      "path": "generic/qtuiotouchplugin.dll",
+      "sha256": "cc86f3f736840c877b21c3779624348bd4ef1ce1418355b468de168399fb281b",
+      "optional": false
+    },
+    {
+      "path": "iconengines/qsvgicon.dll",
+      "sha256": "28d29b82422d9cd233f2f8e0a851671e7c508a6a360d43187b5a91a3104ff5d3",
+      "optional": false
+    },
+    {
+      "path": "imageformats/qgif.dll",
+      "sha256": "e14a21198c7af588e9458e361e91b5a34ccac6bb438b8ecd2bbc57af8e409b68",
+      "optional": false
+    },
+    {
+      "path": "imageformats/qico.dll",
+      "sha256": "f922f93e5ae75e8734ccea703243862344ae0a6f2b402c61953595ed4bb39b09",
+      "optional": false
+    },
+    {
+      "path": "imageformats/qjpeg.dll",
+      "sha256": "8586cc034202dd8487fdde75491b019642877605806ec38e220c194730cc4f8f",
+      "optional": false
+    },
+    {
+      "path": "imageformats/qsvg.dll",
+      "sha256": "e2fcd8fbae1548f6d598ce17fd49995dfd93050429d1c579a22cc0fa4572fe5f",
+      "optional": false
+    },
+    {
+      "path": "modules/EntropyCenterExtractorFP64.dll",
+      "sha256": "c0ea325a815ddef7ed897330382368ffd7347b3079b05b8cbc897518c06b8b3e",
+      "optional": true
+    },
+    {
+      "path": "modules/EntropyCenterExtractorV2FP64.dll",
+      "sha256": "e96bf561bfa204f7aada02e2245e264eb8db2e3f1e9a06ecc07caf43e0ba32f0",
+      "optional": false
+    },
+    {
+      "path": "modules/EntropyLoudness.dll",
+      "sha256": "d2a24be264adfb48ab3c854364ea0be969833c496fe4329ce65573af0876e198",
+      "optional": true
+    },
+    {
+      "path": "modules/EntropyLrcAlignerFP64.dll",
+      "sha256": "c7d383b38d63305a009213c575669c9cedc133c2f5b227a5d6b368b462b404ed",
+      "optional": false
+    },
+    {
+      "path": "modules/EntropyParametricEQ.dll",
+      "sha256": "adb01f88cd58c3e4724422482c6970dfc7fb377d638dede2bf859ea87fd75e61",
+      "optional": false
+    },
+    {
+      "path": "networkinformation/qnetworklistmanager.dll",
+      "sha256": "f58a2beae3e395522cd449cc118c5a532bc80c4d920ac7d3b742ad3640365e49",
+      "optional": false
+    },
+    {
+      "path": "platforms/qoffscreen.dll",
+      "sha256": "dab69ed5d1d3ed0dff0bf892a0fd3b858cb93d110d83a0850a6f36ce69114589",
+      "optional": false
+    },
+    {
+      "path": "platforms/qwindows.dll",
+      "sha256": "dadb869692d77613d7575570f7886bee39f60326508ee9a1a181b920a65cd55b",
+      "optional": false
+    },
+    {
+      "path": "sdk/CMakeLists.txt",
+      "sha256": "e1dc95dc8ee2b2992f6045ee8714def4714e3d06a603ff453b15090d002c9802",
+      "optional": false
+    },
+    {
+      "path": "sdk/MusicStageBusContract.json",
+      "sha256": "8d1dd0d0b733489a83ebb5a84ed287ad211175d27d7fbea64fa969130f55318e",
+      "optional": false
+    },
+    {
+      "path": "sdk/README.txt",
+      "sha256": "7dfec8e871ff43c55d58a77ae188c28a1828cd2c689dbbe699c3a03693b7d350",
+      "optional": false
+    },
+    {
+      "path": "sdk/StageBusContract.json",
+      "sha256": "1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/MusicStageBusHashes.h",
+      "sha256": "edba59bbad2ee64a1dcf637e71fdf803b203bc4c7054be765006fdd08717e6d7",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/StageBusDemand.h",
+      "sha256": "2389a1bc029d4c607eeb2565d4219bc660c32130a54daf34e1b9f244aa39bfb2",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/StageBusHashes.h",
+      "sha256": "8e17f0732d945e5625992855421873cc4c423a7d5d17cc60c969995e9af6be2b",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/StageBusValidation.h",
+      "sha256": "5b8224990716340537fccdd079e08f46ec8b12b24b9afbde5649e94358164e10",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/StageBusWin32.h",
+      "sha256": "43583da9a24ab2f209545d99e5a8860eb2ccd8c6aa9b94334ee55e5fe42d9827",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/entropy/stage_bus_v1.h",
+      "sha256": "bff257f8b8486637c24d8d7a7619ac73d0e4aad0effd8f3f5e4cacee4e5cbb84",
+      "optional": false
+    },
+    {
+      "path": "sdk/src/StageBusValidation.cpp",
+      "sha256": "db6e6e3dc715dc11f6eca0d19461dfb9e7d7251c10bf12ec92b708434e55b40e",
+      "optional": false
+    },
+    {
+      "path": "sdk/src/StageBusWin32.cpp",
+      "sha256": "f2bdf8b1e87a957459133152b824a92040762bcb77c74e2fec325400cf07ad6e",
+      "optional": false
+    },
+    {
+      "path": "styles/qmodernwindowsstyle.dll",
+      "sha256": "ec65dc9ec21b5cff2a45f09a85b6cbda042d024789745c039380420fea5fcc3d",
+      "optional": false
+    },
+    {
+      "path": "tls/qcertonlybackend.dll",
+      "sha256": "b151679d3d850dd0cba369752078543d8ab1e03a74f58db1f7f88e6dec65d376",
+      "optional": false
+    },
+    {
+      "path": "tls/qschannelbackend.dll",
+      "sha256": "128ac0bf290447813ffb77c8a946d782336fe0d63db4c10d6effff1100a6438f",
+      "optional": false
+    }
+  ]
+}

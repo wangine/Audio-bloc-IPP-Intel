@@ -1,5 +1,7 @@
 #pragma once
 #include <stdint.h>
+#include "MusicStageBusHashes.h"
+#include "CinemaStageBusHashes.h"
 inline constexpr uint8_t contractHash[32] = {20,  40,  249, 206, 109, 110, 229, 251, 0,   202, 50,
                                              15,  148, 54,  220, 131, 25,  146, 237, 240, 73,  145,
                                              217, 197, 69,  150, 185, 100, 110, 41,  110, 203};

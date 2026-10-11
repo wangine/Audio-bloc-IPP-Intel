@@ -1,0 +1,16 @@
+[
+  {
+    "component": "Stage1",
+    "archiveFiles": 197,
+    "matchedImportedFiles": 197,
+    "different": [],
+    "archiveSha256": "1871189e9648bd77eff9bdc98ba479c5f8b9a2dbba9c3a16a19a53ffc34c88b8"
+  },
+  {
+    "component": "Stage2",
+    "archiveFiles": 235,
+    "matchedImportedFiles": 235,
+    "different": [],
+    "archiveSha256": "600ed800d24893d5147edaafe4cf324a4c1bfc0bca6d82dc295b759bf55068b5"
+  }
+]

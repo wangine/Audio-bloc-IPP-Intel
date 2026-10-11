@@ -1,0 +1,30 @@
+[
+  {
+    "test": "EntropyMusicCinemaUi",
+    "exit": 0
+  },
+  {
+    "test": "EntropyStage05Ui",
+    "exit": 1
+  },
+  {
+    "test": "EntropyStage06Ui",
+    "exit": 0
+  },
+  {
+    "test": "EntropyStage07Ui",
+    "exit": 0
+  },
+  {
+    "test": "EntropyStage07IpcTimeout",
+    "exit": 0
+  },
+  {
+    "test": "EntropyStage07DeviceInventory",
+    "exit": 0
+  },
+  {
+    "test": "EntropyStage017Ui",
+    "exit": 0
+  }
+]

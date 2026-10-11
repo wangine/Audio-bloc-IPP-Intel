@@ -1,0 +1,8 @@
+SoX Resampler Library (libsoxr) 0.1.3
+Upstream: https://github.com/chirlu/soxr
+Vendored commit: 945b592b70470e29f917f4de89b4281fbbd540c0
+Build: shared DLL, constant-rate double precision, SIMD64 where supported.
+Runtime profile: SOXR_VHQ | SOXR_STEEP_FILTER | SOXR_LINEAR_PHASE,
+SOXR_DOUBLE_PRECISION | SOXR_HI_PREC_CLOCK, one deterministic worker thread.
+Licence: LGPL-2.1-or-later; see LICENCE in this directory and the installer
+Third-Party Notices file.

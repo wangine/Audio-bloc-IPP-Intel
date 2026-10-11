@@ -1,0 +1,8 @@
+Local candidate, not a public release. Native engine sources in the paired source archive.
+r8brain-free-src: Aleksey Vaneev, MIT; original LICENSE copied here and in ThirdParty.
+Qt 6.11.2 Core/Gui/Widgets: dynamic client-only libraries from local C:/Qt distribution.
+Qt licensing text copied from that distribution; Qt source: https://download.qt.io/archive/qt/6.11/6.11.2/single/
+MinGW runtime dependencies are kept separate from the MSVC engine and legacy reference modules.
+Reference ingress DLLs: Audio-bloc-IPP-Intel local release, SHA matched to stage1-passive-v0002.
+No Matrix/SRC legacy DLL is loaded by the native core. No driver installer in this package.
+Frozen StageBus MUSIC SDK/StagePublish files originate from the separately verified Stage2 MUSIC workspace.

@@ -1,0 +1,24 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage2/build
+Test project D:/Projects/3Stage-3/Stage2/build
+    Start  9: DspState
+1/9 Test  #9: DspState .........................   Passed    0.04 sec
+    Start 11: StageBusContract
+2/9 Test #11: StageBusContract .................   Passed    0.10 sec
+    Start 12: StageBusDemand
+3/9 Test #12: StageBusDemand ...................   Passed    0.03 sec
+    Start 13: StageBusProcess
+4/9 Test #13: StageBusProcess ..................   Passed    0.26 sec
+    Start 26: DspCenterNative
+5/9 Test #26: DspCenterNative ..................   Passed    0.11 sec
+    Start 29: DspCenterState
+6/9 Test #29: DspCenterState ...................   Passed    0.04 sec
+    Start 33: DspAlignment
+7/9 Test #33: DspAlignment .....................   Passed    0.02 sec
+    Start 40: DspEqState
+8/9 Test #40: DspEqState .......................   Passed    0.04 sec
+    Start 43: DspEqNative
+9/9 Test #43: DspEqNative ......................   Passed    0.82 sec
+
+100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =   1.48 sec

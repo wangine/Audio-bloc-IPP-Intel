@@ -1,0 +1,159 @@
+{
+  "version": "0.1.9-v2",
+  "date": "2026-10-11",
+  "sourceBaseCommit": "2f3c45aa71cbf1bc352aece848060dc7523b0649",
+  "sourceBaseArchiveSha256": "AC20227D613AE12460789419EBA566CE0729070616F10F3BFA1632E9D6AABA81",
+  "compiler": "MSVC 19.51.36257.0 x64",
+  "ipp": "2026.0 static CPU dispatch",
+  "qt": "6.11.2 MinGW13.1; UI only",
+  "automaticArm": false,
+  "native": {
+    "32k": {
+      "total": 53,
+      "passed": 52,
+      "failed": [
+        "EntropyStage04Offline: unsafe PCM rejected before converter (inherited)"
+      ],
+      "coreSha256": "B994CE480B3CE73903780553FD265017D92D3500C2EDEEDA64FE8BE70E719681",
+      "fifoCapacityFrames": 32768,
+      "targetFrames": 4096,
+      "graphDifferential": "PASS nonzero bit-exact Music3/Cinema6/8",
+      "rtAudit": "PASS audited ingress/Graph phase: no allocation, wait, lock or IO",
+      "timeline": "PASS source revision/generation and MUSIC-CINEMA-MUSIC with real Graph/ASRC, simulated endpoints",
+      "faultRecovery": "PASS automatic DISARM retains cause and accepts direct explicit re-ARM, simulated endpoint failure"
+    },
+    "64k": {
+      "total": 53,
+      "passed": 52,
+      "failed": [
+        "EntropyStage04Offline: unsafe PCM rejected before converter (inherited)"
+      ],
+      "coreSha256": "765EF683AAB707571FB25340EA551744AD8E844239DDDC4DDA8EC8976E18FFCB",
+      "fifoCapacityFrames": 65536,
+      "targetFrames": 4096,
+      "graphDifferential": "PASS nonzero bit-exact Music3/Cinema6/8",
+      "rtAudit": "PASS audited ingress/Graph phase: no allocation, wait, lock or IO",
+      "timeline": "PASS source revision/generation and MUSIC-CINEMA-MUSIC with real Graph/ASRC, simulated endpoints",
+      "faultRecovery": "PASS automatic DISARM retains cause and accepts direct explicit re-ARM, simulated endpoint failure"
+    }
+  },
+  "qtTests": [
+    {
+      "test": "EntropyMusicCinemaUi",
+      "exit": 0
+    },
+    {
+      "test": "EntropyStage05Ui",
+      "exit": 1
+    },
+    {
+      "test": "EntropyStage06Ui",
+      "exit": 0
+    },
+    {
+      "test": "EntropyStage07Ui",
+      "exit": 0
+    },
+    {
+      "test": "EntropyStage07IpcTimeout",
+      "exit": 0
+    },
+    {
+      "test": "EntropyStage07DeviceInventory",
+      "exit": 0
+    },
+    {
+      "test": "EntropyStage017Ui",
+      "exit": 0
+    }
+  ],
+  "inheritedQtFailure": "EntropyStage05Ui; reproduced on original 0.1.8 in prior baseline; assertions unchanged",
+  "protectedSourceHashes": {
+    "files": 72,
+    "verdict": "PASS"
+  },
+  "originalReleaseManifests": {
+    "files": 2778,
+    "changed": [],
+    "verdict": "PASS"
+  },
+  "realMusic64k": {
+    "seconds": 599.962,
+    "polls": 9770,
+    "graphBlocksAdvanced": 112496,
+    "physicalOutputOpened": true,
+    "finalState": "RUNNING",
+    "faultObserved": false,
+    "sourceGenerationChanges": 0,
+    "observedSourceRates": [
+      96000
+    ],
+    "sourceLocalIdentityAdvances": 2,
+    "observedSourceLocalTokens": [
+      2,
+      4
+    ],
+    "maximumInputIntervalMs": 8.1854,
+    "maximumReceiveGapMs": 7.8083,
+    "maximumSourceAgeMs": 3.5953,
+    "musicGaps": 0,
+    "musicFaults": 0,
+    "inputSamplePeakMaximum": [
+      0.9947979910934407,
+      0.9910837327832336,
+      0.9592129335741834
+    ],
+    "domains": [
+      {
+        "id": "DAC A",
+        "state": "RUNNING",
+        "channels": 8,
+        "rate": 192000,
+        "faults": 0,
+        "xruns": "0",
+        "lastResetReason": 0,
+        "pcmFaults": 0,
+        "pcmOverrangeSamples": "0",
+        "pcmNonfiniteSamples": "0",
+        "pcmClippedBlocks": "0",
+        "deadlineMisses": "0",
+        "nonzeroPcmBlocks": "111706"
+      },
+      {
+        "id": "DAC B",
+        "state": "RUNNING",
+        "channels": 8,
+        "rate": 192000,
+        "faults": 0,
+        "xruns": "0",
+        "lastResetReason": 0,
+        "pcmFaults": 0,
+        "pcmOverrangeSamples": "0",
+        "pcmNonfiniteSamples": "0",
+        "pcmClippedBlocks": "0",
+        "deadlineMisses": "0",
+        "nonzeroPcmBlocks": "111707"
+      }
+    ]
+  },
+  "faultDiagnosis": {
+    "originalStarvationReproductionsSeconds": [
+      43.7,
+      19.85
+    ],
+    "upstreamPairedProbe": "37502 blocks/100 seconds, no sequence gaps; Stage1/2 maxima 6.86/7.30 ms",
+    "unchangedSchedulingInstrumentedMaximumReceiveGapMs": 37.3865,
+    "unchangedSchedulingInstrumentedMaximumGraphIntervalMs": 36.6145,
+    "schedulingRepair": "MMCSS Pro Audio CRITICAL and high-resolution 100us empty wait, as original 0.1.8 host",
+    "clockRepair": "Source identity epochs update native input histories only; continuous Graph-to-DAC epoch retained",
+    "realAutomaticDisarm": "Observed first scheduling repair: source generation 659 -> idle 0 -> 661 triggered Clock4, Core automatically became DISARMED with cause retained",
+    "directExplicitReArm": "Injected endpoint fault regression PASS; no automatic re-ARM"
+  },
+  "realCinema": "PENDING; synthetic 6/8ch covered",
+  "analogAlignment": "UNMEASURED",
+  "stage04Realtime": "FAIL inherited; this listening evidence does not replace offline qualification",
+  "v07": "BLOCKED inherited",
+  "original019": "Preserved; repair DSP baseline is original 0.1.8",
+  "samplePeakHold": "Per input channel, every valid received block since Core start; distinct from True Peak/SRC Startup Peak",
+  "review": "Author self-review; user requested direct execution"
+}

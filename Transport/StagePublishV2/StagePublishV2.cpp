@@ -2,6 +2,7 @@
 #include "StagePublishV2Protocol.h"
 #include "StageLinkSecurity.h"
 #include "StageBusHashes.h"
+#include "StageBusValidation.h"
 #include <windows.h>
 #include <objbase.h>
 #include <array>
@@ -14,22 +15,18 @@
 namespace entropy::publish {
 namespace {
 bool validSession(const StageBusSessionHeader& s) noexcept {
-    const bool source=s.layout_id==MIX_CINEMA10_V1 && s.channels==10;
-    const bool dsp=s.layout_id==LRC_CINEMA11_V1 && s.channels==11;
-    return s.magic==STAGE_BUS_MAGIC && s.abi_version==STAGE_BUS_ABI && s.header_bytes==sizeof(s) &&
-        !wire::zero(s.session_id,16) && (source || dsp) &&
-        s.sample_rate==192000 && s.sample_format==STAGE_BUS_BINARY64_LE && s.planar==STAGE_BUS_PLANAR &&
-        s.frames_per_block==1024 && s.capacity==4 && s.block_header_bytes==128 &&
-        s.plane_stride==8192 && s.slot_stride==128+s.channels*8192 && s.slots_offset==4096 &&
-        s.mapping_bytes==4096+4*s.slot_stride && s.qpc_frequency &&
-        wire::zero(s.reserved,sizeof(s.reserved)) &&
-        !std::memcmp(s.layout_hash,source?layoutHash10:layoutHash11,32) &&
-        !std::memcmp(s.contract_hash,contractHash,32);
+    return stage::validateSession(s,s.mapping_bytes)==stage::StageBusValidationResult::Ok;
 }
 bool validBlock(const StageBusSessionHeader& s,const StageBusBlockHeader& b) noexcept {
+    const bool music=s.layout_id==MUSIC_STEREO2_V1||s.layout_id==MUSIC_LRC3_V1;
+    const bool cinema=s.layout_id==CINEMA_51_6_V1||s.layout_id==CINEMA_71_8_V1;
+    const unsigned mask=music?3u:cinema?4u:7u;
+    if(music&&(b.source_generation[2]||b.source_state[2]||b.source_rate[2]))return false;
+    if(cinema&&(b.music_session_revision||b.source_generation[0]||b.source_generation[1]||
+        b.source_state[0]||b.source_state[1]||b.source_rate[0]||b.source_rate[1]))return false;
     return !std::memcmp(s.session_id,b.session_id,16) && b.stream_epoch && b.block_sequence &&
         b.control_revision && b.frames==1024 && !b.reserved &&
-        !((b.validity_mask|b.discontinuity_mask)&~7u) && b.first_frame<=UINT64_MAX-1024;
+        !((b.validity_mask|b.discontinuity_mask)&~mask) && b.first_frame<=UINT64_MAX-1024;
 }
 std::uint64_t qpcNow() noexcept {LARGE_INTEGER v{};QueryPerformanceCounter(&v);return v.QuadPart;}
 bool newToken(std::uint8_t* token) {GUID guid{};if(FAILED(CoCreateGuid(&guid)))return false;std::memcpy(token,&guid,16);return true;}

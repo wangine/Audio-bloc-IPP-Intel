@@ -31,7 +31,9 @@ StageBusSessionHeader makeSession(uint32_t layout, const uint8_t *uuid, uint64_t
     if (uuid)
         std::memcpy(s.session_id, uuid, 16);
     s.layout_id = layout;
-    s.channels = layout == MIX_CINEMA10_V1 ? 10 : (layout == LRC_CINEMA11_V1 ? 11 : 0);
+    s.channels = layout == MIX_CINEMA10_V1 ? 10 : layout == LRC_CINEMA11_V1 ? 11 :
+                 layout == MUSIC_STEREO2_V1 ? 2 : layout == MUSIC_LRC3_V1 ? 3 :
+                 layout == CINEMA_51_6_V1 ? 6 : layout == CINEMA_71_8_V1 ? 8 : 0;
     s.sample_rate = 192000;
     s.sample_format = STAGE_BUS_BINARY64_LE;
     s.planar = STAGE_BUS_PLANAR;
@@ -43,8 +45,13 @@ StageBusSessionHeader makeSession(uint32_t layout, const uint8_t *uuid, uint64_t
     s.slots_offset = 4096;
     s.mapping_bytes = s.slots_offset + 4 * s.slot_stride;
     s.qpc_frequency = qpc;
-    std::memcpy(s.contract_hash, contractHash, 32);
-    std::memcpy(s.layout_hash, layout == MIX_CINEMA10_V1 ? layoutHash10 : layoutHash11, 32);
+    const bool music = layout == MUSIC_STEREO2_V1 || layout == MUSIC_LRC3_V1;
+    const bool cinema = layout == CINEMA_51_6_V1 || layout == CINEMA_71_8_V1;
+    std::memcpy(s.contract_hash, music ? musicContractHash : cinema ? cinemaContractHash : contractHash, 32);
+    const auto hash = layout == MUSIC_STEREO2_V1 ? layoutHash2 : layout == MUSIC_LRC3_V1 ? layoutHash3 :
+                      layout == CINEMA_51_6_V1 ? layoutHash6 : layout == CINEMA_71_8_V1 ? layoutHash8 :
+                      layout == MIX_CINEMA10_V1 ? layoutHash10 : layoutHash11;
+    std::memcpy(s.layout_hash, hash, 32);
     return s;
 }
 StageBusValidationResult validateSession(const StageBusSessionHeader &s, size_t mapped) noexcept
@@ -54,7 +61,7 @@ StageBusValidationResult validateSession(const StageBusSessionHeader &s, size_t 
         expected.channels == 0 || s.channels != expected.channels || s.sample_rate != 192000 ||
         s.sample_format != 1 || s.planar != 1 || s.frames_per_block != 1024 || s.capacity != 4 ||
         s.block_header_bytes != 128 || s.qpc_frequency == 0 ||
-        !zero(s.reserved, sizeof(s.reserved)) || std::memcmp(s.contract_hash, contractHash, 32) ||
+        !zero(s.reserved, sizeof(s.reserved)) || std::memcmp(s.contract_hash, expected.contract_hash, 32) ||
         std::memcmp(s.layout_hash, expected.layout_hash, 32))
         return StageBusValidationResult::Incompatible;
     if (zero(s.session_id, 16))
@@ -75,6 +82,9 @@ StageBusValidationResult validateBlock(const StageBusSessionHeader &s, const Sta
                   b.control_revision, b.frames))
         return StageBusValidationResult::Identity;
     if ((b.validity_mask | b.discontinuity_mask) & ~7u || b.reserved)
+        return StageBusValidationResult::Incompatible;
+    if ((s.layout_id == MUSIC_STEREO2_V1 || s.layout_id == MUSIC_LRC3_V1) &&
+        (((b.validity_mask | b.discontinuity_mask) & ~3u) || b.source_generation[2]))
         return StageBusValidationResult::Incompatible;
     return StageBusValidationResult::Ok;
 }

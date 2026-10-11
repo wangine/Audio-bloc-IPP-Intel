@@ -1,0 +1,225 @@
+-- The C compiler identification is GNU 13.1.0
+-- The CXX compiler identification is GNU 13.1.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Qt/Tools/mingw1310_64/bin/gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Qt/Tools/mingw1310_64/bin/g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Configuring done (5.2s)
+-- Generating done (0.4s)
+-- Build files have been written to: D:/Projects/3Stage-3/Stage2/build
+[1/141] Building CXX object Shared/StageBusSDK/CMakeFiles/EntropyStageBusV1.dir/src/StageBusValidation.cpp.obj
+[2/141] Building CXX object Shared/StageLink/CMakeFiles/EntropyStageLink.dir/StageLinkClient.cpp.obj
+[3/141] Building CXX object Shared/StageLink/CMakeFiles/EntropyStageLink.dir/StageLinkSecurity.cpp.obj
+[4/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/TransparentDspExecutor.cpp.obj
+[5/141] Building CXX object Shared/StageBusSDK/CMakeFiles/EntropyStageBusV1.dir/src/StageBusWin32.cpp.obj
+[6/141] Linking CXX static library Shared\StageBusSDK\libEntropyStageBusV1.a
+[7/141] Building CXX object Shared/StageLink/CMakeFiles/EntropyStageLink.dir/StageLinkServer.cpp.obj
+[8/141] Linking CXX static library Shared\StageLink\libEntropyStageLink.a
+[9/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspRecorder.cpp.obj
+[10/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspAlignment.cpp.obj
+[11/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspStageRuntime.cpp.obj
+[12/141] Building CXX object StagePublishV2/CMakeFiles/EntropyStagePublishV2.dir/StagePublishV2.cpp.obj
+[13/141] Linking CXX static library StagePublishV2\libEntropyStagePublishV2.a
+[14/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspCenterModule.cpp.obj
+[15/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspLrcModule.cpp.obj
+[16/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspNativeRegistry.cpp.obj
+[17/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCore.dir/Core/DspEqModule.cpp.obj
+[18/141] Linking CXX static library Host\EntropyDspEngine\libDspCore.a
+[19/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspSessionDiscovery.cpp.obj
+[20/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/ProAudioThreadScope.cpp.obj
+[21/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspController.cpp.obj
+[22/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspState.cpp.obj
+[23/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspAutoLink.cpp.obj
+[24/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspPackage.cpp.obj
+[25/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/DspUiBridge.cpp.obj
+[26/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAppCore.dir/Core/DspEqState.cpp.obj
+[27/141] Linking CXX static library Host\EntropyDspEngine\libDspAppCore.a
+[28/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/UiSchema.cpp.obj
+[29/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/DspWindow.cpp.obj
+[30/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/CenterPage.cpp.obj
+[31/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/ParametricEqModel.cpp.obj
+[32/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/LoudnessPage.cpp.obj
+[33/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/ParametricEqPage.cpp.obj
+[34/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/R10/ParametricEqResponseGraph.cpp.obj
+[35/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLegacyFixtures.dir/Core/DspLocalDemand.cpp.obj
+[36/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLegacyFixtures.dir/Core/DspDownstreamLink.cpp.obj
+[37/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspRunnerSmoke.dir/Tests/RunnerSmoke.cpp.obj
+[38/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/DspGraphPage.cpp.obj
+[39/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspUi.dir/UI/AlignmentPage.cpp.obj
+[40/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspBypassIdentityTests.dir/Tests/DspBypassIdentityTests.cpp.obj
+[41/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLivenessTests.dir/Tests/DspLivenessTests.cpp.obj
+[42/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspBusIntegrationTests.dir/Tests/DspBusIntegrationTests.cpp.obj
+[43/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspRecorderTests.dir/Tests/DspRecorderTests.cpp.obj
+[44/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAllocationTests.dir/Core/RealtimeAllocationAudit.cpp.obj
+[45/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAllocationTests.dir/Tests/DspAllocationTests.cpp.obj
+[46/141] Linking CXX static library Host\EntropyDspEngine\libDspUi.a
+[47/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLifecycleTests.dir/Tests/DspLifecycleTests.cpp.obj
+[48/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspProcessHarness.dir/Tests/DspProcessHarness.cpp.obj
+[49/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/StageBusContractTests.dir/Tests/InheritedStageBus/StageBusContractTests.cpp.obj
+[50/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspStateTests.dir/Tests/DspStateTests.cpp.obj
+[51/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/StageBusDemandTests.dir/Tests/InheritedStageBus/StageBusDemandTests.cpp.obj
+[52/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/EntropyDspEngine.dir/App/DspMain.cpp.obj
+[53/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/StageBusLayoutProbe.dir/Tests/InheritedStageBus/StageBusLayoutProbe.cpp.obj
+[54/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/StageBusProcessTests.dir/Tests/InheritedStageBus/StageBusProcessTests.cpp.obj
+[55/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/StageBusPeer.dir/Tests/InheritedStageBus/StageBusProcessTests.cpp.obj
+[56/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspPackageTests.dir/Tests/DspPackageTests.cpp.obj
+[57/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspPendingFailureTests.dir/Tests/DspPendingFailureTests.cpp.obj
+[58/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspPeerDeathPendingTests.dir/Tests/DspPeerDeathPendingTests.cpp.obj
+[59/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspRestartProcessTests.dir/Tests/DspRestartProcessTests.cpp.obj
+[60/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspTestEngine.dir/App/DspMain.cpp.obj
+[61/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/StageLinkTests.dir/Tests/StageLinkTests.cpp.obj
+[62/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLocalDemandTests.dir/Tests/DspLocalDemandTests.cpp.obj
+[63/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspSourceIsolationTests.dir/Tests/DspSourceIsolationTests.cpp.obj
+[64/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspPassiveNativeTests.dir/Tests/DspPassiveNativeTests.cpp.obj
+[65/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspPublishedOutputTests.dir/Tests/DspPublishedOutputTests.cpp.obj
+[66/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspPassiveInputTests.dir/Tests/DspPassiveInputTests.cpp.obj
+[67/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspPassiveAllocationTests.dir/Tests/DspPassiveNativeTests.cpp.obj
+[68/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspPassiveAllocationTests.dir/Core/RealtimeAllocationAudit.cpp.obj
+[69/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspSignalTelemetryTests.dir/Tests/DspSignalTelemetryTests.cpp.obj
+[70/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterNativeTests.dir/Tests/DspCenterNativeTests.cpp.obj
+[71/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterRouteTests.dir/Tests/DspCenterRouteTests.cpp.obj
+[72/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspGraphTests.dir/Tests/DspGraphTests.cpp.obj
+[73/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterControllerTests.dir/Tests/DspCenterControllerTests.cpp.obj
+[74/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterAllocationTests.dir/Core/RealtimeAllocationAudit.cpp.obj
+[75/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterStateTests.dir/Tests/DspCenterStateTests.cpp.obj
+[76/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterAllocationTests.dir/Tests/DspAllocationTests.cpp.obj
+[77/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterUiTests.dir/Tests/DspCenterUiTests.cpp.obj
+[78/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspAlignmentTests.dir/Tests/DspAlignmentTests.cpp.obj
+[79/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLrcRouteTests.dir/Tests/DspLrcRouteTests.cpp.obj
+[80/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterProcessHarness.dir/Tests/DspProcessHarness.cpp.obj
+[81/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLrcAllocationTests.dir/Tests/DspAllocationTests.cpp.obj
+[82/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLrcControllerTests.dir/Tests/DspLrcControllerTests.cpp.obj
+[83/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLrcAllocationTests.dir/Core/RealtimeAllocationAudit.cpp.obj
+[84/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspLrcUiTests.dir/Tests/DspLrcUiTests.cpp.obj
+[85/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspCenterIntegrationAuditTests.dir/Tests/DspCenterIntegrationAuditTests.cpp.obj
+[86/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspEqRouteTests.dir/Tests/DspEqRouteTests.cpp.obj
+[87/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspProfileUiTests.dir/Tests/DspProfileUiTests.cpp.obj
+[88/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspEqStateTests.dir/Tests/DspEqStateTests.cpp.obj
+[89/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspEqNativeTests.dir/Tests/DspEqNativeTests.cpp.obj
+[90/141] Linking CXX static library Host\EntropyDspEngine\libDspLegacyFixtures.a
+[91/141] Linking CXX executable Host\EntropyDspEngine\DspRunnerSmoke.exe
+[92/141] Linking CXX executable Host\EntropyDspEngine\DspBypassIdentityTests.exe
+[93/141] Linking CXX executable Host\EntropyDspEngine\DspBusIntegrationTests.exe
+[94/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspEqAllocationTests.dir/Core/RealtimeAllocationAudit.cpp.obj
+[95/141] Linking CXX executable Host\EntropyDspEngine\DspLivenessTests.exe
+[96/141] Linking CXX executable Host\EntropyDspEngine\DspRecorderTests.exe
+[97/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspEqUiTests.dir/Tests/DspEqUiTests.cpp.obj
+[98/141] Linking CXX executable Host\EntropyDspEngine\DspAllocationTests.exe
+[99/141] Linking CXX executable Host\EntropyDspEngine\DspLifecycleTests.exe
+[100/141] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspEqAllocationTests.dir/Tests/DspAllocationTests.cpp.obj
+[101/141] Linking CXX executable Host\EntropyDspEngine\DspProcessHarness.exe
+[102/141] Linking CXX executable Host\EntropyDspEngine\DspStateTests.exe
+[103/141] Linking CXX executable Host\EntropyDspEngine\EntropyDspEngine.exe
+[104/141] Linking CXX executable Host\EntropyDspEngine\StageBusContractTests.exe
+[105/141] Linking CXX executable Host\EntropyDspEngine\StageBusDemandTests.exe
+[106/141] Linking CXX executable Host\EntropyDspEngine\DspPackageTests.exe
+[107/141] Linking CXX executable Host\EntropyDspEngine\StageBusProcessTests.exe
+[108/141] Linking CXX executable Host\EntropyDspEngine\StageBusPeer.exe
+[109/141] Linking CXX executable Host\EntropyDspEngine\StageBusLayoutProbe.exe
+[110/141] Linking CXX executable Host\EntropyDspEngine\DspPendingFailureTests.exe
+[111/141] Linking CXX executable Host\EntropyDspEngine\DspTestEngine.exe
+[112/141] Linking CXX executable Host\EntropyDspEngine\DspPeerDeathPendingTests.exe
+[113/141] Linking CXX executable Host\EntropyDspEngine\DspRestartProcessTests.exe
+[114/141] Linking CXX executable Host\EntropyDspEngine\StageLinkTests.exe
+[115/141] Linking CXX executable Host\EntropyDspEngine\DspLocalDemandTests.exe
+[116/141] Linking CXX executable Host\EntropyDspEngine\DspSourceIsolationTests.exe
+[117/141] Linking CXX executable Host\EntropyDspEngine\DspPublishedOutputTests.exe
+[118/141] Linking CXX executable Host\EntropyDspEngine\DspPassiveInputTests.exe
+[119/141] Linking CXX executable Host\EntropyDspEngine\DspPassiveNativeTests.exe
+[120/141] Linking CXX executable Host\EntropyDspEngine\DspSignalTelemetryTests.exe
+[121/141] Linking CXX executable Host\EntropyDspEngine\DspPassiveAllocationTests.exe
+[122/141] Linking CXX executable Host\EntropyDspEngine\DspCenterNativeTests.exe
+[123/141] Linking CXX executable Host\EntropyDspEngine\DspGraphTests.exe
+[124/141] Linking CXX executable Host\EntropyDspEngine\DspCenterRouteTests.exe
+[125/141] Linking CXX executable Host\EntropyDspEngine\DspCenterControllerTests.exe
+[126/141] Linking CXX executable Host\EntropyDspEngine\DspCenterStateTests.exe
+[127/141] Linking CXX executable Host\EntropyDspEngine\DspCenterAllocationTests.exe
+[128/141] Linking CXX executable Host\EntropyDspEngine\DspAlignmentTests.exe
+[129/141] Linking CXX executable Host\EntropyDspEngine\DspCenterProcessHarness.exe
+[130/141] Linking CXX executable Host\EntropyDspEngine\DspLrcRouteTests.exe
+[131/141] Linking CXX executable Host\EntropyDspEngine\DspLrcControllerTests.exe
+[132/141] Linking CXX executable Host\EntropyDspEngine\DspCenterUiTests.exe
+[133/141] Linking CXX executable Host\EntropyDspEngine\DspLrcAllocationTests.exe
+[134/141] Linking CXX executable Host\EntropyDspEngine\DspLrcUiTests.exe
+[135/141] Linking CXX executable Host\EntropyDspEngine\DspProfileUiTests.exe
+[136/141] Linking CXX executable Host\EntropyDspEngine\DspCenterIntegrationAuditTests.exe
+[137/141] Linking CXX executable Host\EntropyDspEngine\DspEqStateTests.exe
+[138/141] Linking CXX executable Host\EntropyDspEngine\DspEqRouteTests.exe
+[139/141] Linking CXX executable Host\EntropyDspEngine\DspEqNativeTests.exe
+[140/141] Linking CXX executable Host\EntropyDspEngine\DspEqAllocationTests.exe
+[141/141] Linking CXX executable Host\EntropyDspEngine\DspEqUiTests.exe
+Adding local dependencyD:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/libgcc_s_seh-1.dll
+Adding local dependencyD:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/libwinpthread-1.dll
+Adding local dependencyD:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/libstdc++-6.dll
+D:\Projects\3Stage-3\Stage2\build\Host\EntropyDspEngine\DspEqUiTests.exe 64 bit, release executable
+Adding in plugin type generic for module: Qt6Gui
+Adding Qt6Network for qtuiotouchplugin.dll from plugin type: generic
+Adding in plugin type iconengines for module: Qt6Gui
+Adding Qt6Svg for qsvgicon.dll from plugin type: iconengines
+Adding in plugin type imageformats for module: Qt6Gui
+Adding in plugin type networkinformation for module: Qt6Network
+Adding in plugin type platforms for module: Qt6Gui
+Adding in plugin type styles for module: Qt6Widgets
+Adding in plugin type tls for module: Qt6Network
+Skipping plugin qopensslbackend.dll. Use -force-openssl or specify -openssl-root if you want to use it.
+Performing additional pass of finding Qt plugins due to updated Qt module list: Qt6Core Qt6Gui Qt6Network Qt6Svg Qt6Widgets
+Adding in plugin type generic for module: Qt6Gui
+Adding in plugin type iconengines for module: Qt6Gui
+Adding in plugin type imageformats for module: Qt6Gui
+Adding in plugin type networkinformation for module: Qt6Network
+Adding in plugin type platforms for module: Qt6Gui
+Adding in plugin type styles for module: Qt6Widgets
+Adding in plugin type tls for module: Qt6Network
+Skipping plugin qopensslbackend.dll. Use -force-openssl or specify -openssl-root if you want to use it.
+Direct dependencies: Qt6Core Qt6Gui Qt6Widgets
+All dependencies   : Qt6Core Qt6Gui Qt6Widgets
+To be deployed     : Qt6Core Qt6Gui Qt6Network Qt6Svg Qt6Widgets
+Warning: Cannot find any version of the dxcompiler.dll and dxil.dll. This is not a problem unless Direct3D 12 and certain features are used by the application.
+Qt6Core.dll is up to date.
+Qt6Gui.dll is up to date.
+Updating Qt6Network.dll.
+Updating Qt6Svg.dll.
+Qt6Widgets.dll is up to date.
+libgcc_s_seh-1.dll is up to date.
+libstdc++-6.dll is up to date.
+libwinpthread-1.dll is up to date.
+Creating directory D:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/generic.
+Updating qtuiotouchplugin.dll.
+Creating directory D:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/iconengines.
+Updating qsvgicon.dll.
+Creating directory D:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/imageformats.
+Updating qgif.dll.
+Updating qico.dll.
+Updating qjpeg.dll.
+
+Updating qsvg.dll.
+
+Creating directory D:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/networkinformation.
+
+Updating qnetworklistmanager.dll.
+
+qwindows.dll is up to date.
+
+Creating directory D:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/styles.
+
+Updating qmodernwindowsstyle.dll.
+
+Creating directory D:/Projects/3Stage-3/Stage2/build/Host/EntropyDspEngine/tls.
+
+Updating qcertonlybackend.dll.
+
+Updating qschannelbackend.dll.
+

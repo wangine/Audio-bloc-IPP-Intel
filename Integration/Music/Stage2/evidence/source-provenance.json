@@ -1,0 +1,962 @@
+[
+  {
+    "path": "source/CMakeLists.txt",
+    "release_sha256": "20e3cb07bbe844f4d4d735777998bf9354f2437c59a1d063c43d897b1ee540df",
+    "current_sha256": "f510b28a85125647c6e5f3ecd7cf06c72fba6ee02ea3f1e5593608783e464a20",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/App/DspMain.cpp",
+    "release_sha256": "4ba005a6e6d4190ab37304103b25d80ade42666b392ca9406ab636dcec605bc9",
+    "current_sha256": "f6ed30ee89e7ec378081c23b3b60ba66e4b760e11fd721368f65890ef124b107",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/CMakeLists.txt",
+    "release_sha256": "5323126c64a5f7989fd117810e155a4988eea1a5de4e22fcf261a2b6c14ddfb0",
+    "current_sha256": "31c03f9d424049e190abb90ce1378f170dbc4d26808eae111a2c2058eeac37b3",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspAlignment.cpp",
+    "release_sha256": "684b41c5259a8483adef8f92dca53283ce4e0714e6c64ddd2b34c37c0f322c8c",
+    "current_sha256": "684b41c5259a8483adef8f92dca53283ce4e0714e6c64ddd2b34c37c0f322c8c",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspAlignment.h",
+    "release_sha256": "ffe6be9d6212eabf91c4d8b4fb708940a939427c76d457ad24c9bf65c08485c9",
+    "current_sha256": "ffe6be9d6212eabf91c4d8b4fb708940a939427c76d457ad24c9bf65c08485c9",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspAutoLink.cpp",
+    "release_sha256": "12f54644cb7f1a98276eaf57a20f4d87835fca33b3cefc0ea10e131ce8159c38",
+    "current_sha256": "12f54644cb7f1a98276eaf57a20f4d87835fca33b3cefc0ea10e131ce8159c38",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspAutoLink.h",
+    "release_sha256": "8c1a3601a82315eff7c3b5b9bf7190db43b511fd7b1b9dec789435987f845ba2",
+    "current_sha256": "8c1a3601a82315eff7c3b5b9bf7190db43b511fd7b1b9dec789435987f845ba2",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspCenterModule.cpp",
+    "release_sha256": "44b406d0e7814a316cfb38319aeffcc560117a2458a84857e387623404a6971f",
+    "current_sha256": "44b406d0e7814a316cfb38319aeffcc560117a2458a84857e387623404a6971f",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspCenterModule.h",
+    "release_sha256": "e53b099166c3ffd5949f3f0c3d16c8eceda8ced64b738db336634c6a8c1dec68",
+    "current_sha256": "e53b099166c3ffd5949f3f0c3d16c8eceda8ced64b738db336634c6a8c1dec68",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspController.cpp",
+    "release_sha256": "f343c14757125fa22b19316bc098053b4bd50cc3b7ac0eb3ed8fd4fa15835945",
+    "current_sha256": "2a12c09349ef1fd743549073f79f148e5a5829477d054ae1adb47206afc3a038",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspController.h",
+    "release_sha256": "2fbe978ba6be8385426631dcf02703fce0fbe72948d6aa28ed07e04ac4bb8147",
+    "current_sha256": "2fbe978ba6be8385426631dcf02703fce0fbe72948d6aa28ed07e04ac4bb8147",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspDownstreamLink.cpp",
+    "release_sha256": "43d4ef3c0be5082af17e06afc00991f969807a73dcfd25db762fbf8c45ee21c4",
+    "current_sha256": "43d4ef3c0be5082af17e06afc00991f969807a73dcfd25db762fbf8c45ee21c4",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspDownstreamLink.h",
+    "release_sha256": "655b9559a09f040d880896370343fdbdfb3e848f141664a2dd06d422a8293c19",
+    "current_sha256": "655b9559a09f040d880896370343fdbdfb3e848f141664a2dd06d422a8293c19",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspEqModule.cpp",
+    "release_sha256": "c49f736790c42c4125e6d77beca478e6f37f3d2de5d6f4e157699b6c75e8e39c",
+    "current_sha256": "c49f736790c42c4125e6d77beca478e6f37f3d2de5d6f4e157699b6c75e8e39c",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspEqModule.h",
+    "release_sha256": "b1ca8aedd3407aa3b8179ded0ee79cf474a755e735327350de2db0dc026d3de4",
+    "current_sha256": "b1ca8aedd3407aa3b8179ded0ee79cf474a755e735327350de2db0dc026d3de4",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspEqState.cpp",
+    "release_sha256": "180e107a65783ff7112093e326286549e40858366309b460afc8529c197702d8",
+    "current_sha256": "180e107a65783ff7112093e326286549e40858366309b460afc8529c197702d8",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspEqState.h",
+    "release_sha256": "c0dbe4b9ea54bfb4e266c16ca90f9cb431498eff5389517664633df3145471c4",
+    "current_sha256": "c0dbe4b9ea54bfb4e266c16ca90f9cb431498eff5389517664633df3145471c4",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspLocalDemand.cpp",
+    "release_sha256": "85aacdd3bdbd24aae1359704eb0208098163a49dac8ab5c8d5d3ca528f2f56bc",
+    "current_sha256": "85aacdd3bdbd24aae1359704eb0208098163a49dac8ab5c8d5d3ca528f2f56bc",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspLocalDemand.h",
+    "release_sha256": "be7386d2dff0b256bf17f338089971952ced7407b527ff4874f69c3fc2477a0d",
+    "current_sha256": "be7386d2dff0b256bf17f338089971952ced7407b527ff4874f69c3fc2477a0d",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspLrcModule.cpp",
+    "release_sha256": "46559cd3ece5960a6e1a096e67db96362050c53a4d3d3dd24e58a40a51fa96cf",
+    "current_sha256": "46559cd3ece5960a6e1a096e67db96362050c53a4d3d3dd24e58a40a51fa96cf",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspLrcModule.h",
+    "release_sha256": "ec91b229dcba70405812a3bc5e34c253f33c4bc97637896c2b7918be0e89cf9d",
+    "current_sha256": "ec91b229dcba70405812a3bc5e34c253f33c4bc97637896c2b7918be0e89cf9d",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspNativeHashes.h",
+    "release_sha256": "7837bfb9039a7f07259678267b973b7401284a45051a0b248893f4be244fd4ce",
+    "current_sha256": "7837bfb9039a7f07259678267b973b7401284a45051a0b248893f4be244fd4ce",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspNativeRegistry.cpp",
+    "release_sha256": "1e1fba8b47a4365df636533ef154f1406e53d34702b1684e999fb4d511687f69",
+    "current_sha256": "1e1fba8b47a4365df636533ef154f1406e53d34702b1684e999fb4d511687f69",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspNativeRegistry.h",
+    "release_sha256": "a8437894ccaa71d572328bb8c763c49dd42cc9355ad02c240d753d3692e9fcb2",
+    "current_sha256": "a8437894ccaa71d572328bb8c763c49dd42cc9355ad02c240d753d3692e9fcb2",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspPackage.cpp",
+    "release_sha256": "f7ce559377d2f809aa4985b1a0ae303f6037eafe6dcc4311ffcb39d708294a39",
+    "current_sha256": "173ad82335db8766ee209d0663d9795fe08e1aaa6fa09e1960daec7d18ae56e7",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspPackage.h",
+    "release_sha256": "fa0caef0ce9bf42dfcb788517f3f22f0733ca61d801d7f80ee9d2743b41d809e",
+    "current_sha256": "fa0caef0ce9bf42dfcb788517f3f22f0733ca61d801d7f80ee9d2743b41d809e",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspRecorder.cpp",
+    "release_sha256": "7a25b13e40bf06b6b23f6e9a4ccde80ea7469b88f7f4d21ff05a3ba7089f01a4",
+    "current_sha256": "7eea64762ba19cde4bd3628ed33b746870b8de7510956f699bd415a704a0cfcd",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspRecorder.h",
+    "release_sha256": "61406563a44622c2a809c2ee8375597e901ef9fc54bfe8400dbadafb39604f8b",
+    "current_sha256": "a6de818d0a5b2bb0a26d478ce343960600c6c679ba7f65680c8ac7627522493b",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspSessionDiscovery.cpp",
+    "release_sha256": "36e58a6fde3140b57478d87825213b756fae71192d1f80d5fe3db729e53d8227",
+    "current_sha256": "46e45c8750f26c80a3b6125fb42eab9cf8ec8eaece6c8ad70b21efd43de2ef75",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspSessionDiscovery.h",
+    "release_sha256": "f34f7c46c4cce1ca5f88cb6c10d5f946b89986296975edf052b9015c9745d5e3",
+    "current_sha256": "f34f7c46c4cce1ca5f88cb6c10d5f946b89986296975edf052b9015c9745d5e3",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspSignalTelemetry.h",
+    "release_sha256": "bf7d493ad559e21f1abf19aa17b276827d15e58b74b16a888ef867480c006762",
+    "current_sha256": "7342e7291c05a7a87c10211ca28761dd2e2f0cffcbbe176550f5011b18ee7d4b",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspStageRuntime.cpp",
+    "release_sha256": "6c0dd1a0116b3f20cc0dda3f5bdf32c9ffb04c4a163773118e7d3c680e5e5aab",
+    "current_sha256": "a4c9b735e2c0a76c68850fe1a09a12175bb9d0a3c45e45ad928d24599d750e5b",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspStageRuntime.h",
+    "release_sha256": "2a467c61f891e9627c120e1d982c01519083855b3fb177329c38dc8b95b9a50e",
+    "current_sha256": "9efcd975dcc54876e128f09a142dba180d763cac55c4002375efeae66440836e",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspState.cpp",
+    "release_sha256": "841561b8519985b3054d83f32263e3db5c22fad0cc922436244620b7d8464ce2",
+    "current_sha256": "841561b8519985b3054d83f32263e3db5c22fad0cc922436244620b7d8464ce2",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/DspState.h",
+    "release_sha256": "c9f29173625a7fa57759ad07f291397ec7fdc0c2ac5cbdcdfeb341ab9b3b6ad6",
+    "current_sha256": "c9f29173625a7fa57759ad07f291397ec7fdc0c2ac5cbdcdfeb341ab9b3b6ad6",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/ProAudioThreadScope.cpp",
+    "release_sha256": "57cf10602ead230d6e0800c50f88a9e22d4be337cc334be1e8c1f3b6bb5d6388",
+    "current_sha256": "57cf10602ead230d6e0800c50f88a9e22d4be337cc334be1e8c1f3b6bb5d6388",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/ProAudioThreadScope.h",
+    "release_sha256": "bb5dab99c22fb6e051d8bbbfe9a1a4d382034b07d7dd623a6409209250a7173e",
+    "current_sha256": "bb5dab99c22fb6e051d8bbbfe9a1a4d382034b07d7dd623a6409209250a7173e",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/RealtimeAllocationAudit.cpp",
+    "release_sha256": "f6ff159fb4be60e0472d7607b4012da623ecae9a0c4b8edac61f032f55ce930e",
+    "current_sha256": "f6ff159fb4be60e0472d7607b4012da623ecae9a0c4b8edac61f032f55ce930e",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/RealtimeAllocationAudit.h",
+    "release_sha256": "8ae90c03c53b94b4b062ea84ece72ed8a76a55cc3c3aa9ee7ff1856fb3b8d9ef",
+    "current_sha256": "8ae90c03c53b94b4b062ea84ece72ed8a76a55cc3c3aa9ee7ff1856fb3b8d9ef",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/SourceCycleTimer.h",
+    "release_sha256": "b9c813ad9a478dd74ac0c78b8e3e15ed52dd810ae306dbcde2038599d2e9bf71",
+    "current_sha256": "b9c813ad9a478dd74ac0c78b8e3e15ed52dd810ae306dbcde2038599d2e9bf71",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/TransparentDspExecutor.cpp",
+    "release_sha256": "d45b392af4f17d92582b3ab5c732879123f35ffe3b6bf4d3b8141e6a8684bcc8",
+    "current_sha256": "2e7495261e654a80528ec777a7b5c93a5fbc54e19b422ca2301058e5500924e4",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Core/TransparentDspExecutor.h",
+    "release_sha256": "22e6911e981ccd1968e326557252b7985560ed09aa39d43f725506baa04a9d24",
+    "current_sha256": "22e6911e981ccd1968e326557252b7985560ed09aa39d43f725506baa04a9d24",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspAlignmentTests.cpp",
+    "release_sha256": "a42978bd95d0cc8ca0ede806b729278fc14dda22042095b59752a59830e1812e",
+    "current_sha256": "a42978bd95d0cc8ca0ede806b729278fc14dda22042095b59752a59830e1812e",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp",
+    "release_sha256": "83febb1ff77a558c434f4e357836304753ff36eb35fdbede79cb24de9da6b996",
+    "current_sha256": "83febb1ff77a558c434f4e357836304753ff36eb35fdbede79cb24de9da6b996",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspBusIntegrationTests.cpp",
+    "release_sha256": "c8d2166cc27a5f587ac577b859d3972c76079cb07afdc01f714d26ed829771a9",
+    "current_sha256": "c8d2166cc27a5f587ac577b859d3972c76079cb07afdc01f714d26ed829771a9",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspBypassIdentityTests.cpp",
+    "release_sha256": "0227aecb40fc03e57f47bed095095d764fab041b14bab2b1ce4c00785dd829e8",
+    "current_sha256": "0227aecb40fc03e57f47bed095095d764fab041b14bab2b1ce4c00785dd829e8",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspCenterControllerTests.cpp",
+    "release_sha256": "bb53ab9750fc65ebd1635d13d3061f0d471af05a050412f825fb2016396a2bf1",
+    "current_sha256": "bb53ab9750fc65ebd1635d13d3061f0d471af05a050412f825fb2016396a2bf1",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspCenterIntegrationAuditTests.cpp",
+    "release_sha256": "9be64398922c7bf722d1a1b131f039a7756fbfeb6648e39a7abecfd8d2a1362e",
+    "current_sha256": "9be64398922c7bf722d1a1b131f039a7756fbfeb6648e39a7abecfd8d2a1362e",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspCenterNativeTests.cpp",
+    "release_sha256": "5570f0b7710c63d81e696e3584514fdbe337ed0880bc1d1054eae69592548925",
+    "current_sha256": "5570f0b7710c63d81e696e3584514fdbe337ed0880bc1d1054eae69592548925",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspCenterRouteTests.cpp",
+    "release_sha256": "2ec8ae451c8c7f744c8d70886e06a1a0b028fc7f78a3f8f2d278ca58fefbe813",
+    "current_sha256": "2ec8ae451c8c7f744c8d70886e06a1a0b028fc7f78a3f8f2d278ca58fefbe813",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspCenterStateTests.cpp",
+    "release_sha256": "ea2a23171f9f44437ac951833ec2caf158937da0e2d750d692f707d816442c37",
+    "current_sha256": "ea2a23171f9f44437ac951833ec2caf158937da0e2d750d692f707d816442c37",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspCenterUiTests.cpp",
+    "release_sha256": "f8a76e8b2265517831ae4c2a0a8dd0662800a117ff2677b989cc42dd4360eeff",
+    "current_sha256": "f8a76e8b2265517831ae4c2a0a8dd0662800a117ff2677b989cc42dd4360eeff",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspEqNativeTests.cpp",
+    "release_sha256": "14c8db41daedc3ab4aed1e545fdda6ed0096239ab6073062297257b76d80ec4b",
+    "current_sha256": "14c8db41daedc3ab4aed1e545fdda6ed0096239ab6073062297257b76d80ec4b",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspEqRouteTests.cpp",
+    "release_sha256": "dec0ea739b45259235a0240e10db97db50d4e96fb2d6b9f1613c40501a2ddae9",
+    "current_sha256": "dec0ea739b45259235a0240e10db97db50d4e96fb2d6b9f1613c40501a2ddae9",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspEqStateTests.cpp",
+    "release_sha256": "168d020bcfe0c1651c2810f0b938c6479714ab7a86ceff350190eba88dee60d6",
+    "current_sha256": "168d020bcfe0c1651c2810f0b938c6479714ab7a86ceff350190eba88dee60d6",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspEqUiTests.cpp",
+    "release_sha256": "8e4659a471c1e6857e8be34b2ca14e9b78a5d248d7f0bb4aa77a0438b5fcf9a0",
+    "current_sha256": "8e4659a471c1e6857e8be34b2ca14e9b78a5d248d7f0bb4aa77a0438b5fcf9a0",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspGraphTests.cpp",
+    "release_sha256": "4b110a0079a0eab13fb6116c28bf252cad5bbf5f51c20d8e5eca3527247c73bf",
+    "current_sha256": "4b110a0079a0eab13fb6116c28bf252cad5bbf5f51c20d8e5eca3527247c73bf",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspLifecycleTests.cpp",
+    "release_sha256": "d39ca18da3ebc2958248b831b308186e6467ec2a14a47e323cf87252c3386bdd",
+    "current_sha256": "d39ca18da3ebc2958248b831b308186e6467ec2a14a47e323cf87252c3386bdd",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspLivenessTests.cpp",
+    "release_sha256": "3bb0eaf30693c459463d2382165e676dad9e7eff2df1034a80fee7c73d022e0e",
+    "current_sha256": "3bb0eaf30693c459463d2382165e676dad9e7eff2df1034a80fee7c73d022e0e",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspLocalDemandTests.cpp",
+    "release_sha256": "5dfcf09fbe28352a0ccdcd68f497a4345b26eefbb5a03f80263b6339e39ecd25",
+    "current_sha256": "5dfcf09fbe28352a0ccdcd68f497a4345b26eefbb5a03f80263b6339e39ecd25",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspLrcControllerTests.cpp",
+    "release_sha256": "1cc96ccff916665a5a4cd8dbb7a78d87be2d6779462ef7ced3a1464d04123169",
+    "current_sha256": "1cc96ccff916665a5a4cd8dbb7a78d87be2d6779462ef7ced3a1464d04123169",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspLrcRouteTests.cpp",
+    "release_sha256": "a057864fa3abfb5376c63993e98aa04f3a685f08ab711c5b5be84cf36543cbed",
+    "current_sha256": "a057864fa3abfb5376c63993e98aa04f3a685f08ab711c5b5be84cf36543cbed",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspLrcUiTests.cpp",
+    "release_sha256": "cb5b57e637c5d5c2a82fabf27819b9083b94a75cd776cfc31910073d83b552e9",
+    "current_sha256": "cb5b57e637c5d5c2a82fabf27819b9083b94a75cd776cfc31910073d83b552e9",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspPackageTests.cpp",
+    "release_sha256": "8d6c9c5b2e52f5befd92000f1d5b50033d87a19219fdb0af2349d294ad6128a3",
+    "current_sha256": "8d6c9c5b2e52f5befd92000f1d5b50033d87a19219fdb0af2349d294ad6128a3",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspPassiveInputTests.cpp",
+    "release_sha256": "9d0aad2ada9c124b7248c82f9859edc3ebb28fc3e480b3956d1001a050c918a0",
+    "current_sha256": "9d0aad2ada9c124b7248c82f9859edc3ebb28fc3e480b3956d1001a050c918a0",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspPassiveNativeTests.cpp",
+    "release_sha256": "be44168a3dde8c8b8d1b17f238043e3a8555305a415ef023344f7976f3f33871",
+    "current_sha256": "be44168a3dde8c8b8d1b17f238043e3a8555305a415ef023344f7976f3f33871",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspPeerDeathPendingTests.cpp",
+    "release_sha256": "0876555d0170802620f1d0e4351818d5c2d173c68177be686520d4f8a6fda7cc",
+    "current_sha256": "0876555d0170802620f1d0e4351818d5c2d173c68177be686520d4f8a6fda7cc",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspPendingFailureTests.cpp",
+    "release_sha256": "4c44f492976977bb24decc06d4104affeaf06ff8e44c577fb896376b3750ddda",
+    "current_sha256": "4c44f492976977bb24decc06d4104affeaf06ff8e44c577fb896376b3750ddda",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspProcessHarness.cpp",
+    "release_sha256": "5c0b3d63f96bd7744fad8da5f6c55e03d483a9f869903836dbb1871ca2baad70",
+    "current_sha256": "5c0b3d63f96bd7744fad8da5f6c55e03d483a9f869903836dbb1871ca2baad70",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspProfileUiTests.cpp",
+    "release_sha256": "43874a9984e44172a5fe7f6f0a49462b04b3954472b0e441978f17664e4cc706",
+    "current_sha256": "43874a9984e44172a5fe7f6f0a49462b04b3954472b0e441978f17664e4cc706",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspPublishedOutputTests.cpp",
+    "release_sha256": "d27a74905e079704d099db3671a049ce665ae2a3399ec72ee86b3f9a6ae52ec7",
+    "current_sha256": "d27a74905e079704d099db3671a049ce665ae2a3399ec72ee86b3f9a6ae52ec7",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspRecorderTests.cpp",
+    "release_sha256": "fa65f0226364f0c17e086368e0bf2ca39b317187fb77045f16498e5215a46092",
+    "current_sha256": "fa65f0226364f0c17e086368e0bf2ca39b317187fb77045f16498e5215a46092",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspRestartProcessTests.cpp",
+    "release_sha256": "643441a2c5469e631f2b8fbe24cb05465b8cd7e5a55a717e5c2f5c1b9cfe17a1",
+    "current_sha256": "643441a2c5469e631f2b8fbe24cb05465b8cd7e5a55a717e5c2f5c1b9cfe17a1",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspSignalTelemetryTests.cpp",
+    "release_sha256": "28a207e17fa1682ff76e4a6343247d0014993bd0b29e6f85a0dfa32750b66fa8",
+    "current_sha256": "28a207e17fa1682ff76e4a6343247d0014993bd0b29e6f85a0dfa32750b66fa8",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspSourceIsolationTests.cpp",
+    "release_sha256": "065679eccd18c03e6ff133a9385c6ab029fcbd6e839cd2e57c7001245678a390",
+    "current_sha256": "065679eccd18c03e6ff133a9385c6ab029fcbd6e839cd2e57c7001245678a390",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/DspStateTests.cpp",
+    "release_sha256": "37b3ab31dff4ec5040b7c3f55a9271413827ab1bcba651c0291d78bd36a0aee3",
+    "current_sha256": "37b3ab31dff4ec5040b7c3f55a9271413827ab1bcba651c0291d78bd36a0aee3",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/InheritedStageBus/StageBusContractTests.cpp",
+    "release_sha256": "913719419afdf2b5d77d74fc36e87b0f0b9a783829bff2382120e9f09e6a6d56",
+    "current_sha256": "913719419afdf2b5d77d74fc36e87b0f0b9a783829bff2382120e9f09e6a6d56",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/InheritedStageBus/StageBusDemandTests.cpp",
+    "release_sha256": "29cb3dc2a0bddb9c8bc3d8c71fdb933ef09da3faab4d5505e419d71f9954d948",
+    "current_sha256": "29cb3dc2a0bddb9c8bc3d8c71fdb933ef09da3faab4d5505e419d71f9954d948",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/InheritedStageBus/StageBusLayoutProbe.cpp",
+    "release_sha256": "8dac06b777f50bf16ab618a18d452a647b7e7d3e2024a6acbc50fdd45851d2f0",
+    "current_sha256": "8dac06b777f50bf16ab618a18d452a647b7e7d3e2024a6acbc50fdd45851d2f0",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/InheritedStageBus/StageBusProcessTests.cpp",
+    "release_sha256": "dd014110caa4fbd16df83b8eb777ec0ee60e6e96b7e53ba8630a6c5500fe3350",
+    "current_sha256": "dd014110caa4fbd16df83b8eb777ec0ee60e6e96b7e53ba8630a6c5500fe3350",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/RunnerSmoke.cpp",
+    "release_sha256": "34367a871ee4e1fe6fcd19e3360c367edd9216132877a83868174b56c0e8b9cf",
+    "current_sha256": "34367a871ee4e1fe6fcd19e3360c367edd9216132877a83868174b56c0e8b9cf",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/StageLinkTests.cpp",
+    "release_sha256": "17bf12181b44a265527ad2f5b4df14d5a8509f202cc9b51c8b793cff869cd593",
+    "current_sha256": "17bf12181b44a265527ad2f5b4df14d5a8509f202cc9b51c8b793cff869cd593",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/Tests/TestSupport.h",
+    "release_sha256": "7e2c95870f0f8a39c030f7f76a138b9e05f09a6e5e192dda84f05f1555e7d11d",
+    "current_sha256": "7e2c95870f0f8a39c030f7f76a138b9e05f09a6e5e192dda84f05f1555e7d11d",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/AlignmentPage.cpp",
+    "release_sha256": "9c23efb0c6b21f9e281f86e5bbdb9ea49fb2d189ee143e5ac369d7e093d4b3b8",
+    "current_sha256": "9c23efb0c6b21f9e281f86e5bbdb9ea49fb2d189ee143e5ac369d7e093d4b3b8",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/AlignmentPage.h",
+    "release_sha256": "06e75559c2bcd97066b53beb082f4b9800c703ab0f7a5ef28cfe400975a03e04",
+    "current_sha256": "06e75559c2bcd97066b53beb082f4b9800c703ab0f7a5ef28cfe400975a03e04",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/CenterPage.cpp",
+    "release_sha256": "1887852e077856d85e05e759b540dc97d4bd97e4eac0af737dd6fdea9f68e264",
+    "current_sha256": "1887852e077856d85e05e759b540dc97d4bd97e4eac0af737dd6fdea9f68e264",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/CenterPage.h",
+    "release_sha256": "5faa7f52760eec781ec5ecae62d7a206fa636da9a04c712077bc6f2ef8c74ab9",
+    "current_sha256": "5faa7f52760eec781ec5ecae62d7a206fa636da9a04c712077bc6f2ef8c74ab9",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/Core/EngineTelemetry.h",
+    "release_sha256": "8f728d180e87a4b19ada5cd6a79f25f33140f57e317b42881cc420a60dd3c479",
+    "current_sha256": "8f728d180e87a4b19ada5cd6a79f25f33140f57e317b42881cc420a60dd3c479",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/Core/SourceDeliveryDiagnostics.h",
+    "release_sha256": "af26254a22c8fc4d2d7c86f1b095c089a53fbe2b8f60303ca9c665f424c349b6",
+    "current_sha256": "af26254a22c8fc4d2d7c86f1b095c089a53fbe2b8f60303ca9c665f424c349b6",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/DspGraphNodes.h",
+    "release_sha256": "4186137c208b063e34d44b166fe72453b0ea3c62ea0d8b4d7b9d045b70e39097",
+    "current_sha256": "4186137c208b063e34d44b166fe72453b0ea3c62ea0d8b4d7b9d045b70e39097",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/DspGraphPage.cpp",
+    "release_sha256": "e4d3bb24afcf7789868c73cdb192af5fe370855dfdfe91ff659d5cf760cbb309",
+    "current_sha256": "fff29ca5d9f6c9b2e252fbcf1485055ab2b965317e4eb3633a2a16e347aa42f3",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/DspGraphPage.h",
+    "release_sha256": "6c9e3ab90e23cb75b758d42aea258bb58ec8615b35f26f6e7038efdd3b480a12",
+    "current_sha256": "6c9e3ab90e23cb75b758d42aea258bb58ec8615b35f26f6e7038efdd3b480a12",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/DspStyle.h",
+    "release_sha256": "9bbd6670c51896b732318d39b6e9788087cdbe11a93b76b884287441e3733cff",
+    "current_sha256": "9bbd6670c51896b732318d39b6e9788087cdbe11a93b76b884287441e3733cff",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/DspUiBridge.cpp",
+    "release_sha256": "b4e7a0a1fb27fec873d7b0ec41555e7ddba5a8c85bc7e080a472db838df2085d",
+    "current_sha256": "b4e7a0a1fb27fec873d7b0ec41555e7ddba5a8c85bc7e080a472db838df2085d",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/DspVersion.h",
+    "release_sha256": "4a9bc017050c066912e0f317ba894ffb5728f032fde32e083259fbcaa5f7e26c",
+    "current_sha256": "a2c928f6a302ef62e038901df1be08314250606fe6f837904936ac61b182fae3",
+    "changed": true
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/DspWindow.cpp",
+    "release_sha256": "1099ab363f8a1a9a4565f61f36059a8db5502265d73be6fe18a74f82b50d05d4",
+    "current_sha256": "1099ab363f8a1a9a4565f61f36059a8db5502265d73be6fe18a74f82b50d05d4",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/DspWindow.h",
+    "release_sha256": "c7863db00f5a942c3a667bb320ec308f33e943b828d0b8d9d207f8e210049c92",
+    "current_sha256": "c7863db00f5a942c3a667bb320ec308f33e943b828d0b8d9d207f8e210049c92",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/LiveUiRefresh.h",
+    "release_sha256": "77f67f05a7a92c0fbc2c052e3c91b1cdc1e3e78fc15f4a1ee6bb5029b243a609",
+    "current_sha256": "77f67f05a7a92c0fbc2c052e3c91b1cdc1e3e78fc15f4a1ee6bb5029b243a609",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/LoudnessCommandState.h",
+    "release_sha256": "5a1dd431e14fa9d5ddd47fe6dcff1984311f6e782c3ac0f15105b5b0c83e1313",
+    "current_sha256": "5a1dd431e14fa9d5ddd47fe6dcff1984311f6e782c3ac0f15105b5b0c83e1313",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/LoudnessPage.cpp",
+    "release_sha256": "b6fe408ff8ce7cbfffc9520465f3355c18a52faf8e0bad298dcca55105182ee2",
+    "current_sha256": "b6fe408ff8ce7cbfffc9520465f3355c18a52faf8e0bad298dcca55105182ee2",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/LoudnessPage.h",
+    "release_sha256": "8e4903d6806abe8293bfcfcc042f0b17980d5b27f315de1da61f56b0abdbccb6",
+    "current_sha256": "8e4903d6806abe8293bfcfcc042f0b17980d5b27f315de1da61f56b0abdbccb6",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/LoudnessVisuals.h",
+    "release_sha256": "19a3df4ddee1a4c3187271252dd2ff98d4c73cbe83c781f399da5ad249eb54c0",
+    "current_sha256": "19a3df4ddee1a4c3187271252dd2ff98d4c73cbe83c781f399da5ad249eb54c0",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/ParametricEqEngine.h",
+    "release_sha256": "9d87db1448c5e56a75f62aac5f3817f7049b8b136204b392fdea22bfa334b68d",
+    "current_sha256": "9d87db1448c5e56a75f62aac5f3817f7049b8b136204b392fdea22bfa334b68d",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/ParametricEqModel.cpp",
+    "release_sha256": "1a1c2fbb83fc70b36917dfaf2d4f4a52066c2f6202027a062f0a1eef531e3517",
+    "current_sha256": "1a1c2fbb83fc70b36917dfaf2d4f4a52066c2f6202027a062f0a1eef531e3517",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/ParametricEqModel.h",
+    "release_sha256": "b69de5e637c48fc3b6e73863da19a6f84b5768e69d3dfdb6d27c9ba5f911b9f7",
+    "current_sha256": "b69de5e637c48fc3b6e73863da19a6f84b5768e69d3dfdb6d27c9ba5f911b9f7",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/ParametricEqPage.cpp",
+    "release_sha256": "5155195634680224181b67f5bc3aa0aa7fdb46a8575deec9ef2768024ee217a0",
+    "current_sha256": "5155195634680224181b67f5bc3aa0aa7fdb46a8575deec9ef2768024ee217a0",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/ParametricEqPage.h",
+    "release_sha256": "152f393e4ec3fcb5d010ef2a2d3f5ca0dc46eed3ee778df971b8921f6deb4d1d",
+    "current_sha256": "152f393e4ec3fcb5d010ef2a2d3f5ca0dc46eed3ee778df971b8921f6deb4d1d",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/ParametricEqResponseGraph.cpp",
+    "release_sha256": "f68f5eed8f67f8f31ef1983c029785434f23ee07c9fbc9a1fa60d5de8ac82045",
+    "current_sha256": "f68f5eed8f67f8f31ef1983c029785434f23ee07c9fbc9a1fa60d5de8ac82045",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/ParametricEqResponseGraph.h",
+    "release_sha256": "d58bd14ebef72b91d504715b3ca8e4fa36aae812e3b81a2ed8f2211372686747",
+    "current_sha256": "d58bd14ebef72b91d504715b3ca8e4fa36aae812e3b81a2ed8f2211372686747",
+    "changed": false
+  },
+  {
+    "path": "source/Host/EntropyDspEngine/UI/R10/UiSchema.cpp",
+    "release_sha256": "e7ae46eb7d28a25eb8941436c634096acc43fe84e76da1d81ab7e108fa99bd15",
+    "current_sha256": "e7ae46eb7d28a25eb8941436c634096acc43fe84e76da1d81ab7e108fa99bd15",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/EntropyControlShared.h",
+    "release_sha256": "c9da9669f4f74dff3c979641f664d184afcd4ba260b3216c1f4abb0d7a1ee22e",
+    "current_sha256": "c9da9669f4f74dff3c979641f664d184afcd4ba260b3216c1f4abb0d7a1ee22e",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/EntropyOutputControlShared.h",
+    "release_sha256": "412071093f0d09bb97e00335e658e358b3c74fe1b571417b0f0e26bba41da3a0",
+    "current_sha256": "412071093f0d09bb97e00335e658e358b3c74fe1b571417b0f0e26bba41da3a0",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/EntropyTelemetryShared.h",
+    "release_sha256": "d185022dd867760c854f30611388fe5a7e877e6750c66c2eda0b7074befd84c2",
+    "current_sha256": "d185022dd867760c854f30611388fe5a7e877e6750c66c2eda0b7074befd84c2",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/center_abi.h",
+    "release_sha256": "6c7adcbbc85730011cf08a6549702f7bc8cec6fedde52318cf0a771ca86ae40d",
+    "current_sha256": "6c7adcbbc85730011cf08a6549702f7bc8cec6fedde52318cf0a771ca86ae40d",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/cinema_endpoint_abi.h",
+    "release_sha256": "35f2f7a74b1078417eacbcb4af5e2f63bb9f3f0cad967ef41d23a64f7000b669",
+    "current_sha256": "35f2f7a74b1078417eacbcb4af5e2f63bb9f3f0cad967ef41d23a64f7000b669",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/crossover_abi.h",
+    "release_sha256": "a11097ee8e10ae9b5509940fd7a5334cfc16c314ed2a9c8fafaf6bd825366485",
+    "current_sha256": "a11097ee8e10ae9b5509940fd7a5334cfc16c314ed2a9c8fafaf6bd825366485",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/crossover_program_abi.h",
+    "release_sha256": "225d5079aac0ec7e3d741f9ee81a7620f60fe44402c1ec45599e304f3cf96f48",
+    "current_sha256": "225d5079aac0ec7e3d741f9ee81a7620f60fe44402c1ec45599e304f3cf96f48",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/dac_sink_abi.h",
+    "release_sha256": "f612fc0356c213a4cea4cb0ee859cfe1b3b5ec716e07e6ad6eb76ac504b00205",
+    "current_sha256": "f612fc0356c213a4cea4cb0ee859cfe1b3b5ec716e07e6ad6eb76ac504b00205",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/device_manager_abi.h",
+    "release_sha256": "e1aa4b463915328c0f0448b31b77f611d634a4796d6b7550436abb246ad13145",
+    "current_sha256": "e1aa4b463915328c0f0448b31b77f611d634a4796d6b7550436abb246ad13145",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/egress_clock_abi.h",
+    "release_sha256": "5423ef2bb02961bcaed834f26190155630ea7b3e3c558653f0e2c5937d5cf882",
+    "current_sha256": "5423ef2bb02961bcaed834f26190155630ea7b3e3c558653f0e2c5937d5cf882",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/egress_clock_diagnostics_abi.h",
+    "release_sha256": "dadd9f47b6945c4ab200ae7b27932b6647f7747b30ba5212b80c77291e72c040",
+    "current_sha256": "dadd9f47b6945c4ab200ae7b27932b6647f7747b30ba5212b80c77291e72c040",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/egress_forensic_abi.h",
+    "release_sha256": "c267969d5a9b29340dcbf60d507a00c89e9f6141da51396ad377eb6c3b4aa95f",
+    "current_sha256": "c267969d5a9b29340dcbf60d507a00c89e9f6141da51396ad377eb6c3b4aa95f",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/endpoint_abi.h",
+    "release_sha256": "2c6a603173bf61f3fc3caefdcc345dd1e928f86d986c7bc4b3aade7b9918cf1c",
+    "current_sha256": "2c6a603173bf61f3fc3caefdcc345dd1e928f86d986c7bc4b3aade7b9918cf1c",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/endpoint_catalog_abi.h",
+    "release_sha256": "40c5f7db52794afed2737847e0771e3b244b3cb65c81e4462e50847592e1d681",
+    "current_sha256": "40c5f7db52794afed2737847e0771e3b244b3cb65c81e4462e50847592e1d681",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/final_guardian_abi.h",
+    "release_sha256": "4e2d4b36f8cd36daddbd3251f243e503eca69e2fae93ed59644b641987a14135",
+    "current_sha256": "4e2d4b36f8cd36daddbd3251f243e503eca69e2fae93ed59644b641987a14135",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/headroom_abi.h",
+    "release_sha256": "41dae73d0b3429c49cdac92d75b718f02ae8923bec815cb8ab671390807ffe75",
+    "current_sha256": "41dae73d0b3429c49cdac92d75b718f02ae8923bec815cb8ab671390807ffe75",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/input_matrix_abi.h",
+    "release_sha256": "8b4c0b2b41c7bba7f88adf56ad31f4497f240dbc5aa19038b7326fb63bd393ca",
+    "current_sha256": "8b4c0b2b41c7bba7f88adf56ad31f4497f240dbc5aa19038b7326fb63bd393ca",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/loudness_abi.h",
+    "release_sha256": "2665a53a1bca679e25112f22f92226f2d61a2ab5188503a7725b034abb669b9f",
+    "current_sha256": "2665a53a1bca679e25112f22f92226f2d61a2ab5188503a7725b034abb669b9f",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/loudness_display_abi.h",
+    "release_sha256": "2f11bda0378e46c21cc25ce05a96fc92d692c5150d258e8437a5a45753ec3d76",
+    "current_sha256": "2f11bda0378e46c21cc25ce05a96fc92d692c5150d258e8437a5a45753ec3d76",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/lrc_aligner_abi.h",
+    "release_sha256": "4ab12c289ba4aa92d8b7a2f7144b5fae0ab26254dfb9f42c4ee177e1729b413e",
+    "current_sha256": "4ab12c289ba4aa92d8b7a2f7144b5fae0ab26254dfb9f42c4ee177e1729b413e",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/module_abi.h",
+    "release_sha256": "12599826c25060d6f484962395bae70b73f87c780254cd946165f2fe3ab3a711",
+    "current_sha256": "12599826c25060d6f484962395bae70b73f87c780254cd946165f2fe3ab3a711",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/output_matrix_abi.h",
+    "release_sha256": "e055735b068153d2bab88128da374ce8cd0f9c84c00a57a53f42d390e1805c10",
+    "current_sha256": "e055735b068153d2bab88128da374ce8cd0f9c84c00a57a53f42d390e1805c10",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/parametric_eq_abi.h",
+    "release_sha256": "c02281e563583ebe816271923c206be2b84688de990c59ef8548656783517155",
+    "current_sha256": "c02281e563583ebe816271923c206be2b84688de990c59ef8548656783517155",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/pcm24_abi.h",
+    "release_sha256": "aec1ff8f9f6da5edf08028473661442f2b9833efa47b7d47e02d6f7ddef7b274",
+    "current_sha256": "aec1ff8f9f6da5edf08028473661442f2b9833efa47b7d47e02d6f7ddef7b274",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/r04_diagnostics.h",
+    "release_sha256": "58ce6737d0970e458366782692ac3999d88a3bb443f2fa76a7582d4f99538cc0",
+    "current_sha256": "58ce6737d0970e458366782692ac3999d88a3bb443f2fa76a7582d4f99538cc0",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/r04_diagnostics_abi.h",
+    "release_sha256": "36dfbcf05d277484e0567d94a67078b283330b7970590e8eb648ea8d6131297a",
+    "current_sha256": "36dfbcf05d277484e0567d94a67078b283330b7970590e8eb648ea8d6131297a",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/R10ModuleABI/include/entropy/src_abi.h",
+    "release_sha256": "eefceb66c3d610bee89111a1a03c78917a5791d7c5227bb49845c124f0cbfd3c",
+    "current_sha256": "eefceb66c3d610bee89111a1a03c78917a5791d7c5227bb49845c124f0cbfd3c",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageBusSDK/CMakeLists.txt",
+    "release_sha256": "e1dc95dc8ee2b2992f6045ee8714def4714e3d06a603ff453b15090d002c9802",
+    "current_sha256": "e1dc95dc8ee2b2992f6045ee8714def4714e3d06a603ff453b15090d002c9802",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageBusSDK/README.txt",
+    "release_sha256": "7dfec8e871ff43c55d58a77ae188c28a1828cd2c689dbbe699c3a03693b7d350",
+    "current_sha256": "7dfec8e871ff43c55d58a77ae188c28a1828cd2c689dbbe699c3a03693b7d350",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageBusSDK/StageBusContract.json",
+    "release_sha256": "1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb",
+    "current_sha256": "1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageBusSDK/include/StageBusDemand.h",
+    "release_sha256": "2389a1bc029d4c607eeb2565d4219bc660c32130a54daf34e1b9f244aa39bfb2",
+    "current_sha256": "2389a1bc029d4c607eeb2565d4219bc660c32130a54daf34e1b9f244aa39bfb2",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageBusSDK/include/StageBusHashes.h",
+    "release_sha256": "9ec814f8b4bd67a4abafaf27c5cfcd4a06847773ca796811fe5c925bc8ad1e54",
+    "current_sha256": "8e17f0732d945e5625992855421873cc4c423a7d5d17cc60c969995e9af6be2b",
+    "changed": true
+  },
+  {
+    "path": "source/Shared/StageBusSDK/include/StageBusValidation.h",
+    "release_sha256": "5b8224990716340537fccdd079e08f46ec8b12b24b9afbde5649e94358164e10",
+    "current_sha256": "5b8224990716340537fccdd079e08f46ec8b12b24b9afbde5649e94358164e10",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageBusSDK/include/StageBusWin32.h",
+    "release_sha256": "43583da9a24ab2f209545d99e5a8860eb2ccd8c6aa9b94334ee55e5fe42d9827",
+    "current_sha256": "43583da9a24ab2f209545d99e5a8860eb2ccd8c6aa9b94334ee55e5fe42d9827",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageBusSDK/include/entropy/stage_bus_v1.h",
+    "release_sha256": "ed5fc632bd88ad3577757e43d3a4625595fa24eb30acd2ceb71c0eaf61ba2599",
+    "current_sha256": "bff257f8b8486637c24d8d7a7619ac73d0e4aad0effd8f3f5e4cacee4e5cbb84",
+    "changed": true
+  },
+  {
+    "path": "source/Shared/StageBusSDK/src/StageBusValidation.cpp",
+    "release_sha256": "65bb539c840384789e3d1c881048a248f82f82d1cb5f2a6d27eb3461848404b9",
+    "current_sha256": "db6e6e3dc715dc11f6eca0d19461dfb9e7d7251c10bf12ec92b708434e55b40e",
+    "changed": true
+  },
+  {
+    "path": "source/Shared/StageBusSDK/src/StageBusWin32.cpp",
+    "release_sha256": "f2bdf8b1e87a957459133152b824a92040762bcb77c74e2fec325400cf07ad6e",
+    "current_sha256": "f2bdf8b1e87a957459133152b824a92040762bcb77c74e2fec325400cf07ad6e",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageLink/CMakeLists.txt",
+    "release_sha256": "c7a7b7a55fa0286346cd625d081a9c16edf09bc5ec2c59a39b8393e26e6e3db2",
+    "current_sha256": "c7a7b7a55fa0286346cd625d081a9c16edf09bc5ec2c59a39b8393e26e6e3db2",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageLink/StageLinkClient.cpp",
+    "release_sha256": "b09a27ca86c01dd839e3460322c3bdb82671a8ca25dc24fd21faae88203a8ad5",
+    "current_sha256": "b09a27ca86c01dd839e3460322c3bdb82671a8ca25dc24fd21faae88203a8ad5",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageLink/StageLinkClient.h",
+    "release_sha256": "bfa9f821e0fa1af964663de70f6da832d693eb98daae67e03be56f5c791e0d9f",
+    "current_sha256": "bfa9f821e0fa1af964663de70f6da832d693eb98daae67e03be56f5c791e0d9f",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageLink/StageLinkProtocol.h",
+    "release_sha256": "fedf0bde8769b904743ade70026bf2bde284784be0744b02ab447776a759f78b",
+    "current_sha256": "fedf0bde8769b904743ade70026bf2bde284784be0744b02ab447776a759f78b",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageLink/StageLinkSecurity.cpp",
+    "release_sha256": "70f8b73e58b053ae511eac74119b1b7eab74a0d97adb85dd49c15541f1203280",
+    "current_sha256": "70f8b73e58b053ae511eac74119b1b7eab74a0d97adb85dd49c15541f1203280",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageLink/StageLinkSecurity.h",
+    "release_sha256": "e1f43816fb1cf885b30acedc3ba53fab7cd0b8f40c54468ebaf9c541ae85d2f9",
+    "current_sha256": "e1f43816fb1cf885b30acedc3ba53fab7cd0b8f40c54468ebaf9c541ae85d2f9",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageLink/StageLinkServer.cpp",
+    "release_sha256": "45a88f7580b4c8de01dd3be374c1dbe746c69fd733093d435ff406aaeb4d0b33",
+    "current_sha256": "45a88f7580b4c8de01dd3be374c1dbe746c69fd733093d435ff406aaeb4d0b33",
+    "changed": false
+  },
+  {
+    "path": "source/Shared/StageLink/StageLinkServer.h",
+    "release_sha256": "79087972e418b68a0c129d2d87f969887beb3a63588b4f57cafa75059698a766",
+    "current_sha256": "79087972e418b68a0c129d2d87f969887beb3a63588b4f57cafa75059698a766",
+    "changed": false
+  },
+  {
+    "path": "transport/StagePublishV2/CMakeLists.txt",
+    "release_sha256": "f6e970dbf4e4063271b76613774d45017efa92cad746052b7128edad0a410648",
+    "current_sha256": "f6e970dbf4e4063271b76613774d45017efa92cad746052b7128edad0a410648",
+    "changed": false
+  },
+  {
+    "path": "transport/StagePublishV2/README.md",
+    "release_sha256": "fee68cb1f757ec970b5dfc27fb506d1862bb59ea247993d7eb82b48325d8831b",
+    "current_sha256": "fee68cb1f757ec970b5dfc27fb506d1862bb59ea247993d7eb82b48325d8831b",
+    "changed": false
+  },
+  {
+    "path": "transport/StagePublishV2/StagePublishV2.cpp",
+    "release_sha256": "30525648e8890634adf2e42af07e355682d291eb465132c7022323e8f35efb34",
+    "current_sha256": "7deda1e9cdf71629aeb67c9e7b5d55b34d6a7e990941f6de600d11fd32c40fe5",
+    "changed": true
+  },
+  {
+    "path": "transport/StagePublishV2/StagePublishV2.h",
+    "release_sha256": "dcee658768cbf662a92ce20f78efb6579d55d7704123160dab0148c2b55e1ad0",
+    "current_sha256": "dcee658768cbf662a92ce20f78efb6579d55d7704123160dab0148c2b55e1ad0",
+    "changed": false
+  },
+  {
+    "path": "transport/StagePublishV2/StagePublishV2Protocol.h",
+    "release_sha256": "6dc8e03e4e94abee5f95e3376dea014803e0cdd0be3a9bef3f1b36e319d9da68",
+    "current_sha256": "6dc8e03e4e94abee5f95e3376dea014803e0cdd0be3a9bef3f1b36e319d9da68",
+    "changed": false
+  }
+]

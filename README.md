@@ -1,5 +1,30 @@
 # EntropyAudioCore — Intel IPP / FP64
 
+## MUSIC / CINEMA architecture branch
+
+`codex/music-cinema-architecture` publishes Stage3 **0.1.9-v2**, derived from
+the selected **0.1.8** baseline, and the independent MUSIC source snapshots:
+
+- [Stage1 native MUSIC source v0002](Integration/Music/Stage1): native Core, separate Qt UI, L/R FP64 at 192 kHz.
+- [Stage2 MUSIC DSP v0009](Integration/Music/Stage2): existing DLL processing, stereo input and L/R/C output.
+- Stage3 at this repository root: independent passive MUSIC3 / CINEMA6 or CINEMA8 inputs, selector, original Crossover and output matrix, DAC A/B.
+
+See [architecture, source provenance and next steps](docs/architecture/MUSIC-CINEMA.md),
+[Stage3 operation](docs/MUSIC-CINEMA-v2.md) and
+[accepted validation](docs/VALIDATION-MUSIC-CINEMA-v2.json).
+The Cinema decoder with its own SRC and the third independent Stage1 driver
+are future work. The target for that driver is WASAPI Exclusive, Event-Driven,
+complete PCM delivery, correct clock synchronization and zero lost frames.
+
+The complete source snapshots include the existing DLL/runtime dependencies.
+[Original source and runtime ZIPs](release/music-cinema) for all three Stages
+are included, with [SHA256 provenance](docs/architecture/delivery-artifacts.json).
+The imported runtimes come from the immutable delivery archives; active listening
+folders are untouched. `Integration/Stage1` and `Integration/Stage2` below are
+historical snapshots; the active MUSIC snapshots are under `Integration/Music`.
+
+## Historical release notes
+
 Native Stage3 C++20 **integration candidate** on a separate private repository.
 
 Local **0.1.0** source-isolation candidate requires the separately versioned

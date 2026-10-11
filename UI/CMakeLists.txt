@@ -3,6 +3,9 @@ project(EntropyUI LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Network)
+add_executable(EntropyMusicCinemaUi ../Tests/MusicCinemaUi.cpp)
+target_include_directories(EntropyMusicCinemaUi PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
+target_link_libraries(EntropyMusicCinemaUi PRIVATE Qt6::Core)
 add_library(entropy_ui STATIC Client/IpcClient.cpp Client/EngineFacade.cpp Client/StartupProfilePrompt.cpp
  Legacy/RenderWindow.cpp Legacy/RenderOverview.cpp Legacy/RenderUiBridge.cpp
  Legacy/R10/CrossoverPage.cpp Legacy/R10/OutputMatrixPage.cpp Legacy/R10/HeadroomPage.cpp

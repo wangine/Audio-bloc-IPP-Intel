@@ -1,0 +1,169 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage2/build
+Test project D:/Projects/3Stage-3/Stage2/build
+      Start 39: DspCenterIntegrationAudit
+      Start 43: DspEqNative
+      Start 25: DspGraph
+      Start  5: DspRecorder
+ 1/44 Test  #5: DspRecorder ......................   Passed    0.23 sec
+      Start 12: StageBusDemand
+ 2/44 Test #12: StageBusDemand ...................   Passed    0.02 sec
+      Start 26: DspCenterNative
+ 3/44 Test #26: DspCenterNative ..................   Passed    0.11 sec
+      Start  1: DspRunner
+ 4/44 Test #25: DspGraph .........................   Passed    0.39 sec
+      Start  2: DspBypassIdentity
+ 5/44 Test  #1: DspRunner ........................   Passed    0.03 sec
+      Start 11: StageBusContract
+ 6/44 Test  #2: DspBypassIdentity ................   Passed    0.02 sec
+      Start 33: DspAlignment
+ 7/44 Test #11: StageBusContract .................   Passed    0.02 sec
+      Start 24: DspSignalTelemetry
+ 8/44 Test #33: DspAlignment .....................   Passed    0.02 sec
+      Start  3: DspBusIntegration
+ 9/44 Test #24: DspSignalTelemetry ...............   Passed    0.02 sec
+      Start  4: DspLiveness
+10/44 Test  #3: DspBusIntegration ................***Failed    0.03 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspBusIntegrationTests.cpp:5 dsp.attach(s,error)
+
+      Start  6: DspAllocation
+11/44 Test  #4: DspLiveness ......................***Failed    0.03 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspLivenessTests.cpp:3 dsp.attach(s,error)
+
+      Start  7: DspLifecycle
+12/44 Test  #6: DspAllocation ....................***Failed    0.03 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp:7 dsp.attach(s,error)
+
+      Start  8: DspProcess
+13/44 Test  #7: DspLifecycle .....................***Failed    0.06 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspLifecycleTests.cpp:12 controller.start(root,root/"source.json",error)
+
+      Start  9: DspState
+14/44 Test  #9: DspState .........................   Passed    0.05 sec
+      Start 10: DspPackage
+15/44 Test  #8: DspProcess .......................***Failed    0.16 sec
+EVIDENCE_ROOT "C:/Users/bobi/AppData/Local/Temp/DspProcessHarness-SjucKC"
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspProcessHarness.cpp:59 WaitForSingleObject(recorder.hProcess,0)==WAIT_TIMEOUT && WaitForSingleObject(dsp.hProcess,0)==WAIT_TIMEOUT
+
+      Start 13: StageBusProcess
+16/44 Test #43: DspEqNative ......................   Passed    0.87 sec
+      Start 14: DspPendingFailure
+17/44 Test #14: DspPendingFailure ................***Failed    0.03 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspPendingFailureTests.cpp:4 dsp.attach(s,error)
+
+      Start 15: DspRestartProcess
+18/44 Test #13: StageBusProcess ..................   Passed    0.28 sec
+      Start 16: DspPeerDeathPending
+19/44 Test #16: DspPeerDeathPending ..............***Failed    0.08 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspPeerDeathPendingTests.cpp:18 dsp.attach(s,error)
+
+      Start 17: StageLink
+20/44 Test #17: StageLink ........................   Passed    0.08 sec
+      Start 18: DspLocalDemand
+21/44 Test #18: DspLocalDemand ...................   Passed    0.04 sec
+      Start 19: DspSourceIsolation
+22/44 Test #19: DspSourceIsolation ...............***Failed    0.03 sec
+Passive subscription identity, capacity or session validation failed
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspSourceIsolationTests.cpp:31 initial==DspAutoLinkState::Receiving
+
+      Start 20: DspPublishedOutput
+23/44 Test #39: DspCenterIntegrationAudit ........   Passed    1.84 sec
+      Start 21: DspPassiveInput
+24/44 Test #10: DspPackage .......................   Passed    1.31 sec
+      Start 22: DspPassiveNative
+25/44 Test #22: DspPassiveNative .................   Passed    0.12 sec
+      Start 23: DspPassiveAllocation
+26/44 Test #23: DspPassiveAllocation .............   Passed    0.58 sec
+      Start 27: DspCenterRoute
+27/44 Test #27: DspCenterRoute ...................***Failed    0.08 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterRouteTests.cpp:4 dsp.attach(s,error)
+
+      Start 28: DspCenterController
+28/44 Test #28: DspCenterController ..............***Failed    0.13 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterControllerTests.cpp:7 controller.start(root,root/"source.json",error)
+
+      Start 29: DspCenterState
+29/44 Test #29: DspCenterState ...................   Passed    0.12 sec
+      Start 30: DspCenterUi
+30/44 Test #30: DspCenterUi ......................***Failed    0.20 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterUiTests.cpp:19 controller.start(root,root/"input.json",error)
+
+      Start 31: DspCenterAllocation
+31/44 Test #31: DspCenterAllocation ..............***Failed    0.03 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp:7 dsp.attach(s,error)
+
+      Start 32: DspCenterProcess
+32/44 Test #32: DspCenterProcess .................***Failed    0.23 sec
+EVIDENCE_ROOT "C:/Users/bobi/AppData/Local/Temp/DspCenterProcessHarness-cdpEmv"
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspProcessHarness.cpp:59 WaitForSingleObject(recorder.hProcess,0)==WAIT_TIMEOUT && WaitForSingleObject(dsp.hProcess,0)==WAIT_TIMEOUT
+
+      Start 34: DspLrcRoute
+33/44 Test #34: DspLrcRoute ......................***Failed    0.08 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcRouteTests.cpp:3 dsp.attach(s,error)
+
+      Start 35: DspLrcController
+34/44 Test #35: DspLrcController .................***Failed    0.13 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcControllerTests.cpp:6 controller.start(root,root/"source.json",error)
+
+      Start 36: DspLrcUi
+35/44 Test #36: DspLrcUi .........................***Failed    0.22 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcUiTests.cpp:10 controller.start(root,root/"source.json",error)
+
+      Start 37: DspLrcAllocation
+36/44 Test #37: DspLrcAllocation .................***Failed    0.03 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp:7 dsp.attach(s,error)
+
+      Start 38: DspProfileUi
+37/44 Test #38: DspProfileUi .....................***Failed    0.09 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspProfileUiTests.cpp:22 window.windowTitle()=="DSP Engine · v0006"
+
+      Start 40: DspEqState
+38/44 Test #40: DspEqState .......................   Passed    0.06 sec
+      Start 41: DspEqRoute
+39/44 Test #41: DspEqRoute .......................***Failed    0.08 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspEqRouteTests.cpp:11 dsp.attach(s,error)
+
+      Start 42: DspEqUi
+40/44 Test #42: DspEqUi ..........................***Failed    0.05 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspEqUiTests.cpp:14 controller.start(root,root/"input.json",error)
+
+      Start 44: DspEqAllocation
+41/44 Test #21: DspPassiveInput ..................   Passed    2.36 sec
+42/44 Test #44: DspEqAllocation ..................***Failed    0.03 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp:7 dsp.attach(s,error)
+
+43/44 Test #20: DspPublishedOutput ...............***Failed    3.14 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspPublishedOutputTests.cpp:39 advance(8)
+
+44/44 Test #15: DspRestartProcess ................***Failed    5.06 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspRestartProcessTests.cpp:11 qpc()<deadline
+
+
+48% tests passed, 23 tests failed out of 44
+
+Total Test time (real) =   5.98 sec
+
+The following tests FAILED:
+	  3 - DspBusIntegration (Failed)
+	  4 - DspLiveness (Failed)
+	  6 - DspAllocation (Failed)
+	  7 - DspLifecycle (Failed)
+	  8 - DspProcess (Failed)
+	 14 - DspPendingFailure (Failed)
+	 15 - DspRestartProcess (Failed)
+	 16 - DspPeerDeathPending (Failed)
+	 19 - DspSourceIsolation (Failed)
+	 20 - DspPublishedOutput (Failed)
+	 27 - DspCenterRoute (Failed)
+	 28 - DspCenterController (Failed)
+	 30 - DspCenterUi (Failed)
+	 31 - DspCenterAllocation (Failed)
+	 32 - DspCenterProcess (Failed)
+	 34 - DspLrcRoute (Failed)
+	 35 - DspLrcController (Failed)
+	 36 - DspLrcUi (Failed)
+	 37 - DspLrcAllocation (Failed)
+	 38 - DspProfileUi (Failed)
+	 41 - DspEqRoute (Failed)
+	 42 - DspEqUi (Failed)
+	 44 - DspEqAllocation (Failed)
+Errors while running CTest

@@ -1,0 +1,7 @@
+[0/1] Re-running CMake...
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Configuring done (0.6s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Stage2/build
+[1/3] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspMusicPackageTests.dir/Tests/DspMusicPackageTests.cpp.obj
+[2/3] Linking CXX executable Host\EntropyDspEngine\DspMusicPackageTests.exe

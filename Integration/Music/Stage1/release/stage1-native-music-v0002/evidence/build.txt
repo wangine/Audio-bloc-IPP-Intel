@@ -1,0 +1,12 @@
+[1/10] Building CXX object CMakeFiles\Stage1Pipeline.dir\Engine\Matrix\InputMatrix.cpp.obj
+[2/10] Building CXX object CMakeFiles\Stage1Pipeline.dir\Engine\SRC\SourceDomain.cpp.obj
+D:\Projects\3Stage-3\Stage1\Engine\Transport\InputFifo.h(14): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\Stage1\Engine\Transport\InputFifo.h(15): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+[3/10] Linking CXX static library Stage1Pipeline.lib
+[4/10] Building CXX object CMakeFiles\Stage1Publisher.dir\Engine\Transport\MusicPublisher.cpp.obj
+[5/10] Linking CXX static library Stage1Publisher.lib
+[6/10] Building CXX object CMakeFiles\Stage1Runtime.dir\Engine\Core\EngineLifecycle.cpp.obj
+[7/10] Linking CXX static library Stage1Runtime.lib
+[8/10] Linking CXX executable EntropyMusicSourceCore.exe
+[9/10] Building CXX object CMakeFiles\Stage1Acceptance.dir\tests\Stage1Acceptance.cpp.obj
+[10/10] Linking CXX executable Stage1Acceptance.exe

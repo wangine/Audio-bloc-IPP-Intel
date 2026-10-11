@@ -1068,7 +1068,7 @@ private:
         auto* controlGrid = new QGridLayout(controls);
         controlGrid->setContentsMargins(0, 0, 0, 0);
         cinemaProgramBox_ = combo(controlGrid, 0, "ACTIVE PROGRAM",
-            {"MUSIC L/R/C", "CINEMA 7.1.2"}, []{return "cinemaSource";}, {0,1}, 0);
+            {"MUSIC L/R/C", "CINEMA 5.1 / 7.1"}, []{return "cinemaSource";}, {0,1}, 0);
         cinemaLfeReferenceButton_ = toggle(controlGrid, 0, "LFE +10 dB REFERENCE",
             []{return "cinemaLfeReferenceGain";}, 2);
         cinemaProgramStatus_ = label("BUS: ACTIVE / 3 CH   |   SOURCE: MUSIC");
@@ -1582,7 +1582,7 @@ private:
         refreshDelay(telemetry);
         const bool cinemaProgram = telemetry.crossoverCinemaProgram != 0;
         cinemaHeading_->setText(cinemaProgram
-            ? "CINEMA 7.1.2 INPUT / PROGRAM INTERLOCK"
+            ? (telemetry.inputContractVersion==1?QString::fromUtf8(telemetry.programInputs[1].label)+" INPUT / PROGRAM INTERLOCK":QString("CINEMA INPUT / PROGRAM INTERLOCK"))
             : "MUSIC L/R/C INPUT / PROGRAM INTERLOCK");
         cinemaLfeReferenceButton_->setVisible(cinemaProgram);
         cinemaLfeReferenceButton_->setEnabled(
@@ -1594,7 +1594,7 @@ private:
             ? "QCheckBox{color:#d7e5f2;}"
             : "QCheckBox{color:#52616b;}");
         cinemaProgramStatus_->setText(cinemaProgram
-            ? "BUS: ACTIVE / 10 CH   |   SOURCE: CINEMA (MUSIC L/R/C BLOCKED)"
+            ? QString("BUS: %1 / %2 CH   |   SOURCE: CINEMA").arg(telemetry.programInputs[1].receiving?"ACTIVE":"WAITING").arg(telemetry.programInputs[1].channels)
             : "BUS: ACTIVE / 3 CH   |   SOURCE: MUSIC");
         cinemaProgramStatus_->setStyleSheet(cinemaProgram
             ? "color:#d2a8ff;border:1px solid #d2a8ff;padding:4px;"
@@ -1605,7 +1605,7 @@ private:
             "CSR SIDE RIGHT", "CBL BACK LEFT", "CBR BACK RIGHT",
             "CTSL TOP SIDE LEFT", "CTSR TOP SIDE RIGHT"};
         cinemaDescription_->setText(cinemaProgram
-            ? "CINEMA input order: CL, CR, CC, LFE, CSL, CSR, CBL, CBR, CTSL, CTSR. "
+            ? "CINEMA 5.1/7.1: FL, FR, FC, LFE, SL, SR, optional BL/BR. Reserved height lanes remain zero. "
               "Trims and meters are post-input and pre-crossover. LFE feeds SUB directly; optional "
               "+10 dB reference compensation affects only this discrete LFE lane."
             : "MUSIC inputs: ML, MR and optional MC. Trims and meters are post-input and pre-crossover. "
@@ -1700,7 +1700,7 @@ private:
             .arg(telemetry.crossoverViewTelemetryAvailable ? "AVAILABLE" : "RESPONSE DATA UNAVAILABLE")
             .arg(telemetry.crossoverProtectionAvailable ? "AVAILABLE" : "UNAVAILABLE")
             .arg(telemetry.crossoverSampleRate/1000.0,0,'f',1).arg(telemetry.crossoverBlockSize).arg(telemetry.crossoverLatencySamples)
-            .arg(telemetry.crossoverCinemaProgram?"CINEMA 7.1.2":"MUSIC L/R/C"));
+            .arg(telemetry.crossoverCinemaProgram?"CINEMA 5.1 / 7.1":"MUSIC L/R/C"));
     }
 
     QTabWidget* tabs_{}; QLabel* runtime_{}; QLabel* system_{};

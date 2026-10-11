@@ -1,0 +1,31 @@
+{
+  "version": "stage1-native-music-v0002",
+  "date": "2026-10-10",
+  "phase": "B native Core + separate Qt, offline candidate",
+  "native_src_tag": "stage1-passive-v0002",
+  "native_src_commit": "48f979f489264885ab1a16351f81c43ddf64b0f1",
+  "compiler": "MSVC 19.51.36257 x64",
+  "ui": "Qt 6.11.2 GNU 13.1.0 separate process",
+  "music_layout": 3,
+  "output_channels": 2,
+  "output_rate": 192000,
+  "block_frames": 1024,
+  "contract_hash": "8d1dd0d0b733489a83ebb5a84ed287ad211175d27d7fbea64fa969130f55318e",
+  "mute": false,
+  "gain": "unity, single-source exact copy / unrestricted dual-source sum",
+  "meters": [
+    "input sample peak",
+    "4x true peak estimate with settling status",
+    "first 8192 output frames SRC startup peak"
+  ],
+  "reference_ingress_hashes": {
+    "EntropyTidalEndpoint.dll": "4D47B47E74547EA6E9E8C391972EAB1DFBCF46B50082266171B82B7CB4B6267B",
+    "EntropyAuxEndpoint.dll": "F934B7BFB4E326F3451B6CB0D9C925750173E7A57A5A2A046E53374EA472985A",
+    "EntropyMusicTransportEndpoint.dll": "FDD62779F0B2E7A3F7278C17CBE33F29F156DD167E9F098CE239B398039DEC0B"
+  },
+  "runtime_vcrt": "System32 copies matching the offline-tested native process dependencies",
+  "driver_v2": "NOT IMPLEMENTED / NOT INSTALLED",
+  "live_capture": "TIDAL legacy Music Transport 16/44.1 observed 35 s; no new losses, faults, overflows or steady underruns; DAC not tested",
+  "stage2_interop": "actual packaged MUSIC v0009 MSVC->MinGW PASS",
+  "source_archive": "stage1-native-music-v0002-source.zip"
+}

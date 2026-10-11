@@ -1,0 +1,44 @@
+[
+  {
+    "stage": "Stage1",
+    "path": "release/music-cinema/Stage1/stage1-native-music-v0002-runtime.zip",
+    "bytes": 17758381,
+    "sha256": "2ef94ef2f09e8ad297dd5341d9fa8a08f55d2364225cbb732ec143c83ede414c"
+  },
+  {
+    "stage": "Stage1",
+    "path": "release/music-cinema/Stage1/stage1-native-music-v0002-source.zip",
+    "bytes": 1860945,
+    "sha256": "1871189e9648bd77eff9bdc98ba479c5f8b9a2dbba9c3a16a19a53ffc34c88b8"
+  },
+  {
+    "stage": "Stage2",
+    "path": "release/music-cinema/Stage2/stage2-music-v0009-win-x64.zip",
+    "bytes": 30808419,
+    "sha256": "bac12d149e66cb58c97ad525e0eb75e020146c6f302ec0b11828529222aaf5c3"
+  },
+  {
+    "stage": "Stage2",
+    "path": "release/music-cinema/Stage2/stage2-music-v0009-source.zip",
+    "bytes": 30823367,
+    "sha256": "600ed800d24893d5147edaafe4cf324a4c1bfc0bca6d82dc295b759bf55068b5"
+  },
+  {
+    "stage": "Stage3",
+    "path": "release/music-cinema/Stage3/EntropyAudioCore-0.1.9-v2-32k-win-x64.zip",
+    "bytes": 18308254,
+    "sha256": "8fdcfc360d7c980f259ba4dbbb7c132a391218e81d7558bd3ec502e80fd9812f"
+  },
+  {
+    "stage": "Stage3",
+    "path": "release/music-cinema/Stage3/EntropyAudioCore-0.1.9-v2-64k-win-x64.zip",
+    "bytes": 18308251,
+    "sha256": "372ea458553ae7508dcc01fd5a2990d84b1d6900558a59177fbd0a9c9788fbeb"
+  },
+  {
+    "stage": "Stage3",
+    "path": "release/music-cinema/Stage3/EntropyAudioCore-0.1.9-v2-source.zip",
+    "bytes": 2201256,
+    "sha256": "d6c90effca4b2fd084fbac8e80bec10d0c6c7dac2e260a4b732c59576926088d"
+  }
+]

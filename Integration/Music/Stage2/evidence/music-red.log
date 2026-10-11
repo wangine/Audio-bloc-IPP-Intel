@@ -1,0 +1,29 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage2/build
+Test project D:/Projects/3Stage-3/Stage2/build
+    Start 45: DspMusicContract
+1/4 Test #45: DspMusicContract .................***Failed    0.04 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicContractTests.cpp:4 stereo.channels==2 && lrc.channels==3
+
+    Start 46: DspMusicPassive
+2/4 Test #46: DspMusicPassive ..................***Failed    0.09 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicPassiveTests.cpp:8 musicConnect(source,[&]{return runtime.attachPassive(endpoint,error);})
+
+    Start 47: DspMusicRecorder
+3/4 Test #47: DspMusicRecorder .................***Failed    0.05 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicRecorderTests.cpp:11 std::filesystem::file_size(path)==2*(128+3*8192)
+
+    Start 48: DspMusicUi
+4/4 Test #48: DspMusicUi .......................***Failed    0.13 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicUiTests.cpp:8 input && output && input->inputCount()==2 && input->outputCount()==2
+
+
+0% tests passed, 4 tests failed out of 4
+
+Total Test time (real) =   0.33 sec
+
+The following tests FAILED:
+Errors while running CTest
+	 45 - DspMusicContract (Failed)
+	 46 - DspMusicPassive (Failed)
+	 47 - DspMusicRecorder (Failed)
+	 48 - DspMusicUi (Failed)

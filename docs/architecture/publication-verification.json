@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-11",
+  "branch": "codex/music-cinema-architecture",
+  "branchBaseCommit": "eb0a6a224d19e0d78c352f5e25fb16a522e2e619",
+  "native": {
+    "fifoFrames": 65536,
+    "build": "PASS",
+    "total": 53,
+    "passed": 52,
+    "failed": [
+      "EntropyStage04Offline (inherited unsafe PCM rejection assertion)"
+    ],
+    "ctestExit": 8,
+    "seconds": 91.51,
+    "coreProbe": "PASS",
+    "coreSha256": "97afc31f9cae80bc0b2acc9cd0f9e250af09eb322d4c76393fb3fc483d6e8dd0",
+    "log": "../../validation/music-cinema-v2/publication-native-65536.log"
+  },
+  "qt": {
+    "build": "PASS",
+    "total": 7,
+    "passed": 6,
+    "failed": [
+      "EntropyStage05Ui"
+    ],
+    "results": "../../validation/music-cinema-v2/publication-ui-tests.json",
+    "inheritedFailureLog": "../../validation/music-cinema-v2/publication-ui-failure.log"
+  },
+  "protectedSources": {
+    "checked": 72,
+    "changed": 0
+  },
+  "sourceImports": "import-verification.json",
+  "deliveryArtifacts": {
+    "archives": 7,
+    "sha256": "PASS",
+    "index": "delivery-artifacts.json"
+  },
+  "verificationScope": "Fresh Stage3 assembled-tree native/Qt builds and tests; Stage1/Stage2 imported source/runtime artifacts verified against immutable accepted archives, without rebuilding or restarting the active listening chain. Accepted 32k/64k delivery validation is preserved separately.",
+  "futureWork": [
+    "Independent Stage1 driver number 3",
+    "Cinema decoder with independent SRC"
+  ]
+}

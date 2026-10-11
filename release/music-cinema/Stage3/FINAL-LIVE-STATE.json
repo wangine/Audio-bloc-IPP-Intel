@@ -1,0 +1,33 @@
+{
+  "version": "0.1.9-v2",
+  "pid": 16528,
+  "seconds": 14.958691120147705,
+  "armed": true,
+  "lifecycle": "RUNNING",
+  "fault": false,
+  "sourceRates": [
+    0,
+    44100
+  ],
+  "sourceLocalIdentityAdvances": 6,
+  "sourceGenerationValues": [
+    0,
+    667,
+    669
+  ],
+  "dacEpochs": [
+    "1",
+    "1"
+  ],
+  "dacFaults": [
+    0,
+    0
+  ],
+  "xruns": [
+    "0",
+    "0"
+  ],
+  "manualGainDb": -4,
+  "stage2Pid": 20096,
+  "controlsAndRoutingRestored": "PASS 471 parameters, all matrix routes and manual headroom exactly match original in-memory values"
+}

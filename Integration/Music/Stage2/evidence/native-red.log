@@ -1,0 +1,19 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage2/build
+Test project D:/Projects/3Stage-3/Stage2/build
+    Start 49: DspMusicNative
+1/2 Test #49: DspMusicNative ...................***Failed    0.19 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicNativeTests.cpp:19 musicConnect(source,[&]{return runtime.attachPassive(endpoint,error);})
+
+    Start 50: DspMusicAllocation
+2/2 Test #50: DspMusicAllocation ...............***Failed    0.18 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicNativeTests.cpp:19 musicConnect(source,[&]{return runtime.attachPassive(endpoint,error);})
+
+
+0% tests passed, 2 tests failed out of 2
+
+Total Test time (real) =   0.39 sec
+
+The following tests FAILED:
+	 49 - DspMusicNative (Failed)
+	 50 - DspMusicAllocation (Failed)
+Errors while running CTest

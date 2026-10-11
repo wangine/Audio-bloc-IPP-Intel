@@ -3,8 +3,8 @@
 #include <objbase.h>
 namespace entropy::control {
 using J=ipc::Value;
-LifecycleExecutor::LifecycleExecutor(Handler h,std::function<void()> gate,std::function<void()> tick,std::function<void()> finalize)
- :handler_(std::move(h)),closeGate_(std::move(gate)),tick_(std::move(tick)),finalize_(std::move(finalize)),owner_([this]{run();}){}
+LifecycleExecutor::LifecycleExecutor(Handler h,std::function<void()> gate,std::function<void()> tick,std::function<void()> finalize,std::function<bool()> faultProbe)
+ :handler_(std::move(h)),closeGate_(std::move(gate)),tick_(std::move(tick)),finalize_(std::move(finalize)),faultProbe_(std::move(faultProbe)),owner_([this]{run();}){}
 LifecycleExecutor::~LifecycleExecutor(){stop();}
 void LifecycleExecutor::stop(){
  {std::lock_guard activation(activationMutex_);++generation_;closeGate_();}
@@ -71,6 +71,15 @@ void LifecycleExecutor::run(){
    {std::lock_guard lock(queueMutex_);work->reply=std::move(reply);work->complete=true;}
   }
   if(!work)try{tick_();}catch(...){state_=State::Fault;}
+  // Fault teardown belongs to this non-audio owner. Invalidate queued ARM
+  // generations and finish closing the owners; their original fault record
+  // remains available until a subsequent explicit ARM prepares a new session.
+  try{if(faultProbe_&&faultProbe_()){
+   uint64_t faultGeneration;
+   {std::lock_guard activation(activationMutex_);faultGeneration=++generation_;closeGate_();state_=State::Stopping;}
+   handler_(J::Object{{"action","disarm"}},faultGeneration);
+   stateIfCurrent(faultGeneration,State::Disarmed);
+  }}catch(...){state_=State::Fault;}
  }
  if(finalize_)finalize_();
  if(SUCCEEDED(com))CoUninitialize();

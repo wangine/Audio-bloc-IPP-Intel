@@ -1,0 +1,27 @@
+[0/1] Re-running CMake...
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Configuring done (0.9s)
+-- Generating done (0.3s)
+-- Build files have been written to: D:/Projects/3Stage-3/Stage2/build
+[1/9] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspMusicContractTests.dir/Tests/DspMusicContractTests.cpp.obj
+[2/9] Linking CXX executable Host\EntropyDspEngine\DspMusicContractTests.exe
+[3/9] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspMusicRecorderTests.dir/Tests/DspMusicRecorderTests.cpp.obj
+[4/9] Linking CXX executable Host\EntropyDspEngine\DspMusicRecorderTests.exe
+[5/9] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspMusicPassiveTests.dir/Tests/DspMusicPassiveTests.cpp.obj
+[6/9] Linking CXX executable Host\EntropyDspEngine\DspMusicPassiveTests.exe
+[7/9] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspMusicUiTests.dir/Tests/DspMusicUiTests.cpp.obj
+FAILED: Host/EntropyDspEngine/CMakeFiles/DspMusicUiTests.dir/Tests/DspMusicUiTests.cpp.obj 
+C:\Qt\Tools\mingw1310_64\bin\g++.exe -DMINGW_HAS_SECURE_API=1 -DQT_CORE_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DUNICODE -DWIN32 -DWIN64 -D_ENABLE_EXTENDED_ALIGNED_STORAGE -D_UNICODE -D_WIN64 -ID:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/UI -ID:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/UI/R10 -ID:/Projects/3Stage-3/Stage2/source/Shared/R10ModuleABI/include -ID:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Core -ID:/Projects/3Stage-3/Stage2/source/Shared/StageBusSDK/include -ID:/Projects/3Stage-3/Stage2/transport/StagePublishV2 -ID:/Projects/3Stage-3/Stage2/transport/StagePublishV2/../StageBusSDK/include -ID:/Projects/3Stage-3/Stage2/transport/StagePublishV2/../StageLink -ID:/Projects/3Stage-3/Stage2/source/Shared/StageLink -isystem C:/Qt/6.11.2/mingw_64/include/QtCore -isystem C:/Qt/6.11.2/mingw_64/include -isystem C:/Qt/6.11.2/mingw_64/mkspecs/win32-g++ -isystem C:/Qt/6.11.2/mingw_64/include/QtWidgets -isystem C:/Qt/6.11.2/mingw_64/include/QtGui -O3 -DNDEBUG -std=gnu++20 -MD -MT Host/EntropyDspEngine/CMakeFiles/DspMusicUiTests.dir/Tests/DspMusicUiTests.cpp.obj -MF Host\EntropyDspEngine\CMakeFiles\DspMusicUiTests.dir\Tests\DspMusicUiTests.cpp.obj.d -o Host/EntropyDspEngine/CMakeFiles/DspMusicUiTests.dir/Tests/DspMusicUiTests.cpp.obj -c D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicUiTests.cpp
+In file included from C:/Qt/6.11.2/mingw_64/include/QtWidgets/qwidget.h:10,
+                 from C:/Qt/6.11.2/mingw_64/include/QtWidgets/qframe.h:9,
+                 from C:/Qt/6.11.2/mingw_64/include/QtWidgets/QFrame:1,
+                 from D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/UI/DspGraphNodes.h:2,
+                 from D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/UI/DspGraphPage.h:3,
+                 from D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicUiTests.cpp:1:
+C:/Qt/6.11.2/mingw_64/include/QtCore/qobject.h: In instantiation of 'T QObject::findChild(QAnyStringView, Qt::FindChildOptions) const [with T = entropy::stage::MatrixGraphNode*; Qt::FindChildOptions = QFlags<Qt::FindChildOption>]':
+D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicUiTests.cpp:7:95:   required from here
+C:/Qt/6.11.2/mingw_64/include/QtCore/qobject.h:163:62: error: static assertion failed: No Q_OBJECT in the class passed to QObject::findChild
+  163 |         static_assert(QtPrivate::HasQ_OBJECT_Macro<ObjType>::Value,
+      |                                                              ^~~~~
+C:/Qt/6.11.2/mingw_64/include/QtCore/qobject.h:163:62: note: 'QtPrivate::HasQ_OBJECT_Macro<entropy::stage::MatrixGraphNode>::Value' evaluates to false
+ninja: build stopped: subcommand failed.

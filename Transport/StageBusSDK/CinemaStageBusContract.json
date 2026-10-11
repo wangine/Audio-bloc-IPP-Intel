@@ -1,0 +1,8 @@
+{
+  "hashEncoding": "SHA256 of exact UTF-8 string, no newline",
+  "contract": "{\"abi\":65536,\"binary64_le\":true,\"frames\":1024,\"planar\":true,\"rate\":192000,\"source_domain\":2,\"transport\":\"StagePublishV2\",\"version\":1}",
+  "layouts": [
+    "{\"channels\":[\"FL\",\"FR\",\"FC\",\"LFE\",\"SL\",\"SR\"],\"id\":5,\"name\":\"CINEMA_51_6_V1\"}",
+    "{\"channels\":[\"FL\",\"FR\",\"FC\",\"LFE\",\"SL\",\"SR\",\"BL\",\"BR\"],\"id\":6,\"name\":\"CINEMA_71_8_V1\"}"
+  ]
+}

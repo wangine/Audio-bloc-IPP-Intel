@@ -5,7 +5,7 @@ from Stage05IpcIntegration import Client
 
 def main():
     core_path=pathlib.Path(os.environ['STAGE05_CORE'])
-    producer_path=core_path.parent/'EntropyStage06Input.exe'
+    producer_path=core_path.parent/'EntropyMusicCinemaPublisher.exe'
     token=uuid.uuid4().hex
     endpoint='EntropyAudioCore.Stage06.Test.'+token
     upstream=r'\\.\pipe\Entropy.StagePublish.V2.Stage06Fixture.'+token
@@ -17,9 +17,11 @@ def main():
         assert fixture_client.call('save-profile',path=str(profile))['ok'];fixture_client.call('shutdown');fixture_client.close();creator.wait(timeout=8)
     finally:
         if creator.poll() is None:creator.terminate();creator.communicate(timeout=8)
-    producer=subprocess.Popen([str(producer_path),'--fixture-server',upstream],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    producer=subprocess.Popen([str(producer_path),'4','61'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    cinema=subprocess.Popen([str(producer_path),'6','62'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    upstream=producer.stdout.readline().decode().strip();cinema_endpoint=cinema.stdout.readline().decode().strip()
     hidden=subprocess.STARTUPINFO();hidden.dwFlags=subprocess.STARTF_USESHOWWINDOW;hidden.wShowWindow=0
-    core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--profile',str(profile),'--stage2-endpoint',upstream,'--run-seconds','25'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,creationflags=subprocess.CREATE_NEW_CONSOLE,startupinfo=hidden)
+    core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--input-only','--cinema-endpoint',cinema_endpoint,'--profile',str(profile),'--stage2-endpoint',upstream,'--run-seconds','25'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,creationflags=subprocess.CREATE_NEW_CONSOLE,startupinfo=hidden)
     client=None
     try:
         client=Client(endpoint)
@@ -27,11 +29,11 @@ def main():
         until=time.monotonic()+8
         while time.monotonic()<until:
             data=client.call('telemetry')['data']
-            if int(data['stage2']['consumed'])>3:break
+            if int(data['inputs']['music']['consumed'])>3:break
             time.sleep(.03)
-        assert int(data['stage2']['consumed'])>3, data['stage2']
-        assert data['inputState']=='FP64 SOURCE / 192 kHz / PASSIVE V2' and data['blockSize']==1024,data['inputState']
-        assert max(data['musicPeaks'])>1e-8 and max(data['cinemaPeaks'][:8])>1e-8,'All-zero input is FAIL'
+        assert int(data['inputs']['music']['consumed'])>3, data['inputs']['music']
+        assert data['inputState']=='MUSIC FP64 / 192 kHz' and data['blockSize']==1024,data['inputState']
+        assert max(data['musicPeaks'])>1e-8 and max(data['inputs']['cinema']['peaks'])>1e-8,'All-zero input is FAIL'
         assert not data['armed'] and all(d['state']=='DISARMED' for d in data['domains'])
         assert client.call('parameter',id='cinemaDelayMs1',value=3)['ok']
         assert client.call('matrix-clear')['ok']
@@ -45,21 +47,21 @@ def main():
         assert after['matrix']['routes'][0]==2 and after['matrix']['routeCount']==1,'Last applied state lost'
         params={p['id']:p['value'] for p in after['parameters']}
         assert abs(params['cinemaDelayMs1']-3.00006103515625)<1e-12
-        print('Stage06 StageBus -> graph -> IPC nonzero MUSIC/CINEMA meters PASS')
+        print('Stage06 independent MUSIC3/CINEMA8 -> graph -> IPC nonzero source meters PASS')
         print('Stage06 UI detach/reconnect: same Core, advancing blocks, Crossover/Matrix state retained PASS')
         producer.terminate();producer.wait(timeout=5)
         until=time.monotonic()+4
         while time.monotonic()<until:
             data=client.call('telemetry')['data']
-            if data['stage2']['producerPid']==0:break
+            if data['inputs']['music']['state']=='FAULT':break
             time.sleep(.03)
-        assert data['stage2']['producerPid']==0 and not data['armed'],'Producer loss not reported safely'
+        assert data['inputs']['music']['state']=='FAULT' and not data['armed'],'Producer loss not reported safely'
         assert client.call('shutdown')['ok'];client.close();client=None
         core.wait(timeout=8);assert core.returncode==0
         print('Stage06 producer loss and explicit independent engine shutdown PASS')
     finally:
         if client:client.close()
-        for process in (core,producer):
+        for process in (core,producer,cinema):
             if process.poll() is None:process.terminate();process.wait(timeout=8)
         for label,process in [('core',core),('fixture',producer)]:
             stdout,stderr=process.communicate()

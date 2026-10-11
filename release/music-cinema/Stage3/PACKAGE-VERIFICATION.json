@@ -1,0 +1,73 @@
+{
+  "verdict": "PASS",
+  "runtime": [
+    {
+      "variant": "32k",
+      "manifestFiles": 122,
+      "manifestAndZip": "PASS",
+      "refusedOtherVersion": [
+        {
+          "script": "Start-MusicCinema.ps1",
+          "exit": 1,
+          "output": "Entropy Stage3 0.1.9-v2 / 32k; MUSIC3 + independent CINEMA6/8; starts DISARMED\nAnother Core owns this endpoint. Save and close its UI, then stop that Core explicitly. No process was stopped."
+        },
+        {
+          "script": "Stop-MusicCinema.ps1",
+          "exit": 1,
+          "output": "Stop refused: this endpoint is not owned by this package. No other Core stopped."
+        }
+      ],
+      "uiReopenSameCore": [
+        {
+          "attempt": 1,
+          "exit": 0,
+          "capture": "packaged-32k-reopen-1.png"
+        },
+        {
+          "attempt": 2,
+          "exit": 0,
+          "capture": "packaged-32k-reopen-2.png"
+        }
+      ],
+      "blocksAdvanced": 793,
+      "physicalArmed": false,
+      "safeOwnPackageStop": "PASS"
+    },
+    {
+      "variant": "64k",
+      "manifestFiles": 122,
+      "manifestAndZip": "PASS",
+      "refusedOtherVersion": [
+        {
+          "script": "Start-MusicCinema.ps1",
+          "exit": 1,
+          "output": "Entropy Stage3 0.1.9-v2 / 64k; MUSIC3 + independent CINEMA6/8; starts DISARMED\nAnother Core owns this endpoint. Save and close its UI, then stop that Core explicitly. No process was stopped."
+        },
+        {
+          "script": "Stop-MusicCinema.ps1",
+          "exit": 1,
+          "output": "Stop refused: this endpoint is not owned by this package. No other Core stopped."
+        }
+      ],
+      "uiReopenSameCore": [
+        {
+          "attempt": 1,
+          "exit": 0,
+          "capture": "packaged-64k-reopen-1.png"
+        },
+        {
+          "attempt": 2,
+          "exit": 0,
+          "capture": "packaged-64k-reopen-2.png"
+        }
+      ],
+      "blocksAdvanced": 794,
+      "physicalArmed": false,
+      "safeOwnPackageStop": "PASS"
+    }
+  ],
+  "sourceManifestFiles": 1150,
+  "sourceManifestAndZip": "PASS",
+  "checksums": "PASS",
+  "physicalOutputOpened": false
+}

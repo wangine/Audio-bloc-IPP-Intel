@@ -8,6 +8,10 @@
 #define STAGE_BUS_CAPACITY 4u
 #define MIX_CINEMA10_V1 1u
 #define LRC_CINEMA11_V1 2u
+#define MUSIC_STEREO2_V1 3u
+#define MUSIC_LRC3_V1 4u
+#define CINEMA_51_6_V1 5u
+#define CINEMA_71_8_V1 6u
 #define STAGE_BUS_BINARY64_LE 1u
 #define STAGE_BUS_PLANAR 1u
 /* All fields have fixed little-endian wire representation; reserved bytes zero. */

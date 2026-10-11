@@ -1,0 +1,14 @@
+/Stage1/build*/
+/Stage1/release/
+/Stage1/state/
+/Stage1/evidence/*
+!/Stage1/evidence/README.md
+/Stage1/reference-runtime/*
+!/Stage1/reference-runtime/README.md
+/Stage2/build*/
+/Stage2/release/
+/Stage2/runtime/
+/Stage2/evidence/*
+!/Stage2/evidence/README.md
+*.pcm
+*.ini

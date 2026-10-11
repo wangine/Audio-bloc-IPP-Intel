@@ -1,0 +1,18 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage2/build
+Test project D:/Projects/3Stage-3/Stage2/build
+    Start 45: DspMusicContract
+    Start 46: DspMusicPassive
+1/6 Test #45: DspMusicContract .................   Passed    0.09 sec
+    Start 47: DspMusicRecorder
+2/6 Test #47: DspMusicRecorder .................   Passed    0.07 sec
+    Start 48: DspMusicUi
+3/6 Test #48: DspMusicUi .......................   Passed    0.12 sec
+    Start 49: DspMusicNative
+4/6 Test #46: DspMusicPassive ..................   Passed    0.31 sec
+    Start 50: DspMusicAllocation
+5/6 Test #49: DspMusicNative ...................   Passed    0.27 sec
+6/6 Test #50: DspMusicAllocation ...............   Passed    1.27 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Total Test time (real) =   1.61 sec

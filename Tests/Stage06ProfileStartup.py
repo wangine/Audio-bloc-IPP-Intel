@@ -7,14 +7,14 @@ def main():
     endpoint='EntropyAudioCore.Stage06.Profile.'+uuid.uuid4().hex
     missing=core_path.parent/'stage06-no-such-profile.entropy'
     absent=r'\\.\pipe\Entropy.StagePublish.V2.Stage06.Absent.'+uuid.uuid4().hex
-    core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--stage2-endpoint',absent,'--profile',str(missing),'--run-seconds','20'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--input-only','--stage2-endpoint',absent,'--profile',str(missing),'--run-seconds','20'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
     client=None;creator=None;fixture_client=None
     try:
         client=Client(endpoint)
         descriptor=client.call('describe')['data']
         assert descriptor['profileRequired'] and descriptor['profileError']
         telemetry=client.call('telemetry')['data']
-        assert int(telemetry['stage2']['received'])==0 and not telemetry['armed']
+        assert int(telemetry['inputs']['music']['received'])==0 and not telemetry['armed']
         assert not client.call('parameter',id='cinemaSource',value=1)['ok']
         assert not client.call('load-profile',path=str(missing))['ok']
         fixture_endpoint=endpoint+'.Fixture'
@@ -46,7 +46,7 @@ def main():
         client.call('shutdown');client.close();client=None;core.wait(timeout=8)
         assert core.returncode==0
         print('Stage06 missing profile -> Core waits -> native validation -> IPC profile load PASS')
-        core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--stage2-endpoint',absent,'--profile',str(missing),'--run-seconds','20'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        core=subprocess.Popen([str(core_path),'--control-server','--endpoint',endpoint,'--stage2-input','--input-only','--stage2-endpoint',absent,'--profile',str(missing),'--run-seconds','20'],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         client=Client(endpoint);new_profile=core_path.parent/'stage06-new-profile.entropy'
         assert client.call('new-profile',path=str(new_profile))['ok']
         telemetry=client.call('telemetry')['data']

@@ -1,0 +1,14 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage2/build
+Test project D:/Projects/3Stage-3/Stage2/build
+    Start 51: DspMusicPackage
+1/1 Test #51: DspMusicPackage ..................***Failed    0.08 sec
+FAIL D:/Projects/3Stage-3/Stage2/source/Host/EntropyDspEngine/Tests/DspMusicPackageTests.cpp:18 !verifyDspPackage(root,error)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.09 sec
+
+The following tests FAILED:
+	 51 - DspMusicPackage (Failed)
+Errors while running CTest

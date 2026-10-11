@@ -1,0 +1,10 @@
+[0/1] Re-running CMake...
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Configuring done (0.9s)
+-- Generating done (0.3s)
+-- Build files have been written to: D:/Projects/3Stage-3/Stage2/build
+[1/6] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspMusicAllocationTests.dir/Core/RealtimeAllocationAudit.cpp.obj
+[2/6] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspMusicNativeTests.dir/Tests/DspMusicNativeTests.cpp.obj
+[3/6] Building CXX object Host/EntropyDspEngine/CMakeFiles/DspMusicAllocationTests.dir/Tests/DspMusicNativeTests.cpp.obj
+[4/6] Linking CXX executable Host\EntropyDspEngine\DspMusicNativeTests.exe
+[5/6] Linking CXX executable Host\EntropyDspEngine\DspMusicAllocationTests.exe

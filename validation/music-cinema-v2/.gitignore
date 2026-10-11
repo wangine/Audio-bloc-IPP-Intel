@@ -1,0 +1,6 @@
+*
+!.gitignore
+!protected-baseline.json
+!publication-native-65536.log
+!publication-ui-tests.json
+!publication-ui-failure.log

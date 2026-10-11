@@ -1,0 +1,14 @@
+{
+  "samples": 68,
+  "elapsed": 34.8761363,
+  "badSamples": 0,
+  "inputFormat": "16/44100",
+  "packetsDelta": 749,
+  "blocksDelta": 6522,
+  "lostFramesDelta": 0,
+  "underrunsDelta": 0,
+  "clockLateDelta": 0,
+  "sessionStable": true,
+  "startupPeakL": 1.0279866106025628,
+  "startupPeakR": 1.0321708044990456
+}

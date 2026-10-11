@@ -15,3 +15,9 @@
 /DSP/Crossover/include/ParameterIds.h -text whitespace=cr-at-eol
 /DSP/Crossover/src/PluginProcessor.cpp -text whitespace=cr-at-eol
 /DSP/Crossover/tests/NativeSupportTests.cpp -text whitespace=cr-at-eol
+# Preserve the imported source snapshots and pinned reference sources byte-for-byte.
+/Integration/Music/** -text whitespace=cr-at-eol,-blank-at-eol
+/local/stage04-ref/Stage3/native-reference/dependencies/SRC/** -text whitespace=cr-at-eol,-blank-at-eol
+/local/thiran-baseline/** -text whitespace=cr-at-eol,-blank-at-eol
+/validation/music-cinema-v2/** -text whitespace=cr-at-eol,-blank-at-eol
+/release/music-cinema/** -text whitespace=cr-at-eol,-blank-at-eol

@@ -19,7 +19,7 @@ def main():
             assert creator.call('save-profile', path=str(profile))['ok']
             creator.call('shutdown'); creator.close(); fixture.wait(timeout=8)
             target = subprocess.Popen([str(core), '--control-server', '--endpoint', name,
-                                       '--stage2-input', '--stage2-endpoint', absent,
+                                       '--stage2-input','--input-only', '--stage2-endpoint', absent,
                                        '--profile', str(profile), '--run-seconds', '20'],
                                       stdout=subprocess.PIPE, stderr=subprocess.PIPE)
             processes.append(target); client = Client(name); connections.append(client)
@@ -37,7 +37,7 @@ def main():
                     raise AssertionError('Accepted Matrix/Headroom controls stalled without input')
                 time.sleep(.02)
             assert int(state['blocks']) == 0 and int(state['headroom']['processedFrames']) == 0
-            assert int(state['stage2']['received']) == 0 and not state['armed']
+            assert int(state['inputs']['music']['received']) == 0 and not state['armed']
             print('PASS starved Core: accepted host controls applied; zero DSP frames; DACs closed')
             client.call('shutdown'); client.close(); target.wait(timeout=8)
             assert target.returncode == 0

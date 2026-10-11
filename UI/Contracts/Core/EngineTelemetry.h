@@ -232,6 +232,8 @@ struct EngineClockBufferTelemetry
 
 struct EngineTelemetrySnapshot
 {
+    struct ProgramInput {uint64_t faults=0,gaps=0,sequence=0,epoch=0,qpc=0;unsigned channels=0,layout=0,receiving=0;char label[64]{},endpoint[256]{},session[40]{};double peaks[8]{},maximumPeaks[8]{};};
+    unsigned inputContractVersion=0;ProgramInput programInputs[2]{};
     struct Stage3Latency {bool available=false;double firMs=0,delayMinMs=0,delayMaxMs=0,fifoMs=0,clockMs=0,sinkMs=0,guardianMs=0,minimumMs=0,maximumMs=0;};
     Stage3Latency stage3Latency[engineMaximumDacDomains]{};
     std::uint32_t magic = engineTelemetryMagic;

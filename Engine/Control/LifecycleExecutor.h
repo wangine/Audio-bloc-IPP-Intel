@@ -15,7 +15,7 @@ class LifecycleExecutor final {
 public:
  enum class State { Accepted, Preparing, Arming, Running, Stopping, Disarmed, Fault };
  using Handler=std::function<ipc::Value(const ipc::Value&,uint64_t)>;
- LifecycleExecutor(Handler,std::function<void()> closeGate,std::function<void()> tick,std::function<void()> finalize={});
+ LifecycleExecutor(Handler,std::function<void()> closeGate,std::function<void()> tick,std::function<void()> finalize={},std::function<bool()> faultProbe={});
  ~LifecycleExecutor();
  ipc::Value admit(const ipc::Value&,bool cancelArm=false);
  ipc::Value results(const ipc::Value&) const;
@@ -30,7 +30,7 @@ public:
 private:
  struct Entry {uint64_t id,generation;ipc::Value request,reply;bool complete=false,closesGate=false;};
  void run();
- Handler handler_;std::function<void()> closeGate_,tick_,finalize_;
+ Handler handler_;std::function<void()> closeGate_,tick_,finalize_;std::function<bool()> faultProbe_;
  mutable std::mutex queueMutex_;std::mutex activationMutex_;
  std::condition_variable wake_;std::deque<std::shared_ptr<Entry>> queue_,history_;
  std::atomic<uint64_t> generation_{1};std::atomic<State> state_{State::Disarmed};
