@@ -59,6 +59,6 @@ int verifyFp64(const std::filesystem::path& input,uint64_t frames,uint32_t bits,
         if(std::memcmp(block.session_id,session.session_id,16))throw std::runtime_error("Wrong FP64 output session");
         verifier.accept(block,storage[0].data(),storage[1].data());
     }
-    const bool pass=verifier.finish(footer,errors);std::cout<<"{\"pass\":"<<(pass?"true":"false")<<",\"frames\":"<<verifier.frames()<<",\"mismatchedSamples\":"<<verifier.mismatchedSamples()<<",\"invalidClockFrames\":"<<verifier.invalidFrames()<<",\"exactBinary64\":true,\"inputRate\":192000,\"outputRate\":192000,\"footer\":"<<(footer?"true":"false")<<",\"subscriberErrors\":"<<errors<<",\"reason\":\""<<verifier.reason()<<"\"}\n";return pass?0:2;
+    const bool pass=verifier.finish(footer,errors);std::cout<<"{\"pass\":"<<(pass?"true":"false")<<",\"frames\":"<<verifier.frames()<<",\"mismatchedSamples\":"<<verifier.mismatchedSamples()<<",\"invalidClockFrames\":"<<verifier.invalidFrames()<<",\"interiorInvalidFrames\":"<<verifier.interiorInvalidFrames()<<",\"exactBinary64\":true,\"inputRate\":192000,\"outputRate\":192000,\"footer\":"<<(footer?"true":"false")<<",\"subscriberErrors\":"<<errors<<",\"reason\":\""<<verifier.reason()<<"\"}\n";return pass?0:2;
 }
 }

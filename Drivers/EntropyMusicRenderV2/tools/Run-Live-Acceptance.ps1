@@ -5,6 +5,7 @@ $repo=Split-Path (Split-Path $root -Parent) -Parent
 if(!$RunLive -and !$ValidatePackageOnly){Write-Output 'No live action. After approved installation: supply -Package and -Repository, then -RunLive for24 Exclusive cases or -RunLive -Stress for1800s. Position-only allocations remain unsupported; polling must prove an OS commit path.';return}
 if(!$Package){throw 'An explicit manifested qualification package is required'}
 if($VerifyFp64 -and !$Stress -and $Seconds%2){throw 'Native192k output verification needs an even duration to include the complete1024-frame tail'}
+if($VerifyFp64 -and $PauseMs){throw 'Run intentional PAUSE clock tests separately from uninterrupted FP64 continuity acceptance'}
 . (Join-Path $PSScriptRoot 'Assert-Package.ps1')
 $manifest=Assert-MusicPackage $Package
 if($ValidatePackageOnly){Write-Output 'Package hashes verified; no device or audio action';return}

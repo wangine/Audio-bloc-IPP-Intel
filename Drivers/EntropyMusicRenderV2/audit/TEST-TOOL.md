@@ -16,7 +16,10 @@ MUSIC publication before rendering. It is not another raw driver reader. It
 captures all publication blocks, including invalid clock blocks, and compares
 every valid L/R binary64 sample to the exact known original PCM value. It rejects
 publication gaps, altered values (including one ULP), generation changes, interior
-discontinuities, AUX, missing first/tail data and absent/error footers.
+discontinuities, inserted invalid/silent clock blocks inside the expected source
+sequence, AUX, missing first/tail data and absent/error footers. Invalid clock
+frames before the source starts and after its complete tail are counted explicitly.
+Intentional PAUSE tests run separately from uninterrupted FP64 continuity tests.
 
 **Direct equality is supported only for native192k input and output.** PCM16 is
 sample/32768; PCM24-valid-in32 is (container>>8)/8388608. These powers-of-two

@@ -7,7 +7,7 @@ namespace entropy::music::audit {
 // Native 192k only: every signed PCM value is exactly representable in binary64.
 // Other rates require an independently specified SRC reference, not equality.
 class Fp64Verifier {
-    PcmFormat format_;uint64_t expected_,generation_,frames_=0,sequence_=0,mismatches_=0,invalidFrames_=0;
+    PcmFormat format_;uint64_t expected_,generation_,frames_=0,sequence_=0,mismatches_=0,invalidFrames_=0,interiorInvalidFrames_=0;
     std::string reason_;
     bool fail(const char* reason){if(reason_.empty())reason_=reason;return false;}
 public:
@@ -21,7 +21,9 @@ public:
         sequence_=h.block_sequence;
         if(!(h.validity_mask&1)){
             for(unsigned i=0;i<1024;++i)if(l[i]!=0 || r[i]!=0)return fail("Nonzero invalid output block");
-            invalidFrames_+=1024;return true;
+            invalidFrames_+=1024;
+            if(frames_ && frames_<expected_){interiorInvalidFrames_+=1024;return fail("Inserted invalid/silent clock block inside source sequence");}
+            return true;
         }
         if(h.source_generation[0]!=generation_ || h.source_rate[0]!=192000 || (frames_ && h.discontinuity_mask))return fail("Wrong generation/rate or interior discontinuity");
         if(frames_>expected_ || expected_-frames_<1024)return fail("Extra output frames");
@@ -44,6 +46,7 @@ public:
     uint64_t frames() const noexcept{return frames_;}
     uint64_t mismatchedSamples() const noexcept{return mismatches_;}
     uint64_t invalidFrames() const noexcept{return invalidFrames_;}
+    uint64_t interiorInvalidFrames() const noexcept{return interiorInvalidFrames_;}
     const std::string& reason() const noexcept{return reason_;}
 };
 }
