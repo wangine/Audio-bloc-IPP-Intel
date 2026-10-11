@@ -44,7 +44,10 @@ $revision=(& git -C $repo rev-parse HEAD).Trim()
 $sourceDirty=!!(& git -C $repo status --porcelain -- Drivers/EntropyMusicRenderV2 Integration/Music/Stage1/ABI/endpoint_provider_v2.h)
 $artifacts=@(Get-ChildItem -LiteralPath $Output -Recurse -File | Sort-Object FullName | ForEach-Object {@{path=[IO.Path]::GetRelativePath($Output,$_.FullName).Replace('\','/');bytes=$_.Length;sha256=(Get-FileHash -LiteralPath $_.FullName).Hash}})
 $frozenCoreSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'Integration/Music/Stage1/release/stage1-native-music-v0002/core/EntropyMusicSourceCore.exe')).Hash
-$manifest=@{version='0.3.0.1-candidate';acceptance='NOT_RUN';identity=@{hardwareId='ROOT\EntropyMusicRenderV2';service='EntropyMusicRenderV2';channels=2;privateGuid='ab93289e-2692-47a9-bc47-ed1711f6e430'};frozenCoreSha256=$frozenCoreSha256;sourceRevision=$revision;sourceWorkingTreeDirty=$sourceDirty;catalogGenerationExit=$catalogExit;kernelSignatureVerificationExit=$verificationExit;signatures=$signatures;artifacts=$artifacts}
+$infText=Get-Content -LiteralPath (Join-Path $driver 'EntropyMusicRenderV2.inf') -Raw
+if($infText -notmatch '(?m)^DriverVer\s*=\s*[^,]+,([0-9.]+)\s*$'){throw 'Kernel DriverVer unavailable'}
+$version=$Matches[1]
+$manifest=@{version="$version-candidate";acceptance='NOT_RUN';identity=@{hardwareId='ROOT\EntropyMusicRenderV2';service='EntropyMusicRenderV2';channels=2;privateGuid='ab93289e-2692-47a9-bc47-ed1711f6e430'};frozenCoreSha256=$frozenCoreSha256;sourceRevision=$revision;sourceWorkingTreeDirty=$sourceDirty;catalogGenerationExit=$catalogExit;kernelSignatureVerificationExit=$verificationExit;signatures=$signatures;artifacts=$artifacts}
 $manifest | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $Output 'manifest.json') -Encoding utf8
 $artifacts | ForEach-Object {"$($_.sha256)  $($_.path)"} | Set-Content -LiteralPath (Join-Path $Output 'SHA256SUMS.txt') -Encoding ascii
 & $python (Join-Path $root 'tests/PackageTests.py') --package $Output

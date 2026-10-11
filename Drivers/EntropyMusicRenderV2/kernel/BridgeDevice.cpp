@@ -18,7 +18,7 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
     auto stack=IoGetCurrentIrpStackLocation(irp);const auto file=stack->FileObject;
     if(stack->MajorFunction==IRP_MJ_CREATE && file) {
         UNICODE_STRING reference=RTL_CONSTANT_STRING(L"\\EntropyMusicPcmV1");
-        if(RtlEqualUnicodeString(&file->FileName,&reference,FALSE)) {
+        if(RtlEqualUnicodeString(&file->FileName,&reference,TRUE)) {
             if(!InterlockedCompareExchange(&enabled,0,0))return Complete(irp,STATUS_DEVICE_NOT_CONNECTED);
             auto session=static_cast<Session*>(ExAllocatePool2(POOL_FLAG_NON_PAGED,sizeof(Session),Tag));
             if(!session)return Complete(irp,STATUS_INSUFFICIENT_RESOURCES);
@@ -60,7 +60,7 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
     }
     if(code==bridge::IoctlInfo) {
         if(!HeaderIs(header,input,2,sizeof(header)) || output!=sizeof(bridge::Info))return Complete(irp,STATUS_INVALID_PARAMETER);
-        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030001;
+        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030002;
         KIRQL old;KeAcquireSpinLock(&sessionsLock,&old);info.readerAttached=reader?1:0;KeReleaseSpinLock(&sessionsLock,old);
         Totals lifetime{},ended{};GetPcmEvidence(0,{},lifetime,ended);
         info.lifetimeLost=lifetime.lostFrames;info.lifetimeCancelled=lifetime.cancelledFrames;info.terminatedLost=ended.lostFrames;info.terminatedCancelled=ended.cancelledFrames;
