@@ -1,0 +1,14 @@
+{
+  "scope": "Legacy MUSIC Transport before manual TIDAL selection of new Music Render V2; AUX Shared frames continued but instantaneous AUX peak was zero",
+  "samples": 432,
+  "durationMs": 59859,
+  "musicUnderrunsStart": "3",
+  "musicUnderrunsEnd": "3",
+  "auxUnderrunsStart": "0",
+  "auxUnderrunsEnd": "0",
+  "musicFaultsEnd": "0",
+  "auxFaultsEnd": "0",
+  "musicFramesDelta": 2639872,
+  "auxFramesDelta": 2639826,
+  "qualification": "No new faults or underruns in this 60s window; three earlier MUSIC legacy underruns remain recorded. Does not supersede immutable five-minute dual report or certify legacy raw PCM."
+}
