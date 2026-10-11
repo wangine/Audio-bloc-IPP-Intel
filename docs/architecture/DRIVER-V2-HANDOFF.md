@@ -1,8 +1,10 @@
 # Entropy Music Render V2 — driverul independent nr. 3
 
 Data: 2026-10-11. Stare: direcție și specificație aprobate de utilizator;
-planul de implementare este pregătit pentru revizie. Nu există încă implementare,
-build, instalare sau validare a unui nou driver kernel.
+planul se execută direct în acest chat. Există candidatul kernel0.3.0.1, Provider-ul
+raw și auditul WASAPI, compilate și testate offline. Instalarea și calificarea
+driverului încărcat rămân neexecutate. Vezi raportul
+[candidatului](../../Drivers/EntropyMusicRenderV2/REVIEW.md).
 
 Acest handoff completează [documentul păstrat în snapshotul Stage1 v0002](../../Integration/Music/Stage1/docs/DRIVER-V2-HANDOFF.md).
 Snapshotul, arhivele acceptate și codul Stage1 v0002 rămân nemodificate.
@@ -45,7 +47,7 @@ commit `2dc3fd3a0cc84a2933f2194e7ec0871584979071`, directorul
 [`audio/simpleaudiosample`](https://github.com/microsoft/Windows-driver-samples/tree/2dc3fd3a0cc84a2933f2194e7ec0871584979071/audio/simpleaudiosample).
 Licența repository-ului este MS-PL; importul ulterior trebuie să păstreze licența,
 notificările individuale și inventarul exact al fișierelor importate.
-Pin-ul este o referință verificată, nu un import sau build executat în această etapă.
+Pin-ul a fost importat cu47 blob hashes verificate și compilat separat ca referință.
 Fișierele examinate și Git blob hashes sunt în [driver-v2-reference.json](driver-v2-reference.json).
 
 Implementarea va avea trei componente separate: driver kernel, DLL Provider V2
@@ -60,8 +62,9 @@ nu fac parte din produs. Codul de ceas, commit și EOS trebuie implementat și
 testat conform contractului de aici, nu acceptat automat din sample.
 
 Pe această mașină există WDK/SDK 10.0.28000.0, `portcls.h`, `portcls.lib` x64 și
-fișiere WindowsDriver props. Aceasta este doar o inventariere; compatibilitatea
-toolset-ului, build-ul kernel, INF, signing și încărcarea nu sunt încă validate.
+fișiere WindowsDriver props. Build-ul x64 folosește SDK/WDK28000.2526 extrase local
+din NuGet cu SHA256, plus MSVC19.51. Build-ul kernel și generarea catalogului au
+fost verificate; SYS/CAT rămân nesemnate, încărcarea și acceptarea live neexecutate.
 
 ## 3. Formate inițiale exacte
 

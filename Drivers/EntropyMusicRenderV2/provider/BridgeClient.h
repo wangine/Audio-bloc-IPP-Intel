@@ -16,6 +16,10 @@ public:
     virtual void close()=0;
 };
 class BridgeClient {
+    friend struct BridgeClientTestProbe;
+#ifdef ENTROPY_PROVIDER_TESTING
+    void(*exitHook_)(void*)=nullptr;void* exitContext_=nullptr;
+#endif
     BridgeTransport& transport_;
     std::vector<uint8_t> wire_;
     std::atomic<bool> cancelled_{false};

@@ -26,11 +26,18 @@ the system default as a build side effect.
 ## Qualification after deployment approval
 
 Run `tools/Run-Live-Acceptance.ps1` without switches to see its safe default.
-After approval and exact new identity verification, `-RunLive` runs24 Exclusive
+After approval and exact new identity verification, `-Package <folder> -RunLive` runs24 Exclusive
 format/servicing cases using a copied, hash-identical Stage1v0002 Core with fresh
 config/control/publish endpoints, empty AUX selection and only the audit Provider.
 The capture pipe verifies its client PID is that isolated Core. No second raw
 reader is used. `-RunLive -Stress` is a separate1800-second PCM24/32-192k test.
+The runner verifies every manifested package file and the installed SYS hash;
+it runs package binaries, not mutable checkout build outputs. It also binds the
+frozen Core hash and requested format/driver generation to each comparison.
+Signing changes the SYS/CAT bytes: preserve this unsigned candidate and create
+a separate signed package with a fresh matching manifest before qualification.
+Position-only allocations are rejected. Polling is qualified only if the actual
+OS path uses valid packet commits and all corresponding acceptance checks pass.
 
 Retain failing captures from byte0 to the final byte; no discarded startup/tail.
 Only zero mismatches/loss/duplicate/overflow, full emitted-frame coverage,

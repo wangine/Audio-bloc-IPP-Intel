@@ -62,14 +62,16 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
         if(!HeaderIs(header,input,2,sizeof(header)) || output!=sizeof(bridge::Info))return Complete(irp,STATUS_INVALID_PARAMETER);
         bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030001;
         KIRQL old;KeAcquireSpinLock(&sessionsLock,&old);info.readerAttached=reader?1:0;KeReleaseSpinLock(&sessionsLock,old);
+        Totals lifetime{},ended{};GetPcmEvidence(0,{},lifetime,ended);
+        info.lifetimeLost=lifetime.lostFrames;info.lifetimeCancelled=lifetime.cancelledFrames;info.terminatedLost=ended.lostFrames;info.terminatedCancelled=ended.cancelledFrames;
         auto pcm=AcquirePcmOwner();if(pcm) {
             if(pcm->TryEnter()) {
-                const auto& t=pcm->timeline;const auto totals=t.totals(),lifetime=t.lifetimeTotals();
+                pcm->Flush();const auto& t=pcm->timeline;const auto totals=pcm->CurrentTotals();GetPcmEvidence(t.generation(),totals,lifetime,ended);
                 info.format=t.format();info.generation=t.generation();info.qpcFrequency=t.frequency();info.deliveredFrames=pcm->deliveredFrames;info.allocationMode=static_cast<uint32_t>(t.owner());
-                info.state=t.stopping()?3:(t.running()?2:(t.prepared()?1:0));info.sourceFrames=t.frames();info.packetCount=t.packetCount();
+                info.state=pcm->fault()?4:(t.stopping()?3:(t.running()?2:(t.prepared()?1:0)));info.sourceFrames=t.frames();info.packetCount=t.packetCount();
                 info.committedFrames=totals.committedFrames;info.publishedFrames=totals.publishedFrames;info.lostFrames=totals.lostFrames;info.cancelledFrames=totals.cancelledFrames;
-                info.currentUnderrunFrames=t.frames()>t.committedEnd()?t.frames()-t.committedEnd():0;info.lifetimeLost=lifetime.lostFrames;info.lifetimeCancelled=lifetime.cancelledFrames;
-                const auto ended=t.terminatedTotals();info.terminatedLost=ended.lostFrames;info.terminatedCancelled=ended.cancelledFrames;
+                info.currentUnderrunFrames=t.uncommittedFrames()+(t.frames()>t.committedEnd()?t.frames()-t.committedEnd():0);info.lifetimeLost=lifetime.lostFrames;info.lifetimeCancelled=lifetime.cancelledFrames;
+                info.terminatedLost=ended.lostFrames;info.terminatedCancelled=ended.cancelledFrames;
                 pcm->Leave();
             } else {ReleasePcmOwner(pcm);return Complete(irp,STATUS_DEVICE_NOT_READY);}
             ReleasePcmOwner(pcm);

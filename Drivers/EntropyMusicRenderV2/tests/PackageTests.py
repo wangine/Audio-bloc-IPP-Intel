@@ -5,6 +5,10 @@ import pathlib
 import re
 import sys
 import unittest
+import subprocess
+import tempfile
+import zipfile
+import shutil
 
 ROOT = pathlib.Path(__file__).absolute().parents[1]
 PIN = '2dc3fd3a0cc84a2933f2194e7ec0871584979071'
@@ -58,6 +62,44 @@ class DeliveryTests(unittest.TestCase):
             if script.name.startswith(('Build-','Package-','Prepare-','Import-')):
                 self.assertNotRegex(script.read_text(encoding='utf-8-sig'),r'(?i)\b(bcdedit|pnputil|devcon|certutil|Import-Certificate|Import-PfxCertificate)\b')
         self.assertTrue((PACKAGE/'DEPLOYMENT.md').is_file())
+
+    def test_SourceArchiveMatchesInventoryAndCheckout(self):
+        self.manifest()
+        items=json.loads((PACKAGE/'source-files.json').read_text(encoding='utf-8-sig'))
+        repo=ROOT.parents[1]
+        with zipfile.ZipFile(PACKAGE/'source.zip') as archive:
+            self.assertEqual(set(archive.namelist()), {item['path'] for item in items})
+            for item in items:
+                body=archive.read(item['path'])
+                self.assertEqual(len(body),item['bytes'])
+                self.assertEqual(hashlib.sha256(body).hexdigest().upper(),item['sha256'])
+                self.assertEqual(body,(repo/item['path']).read_bytes(),item['path'])
+        for item in self.manifest()['artifacts']:
+            if item['path'].startswith(('driver/','user/')) and not item['path'].endswith('.cat'):
+                build=ROOT/'build'/('kernel' if item['path'].startswith('driver/') else 'model')/pathlib.PurePosixPath(item['path']).name
+                self.assertEqual(build.read_bytes(),(PACKAGE/item['path']).read_bytes(),item['path'])
+
+    def test_QualificationRejectsChangedArtifact(self):
+        manifest=self.manifest()
+        shell=shutil.which('pwsh')
+        self.assertIsNotNone(shell,'PowerShell7 required for the packaged runner check')
+        script=PACKAGE/'tools/Run-Live-Acceptance.ps1'
+        command=[str(shell),'-NoProfile','-File',str(script),'-ValidatePackageOnly','-Package',str(PACKAGE)]
+        self.assertEqual(subprocess.run(command,capture_output=True).returncode,0)
+        # Real file alteration against an unchanged manifest, without changing
+        # the delivery package, must fail before device discovery or rendering.
+        with tempfile.TemporaryDirectory() as temp:
+            folder=pathlib.Path(temp)
+            shutil.copytree(PACKAGE,folder,dirs_exist_ok=True)
+            changed=folder/'user/EntropyMusicRawProviderV2Audit.dll'
+            body=bytearray(changed.read_bytes());body[0]^=1;changed.write_bytes(body)
+            result=subprocess.run([str(shell),'-NoProfile','-File',str(script),'-ValidatePackageOnly','-Package',str(folder)],capture_output=True)
+            self.assertNotEqual(result.returncode,0)
+            self.assertIn(b'Package artifact differs',result.stderr)
+        text=script.read_text(encoding='utf-8-sig')
+        self.assertNotIn('build/model/EntropyMusicPcmAudit.exe',text)
+        self.assertIn('Assert-MusicInstalledDriver',text)
+        self.assertIn('--generation $rendered.generation',text)
 
 class ReferenceTests(unittest.TestCase):
     def test_frozen_provider_abi(self):

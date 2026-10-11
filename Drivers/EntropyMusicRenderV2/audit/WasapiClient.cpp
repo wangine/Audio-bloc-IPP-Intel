@@ -59,6 +59,8 @@ RunReport WasapiClient::run(const RunConfig& c){
         Sleep(c.eventDriven?1:std::max<DWORD>(1,static_cast<DWORD>(period/40000)));
     }
     check(client->Stop(),"Stop after observed drain");started.active=false;
-    if(report.driver.lostFrames || !report.observedAllocation || report.driver.qpcFrequency==0)report.drained=false;return report;
+    // A finite client without an OS EOS may have an unwritten interval after
+    // its requested tail. Interior gaps are rejected by complete frame indices.
+    if(report.driver.state==4 || report.driver.lostFrames || report.observedAllocation!=1 || report.driver.qpcFrequency==0)report.drained=false;return report;
 }
 }

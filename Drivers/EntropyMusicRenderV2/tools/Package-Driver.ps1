@@ -19,15 +19,14 @@ Copy-Item -LiteralPath (Join-Path $root 'upstream-manifest.json') -Destination $
 Copy-Item -LiteralPath (Join-Path $root 'audit/acceptance-matrix.json') -Destination $evidence
 Copy-Item -LiteralPath (Join-Path $repo 'validation/music-render-v2/kernel-build.json') -Destination $evidence
 Copy-Item -LiteralPath (Join-Path $root 'build/kits/sdk-provenance.json') -Destination $evidence
-# Package's convenient runner resolves the repository containing its frozen Core;
-# use the source checkout runner for qualification, rather than an incomplete
-# standalone Stage1 runtime hidden inside the driver package.
+foreach($file in @('Run-Live-Acceptance.ps1','Assert-Package.ps1')){Copy-Item -LiteralPath (Join-Path $PSScriptRoot $file) -Destination $scripts}
+# The packaged runner uses only manifested package executables. The checkout
+# supplies the frozen Core, whose exact hash is recorded below.
 @'
 param([Parameter(Mandatory=$true)][string]$Repository,[switch]$RunLive,[switch]$Stress,[string]$Output)
 $ErrorActionPreference='Stop'
-$runner=Join-Path $Repository 'Drivers/EntropyMusicRenderV2/tools/Run-Live-Acceptance.ps1'
-if(!(Test-Path -LiteralPath $runner)){throw 'Matching architecture source checkout is required'}
-& $runner -RunLive:$RunLive -Stress:$Stress -Output $Output
+$package=Split-Path $PSScriptRoot -Parent
+& (Join-Path $PSScriptRoot 'Run-Live-Acceptance.ps1') -Repository $Repository -Package $package -RunLive:$RunLive -Stress:$Stress -Output $Output
 '@ | Set-Content -LiteralPath (Join-Path $scripts 'Run-Qualification.ps1')
 $catalog=Join-Path $root 'build/kits/sdk/bin/10.0.28000.0/x86/Inf2Cat.exe'
 & $catalog "/driver:$driver" '/os:10_CO_X64,10_NI_X64,10_GE_X64' *> (Join-Path $evidence 'catalog-generation.log')
@@ -44,7 +43,8 @@ $verificationExit=$LASTEXITCODE
 $revision=(& git -C $repo rev-parse HEAD).Trim()
 $sourceDirty=!!(& git -C $repo status --porcelain -- Drivers/EntropyMusicRenderV2 Integration/Music/Stage1/ABI/endpoint_provider_v2.h)
 $artifacts=@(Get-ChildItem -LiteralPath $Output -Recurse -File | Sort-Object FullName | ForEach-Object {@{path=[IO.Path]::GetRelativePath($Output,$_.FullName).Replace('\','/');bytes=$_.Length;sha256=(Get-FileHash -LiteralPath $_.FullName).Hash}})
-$manifest=@{version='0.3.0.1-candidate';acceptance='NOT_RUN';identity=@{hardwareId='ROOT\EntropyMusicRenderV2';service='EntropyMusicRenderV2';channels=2;privateGuid='ab93289e-2692-47a9-bc47-ed1711f6e430'};sourceRevision=$revision;sourceWorkingTreeDirty=$sourceDirty;catalogGenerationExit=$catalogExit;kernelSignatureVerificationExit=$verificationExit;signatures=$signatures;artifacts=$artifacts}
+$frozenCoreSha256=(Get-FileHash -LiteralPath (Join-Path $repo 'Integration/Music/Stage1/release/stage1-native-music-v0002/core/EntropyMusicSourceCore.exe')).Hash
+$manifest=@{version='0.3.0.1-candidate';acceptance='NOT_RUN';identity=@{hardwareId='ROOT\EntropyMusicRenderV2';service='EntropyMusicRenderV2';channels=2;privateGuid='ab93289e-2692-47a9-bc47-ed1711f6e430'};frozenCoreSha256=$frozenCoreSha256;sourceRevision=$revision;sourceWorkingTreeDirty=$sourceDirty;catalogGenerationExit=$catalogExit;kernelSignatureVerificationExit=$verificationExit;signatures=$signatures;artifacts=$artifacts}
 $manifest | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $Output 'manifest.json') -Encoding utf8
 $artifacts | ForEach-Object {"$($_.sha256)  $($_.path)"} | Set-Content -LiteralPath (Join-Path $Output 'SHA256SUMS.txt') -Encoding ascii
 & $python (Join-Path $root 'tests/PackageTests.py') --package $Output

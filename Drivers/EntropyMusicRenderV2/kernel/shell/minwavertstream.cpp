@@ -4,6 +4,7 @@
 #include "endpoints.h"
 #include "minwavert.h"
 #include "minwavertstream.h"
+#include "../AllocationPolicy.h"
 using namespace entropy::music;
 namespace {constexpr ULONG Tag='2SWM';volatile LONG64 generations=0;}
 CMiniportWaveRTStream::~CMiniportWaveRTStream() {
@@ -38,9 +39,12 @@ NTSTATUS CMiniportWaveRTStream::EnsurePrepared() {
 }
 NTSTATUS CMiniportWaveRTStream::Allocate(ULONG size,ULONG notifications,PMDL* mdl,ULONG* actual,ULONG* offset,MEMORY_CACHING_TYPE* cache) {
     PAGED_CODE();
+    // Elapsed QPC does not prove ownership of position-only DMA bytes.
+    if(!rawAllocationSupported(notifications))return STATUS_NOT_SUPPORTED;
     if(!mdl || !actual || !offset || !cache || m_pDmaBuffer || !size || notifications>2 || size%m_Format.blockAlign ||
         (notifications && size%(notifications*m_Format.blockAlign)) || size/m_Format.blockAlign>MaxPacketFrames*(notifications?notifications:1))return STATUS_INVALID_PARAMETER;
     *mdl=nullptr;*actual=0;
+    if(size/(notifications*m_Format.blockAlign)<minimumPacketFrames(m_Format.sampleRate))return STATUS_NOT_SUPPORTED;
     if(!m_pNotificationTimer){m_pNotificationTimer=ExAllocateTimer(TimerNotifyRT,this,EX_TIMER_HIGH_RESOLUTION);if(!m_pNotificationTimer)return STATUS_INSUFFICIENT_RESOURCES;}
     PHYSICAL_ADDRESS high;high.QuadPart=MAXULONG;
     auto allocated=m_pPortStream->AllocatePagesForMdl(high,size);if(!allocated)return STATUS_INSUFFICIENT_RESOURCES;
@@ -70,11 +74,11 @@ NTSTATUS CMiniportWaveRTStream::SetState(KSSTATE state) {
     if(state==KSSTATE_STOP){if(m_Pcm)m_Pcm->Stop();m_KsState=state;return STATUS_SUCCESS;}
     if(state==KSSTATE_ACQUIRE || state==KSSTATE_PAUSE){
         if(m_Pcm && !m_Pcm->timeline.prepared()){auto status=EnsurePrepared();if(!NT_SUCCESS(status))return status;}
-        if(m_Pcm){m_Pcm->EnterPassive();const auto qpc=KeQueryPerformanceCounter(nullptr).QuadPart;if(m_Pcm->timeline.running())m_Pcm->timeline.pause(qpc);m_Pcm->Leave(qpc);}
+        if(m_Pcm && !m_Pcm->SetRunning(false))return STATUS_INVALID_DEVICE_STATE;
         m_KsState=state;return STATUS_SUCCESS;
     }
     auto status=EnsurePrepared();if(!NT_SUCCESS(status))return status;
-    m_Pcm->EnterPassive();const auto qpc=KeQueryPerformanceCounter(nullptr).QuadPart;const bool started=m_Pcm->timeline.start(qpc);m_Pcm->Leave(qpc);
+    const bool started=m_Pcm->SetRunning(true);
     if(!started)return STATUS_INVALID_DEVICE_STATE;m_KsState=state;
     if(m_ulNotificationsPerBuffer)ExSetTimer(m_pNotificationTimer,-10000,10000,nullptr);
     return STATUS_SUCCESS;
@@ -83,22 +87,14 @@ NTSTATUS CMiniportWaveRTStream::SetWritePacket(ULONG number,DWORD flags,ULONG eo
     if(!m_ulNotificationsPerBuffer)return STATUS_NOT_SUPPORTED;
     if(flags&~KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)return STATUS_INVALID_PARAMETER;
     // Prepare before prefill, including a new generation after STOP.
-    if(!m_Pcm || !m_Pcm->timeline.prepared())return STATUS_INVALID_DEVICE_STATE;
-    if(!m_Pcm->TryEnter())return STATUS_DEVICE_BUSY;
+    if(!m_Pcm)return STATUS_INVALID_DEVICE_STATE;
     const auto qpc=KeQueryPerformanceCounter(nullptr).QuadPart;
-    const auto before=m_Pcm->timeline.totals().committedPackets;
-    const auto result=m_Pcm->timeline.capturePacket(number,(flags&KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)!=0,eosBytes,qpc);
-    const bool committed=m_Pcm->timeline.totals().committedPackets!=before;
-    m_Pcm->Leave(qpc);
-    if(result==CommitResult::Accepted || (result==CommitResult::Overrun && committed))return STATUS_SUCCESS;
-    if(result==CommitResult::Late || result==CommitResult::Duplicate)return STATUS_DATA_LATE_ERROR;
-    if(result==CommitResult::Overrun)return STATUS_DATA_OVERRUN;
-    return STATUS_INVALID_PARAMETER;
+    return m_Pcm->Submit(number,(flags&KSSTREAM_HEADER_OPTIONSF_ENDOFSTREAM)!=0,eosBytes,qpc);
 }
 NTSTATUS CMiniportWaveRTStream::GetPosition(KSAUDIO_POSITION* position) {
     if(!position)return STATUS_INVALID_PARAMETER;position->PlayOffset=position->WriteOffset=0;if(!m_Pcm)return STATUS_SUCCESS;
     uint64_t frames=0,packets=0,qpc=0;bool ok=true;
-    if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;ok=!m_Pcm->timeline.prepared() || m_Pcm->timeline.advance(qpc,true);frames=m_Pcm->timeline.frames();m_Pcm->Leave(qpc);}
+    if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;m_Pcm->Flush();ok=!m_Pcm->timeline.prepared() || m_Pcm->timeline.advance(qpc,true);frames=m_Pcm->timeline.frames();m_Pcm->Leave(qpc);}
     else m_Pcm->PositionCache(frames,packets,qpc);
     const auto offset=(frames%(m_ulDmaBufferSize/m_Format.blockAlign))*m_Format.blockAlign;
     position->PlayOffset=position->WriteOffset=offset;return ok?STATUS_SUCCESS:STATUS_DATA_ERROR;
@@ -106,7 +102,7 @@ NTSTATUS CMiniportWaveRTStream::GetPosition(KSAUDIO_POSITION* position) {
 NTSTATUS CMiniportWaveRTStream::GetPresentationPosition(KSAUDIO_PRESENTATION_POSITION* position) {
     if(!position)return STATUS_INVALID_PARAMETER;RtlZeroMemory(position,sizeof(*position));if(!m_Pcm)return STATUS_SUCCESS;
     uint64_t frames=0,packets=0,qpc=0;bool ok=true;
-    if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;ok=!m_Pcm->timeline.prepared() || m_Pcm->timeline.advance(qpc,true);frames=m_Pcm->timeline.frames();m_Pcm->Leave(qpc);}
+    if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;m_Pcm->Flush();ok=!m_Pcm->timeline.prepared() || m_Pcm->timeline.advance(qpc,true);frames=m_Pcm->timeline.frames();m_Pcm->Leave(qpc);}
     else m_Pcm->PositionCache(frames,packets,qpc);
     position->u64PositionInBlocks=frames;position->u64QPCPosition=qpc;return ok?STATUS_SUCCESS:STATUS_DATA_ERROR;
 }
@@ -114,7 +110,7 @@ NTSTATUS CMiniportWaveRTStream::GetOutputStreamPresentationPosition(KSAUDIO_PRES
 NTSTATUS CMiniportWaveRTStream::GetPacketCount(ULONG* count) {
     if(!count)return STATUS_INVALID_PARAMETER;if(!m_ulNotificationsPerBuffer)return STATUS_NOT_SUPPORTED;
     uint64_t frames=0,packets=0,qpc=0;
-    if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;if(m_Pcm->timeline.prepared())m_Pcm->timeline.advance(qpc,false);packets=m_Pcm->timeline.packetCount();m_Pcm->Leave(qpc);}
+    if(m_Pcm->TryEnter()){qpc=KeQueryPerformanceCounter(nullptr).QuadPart;m_Pcm->Flush();if(m_Pcm->timeline.prepared())m_Pcm->timeline.advance(qpc,false);packets=m_Pcm->timeline.packetCount();m_Pcm->Leave(qpc);}
     else m_Pcm->PositionCache(frames,packets,qpc);
     *count=static_cast<ULONG>(packets);return STATUS_SUCCESS;
 }
@@ -143,6 +139,7 @@ void TimerNotifyRT(PEX_TIMER timer,PVOID context) {
     UNREFERENCED_PARAMETER(timer);auto self=static_cast<CMiniportWaveRTStream*>(context);if(!self || !self->m_Pcm)return;
     auto pcm=self->m_Pcm;if(!pcm->TryEnter())return;const auto qpc=KeQueryPerformanceCounter(nullptr).QuadPart;
     bool notify=false,eos=false;
+    pcm->Flush();
     if(pcm->timeline.running() && pcm->timeline.advance(qpc,false)) {
         const auto count=pcm->timeline.packetCount();
         eos=pcm->timeline.eos() && pcm->timeline.frames()>=pcm->timeline.committedEnd();

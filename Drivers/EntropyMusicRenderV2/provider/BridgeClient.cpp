@@ -16,8 +16,14 @@ bool BridgeClient::open(const DeviceIdentity& identity){
 int32_t BridgeClient::read(EntropyIngressPacketV2& out,void* payload,uint32_t capacity){
     if(!payload || !capacity)return -1;
     std::unique_lock reader(reader_,std::try_to_lock);if(!reader.owns_lock())return -1;
+#ifdef ENTROPY_PROVIDER_TESTING
+    struct ExitBarrier {void(*hook)(void*);void* context;~ExitBarrier(){if(hook)hook(context);}} barrier{exitHook_,exitContext_};
+#endif
     {std::lock_guard lock(state_);if(!opened_ || closing_)return -1;++active_;}
-    struct ReadLease {BridgeClient& client;~ReadLease(){std::lock_guard lock(client.state_);--client.active_;client.idle_.notify_all();}} lease{*this};
+    // Release the reader mutex before close() can observe an idle client and
+    // destroy it. The earlier unique_lock then has no mutex access on exit.
+    struct ReadLease {BridgeClient& client;std::unique_lock<std::mutex>& reader;
+        ~ReadLease(){reader.unlock();std::lock_guard lock(client.state_);--client.active_;client.idle_.notify_all();}} lease{*this,reader};
     if(cancelled_)return 0;
     const auto pcmCapacity=capacity<MaxPacketFrames*8?capacity:MaxPacketFrames*8;
     uint32_t copied=0;

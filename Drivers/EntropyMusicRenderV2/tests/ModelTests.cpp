@@ -80,6 +80,8 @@ void DescriptorAndPendingOverrun() {
     CHECK(f.timeline.totals().lostFrames==2);CHECK(f.timeline.advance(4));CHECK(f.ready.consume(1));
     CHECK(f.timeline.commit(desc(3,4,1),pattern,4)==CommitResult::Accepted);CHECK(f.timeline.advance(5));
     PacketView v{};CHECK(f.ready.peek(v));CHECK(v.packet.lostFrames==2 && v.packet.firstSourceFrame==4);
+    CHECK(f.ready.consume(v.packet.sequence));CHECK(f.timeline.commit(desc(4,5,1),pattern+4,4)==CommitResult::Accepted);CHECK(f.timeline.advance(6));
+    CHECK(f.ready.peek(v));CHECK(v.packet.lostFrames==2 && !(v.packet.flags&Discontinuity));
 }
 void StopRestartAndPartialEos() {
     Fixture f; auto tail=desc(1,0,1);tail.flags|=EndOfStream;

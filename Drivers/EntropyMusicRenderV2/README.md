@@ -22,7 +22,9 @@ unsigned catalog; deployment needs the explicit approval described in
    providers, audit tool, source archive and SHA256 inventory; no deployment.
 
 `tools/Run-Live-Acceptance.ps1` defaults to no action. Its explicit live switch
-is for after authorized deployment. It uses separate config/publish/control
+is for after authorized deployment and requires `-Package <manifested-package>`.
+It verifies package artifacts, installed SYS and frozen Core hashes before any
+audio action, and runs the packaged audit executable/DLL. It uses separate config/publish/control
 endpoints and a hash-identical copy of frozen Core; raw capture comes from that
 Core's sole Provider reader. All live acceptance is currently `NOT_RUN`.
 
@@ -47,13 +49,22 @@ The private payload ring holds262144 frames and4096 descriptors. Overflow drops
 new valid packets and records loss; it never overwrites an outstanding read.
 
 Notification allocations support one or two packets per DMA buffer, frame-aligned
-and no more than65536 frames per packet. Position allocations have no notification
-DDIs and are bounded to65536 DMA frames. Position-driven snapshots occur before
-exposing a reusable DMA offset; an unseen full lap is refused. **Polling remains
-unqualified until the actual live path is audited.** WASAPI servicing flags are
+and no more than65536 frames per packet, with a minimum packet duration of1ms.
+Production rejects zero-notification/position-only allocations: elapsed QPC
+does not establish that DMA bytes were committed by the OS. The position model
+exists only for offline research. **Polling remains unqualified until the actual
+live path proves valid packet commits; an unsupported path fails explicitly.** WASAPI servicing flags are
 not a substitute for the observed WaveRT allocation/commit mode.
 
-Realtime operations acquire a nonblocking owner gate once; a competing query can
+The sole OS commit producer uses a separate fixed inbox, snapshots committed
+bytes without taking the publication/read gate, and preserves pre-RUN commits.
+Payload pressure retains chronological loss markers; exhausted descriptor
+capacity becomes a terminal fault with known-frame loss evidence. STOP fences
+writers and completes reads before storage reuse. Device-lifetime loss and last
+terminated-generation evidence survive stream free/reallocation. `lostFrames`
+on published packets is cumulative within the generation.
+
+Publication operations acquire a nonblocking owner gate once; a competing query can
 return the previous coherent position/QPC cache. PCM copies do not hold a spin
 lock. A timer that cannot acquire ownership tries again on its next wake; QPC,
 not wake count, determines transferred packets. Passive teardown/read completion

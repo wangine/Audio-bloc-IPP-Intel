@@ -14,6 +14,7 @@ class WaveRtTimeline {
     uint32_t dmaFrames_=0, notifications_=0, packetFrames_=0;
     uint64_t generation_=0, frequency_=0, writtenPackets_=0, positionCaptured_=0, nominalFrames_=0, sequence_=0;
     bool stopping_=false, prepared_=false, reading_=false;
+    bool captureFault_=false;
     BufferOwner owner_=BufferOwner::None;
 public:
     bool prepare(const PcmFormat&,uint64_t generation,uint64_t frequency,uint8_t* dma,uint32_t dmaFrames,uint32_t notifications,PcmRing& pending,PcmRing& ready) noexcept;
@@ -21,6 +22,9 @@ public:
     bool pause(uint64_t qpc) noexcept;
     bool advance(uint64_t qpc,bool exposePosition) noexcept;
     CommitResult capturePacket(uint32_t packetNumber,bool eos,uint32_t eosBytes,uint64_t qpc) noexcept;
+    // Called only for a validated immutable OS commit, not arbitrary DMA.
+    CommitResult captureSnapshot(const PacketView&,bool dropped) noexcept;
+    Clock clockSnapshot() const noexcept{return clock_;}
     bool requestStop(uint64_t qpc) noexcept;
     bool beginRead(PacketView&) noexcept;
     bool finishRead(uint64_t sequence,bool consume) noexcept;
@@ -28,6 +32,7 @@ public:
     bool stopping() const noexcept {return stopping_;}
     bool prepared() const noexcept {return prepared_;}
     bool running() const noexcept {return clock_.running();}
+    bool captureFault() const noexcept{return captureFault_;}
     bool eos() const noexcept {return timeline_.eos();}
     BufferOwner owner() const noexcept {return owner_;}
     uint64_t frames() const noexcept {return nominalFrames_;}
@@ -38,6 +43,7 @@ public:
         return nominalFrames_/packetFrames_;
     }
     uint64_t committedEnd() const noexcept {return timeline_.nextFrame();}
+    uint64_t uncommittedFrames() const noexcept{return timeline_.uncommittedFrames();}
     uint64_t generation() const noexcept {return generation_;}
     uint64_t frequency() const noexcept {return frequency_;}
     Totals terminatedTotals() const noexcept {return timeline_.terminatedTotals();}

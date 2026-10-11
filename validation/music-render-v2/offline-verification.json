@@ -1,0 +1,39 @@
+{
+  "aux": "deferred; frozen Stage1 source unchanged",
+  "activeReferencePids": [
+    19400,
+    20096,
+    16528,
+    19072
+  ],
+  "liveAcceptance": "NOT_RUN",
+  "ipp": "not linked: raw transport only",
+  "sdkWdk": "10.0.28000.0 / NuGet 28000.2526",
+  "stalePackage": {
+    "failed": 2,
+    "disposition": "rejected; not delivered",
+    "tests": 9
+  },
+  "kernel": {
+    "sha256": "20C0DE11D8C710B80D9EFE6E673F71927F380879838B196428925F177E9F2C45",
+    "signature": "NotSigned",
+    "bytes": 60928
+  },
+  "date": "2026-10-11",
+  "compiler": "MSVC x64 19.51.36231",
+  "status": "OFFLINE_PASS_NOT_INSTALLED",
+  "protectedBaseline": {
+    "files": 72,
+    "changed": 0
+  },
+  "ctest": {
+    "failed": 0,
+    "passed": 11,
+    "suites": 11
+  },
+  "sourceContracts": {
+    "baseline": "b8139b1",
+    "correctedPassed": 6,
+    "baselineFailed": 6
+  }
+}

@@ -145,5 +145,8 @@ three acceptance groups; Task6 owns the deployment boundary. Each Review Focus
 item has a named test. No AUX repair, new Stage1 DSP or current-driver modification
 is hidden in these tasks.
 
-Plan status: prepared for user review. Preserve direct inline execution after
-that review. No implementation or loaded-driver PASS is claimed by this document.
+Plan status: approved and executing inline. Tasks1–5 are implemented; Task6 has
+an unsigned candidate and offline verification, with explicit installation
+authorization pending. Task7 has not started. Source review restricted the
+production driver to valid packet-commit allocations; position-only ownership
+remains unproven and is refused. No loaded-driver PASS is claimed.

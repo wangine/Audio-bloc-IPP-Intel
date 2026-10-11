@@ -24,6 +24,17 @@ void NoDualProducer(){
     CHECK(b.t.capturePacket(0,false,0,104)==CommitResult::Duplicate);
     CHECK(b.t.totals().committedPackets==1);
 }
+void RecoversAfterUncommittedUnderrun(){
+    Binding b;CHECK(b.t.capturePacket(0,false,0,100)==CommitResult::Accepted);CHECK(b.t.start(100));CHECK(b.t.advance(112,false));
+    PacketView old{};CHECK(b.t.beginRead(old));CHECK(b.t.finishRead(old.packet.sequence,true));
+    // Packets1/2 were never committed. Current OS packet3 is valid; the gap is
+    // an underrun, not loss of valid PCM. Preserve its true source position.
+    CHECK(b.t.capturePacket(3,false,0,112)==CommitResult::Accepted);CHECK(b.t.advance(116,false));PacketView recovered{};
+    CHECK(b.t.beginRead(recovered));CHECK(recovered.packet.firstSourceFrame==12 && recovered.packet.lostFrames==0 && (recovered.packet.flags&Discontinuity));
+    CHECK(b.t.totals().lostFrames==0);CHECK(b.t.finishRead(recovered.packet.sequence,true));
+}
+void OneNotificationAcceptsDelayedCallback(){Binding b(1);CHECK(b.t.capturePacket(0,false,0,100)==CommitResult::Accepted);CHECK(b.t.start(100));CHECK(b.t.advance(109,false));PacketView v{};CHECK(b.t.beginRead(v));CHECK(b.t.finishRead(v.packet.sequence,true));CHECK(b.t.capturePacket(1,false,0,109)==CommitResult::Accepted);CHECK(b.t.advance(116,false));CHECK(b.t.beginRead(v));CHECK(v.packet.firstSourceFrame==8 && v.packet.frames==8 && v.packet.lostFrames==0);CHECK(b.t.finishRead(v.packet.sequence,true));}
+void PositionCaptureFailureStillFreezesClock(){Binding b(0);CHECK(b.t.start(100));CHECK(b.t.pause(120));CHECK(!b.t.running());CHECK(!b.t.advance(1000,false));CHECK(b.t.frames()==20);CHECK(!b.t.start(1100));CHECK(b.t.requestStop(1100));CHECK(b.t.prepare(format(48000),2,48000,b.dma,8,0,b.pending,b.ready));CHECK(b.t.start(1200));}
 void AllocationModeIsNotWasapiFlag(){
     Binding packet;Binding position(0);CHECK(packet.t.owner()==BufferOwner::Packet && position.t.owner()==BufferOwner::Position);
     CHECK(position.t.capturePacket(0,false,0,100)==CommitResult::Invalid);
@@ -62,4 +73,4 @@ void ProducerNeverWaitsForAnotherOwner(){
 int main(){const Case cases[]={{"KernelBindingsKeepPrefill",KernelBindingsKeepPrefill},{"NoDualProducer",NoDualProducer},
 {"AllocationModeIsNotWasapiFlag",AllocationModeIsNotWasapiFlag},{"PositionDrivenReadOwnership",PositionDrivenReadOwnership},
 {"StopDuringPendingCommit",StopDuringPendingCommit},{"ExactEosAndInvalidBufferBounds",ExactEosAndInvalidBufferBounds},
-{"ProducerNeverWaitsForAnotherOwner",ProducerNeverWaitsForAnotherOwner}};return runTests(cases,7);}
+{"ProducerNeverWaitsForAnotherOwner",ProducerNeverWaitsForAnotherOwner},{"RecoversAfterUncommittedUnderrun",RecoversAfterUncommittedUnderrun},{"OneNotificationAcceptsDelayedCallback",OneNotificationAcceptsDelayedCallback},{"PositionCaptureFailureStillFreezesClock",PositionCaptureFailureStillFreezesClock}};return runTests(cases,10);}

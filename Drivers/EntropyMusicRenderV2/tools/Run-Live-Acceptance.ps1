@@ -1,11 +1,18 @@
-param([switch]$RunLive,[switch]$Stress,[ValidateRange(1,1800)][int]$Seconds=10,[string]$Output)
+param([switch]$RunLive,[switch]$Stress,[switch]$ValidatePackageOnly,[ValidateRange(1,1800)][int]$Seconds=10,[string]$Output,[string]$Package,[string]$Repository)
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 $repo=Split-Path (Split-Path $root -Parent) -Parent
-$audit=Join-Path $root 'build/model/EntropyMusicPcmAudit.exe'
-$provider=Join-Path $root 'build/model/EntropyMusicRawProviderV2Audit.dll'
+if(!$RunLive -and !$ValidatePackageOnly){Write-Output 'No live action. After approved installation: supply -Package and -Repository, then -RunLive for24 Exclusive cases or -RunLive -Stress for1800s. Position-only allocations remain unsupported; polling must prove an OS commit path.';return}
+if(!$Package){throw 'An explicit manifested qualification package is required'}
+. (Join-Path $PSScriptRoot 'Assert-Package.ps1')
+$manifest=Assert-MusicPackage $Package
+if($ValidatePackageOnly){Write-Output 'Package hashes verified; no device or audio action';return}
+if($Repository){$repo=[IO.Path]::GetFullPath($Repository)}
+$audit=Join-Path $Package 'user/EntropyMusicPcmAudit.exe'
+$provider=Join-Path $Package 'user/EntropyMusicRawProviderV2Audit.dll'
 $frozen=Join-Path $repo 'Integration/Music/Stage1/release/stage1-native-music-v0002/core/EntropyMusicSourceCore.exe'
-if(!$RunLive){Write-Output 'No live action. After approved installation: -RunLive for all24 Exclusive cases; -RunLive -Stress for1800s PCM24/192 event. Never uses existing endpoints or DAC.';return}
+if((Get-FileHash -LiteralPath $frozen).Hash -ne $manifest.frozenCoreSha256){throw 'Core differs from the frozen package reference'}
+$installed=Assert-MusicInstalledDriver $manifest
 if(!$Output){$Output=Join-Path $root ('build/live/'+[guid]::NewGuid().ToString('N'))}
 if(Test-Path -LiteralPath $Output){throw 'Use a new output directory; previous evidence is not overwritten'}
 foreach($file in @($audit,$provider,$frozen)){if(!(Test-Path -LiteralPath $file)){throw "Required artifact unavailable: $file"}}
@@ -17,12 +24,13 @@ $core=Join-Path $Output 'EntropyMusicSourceCore.exe'
 Copy-Item -LiteralPath $frozen -Destination $core
 $providers=Join-Path $Output 'providers';New-Item -ItemType Directory -Path $providers | Out-Null
 Copy-Item -LiteralPath $provider -Destination $providers
-$hashes=@{coreSha256=(Get-FileHash -LiteralPath $core).Hash;frozenCoreSha256=(Get-FileHash -LiteralPath $frozen).Hash;providerSha256=(Get-FileHash -LiteralPath $provider).Hash;auditSha256=(Get-FileHash -LiteralPath $audit).Hash;identity=$identity;acceptance='pending; no model result promoted to kernel acceptance'}
+$hashes=@{packageManifestSha256=(Get-FileHash -LiteralPath (Join-Path $Package 'manifest.json')).Hash;installedDriver=$installed;sourceRevision=$manifest.sourceRevision;coreSha256=(Get-FileHash -LiteralPath $core).Hash;frozenCoreSha256=(Get-FileHash -LiteralPath $frozen).Hash;providerSha256=(Get-FileHash -LiteralPath $provider).Hash;auditSha256=(Get-FileHash -LiteralPath $audit).Hash;identity=$identity;acceptance='pending; no model result promoted to kernel acceptance'}
 if($hashes.coreSha256 -ne $hashes.frozenCoreSha256){throw 'Frozen Core copy differs'}
 $hashes | ConvertTo-Json -Depth 4 | Set-Content -LiteralPath (Join-Path $Output 'provenance.json')
 $cases=if($Stress){@(@{rate=192000;bits=32;servicing='event';seconds=1800})}else{@(foreach($rate in @(44100,48000,88200,96000,176400,192000)){foreach($bits in @(16,32)){foreach($mode in @('event','polling')){@{rate=$rate;bits=$bits;servicing=$mode;seconds=$Seconds}}}})}
 $results=@()
 foreach($case in $cases){
+    $null=Assert-MusicPackage $Package;$null=Assert-MusicInstalledDriver $manifest
     $session=[guid]::NewGuid().ToString('N');$folder=Join-Path $Output "$($case.rate)-$($case.bits)-$($case.servicing)";New-Item -ItemType Directory -Path $folder | Out-Null
     $capture=Join-Path $folder 'core-raw.bin';$config=Join-Path $folder 'Stage1Audit.ini';$stop=Join-Path $folder 'stop.flag';$render=Join-Path $folder 'render.json';$report=Join-Path $folder 'comparison.json'
     @"
@@ -56,7 +64,8 @@ mode=8
         if($client.providerClientPid -ne $coreProcess.Id){throw 'Capture did not originate in the exact frozen Core process'}
         if($renderExit){throw 'Live render/drain failed; preserve all evidence'}
         $rendered=Get-Content -LiteralPath $render -Raw | ConvertFrom-Json
-        & $audit --action verify --capture $capture --frames $rendered.emittedFrames --drained ($rendered.drained.ToString().ToLowerInvariant()) > $report
+        if($rendered.rate -ne $case.rate -or $rendered.containerBits -ne $case.bits -or !$rendered.generation){throw 'Render report differs from the requested format/generation'}
+        & $audit --action verify --capture $capture --frames $rendered.emittedFrames --rate $case.rate --bits $case.bits --generation $rendered.generation --drained ($rendered.drained.ToString().ToLowerInvariant()) > $report
         if($LASTEXITCODE){throw 'Raw PCM comparison failed'}
         $results+=@{case=$case;pass=$true;report=$report;frames=$rendered.emittedFrames;observedAllocation=$rendered.observedAllocation}
     }catch{$results+=@{case=$case;pass=$false;reason=$_.Exception.Message};throw}
