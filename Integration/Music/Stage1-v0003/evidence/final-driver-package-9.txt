@@ -1,0 +1,36 @@
+test_AllArtifactsMatchManifest (__main__.DeliveryTests) ... ok
+test_ExistingDriverIdsAbsent (__main__.DeliveryTests) ... ok
+test_NoInstallFromBuild (__main__.DeliveryTests) ... ok
+test_PackageHasOneNewStereoIdentity (__main__.DeliveryTests) ... FAIL
+test_QualificationRejectsChangedArtifact (__main__.DeliveryTests) ... ok
+test_SourceArchiveMatchesInventoryAndCheckout (__main__.DeliveryTests) ... ERROR
+test_build_has_no_deployment_side_effects (__main__.ReferenceTests) ... ok
+test_frozen_provider_abi (__main__.ReferenceTests) ... ok
+test_upstream_manifest_exact_pin (__main__.ReferenceTests) ... ok
+
+======================================================================
+ERROR: test_SourceArchiveMatchesInventoryAndCheckout (__main__.DeliveryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Stage1-v0003\evidence\source-closure-driver-0.3.0.11\Drivers\EntropyMusicRenderV2\tests\PackageTests.py", line 82, in test_SourceArchiveMatchesInventoryAndCheckout
+    self.assertEqual(build.read_bytes(),(PACKAGE/item['path']).read_bytes(),item['path'])
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 1249, in read_bytes
+    with self.open(mode='rb') as f:
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 1242, in open
+    return io.open(self, mode, buffering, encoding, errors, newline,
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 1110, in _opener
+    return self._accessor.open(self, flags, mode)
+FileNotFoundError: [Errno 2] No such file or directory: 'D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\source-closure-driver-0.3.0.11\\Drivers\\EntropyMusicRenderV2\\build\\kernel\\EntropyMusicRenderV2.inf'
+
+======================================================================
+FAIL: test_PackageHasOneNewStereoIdentity (__main__.DeliveryTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Stage1-v0003\evidence\source-closure-driver-0.3.0.11\Drivers\EntropyMusicRenderV2\tests\PackageTests.py", line 42, in test_PackageHasOneNewStereoIdentity
+    self.assertRegex(version,r'^0\.3\.0\.[1-9][0-9]*$')
+AssertionError: Regex didn't match: '^0\\.3\\.0\\.[1-9][0-9]*$' not found in '0.3.0.11-signed-dev-r2'
+
+----------------------------------------------------------------------
+Ran 9 tests in 4.274s
+
+FAILED (failures=1, errors=1)

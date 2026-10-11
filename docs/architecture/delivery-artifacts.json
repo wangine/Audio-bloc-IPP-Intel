@@ -40,5 +40,23 @@
     "path": "release/music-cinema/Stage3/EntropyAudioCore-0.1.9-v2-source.zip",
     "bytes": 2201256,
     "sha256": "d6c90effca4b2fd084fbac8e80bec10d0c6c7dac2e260a4b732c59576926088d"
+  },
+  {
+    "stage": "Stage1-v0003",
+    "bytes": 21562940,
+    "sha256": "EAA2979C0DB40DC0BE359FC8D71135F5523F2813756AC2E7DB35C6F941DC40DA",
+    "path": "Integration/Music/Stage1-v0003/releases/stage1-native-music-v0003-r3/stage1-native-music-v0003-r3-runtime.zip"
+  },
+  {
+    "stage": "Stage1-v0003",
+    "bytes": 6425779,
+    "sha256": "A249F0904936747C581141867A9AE2678BBCA744FA191C55CA403B6DEFFC8E5C",
+    "path": "Integration/Music/Stage1-v0003/releases/stage1-native-music-v0003-r3/stage1-native-music-v0003-r3-source.zip"
+  },
+  {
+    "stage": "Driver-Music-V2",
+    "bytes": 492236,
+    "sha256": "7C96272894FF8A64725E3521356C95733E76FD8FE94722168A2179407D79EB3C",
+    "path": "Integration/Drivers/EntropyMusicRenderV2/0.3.0.11-signed-dev-r2/EntropyMusicRenderV2-0.3.0.11-signed-dev-r2.zip"
   }
 ]

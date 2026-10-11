@@ -1,0 +1,28 @@
+
+
+Verifying: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/release/EntropyMusicRenderV2/0.3.0.11-signed-dev-r2/driver/EntropyMusicRenderV2.sys
+
+File is signed in catalog: D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\release\EntropyMusicRenderV2\0.3.0.11-signed-dev-r2\driver\entropymusicrenderv2.cat
+
+Hash of file (sha1): 0B6A763B9D8DE07A575B0FDC02F896CDD46356D3
+
+Signing Certificate Chain:
+    Issued to: Entropy Audio DEV Driver Signing
+
+    Issued by: Entropy Audio DEV Driver Signing
+
+    Expires:   Tue Sep 23 06:04:25 2031
+
+    SHA1 hash: 89EE6700145A65ED29B0B129052933D17560AFB3
+
+
+File is not timestamped.
+
+Successfully verified: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/release/EntropyMusicRenderV2/0.3.0.11-signed-dev-r2/driver/EntropyMusicRenderV2.sys
+
+
+Number of files successfully Verified: 1
+
+Number of warnings: 0
+
+Number of errors: 0

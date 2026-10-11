@@ -107,6 +107,14 @@ Release, new release tag or driver installation is created by this publication.
 
 ## Next phase: independent Stage1 driver number 3
 
+Update11October2026: this phase is now implemented as development-signed
+Music Render V2 **0.3.0.11** and separate Stage1 **v0003-r3**. The
+[loaded report](../../validation/music-render-v2/LOADED-DRIVER-0.3.0.11.md)
+records raw/FP64 continuity, the kernel passive-wait correction, AUX tests and
+remaining qualification limits. Stage1v0002 and Stage2/Stage3 remain references.
+The paragraphs below retain the requirements and observations at the first
+architecture publication; they are not the current installation status.
+
 The next driver must have its own device identity, independent of both existing
 Transport and Entropy Audio Virtual devices. Its acceptance target is:
 

@@ -1,0 +1,12 @@
+[
+  {
+    "path": "stage1-native-music-v0003-r3-runtime.zip",
+    "bytes": 21562940,
+    "sha256": "EAA2979C0DB40DC0BE359FC8D71135F5523F2813756AC2E7DB35C6F941DC40DA"
+  },
+  {
+    "path": "stage1-native-music-v0003-r3-source.zip",
+    "bytes": 6425779,
+    "sha256": "A249F0904936747C581141867A9AE2678BBCA744FA191C55CA403B6DEFFC8E5C"
+  }
+]

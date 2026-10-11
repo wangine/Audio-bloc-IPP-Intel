@@ -1,0 +1,1 @@
+PASS packaged CMD lifecycle; duplicate start reused Core, cold restart preserved profile, invalid identity refused, graceful stop. Evidence: D:\Projects\3Stage-3\Stage1-v0003\evidence\launcher test 1744\result.json

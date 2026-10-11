@@ -1,0 +1,882 @@
+[
+  {
+    "path": "Drivers/EntropyMusicRenderV2/.gitignore",
+    "bytes": 160,
+    "sha256": "ED00EA60A032955387590BFDC7EFEDAC587A61A913E161F40672082C4871D7EC"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/CMakeLists.txt",
+    "bytes": 6343,
+    "sha256": "8CF0E71309B4219E2933F95EA3A3929A765A6C9B3C55361020DDE7EAF7754304"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/DEPLOYMENT.md",
+    "bytes": 4817,
+    "sha256": "80C40F06BE9C4F24CCE2428E9B925A40C8BEF4E850397113C204A3A246DF2CFB"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/README.md",
+    "bytes": 5864,
+    "sha256": "FCB809BBED4F336C62C0B65C8C55DC8626CADA902BED0347F2F7E6A88948E883"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/REVIEW.md",
+    "bytes": 7487,
+    "sha256": "4B9C766F114A4A1697D4D938126472424DBBDC880F5CF56C712031BC59F7A561"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/DrainSubscriber.h",
+    "bytes": 6330,
+    "sha256": "1B2C85D07F01CFA3748F0BA9E94DE5C91D7C1B9CB52161983AC08063367A5B4B"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/Fp64Capture.cpp",
+    "bytes": 6069,
+    "sha256": "136DBB9CB3B021A04A4E59C706C9AE246E12DDE12E1622B5D547124E4262499D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/Fp64Capture.h",
+    "bytes": 370,
+    "sha256": "8577C7893826378A1EE278362E95FDED9FA94ADF0298A2126F7760E0A0B6F95E"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/Fp64Verifier.h",
+    "bytes": 3205,
+    "sha256": "831AC68F7B48CA1D1F7B3092527083E02B591C150EDECF2CC1EBF4AE81A38DA7"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/Inspect-Native-Captures.py",
+    "bytes": 4806,
+    "sha256": "AA35208A9BB9E16B7E0D0970DB2EDA1D9570A5E2F729255D712A8197809072C8"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/OutputDrainPolicy.h",
+    "bytes": 386,
+    "sha256": "B6A4DE72D6C8B94412252BB8A0B33D9E01E052A2F01D01AFC22732F0795C7A71"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/PauseEvidence.h",
+    "bytes": 419,
+    "sha256": "63B80ADA75F5B52BF4DDA4E60C382F9AC34E05318E17EB9D9A5C106FA4BFE591"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/PcmPattern.cpp",
+    "bytes": 670,
+    "sha256": "84DDDA190D64B17DE5A083A4E643A4C7311A9052D841BF04A7C88EF3D2D305F3"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/PcmPattern.h",
+    "bytes": 175,
+    "sha256": "BE6A3A95B79C68388A4D69BCCC90405D39F0FCD36CE6BC3F56D4AE1E3E56B0E2"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/PcmVerifier.cpp",
+    "bytes": 1975,
+    "sha256": "5B0BD192D586A87591EB4EAD71D4966EC587E835D71E54FDBA88CA85DFF523C6"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/PcmVerifier.h",
+    "bytes": 827,
+    "sha256": "7A807D084CE29DBD98ACB076E729562A3618D18FD58946538839982AF5772F98"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/StereoMetrics.cpp",
+    "bytes": 1779,
+    "sha256": "536514CFFC7577B529E5EFEC7A1D0F580B485765B88C9BCEB3926369CF6DA831"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/StereoMetrics.h",
+    "bytes": 579,
+    "sha256": "59F7275C0FE5B911FFC80883DC01AAFE449DE16236E9300811256995C73953CD"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/TEST-TOOL.md",
+    "bytes": 4646,
+    "sha256": "DD52493B18D5DA3375110732CEC63364C3E77D2E03758F22F77E287D3083DAD2"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/WasapiClient.cpp",
+    "bytes": 11692,
+    "sha256": "1BD64DC0B38141475A71580E1DD5AD593BBD5D99ACAB7D59E4F01D690226FEB3"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/WasapiClient.h",
+    "bytes": 1023,
+    "sha256": "F7B69646921FB1306894A9A2615ED364F9BD19F9263DBE2AEDF783789E94ACDA"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/acceptance-matrix.json",
+    "bytes": 1734,
+    "sha256": "3D3820C2D2AEF577B21C2059E78E4862F156D8682E64592B30E3767F7DE5E5A2"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/audit/main.cpp",
+    "bytes": 11750,
+    "sha256": "5901EF09DC8CFD7234E29002EBA088EDA46EB03215C9BD2B3E28777C4D271E6D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/AllocationPolicy.h",
+    "bytes": 434,
+    "sha256": "85E68C99CBC989485F7AA0A8621173FAF45AB477EEBA0EB631040842E93F074E"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/BridgeDevice.cpp",
+    "bytes": 10099,
+    "sha256": "011D5F15094345C200DC411CF15E5CCF0A00BE6239B09A37F025000C289D843D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/BridgeDevice.h",
+    "bytes": 437,
+    "sha256": "BEAAF57C820D6B6A2201C1F5149EF8D1D20C2B2DB2720DC3D5F50156F1F29560"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/EntropyMusicRenderV2.inx",
+    "bytes": 2586,
+    "sha256": "4719A572AB35C3BA107BB9A5DC715D5FC8A167DB8A4C8AAAAE663EE5C64BE245"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/EntropyMusicRenderV2.vcxproj",
+    "bytes": 3519,
+    "sha256": "535D56C652249EDBA117C2DE3C81F33EC58A7923F1883BA59001DB35C85AF0FF"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/OperationGate.h",
+    "bytes": 645,
+    "sha256": "8C5E358CC11A292450D04B3CB9018CD15CF7907E4A1B4B91855AB6B5AF9573DB"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/PacketAdmission.h",
+    "bytes": 2459,
+    "sha256": "DA0899F48E3B78B5F83BC75316D8BE147AE05F9BCDD0E89AD992C4A426C64A9F"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/PcmCommit.cpp",
+    "bytes": 12232,
+    "sha256": "2ABADCA9A2F1A104DAC24BBB04D1975CAC66E3D639708B7B2B065E10839FA54E"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/PcmCommit.h",
+    "bytes": 2618,
+    "sha256": "D977373FB3C12550E7C931D3ECC9276EDBB848399A200976069D213666FE3F64"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/WaveRtTimeline.cpp",
+    "bytes": 5522,
+    "sha256": "5FB44592E647C099DB74ADA5AA8DC0620B5478BBB66C590C0115964757BDF915"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/WaveRtTimeline.h",
+    "bytes": 2974,
+    "sha256": "BEB3B797563A4BFA7806D62180AAD9DAF49BA3947824F6A9613EB6BD9B30D4C7"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/NewDelete.cpp",
+    "bytes": 3279,
+    "sha256": "398B079F90A0E8041191006C76FEB90A6684F426DF15089DD300AEFB723D6EE7"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/NewDelete.h",
+    "bytes": 2524,
+    "sha256": "C263EAA2A140AC51B857B59A0302715DC9C2CB5032C553AB988D0111EF75A1DF"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/SimpleAudioSample.rc",
+    "bytes": 726,
+    "sha256": "C434557C3930D41BE2A2B1B07ECEF81CED8F6FAE5EF142D5CB27C122FB393E4F"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/adapter.cpp",
+    "bytes": 21715,
+    "sha256": "AF292BDEC6CF82C7D5A40E7582C39BACA1C41F2C251D4BC79D3E1EEA5C2FC5B1"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/basetopo.cpp",
+    "bytes": 19014,
+    "sha256": "A63BCC134B8908EF52E1840CFD172F64309B7ACEEE37617B35884209C31CBDCB"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/basetopo.h",
+    "bytes": 2718,
+    "sha256": "2108647D7D036178FFCF32899CAA00052BDAD68039CF4C7638996A20A25FDF15"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/common.cpp",
+    "bytes": 80059,
+    "sha256": "D2729DBC6D81F3CC2AAF31CA3BE938E2CA1B88CFA2242242FE60DE483F4EDAE6"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/common.h",
+    "bytes": 15730,
+    "sha256": "C9B595DE2CB2EE0D51A3E90E280B63A7710D0CEC423C49A7963369FD245CC1AC"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/definitions.h",
+    "bytes": 6817,
+    "sha256": "92A4E3AC81D9E400E48D5BD0A4193B1F309F1BDE1654E3BBB68A870B031801AF"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/endpoints.h",
+    "bytes": 2725,
+    "sha256": "535C14408508408ACDF7E88B9E80E4E48CD9DB2E91FC6FE5578E95E4C8F3EBDB"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/hw.cpp",
+    "bytes": 7785,
+    "sha256": "463CC3D73DC04DE2AF08087846DB52E53A3BFBFC7CD92EDD5439244B554C6AB0"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/hw.h",
+    "bytes": 3199,
+    "sha256": "F38F2073904C603608F51B7290E4EA46BC667B3799619DF9406F8B930C113808"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/kshelper.cpp",
+    "bytes": 26750,
+    "sha256": "D8190DF86B27F3E64AA4F8EDA0FE205639AFA8AF4B0726E41181DC011912206D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/kshelper.h",
+    "bytes": 5969,
+    "sha256": "DAC28354F26543091F2BDCFE783A75BD6F65A1C4B3EA9E52ED5DB9D5D30EC883"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/minipairs.h",
+    "bytes": 4046,
+    "sha256": "93441EE233501B957345F9E32609A704A1FA6AD0752A63D0D6759D5886142576"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/mintopo.cpp",
+    "bytes": 15560,
+    "sha256": "F4DAF306EBE43CB9FF9CDB33622C93814B991A9A2799FD2177C0FE45ED514BD7"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/mintopo.h",
+    "bytes": 2292,
+    "sha256": "C5489D2D8E55189D57CAC4B2C8B3803A073F1373701075D6C8E0973680894914"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/minwavert.cpp",
+    "bytes": 42986,
+    "sha256": "2A14375E7FF4C403B344CBCFA5B28D52BAF8F23EED179B188DD37FA415EC42C3"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/minwavert.h",
+    "bytes": 7908,
+    "sha256": "EFD0C3483EC28E7B8A0CD0490478CB1B9F10FE809C3C3A1F9A2AA5AC0F4663E8"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/minwavertstream.cpp",
+    "bytes": 13430,
+    "sha256": "E3E81AEEBF0B54F26AEE850C4C8B9DF0036FAF6F052605AC3DCAFF03DBF0809D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/minwavertstream.h",
+    "bytes": 1815,
+    "sha256": "6A11062510AB48B2532FD7C709EC66F12D6AB43A99A94267BFEA2BD3D5CADDD5"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/speakertopo.cpp",
+    "bytes": 2786,
+    "sha256": "2B680B75B9C3CE76982B10E1FBE2275FD062B7377223CBA005DCA98D43536A80"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/speakertopo.h",
+    "bytes": 502,
+    "sha256": "9095A1399BC153C1DD9D563BBF65E00BF942AF4BCBEDF24671046C5EA18CE967"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/speakertoptable.h",
+    "bytes": 5296,
+    "sha256": "2613EE1BE264969F812ED1C81D9791AE32A8B8850D66308D064BAD1EB13D7A8B"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/kernel/shell/speakerwavtable.h",
+    "bytes": 10921,
+    "sha256": "040B3354E287738BECCCD5F42F073011BCB9A09C4A6D02C4790FB90FB03947DC"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/Clock.cpp",
+    "bytes": 2127,
+    "sha256": "2240A75CAA54D857A9A9076B99E4CBB4DB9D53894E215C715C3A24BCE201E3D4"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/Clock.h",
+    "bytes": 718,
+    "sha256": "C6D3C5A59B977B59A4DA303BD0418235E15A2044AD110995E076EDCEE9B98B7E"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/CommitInbox.h",
+    "bytes": 4405,
+    "sha256": "D0FA4D0B1B602F5C85C272B29F5D3A38F1F8CC52D0C281A868B69AA9A66B25DE"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/DriverLedger.h",
+    "bytes": 1235,
+    "sha256": "9CC88EB703032650B01654690566AC24052BBF2A0489AC42ED5F5FD309C13841"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/Format.cpp",
+    "bytes": 916,
+    "sha256": "C21343F6B5440401FEC4A9335724F0ABFF4BC8B8BAA2131337931FF449C72F0F"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/Format.h",
+    "bytes": 626,
+    "sha256": "B1BEA1EFB6B475F0ED8429F8DB4224DA777319050DC9244A8E7EF5D70987379C"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/PacketTimeline.cpp",
+    "bytes": 4934,
+    "sha256": "86C7D4D207C7BD1621AD15A3AF8ED17979BEBFEFED5DF693603224BF0CE1E412"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/PacketTimeline.h",
+    "bytes": 1857,
+    "sha256": "C5A29DE08DC470375C5670B1EF3D42FB5464F4DA110624BAFAA2ACDBD6C26C47"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/PcmRing.cpp",
+    "bytes": 2907,
+    "sha256": "2D710D6F999FF8F7365A4CA425EDF86AA7E3C9473019779616FC69392953E41E"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/PcmRing.h",
+    "bytes": 1509,
+    "sha256": "B3161EBCFE77D4DE797C1E2E17AAD311BBDCBE37EAA4C98C32325AE574CDE696"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/model/Types.h",
+    "bytes": 301,
+    "sha256": "9E0B85610B6E289B614190CEB4A2D2E0921B075B7E1F133DACD4563C798892C6"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/protocol/PcmBridgeV1.cpp",
+    "bytes": 879,
+    "sha256": "E31D8D667EFFC79A4D9435783CAE04797D791A8720693F4534FD34D460BAF007"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/protocol/PcmBridgeV1.h",
+    "bytes": 2397,
+    "sha256": "62DE754EF69E0480072191F99D52EB5FA2B38E647404072109A5B5024AA65187"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/AuditObserver.cpp",
+    "bytes": 1857,
+    "sha256": "D886263B87C414CF89B5BDF81D6DF07256D07376EC039ED187FC55B3D208F587"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/AuditObserver.h",
+    "bytes": 826,
+    "sha256": "8393E1B36DE8E1974AFC5FE8166D5CBC79D83DAA80BCC755AE58C8911B374B5A"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/AuditQueue.h",
+    "bytes": 1494,
+    "sha256": "E20E3261C39531451E6EE6433044A6F9449E4F545231C3D9984C4500992A8C04"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/BridgeClient.cpp",
+    "bytes": 3455,
+    "sha256": "6EAF2D20756172A5734F96C13083D84C7F0DF579832B03D5D7A5FD1D09880BD3"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/BridgeClient.h",
+    "bytes": 1502,
+    "sha256": "4E866CF4DE713088D5A5FECCBE58FB4BEF3ACE1AE4DBEBFAA531DF83FFABCBBE"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/EndpointIdentity.cpp",
+    "bytes": 717,
+    "sha256": "60B8732D7EFC38B20643B0C07374B3EDAB48BACEEE151CA43664D9CDFCEA0367"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/EndpointIdentity.h",
+    "bytes": 589,
+    "sha256": "C677E9AF2E96419A82772F5FDCEE130F9AE3F0C7B738FD30A58253009E77C5D5"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/NativeBridge.cpp",
+    "bytes": 2746,
+    "sha256": "53AC0B14EA4568F61F94A5337A3A608771F1D38C24268FD587C0A8B02449BA47"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/NativeBridge.h",
+    "bytes": 487,
+    "sha256": "197B53B454B7AED666C4FA3AF56ADDDD60A506A8EC96851C1B39382048A471B9"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/RawMusicProvider.cpp",
+    "bytes": 2817,
+    "sha256": "69105CFD888D41E319B2342B8F7C53746A5C819F7D79FF6D651A638E33C708C0"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/RawMusicProvider.def",
+    "bytes": 75,
+    "sha256": "7B38AB9972624570AA68C28E0A89A20B25E763A11770267FE21F4672080977EE"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/provider/WindowsEndpointIdentity.cpp",
+    "bytes": 5699,
+    "sha256": "728494036CD80AC1CAFCEF23AE102AB7D7C89DAC9C9587D715B0932DE605D4E2"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/AuditTests.cpp",
+    "bytes": 7687,
+    "sha256": "ABAACB8BF1AB94311117827BE623B53A6AEE815B4E9B56581C97BF9D17F2EA8C"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/BridgeTests.cpp",
+    "bytes": 1554,
+    "sha256": "E6B975317940949FEBDA18815958B638D100CBE1653000718448F186678AE38F"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/InboxTests.cpp",
+    "bytes": 6545,
+    "sha256": "5C9FF43FF612BAB2DF471B299CB3BD77B1C2D9652439C6791C4A8EFAAFB1C5E1"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/KernelBindingTests.cpp",
+    "bytes": 6189,
+    "sha256": "E96292E2E2DE9556CA95C5D6DBF52B7A1085F02973C8A1BFC0AC13DF82C55414"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/ModelTests.cpp",
+    "bytes": 10349,
+    "sha256": "030BBAFBC71AAB180CA9E05B6DC8D573EB5778A6049CB4CF678C057974EF3167"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/ObserverTests.cpp",
+    "bytes": 942,
+    "sha256": "7E915B2C47F868D011FE28319E8E1A166ED721DCE4D28AC26BA4855C53329191"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/OutputBoundaryTests.py",
+    "bytes": 4400,
+    "sha256": "B92D6E371B5C9723938EBC7E55148CD4610A804B4E76ADCC5F4E6E24C786A30D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/OutputPublisherFixture.cpp",
+    "bytes": 4051,
+    "sha256": "6CEE3598ADDC0684741957DCE4462DA86207FC389E6B5B9BBD1856D03951D254"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/PackageTests.py",
+    "bytes": 7729,
+    "sha256": "E06FC1B49AF326E8E26BF343F204155AF158A83F5B88387ED91DEAAB5AB3A55C"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/ProviderLoadTests.cpp",
+    "bytes": 1280,
+    "sha256": "932A96A5D52868BF21B5DE6AB843ED1574F69512ABF6BB72C22DEB0962823141"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/ProviderTests.cpp",
+    "bytes": 6680,
+    "sha256": "4566C43961B470BD12CBE623A9EE8894122E070AB65D1104395883E45F21C887"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/ReviewContractTests.py",
+    "bytes": 3638,
+    "sha256": "A57789522442131778A650F5376B386F575AEE78D75DABE2CC09889FA1B0E2C6"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tests/TestSupport.h",
+    "bytes": 802,
+    "sha256": "B1B7CAE44E11CB403970FF42CF902A508C00839028FABE18862315B069C712F9"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Assert-Package.ps1",
+    "bytes": 2404,
+    "sha256": "DFEF473E4EF9B58CBC08BDCB6EE1386486CCB29AE094DD67E845B2FBF6C78336"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Build-Audit.ps1",
+    "bytes": 146,
+    "sha256": "2FB4978D85E586C0E1D99C338391303AC70AE20CACD477510E8CEC9D3497BB29"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Build-Kernel.ps1",
+    "bytes": 3245,
+    "sha256": "045F09D480EB4770CF585A198C17D0B0B8AD931CD8904C9C2BCC2FB31FDDDF0C"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Build-Model.ps1",
+    "bytes": 1155,
+    "sha256": "28581DE23FBC274F814015A9FD4B0DC3CA018DCEB447A05D32DB4791A346C2B0"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Build-Provider.ps1",
+    "bytes": 146,
+    "sha256": "2FB4978D85E586C0E1D99C338391303AC70AE20CACD477510E8CEC9D3497BB29"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Import-Reference.ps1",
+    "bytes": 820,
+    "sha256": "A7FBDCF9C9D37ECAAB5BBE614FA671CAED7BEDD9EB739DF59B0E83FED7DFA2FE"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Package-Driver.ps1",
+    "bytes": 5536,
+    "sha256": "0DE7307CFF54E993270C6B0E75EA3CD41A9254F5263DC981D0A4C20694944F88"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Package-Provider-Revision.ps1",
+    "bytes": 3320,
+    "sha256": "5818C658B1C8123368B22481C1F39840DD8116888FE258499ACB6416B0FEE400"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Prepare-LocalSdk.ps1",
+    "bytes": 2572,
+    "sha256": "6BC27AB6EE52C2BAFE15167C74977981765B22FC79A2BF0EA6BBE8CE4824A809"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Run-Live-Acceptance.ps1",
+    "bytes": 11465,
+    "sha256": "36D4B4A60AB71EA579CCFCDD5625514ECAEE60E603B15C63640F810C81F22D3A"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/Sign-ExistingDevPackage.ps1",
+    "bytes": 3527,
+    "sha256": "9399526F3F41B5D5683959B3B428F54F88831FBBBA05D937B43D953E49A62824"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/import_reference.py",
+    "bytes": 2117,
+    "sha256": "9D1F93F5F4D1F68D46CC858492016F9FA60211AD3FCDD5B4AA6427F2645350C3"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/tools/package_sources.py",
+    "bytes": 1578,
+    "sha256": "15537806B5820430E1361727E36D34AB5E03AA14F2EF6CB8EA5DC52BEC5B1BD8"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream-manifest.json",
+    "bytes": 11133,
+    "sha256": "4C2F2E56E8D14D444B1424D78A595DEE7158EEADA218517A162A706BC0E219CA"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/LICENSE",
+    "bytes": 2665,
+    "sha256": "07639618C7B94AB9953CC61715F6325877E1854DCA611ED9B1BD54497CF5E93A"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Package/package.VcxProj",
+    "bytes": 4336,
+    "sha256": "C11BD973CFEBEC61E9EEF8B229C5FBBF9E2555B0D8F9C8E81DD10CABFADF178D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Package/package.VcxProj.Filters",
+    "bytes": 1008,
+    "sha256": "752E45F6E932DF2BDBE97C7953A28659E6362B05EBCE76819CEA2FE6366EF053"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/README.md",
+    "bytes": 10046,
+    "sha256": "BC303D3A75AE3388FD86F7C5167C564C07E768DB867F6D997643ED09289759D7"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/SimpleAudioSample.sln",
+    "bytes": 5755,
+    "sha256": "34A752D98D9882069308C5124A79906E208FF0A7E8DA5248A80030D75DA25621"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/Filters.vcxproj",
+    "bytes": 11334,
+    "sha256": "D89BBEE811CAB2C5BE953AAD99D9904161A76F8468E54C7D269137F813BBCF96"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/Filters.vcxproj.Filters",
+    "bytes": 1077,
+    "sha256": "3A9245375C99708AA8C6876BC8447C0F49576D4135347B5AA0575D3A25471D9B"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/micarray1toptable.h",
+    "bytes": 7228,
+    "sha256": "57301DF8E50928CC8CB23618AC64FBB9BE2BB839B5F3A261D56ABAA5B7496555"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/micarraytopo.cpp",
+    "bytes": 23891,
+    "sha256": "7B783F8CF163FE3549DE64236A37F591BC795717809B3C0E2B2B395F18F56C28"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/micarraytopo.h",
+    "bytes": 2581,
+    "sha256": "FC7349CF5447DCA37EBF518BDC1AFC116568E89CC32CC73CD0A87659BDE778EC"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/micarraywavtable.h",
+    "bytes": 7709,
+    "sha256": "690509F9851C3F58EADE493867BCFB7CD78D31D4AEEA49BDD771F822C14B0C51"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/minipairs.h",
+    "bytes": 6056,
+    "sha256": "E47817BB956FBE418103DE3FE5C1BE854E917576AADAF0791555D6E93BE56C97"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/speakertopo.cpp",
+    "bytes": 2673,
+    "sha256": "486580B6733ADD12BC159108C9CAA634742EF9A4B14CFDE55F164A410778105B"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/speakertopo.h",
+    "bytes": 480,
+    "sha256": "64EB861B0DC647C013CB704C3D200DD420AC1B0F8510DC8DAC411ADCF5AB4819"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/speakertoptable.h",
+    "bytes": 6964,
+    "sha256": "895016CBD07CEB7D893EFE02AD458E16D78C330E632B237288A4B3C60C987E77"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Filters/speakerwavtable.h",
+    "bytes": 7207,
+    "sha256": "10F950408D77D6388103F3324C7B12FEE29C623638C7501BF326804350268AF4"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/Inc.vcxproj",
+    "bytes": 9920,
+    "sha256": "BCDC68E1F669BEA68F8E0CC9A5233072619BD6452F4AE2CF890B9076A8FA29C6"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/Inc.vcxproj.Filters",
+    "bytes": 1077,
+    "sha256": "99C07878936AA4C279837B85BBE064514613E90E6A0874F52B8B01EDFB7CEF52"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/NewDelete.h",
+    "bytes": 2420,
+    "sha256": "4C5BFA315CFBC536DFDE02C8198ED2B7F471152ABF0B6E67D7756CD5B030FE51"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/basetopo.h",
+    "bytes": 2639,
+    "sha256": "2E917DBAF5F1B79B4D01041308B985CF81EBFE16A1F5802109EE4BEC94A59347"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/common.h",
+    "bytes": 15315,
+    "sha256": "82FC312746EE7F424CE697CB1514B921C9EE9E891F72D77CAB88C2DAE27D9160"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/definitions.h",
+    "bytes": 6659,
+    "sha256": "7512272D6BC2DD028AE21783AD47F7B7F4C11DDA622B5005E13F3E1F164E4AB3"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/endpoints.h",
+    "bytes": 2601,
+    "sha256": "48C9BFE6E76D40D9F7673EE31946562586A11FD26BD6742408E03FF9B148555D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/kshelper.h",
+    "bytes": 5885,
+    "sha256": "94C4C5DC2FA6CAE976361CA818AC9A8EA3AC0AFD457F4BF6941F6BAE22AF23CF"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Inc/mintopo.h",
+    "bytes": 2222,
+    "sha256": "6927C19207D08F2059617486261E9720DA0440CE44356A7F76242890096F5E9D"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/Main.vcxproj",
+    "bytes": 20703,
+    "sha256": "A28F5D5DD59B4D493A76CC58E117306061DA50424B5B9FF0CBB41C944540F619"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/Main.vcxproj.Filters",
+    "bytes": 1764,
+    "sha256": "2847F2826C821554891D393C7D55F999C4C37886EB0951C967A7171A83914F8F"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/NewDelete.cpp",
+    "bytes": 3138,
+    "sha256": "D43699924E75388F7319BA30FD7101BA9759F3C7CCA55926E8F0FDF11E04EAC6"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/SimpleAudioSample.inx",
+    "bytes": 7299,
+    "sha256": "D055427BE8C5E4E3411F4B5F7232CA01A71134B3EE50DFBEBFF3C30595F5A14E"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/SimpleAudioSample.rc",
+    "bytes": 622,
+    "sha256": "B9C8497998E9D868281E428B25A81AC83A48AA462B27D0D74CB8DEEE9C0F55C5"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/adapter.cpp",
+    "bytes": 23283,
+    "sha256": "8F6EFB9C478840B25CF70C8CA55AE166376F32A13EE464554097873CFE21997A"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/basetopo.cpp",
+    "bytes": 18498,
+    "sha256": "67C7F8025A986B4AF206178D3049178880F41D180A896693BEF38B447A74ADB5"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/common.cpp",
+    "bytes": 78115,
+    "sha256": "8A31754D810A9D9B9F6A58B68B6EFD51F5CEAAAA1A4E9A8887925FFF5261D552"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/mintopo.cpp",
+    "bytes": 15109,
+    "sha256": "BC7DB02FB9F5D8CF2CB25813BF9481101CF5DC7AA90BE1C8FC2E74BE38936549"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/minwavert.cpp",
+    "bytes": 44957,
+    "sha256": "8A666ED7E8F1AE3E5E78DF4CE65911D8E540C6D3579687280266F0AC81184D31"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/minwavert.h",
+    "bytes": 7709,
+    "sha256": "E436D2BB6BC192921EB39A7DFD8BAB9B2F138DAABE09073E7E7FC76D00910E66"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/minwavertstream.cpp",
+    "bytes": 52674,
+    "sha256": "196890D22169FFE1EF62A345EB642DDF9B6D95D9C5EFC033423B624262B69547"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Main/minwavertstream.h",
+    "bytes": 6455,
+    "sha256": "F99FD8327DCB91179992D13CDE0E120878FF4BDC04F4FA50D6781600375C9886"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/ToneGenerator.cpp",
+    "bytes": 7369,
+    "sha256": "9313A2A29FE146F5CF5508281203A12572D96CC80C9AD08557E48DF36DAB415B"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/ToneGenerator.h",
+    "bytes": 1619,
+    "sha256": "171E4BBC6D3DAFA5D2297D697F3EA72BC18D858A2628C99DB8ACDFEDFB7E5448"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/Utilities.vcxproj",
+    "bytes": 11416,
+    "sha256": "F0554B795446670A6BBF29B26F766B29816FA8A7D50997B7DDE527F3AE47097F"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/Utilities.vcxproj.Filters",
+    "bytes": 1261,
+    "sha256": "43562BDD2A753433BF2B83A6D5A2799C9C457FE45C622755E5CC1B4B22976911"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/hw.cpp",
+    "bytes": 7420,
+    "sha256": "EAF02AF0B9381B7C8208016E2E49B772F3E0352F31A4940B910A2A4D4616CABE"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/hw.h",
+    "bytes": 3112,
+    "sha256": "5AD4597198703161C30E305AB110445A0C4081B1E2C51F72A89CEC96FCEBE4A7"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/kshelper.cpp",
+    "bytes": 26052,
+    "sha256": "D0C10E68F8500B136F813F4266C0767AB9E3BB5EA274C7B9E3CE7753EFDA04FC"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/savedata.cpp",
+    "bytes": 27919,
+    "sha256": "6AE73F8D9587B9843A68EE07373E1B7074B55DB513C70B62DBFBEFC99F23B9C7"
+  },
+  {
+    "path": "Drivers/EntropyMusicRenderV2/upstream/audio/simpleaudiosample/Source/Utilities/savedata.h",
+    "bytes": 5143,
+    "sha256": "82EB9E696A1B56E11B2214BA31B474C609CDF5F10601CBAB604F91801D9BF321"
+  },
+  {
+    "path": "Integration/Music/Stage1/ABI/endpoint_provider_v2.h",
+    "bytes": 2846,
+    "sha256": "A4F848B9A4E653FD58ED937E4488D1DB81D5BAA1222CDEFB93813D07B40F60CD"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageBusSDK/include/MusicStageBusHashes.h",
+    "bytes": 638,
+    "sha256": "EDBA59BBAD2EE64A1DCF637E71FDF803B203BC4C7054BE765006FDD08717E6D7"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageBusSDK/include/StageBusDemand.h",
+    "bytes": 1445,
+    "sha256": "2389A1BC029D4C607EEB2565D4219BC660C32130A54DAF34E1B9F244AA39BFB2"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageBusSDK/include/StageBusHashes.h",
+    "bytes": 963,
+    "sha256": "8E17F0732D945E5625992855421873CC4C423A7D5D17CC60C969995E9AF6BE2B"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageBusSDK/include/StageBusValidation.h",
+    "bytes": 849,
+    "sha256": "5B8224990716340537FCCDD079E08F46EC8B12B24B9AFBDE5649E94358164E10"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageBusSDK/include/StageBusWin32.h",
+    "bytes": 1972,
+    "sha256": "43583DA9A24AB2F209545D99E5A8860EB2CCD8C6AA9B94334EE55E5FE42D9827"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageBusSDK/include/entropy/stage_bus_v1.h",
+    "bytes": 2868,
+    "sha256": "BFF257F8B8486637C24D8D7A7619AC73D0E4AAD0EFFD8F3F5E4CACEE4E5CBB84"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageBusSDK/src/StageBusValidation.cpp",
+    "bytes": 4980,
+    "sha256": "DB6E6E3DC715DC11F6ECA0D19461DFB9E7D7251C10BF12EC92B708434E55B40E"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageLink/StageLinkProtocol.h",
+    "bytes": 1456,
+    "sha256": "FEDF0BDE8769B904743ADE70026BF2BDE284784BE0744B02AB447776A759F78B"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageLink/StageLinkSecurity.cpp",
+    "bytes": 1984,
+    "sha256": "70F8B73E58B053AE511EAC74119B1B7EAB74A0D97ADB85DD49C15541F1203280"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StageLink/StageLinkSecurity.h",
+    "bytes": 487,
+    "sha256": "E1F43816FB1CF885B30ACEDC3BA53FAB7CD0B8F40C54468EBAF9C541AE85D2F9"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StagePublishV2/CMakeLists.txt",
+    "bytes": 401,
+    "sha256": "F6E970DBF4E4063271B76613774D45017EFA92CAD746052B7128EDAD0A410648"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StagePublishV2/README.md",
+    "bytes": 4004,
+    "sha256": "FEE68CB1F757EC970B5DFC27FB506D1862BB59EA247993D7EB82B48325D8831B"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StagePublishV2/StagePublishV2.cpp",
+    "bytes": 16446,
+    "sha256": "7DEDA1E9CDF71629AEB67C9E7B5D55B34D6A7E990941F6DE600D11FD32C40FE5"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StagePublishV2/StagePublishV2.h",
+    "bytes": 1992,
+    "sha256": "DCEE658768CBF662A92CE20F78EFB6579D55D7704123160DAB0148C2B55E1AD0"
+  },
+  {
+    "path": "Integration/Music/Stage1/ThirdParty/StageTransport/StagePublishV2/StagePublishV2Protocol.h",
+    "bytes": 2498,
+    "sha256": "6DC8E03E4E94ABEE5F95E3376DEA014803E0CDD0BE3A9BEF3F1B36E319D9DA68"
+  },
+  {
+    "path": "docs/architecture/DRIVER-V2-HANDOFF.md",
+    "bytes": 20186,
+    "sha256": "41FFEC1FAAB568DB3E78BE17D2539150F5A4CA9FC6D7408CD886AFF3AE96E780"
+  },
+  {
+    "path": "docs/superpowers/plans/2026-10-11-music-render-v2-driver.md",
+    "bytes": 20219,
+    "sha256": "F9A390CF33DD1B17515FB215447478FCCB18B90ACE927B7BED4B72C9A97B30E7"
+  }
+]
