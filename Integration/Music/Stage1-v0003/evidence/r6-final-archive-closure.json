@@ -1,0 +1,7 @@
+{
+  "pass": true,
+  "productionAndTestFilesUnchanged": 334,
+  "rebuiltArchiveSha256": "A4643CE0DF0DEE432B734D2A26B4DCFFE988301DEDE62FAE87E40943A5A500CD",
+  "finalArchiveSha256": "45321569A378E29EC23C7C94EB12C9BB281E54CA4101913BBE3EC0A96B5E4CA8",
+  "scope": "Core/provider/test/dependency/UI source identical to rebuilt 6/6 archive; documentation and closure evidence updated in fresh package; both manifests verified"
+}

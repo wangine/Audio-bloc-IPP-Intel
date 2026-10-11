@@ -1,0 +1,13 @@
+{
+  "scope": "r6 waiting for manual TIDAL resume; not a pause/play qualification",
+  "snapshots": 379,
+  "durationMs": 179515,
+  "musicStates": [
+    1
+  ],
+  "musicFramesDelta": 0,
+  "musicUnderrunsDelta": 0,
+  "musicFaultsDelta": 0,
+  "musicLostDelta": 0,
+  "hasMusicSignal": false
+}
