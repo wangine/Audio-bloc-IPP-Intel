@@ -1,10 +1,15 @@
 # Entropy Music Render V2 — driverul independent nr. 3
 
-Data: 2026-10-11. Stare: specificație de proiectare pentru revizie, fără implementare,
+Data: 2026-10-11. Stare: direcție și specificație aprobate de utilizator;
+planul de implementare este pregătit pentru revizie. Nu există încă implementare,
 build, instalare sau validare a unui nou driver kernel.
 
 Acest handoff completează [documentul păstrat în snapshotul Stage1 v0002](../../Integration/Music/Stage1/docs/DRIVER-V2-HANDOFF.md).
 Snapshotul, arhivele acceptate și codul Stage1 v0002 rămân nemodificate.
+Această păstrare este limita etapei driverului MUSIC, nu o înghețare permanentă
+a Core-ului. [Faultul AUX raportat](FOLLOW-UP-STAGE1-AUX.md) va fi investigat după
+construcția și validarea driverului; o versiune nouă a Core-ului poate fi modificată
+atunci, cu păstrarea v0002 drept referință și protejarea MUSIC stabil.
 „Nr. 3” identifică noua implementare, independentă de Transport și Virtual;
 „V2” este numele produsului și contractul Provider, nu a treia revizie a Core-ului.
 
@@ -301,6 +306,9 @@ PCM originale. Noul Provider raw trebuie să înlocuiască acea limită pentru
 testele driverului, păstrând legacy disponibil separat.
 
 ## 11. Ordinea implementării după revizia specificației
+
+[Planul concret de implementare](../superpowers/plans/2026-10-11-music-render-v2-driver.md)
+păstrează execuția direct în acest chat, conform preferinței utilizatorului.
 
 1. Plan concret și inventar de import/licențe pentru pin-ul Microsoft; build kernel x64 verificat.
 2. Model comun de clock/ownership/ring, cu teste deterministe de start și wrap înainte de integrare.
