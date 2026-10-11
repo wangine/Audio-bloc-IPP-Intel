@@ -115,6 +115,11 @@ Transport and Entropy Audio Virtual devices. Its acceptance target is:
 - Correct clock and packet chronology, with zero lost, duplicated or corrupted frames.
 - Explicit counters and reproducible tests comparing emitted PCM with received PCM.
 
+The [completed Driver V2 handoff](DRIVER-V2-HANDOFF.md) defines the third independent
+driver, its pinned Microsoft sample reference, raw Provider V2 integration,
+clock/commit ownership and the three acceptance groups. Stage1 v0002 remains
+an unchanged reference; the legacy FP64 adapters cannot certify original PCM identity.
+
 The existing devices have suspected ingress defects; downstream Stage2/Stage3
 stability narrows the investigation but does not alone establish a kernel-driver
 root cause. Driver architecture, installation and implementation will be agreed

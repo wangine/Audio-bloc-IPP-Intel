@@ -1,0 +1,31 @@
+{
+  "repository": "https://github.com/microsoft/Windows-driver-samples",
+  "existingProviderAbiSha256": "A4F848B9A4E653FD58ED937E4488D1DB81D5BAA1222CDEFB93813D07B40F60CD",
+  "inspectedFiles": [
+    {
+      "gitBlobSha": "6ef3ee38d1ce61958787dda3b8c669627b248080",
+      "path": "LICENSE"
+    },
+    {
+      "gitBlobSha": "f7d41b38f7f34fa3916e566b83296cc4f1b6ff5c",
+      "path": "audio/simpleaudiosample/README.md"
+    },
+    {
+      "gitBlobSha": "c189c9390838013b8b40183ecf874f5dacda82ae",
+      "path": "audio/simpleaudiosample/Source/Main/minwavertstream.cpp"
+    },
+    {
+      "gitBlobSha": "b569da4df21ee8e4784d5260ad315cd5733a4631",
+      "path": "audio/simpleaudiosample/Source/Main/Main.vcxproj"
+    },
+    {
+      "gitBlobSha": "e67a673c1c3c23ed7d011ef4718ea7db09630f34",
+      "path": "audio/simpleaudiosample/Source/Filters/speakerwavtable.h"
+    }
+  ],
+  "license": "MS-PL",
+  "observedWdk": "10.0.28000.0 headers/libraries/props present; toolset build compatibility unverified",
+  "status": "Pinned reference only; no product source imported or kernel build performed.",
+  "commit": "2dc3fd3a0cc84a2933f2194e7ec0871584979071",
+  "sample": "audio/simpleaudiosample"
+}
