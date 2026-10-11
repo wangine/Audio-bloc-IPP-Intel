@@ -1,0 +1,15 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage1-v0003/build
+Test project D:/Projects/3Stage-3/Stage1-v0003/build
+    Start 2: Stage1Architecture
+1/1 Test #2: Stage1Architecture ...............***Failed    3.90 sec
+PASS MSVC Stage1 -> actual packaged MinGW Stage2 MUSIC2/LRC3 native DLLs; stop/restart with stable source UUID
+FAIL line 377: newGenerationWaiting.sources[0].underruns==previousGenerationIdle.sources[0].underruns
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   3.90 sec
+
+The following tests FAILED:
+	  2 - Stage1Architecture (Failed)
+Errors while running CTest

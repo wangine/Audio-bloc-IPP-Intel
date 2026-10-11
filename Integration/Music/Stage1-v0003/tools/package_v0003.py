@@ -44,7 +44,7 @@ provider='core/providers/EntropyMusicRawProviderV2.dll'
 if sha(runtime/provider)!=sha(driver/'user/EntropyMusicRawProviderV2.dll'):raise RuntimeError('Runtime provider differs from qualified bundle')
 driver_manifest=json.loads((driver/'manifest.json').read_text(encoding='utf-8-sig'))
 revision=subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip()
-out.mkdir()
+out.mkdir(parents=True)
 delivery=out/args.version
 shutil.copytree(runtime,delivery,ignore=shutil.ignore_patterns('state','manifest.json','SHA256SUMS.txt'))
 (delivery/'state').mkdir()
@@ -74,7 +74,7 @@ for p in sorted((source/'evidence').rglob('*')):
     if p.suffix not in ('.json','.jsonl','.csv','.txt','.log'):continue
     for root in (delivery,paired):
         dst=root/'evidence'/rel;dst.parent.mkdir(parents=True,exist_ok=True);shutil.copy2(p,dst)
-metadata={'version':args.version,'date':'2026-10-11','sourceRevision':revision,
+metadata={'version':args.version,'date':'2026-10-11','sourceWorkingTreeBaseCommit':revision,'sourceModifiedLocal':True,
  'compiler':'MSVC 19.51.36257 x64 /fp:precise','ui':'Qt 6.11.2 GNU 13.1.0 separate process',
  'coreSha256':sha(runtime/core),'uiSha256':sha(runtime/'ui/EntropyMusicSourceQt.exe'),
  'providerSha256':sha(runtime/provider),'providerBundleManifestSha256':sha(driver/'manifest.json'),

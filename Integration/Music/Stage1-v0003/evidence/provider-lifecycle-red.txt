@@ -1,0 +1,10 @@
+PASS ProviderAbiExactRaw
+PASS ReadTooSmallDoesNotConsume
+PASS CloseCancelsPendingRead
+PASS SecondReaderRefused
+PASS WrongDeviceRejected
+PASS AccessModeDoesNotInventWasapiMode
+PASS CloseWaitsUntilReaderMutexReleased
+PASS SharedContainerRequiresExactAdapter
+FAIL NoDataCarriesExplicitLifecycleWithoutPcm: p.abiVersion==ENTROPY_PROVIDER_ABI_V2 && p.structSize==sizeof(p)
+9 cases, 1 failures

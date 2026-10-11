@@ -1,0 +1,77 @@
+# Entropy Music Render V2 development deployment
+
+The user explicitly approved existing-certificate signing, installation of only
+ROOT\\EntropyMusicRenderV2 and isolated tests. Development-signed0.3.0.10 is
+installed; the original unsigned0.3.0.1 package remains a historical reference.
+Exclusive Event-Driven raw acceptance passed all12 formats; Polling is explicitly
+unsupported. Stress/lifecycle/full qualification remains in progress.
+
+Build/package scripts only create files. They never register a device, import a
+certificate or change boot policy. The frozen Stage1 Core, existing drivers,
+MUSIC listening session, Stage2/3 runtimes and DAC settings remain references.
+
+## Approval boundary
+
+Before installation, review `manifest.json`, every SHA256, catalog generation
+report and signature status. An unsigned package cannot be loaded under ordinary
+Windows kernel signing enforcement. Agree the exact signing route separately:
+an approved development signing certificate/policy or Microsoft-signed package.
+No private keys are bundled; no Secure Boot/test-signing changes are implicit.
+Record current boot/signing state and baseline device/service identities first.
+
+The later authorized deployment creates **only** `ROOT\EntropyMusicRenderV2`,
+service `EntropyMusicRenderV2`, one stereo render endpoint and private interface
+`{ab93289e-2692-47a9-bc47-ed1711f6e430}`. Staging an INF alone does not create a
+root-enumerated device. Register that exact hardware ID with an approved root
+device installation tool, then verify hardware/service/private-GUID/container
+and MMDevice endpoint correlation. Never choose by friendly name or set it as
+the system default as a build side effect.
+
+## Qualification after deployment approval
+
+Run `tools/Run-Live-Acceptance.ps1` without switches to see its safe default.
+After approval and exact new identity verification, `-Package <folder> -RunLive` runs24 Exclusive
+format/servicing cases using a copied, hash-identical Stage1v0002 Core with fresh
+config/control/publish endpoints, empty AUX selection and only the audit Provider.
+The capture pipe verifies its client PID is that isolated Core. No second raw
+reader is used. `-RunLive -Stress` is a separate1800-second PCM24/32-192k test.
+The runner verifies every manifested package file and the installed SYS hash;
+it runs package binaries, not mutable checkout build outputs. It also binds the
+frozen Core hash and requested format/driver generation to each comparison.
+Signing changes the SYS/CAT bytes: preserve this unsigned candidate and create
+a separate signed package with a fresh matching manifest before qualification.
+Position-only allocations are rejected. Polling is qualified only if the actual
+OS path uses valid packet commits and all corresponding acceptance checks pass.
+
+Retain failing captures from byte0 to the final byte; no discarded startup/tail.
+Only zero mismatches/loss/duplicate/overflow, full emitted-frame coverage,
+observed drain and audit footer can pass. Event frame count is rounded to full
+buffers and logged. Requested WASAPI servicing and observed allocation are
+different report fields. STOP/PAUSE/format/EOS/clock traces and real TIDAL windows
+require their own recorded results; see `audit/acceptance-matrix.json`.
+
+Do not copy these providers into an active Stage1 folder. Real TIDAL selection
+and Stage1 production integration follow successful A/B qualification and the
+agreed source switch. AUX diagnosis remains a later Stage1 version.
+
+## Rollback scope
+
+Stop only isolated qualification processes by their own stop files/PIDs. Identify
+the newly installed `ROOT\EntropyMusicRenderV2` instance and its exact published
+INF name, record both, then remove only that instance/package after authorization.
+Remove a development certificate/policy only if introduced by this deployment and
+only under the separately approved rollback. Preserve legacy Transport/Virtual,
+physical devices, active Stage1/2/3 and all earlier versioned packages.
+
+## Dependencies and provenance
+
+x64 Windows11 candidate, PortCls/WaveRT kernel. User-mode binaries require the
+MSVC x64 runtime. Kernel toolchain/provenance and unmodified47-file Microsoft
+reference manifest are included. `source.zip` preserves every imported blob,
+adapted source, test, tool and frozen Provider ABI; `source-files.json` lists them.
+Build instructions reproduce the source/tool choices and fixed INF version.
+Byte-identical PE rebuilds are not claimed: linker/PDB timestamps may differ.
+Unsigned candidates created by the package script are NotSigned. Signed development
+copies require fresh manifests after embedding the SYS signature and regenerating
+catalog membership. Current DEV signatures verify under Authenticode test policy;
+Microsoft production kernel-signature policy does not accept that DEV certificate.

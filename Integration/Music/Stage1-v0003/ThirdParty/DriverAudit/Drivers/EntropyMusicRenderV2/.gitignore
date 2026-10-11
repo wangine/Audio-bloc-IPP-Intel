@@ -1,0 +1,9 @@
+/build*/
+/upstream/**/x64/
+/upstream/**/Debug/
+/upstream/**/Release/
+/upstream/**/*.log
+/upstream/**/*.tlog/
+/upstream/**/*.obj
+/upstream/**/*.pdb
+__pycache__/

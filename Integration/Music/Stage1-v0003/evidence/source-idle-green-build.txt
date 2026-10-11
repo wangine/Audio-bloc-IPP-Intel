@@ -1,0 +1,19 @@
+[1/17] Building CXX object CMakeFiles\Stage1Publisher.dir\Engine\Transport\MusicPublisher.cpp.obj
+[2/17] Building CXX object CMakeFiles\Stage1Pipeline.dir\Engine\SRC\SourceDomain.cpp.obj
+D:\Projects\3Stage-3\Stage1-v0003\Engine\Transport\InputFifo.h(14): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\Stage1-v0003\Engine\Transport\InputFifo.h(15): warning C4324: 'entropy::music::InputFifo': structure was padded due to alignment specifier
+[3/17] Linking CXX static library Stage1Pipeline.lib
+[4/17] Linking CXX static library Stage1Publisher.lib
+[5/17] Building CXX object CMakeFiles\Stage1TelemetryTests.dir\tests\TelemetryTests.cpp.obj
+[6/17] Building CXX object CMakeFiles\Stage1IngressProbe.dir\tests\IngressProbe.cpp.obj
+[7/17] Linking CXX executable Stage1IngressProbe.exe
+[8/17] Building CXX object CMakeFiles\Stage1Runtime.dir\Engine\Core\EngineLifecycle.cpp.obj
+[9/17] Linking CXX executable Stage1ControlProbe.exe
+[10/17] Linking CXX static library Stage1Runtime.lib
+[11/17] Linking CXX executable Stage1SourceClockTests.exe
+[12/17] Building CXX object CMakeFiles\Stage1OutputPublisherFixture.dir\D_\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\OutputPublisherFixture.cpp.obj
+[13/17] Linking CXX executable Stage1TelemetryTests.exe
+[14/17] Linking CXX executable EntropyMusicSourceCore.exe
+[15/17] Linking CXX executable Stage1OutputPublisherFixture.exe
+[16/17] Building CXX object CMakeFiles\Stage1Acceptance.dir\tests\Stage1Acceptance.cpp.obj
+[17/17] Linking CXX executable Stage1Acceptance.exe

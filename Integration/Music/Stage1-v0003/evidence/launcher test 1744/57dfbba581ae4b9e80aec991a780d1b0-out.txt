@@ -1,0 +1,2 @@
+Stage1 MUSIC Core PID 24456 stopped gracefully.
+Stage1 MUSIC Core ready: PID 8584.

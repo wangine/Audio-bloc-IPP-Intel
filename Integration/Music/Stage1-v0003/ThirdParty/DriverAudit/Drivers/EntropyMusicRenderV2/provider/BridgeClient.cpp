@@ -1,0 +1,66 @@
+#include "BridgeClient.h"
+#include "../protocol/ProviderStreamStateV1.h"
+#include <cstring>
+namespace entropy::music::provider {
+bool BridgeClient::open(const DeviceIdentity& identity){
+    std::lock_guard lock(state_);if(opened_ || closing_ || !validIdentity(identity))return false;
+    wire_.resize(sizeof(bridge::Packet)+MaxPacketFrames*8);
+    if(!transport_.open(identity))return false;
+    bridge::Info info{};
+    if(!transport_.info(info) || info.header.magic!=bridge::Magic || info.header.version!=bridge::Version ||
+        info.header.kind!=2 || info.header.totalBytes!=sizeof(info) || std::memcmp(info.interfaceGuid,bridge::InterfaceGuid,16)) {
+        transport_.close();return false;
+    }
+    for(auto v:info.reserved)if(v){transport_.close();return false;}
+    cancelled_=false;opened_=true;return true;
+}
+int32_t BridgeClient::read(EntropyIngressPacketV2& out,void* payload,uint32_t capacity){
+    if(!payload || !capacity)return -1;
+    std::unique_lock reader(reader_,std::try_to_lock);if(!reader.owns_lock())return -1;
+#ifdef ENTROPY_PROVIDER_TESTING
+    struct ExitBarrier {void(*hook)(void*);void* context;~ExitBarrier(){if(hook)hook(context);}} barrier{exitHook_,exitContext_};
+#endif
+    {std::lock_guard lock(state_);if(!opened_ || closing_)return -1;++active_;}
+    // Release the reader mutex before close() can observe an idle client and
+    // destroy it. The earlier unique_lock then has no mutex access on exit.
+    struct ReadLease {BridgeClient& client;std::unique_lock<std::mutex>& reader;
+        ~ReadLease(){reader.unlock();std::lock_guard lock(client.state_);--client.active_;client.idle_.notify_all();}} lease{*this,reader};
+    if(cancelled_)return 0;
+    const auto pcmCapacity=capacity<MaxPacketFrames*8?capacity:MaxPacketFrames*8;
+    uint32_t copied=0;
+    const auto result=transport_.read(wire_.data(),static_cast<uint32_t>(sizeof(bridge::Packet))+pcmCapacity,copied);
+    if(cancelled_ || result==IoResult::Cancelled)return 0;
+    if(result==IoResult::NoData) {
+        out={};
+        bridge::Info info{};
+        // A transient busy INFO leaves the state unknown, never invents IDLE.
+        if(!transport_.info(info))return 0;
+        if(info.header.magic!=bridge::Magic || info.header.version!=bridge::Version ||
+           info.header.kind!=2 || info.header.totalBytes!=sizeof(info) ||
+           std::memcmp(info.interfaceGuid,bridge::InterfaceGuid,16) || info.state>4)return -1;
+        for(auto v:info.reserved)if(v)return -1;
+        if(info.state==4)return -1;
+        out.abiVersion=ENTROPY_PROVIDER_ABI_V2;out.structSize=sizeof(out);
+        out.flags=ENTROPY_PACKET_STREAM_STATE_V1;
+        out.reserved[0]=info.state==2?ENTROPY_STREAM_RUNNING_V1:ENTROPY_STREAM_IDLE_V1;
+        out.generation=info.generation;
+        return 0;
+    }
+    if(result!=IoResult::Success || copied<sizeof(bridge::Packet) || copied>wire_.size())return -1;
+    bridge::Packet packet{};std::memcpy(&packet,wire_.data(),sizeof(packet));
+    if(bridge::validate(packet,copied,static_cast<uint32_t>(sizeof(packet))+pcmCapacity)!=bridge::DecodeResult::Valid)return -1;
+    EntropyIngressPacketV2 p{};p.abiVersion=ENTROPY_PROVIDER_ABI_V2;p.structSize=sizeof(p);
+    std::memcpy(&p.format,&packet.format,sizeof(p.format));const auto& d=packet.descriptor;
+    p.generation=d.generation;p.packetSequence=d.sequence;p.firstSourceFrame=d.firstSourceFrame;p.qpcTimestamp=d.qpcTimestamp;
+    p.qpcFrequency=d.qpcFrequency;p.lostFrames=d.lostFrames;p.frames=d.frames;p.flags=d.flags&(RawIdentity|Discontinuity);
+    p.mode=d.mode;p.payloadBytes=packet.payloadBytes;p.originalContainerBits=p.format.containerBits;p.originalValidBits=p.format.validBits;
+    std::memcpy(payload,wire_.data()+sizeof(packet),packet.payloadBytes);out=p;
+    if(observe_)observe_(observation_,out,payload);return 1;
+}
+bool BridgeClient::info(bridge::Info& out){std::lock_guard lock(state_);return opened_ && !closing_ && transport_.info(out);}
+void BridgeClient::cancel(){std::lock_guard lock(state_);if(opened_){cancelled_=true;transport_.cancel();}}
+void BridgeClient::close(){
+    std::unique_lock lock(state_);if(!opened_ || closing_)return;closing_=true;cancelled_=true;transport_.cancel();
+    idle_.wait(lock,[&](){return !active_;});transport_.close();opened_=false;closing_=false;
+}
+}

@@ -143,7 +143,7 @@ void architectureCase() {
     CHECK(registry.discover(TEST_PROVIDER_DIR));
     CHECK(registry.find("synthetic.music"));
     CHECK(registry.find("synthetic.aux"));
-    CHECK(registry.enumerate().size() == 8);
+    CHECK(registry.enumerate().size() == 10);
     auto negativeRoot = std::filesystem::path(TEST_EVIDENCE_DIR) /
                         ("negative-providers-" + std::to_string(GetCurrentProcessId()));
     std::filesystem::create_directories(negativeRoot);
@@ -368,6 +368,18 @@ void architectureCase() {
     CHECK(burst.sources[0].faults == 0 && burst.sources[0].overruns == 0);
     CHECK(burst.blocksPublished > continued.blocksPublished &&
           !memcmp(burst.sessionId, continued.sessionId, 16));
+    request={};request.operation=2;request.role=1;request.mode=1;
+    strcpy_s(request.providerId,"synthetic.music");strcpy_s(request.endpointId,"new-generation-running");
+    CHECK(transact(request).status==0);
+    Sleep(250);request={};auto previousGenerationIdle=transact(request);
+    CHECK(previousGenerationIdle.sources[0].state==1 && previousGenerationIdle.sources[0].generation==1);
+    Sleep(400);auto newGenerationWaiting=transact(request);
+    CHECK(newGenerationWaiting.sources[0].underruns==previousGenerationIdle.sources[0].underruns);
+    Sleep(550);auto newGenerationPcm=transact(request);
+    CHECK(newGenerationPcm.sources[0].state==2 && newGenerationPcm.sources[0].generation==2);
+    CHECK(newGenerationPcm.sources[0].underruns==previousGenerationIdle.sources[0].underruns);
+    Sleep(550);auto newGenerationStarved=transact(request);
+    CHECK(newGenerationStarved.sources[0].underruns>newGenerationPcm.sources[0].underruns);
     for(const char* endpoint : {"idle-running","idle-unknown"}) {
         request={};request.operation=2;request.role=1;request.mode=1;
         strcpy_s(request.providerId,"synthetic.music");strcpy_s(request.endpointId,endpoint);

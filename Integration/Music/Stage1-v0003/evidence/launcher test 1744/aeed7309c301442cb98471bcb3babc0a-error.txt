@@ -1,0 +1,11 @@
+Process identity changed; refusing to control PID 24456. Record: D:\Projects\3Stage-3\Stage1-v0003\evidence\launcher 
+test 1744\state with spaces\core-owner.json
+At 
+D:\Projects\3Stage-3\Stage1-v0003\evidence\source-closure-runtime-r3\stage1-native-music-v0003-r3\Stage1-Launch.ps1:29 
+char:9
++         throw "Process identity changed; refusing to control PID $($r ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Process identit...core-owner.json:String) [], RuntimeException
+    + FullyQualifiedErrorId : Process identity changed; refusing to control PID 24456. Record: D:\Projects\3Stage-3\St 
+   age1-v0003\evidence\launcher test 1744\state with spaces\core-owner.json
+ 

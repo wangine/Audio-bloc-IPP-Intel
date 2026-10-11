@@ -141,8 +141,13 @@ struct EngineLifecycle::Impl {
                                    p.reserved[1] || (p.reserved[0]!=ENTROPY_STREAM_IDLE_V1 &&
                                    p.reserved[0]!=ENTROPY_STREAM_RUNNING_V1)) {s.state=4;break;}
                                 const bool active=p.reserved[0]==ENTROPY_STREAM_RUNNING_V1;
-                                s.domain.setIngressRunning(active);
-                                if(!active)s.state=1;
+                                // RUN belongs to the announced stream generation, not
+                                // to the previously prepared SRC domain. Until the new
+                                // stream's first PCM packet, drain the old domain as IDLE.
+                                // Unspecified generation retains legacy RUN accounting.
+                                const bool sameGeneration=!p.generation || p.generation==generation;
+                                s.domain.setIngressRunning(active && sameGeneration);
+                                if(!active || !sameGeneration)s.state=1;
                             } else s.domain.setIngressRunning(true);
                             // A provider that already waited must be read again immediately.
                             // Nonblocking providers receive one local high resolution idle wait.

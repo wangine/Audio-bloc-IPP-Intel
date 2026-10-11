@@ -1,14 +1,18 @@
-# Stage 1 MUSIC/AUX v0003-r6
+# Stage 1 MUSIC/AUX v0003-r7
 
 Core C++20 nativ, independent de Qt. MUSIC și AUX au conversie PCM→FP64, SRC r8brain și FIFO separate. Ieșirea este stereo FP64/192 kHz pentru Stage2 MUSIC L/R→L/R/C. Cele două surse active se însumează unitar; fără mute, gain, normalizare sau limiter. Cinema rămâne independent.
 
 ## Pornire
 
-Livrarea locală activă este `release/stage1-native-music-v0003-r6`. După extragerea runtime ZIP, folosiți **Start-Stage1-Music.cmd** din folderul r6. **ColdStart-Stage1-Music.cmd** repornește controlat numai Core-ul propriu; **Stop-Stage1-Music.cmd** îl oprește. Închiderea Qt lasă Core activ. Profilul și selecțiile se păstrează; PID-ul și momentul creării se verifică înainte de orice oprire.
+Livrarea locală activă este `release/stage1-native-music-v0003-r7`. După extragerea runtime ZIP, folosiți **Start-Stage1-Music.cmd** din folderul r7. **ColdStart-Stage1-Music.cmd** repornește controlat numai Core-ul propriu; **Stop-Stage1-Music.cmd** îl oprește. Închiderea Qt lasă Core activ. Profilul și selecțiile se păstrează; PID-ul și momentul creării se verifică înainte de orice oprire.
 
 Profilul livrat selectează MUSIC raw Music Render V2 și AUX Windows Capture Shared. Endpointurile sunt locale acestei mașini. TIDAL este selectat pe V2 de utilizator; Spotify folosește ieșirea Windows implicită AUX. Testele cu PCM cunoscut nu certifică PCM-ul original TIDAL sau echivalența Shared/Exclusive.
 
-## Rezultatul r6
+## Rectificarea r7
+
+r7 asociază metadata RUN cu generația pregătită, ca noul stream să nu pornească deadline-ul FIFO-ului vechi înaintea primului său PCM. Proba cu Core real reproduce defectul r6 și verifică după rectificare și starvation-ul autentic. Toate cele șase teste Core trec. [Raportul r7](docs/V0003-R7-GENERATION-RESULT.md) păstrează dovezile și limitele; kernelul, Providerul raw și algoritmii PCM/SRC sunt aceiași. Cele trei pauze/play TIDAL și tranzițiile următoare au o captură proprie r7.
+
+## Rezultatul istoric r6
 
 Pauza IDLE confirmată nu crește underrun; RUN și UNKNOWN fără PCM rămân detectabile după fereastra de reluare. Startup-ul SRC inițial este păstrat. Kernelul semnat .11 este neschimbat; numai Providerul usermode r3 adaugă metadata de lifecycle. Frozen v0002 trebuie să păstreze Providerul său original, deoarece nu acceptă noua capabilitate.
 

@@ -1,0 +1,9 @@
+{
+    "abi": "0x00010000",
+    "hardware_armed": false,
+    "owner": "INACTIVE",
+    "session_header_base64": "RVNUR0JVUzEAAAEAAAEAAFr0smi3xdZEoRdo2Ij6/80EAAAAAwAAAADuAgABAAAAAQAAAAAEAAAEAAAAgAAAAAAgAAAAAAAAgGAAAAAAAAAAEAAAAAAAAACSAQAAAAAAgJaYAAAAAADXaxlKyFjlvduOUK7EpCwI/v2tQykTsrCg9JGoNUKyP40d0NC3M0iag+u1qE7Sh60hEXXSfX++pk+paRMPVTGOhDwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+    "stagepublish_endpoint": "\\\\.\\pipe\\Entropy.Stage1.Acceptance.21464.core.StagePublish.V2",
+    "stagepublish_protocol": "StagePublishV2",
+    "v1_external_takeover": "Refused; subscribe to StagePublish V2"
+}

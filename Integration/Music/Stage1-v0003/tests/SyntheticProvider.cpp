@@ -15,6 +15,7 @@ struct Stream {
     uint64_t sequence = 0, frame = 0;
     bool burst44 = false;
     unsigned lifecycle = 0;
+    bool resumedGeneration=false;
     LARGE_INTEGER origin{}, frequency{};
     HANDLE stop = CreateEventW(nullptr, TRUE, FALSE, nullptr),
            timer = CreateWaitableTimerExW(nullptr, nullptr, 2, TIMER_ALL_ACCESS);
@@ -28,7 +29,7 @@ struct Stream {
     }
 };
 int32_t enumerate(uint32_t index, EntropyEndpointInfoV2 *out) {
-    if (index > 3)
+    if (index > 4)
         return 0;
     *out = {};
     out->abiVersion = ENTROPY_PROVIDER_ABI_V2;
@@ -37,17 +38,17 @@ int32_t enumerate(uint32_t index, EntropyEndpointInfoV2 *out) {
     out->eligible = 1;
     out->state = 1;
     out->accessModes = 2;
-    const char* ids[]={"fixture","burst44","idle-running","idle-unknown"};
+    const char* ids[]={"fixture","burst44","idle-running","idle-unknown","new-generation-running"};
     strcpy_s(out->endpointId,ids[index]);
     strcpy_s(out->name, "Synthetic stereo fixture (offline only)");
     return 1;
 }
 int32_t open(const char *id, uint32_t, void **out) {
-    if (std::strcmp(id, "fixture") && std::strcmp(id, "burst44") && std::strcmp(id,"idle-running") && std::strcmp(id,"idle-unknown"))
+    if (std::strcmp(id, "fixture") && std::strcmp(id, "burst44") && std::strcmp(id,"idle-running") && std::strcmp(id,"idle-unknown") && std::strcmp(id,"new-generation-running"))
         return -1;
     auto stream = new Stream;
     stream->burst44 = !std::strcmp(id, "burst44");
-    stream->lifecycle=!std::strcmp(id,"idle-running")?1:!std::strcmp(id,"idle-unknown")?2:0;
+    stream->lifecycle=!std::strcmp(id,"idle-running")?1:!std::strcmp(id,"idle-unknown")?2:!std::strcmp(id,"new-generation-running")?3:0;
     *out = stream;
     return 1;
 }
@@ -59,7 +60,18 @@ int32_t read(void *opaque, EntropyIngressPacketV2 *out, void *payload, uint32_t 
         return -1;
     LARGE_INTEGER now, due;
     QueryPerformanceCounter(&now);
-    if(s.lifecycle && (now.QuadPart-s.origin.QuadPart)*1000/s.frequency.QuadPart>=100) {
+    const auto elapsed=(now.QuadPart-s.origin.QuadPart)*1000/s.frequency.QuadPart;
+    if(s.lifecycle==3 && elapsed>=100) {
+        if(elapsed<1000 || elapsed>=1500) {
+            *out={};out->abiVersion=ENTROPY_PROVIDER_ABI_V2;out->structSize=sizeof(*out);
+            out->flags=ENTROPY_PACKET_STREAM_STATE_V1;
+            out->reserved[0]=elapsed<500?ENTROPY_STREAM_IDLE_V1:ENTROPY_STREAM_RUNNING_V1;
+            out->generation=elapsed<500?1:2;
+            Sleep(2);return 0;
+        }
+        if(!s.resumedGeneration) {s.resumedGeneration=true;s.sequence=0;s.frame=0;}
+    }
+    if(s.lifecycle && s.lifecycle!=3 && elapsed>=100) {
         *out={};out->abiVersion=ENTROPY_PROVIDER_ABI_V2;out->structSize=sizeof(*out);
         const bool idle=(now.QuadPart-s.origin.QuadPart)*1000/s.frequency.QuadPart<500;
         if(idle || s.lifecycle==1) {
@@ -73,6 +85,7 @@ int32_t read(void *opaque, EntropyIngressPacketV2 *out, void *payload, uint32_t 
     const uint64_t pacedFrame = s.burst44 ? (s.frame > 16384 ? s.frame - 16384 : 0) : s.frame;
     auto target = s.origin.QuadPart +
                   static_cast<int64_t>(static_cast<long double>(pacedFrame) * s.frequency.QuadPart / rate);
+    if(s.resumedGeneration)target+=s.frequency.QuadPart;
     due.QuadPart =
         -((std::max)(int64_t(1), static_cast<int64_t>(static_cast<long double>(target - now.QuadPart) *
                                                       10000000 / s.frequency.QuadPart)));
@@ -84,7 +97,7 @@ int32_t read(void *opaque, EntropyIngressPacketV2 *out, void *payload, uint32_t 
     *out = {};
     out->abiVersion = ENTROPY_PROVIDER_ABI_V2;
     out->structSize = sizeof(*out);
-    out->generation = 1;
+    out->generation = s.lifecycle==3 && elapsed>=1000?2:1;
     out->packetSequence = ++s.sequence;
     out->firstSourceFrame = s.frame;
     s.frame += frames;

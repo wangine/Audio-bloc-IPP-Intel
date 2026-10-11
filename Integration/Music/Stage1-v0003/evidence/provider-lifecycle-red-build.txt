@@ -1,0 +1,2 @@
+[1/2] Building CXX object CMakeFiles\MusicRenderProviderTests.dir\tests\ProviderTests.cpp.obj
+[2/2] Linking CXX executable MusicRenderProviderTests.exe
