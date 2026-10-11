@@ -13,6 +13,7 @@ ULONG sessions=0;
 volatile LONG enabled=0;
 volatile LONG64 traceCounters[8]{};
 volatile LONG lastWrite[4]{};
+volatile LONG firstWrite[4]{},firstRecorded=0;
 struct Session {volatile LONG closing;uint64_t nonce;};
 NTSTATUS Complete(PIRP irp,NTSTATUS status,ULONG bytes=0){irp->IoStatus.Status=status;irp->IoStatus.Information=bytes;IoCompleteRequest(irp,IO_NO_INCREMENT);return status;}
 bool HeaderIs(const bridge::Header& h,ULONG length,uint32_t kind,ULONG expected){return length==expected && h.magic==bridge::Magic && h.version==bridge::Version && h.totalBytes==expected && h.kind==kind;}
@@ -62,7 +63,7 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
     }
     if(code==bridge::IoctlInfo) {
         if(!HeaderIs(header,input,2,sizeof(header)) || output!=sizeof(bridge::Info))return Complete(irp,STATUS_INVALID_PARAMETER);
-        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030005;
+        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030006;
         KIRQL old;KeAcquireSpinLock(&sessionsLock,&old);info.readerAttached=reader?1:0;KeReleaseSpinLock(&sessionsLock,old);
         Totals lifetime{},ended{};GetPcmEvidence(0,{},lifetime,ended);
         info.lifetimeLost=lifetime.lostFrames;info.lifetimeCancelled=lifetime.cancelledFrames;info.terminatedLost=ended.lostFrames;info.terminatedCancelled=ended.cancelledFrames;
@@ -86,6 +87,8 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
         for(uint32_t i=0;i<8;++i)trace.counters[i]=InterlockedCompareExchange64(&traceCounters[i],0,0);
         trace.lastPacketNumber=InterlockedCompareExchange(&lastWrite[0],0,0);trace.lastFlags=InterlockedCompareExchange(&lastWrite[1],0,0);
         trace.lastEosBytes=InterlockedCompareExchange(&lastWrite[2],0,0);trace.lastStatus=InterlockedCompareExchange(&lastWrite[3],0,0);
+        trace.firstPacketNumber=InterlockedCompareExchange(&firstWrite[0],0,0);trace.firstFlags=InterlockedCompareExchange(&firstWrite[1],0,0);
+        trace.firstEosBytes=InterlockedCompareExchange(&firstWrite[2],0,0);trace.firstStatus=InterlockedCompareExchange(&firstWrite[3],0,0);
         RtlCopyMemory(buffer,&trace,sizeof(trace));return Complete(irp,STATUS_SUCCESS,sizeof(trace));
     }
     return Complete(irp,STATUS_INVALID_DEVICE_REQUEST);
@@ -93,6 +96,7 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
 }
 void TraceMusicEvent(bridge::TraceEvent event) noexcept{InterlockedIncrement64(&traceCounters[static_cast<uint32_t>(event)]);}
 NTSTATUS TraceMusicWrite(ULONG number,DWORD flags,ULONG eosBytes,NTSTATUS status) noexcept{
+    if(InterlockedCompareExchange(&firstRecorded,1,0)==0){InterlockedExchange(&firstWrite[0],number);InterlockedExchange(&firstWrite[1],flags);InterlockedExchange(&firstWrite[2],eosBytes);InterlockedExchange(&firstWrite[3],status);}
     InterlockedExchange(&lastWrite[0],number);InterlockedExchange(&lastWrite[1],flags);InterlockedExchange(&lastWrite[2],eosBytes);InterlockedExchange(&lastWrite[3],status);
     TraceMusicEvent(NT_SUCCESS(status)?bridge::TraceEvent::WriteSuccess:bridge::TraceEvent::WriteFailure);return status;
 }
