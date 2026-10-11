@@ -62,7 +62,7 @@ NTSTATUS PcmCommit::Submit(uint32_t number,bool eos,uint32_t eosBytes,uint64_t q
     Clock clock;KIRQL old;KeAcquireSpinLock(&lock,&old);clock=cachedClock_;KeReleaseSpinLock(&lock,old);
     uint64_t source=0;PacketDescriptor d{};
     if(!clock.position(qpc,source)){InterlockedExchange(&terminal_,1);return STATUS_DATA_ERROR;}
-    const auto result=admission_.accept(number,eos,eosBytes,source,qpc,d,clock.running());
+    const auto result=admission_.acceptWindowsPacket(number,eos,eosBytes,source,qpc,d,clock.running());
     if(result==CommitResult::Duplicate)return STATUS_DATA_LATE_ERROR;
     if(result==CommitResult::Overrun)return STATUS_DATA_OVERRUN;
     if(result!=CommitResult::Accepted && result!=CommitResult::Late)return STATUS_INVALID_PARAMETER;

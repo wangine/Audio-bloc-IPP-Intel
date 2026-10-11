@@ -35,6 +35,17 @@ void PausedPrefillMustStartAtCurrentPacket(){
     CHECK(p.accept(0,false,16,0,100,d,false)==CommitResult::Accepted && d.sequence==1);
     CHECK(p.accept(1,false,16,0,101,d,true)==CommitResult::Accepted && d.sequence==2);
 }
-int main(){const Case cases[]={{"PublicationContentionPreservesCommit",PublicationContentionPreservesCommit},{"FullPayloadRecordsKnownLoss",FullPayloadRecordsKnownLoss},{"ConcurrentSnapshotsAreImmutable",ConcurrentSnapshotsAreImmutable},{"UnprovenAllocationIsRefused",UnprovenAllocationIsRefused},{"ValidSnapshotCanBePublishedAfterClockElapsed",ValidSnapshotCanBePublishedAfterClockElapsed},{"IndependentAdmission",IndependentAdmission},{"LifetimeSurvivesAllocation",LifetimeSurvivesAllocation},{"NonEosLengthIsIgnored",NonEosLengthIsIgnored},{"SingleBufferFuturePacketCannotConsumePrefill",SingleBufferFuturePacketCannotConsumePrefill},{"PausedPrefillMustStartAtCurrentPacket",PausedPrefillMustStartAtCurrentPacket}};return runTests(cases,10);}
+void WindowsPausedWriteCursorPreservesPacketZero(){
+    PacketAdmission p;p.reset(3,48000,4,2,4);PacketDescriptor d{};
+    CHECK(p.acceptWindowsPacket(1,false,16,0,100,d,false)==CommitResult::Accepted);
+    CHECK(d.sequence==1 && d.firstSourceFrame==0 && d.frames==4);
+    CHECK(p.acceptWindowsPacket(1,false,16,4,104,d,true)==CommitResult::Accepted);
+    CHECK(d.sequence==2 && d.firstSourceFrame==4);
+    CHECK(p.acceptWindowsPacket(1,false,16,4,105,d,true)==CommitResult::Duplicate);
+    PacketAdmission single;single.reset(4,48000,4,1,4);
+    CHECK(single.acceptWindowsPacket(1,false,16,0,100,d,false)==CommitResult::Overrun);
+}
+int main(){const Case cases[]={{"PublicationContentionPreservesCommit",PublicationContentionPreservesCommit},{"FullPayloadRecordsKnownLoss",FullPayloadRecordsKnownLoss},{"ConcurrentSnapshotsAreImmutable",ConcurrentSnapshotsAreImmutable},{"UnprovenAllocationIsRefused",UnprovenAllocationIsRefused},{"ValidSnapshotCanBePublishedAfterClockElapsed",ValidSnapshotCanBePublishedAfterClockElapsed},{"IndependentAdmission",IndependentAdmission},{"LifetimeSurvivesAllocation",LifetimeSurvivesAllocation},{"NonEosLengthIsIgnored",NonEosLengthIsIgnored},{"SingleBufferFuturePacketCannotConsumePrefill",SingleBufferFuturePacketCannotConsumePrefill},{"PausedPrefillMustStartAtCurrentPacket",PausedPrefillMustStartAtCurrentPacket},{"WindowsPausedWriteCursorPreservesPacketZero",WindowsPausedWriteCursorPreservesPacketZero}};return runTests(cases,11);}
+
 
 
