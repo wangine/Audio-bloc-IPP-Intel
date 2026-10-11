@@ -1,5 +1,6 @@
 param([Parameter(Mandatory=$true)][string]$Package,
-      [Parameter(Mandatory=$true)][ValidatePattern('^[A-Fa-f0-9]{40}$')][string]$CertificateThumbprint)
+      [Parameter(Mandatory=$true)][ValidatePattern('^[A-Fa-f0-9]{40}$')][string]$CertificateThumbprint,
+      [ValidatePattern('^r[1-9][0-9]*$')][string]$Revision='r1')
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
 $repo=Split-Path (Split-Path $root -Parent) -Parent
@@ -26,7 +27,7 @@ foreach($file in @('EntropyMusicRenderV2.sys','EntropyMusicRenderV2.cat')){
     & $sign verify /pa /v (Join-Path $driver $file) *> (Join-Path $Package ('provenance/verify-'+$file+'.log'))
     if($LASTEXITCODE -or (Get-AuthenticodeSignature -LiteralPath (Join-Path $driver $file)).Status -ne 'Valid'){throw "DEV signature verification failed: $file"}
 }
-$manifest.version=$manifest.version.Replace('-candidate','-signed-dev-r1')
+$manifest.version=$manifest.version.Replace('-candidate',('-signed-dev-'+$Revision))
 $manifest | Add-Member -Force -NotePropertyName certificateThumbprint -NotePropertyValue $CertificateThumbprint
 $manifest | Add-Member -Force -NotePropertyName signingPolicy -NotePropertyValue 'Existing trusted DEV/test-signing policy; no certificate import or boot change; not Microsoft production signing'
 foreach($file in @('driver/EntropyMusicRenderV2.sys','driver/EntropyMusicRenderV2.cat')){$manifest.signatures.$file='Valid'}
