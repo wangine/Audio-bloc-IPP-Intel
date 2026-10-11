@@ -3,6 +3,7 @@
 #include "WasapiClient.h"
 #include "StagePublishV2.h"
 #include "StageBusValidation.h"
+#include "DrainSubscriber.h"
 #include <array>
 #include <fstream>
 #include <iostream>
@@ -28,23 +29,22 @@ bool nativeSession(const StageBusSessionHeader& s,uint32_t pid){
 }
 int collectFp64(const std::wstring& session,const std::wstring& endpoint,uint32_t corePid,const std::filesystem::path& output,const std::filesystem::path& stop){
     if(!corePid || !endpoint.starts_with(L"\\\\.\\pipe\\Entropy.Stage1.Audit."))throw std::runtime_error("Explicit isolated Core endpoint/PID required");
-    Progress progress(session);entropy::publish::Subscriber subscriber;std::string error;
-    if(!subscriber.connect(endpoint,error))throw std::runtime_error("FP64 subscriber connect failed: "+error);
+    Progress progress(session);DrainSubscriber subscriber;subscriber.connect(endpoint,corePid);
     const auto& source=subscriber.session();if(!nativeSession(source,corePid))throw std::runtime_error("FP64 session differs from isolated Core");
     std::ofstream file(output,std::ios::binary);if(!file)throw std::runtime_error("FP64 capture file failed");
     auto write=[&](uint32_t kind,const void* bytes,uint32_t count,uint64_t errors=0){CaptureHeader h;h.kind=kind;h.bytes=count;h.errors=errors;file.write(reinterpret_cast<const char*>(&h),sizeof(h));if(count)file.write(static_cast<const char*>(bytes),count);if(!file)throw std::runtime_error("FP64 capture disk write failed");};
     write(1,&source,sizeof(source));InterlockedExchange(&progress.view->outputReady,1);
     std::array<std::array<double,1024>,2> storage{};double* planes[]{storage[0].data(),storage[1].data()};StageBusBlockHeader h{};uint64_t errors=0;
     for(;;){
-        LARGE_INTEGER qpc;QueryPerformanceCounter(&qpc);subscriber.heartbeat(qpc.QuadPart);
-        const auto result=subscriber.read(h,planes);
-        if(result==entropy::publish::ReadResult::Block){
+        const auto result=subscriber.read(h,planes[0],planes[1]);
+        if(result==DrainSubscriber::Result::Block){
             CaptureHeader record;record.kind=2;record.bytes=sizeof(h)+sizeof(storage);file.write(reinterpret_cast<const char*>(&record),sizeof(record));file.write(reinterpret_cast<const char*>(&h),sizeof(h));file.write(reinterpret_cast<const char*>(storage.data()),sizeof(storage));if(!file)throw std::runtime_error("FP64 capture disk write failed");
             if(h.validity_mask&1)InterlockedAdd64(&progress.view->outputFrames,1024);
-        }else if(result==entropy::publish::ReadResult::Empty){if(std::filesystem::exists(stop))break;Sleep(1);}
-        else {if(!std::filesystem::exists(stop) || result!=entropy::publish::ReadResult::Disconnected){++errors;InterlockedExchange(&progress.view->outputErrors,1);}break;}
+        }else if(result==DrainSubscriber::Result::End){break;}
+        else if(result==DrainSubscriber::Result::Empty && !std::filesystem::exists(stop)){Sleep(1);}
+        else {++errors;InterlockedExchange(&progress.view->outputErrors,1);break;}
     }
-    write(3,nullptr,0,errors);subscriber.close();return errors?2:0;
+    write(3,nullptr,0,errors);return errors?2:0;
 }
 int verifyFp64(const std::filesystem::path& input,uint64_t frames,uint32_t bits,uint64_t generation,uint32_t corePid){
     PcmFormat f{64,192000,2,bits,bits==16?16u:24u,bits/4,192000*(bits/4),3,0xfffe,1,{},{}};std::memcpy(f.subFormat,PcmGuid,16);Fp64Verifier verifier(f,frames,generation);

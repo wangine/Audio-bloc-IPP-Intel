@@ -4,6 +4,7 @@
 #include "../provider/EndpointIdentity.h"
 #include "../audit/PauseEvidence.h"
 #include "../audit/Fp64Verifier.h"
+#include "../audit/OutputDrainPolicy.h"
 #include <algorithm>
 #include <cmath>
 using namespace entropy::music;
@@ -20,6 +21,15 @@ void InterruptedStopIsNotDrainPass(){auto f=format();auto bytes=pattern(f,0,8);P
 void ExpectedFormatAndGenerationAreExternal(){auto expected=format(96000),other=format(48000);auto bytes=pattern(other,0,8);PcmVerifier wrongRate(expected,8);CHECK(!wrongRate.accept(metadata(other,0,8,1),bytes.data()));PcmVerifier wrongGeneration(other,8,9);CHECK(!wrongGeneration.accept(metadata(other,0,8,1),bytes.data()));auto p=metadata(other,0,8,1);p.generation=9;PcmVerifier correct(other,8,9);CHECK(correct.accept(p,bytes.data()));CHECK(correct.finish(true,0,0,true).pass);}
 void LossIsCumulative(){auto f=format();auto bytes=pattern(f,0,8);PcmVerifier v(f,8);auto p=metadata(f,0,4,1);p.lostFrames=7;CHECK(!v.accept(p,bytes.data()));p.firstSourceFrame=4;p.packetSequence=2;CHECK(!v.accept(p,bytes.data()+16));CHECK(v.finish(true,0,0,true).lostFrames==7);}
 void PauseMustFreezeBothClocksWithoutNewGeneration(){
+    CHECK(!completeOutputBoundary(false,259,1,1,0));
+    CHECK(!completeOutputBoundary(true,0,1,2,0));
+    CHECK(completeOutputBoundary(true,0,2,2,0));
+    CHECK(!completeOutputBoundary(true,3,2,2,0));
+    CHECK(!completeOutputBoundary(true,0,2,2,1));
+    CHECK(completeFp64Tail(192000,384000));
+    CHECK(!completeFp64Tail(192000,((384000ull+2207)/2208)*2208));
+    CHECK(!completeFp64Tail(96000,384000));
+    CHECK(!completeFp64Tail(192000,0));
     PauseEvidence p{123,123,124,124,7,7,1};CHECK(p.valid());
     p.clockAfter++;CHECK(!p.valid());p.clockAfter=p.clockBefore;
     p.sourceAfter++;CHECK(!p.valid());p.sourceAfter=p.sourceBefore;

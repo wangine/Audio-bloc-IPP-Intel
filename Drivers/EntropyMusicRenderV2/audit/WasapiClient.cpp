@@ -1,5 +1,6 @@
 #include "WasapiClient.h"
 #include "PcmPattern.h"
+#include "OutputDrainPolicy.h"
 #include <audioclient.h>
 #include <avrt.h>
 #include <mmdeviceapi.h>
@@ -54,13 +55,14 @@ RunReport WasapiClient::run(const RunConfig& c){
     Handle event{CreateEventW(nullptr,FALSE,FALSE,nullptr)};if(!event.value)throw std::runtime_error("Event allocation failed");if(c.eventDriven)check(client->SetEventHandle(event.value),"SetEventHandle");
     check(client->GetService(IID_PPV_ARGS(&renderer)),"Render service");check(client->GetService(IID_PPV_ARGS(&clock)),"Audio clock");UINT64 frequency=0;check(clock->GetFrequency(&frequency),"Audio clock frequency");if(!frequency)throw std::runtime_error("Invalid audio clock");
     uint64_t target=static_cast<uint64_t>(c.rate)*c.seconds;if(c.eventDriven)target=((target+report.bufferFrames-1)/report.bufferFrames)*report.bufferFrames;
+    if(c.completeFp64Tail && !completeFp64Tail(c.rate,target))throw std::runtime_error("Actual WASAPI period creates an incomplete1024-frame FP64 tail; refused before PCM prefill");
     trace(report.traceAfterInitialize);
     auto fill=[&](uint32_t count){BYTE* bytes=nullptr;check(renderer->GetBuffer(count,&bytes),"GetBuffer");for(uint32_t i=0;i<count;++i)PcmPattern::frame(report.emittedFrames+i,f,bytes+i*f.blockAlign);check(renderer->ReleaseBuffer(count,0),"ReleaseBuffer");report.emittedFrames+=count;};
     AudioPriority priority;if(!priority.value)throw std::runtime_error("Audit MMCSS registration failed");
     fill(static_cast<uint32_t>(target<report.bufferFrames?target:report.bufferFrames));trace(report.traceAfterPrefill);check(client->Start(),"Start after prefill");Started started{client.Get(),true};
     const auto deadline=GetTickCount64()+static_cast<uint64_t>(c.seconds)*1000+c.pauseMs+5000;
     while(GetTickCount64()<deadline){
-        if(c.pauseMs && !report.pause.observed && report.emittedFrames>=target/2){
+        if(c.pauseMs && !report.pause.observed && report.clockFrames>=target/2 && report.receivedFrames>=target/2){
             check(client->Stop(),"Pause without Reset");started.active=false;
             UINT64 ignoredQpc=0;check(clock->GetPosition(&report.pause.clockBefore,&ignoredQpc),"paused clock before");
             const auto before=pausedInfo();report.pause.sourceBefore=before.sourceFrames;report.pause.generationBefore=before.generation;

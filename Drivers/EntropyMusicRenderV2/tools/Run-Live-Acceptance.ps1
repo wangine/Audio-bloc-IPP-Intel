@@ -69,18 +69,17 @@ mode=8
             while([datetime]::UtcNow -lt $deadline){& $audit --action output-ready --session $session;if(!$LASTEXITCODE){$outputReady=$true;break};if($outputCollector.HasExited){break};Start-Sleep -Milliseconds 20}
             if(!$outputReady){throw 'FP64 subscriber not attached before first input frame'}
         }
-        & $audit --action render --session $session --rate $case.rate --bits $case.bits --servicing $case.servicing --seconds $case.seconds --pause-ms $PauseMs --period-frames $PeriodFrames > $render 2> (Join-Path $folder 'render-error.log')
+        & $audit --action render --session $session --rate $case.rate --bits $case.bits --servicing $case.servicing --seconds $case.seconds --pause-ms $PauseMs --period-frames $PeriodFrames --require-fp64-tail ($VerifyFp64.ToString().ToLowerInvariant()) > $render 2> (Join-Path $folder 'render-error.log')
         $renderExit=$LASTEXITCODE
         if($VerifyFp64 -and !$renderExit){
             $rendered=Get-Content -LiteralPath $render -Raw | ConvertFrom-Json
             $deadline=[datetime]::UtcNow.AddSeconds(10);$outputDrained=$false
             while([datetime]::UtcNow -lt $deadline){& $audit --action output-drained --session $session --frames $rendered.emittedFrames;if(!$LASTEXITCODE){$outputDrained=$true;break};if($outputCollector.HasExited){break};Start-Sleep -Milliseconds 20}
             if(!$outputDrained){throw 'FP64 output did not account for the complete first-to-last input sequence'}
-            Set-Content -LiteralPath $fp64Stop -Value 'complete output drain observed'
-            if(!$outputCollector.WaitForExit(5000) -or $outputCollector.ExitCode){throw 'FP64 collector failed or footer timed out'}
         }
         Set-Content -LiteralPath $stop -Value 'qualification case finished'
         if(!$coreProcess.WaitForExit(10000)){throw 'Isolated Core did not stop after its own stop-file'}
+        if($VerifyFp64 -and (!$outputCollector.WaitForExit(10000) -or $outputCollector.ExitCode)){throw 'FP64 capture did not reach clean producer exit and complete final queue drain'}
         if(!$collector.WaitForExit(10000)){throw 'Audit footer/drain timed out'}
         $client=Get-Content -LiteralPath ($capture+'.client.json') -Raw | ConvertFrom-Json
         if($client.providerClientPid -ne $coreProcess.Id){throw 'Capture did not originate in the exact frozen Core process'}
