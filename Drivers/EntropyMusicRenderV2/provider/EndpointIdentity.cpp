@@ -6,6 +6,8 @@ bool validIdentity(const DeviceIdentity& d) noexcept{
     bool nonzero=false;for(auto byte:d.containerId)nonzero|=byte!=0;
     return !_wcsicmp(d.hardwareId.c_str(),bridge::HardwareId) && !_wcsicmp(d.service.c_str(),bridge::ServiceName) &&
         !d.interfacePath.empty() && !d.windowsEndpointId.empty() && !std::memcmp(d.interfaceGuid.data(),bridge::InterfaceGuid,16) &&
-        nonzero && d.containerId==d.endpointContainerId && d.flow==0 && d.state==1;
+        nonzero && d.containerId==d.endpointContainerId && d.flow==0 && d.state==1 &&
+        !d.instanceId.empty() && !d.endpointAdapterInstanceId.empty() &&
+        !_wcsicmp(d.instanceId.c_str(),d.endpointAdapterInstanceId.c_str());
 }
 }
