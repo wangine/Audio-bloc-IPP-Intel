@@ -1,0 +1,25 @@
+{
+  "sdk": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\build\\kits\\sdk",
+  "license": "https://aka.ms/WinSDKLicenseURL",
+  "packages": [
+    {
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.windows.sdk.cpp/10.0.28000.2526/microsoft.windows.sdk.cpp.10.0.28000.2526.nupkg",
+      "sha256": "BE1B419491607EAE6F7C57844EBAB39FACE9643C51E2AF1D9176A3BA0D0B23FC",
+      "id": "microsoft.windows.sdk.cpp",
+      "version": "10.0.28000.2526"
+    },
+    {
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.windows.sdk.cpp.x64/10.0.28000.2526/microsoft.windows.sdk.cpp.x64.10.0.28000.2526.nupkg",
+      "sha256": "A9CAE2A8C5DA7F5DC5838AE6A76D06D0D2E2FDC3D8CFC69CA6C184E4B9193A00",
+      "id": "microsoft.windows.sdk.cpp.x64",
+      "version": "10.0.28000.2526"
+    },
+    {
+      "url": "https://api.nuget.org/v3-flatcontainer/microsoft.windows.wdk.x64/10.0.28000.2526/microsoft.windows.wdk.x64.10.0.28000.2526.nupkg",
+      "sha256": "63C939FB5A79295BF40E941DB592681272219B04EDFF095FE2F3D123E5579A90",
+      "id": "microsoft.windows.wdk.x64",
+      "version": "10.0.28000.2526"
+    }
+  ],
+  "installation": "workspace extraction only"
+}

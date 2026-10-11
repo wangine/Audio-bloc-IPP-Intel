@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.22)
+project(EntropyMusicRenderV2 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+enable_testing()
+find_package(Python3 COMPONENTS Interpreter REQUIRED)
+add_test(NAME MusicRenderReference COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/tests/PackageTests.py --reference-only)
