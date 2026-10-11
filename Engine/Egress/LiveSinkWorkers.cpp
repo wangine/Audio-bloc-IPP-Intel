@@ -87,11 +87,20 @@ void LiveSinkWorkers::stop() noexcept {
  const auto limit=std::chrono::steady_clock::now()+std::chrono::seconds(2);
  while(!detached()&&std::chrono::steady_clock::now()<limit)std::this_thread::sleep_for(std::chrono::milliseconds(1));
 }
-void LiveSinkWorkers::fail(Session& s,unsigned reason) noexcept {
+void LiveSinkWorkers::fail(Session& s,unsigned reason,bool source) noexcept {
+ if(source||reason==egress_host::Starvation)s.sourceHold=true;
+ else s.fatal=true; // Monotonic provenance: Graph/module Input is also fatal.
  s.fault=true;faulted_=true;for(auto& d:s.domains)if(d.config.enabled)d.pipeline.fail(reason);
  for(auto e:cancel_)SetEvent(HANDLE(e));
 }
 void LiveSinkWorkers::failAll(unsigned reason) noexcept {if(attached_)fail(*attached_,reason);}
+void LiveSinkWorkers::waitForInput() noexcept {if(attached_)fail(*attached_,egress_host::Input,true);}
+unsigned LiveSinkWorkers::sourceWaitFaults() const noexcept {
+ unsigned flags=0;if(session_)for(const auto& d:session_->domains)if(d.config.enabled)flags|=d.pipeline.faults();return flags;
+}
+bool LiveSinkWorkers::sourceWaitFault() const noexcept {
+ const auto flags=sourceWaitFaults();return faulted_&&session_&&!session_->fatal&&session_->sourceHold&&flags&&!(flags&~unsigned(egress_host::Input|egress_host::Starvation));
+}
 bool LiveSinkWorkers::armed() const noexcept {
  if(!enabled_||faulted_||!session_||session_->stop)return false;
  for(const auto& d:session_->domains)if(d.config.enabled&&!d.running)return false;return true;

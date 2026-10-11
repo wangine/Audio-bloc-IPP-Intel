@@ -1,0 +1,3 @@
+refresh row=1
+exact second endpoint format=1
+PASS Qt selected endpoint survives refresh/reorder; DAC B exact formats from resolved identity; IPC only

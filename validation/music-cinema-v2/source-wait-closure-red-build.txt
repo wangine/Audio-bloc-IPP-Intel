@@ -1,0 +1,4 @@
+[1/4] Building CXX object CMakeFiles\EntropyMusicCinemaSourceWait.dir\Tests\MusicCinemaSourceWait.cpp.obj
+[2/4] Building CXX object CMakeFiles\EntropyStage017Lifecycle.dir\Tests\Stage017Lifecycle.cpp.obj
+[3/4] Linking CXX executable EntropyMusicCinemaSourceWait.exe
+[4/4] Linking CXX executable EntropyStage017Lifecycle.exe

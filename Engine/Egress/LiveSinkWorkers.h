@@ -23,6 +23,9 @@ public:
  void publish(const double* const*,unsigned,bool) noexcept;
  void publish(const double* const*,unsigned,bool,egress_host::GraphInterval) noexcept;
  void failAll(unsigned) noexcept;
+ void waitForInput() noexcept; // Graph owner: source hold, no fabricated PCM
+ bool sourceWaitFault() const noexcept;
+ unsigned sourceWaitFaults() const noexcept;
  bool armed() const noexcept;
  bool recoveryAtTarget() const noexcept;
  bool faulted() const noexcept {return faulted_.load(std::memory_order_acquire);}
@@ -41,13 +44,13 @@ private:
  };
  struct Session {
   std::array<Domain,2> domains;
-  std::atomic<bool> stop{false},fault{false};
+  std::atomic<bool> stop{false},fault{false},sourceHold{false},fatal{false};
   std::atomic<uint64_t> baseFrame{0},baseEpoch{0},baseCapture{0},lastGraphEnd{0},presentation{0},audiblePresentation{0};
   std::atomic<unsigned> publishedBlocks{0},replans{0},startupDecision{0},primedMask{0};
   std::atomic<uint64_t> referenceFrame{0}; // written by coordinator before release of presentation
  };
  void run(Session&,unsigned) noexcept;
- void fail(Session&,unsigned) noexcept;
+ void fail(Session&,unsigned,bool source=false) noexcept;
  bool detached() const noexcept;
  Factory factory_;bool calibrateClock_=true;std::unique_ptr<Session> session_;
  std::array<void*,2> cancel_{}; // fixed lifetime; no close while owner waits

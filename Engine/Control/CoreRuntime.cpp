@@ -5,6 +5,7 @@
 #include "LiveEligibility.h"
 #include "ConsoleShutdown.h"
 #include "LifecycleExecutor.h"
+#include "SourceWaitPolicy.h"
 #include "Engine/Egress/HardwareTest.h"
 #include "DeviceService.h"
 #include "Engine/AudioScheduler.h"
@@ -48,16 +49,42 @@ int runControlServer(int argc,char** argv) try {
  if(startInputImmediately&&!stage2->start(inputs.music,inputs.cinema,!inputOnly))throw std::runtime_error("Input start refused: render owner already exists or invalid local endpoint");
  struct Cached {J description,telemetry,devices;};std::atomic<std::shared_ptr<const Cached>> cache;
  std::atomic<LifecycleExecutor*> lifecycle{nullptr};
+ SourceWaitPolicy sourceWait(liveWorkers);std::string inputResumeError;
  auto publishCache=[&]{
+  if(auto* owner=lifecycle.load();owner&&sourceWait.requested()) {
+   const auto generation=owner->generation();
+   const auto source=stage2->telemetry(selection.program()?input::Domain::Cinema:input::Domain::Music);
+   try {
+    const bool eligible=!profileRequired&&controls.settled()&&liveFirAllowed(controls.crossover().preparationParameters())&&controls.crossover().preparedFinite()&&liveHeadroomReady(graph);
+    const auto result=sourceWait.service(source.state==input::State::Receiving,source.lastBlockQpc,eligible,[&]{
+     owner->stateIfCurrent(generation,LifecycleExecutor::State::Preparing);
+     devices.revalidateSelected();
+     if(!sourceWait.requested()||!owner->current(generation))return false;
+     if(!liveWorkers.prepare(LiveSinkWorkers::decode(devices.snapshot().at("configuration"))))return false;
+     return owner->activate(generation,[&]{return sourceWait.requested()&&liveWorkers.start();});
+    });
+    if(result==SourceWaitPolicy::Result::Resumed){inputResumeError.clear();owner->stateIfCurrent(generation,LifecycleExecutor::State::Arming);}
+    if(result==SourceWaitPolicy::Result::Faulted){inputResumeError.clear();owner->disarmAfterFault();}
+    if(result==SourceWaitPolicy::Result::Failed){inputResumeError="Source resume failed; playback remains stopped";owner->stateIfCurrent(generation,LifecycleExecutor::State::Fault);}
+   }catch(const std::exception& e){sourceWait.cancel();liveWorkers.stop();inputResumeError=e.what();owner->stateIfCurrent(generation,LifecycleExecutor::State::Fault);}
+   if(sourceWait.muted())owner->stateIfCurrent(generation,LifecycleExecutor::State::WaitingInput);
+  }
   auto next=std::make_shared<Cached>();
   next->description=controls.metadata();auto& description=next->description;
-  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=!inputOnly&&(liveGate||authorizedLiveTest);description["version"]="0.1.9-v2";description["inputOnly"]=inputOnly;description["inputContractVersion"]=1;
+  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=!inputOnly&&(liveGate||authorizedLiveTest);description["version"]="0.1.9-v2-r2";description["inputOnly"]=inputOnly;description["inputContractVersion"]=1;
   description["offlineGatePassed"]=liveGate;description["authorizedLiveTest"]=authorizedLiveTest;description["owner"]="EntropyAudioCore";
   description["profileRequired"]=profileRequired;description["profilePath"]=initialProfile;description["profileError"]=profileError;
   DWORD consolePid=0;description["consoleAttached"]=GetConsoleProcessList(&consolePid,1)!=0;
-  auto& data=next->telemetry;data=stage2Enabled?ipc::programTelemetrySnapshot(controls,scheduler,*stage2,selection,inputs.music,inputs.cinema):ipc::telemetrySnapshot(controls,scheduler,signal,nullptr);data["version"]="0.1.9-v2";data["inputOnly"]=inputOnly;
+  auto& data=next->telemetry;data=stage2Enabled?ipc::programTelemetrySnapshot(controls,scheduler,*stage2,selection,inputs.music,inputs.cinema):ipc::telemetrySnapshot(controls,scheduler,signal,nullptr);data["version"]="0.1.9-v2-r2";data["inputOnly"]=inputOnly;
   if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else data["domains"]=liveWorkers.snapshot();
-  data["armed"]=liveWorkers.armed();data["armPending"]=liveWorkers.engaged()&&!liveWorkers.armed()&&!liveWorkers.faulted();data["liveFault"]=liveWorkers.faulted();
+  data["physicalArmed"]=liveWorkers.armed();data["armed"]=sourceWait.requested();data["inputMuted"]=sourceWait.muted();
+  data["sourceWaitCount"]=J::u64(sourceWait.waits());data["sourceResumeCount"]=J::u64(sourceWait.resumes());data["lastSourceWaitCause"]=sourceWait.lastSourceCause();data["inputResumeError"]=inputResumeError;
+  data["armPending"]=liveWorkers.engaged()&&!liveWorkers.armed()&&!liveWorkers.faulted();data["liveFault"]=liveWorkers.faulted()&&!liveWorkers.sourceWaitFault();
+  if(sourceWait.muted())data["publicationGateClosed"]=true;
+  if(liveWorkers.sourceWaitFault())for(auto& domain:data["domains"].asArray()){
+   domain["sourceWaitRetainedFaults"]=domain.at("faults");domain["faults"]=0;
+   domain["state"]=sourceWait.muted()?"MUTE / WAITING INPUT":"DISARMED (source wait history retained)";
+  }
   data["offlineGatePassed"]=liveGate;data["authorizedLiveTest"]=authorizedLiveTest;
   data["hardwareGate"]=authorizedLiveTest?"USER AUTHORIZED LIVE TEST; offline PASS not claimed; explicit ARM and profile/device validation required":liveGate?"OFFLINE GATES PASS; explicit ARM and profile/device validation required":"BLOCKED: Stage04 live offline gate missing/stale";
   data["profileRequired"]=profileRequired;data["profilePath"]=initialProfile;data["profileError"]=profileError;
@@ -82,22 +109,30 @@ int runControlServer(int argc,char** argv) try {
    else if(action=="arm") {
     if(inputOnly)throw std::invalid_argument("Physical ARM BLOCKED: input-only validation; no sink opened");
     if(!liveGate&&!authorizedLiveTest)throw std::invalid_argument("Physical ARM BLOCKED: Stage04 live offline gate missing/stale; no sink opened");
-    if(profileRequired||stage2->telemetry(selection.program()?input::Domain::Cinema:input::Domain::Music).state!=input::State::Receiving)throw std::invalid_argument("Validated profile and selected FP64 input transport required");
-    if(liveWorkers.engaged())throw std::invalid_argument("Already armed/pending/faulted; DISARM before a new ARM");
+    if(profileRequired)throw std::invalid_argument("Validated profile required");
+    if(liveWorkers.engaged()||sourceWait.requested())throw std::invalid_argument("Already armed/pending/waiting; DISARM before a new ARM");
     if(request.contains("domains"))deviceCommand(request,false);
     if(!lifecycle.load()->current(generation))throw std::runtime_error("ARM canceled by DISARM");
     lifecycle.load()->stateIfCurrent(generation,LifecycleExecutor::State::Preparing);
     devices.revalidateSelected();
     if(!liveFirAllowed(controls.crossover().preparationParameters())||!controls.crossover().preparedFinite())throw std::invalid_argument("Unprepared/nonfinite or unauthorized FIR profile; no device opened");
     auto config=LiveSinkWorkers::decode(devices.snapshot().at("configuration"));
+    if(stage2->telemetry(selection.program()?input::Domain::Cinema:input::Domain::Music).state!=input::State::Receiving){
+     // A new explicit ARM replaces retained fatal history with a validated
+     // inactive session. No DAC is opened until fresh PCM is available.
+     if(!liveWorkers.prepare(config))throw std::runtime_error("Live egress prepare failed");
+     if(!lifecycle.load()->activate(generation,[&]{sourceWait.requestArm(true);return true;}))throw std::runtime_error("ARM canceled by DISARM");
+     inputResumeError.clear();data=J::Object{{"status","MUTE_WAITING_INPUT"},{"physicalArmed",false}};
+     lifecycle.load()->stateIfCurrent(generation,LifecycleExecutor::State::WaitingInput);return data;
+    }
     barrier(controls);
     if(!liveHeadroomReady(graph))throw std::invalid_argument("Headroom reports an original module fault or unsettled transition; no device opened");
     if(!liveWorkers.prepare(config))throw std::runtime_error("Live egress prepare failed");
-    try{if(!lifecycle.load()->activate(generation,[&]{return liveWorkers.start();}))throw std::runtime_error("ARM canceled or egress start failed");}
+    try{if(!lifecycle.load()->activate(generation,[&]{const bool started=liveWorkers.start();if(started)sourceWait.requestArm();return started;}))throw std::runtime_error("ARM canceled or egress start failed");}
     catch(...){liveWorkers.stop();throw;}
     data=J::Object{{"status","ARMING"},{"physicalArmed",false},{"prepared",controls.crossover().preparationCache()}};
    }
-   else if(action=="disarm"){sinkWorkers.stop();scheduler.disarm();data=J::Object{{"armed",false}};}
+   else if(action=="disarm"){sourceWait.cancel();sinkWorkers.stop();scheduler.disarm();data=J::Object{{"armed",false}};}
    else if(action=="save-profile"){
     if(profileRequired)throw std::invalid_argument("Create or load a profile first");
     if(stage2Enabled&&liveWorkers.armed()){barrier(controls);profiles.save(std::filesystem::u8path(request.at("path").asString()),controls,devices.snapshot(),stage2Enabled?inputs.encode():J{});}
@@ -133,11 +168,11 @@ int runControlServer(int argc,char** argv) try {
   if(lifecycle.load()->current(generation)){
    if(action=="arm")lifecycle.load()->stateIfCurrent(generation,LifecycleExecutor::State::Arming);
    else if(action=="disarm"||action=="load-profile"||action=="configure-devices"||action=="approve-binding"||action=="clear-binding")lifecycle.load()->stateIfCurrent(generation,LifecycleExecutor::State::Disarmed);
-   else lifecycle.load()->stateIfCurrent(generation,liveWorkers.armed()?LifecycleExecutor::State::Running:liveWorkers.engaged()?LifecycleExecutor::State::Arming:LifecycleExecutor::State::Disarmed);
+   else lifecycle.load()->stateIfCurrent(generation,sourceWait.muted()?LifecycleExecutor::State::WaitingInput:liveWorkers.armed()?LifecycleExecutor::State::Running:liveWorkers.engaged()?LifecycleExecutor::State::Arming:LifecycleExecutor::State::Disarmed);
   }
   return data;
  };
- LifecycleExecutor executor(apply,[&]{liveWorkers.closePublicationGate();},publishCache,[&]{devices.closeNotifications();},[&]{return liveWorkers.faulted()&&liveWorkers.engaged();});lifecycle.store(&executor);
+ LifecycleExecutor executor(apply,[&]{sourceWait.cancel();liveWorkers.closePublicationGate();},publishCache,[&]{devices.closeNotifications();},[&]{return liveWorkers.faulted()&&liveWorkers.engaged()&&!liveWorkers.sourceWaitFault();});lifecycle.store(&executor);
  std::string error;
  if(!server.start(std::wstring(endpoint.begin(),endpoint.end()),[&](const ipc::Frame& frame){
   for(const auto& entry:replies)if(entry.request.requestId==frame.requestId){if(entry.request.command==frame.command&&entry.request.payload==frame.payload)return entry.response;return ipc::Frame{frame.command,frame.requestId,ipc::dump(J::Object{{"ok",false},{"session",J::u64(session)},{"error","Request ID reused with different payload"}})};}

@@ -26,6 +26,8 @@ Testing/
 /local/
 /runtime/
 /release/
+# The currently running 64k Core continues writing this local diagnostic file.
+/validation/music-cinema-v2/source-wait-final-switch-to-64k.core.txt
 /Integration/Stage1/runtime/
 /Integration/Stage1/native-src/build/
 /Integration/Stage2/runtime/

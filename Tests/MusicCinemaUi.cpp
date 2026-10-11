@@ -11,5 +11,8 @@ int main(){using namespace entropy::ui;for(auto channels:{3,6,8}){auto root=QJso
   root["lifecycleStatus"]="STOPPING";if(liveFaultDisplay(root).contains("explicit ARM"))return 7;
  }
  if(!liveFaultReason(2).contains("STARVATION")||!liveFaultReason(4).contains("CLOCK"))return 8;
- std::cout<<"PASS Music3/Cinema6/8 presentation, absent/legacy telemetry, retained fault and direct manual ARM presentation\n";
+ const auto waiting=QJsonObject{{"armed",true},{"inputMuted",true},{"physicalArmed",false}};
+ if(!sourceWaitDisplay(waiting).contains("ARM retained")||!sourceWaitDisplay(waiting).contains("MUTE")||sourceWaitDisplay(waiting).contains("FAULT"))return 9;
+ if(!sourceWaitDisplay(QJsonObject{{"inputMuted",false}}).isEmpty())return 10;
+ std::cout<<"PASS Music3/Cinema6/8 presentation, absent/legacy telemetry, retained fault, manual ARM and source wait presentation\n";
 }

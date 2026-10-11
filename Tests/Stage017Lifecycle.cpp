@@ -95,5 +95,17 @@ int main()try{
  check(!waitResult(failureOwner,failedLoad).at("ok").asBool()&&teardowns==1&&std::string(failureOwner.stateText())=="DISARMED","gate-closing failure stuck in STOPPING");
  auto batch=failureOwner.results(J::Array{J::u64(999999),failedLoad.at("commandId")}).at("results").asArray();
  check(batch[0].at("complete").asBool()&&batch[0].at("reply").at("status").asString()=="RESULT_EXPIRED"&&batch[1].at("complete").asBool(),"expired identity poisoned batch");failureOwner.stop();
+ // A fatal fault discovered during source teardown must invalidate an ARM
+ // already admitted while that teardown was blocked.
+ std::promise<void> fatalEntered,fatalRelease;auto fatalReleased=fatalRelease.get_future();
+ std::atomic<bool> fatalTick{true};unsigned activated=0;control::LifecycleExecutor* fatalExecutor=nullptr;
+ control::LifecycleExecutor fatalOwner([&](const J& q,uint64_t g)->J{
+  if(q.at("action").asString()=="arm")check(fatalExecutor->activate(g,[&]{++activated;return true;}),"fatal ARM canceled");
+  return J::Object{{"status","DONE"}};
+ },[]{},[&]{if(fatalExecutor&&fatalTick.exchange(false)){fatalEntered.set_value();fatalReleased.wait();fatalExecutor->disarmAfterFault();}});
+ fatalExecutor=&fatalOwner;fatalEntered.get_future().wait();
+ auto queuedFatalArm=fatalOwner.admit(J::Object{{"action","arm"}});fatalRelease.set_value();
+ check(!waitResult(fatalOwner,queuedFatalArm).at("ok").asBool()&&activated==0,"late fatal teardown allowed previously queued ARM");
+ check(waitResult(fatalOwner,fatalOwner.admit(J::Object{{"action","arm"}})).at("ok").asBool()&&activated==1,"fresh post-fault ARM rejected");fatalOwner.stop();
  std::cout<<ipc::dump(J::Object{{"PASS",true},{"slowPreparationDisarmAdmissionUs",disarm.at("admissionUs")},{"slowPreparationGateUs",disarm.at("gateUs")},{"runningDisarmAdmissionUs",stopped.at("admissionUs")},{"runningGateUs",stopped.at("gateUs")},{"simulatedTeardownUs",stoppedResult.at("data").at("teardownUs")},{"benchmarkCalls",J::u64(control::diagnosticBenchmarkCalls())},{"activePcmBlocks",unsigned(seen.nonzero)},{"lateSinkOpens",0}})<<'\n';return 0;
 }catch(const std::exception& e){std::cerr<<"FAIL "<<e.what()<<'\n';return 1;}

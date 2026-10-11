@@ -1,0 +1,9 @@
+[OUTPUT] 
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/qt-music-cinema
+
+[HANDLER_OUTPUT] 
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/qt-music-cinema
+
+[ERROR_MESSAGE] 
+No tests were found!!!
+

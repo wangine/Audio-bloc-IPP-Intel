@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\tools\Package-MusicCinemaSource.py", line 17, in <module>
+    collect(root)
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\tools\Package-MusicCinemaSource.py", line 8, in collect
+    for p in base.rglob('*'):
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 1180, in rglob
+    for p in selector.select_from(self):
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 601, in _select_from
+    for p in successor_select(starting_point, is_dir, exists, scandir):
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 548, in _select_from
+    with scandir(parent_path) as scandir_it:
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\local\\worktrees\\crossover-thiran-delay\\local\\stage011\\publication\\verify-EntropyStage2-v0008-passive-source-win-x64\\EntropyStage2-v0008-passive-source-win-x64\\source\\Integration\\Stage2\\source\\Host\\EntropyDspEngine\\App'
+{"archive": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2-r2\\EntropyAudioCore-0.1.9-v2-r2-32k-win-x64.zip", "sha256": "64D49C8DCF1707A7EB4AF962A3F27F5ED996C4750ABF606D795EA94FBA8D68BF", "files": 134}
+Traceback (most recent call last):
+{"archive": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2-r2\\EntropyAudioCore-0.1.9-v2-r2-64k-win-x64.zip", "sha256": "37FDFBEFF4FB09CAB96CE7F2FC870BAAC8F30DD47B715C18A81E7D5FD8D16190", "files": 134}
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\tools\Finalize-Stage3SourceWait.py", line 59, in <module>
+    subprocess.run([sys.executable,str(ROOT/'tools/Package-MusicCinemaSource.py'),str(ROOT),str(source),str(ROOT/'local/stage04-ref/Stage3/native-reference'),VERSION],check=True)
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\subprocess.py", line 528, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['C:\\Users\\bobi\\AppData\\Local\\Programs\\Python\\Python39\\python.exe', 'D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\tools\\Package-MusicCinemaSource.py', 'D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel', 'D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2-r2\\EntropyAudioCore-0.1.9-v2-r2-source.zip', 'D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\local\\stage04-ref\\Stage3\\native-reference', '0.1.9-v2-r2']' returned non-zero exit status 1.

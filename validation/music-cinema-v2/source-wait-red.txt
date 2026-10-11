@@ -1,0 +1,1 @@
+FAIL source loss must retain user ARM as WAITING_INPUT, not DISARM

@@ -1,0 +1,3 @@
+Delay observed=3.00006103515625
+Observed program=1 route=2 groups=1 membership=0 reserve=3 gain=-12 attack=600 release=3000 peak=0.0010000000474974513 error=BLOCKED: Stage04 live offline gate missing/stale
+Qt two-process control FAIL

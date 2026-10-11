@@ -1,0 +1,2 @@
+Entropy Stage3 0.1.9-v2-r2 / 32k; MUSIC3 + independent CINEMA6/8; starts DISARMED
+PASS packaged Core/IPC/Qt smoke, DISARMED.

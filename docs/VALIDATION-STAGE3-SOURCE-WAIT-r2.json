@@ -1,0 +1,138 @@
+{
+  "version": "0.1.9-v2-r2",
+  "date": "2026-10-11",
+  "scope": "Local retained-user-ARM/source recovery; no full Stage04/V07 or original TIDAL PCM qualification",
+  "sourceWorkingTreeBaseCommit": "34556e782e47a67417aadbf7b06e12c330f7da10",
+  "sourceModifiedLocal": true,
+  "gitUploaded": false,
+  "native": [
+    {
+      "variant": "32k",
+      "passed": 56,
+      "total": 57,
+      "inheritedFailure": "EntropyStage04Offline",
+      "reportSha256": "F4E81C115B8BFFFA2C70F1912F15ECB933B1ACB161F3F51A03497705A305694F"
+    },
+    {
+      "variant": "64k",
+      "passed": 56,
+      "total": 57,
+      "inheritedFailure": "EntropyStage04Offline",
+      "reportSha256": "BF1334548410A23177819BECBD5F0283C1463B74434AFAA05518643365974C80"
+    }
+  ],
+  "live": [
+    {
+      "variant": "32k",
+      "corePid": 19544,
+      "waitingIntervals": [
+        {
+          "event": "stage1-stopped",
+          "heldSeconds": 5,
+          "blocks": "2541",
+          "corePid": 19544
+        },
+        {
+          "event": "stage2-stopped",
+          "heldSeconds": 5,
+          "blocks": "4434",
+          "corePid": 19544
+        },
+        {
+          "event": "before-explicit-disarm",
+          "heldSeconds": 2,
+          "blocks": "6282",
+          "corePid": 19544
+        },
+        {
+          "event": "explicit-arm-without-input",
+          "heldSeconds": 3,
+          "blocks": "6998",
+          "corePid": 19544
+        }
+      ],
+      "sourceWaitCount": "3",
+      "sourceResumeCount": "3",
+      "inputFaultHistory": "4",
+      "musicGaps": "0",
+      "pcmClippedBlocks": [
+        "0",
+        "0"
+      ],
+      "nonzeroPcmBlocks": [
+        "5674",
+        "5674"
+      ],
+      "steadySeconds": 30,
+      "summarySha256": "5009951041D634632892414C6EA1504EEF7A6C431C61135454E6507A36E1AC92"
+    },
+    {
+      "variant": "64k",
+      "corePid": 11412,
+      "waitingIntervals": [
+        {
+          "event": "stage1-stopped",
+          "heldSeconds": 5,
+          "blocks": "30350",
+          "corePid": 11412
+        },
+        {
+          "event": "stage2-stopped",
+          "heldSeconds": 5,
+          "blocks": "32204",
+          "corePid": 11412
+        },
+        {
+          "event": "before-explicit-disarm",
+          "heldSeconds": 2,
+          "blocks": "34080",
+          "corePid": 11412
+        },
+        {
+          "event": "explicit-arm-without-input",
+          "heldSeconds": 3,
+          "blocks": "34799",
+          "corePid": 11412
+        }
+      ],
+      "sourceWaitCount": "4",
+      "sourceResumeCount": "4",
+      "inputFaultHistory": "5",
+      "musicGaps": "0",
+      "pcmClippedBlocks": [
+        "0",
+        "0"
+      ],
+      "nonzeroPcmBlocks": [
+        "11311",
+        "11312"
+      ],
+      "steadySeconds": 60,
+      "summarySha256": "743AA102DBCF8BC55E569E6F1693F0207C5F379F59AA8DA71020C9E68D0B0C5C"
+    }
+  ],
+  "finalListeningCorePid": 21488,
+  "finalListeningVariant": "64k",
+  "originalProfileSha256": "4D924408BDC06C5BF1DAB4306BC1D87BF0B4700A74F1D65D1D0BB472DB93C8C7",
+  "compiler": "MSVC 19.51.36257.0 x64",
+  "ipp": "C:/Program Files (x86)/Intel/oneAPI/ipp/2026.0",
+  "ui": "Qt 6.11.2 / GNU 13.1.0; separate IPC process",
+  "protectedInventory": {
+    "checked": 72,
+    "unchanged": 70,
+    "intentionallyChanged": [
+      "Engine/Egress/LiveSinkWorkers.cpp",
+      "Engine/Egress/LiveSinkWorkers.h"
+    ],
+    "originalDspAlgorithmsChanged": false
+  },
+  "uiGeneralFixture": "EntropyStage05Ui failure also reproduced with accepted Core; retained",
+  "limitations": [
+    "No ten-hour wall-clock test; wait policy has no timeout",
+    "Real Cinema decoder pending",
+    "No analog skew/whole-machine-load guarantee",
+    "Intentional Stage1 downtime can overflow finite driver ring; raw loss metadata retained",
+    "No TIDAL PCM identity or Shared/Exclusive equality claim",
+    "V2 actual access metadata remains unverified"
+  ]
+}

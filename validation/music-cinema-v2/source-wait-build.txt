@@ -1,0 +1,55 @@
+[1/29] Building CXX object CMakeFiles\EntropyMusicCinemaTimeline.dir\Tests\MusicCinemaTimeline.cpp.obj
+[2/29] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\CoreRuntime.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xutility(5094): warning C4244: '=': conversion from 'const wchar_t' to 'char', possible loss of data
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xutility(5094): note: the template instantiation context (the oldest one first) is
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Engine/Input/InputConfiguration.h(8): note: see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+        with
+        [
+            _Elem=wchar_t,
+            _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+            _Alloc=std::allocator<char>
+        ]
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Engine/Input/InputConfiguration.h(8): note: see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'entropy::input::Configuration::encode'
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xstring(862): note: see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<const wchar_t*,const wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
+        with
+        [
+            _Size_type=unsigned __int64,
+            _Iter=const wchar_t *,
+            _Sent=const wchar_t *,
+            _Size=unsigned __int64
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xstring(1018): note: see reference to function template instantiation '_OutIt *std::_Copy_n_unchecked4<const wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)' being compiled
+        with
+        [
+            _OutIt=char *,
+            _Size=unsigned __int64,
+            _InIt=const wchar_t *,
+            _SizeTy=unsigned __int64
+        ]
+[3/29] Linking CXX static library entropy_control_runtime.lib
+[4/29] Building CXX object CMakeFiles\EntropyMusicCinemaSourceWait.dir\Tests\MusicCinemaSourceWait.cpp.obj
+[5/29] Building CXX object CMakeFiles\EntropyStage019Egress.dir\Tests\Stage019Egress.cpp.obj
+[6/29] Building CXX object CMakeFiles\EntropyStage017Lifecycle.dir\Tests\Stage017Lifecycle.cpp.obj
+[7/29] Building CXX object CMakeFiles\EntropyStage014Pcm24.dir\Tests\Stage014Pcm24Evidence.cpp.obj
+[8/29] Building CXX object CMakeFiles\EntropyStage012Reference.dir\Tests\Stage012HeadroomReference.cpp.obj
+[9/29] Building CXX object CMakeFiles\EntropyStage06Input.dir\Stage06TestIngress.cpp.obj
+[10/29] Building CXX object CMakeFiles\EntropyStage07Live.dir\Tests\Stage07LiveWorkers.cpp.obj
+[11/29] Linking CXX executable EntropyAudioCore.exe
+[12/29] Linking CXX executable EntropyLiveQualification.exe
+[13/29] Linking CXX executable EntropyMusicCinemaTimeline.exe
+[14/29] Linking CXX executable EntropyMusicCinemaFaultRecovery.exe
+[15/29] Linking CXX executable EntropyMusicCinemaSourceWait.exe
+[16/29] Linking CXX executable EntropyMusicCinemaGraph.exe
+[17/29] Linking CXX executable EntropyStage019Egress.exe
+[18/29] Linking CXX executable EntropyStage018View.exe
+[19/29] Linking CXX executable EntropyStage017Preparation.exe
+[20/29] Linking CXX executable EntropyStage017Lifecycle.exe
+[21/29] Linking CXX executable EntropyStage014Pcm24.exe
+[22/29] Linking CXX executable EntropyStage012Reference.exe
+[23/29] Linking CXX executable EntropyStage07Live.exe
+[24/29] Linking CXX executable EntropyStage06Input.exe
+[25/29] Linking CXX executable EntropyStage05Validation.exe
+[26/29] Linking CXX executable EntropyStage05Boundary.exe
+[27/29] Linking CXX executable EntropyStage05Control.exe
+[28/29] Building CXX object CMakeFiles\EntropyStage013Crossover.dir\Tests\Stage013CrossoverEvidence.cpp.obj
+[29/29] Linking CXX executable EntropyStage013Crossover.exe

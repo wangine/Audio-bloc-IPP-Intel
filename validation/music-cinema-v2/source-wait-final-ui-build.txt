@@ -1,0 +1,6 @@
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Configuring done (0.7s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/qt-music-cinema
+[1/2] Building CXX object CMakeFiles/EntropyUI.dir/main.cpp.obj
+[2/2] Linking CXX executable EntropyUI.exe

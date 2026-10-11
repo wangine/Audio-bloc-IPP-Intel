@@ -1,8 +1,9 @@
 # Independent MUSIC / CINEMA architecture
 
 Publication branch: `codex/music-cinema-architecture`, created from `v0.1.8`.
-This branch publishes the completed local architecture and stable Stage3
-0.1.9-v2 repair. Original release tags and the main branch are preserved.
+Current deliveries are Stage1 v0003-r7, Stage2 v0009 and Stage3 0.1.9-v2-r2.
+The [2026-10-12 handoff](../PUBLICATION-STAGE1-r7-STAGE3-r2.md) records changes,
+tested artifacts and limits. Original release tags and the main branch are preserved.
 
 ```mermaid
 flowchart TD
@@ -34,7 +35,10 @@ The selector consumes independently timed inputs. Valid source identities,
 generations and format changes reset the relevant Crossover input histories
 without resetting the downstream Graph-to-DAC clock. Serious output faults
 automatically finish DISARM and retain the cause. Recovery requires an explicit
-manual ARM, accepted directly when the source is ready; there is no automatic ARM.
+manual ARM. Normal upstream absence retains the existing user ARM as
+MUTE/WAITING_INPUT: DAC owners close, no missing-input Graph/PCM blocks are
+fabricated, and fresh validated source resumes in the same Core. Explicit DISARM
+cancels that pending resumption. There is no waiting timeout or new automatic ARM.
 Input MAX indicators are Sample Peak holds, measured from every valid received
 block since Core startup, separate from instantaneous levels.
 
@@ -42,9 +46,9 @@ block since Core startup, separate from instantaneous levels.
 
 | Component | Source location | Accepted local delivery |
 | --- | --- | --- |
-| Stage1 MUSIC | `Integration/Music/Stage1` | `stage1-native-music-v0002` |
+| Stage1 MUSIC/AUX | `Integration/Music/Stage1-v0003` | `stage1-native-music-v0003-r7`; v0002 retained separately |
 | Stage2 MUSIC | `Integration/Music/Stage2` | `stage2-music-v0009` |
-| Stage3 | Repository root | `0.1.9-v2`, 32k and 64k FIFO variants, both Windows x64 |
+| Stage3 | Repository root | `0.1.9-v2-r2`, 32k and 64k FIFO variants, both Windows x64 |
 
 [Source snapshot provenance](source-snapshots.json) records original archive
 SHA256 values, imported source counts and the Stage1 legacy ingress DLL hashes.
@@ -52,6 +56,9 @@ The complete imported snapshots include the packaged dependencies and the
 original source-archive evidence. [Original delivery ZIPs](../../release/music-cinema)
 for all three Stages are versioned on this private branch; their sizes and SHA256
 values are recorded in [delivery-artifacts.json](delivery-artifacts.json).
+Current r7/r2 archives are indexed separately in
+[publication-r7-r2-artifacts.json](publication-r7-r2-artifacts.json); their tested
+payloads and original build provenance remain immutable.
 Their original README and historical design documents retain the context in
 which those snapshots were built; this handoff identifies the current direction.
 
@@ -83,6 +90,12 @@ Build/test processes use separate output directories and isolated test endpoints
 publication does not replace or restart the active listening packages.
 
 ## Validation and limits
+
+Current results are in the [r7/r2 publication handoff](../PUBLICATION-STAGE1-r7-STAGE3-r2.md):
+Stage1 6/6, Stage3 56/57 per variant, both bounded live source-recovery audits PASS.
+The two changed protected files are local LiveSinkWorkers lifecycle adapters;
+the other 70 and original DSP/SRC/clock/PCM algorithms remain unchanged.
+The following measurements retain the original 0.1.9-v2 qualification scope.
 
 The [accepted 0.1.9-v2 report](../VALIDATION-MUSIC-CINEMA-v2.json) records native
 tests at 52/53 in both variants and Qt tests at 6/7. The remaining failures are

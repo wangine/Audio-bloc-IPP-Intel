@@ -1,0 +1,2 @@
+Stage05 native IPC READY: EntropyAudioCore.Control.v1; DISARMED; liveGate=BLOCKED; authorizedLiveTest=YES
+AudioCore stopped safely; all native DAC owners closed

@@ -1,0 +1,11 @@
+{
+  "corePid": 4268,
+  "corePath": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2\\EntropyAudioCore-0.1.9-v2-64k-win-x64\\runtime\\EntropyAudioCore.exe",
+  "coreCommandLine": "\"D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2\\EntropyAudioCore-0.1.9-v2-64k-win-x64\\runtime\\EntropyAudioCore.exe\" --control-server --endpoint EntropyAudioCore.Control.v1 --stage2-input --authorized-live-test ",
+  "uiPid": 21228,
+  "uiPath": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2\\EntropyAudioCore-0.1.9-v2-64k-win-x64\\runtime\\EntropyUI.exe",
+  "uiCommandLine": "\"D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2\\EntropyAudioCore-0.1.9-v2-64k-win-x64\\runtime\\EntropyUI.exe\" --endpoint EntropyAudioCore.Control.v1",
+  "uiStartTicks": "639273450932804390",
+  "uiHasMainWindow": false,
+  "profileSha256": "4D924408BDC06C5BF1DAB4306BC1D87BF0B4700A74F1D65D1D0BB472DB93C8C7"
+}

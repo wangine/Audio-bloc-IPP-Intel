@@ -23,7 +23,7 @@ void AudioScheduler::run() noexcept {
   LARGE_INTEGER begin{},end{};QueryPerformanceCounter(&begin);
   controls_.atBlockBoundary();if(liveSinks_)liveSinks_->atBlockBoundary();
   if(programInput_){input::GraphInputContext context;auto needed=selection_->requiredDomains();
-   if(!programInput_->tryRead(input_.writePointers(),needed,context)){controls_.afterBlock();if(programInput_->faulted(needed)&&liveSinks_&&liveSinks_->engaged())liveSinks_->failAll(egress_host::Input);next=std::chrono::steady_clock::now();wait.forDuration(std::chrono::microseconds(100));continue;}
+   if(!programInput_->tryRead(input_.writePointers(),needed,context)){controls_.afterBlock();if(programInput_->faulted(needed)&&liveSinks_&&liveSinks_->engaged())liveSinks_->waitForInput();next=std::chrono::steady_clock::now();wait.forDuration(std::chrono::microseconds(100));continue;}
    // Source histories have their own epochs. The continuous Graph-to-DAC
    // timeline does not restart when a source format/generation or program changes.
    if(needed&1)musicToken=context.music.token;if(needed&2)cinemaToken=context.cinema.token;

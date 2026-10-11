@@ -1,0 +1,22 @@
+V07 global16 Headroom page controls missing: connected=0 initialContract=0 crossoverTabs=1 fineDelay=1 coarseDelay=1 mode=1 manual=1 reserve=1 transition=1 attack=1 release=1 sampleSafety=1 capacity=1 analyzer=1
+Headroom label 'ABI UNAVAILABLE' layout=QGridLayout
+Headroom label 'MODE' layout=QGridLayout
+Headroom label 'MANUAL GAIN / AUTO MAX' layout=QGridLayout
+Headroom label 'AUTO PREVENTIVE RESERVE' layout=QGridLayout
+Headroom label 'MODE / MANUAL TRANSITION' layout=QGridLayout
+Headroom label 'PREVENTIVE ATTACK' layout=QGridLayout
+Headroom label 'RELEASE' layout=QGridLayout
+Headroom label 'Safety attack: immediate when the current block would exceed 0 dBFS  •  Hold: 1000 ms' layout=QGridLayout
+Headroom label 'INPUT SAMPLE PEAK' layout=QGridLayout
+Headroom label '—' layout=QGridLayout
+Headroom label 'SAMPLE SAFETY REQUIRED' layout=QGridLayout
+Headroom label '—' layout=QGridLayout
+Headroom label 'AUTO TARGET' layout=QGridLayout
+Headroom label '—' layout=QGridLayout
+Headroom label 'APPLIED ATTENUATION' layout=QGridLayout
+Headroom label '—' layout=QGridLayout
+Headroom label 'ANALYZER' layout=QGridLayout
+Headroom label '—' layout=QGridLayout
+Headroom label 'AUTO CAPACITY' layout=QGridLayout
+Headroom label 'UNAVAILABLE' layout=QGridLayout
+Headroom label 'Headroom telemetry unavailable' layout=QVBoxLayout

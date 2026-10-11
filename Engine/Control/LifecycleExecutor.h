@@ -13,7 +13,7 @@ namespace entropy::control {
 // it invalidates ARM generations, without discarding any profile operation.
 class LifecycleExecutor final {
 public:
- enum class State { Accepted, Preparing, Arming, Running, Stopping, Disarmed, Fault };
+ enum class State { Accepted, Preparing, Arming, Running, Stopping, Disarmed, Fault, WaitingInput };
  using Handler=std::function<ipc::Value(const ipc::Value&,uint64_t)>;
  LifecycleExecutor(Handler,std::function<void()> closeGate,std::function<void()> tick,std::function<void()> finalize={},std::function<bool()> faultProbe={});
  ~LifecycleExecutor();
@@ -24,6 +24,7 @@ public:
  bool activate(uint64_t,const std::function<bool()>&);
  void state(State s) noexcept {state_=s;}
  void stateIfCurrent(uint64_t,State);
+ void disarmAfterFault(); // lifecycle owner only; invalidates queued ARM generations
  void transition(State expected,State next) noexcept {state_.compare_exchange_strong(expected,next);}
  const char* stateText() const noexcept;
  void stop();

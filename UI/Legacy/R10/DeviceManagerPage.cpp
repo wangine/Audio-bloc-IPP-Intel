@@ -969,7 +969,8 @@ private:
                      domain.clockState == ENTROPY_EGRESS_CLOCK_PREROLL) &&
                     domain.faultFlags == 0 && domain.xrunCount == 0 &&
                     domain.guardianFaultFlags == 0;
-                slots_[slot].outputConfig->setStyleSheet(healthy
+                slots_[slot].outputConfig->setStyleSheet(telemetry.outputArmed && telemetry.outputGateClosed
+                    ? QStringLiteral("color:#f0bd4c;font-weight:700;") : healthy
                     ? QStringLiteral("color:#43e878;font-weight:700;")
                     : QStringLiteral("color:#ff7070;font-weight:700;"));
             }
@@ -987,7 +988,7 @@ private:
         }
         if (telemetry.outputArmed != 0)
         {
-            gateState_->setText(QStringLiteral("OUTPUT GATE: ARMED / LIVE — %1")
+            gateState_->setText((telemetry.outputGateClosed ? QStringLiteral("OUTPUT GATE: ARM RETAINED / MUTE — %1") : QStringLiteral("OUTPUT GATE: ARMED / LIVE — %1"))
                 .arg(QString::fromUtf8(telemetry.outputDetail)));
             gateState_->setStyleSheet(QStringLiteral(
                 "background:#0b2b23;border:1px solid #2c7651;border-radius:4px;"

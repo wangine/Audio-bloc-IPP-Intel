@@ -1,0 +1,2500 @@
+{
+  "data": {
+    "accepted": "3",
+    "applied": "3",
+    "applyFault": 0,
+    "armPending": false,
+    "armed": true,
+    "authorizedLiveTest": true,
+    "benchmarkCalls": "0",
+    "blockSize": 1024,
+    "blocks": "20697",
+    "cinemaPeaks": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "crossoverAccepted": "0",
+    "crossoverApplied": "0",
+    "crossoverFailed": "0",
+    "crossoverKind": 0,
+    "crossoverPeaks": [
+      0.09872259199619293,
+      0.02689005807042122,
+      0.007389351259917021,
+      0.06653693318367004,
+      0.09653028100728989,
+      0.026681136339902878,
+      0.006654578726738691,
+      0.020054956898093224,
+      0,
+      0,
+      0,
+      0.017355794087052345,
+      0,
+      0,
+      0,
+      0
+    ],
+    "crossoverReason": 0,
+    "domains": [
+      {
+        "analogSkewMeasured": false,
+        "audiblePresentationQpc100ns": "2188255405947",
+        "bufferFrames": 1024,
+        "callbackThreadCycles": "2284800",
+        "callbackWallExcludingWaitUs": 762.8,
+        "callbacks": "15270",
+        "channels": 8,
+        "clockControllerLocked": true,
+        "clockEstimateValid": true,
+        "clockFillFrames": 3072.946724941954,
+        "clockFrequency": "192000",
+        "clockReadingValid": true,
+        "clockState": 1,
+        "commonPresentationQpc100ns": "2188255196201",
+        "configured": true,
+        "dataAgeMs": 38.2913,
+        "deadlineMisses": "0",
+        "devicePositionFrames": "15635456",
+        "driverResult": 0,
+        "endGraphFrame": 16710532.053275058,
+        "endpoint": "{0.0.0.00000000}.{cb23a08a-4523-42b7-b2bb-f3ac74fa358e}",
+        "epoch": "1",
+        "estimatedABDifferenceFrames": -1.3779996459871313,
+        "estimatedSinkRateHz": 192002.24026644634,
+        "eventWaitUs": 4304.8,
+        "faults": 0,
+        "fifoCapacity": 65536,
+        "fifoFrames": 2171,
+        "firstGraphFrame": 16709508.065546438,
+        "format": 1,
+        "groupReplans": 0,
+        "guardian": "EXACT BYPASS",
+        "id": "DAC A",
+        "lastResetReason": 0,
+        "mappingCoherent": true,
+        "maximumCallbackWallExcludingWaitUs": 3013.1,
+        "mmcssRegistered": true,
+        "nonzeroPcmBlocks": "14515",
+        "offlineFixture": false,
+        "originalClockCalibrated": true,
+        "pcmClippedBlocks": "6",
+        "pcmDitherMode": 1,
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "293",
+        "pcmProcessedFrames": "14867259",
+        "pcmRailClampSamples": "0",
+        "pcmSeedMode": 1,
+        "physicalSinkOpen": true,
+        "ppm": -12.110279020021906,
+        "presentationQpc100ns": "2189029465796",
+        "primeBaseFrame": 1837056,
+        "primeNominalFrames": 14529,
+        "primeWantedFrame": 1843392.4224,
+        "rate": 192000,
+        "resyncCount": "0",
+        "sinkFaults": 0,
+        "sinkState": 2,
+        "softwareAlignmentVerified": false,
+        "startupSkippedFrames": "6336",
+        "state": "RUNNING",
+        "streamLatency100ns": "53333",
+        "streamLatencyValid": true,
+        "submittedFrames": "15636480",
+        "targetFrames": 4096,
+        "xruns": "0"
+      },
+      {
+        "analogSkewMeasured": false,
+        "audiblePresentationQpc100ns": "2188255405947",
+        "bufferFrames": 1024,
+        "callbackThreadCycles": "2322300",
+        "callbackWallExcludingWaitUs": 823.7,
+        "callbacks": "15271",
+        "channels": 8,
+        "clockControllerLocked": true,
+        "clockEstimateValid": true,
+        "clockFillFrames": 3072.8929277807474,
+        "clockFrequency": "192000",
+        "clockReadingValid": true,
+        "clockState": 1,
+        "commonPresentationQpc100ns": "2188255196201",
+        "configured": true,
+        "dataAgeMs": 32.6291,
+        "deadlineMisses": "0",
+        "devicePositionFrames": "15636480",
+        "driverResult": 0,
+        "endGraphFrame": 16710929.10707222,
+        "endpoint": "{0.0.0.00000000}.{b1ccf014-0567-4db9-8c3b-5168519cbea5}",
+        "epoch": "1",
+        "estimatedABDifferenceFrames": -1.3779996459871313,
+        "estimatedSinkRateHz": 192001.81365251803,
+        "eventWaitUs": 4348.1,
+        "faults": 0,
+        "fifoCapacity": 65536,
+        "fifoFrames": 1774,
+        "firstGraphFrame": 16709905.117146084,
+        "format": 1,
+        "groupReplans": 0,
+        "guardian": "EXACT BYPASS",
+        "id": "DAC B",
+        "lastResetReason": 0,
+        "mappingCoherent": true,
+        "maximumCallbackWallExcludingWaitUs": 1879.6,
+        "mmcssRegistered": true,
+        "nonzeroPcmBlocks": "14516",
+        "offlineFixture": false,
+        "originalClockCalibrated": true,
+        "pcmClippedBlocks": "0",
+        "pcmDitherMode": 1,
+        "pcmFaults": 0,
+        "pcmNonfiniteSamples": "0",
+        "pcmOverrangeSamples": "0",
+        "pcmProcessedFrames": "14867717",
+        "pcmRailClampSamples": "0",
+        "pcmSeedMode": 1,
+        "physicalSinkOpen": true,
+        "ppm": -9.964243382634354,
+        "presentationQpc100ns": "2189029486404",
+        "primeBaseFrame": 1837056,
+        "primeNominalFrames": 14529,
+        "primeWantedFrame": 1843392.4992,
+        "rate": 192000,
+        "resyncCount": "0",
+        "sinkFaults": 0,
+        "sinkState": 2,
+        "softwareAlignmentVerified": false,
+        "startupSkippedFrames": "6336",
+        "state": "RUNNING",
+        "streamLatency100ns": "53333",
+        "streamLatencyValid": true,
+        "submittedFrames": "15637504",
+        "targetFrames": 4096,
+        "xruns": "0"
+      }
+    ],
+    "firLatency": 2048,
+    "hardwareGate": "USER AUTHORIZED LIVE TEST; offline PASS not claimed; explicit ARM and profile/device validation required",
+    "headroom": {
+      "activeChannelMask": 511,
+      "analysisReductionDb": 0,
+      "analyzerState": 0,
+      "appliedRevision": 4,
+      "appliedSequence": "3",
+      "attack": 217,
+      "channelGroups": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "effectiveMode": 2,
+      "faults": 0,
+      "groups": [
+        {
+          "bounded": 1,
+          "declaredPositiveDb": 6.020599913279624,
+          "gain": 0.7943282347242815,
+          "guaranteedInputDb": 0,
+          "margin": 0,
+          "progress": 1,
+          "reductionDb": 2,
+          "required": 9.020599913279625,
+          "reserve": 3,
+          "status": 1,
+          "target": 0.7943282347242815
+        }
+      ],
+      "hostRate": 192000,
+      "limitingChannelMask": 1,
+      "manualGainDb": -2,
+      "manualTargetGain": 0.7943282347242815,
+      "measuredPeak": 0.09872259155997874,
+      "mode": 2,
+      "modeTransitionActive": 0,
+      "modeTransitionProgress": 1,
+      "nonfiniteSamples": "0",
+      "peaks": [
+        0.09872259155997874,
+        0.09653028146978127,
+        0.02689005797673807,
+        0.026681136814748818,
+        0.007389351492300068,
+        0.006654578881223628,
+        0.0665369313104287,
+        0.020054957040585627,
+        0.017355793916167154,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "processedFrames": "21193728",
+      "release": 4000,
+      "renderLaneMask": 65535,
+      "revision": 4,
+      "transition": 10,
+      "transitionSamples": 1920,
+      "truePeak": 0,
+      "truePeakStatus": 0
+    },
+    "inputContractVersion": 1,
+    "inputOnly": false,
+    "inputState": "MUSIC FP64 / 192 kHz",
+    "inputs": {
+      "cinema": {
+        "blockSequence": "0",
+        "channels": 0,
+        "consumed": "0",
+        "discardedInactive": "0",
+        "endpoint": "\\\\.\\pipe\\Entropy.StagePublish.Cinema.Decoder.V2.S-1-5-21-712298930-2912964222-1649560554-1001",
+        "faults": "0",
+        "firstFrame": "0",
+        "format": "FP64 PLANAR",
+        "gaps": "0",
+        "lastBlockQpc": "0",
+        "layout": 0,
+        "localToken": "0",
+        "maximumPeaks": [],
+        "maximumReceiveGapQpc": "0",
+        "maximumSourceAgeQpc": "0",
+        "musicSessionRevision": "0",
+        "peaks": [],
+        "producerPid": 0,
+        "queued": 0,
+        "rate": 0,
+        "received": "0",
+        "sourceGeneration": [
+          "0",
+          "0",
+          "0"
+        ],
+        "sourceQpc": "0",
+        "sourceRate": [
+          0,
+          0,
+          0
+        ],
+        "sourceSession": "00000000000000000000000000000000",
+        "sourceState": [
+          0,
+          0,
+          0
+        ],
+        "state": "WAITING",
+        "streamEpoch": "0"
+      },
+      "music": {
+        "blockSequence": "81766",
+        "channels": 3,
+        "consumed": "20698",
+        "discardedInactive": "0",
+        "endpoint": "\\\\.\\pipe\\Entropy.StagePublish.Music.Dsp.V2.S-1-5-21-712298930-2912964222-1649560554-1001",
+        "faults": "0",
+        "firstFrame": "83727360",
+        "format": "FP64 PLANAR",
+        "gaps": "0",
+        "lastBlockQpc": "2189029442867",
+        "layout": 4,
+        "localToken": "6",
+        "maximumPeaks": [
+          1.2971452049757983,
+          1.3987761433056756,
+          0.8600027553726807
+        ],
+        "maximumReceiveGapQpc": "74380",
+        "maximumSourceAgeQpc": "31518",
+        "musicSessionRevision": "1",
+        "peaks": [
+          0.03568861055926849,
+          0.0368369591609713,
+          0.03417236033724309
+        ],
+        "producerPid": 20096,
+        "queued": 0,
+        "rate": 192000,
+        "received": "20706",
+        "sourceGeneration": [
+          "179",
+          "1",
+          "0"
+        ],
+        "sourceQpc": "2189029433123",
+        "sourceRate": [
+          44100,
+          44100,
+          0
+        ],
+        "sourceSession": "a679de1e63fa474ead7baa2657d691ca",
+        "sourceState": [
+          2,
+          2,
+          0
+        ],
+        "state": "RECEIVING",
+        "streamEpoch": "1"
+      }
+    },
+    "lifecycleStatus": "RUNNING",
+    "liveFault": false,
+    "matrix": {
+      "activeSourceMask": 2303,
+      "appliedGeneration": 5,
+      "appliedSequence": "3",
+      "enabledDestinationMask": 65535,
+      "generation": 5,
+      "orphanMask": 0,
+      "peaks": [
+        0.09872259155997874,
+        0.09653028146978127,
+        0.02689005797673807,
+        0.026681136814748818,
+        0.007389351492300068,
+        0.006654578881223628,
+        0.0665369313104287,
+        0.020054957040585627,
+        0.017355793916167154,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "routeCount": 9,
+      "routes": [
+        1,
+        4,
+        16,
+        64,
+        2,
+        8,
+        32,
+        128,
+        0,
+        0,
+        0,
+        256,
+        0,
+        0,
+        0,
+        0
+      ],
+      "summingMask": 0
+    },
+    "musicPeaks": [
+      0.0974171981215477,
+      0.09529895335435867,
+      0.09190607070922852
+    ],
+    "offlineGatePassed": false,
+    "offlineSignal": false,
+    "outputs": [
+      {
+        "active": true,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "CH1 L WAY 1",
+        "role": 1,
+        "semantic": 1,
+        "way": 1
+      },
+      {
+        "active": true,
+        "fractionalDelayOrder": 3,
+        "fractionalDelayTransition": false,
+        "label": "CH2 L WAY 2",
+        "role": 2,
+        "semantic": 1,
+        "way": 2
+      },
+      {
+        "active": true,
+        "fractionalDelayOrder": 5,
+        "fractionalDelayTransition": false,
+        "label": "CH3 L WAY 3",
+        "role": 3,
+        "semantic": 1,
+        "way": 3
+      },
+      {
+        "active": true,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "CH4 CENTER WAY 1",
+        "role": 11,
+        "semantic": 3,
+        "way": 1
+      },
+      {
+        "active": true,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "CH5 R WAY 1",
+        "role": 6,
+        "semantic": 2,
+        "way": 1
+      },
+      {
+        "active": true,
+        "fractionalDelayOrder": 3,
+        "fractionalDelayTransition": false,
+        "label": "CH6 R WAY 2",
+        "role": 7,
+        "semantic": 2,
+        "way": 2
+      },
+      {
+        "active": true,
+        "fractionalDelayOrder": 5,
+        "fractionalDelayTransition": false,
+        "label": "CH7 R WAY 3",
+        "role": 8,
+        "semantic": 2,
+        "way": 3
+      },
+      {
+        "active": true,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "CH8 SUB 1",
+        "role": 16,
+        "semantic": 4,
+        "way": 1
+      },
+      {
+        "active": false,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "",
+        "role": 0,
+        "semantic": 0,
+        "way": 0
+      },
+      {
+        "active": false,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "",
+        "role": 12,
+        "semantic": 3,
+        "way": 2
+      },
+      {
+        "active": false,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "",
+        "role": 0,
+        "semantic": 0,
+        "way": 0
+      },
+      {
+        "active": true,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "CH12 SCOOP 1",
+        "role": 17,
+        "semantic": 5,
+        "way": 1
+      },
+      {
+        "active": false,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "",
+        "role": 0,
+        "semantic": 0,
+        "way": 0
+      },
+      {
+        "active": false,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "",
+        "role": 0,
+        "semantic": 0,
+        "way": 0
+      },
+      {
+        "active": false,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "",
+        "role": 0,
+        "semantic": 0,
+        "way": 0
+      },
+      {
+        "active": false,
+        "fractionalDelayOrder": 0,
+        "fractionalDelayTransition": false,
+        "label": "",
+        "role": 0,
+        "semantic": 0,
+        "way": 0
+      }
+    ],
+    "parameters": [
+      {
+        "id": "cinemaSource",
+        "value": 0
+      },
+      {
+        "id": "selectedChannel",
+        "value": 1
+      },
+      {
+        "id": "lrWays",
+        "value": 3
+      },
+      {
+        "id": "centerWays",
+        "value": 1
+      },
+      {
+        "id": "subSpeakers",
+        "value": 1
+      },
+      {
+        "id": "scoopSpeakers",
+        "value": 1
+      },
+      {
+        "id": "lrBandLimit",
+        "value": 1
+      },
+      {
+        "id": "fineDelayRatio",
+        "value": 1
+      },
+      {
+        "id": "musicTrimDb1",
+        "value": -1.1999988555908203
+      },
+      {
+        "id": "musicTrimDb2",
+        "value": -1.1999988555908203
+      },
+      {
+        "id": "musicTrimDb3",
+        "value": -1.1999988555908203
+      },
+      {
+        "id": "cinemaTrimDb1",
+        "value": 1.5
+      },
+      {
+        "id": "cinemaTrimDb2",
+        "value": 1.2000007629394531
+      },
+      {
+        "id": "cinemaTrimDb3",
+        "value": -1.1999988555908203
+      },
+      {
+        "id": "cinemaTrimDb4",
+        "value": 1.2000007629394531
+      },
+      {
+        "id": "cinemaTrimDb5",
+        "value": 0
+      },
+      {
+        "id": "cinemaTrimDb6",
+        "value": 0
+      },
+      {
+        "id": "cinemaTrimDb7",
+        "value": 0
+      },
+      {
+        "id": "cinemaTrimDb8",
+        "value": 0
+      },
+      {
+        "id": "cinemaTrimDb9",
+        "value": 0
+      },
+      {
+        "id": "cinemaTrimDb10",
+        "value": 0
+      },
+      {
+        "id": "bassFeed",
+        "value": 0
+      },
+      {
+        "id": "scoopFeed",
+        "value": 0
+      },
+      {
+        "id": "bassLinkMode",
+        "value": 2
+      },
+      {
+        "id": "cinemaScoopSource",
+        "value": 0
+      },
+      {
+        "id": "cinemaLfeFilterBypass",
+        "value": 0
+      },
+      {
+        "id": "cinemaLfeReferenceGain",
+        "value": 1
+      },
+      {
+        "id": "bassExtractor",
+        "value": 3
+      },
+      {
+        "id": "scoopExtractor",
+        "value": 1
+      },
+      {
+        "id": "bassProcess",
+        "value": 0
+      },
+      {
+        "id": "scoopProcess",
+        "value": 0
+      },
+      {
+        "id": "bassFirLength",
+        "value": 1
+      },
+      {
+        "id": "scoopFirLength",
+        "value": 1
+      },
+      {
+        "id": "bassAllPass",
+        "value": 0
+      },
+      {
+        "id": "scoopAllPass",
+        "value": 0
+      },
+      {
+        "id": "bassAPFreq",
+        "value": 80
+      },
+      {
+        "id": "scoopAPFreq",
+        "value": 120
+      },
+      {
+        "id": "bassAPQ",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "scoopAPQ",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "source1",
+        "value": 1
+      },
+      {
+        "id": "cinemaRole1",
+        "value": 1
+      },
+      {
+        "id": "filterType1",
+        "value": 2
+      },
+      {
+        "id": "gainDb1",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb1",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb1",
+        "value": 0
+      },
+      {
+        "id": "mute1",
+        "value": 0
+      },
+      {
+        "id": "solo1",
+        "value": 0
+      },
+      {
+        "id": "polarity1",
+        "value": 0
+      },
+      {
+        "id": "delayMs1",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs1",
+        "value": 1.18304443359375
+      },
+      {
+        "id": "cinemaDelayMs1",
+        "value": 1.32806396484375
+      },
+      {
+        "id": "processMode1",
+        "value": 0
+      },
+      {
+        "id": "firLength1",
+        "value": 1
+      },
+      {
+        "id": "allPass1",
+        "value": 1
+      },
+      {
+        "id": "fractionalDelayMode1",
+        "value": 0
+      },
+      {
+        "id": "apFreq1",
+        "value": 1000
+      },
+      {
+        "id": "apQ1",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn1",
+        "value": 1
+      },
+      {
+        "id": "hpHz1",
+        "value": 80.0999984741211
+      },
+      {
+        "id": "lpOn1",
+        "value": 1
+      },
+      {
+        "id": "lpHz1",
+        "value": 2040.5999755859375
+      },
+      {
+        "id": "protectorOn1",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute1",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz1",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz1",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs1",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source2",
+        "value": 2
+      },
+      {
+        "id": "cinemaRole2",
+        "value": 2
+      },
+      {
+        "id": "filterType2",
+        "value": 2
+      },
+      {
+        "id": "gainDb2",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb2",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb2",
+        "value": 0
+      },
+      {
+        "id": "mute2",
+        "value": 0
+      },
+      {
+        "id": "solo2",
+        "value": 0
+      },
+      {
+        "id": "polarity2",
+        "value": 0
+      },
+      {
+        "id": "delayMs2",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs2",
+        "value": 1.18304443359375
+      },
+      {
+        "id": "cinemaDelayMs2",
+        "value": 1.32806396484375
+      },
+      {
+        "id": "processMode2",
+        "value": 0
+      },
+      {
+        "id": "firLength2",
+        "value": 1
+      },
+      {
+        "id": "allPass2",
+        "value": 1
+      },
+      {
+        "id": "fractionalDelayMode2",
+        "value": 2
+      },
+      {
+        "id": "apFreq2",
+        "value": 1000
+      },
+      {
+        "id": "apQ2",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn2",
+        "value": 1
+      },
+      {
+        "id": "hpHz2",
+        "value": 775.6000366210938
+      },
+      {
+        "id": "lpOn2",
+        "value": 1
+      },
+      {
+        "id": "lpHz2",
+        "value": 8604.7001953125
+      },
+      {
+        "id": "protectorOn2",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute2",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz2",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz2",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs2",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source3",
+        "value": 3
+      },
+      {
+        "id": "cinemaRole3",
+        "value": 3
+      },
+      {
+        "id": "filterType3",
+        "value": 2
+      },
+      {
+        "id": "gainDb3",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb3",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb3",
+        "value": 0
+      },
+      {
+        "id": "mute3",
+        "value": 0
+      },
+      {
+        "id": "solo3",
+        "value": 0
+      },
+      {
+        "id": "polarity3",
+        "value": 0
+      },
+      {
+        "id": "delayMs3",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs3",
+        "value": 1.18304443359375
+      },
+      {
+        "id": "cinemaDelayMs3",
+        "value": 1.32806396484375
+      },
+      {
+        "id": "processMode3",
+        "value": 0
+      },
+      {
+        "id": "firLength3",
+        "value": 1
+      },
+      {
+        "id": "allPass3",
+        "value": 1
+      },
+      {
+        "id": "fractionalDelayMode3",
+        "value": 3
+      },
+      {
+        "id": "apFreq3",
+        "value": 1000
+      },
+      {
+        "id": "apQ3",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn3",
+        "value": 1
+      },
+      {
+        "id": "hpHz3",
+        "value": 3417.199951171875
+      },
+      {
+        "id": "lpOn3",
+        "value": 0
+      },
+      {
+        "id": "lpHz3",
+        "value": 24101.80078125
+      },
+      {
+        "id": "protectorOn3",
+        "value": 1
+      },
+      {
+        "id": "emergencyMute3",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz3",
+        "value": 3095
+      },
+      {
+        "id": "safetyMaxHz3",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs3",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source4",
+        "value": 11
+      },
+      {
+        "id": "cinemaRole4",
+        "value": 11
+      },
+      {
+        "id": "filterType4",
+        "value": 2
+      },
+      {
+        "id": "gainDb4",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb4",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb4",
+        "value": 0
+      },
+      {
+        "id": "mute4",
+        "value": 0
+      },
+      {
+        "id": "solo4",
+        "value": 0
+      },
+      {
+        "id": "polarity4",
+        "value": 0
+      },
+      {
+        "id": "delayMs4",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs4",
+        "value": 2.75201416015625
+      },
+      {
+        "id": "cinemaDelayMs4",
+        "value": 2.56005859375
+      },
+      {
+        "id": "processMode4",
+        "value": 0
+      },
+      {
+        "id": "firLength4",
+        "value": 1
+      },
+      {
+        "id": "allPass4",
+        "value": 0
+      },
+      {
+        "id": "fractionalDelayMode4",
+        "value": 0
+      },
+      {
+        "id": "apFreq4",
+        "value": 1000
+      },
+      {
+        "id": "apQ4",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn4",
+        "value": 1
+      },
+      {
+        "id": "hpHz4",
+        "value": 203.8000030517578
+      },
+      {
+        "id": "lpOn4",
+        "value": 1
+      },
+      {
+        "id": "lpHz4",
+        "value": 12193.2001953125
+      },
+      {
+        "id": "protectorOn4",
+        "value": 1
+      },
+      {
+        "id": "emergencyMute4",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz4",
+        "value": 170
+      },
+      {
+        "id": "safetyMaxHz4",
+        "value": 15894
+      },
+      {
+        "id": "tripHoldMs4",
+        "value": 47
+      },
+      {
+        "id": "source5",
+        "value": 6
+      },
+      {
+        "id": "cinemaRole5",
+        "value": 6
+      },
+      {
+        "id": "filterType5",
+        "value": 2
+      },
+      {
+        "id": "gainDb5",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb5",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb5",
+        "value": 0
+      },
+      {
+        "id": "mute5",
+        "value": 0
+      },
+      {
+        "id": "solo5",
+        "value": 0
+      },
+      {
+        "id": "polarity5",
+        "value": 0
+      },
+      {
+        "id": "delayMs5",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs5",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs5",
+        "value": 1.32806396484375
+      },
+      {
+        "id": "processMode5",
+        "value": 0
+      },
+      {
+        "id": "firLength5",
+        "value": 1
+      },
+      {
+        "id": "allPass5",
+        "value": 1
+      },
+      {
+        "id": "fractionalDelayMode5",
+        "value": 0
+      },
+      {
+        "id": "apFreq5",
+        "value": 1000
+      },
+      {
+        "id": "apQ5",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn5",
+        "value": 1
+      },
+      {
+        "id": "hpHz5",
+        "value": 80.0999984741211
+      },
+      {
+        "id": "lpOn5",
+        "value": 1
+      },
+      {
+        "id": "lpHz5",
+        "value": 2040.5999755859375
+      },
+      {
+        "id": "protectorOn5",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute5",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz5",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz5",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs5",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source6",
+        "value": 7
+      },
+      {
+        "id": "cinemaRole6",
+        "value": 7
+      },
+      {
+        "id": "filterType6",
+        "value": 2
+      },
+      {
+        "id": "gainDb6",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb6",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb6",
+        "value": 0
+      },
+      {
+        "id": "mute6",
+        "value": 0
+      },
+      {
+        "id": "solo6",
+        "value": 0
+      },
+      {
+        "id": "polarity6",
+        "value": 0
+      },
+      {
+        "id": "delayMs6",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs6",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs6",
+        "value": 1.32806396484375
+      },
+      {
+        "id": "processMode6",
+        "value": 0
+      },
+      {
+        "id": "firLength6",
+        "value": 1
+      },
+      {
+        "id": "allPass6",
+        "value": 1
+      },
+      {
+        "id": "fractionalDelayMode6",
+        "value": 2
+      },
+      {
+        "id": "apFreq6",
+        "value": 1000
+      },
+      {
+        "id": "apQ6",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn6",
+        "value": 1
+      },
+      {
+        "id": "hpHz6",
+        "value": 775.6000366210938
+      },
+      {
+        "id": "lpOn6",
+        "value": 1
+      },
+      {
+        "id": "lpHz6",
+        "value": 8604.7001953125
+      },
+      {
+        "id": "protectorOn6",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute6",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz6",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz6",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs6",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source7",
+        "value": 8
+      },
+      {
+        "id": "cinemaRole7",
+        "value": 8
+      },
+      {
+        "id": "filterType7",
+        "value": 2
+      },
+      {
+        "id": "gainDb7",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb7",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb7",
+        "value": 0
+      },
+      {
+        "id": "mute7",
+        "value": 0
+      },
+      {
+        "id": "solo7",
+        "value": 0
+      },
+      {
+        "id": "polarity7",
+        "value": 0
+      },
+      {
+        "id": "delayMs7",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs7",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs7",
+        "value": 1.32806396484375
+      },
+      {
+        "id": "processMode7",
+        "value": 0
+      },
+      {
+        "id": "firLength7",
+        "value": 1
+      },
+      {
+        "id": "allPass7",
+        "value": 1
+      },
+      {
+        "id": "fractionalDelayMode7",
+        "value": 3
+      },
+      {
+        "id": "apFreq7",
+        "value": 1000
+      },
+      {
+        "id": "apQ7",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn7",
+        "value": 1
+      },
+      {
+        "id": "hpHz7",
+        "value": 3417.199951171875
+      },
+      {
+        "id": "lpOn7",
+        "value": 0
+      },
+      {
+        "id": "lpHz7",
+        "value": 24101.80078125
+      },
+      {
+        "id": "protectorOn7",
+        "value": 1
+      },
+      {
+        "id": "emergencyMute7",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz7",
+        "value": 3095
+      },
+      {
+        "id": "safetyMaxHz7",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs7",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source8",
+        "value": 16
+      },
+      {
+        "id": "cinemaRole8",
+        "value": 16
+      },
+      {
+        "id": "filterType8",
+        "value": 4
+      },
+      {
+        "id": "gainDb8",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb8",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb8",
+        "value": 0
+      },
+      {
+        "id": "mute8",
+        "value": 0
+      },
+      {
+        "id": "solo8",
+        "value": 0
+      },
+      {
+        "id": "polarity8",
+        "value": 0
+      },
+      {
+        "id": "delayMs8",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs8",
+        "value": 3.280029296875
+      },
+      {
+        "id": "cinemaDelayMs8",
+        "value": 3.008056640625
+      },
+      {
+        "id": "processMode8",
+        "value": 1
+      },
+      {
+        "id": "firLength8",
+        "value": 1
+      },
+      {
+        "id": "allPass8",
+        "value": 1
+      },
+      {
+        "id": "fractionalDelayMode8",
+        "value": 0
+      },
+      {
+        "id": "apFreq8",
+        "value": 110.4000015258789
+      },
+      {
+        "id": "apQ8",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn8",
+        "value": 0
+      },
+      {
+        "id": "hpHz8",
+        "value": 2
+      },
+      {
+        "id": "lpOn8",
+        "value": 1
+      },
+      {
+        "id": "lpHz8",
+        "value": 119.5
+      },
+      {
+        "id": "protectorOn8",
+        "value": 1
+      },
+      {
+        "id": "emergencyMute8",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz8",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz8",
+        "value": 140
+      },
+      {
+        "id": "tripHoldMs8",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source9",
+        "value": 0
+      },
+      {
+        "id": "cinemaRole9",
+        "value": 0
+      },
+      {
+        "id": "filterType9",
+        "value": 2
+      },
+      {
+        "id": "gainDb9",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb9",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb9",
+        "value": 0
+      },
+      {
+        "id": "mute9",
+        "value": 0
+      },
+      {
+        "id": "solo9",
+        "value": 0
+      },
+      {
+        "id": "polarity9",
+        "value": 0
+      },
+      {
+        "id": "delayMs9",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs9",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs9",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "processMode9",
+        "value": 0
+      },
+      {
+        "id": "firLength9",
+        "value": 1
+      },
+      {
+        "id": "allPass9",
+        "value": 0
+      },
+      {
+        "id": "fractionalDelayMode9",
+        "value": 0
+      },
+      {
+        "id": "apFreq9",
+        "value": 1000
+      },
+      {
+        "id": "apQ9",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn9",
+        "value": 0
+      },
+      {
+        "id": "hpHz9",
+        "value": 80
+      },
+      {
+        "id": "lpOn9",
+        "value": 0
+      },
+      {
+        "id": "lpHz9",
+        "value": 20000
+      },
+      {
+        "id": "protectorOn9",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute9",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz9",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz9",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs9",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source10",
+        "value": 12
+      },
+      {
+        "id": "cinemaRole10",
+        "value": 12
+      },
+      {
+        "id": "filterType10",
+        "value": 2
+      },
+      {
+        "id": "gainDb10",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb10",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb10",
+        "value": 0
+      },
+      {
+        "id": "mute10",
+        "value": 0
+      },
+      {
+        "id": "solo10",
+        "value": 0
+      },
+      {
+        "id": "polarity10",
+        "value": 0
+      },
+      {
+        "id": "delayMs10",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs10",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs10",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "processMode10",
+        "value": 0
+      },
+      {
+        "id": "firLength10",
+        "value": 1
+      },
+      {
+        "id": "allPass10",
+        "value": 0
+      },
+      {
+        "id": "fractionalDelayMode10",
+        "value": 0
+      },
+      {
+        "id": "apFreq10",
+        "value": 1000
+      },
+      {
+        "id": "apQ10",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn10",
+        "value": 0
+      },
+      {
+        "id": "hpHz10",
+        "value": 80
+      },
+      {
+        "id": "lpOn10",
+        "value": 0
+      },
+      {
+        "id": "lpHz10",
+        "value": 20000
+      },
+      {
+        "id": "protectorOn10",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute10",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz10",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz10",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs10",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source11",
+        "value": 0
+      },
+      {
+        "id": "cinemaRole11",
+        "value": 0
+      },
+      {
+        "id": "filterType11",
+        "value": 2
+      },
+      {
+        "id": "gainDb11",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb11",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb11",
+        "value": 0
+      },
+      {
+        "id": "mute11",
+        "value": 0
+      },
+      {
+        "id": "solo11",
+        "value": 0
+      },
+      {
+        "id": "polarity11",
+        "value": 0
+      },
+      {
+        "id": "delayMs11",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs11",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs11",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "processMode11",
+        "value": 0
+      },
+      {
+        "id": "firLength11",
+        "value": 1
+      },
+      {
+        "id": "allPass11",
+        "value": 0
+      },
+      {
+        "id": "fractionalDelayMode11",
+        "value": 0
+      },
+      {
+        "id": "apFreq11",
+        "value": 80
+      },
+      {
+        "id": "apQ11",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn11",
+        "value": 0
+      },
+      {
+        "id": "hpHz11",
+        "value": 20
+      },
+      {
+        "id": "lpOn11",
+        "value": 0
+      },
+      {
+        "id": "lpHz11",
+        "value": 200
+      },
+      {
+        "id": "protectorOn11",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute11",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz11",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz11",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs11",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source12",
+        "value": 17
+      },
+      {
+        "id": "cinemaRole12",
+        "value": 17
+      },
+      {
+        "id": "filterType12",
+        "value": 2
+      },
+      {
+        "id": "gainDb12",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb12",
+        "value": -12.099998474121094
+      },
+      {
+        "id": "cinemaGainDb12",
+        "value": 0
+      },
+      {
+        "id": "mute12",
+        "value": 0
+      },
+      {
+        "id": "solo12",
+        "value": 0
+      },
+      {
+        "id": "polarity12",
+        "value": 0
+      },
+      {
+        "id": "delayMs12",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs12",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs12",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "processMode12",
+        "value": 1
+      },
+      {
+        "id": "firLength12",
+        "value": 1
+      },
+      {
+        "id": "allPass12",
+        "value": 1
+      },
+      {
+        "id": "fractionalDelayMode12",
+        "value": 0
+      },
+      {
+        "id": "apFreq12",
+        "value": 111.5999984741211
+      },
+      {
+        "id": "apQ12",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn12",
+        "value": 1
+      },
+      {
+        "id": "hpHz12",
+        "value": 81
+      },
+      {
+        "id": "lpOn12",
+        "value": 1
+      },
+      {
+        "id": "lpHz12",
+        "value": 600.4000244140625
+      },
+      {
+        "id": "protectorOn12",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute12",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz12",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz12",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs12",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source13",
+        "value": 0
+      },
+      {
+        "id": "cinemaRole13",
+        "value": 20
+      },
+      {
+        "id": "filterType13",
+        "value": 2
+      },
+      {
+        "id": "gainDb13",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb13",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb13",
+        "value": 0
+      },
+      {
+        "id": "mute13",
+        "value": 0
+      },
+      {
+        "id": "solo13",
+        "value": 0
+      },
+      {
+        "id": "polarity13",
+        "value": 0
+      },
+      {
+        "id": "delayMs13",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs13",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs13",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "processMode13",
+        "value": 0
+      },
+      {
+        "id": "firLength13",
+        "value": 1
+      },
+      {
+        "id": "allPass13",
+        "value": 0
+      },
+      {
+        "id": "fractionalDelayMode13",
+        "value": 0
+      },
+      {
+        "id": "apFreq13",
+        "value": 1000
+      },
+      {
+        "id": "apQ13",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn13",
+        "value": 0
+      },
+      {
+        "id": "hpHz13",
+        "value": 80
+      },
+      {
+        "id": "lpOn13",
+        "value": 0
+      },
+      {
+        "id": "lpHz13",
+        "value": 20000
+      },
+      {
+        "id": "protectorOn13",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute13",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz13",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz13",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs13",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source14",
+        "value": 0
+      },
+      {
+        "id": "cinemaRole14",
+        "value": 21
+      },
+      {
+        "id": "filterType14",
+        "value": 2
+      },
+      {
+        "id": "gainDb14",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb14",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb14",
+        "value": 0
+      },
+      {
+        "id": "mute14",
+        "value": 0
+      },
+      {
+        "id": "solo14",
+        "value": 0
+      },
+      {
+        "id": "polarity14",
+        "value": 0
+      },
+      {
+        "id": "delayMs14",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs14",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs14",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "processMode14",
+        "value": 0
+      },
+      {
+        "id": "firLength14",
+        "value": 1
+      },
+      {
+        "id": "allPass14",
+        "value": 0
+      },
+      {
+        "id": "fractionalDelayMode14",
+        "value": 0
+      },
+      {
+        "id": "apFreq14",
+        "value": 1000
+      },
+      {
+        "id": "apQ14",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn14",
+        "value": 0
+      },
+      {
+        "id": "hpHz14",
+        "value": 80
+      },
+      {
+        "id": "lpOn14",
+        "value": 0
+      },
+      {
+        "id": "lpHz14",
+        "value": 20000
+      },
+      {
+        "id": "protectorOn14",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute14",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz14",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz14",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs14",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source15",
+        "value": 0
+      },
+      {
+        "id": "cinemaRole15",
+        "value": 0
+      },
+      {
+        "id": "filterType15",
+        "value": 2
+      },
+      {
+        "id": "gainDb15",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb15",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb15",
+        "value": 0
+      },
+      {
+        "id": "mute15",
+        "value": 0
+      },
+      {
+        "id": "solo15",
+        "value": 0
+      },
+      {
+        "id": "polarity15",
+        "value": 0
+      },
+      {
+        "id": "delayMs15",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs15",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs15",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "processMode15",
+        "value": 0
+      },
+      {
+        "id": "firLength15",
+        "value": 1
+      },
+      {
+        "id": "allPass15",
+        "value": 0
+      },
+      {
+        "id": "fractionalDelayMode15",
+        "value": 0
+      },
+      {
+        "id": "apFreq15",
+        "value": 1000
+      },
+      {
+        "id": "apQ15",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn15",
+        "value": 0
+      },
+      {
+        "id": "hpHz15",
+        "value": 80
+      },
+      {
+        "id": "lpOn15",
+        "value": 0
+      },
+      {
+        "id": "lpHz15",
+        "value": 20000
+      },
+      {
+        "id": "protectorOn15",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute15",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz15",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz15",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs15",
+        "value": 49.999996185302734
+      },
+      {
+        "id": "source16",
+        "value": 0
+      },
+      {
+        "id": "cinemaRole16",
+        "value": 0
+      },
+      {
+        "id": "filterType16",
+        "value": 2
+      },
+      {
+        "id": "gainDb16",
+        "value": 0
+      },
+      {
+        "id": "musicGainDb16",
+        "value": 0
+      },
+      {
+        "id": "cinemaGainDb16",
+        "value": 0
+      },
+      {
+        "id": "mute16",
+        "value": 0
+      },
+      {
+        "id": "solo16",
+        "value": 0
+      },
+      {
+        "id": "polarity16",
+        "value": 0
+      },
+      {
+        "id": "delayMs16",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "musicDelayMs16",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "cinemaDelayMs16",
+        "value": 6.103515625e-05
+      },
+      {
+        "id": "processMode16",
+        "value": 0
+      },
+      {
+        "id": "firLength16",
+        "value": 1
+      },
+      {
+        "id": "allPass16",
+        "value": 0
+      },
+      {
+        "id": "fractionalDelayMode16",
+        "value": 0
+      },
+      {
+        "id": "apFreq16",
+        "value": 1000
+      },
+      {
+        "id": "apQ16",
+        "value": 0.7099999785423279
+      },
+      {
+        "id": "hpOn16",
+        "value": 0
+      },
+      {
+        "id": "hpHz16",
+        "value": 80
+      },
+      {
+        "id": "lpOn16",
+        "value": 0
+      },
+      {
+        "id": "lpHz16",
+        "value": 20000
+      },
+      {
+        "id": "protectorOn16",
+        "value": 0
+      },
+      {
+        "id": "emergencyMute16",
+        "value": 0
+      },
+      {
+        "id": "safetyMinHz16",
+        "value": 2
+      },
+      {
+        "id": "safetyMaxHz16",
+        "value": 96000
+      },
+      {
+        "id": "tripHoldMs16",
+        "value": 49.999996185302734
+      }
+    ],
+    "pid": 4268,
+    "preparationCache": {
+      "builds": "2",
+      "finite": true,
+      "hits": "1"
+    },
+    "profileError": "",
+    "profilePath": "C:/Users/bobi/Documents/entropy.entropy",
+    "profileRequired": false,
+    "program": 0,
+    "protectionEnabled": 204,
+    "protectionState": [
+      1,
+      1,
+      0,
+      0,
+      1,
+      1,
+      0,
+      0,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "protectionTripped": 0,
+    "protectionWarning": 0,
+    "scheduler": {
+      "callbackWallDeadlineMisses": "0",
+      "callbackWallUs": 1178.1,
+      "faults": 0,
+      "maximumCallbackWallUs": 2970.6,
+      "maximumInputIntervalUs": 7418.8,
+      "maximumSchedulerLatenessUs": 1660.4,
+      "schedulerLatenessUs": 495.6
+    },
+    "selectedProgram": 0,
+    "version": "0.1.9-v2",
+    "view": {
+      "responseAvailable": false,
+      "spectrumAvailable": false,
+      "state": "INCOMPATIBLE CLIENT",
+      "version": 2
+    }
+  },
+  "ok": true,
+  "session": "218792268"
+}

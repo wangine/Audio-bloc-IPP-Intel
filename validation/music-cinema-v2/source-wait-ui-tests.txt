@@ -1,0 +1,1 @@
+PASS Music3/Cinema6/8 presentation, absent/legacy telemetry, retained fault, manual ARM and source wait presentation

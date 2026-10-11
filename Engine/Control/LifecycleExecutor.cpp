@@ -41,10 +41,16 @@ bool LifecycleExecutor::activate(uint64_t g,const std::function<bool()>& start){
  std::lock_guard lock(activationMutex_);if(!current(g))return false;return start();
 }
 void LifecycleExecutor::stateIfCurrent(uint64_t g,State state){std::lock_guard lock(activationMutex_);if(current(g))state_=state;}
+void LifecycleExecutor::disarmAfterFault(){
+ uint64_t faultGeneration;
+ {std::lock_guard activation(activationMutex_);faultGeneration=++generation_;closeGate_();state_=State::Stopping;}
+ handler_(J::Object{{"action","disarm"}},faultGeneration);
+ stateIfCurrent(faultGeneration,State::Disarmed);
+}
 const char* LifecycleExecutor::stateText() const noexcept {
  switch(state_.load()){
  case State::Accepted:return "ACCEPTED";case State::Preparing:return "PREPARING";case State::Arming:return "ARMING";
- case State::Running:return "RUNNING";case State::Stopping:return "STOPPING";case State::Fault:return "FAULT";default:return "DISARMED";}
+ case State::Running:return "RUNNING";case State::Stopping:return "STOPPING";case State::Fault:return "FAULT";case State::WaitingInput:return "WAITING_INPUT";default:return "DISARMED";}
 }
 void LifecycleExecutor::run(){
  const auto com=CoInitializeEx(nullptr,COINIT_MULTITHREADED);
@@ -75,10 +81,7 @@ void LifecycleExecutor::run(){
   // generations and finish closing the owners; their original fault record
   // remains available until a subsequent explicit ARM prepares a new session.
   try{if(faultProbe_&&faultProbe_()){
-   uint64_t faultGeneration;
-   {std::lock_guard activation(activationMutex_);faultGeneration=++generation_;closeGate_();state_=State::Stopping;}
-   handler_(J::Object{{"action","disarm"}},faultGeneration);
-   stateIfCurrent(faultGeneration,State::Disarmed);
+   disarmAfterFault();
   }}catch(...){state_=State::Fault;}
  }
  if(finalize_)finalize_();

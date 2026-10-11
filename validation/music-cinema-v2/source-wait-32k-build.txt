@@ -1,0 +1,8 @@
+cmd.exe : CMake Warning (dev) at 
+local/stage04-ref/Stage3/native-reference/dependencies/SRC/SoXR/src/soxr/src/CMakeLists.txt:79 (add_library):
+At D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\tools\Build-MusicCinema.ps1:28 char:1
++ & cmd.exe /d /c ('"'+$runner+'"') *> $log
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (CMake Warning (... (add_library)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 

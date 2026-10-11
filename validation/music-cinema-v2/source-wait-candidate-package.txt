@@ -1,0 +1,2 @@
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\release\0.1.9-v2-r2\EntropyAudioCore-0.1.9-v2-r2-32k-win-x64
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\release\0.1.9-v2-r2\EntropyAudioCore-0.1.9-v2-r2-64k-win-x64

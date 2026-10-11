@@ -14,10 +14,10 @@ struct DomainIngress::Impl {
  mutable std::atomic_flag guard=ATOMIC_FLAG_INIT;
  std::atomic<bool> stopping{false},reconnect{false},demand{false};
  std::atomic<State> state{State::Disabled};
- DomainTelemetry stats{};bool latched=false;uint64_t lastEpoch=0,lastGeneration=0,lastMusicRevision=0,lastAuxGeneration=0;
+ DomainTelemetry stats{};uint64_t lastEpoch=0,lastGeneration=0,lastMusicRevision=0,lastAuxGeneration=0;
  void lock() noexcept {while(guard.test_and_set(std::memory_order_acquire))std::this_thread::yield();}
  void unlock() noexcept {guard.clear(std::memory_order_release);}
- void fail(bool gap) noexcept {lock();++stats.faults;if(gap)++stats.gaps;++stats.generation;size=0;latched=demand.load();state=State::Fault;unlock();}
+ void fail(bool gap) noexcept {lock();++stats.faults;if(gap)++stats.gaps;++stats.generation;size=0;state=State::Fault;unlock();}
  void run(std::wstring endpoint) noexcept {
   control::HighResolutionWait wait;DWORD task=0;HANDLE mmcss=AvSetMmThreadCharacteristicsW(L"Pro Audio",&task);
   if(!wait.valid()||!mmcss||!AvSetMmThreadPriority(mmcss,AVRT_PRIORITY_CRITICAL)){
@@ -25,8 +25,9 @@ struct DomainIngress::Impl {
   }
   publish::Subscriber subscriber;bool connected=false;uint64_t nextConnect=0,lastReceive=0,previousReceiveQpc=0;std::string error;
   while(!stopping.load()){
-   if(reconnect.exchange(false)){subscriber.close();connected=false;lock();size=0;latched=false;++stats.generation;state=State::Waiting;unlock();nextConnect=0;}
-   if(latched){Sleep(1);continue;}
+   if(reconnect.exchange(false)){subscriber.close();connected=false;lock();size=0;++stats.generation;state=State::Waiting;unlock();nextConnect=0;}
+   // A fault retires this local subscription, not the independent input
+   // worker. Retry with normal session/PCM validation and retain counters.
    if(!connected){if(GetTickCount64()<nextConnect){Sleep(1);continue;}
     connected=subscriber.connect(endpoint,error);nextConnect=GetTickCount64()+100;
     if(connected&&!validateSessionForDomain(subscriber.session(),domain)){subscriber.close();connected=false;fail(false);continue;}
@@ -60,7 +61,7 @@ struct DomainIngress::Impl {
 };
 DomainIngress::DomainIngress():impl_(std::make_unique<Impl>()){}
 DomainIngress::~DomainIngress(){stop();}
-bool DomainIngress::start(Domain d,std::wstring endpoint){auto& i=*impl_;if(i.worker.joinable()||!localEndpoint(endpoint))return false;i.domain=d;i.stopping=false;i.reconnect=false;i.latched=false;i.state=State::Waiting;i.worker=std::thread([&i,endpoint=std::move(endpoint)]{i.run(endpoint);});return true;}
+bool DomainIngress::start(Domain d,std::wstring endpoint){auto& i=*impl_;if(i.worker.joinable()||!localEndpoint(endpoint))return false;i.domain=d;i.stopping=false;i.reconnect=false;i.state=State::Waiting;i.worker=std::thread([&i,endpoint=std::move(endpoint)]{i.run(endpoint);});return true;}
 void DomainIngress::stop() noexcept {auto& i=*impl_;i.stopping=true;if(i.worker.joinable())i.worker.join();i.lock();i.size=0;i.state=State::Disabled;i.unlock();}
 void DomainIngress::restart() noexcept {impl_->reconnect=true;}
 void DomainIngress::required(bool required) noexcept {impl_->demand=required;}

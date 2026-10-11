@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\tools\Finalize-Stage3SourceWait.py", line 3, in <module>
+    ROOT=pathlib.Path(__file__).resolve().parents[1]
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 1205, in resolve
+    s = self._flavour.resolve(self, strict=strict)
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 206, in resolve
+    s = self._ext_to_normal(_getfinalpathname(s))
+PermissionError: [WinError 5] Access is denied: 'D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\tools\\Finalize-Stage3SourceWait.py'

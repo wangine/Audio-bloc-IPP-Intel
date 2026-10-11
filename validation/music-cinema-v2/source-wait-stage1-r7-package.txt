@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Stage1-v0003\tools\package_v0003.py", line 47, in <module>
+    out.mkdir()
+  File "C:\Users\bobi\AppData\Local\Programs\Python\Python39\lib\pathlib.py", line 1313, in mkdir
+    self._accessor.mkdir(self, mode)
+FileNotFoundError: [WinError 3] The system cannot find the path specified: 'D:\\Projects\\3Stage-3\\Stage1-v0003\\delivery\\r7-verified-local'
+Stage1 v0003 package failed
+At D:\Projects\3Stage-3\Stage1-v0003\tools\Package-Stage1Music.ps1:11 char:19
++ if($LASTEXITCODE){throw 'Stage1 v0003 package failed'}
++                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Stage1 v0003 package failed:String) [], RuntimeException
+    + FullyQualifiedErrorId : Stage1 v0003 package failed
+ 

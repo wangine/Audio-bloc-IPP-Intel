@@ -1,0 +1,132 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-music-cinema-65536
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-music-cinema-65536
+      Start  1: EntropyStage04HardwareGate
+ 1/57 Test  #1: EntropyStage04HardwareGate ................   Passed    0.06 sec
+      Start  2: EntropyStage04Offline
+ 2/57 Test  #2: EntropyStage04Offline .....................***Failed    1.43 sec
+A02_IMPORT_MODULE name=EntropyStage04Validation.exe hooks=8
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_IMPORT_MODULE name=bcrypt.dll hooks=7
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_HOST_CPP_AUDIT blocks=1 control_new=1 control_delete=1 control_nonzero_blocks=1 audio_new=1 audio_delete=1 audio_nonzero_blocks=1 coverage=host_cpp_operators
+A02_WINDOWS_IMPORT_AUDIT hooks=32 heap_alloc_calls=3 heap_free_calls=3 wait_calls=1 lock_calls=1 io_calls=1 coverage=loaded_named_imports_excludes_dynamic_resolution_syscalls_and_new_images
+FAIL Stage04: unsafe PCM rejected before converter
+
+      Start  3: EntropyStage04ClockDrift
+ 3/57 Test  #3: EntropyStage04ClockDrift ..................   Passed    1.98 sec
+      Start  4: EntropyStage04SchedulerProbe
+ 4/57 Test  #4: EntropyStage04SchedulerProbe ..............   Passed    0.04 sec
+      Start  5: EntropyMusicCinemaTimeline
+ 5/57 Test  #5: EntropyMusicCinemaTimeline ................   Passed    2.33 sec
+      Start  6: EntropyMusicCinemaFaultRecovery
+ 6/57 Test  #6: EntropyMusicCinemaFaultRecovery ...........   Passed    0.74 sec
+      Start  7: EntropyMusicCinemaSourceWait
+ 7/57 Test  #7: EntropyMusicCinemaSourceWait ..............   Passed    1.62 sec
+      Start  8: EntropyMusicCinemaSourceWaitProvenance
+ 8/57 Test  #8: EntropyMusicCinemaSourceWaitProvenance ....   Passed    0.06 sec
+      Start  9: EntropyMusicCinemaSourceWaitLateFatal
+ 9/57 Test  #9: EntropyMusicCinemaSourceWaitLateFatal .....   Passed    0.09 sec
+      Start 10: EntropyMusicCinemaSourceWaitRearmAbsent
+10/57 Test #10: EntropyMusicCinemaSourceWaitRearmAbsent ...   Passed    0.05 sec
+      Start 11: EntropyMusicCinemaGraph
+11/57 Test #11: EntropyMusicCinemaGraph ...................   Passed    1.86 sec
+      Start 12: EntropyMusicCinemaPassive
+12/57 Test #12: EntropyMusicCinemaPassive .................   Passed    1.10 sec
+      Start 13: EntropyMusicCinemaRuntime
+13/57 Test #13: EntropyMusicCinemaRuntime .................   Passed    3.52 sec
+      Start 14: EntropyMusicCinemaSelector
+14/57 Test #14: EntropyMusicCinemaSelector ................   Passed    0.03 sec
+      Start 15: EntropyMusicCinemaIngress
+15/57 Test #15: EntropyMusicCinemaIngress .................   Passed    4.99 sec
+      Start 16: EntropyMusicCinemaContract
+16/57 Test #16: EntropyMusicCinemaContract ................   Passed    0.04 sec
+      Start 17: EntropyStage019Egress
+17/57 Test #17: EntropyStage019Egress .....................   Passed    0.61 sec
+      Start 18: EntropyStage018View
+18/57 Test #18: EntropyStage018View .......................   Passed    0.25 sec
+      Start 19: EntropyStage017Preparation
+19/57 Test #19: EntropyStage017Preparation ................   Passed    0.42 sec
+      Start 20: EntropyStage017Transport
+20/57 Test #20: EntropyStage017Transport ..................   Passed    0.06 sec
+      Start 21: EntropyStage017Lifecycle
+21/57 Test #21: EntropyStage017Lifecycle ..................   Passed    0.74 sec
+      Start 22: EntropyStage017Control
+22/57 Test #22: EntropyStage017Control ....................   Passed    0.38 sec
+      Start 23: EntropyStage014Pcm24
+23/57 Test #23: EntropyStage014Pcm24 ......................   Passed    0.36 sec
+      Start 24: EntropyStage012HeadroomMask
+24/57 Test #24: EntropyStage012HeadroomMask ...............   Passed    0.52 sec
+      Start 25: EntropyStagePublishV2
+25/57 Test #25: EntropyStagePublishV2 .....................   Passed    0.75 sec
+      Start 26: EntropyConsoleShutdown
+26/57 Test #26: EntropyConsoleShutdown ....................   Passed    0.06 sec
+      Start 27: EntropyStage07Live
+27/57 Test #27: EntropyStage07Live ........................   Passed    4.32 sec
+      Start 28: EntropyStage07ProfilePreflight
+28/57 Test #28: EntropyStage07ProfilePreflight ............   Passed   25.11 sec
+      Start 29: EntropyStage016ProgramSwitch
+29/57 Test #29: EntropyStage016ProgramSwitch ..............   Passed   10.74 sec
+      Start 30: EntropyStage07LiveAuthorization
+30/57 Test #30: EntropyStage07LiveAuthorization ...........   Passed    3.89 sec
+      Start 31: EntropyStage06Input
+31/57 Test #31: EntropyStage06Input .......................   Passed    4.10 sec
+      Start 32: EntropyStage06Integration
+32/57 Test #32: EntropyStage06Integration .................   Passed    1.14 sec
+      Start 33: EntropyStage06ProfileStartup
+33/57 Test #33: EntropyStage06ProfileStartup ..............   Passed    1.07 sec
+      Start 34: EntropyStage010Starvation
+34/57 Test #34: EntropyStage010Starvation .................   Passed    0.61 sec
+      Start 35: EntropyStage05IpcIntegration
+35/57 Test #35: EntropyStage05IpcIntegration ..............   Passed    1.36 sec
+      Start 36: EntropyStage013Crossover
+36/57 Test #36: EntropyStage013Crossover ..................   Passed    1.40 sec
+      Start 37: EntropyStage05Validation
+37/57 Test #37: EntropyStage05Validation ..................   Passed    2.90 sec
+      Start 38: EntropyStage05Boundary
+38/57 Test #38: EntropyStage05Boundary ....................   Passed    0.21 sec
+      Start 39: EntropyStage05Control
+39/57 Test #39: EntropyStage05Control .....................   Passed    0.46 sec
+      Start 40: EntropyStage05Protocol
+40/57 Test #40: EntropyStage05Protocol ....................   Passed    0.02 sec
+      Start 41: EntropyStage05Transport
+41/57 Test #41: EntropyStage05Transport ...................   Passed   11.27 sec
+      Start 42: EntropyThiranDelay
+42/57 Test #42: EntropyThiranDelay ........................   Passed    0.10 sec
+      Start 43: EntropyThiranValidation
+43/57 Test #43: EntropyThiranValidation ...................   Passed    2.28 sec
+      Start 44: EntropyStage04Fifo
+44/57 Test #44: EntropyStage04Fifo ........................   Passed    0.03 sec
+      Start 45: EntropyStage04Policy
+45/57 Test #45: EntropyStage04Policy ......................   Passed    0.08 sec
+      Start 46: EntropyStage03Reset
+46/57 Test #46: EntropyStage03Reset .......................   Passed    0.11 sec
+      Start 47: EntropyOfflineConfig
+47/57 Test #47: EntropyOfflineConfig ......................   Passed    0.06 sec
+      Start 48: EntropyGraphSmoke
+48/57 Test #48: EntropyGraphSmoke .........................   Passed    0.06 sec
+      Start 49: EntropyMatrixUnit
+49/57 Test #49: EntropyMatrixUnit .........................   Passed    0.02 sec
+      Start 50: EntropyMatrixNoAlloc
+50/57 Test #50: EntropyMatrixNoAlloc ......................   Passed    0.02 sec
+      Start 51: EntropyHeadroomUnit
+51/57 Test #51: EntropyHeadroomUnit .......................   Passed    0.22 sec
+      Start 52: EntropyHeadroomNoAlloc
+52/57 Test #52: EntropyHeadroomNoAlloc ....................   Passed    0.11 sec
+      Start 53: EntropyPcm24Unit
+53/57 Test #53: EntropyPcm24Unit ..........................   Passed    0.03 sec
+      Start 54: EntropyPcm24EngineUnit
+54/57 Test #54: EntropyPcm24EngineUnit ....................   Passed    0.02 sec
+      Start 55: EntropyIppFirUnit
+55/57 Test #55: EntropyIppFirUnit .........................   Passed    0.21 sec
+      Start 56: EntropyNativeStateUnit
+56/57 Test #56: EntropyNativeStateUnit ....................   Passed    0.06 sec
+      Start 57: EntropyAudioCoreProbe
+57/57 Test #57: EntropyAudioCoreProbe .....................   Passed    0.06 sec
+
+98% tests passed, 1 tests failed out of 57
+
+Total Test time (real) =  96.24 sec
+
+The following tests FAILED:
+	  2 - EntropyStage04Offline (Failed)
+Errors while running CTest

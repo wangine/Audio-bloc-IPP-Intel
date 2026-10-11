@@ -1,0 +1,30 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-music-cinema-65536
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-music-cinema-65536
+      Start  5: EntropyMusicCinemaTimeline
+ 1/13 Test  #5: EntropyMusicCinemaTimeline ........***Failed    3.23 sec
+FAIL MUSIC running
+
+      Start  6: EntropyMusicCinemaFaultRecovery
+ 2/13 Test  #6: EntropyMusicCinemaFaultRecovery ...   Passed    0.73 sec
+      Start  7: EntropyMusicCinemaSourceWait
+ 3/13 Test  #7: EntropyMusicCinemaSourceWait ......***Failed    3.23 sec
+FAIL initial playback
+
+      Start  8: EntropyMusicCinemaGraph
+ 4/13 Test  #8: EntropyMusicCinemaGraph ...........***Failed  360.95 sec
+A02_IMPORT_MODULE name=EntropyMusicCinemaGraph.exe hooks=10
+A02_IMPORT_MODULE name=apphelp.dll hooks=7
+A02_IMPORT_MODULE name=ole32.dll hooks=10
+A02_IMPORT_MODULE name=msvcp_win.dll hooks=3
+A02_IMPORT_MODULE name=ucrtbase.dll hooks=8
+A02_IMPORT_MODULE name=GDI32.dll hooks=1
+A02_IMPORT_MODULE name=gdi32full.dll hooks=10
+A02_IMPORT_MODULE name=USER32.dll hooks=11
+A02_IMPORT_MODULE name=combase.dll hooks=11
+A02_IMPORT_MODULE name=RPCRT4.dll hooks=9
+A02_IMPORT_MODULE name=ADVAPI32.dll hooks=10
+A02_IMPORT_MODULE name=msvcrt.dll hooks=8
+A02_IMPORT_MODULE name=sechost.dll hooks=10
+A02_IMPORT_MODULE name=IMM32.DLL hooks=3
+
+      Start  9: EntropyMusicCinemaPassive

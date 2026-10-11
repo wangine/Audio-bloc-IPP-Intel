@@ -1,0 +1,15 @@
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Configuring done (0.9s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/qt-music-cinema
+[1/11] Building CXX object CMakeFiles/entropy_ui.dir/Legacy/RenderOverview.cpp.obj
+[2/11] Building CXX object CMakeFiles/entropy_ui.dir/Legacy/R10/DeviceManagerPage.cpp.obj
+[3/11] Building CXX object CMakeFiles/entropy_ui.dir/Legacy/RenderWindow.cpp.obj
+[4/11] Linking CXX static library libentropy_ui.a
+[5/11] Linking CXX executable EntropyStage07Ui.exe
+[6/11] Linking CXX executable EntropyUI.exe
+[7/11] Linking CXX executable EntropyStage06Ui.exe
+[8/11] Linking CXX executable EntropyStage05Ui.exe
+[9/11] Linking CXX executable EntropyStage07IpcTimeout.exe
+[10/11] Linking CXX executable EntropyStage017Ui.exe
+[11/11] Linking CXX executable EntropyStage07DeviceInventory.exe

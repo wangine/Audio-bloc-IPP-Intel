@@ -1,0 +1,32 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-music-cinema-65536
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-music-cinema-65536
+      Start  5: EntropyMusicCinemaTimeline
+ 1/13 Test  #5: EntropyMusicCinemaTimeline ........   Passed    2.27 sec
+      Start  6: EntropyMusicCinemaFaultRecovery
+ 2/13 Test  #6: EntropyMusicCinemaFaultRecovery ...   Passed    0.69 sec
+      Start  7: EntropyMusicCinemaSourceWait
+ 3/13 Test  #7: EntropyMusicCinemaSourceWait ......   Passed    1.57 sec
+      Start  8: EntropyMusicCinemaGraph
+ 4/13 Test  #8: EntropyMusicCinemaGraph ...........   Passed    1.78 sec
+      Start  9: EntropyMusicCinemaPassive
+ 5/13 Test  #9: EntropyMusicCinemaPassive .........   Passed    1.12 sec
+      Start 10: EntropyMusicCinemaRuntime
+ 6/13 Test #10: EntropyMusicCinemaRuntime .........   Passed    3.48 sec
+      Start 11: EntropyMusicCinemaSelector
+ 7/13 Test #11: EntropyMusicCinemaSelector ........   Passed    0.03 sec
+      Start 12: EntropyMusicCinemaIngress
+ 8/13 Test #12: EntropyMusicCinemaIngress .........   Passed    4.93 sec
+      Start 13: EntropyMusicCinemaContract
+ 9/13 Test #13: EntropyMusicCinemaContract ........   Passed    0.02 sec
+      Start 14: EntropyStage019Egress
+10/13 Test #14: EntropyStage019Egress .............   Passed    0.62 sec
+      Start 18: EntropyStage017Lifecycle
+11/13 Test #18: EntropyStage017Lifecycle ..........   Passed    0.67 sec
+      Start 27: EntropyStage07LiveAuthorization
+12/13 Test #27: EntropyStage07LiveAuthorization ...   Passed    3.79 sec
+      Start 32: EntropyStage05IpcIntegration
+13/13 Test #32: EntropyStage05IpcIntegration ......   Passed    1.33 sec
+
+100% tests passed, 0 tests failed out of 13
+
+Total Test time (real) =  22.34 sec

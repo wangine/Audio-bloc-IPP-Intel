@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include <QStringList>
 namespace entropy::ui {
+inline QString sourceWaitDisplay(const QJsonObject& v){return v["inputMuted"].toBool()?QStringLiteral("ARM retained; MUTE / WAITING FOR VALID INPUT"):QString{};}
 inline QString liveFaultReason(unsigned faults){QStringList reasons;
  if(faults&1)reasons<<"OVERFLOW";if(faults&2)reasons<<"STARVATION";if(faults&4)reasons<<"CLOCK";
  if(faults&8)reasons<<"PCM";if(faults&16)reasons<<"DEVICE";if(faults&32)reasons<<"INPUT";

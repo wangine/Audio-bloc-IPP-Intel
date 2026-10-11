@@ -1,0 +1,9 @@
+{
+  "pid": 15036,
+  "path": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2\\EntropyAudioCore-0.1.9-v2-64k-win-x64\\runtime\\EntropyUI.exe",
+  "startTicks": "639273449828936221",
+  "arguments": [
+    "--endpoint",
+    "EntropyAudioCore.Control.v1"
+  ]
+}

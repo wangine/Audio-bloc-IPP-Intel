@@ -19,6 +19,22 @@
 /Integration/Music/** -text whitespace=cr-at-eol,-blank-at-eol
 /local/stage04-ref/Stage3/native-reference/dependencies/SRC/** -text whitespace=cr-at-eol,-blank-at-eol
 /local/thiran-baseline/** -text whitespace=cr-at-eol,-blank-at-eol
-/validation/music-cinema-v2/** -text whitespace=cr-at-eol,-blank-at-eol
+/validation/music-cinema-v2/** -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 /release/music-cinema/** -text whitespace=cr-at-eol,-blank-at-eol
 /Drivers/EntropyMusicRenderV2/upstream/** -text whitespace=cr-at-eol,-blank-at-eof,-space-before-tab
+# Preserve the exact r2 production source bytes qualified in local ZIP manifests.
+/Engine/AudioScheduler.cpp -text whitespace=cr-at-eol
+/Engine/Control/CoreRuntime.cpp -text whitespace=cr-at-eol
+/Engine/Control/LifecycleExecutor.* -text whitespace=cr-at-eol
+/Engine/Control/SourceWaitPolicy.h -text whitespace=cr-at-eol
+/Engine/Egress/LiveSinkWorkers.* -text whitespace=cr-at-eol
+/Engine/Input/DomainIngress.cpp -text whitespace=cr-at-eol
+/UI/Client/EngineFacade.cpp -text whitespace=cr-at-eol
+/UI/Client/LiveFaultDisplay.h -text whitespace=cr-at-eol
+/UI/Legacy/R10/DeviceManagerPage.cpp -text whitespace=cr-at-eol
+/UI/Legacy/RenderOverview.cpp -text whitespace=cr-at-eol
+/UI/Legacy/RenderWindow.cpp -text whitespace=cr-at-eol
+/UI/main.cpp -text whitespace=cr-at-eol
+/Integration/Music/Stage1-v0003/evidence/** -text whitespace=cr-at-eol,-blank-at-eof,-blank-at-eol
+# Standalone source closure includes the unchanged Microsoft/driver snapshot.
+/Integration/Music/Stage1-v0003/ThirdParty/DriverAudit/** -text whitespace=cr-at-eol,-blank-at-eof,-blank-at-eol,-space-before-tab

@@ -1,0 +1,2 @@
+[1/2] Building CXX object CMakeFiles\EntropyMusicCinemaSourceWait.dir\Tests\MusicCinemaSourceWait.cpp.obj
+[2/2] Linking CXX executable EntropyMusicCinemaSourceWait.exe

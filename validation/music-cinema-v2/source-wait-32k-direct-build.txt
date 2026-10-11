@@ -1,0 +1,294 @@
+[1/200] Building C object soxr\src\CMakeFiles\soxr.dir\soxr.c.obj
+[2/200] Building C object soxr\src\CMakeFiles\soxr.dir\data-io.c.obj
+[3/200] Building C object soxr\src\CMakeFiles\soxr.dir\dbesi0.c.obj
+[4/200] Building C object soxr\src\CMakeFiles\soxr.dir\filter.c.obj
+[5/200] Building C object soxr\src\CMakeFiles\soxr.dir\fft4g64.c.obj
+[6/200] Building C object soxr\src\CMakeFiles\soxr.dir\cr32.c.obj
+[7/200] Building C object soxr\src\CMakeFiles\soxr.dir\cr.c.obj
+[8/200] Building C object soxr\src\CMakeFiles\soxr.dir\fft4g32.c.obj
+[9/200] Building C object soxr\src\CMakeFiles\soxr.dir\cr64.c.obj
+[10/200] Building C object soxr\src\CMakeFiles\soxr.dir\vr32.c.obj
+[11/200] Building C object soxr\src\CMakeFiles\soxr.dir\pffft32s.c.obj
+[12/200] Building C object soxr\src\CMakeFiles\soxr.dir\util32s.c.obj
+[13/200] Building C object soxr\src\CMakeFiles\soxr.dir\cr32s.c.obj
+[14/200] Building C object soxr\src\CMakeFiles\soxr.dir\pffft64s.c.obj
+[15/200] Building C object soxr\src\CMakeFiles\soxr.dir\util64s.c.obj
+[16/200] Building C object soxr\src\CMakeFiles\soxr.dir\cr64s.c.obj
+[17/200] Building CXX object Transport\StageBusSDK\CMakeFiles\EntropyStageBusV1.dir\src\StageBusValidation.cpp.obj
+[18/200] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\FractionalDelay.cpp.obj
+[19/200] Building CXX object Transport\StageBusSDK\CMakeFiles\EntropyStageBusV1.dir\src\StageBusWin32.cpp.obj
+[20/200] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\VisualizationWorker.cpp.obj
+[21/200] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\NativeState.cpp.obj
+[22/200] Building CXX object CMakeFiles\entropy_output_matrix.dir\DSP\OutputMatrix\src\OutputMatrixEngine.cpp.obj
+[23/200] Building CXX object CMakeFiles\entropy_headroom.dir\DSP\Headroom\src\HeadroomEngine.cpp.obj
+[24/200] Building CXX object CMakeFiles\entropy_nominal_wire.dir\local\stage04-ref\Stage3\native-reference\dependencies\SRC\src\MultiChannelSrcEngine.cpp.obj
+[25/200] Linking C static library soxr\src\soxr.lib
+[26/200] Linking CXX static library Transport\StageBusSDK\EntropyStageBusV1.lib
+[27/200] Building CXX object CMakeFiles\entropy_crossover.dir\DSP\Crossover\src\PluginProcessor.cpp.obj
+[28/200] Building CXX object Transport\StageLink\CMakeFiles\EntropyStageLink.dir\StageLinkSecurity.cpp.obj
+[29/200] Building CXX object Transport\StageLink\CMakeFiles\EntropyStageLink.dir\StageLinkClient.cpp.obj
+[30/200] Linking CXX static library entropy_crossover.lib
+[31/200] Linking CXX static library entropy_output_matrix.lib
+[32/200] Linking CXX static library entropy_headroom.lib
+[33/200] Building CXX object CMakeFiles\entropy_pcm24.dir\Egress\PCM24\src\Pcm24Converter.cpp.obj
+[34/200] Building CXX object Transport\StageLink\CMakeFiles\EntropyStageLink.dir\StageLinkServer.cpp.obj
+[35/200] Building CXX object CMakeFiles\entropy_pcm24.dir\Egress\PCM24\src\Pcm24ModuleEngine.cpp.obj
+[36/200] Building CXX object CMakeFiles\entropy_graph.dir\Engine\AudioGraph.cpp.obj
+[37/200] Building CXX object CMakeFiles\entropy_graph.dir\Engine\Telemetry.cpp.obj
+[38/200] Linking CXX static library entropy_nominal_wire.lib
+[39/200] Building CXX object CMakeFiles\entropy_graph.dir\Engine\BufferPool.cpp.obj
+[40/200] Building CXX object CMakeFiles\entropy_clocksync.dir\Egress\ClockSync\src\EgressClockEstimator.cpp.obj
+[41/200] Building CXX object CMakeFiles\entropy_clocksync.dir\Egress\ClockSync\src\EgressClockEngine.cpp.obj
+[42/200] Building CXX object CMakeFiles\entropy_clocksync.dir\Egress\ClockSync\src\EgressRatioController.cpp.obj
+[43/200] Linking CXX static library Transport\StageLink\EntropyStageLink.lib
+[44/200] Building CXX object CMakeFiles\entropy_input_contract.dir\Engine\Input\InputContract.cpp.obj
+[45/200] Linking CXX static library entropy_pcm24.lib
+[46/200] Linking CXX static library entropy_graph.lib
+[47/200] Linking CXX static library entropy_clocksync.lib
+[48/200] Building CXX object CMakeFiles\entropy_wasapi.dir\Egress\WasapiSink\src\WasapiDacSink.cpp.obj
+[49/200] Building CXX object CMakeFiles\entropy_wasapi.dir\Egress\WasapiSink\src\DacSinkCore.cpp.obj
+[50/200] Building CXX object Transport\StagePublishV2\CMakeFiles\EntropyStagePublishV2.dir\StagePublishV2.cpp.obj
+[51/200] Building CXX object CMakeFiles\entropy_devices.dir\Devices\DeviceManager\src\DeviceIdentityResolver.cpp.obj
+[52/200] Building CXX object CMakeFiles\entropy_devices.dir\Devices\DeviceManager\src\WindowsDeviceInventory.cpp.obj
+[53/200] Building CXX object CMakeFiles\entropy_command_server.dir\IPC\CommandServer.cpp.obj
+[54/200] Building CXX object CMakeFiles\entropy_egress.dir\Engine\Egress\NativeEgress.cpp.obj
+[55/200] Building CXX object CMakeFiles\entropy_controls.dir\Engine\Control\ControlPlane.cpp.obj
+[56/200] Building CXX object CMakeFiles\entropy_controls.dir\Engine\Control\CrossoverAccess.cpp.obj
+[57/200] Building CXX object CMakeFiles\entropy_controls.dir\Engine\ParameterSnapshot.cpp.obj
+[58/200] Linking CXX static library entropy_input_contract.lib
+[59/200] Building CXX object CMakeFiles\entropy_stage2_input.dir\Engine\Input\Stage2Ingress.cpp.obj
+[60/200] Building CXX object CMakeFiles\entropy_program_input.dir\Engine\Input\DomainIngress.cpp.obj
+[61/200] Building CXX object CMakeFiles\entropy_program_input.dir\Engine\Input\ProgramIngress.cpp.obj
+[62/200] Linking CXX static library Transport\StagePublishV2\EntropyStagePublishV2.lib
+[63/200] Linking CXX static library entropy_wasapi.lib
+[64/200] Linking CXX static library entropy_devices.lib
+[65/200] Linking CXX static library entropy_egress.lib
+[66/200] Linking CXX static library entropy_command_server.lib
+[67/200] Linking CXX static library entropy_controls.lib
+[68/200] Building CXX object CMakeFiles\entropy_program_input.dir\Engine\Input\ProgramSelection.cpp.obj
+[69/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\ProfileStore.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xutility(5094): warning C4244: '=': conversion from 'const wchar_t' to 'char', possible loss of data
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xutility(5094): note: the template instantiation context (the oldest one first) is
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Engine/Input/InputConfiguration.h(8): note: see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+        with
+        [
+            _Elem=wchar_t,
+            _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+            _Alloc=std::allocator<char>
+        ]
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Engine/Input/InputConfiguration.h(8): note: see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'entropy::input::Configuration::encode'
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xstring(862): note: see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<const wchar_t*,const wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
+        with
+        [
+            _Size_type=unsigned __int64,
+            _Iter=const wchar_t *,
+            _Sent=const wchar_t *,
+            _Size=unsigned __int64
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xstring(1018): note: see reference to function template instantiation '_OutIt *std::_Copy_n_unchecked4<const wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)' being compiled
+        with
+        [
+            _OutIt=char *,
+            _Size=unsigned __int64,
+            _InIt=const wchar_t *,
+            _SizeTy=unsigned __int64
+        ]
+[70/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\CoreRuntime.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xutility(5094): warning C4244: '=': conversion from 'const wchar_t' to 'char', possible loss of data
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xutility(5094): note: the template instantiation context (the oldest one first) is
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Engine/Input/InputConfiguration.h(8): note: see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+        with
+        [
+            _Elem=wchar_t,
+            _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+            _Alloc=std::allocator<char>
+        ]
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Engine/Input/InputConfiguration.h(8): note: see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'entropy::input::Configuration::encode'
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xstring(862): note: see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<const wchar_t*,const wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
+        with
+        [
+            _Size_type=unsigned __int64,
+            _Iter=const wchar_t *,
+            _Sent=const wchar_t *,
+            _Size=unsigned __int64
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xstring(1018): note: see reference to function template instantiation '_OutIt *std::_Copy_n_unchecked4<const wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)' being compiled
+        with
+        [
+            _OutIt=char *,
+            _Size=unsigned __int64,
+            _InIt=const wchar_t *,
+            _SizeTy=unsigned __int64
+        ]
+[71/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\StartupProfile.cpp.obj
+[72/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\DeviceService.cpp.obj
+[73/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\AudioScheduler.cpp.obj
+[74/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\OfflineSinkWorkers.cpp.obj
+[75/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\IPC\TelemetryServer.cpp.obj
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xutility(5094): warning C4244: '=': conversion from 'const wchar_t' to 'char', possible loss of data
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xutility(5094): note: the template instantiation context (the oldest one first) is
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\IPC\TelemetryServer.cpp(8): note: see reference to function template instantiation 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string<std::_String_const_iterator<std::_String_val<std::_Simple_types<_Elem>>>,0>(_Iter,_Iter,const _Alloc &)' being compiled
+        with
+        [
+            _Elem=wchar_t,
+            _Iter=std::_String_const_iterator<std::_String_val<std::_Simple_types<wchar_t>>>,
+            _Alloc=std::allocator<char>
+        ]
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\IPC\TelemetryServer.cpp(8): note: see the first reference to 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>::basic_string' in 'entropy::ipc::programTelemetrySnapshot::<lambda_1>::operator ()'
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xstring(862): note: see reference to function template instantiation 'void std::basic_string<char,std::char_traits<char>,std::allocator<char>>::_Construct_from_iter<const wchar_t*,const wchar_t*,_Size_type>(_Iter,const _Sent,_Size)' being compiled
+        with
+        [
+            _Size_type=unsigned __int64,
+            _Iter=const wchar_t *,
+            _Sent=const wchar_t *,
+            _Size=unsigned __int64
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\xstring(1018): note: see reference to function template instantiation '_OutIt *std::_Copy_n_unchecked4<const wchar_t*,_Size,char*>(_InIt,_SizeTy,_OutIt)' being compiled
+        with
+        [
+            _OutIt=char *,
+            _Size=unsigned __int64,
+            _InIt=const wchar_t *,
+            _SizeTy=unsigned __int64
+        ]
+[76/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Egress\LiveSinkWorkers.cpp.obj
+[77/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\LifecycleExecutor.cpp.obj
+[78/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\DeviceChangeCache.cpp.obj
+[79/200] Linking CXX static library entropy_stage2_input.lib
+[80/200] Linking CXX static library entropy_program_input.lib
+[81/200] Building CXX object CMakeFiles\entropy_control_runtime.dir\Engine\Control\LiveEligibility.cpp.obj
+[82/200] Building CXX object CMakeFiles\entropy_thiran_baseline.dir\Tests\ThiranBaselineBridge.cpp.obj
+[83/200] Building CXX object CMakeFiles\entropy_thiran_baseline.dir\local\thiran-baseline\DSP\Crossover\src\NativeState.cpp.obj
+[84/200] Building CXX object CMakeFiles\entropy_thiran_baseline.dir\local\thiran-baseline\DSP\Crossover\src\PluginProcessor.cpp.obj
+[85/200] Building CXX object CMakeFiles\EntropyAudioCore.dir\main.cpp.obj
+[86/200] Building CXX object CMakeFiles\EntropyStage04EtwDecode.dir\Tests\Stage04EtwDecode.cpp.obj
+[87/200] Building CXX object CMakeFiles\EntropyStage04HardwareGate.dir\Tests\Stage04HardwareGateTests.cpp.obj
+[88/200] Building CXX object CMakeFiles\EntropyAudioCore.dir\Engine\Egress\HardwareTest.cpp.obj
+[89/200] Building CXX object CMakeFiles\EntropyStage04HardwareGate.dir\Engine\Egress\HardwareTest.cpp.obj
+[90/200] Building CXX object CMakeFiles\EntropyStage04Validation.dir\Tests\Stage04Validation.cpp.obj
+[91/200] Building CXX object CMakeFiles\EntropyStage04Validation.dir\Tests\Stage04Scheduling.cpp.obj
+[92/200] Building CXX object CMakeFiles\EntropyStage04Validation.dir\Tests\Stage02\AuditExtras.cpp.obj
+[93/200] Building CXX object CMakeFiles\EntropyStage04Validation.dir\Tests\Stage02\RealtimeAllocationAudit.cpp.obj
+[94/200] Linking CXX static library entropy_control_runtime.lib
+[95/200] Building CXX object CMakeFiles\EntropyLiveQualification.dir\Diagnostics\LiveQualificationMain.cpp.obj
+[96/200] Building CXX object CMakeFiles\EntropyLiveQualification.dir\Engine\Control\LiveQualification.cpp.obj
+[97/200] Building CXX object CMakeFiles\EntropyMusicCinemaTimeline.dir\Tests\MusicCinemaTimeline.cpp.obj
+[98/200] Building CXX object CMakeFiles\EntropyMusicCinemaFaultRecovery.dir\Tests\MusicCinemaFaultRecovery.cpp.obj
+[99/200] Building CXX object CMakeFiles\EntropyMusicCinemaTimingProbe.dir\Tests\MusicCinemaTimingProbe.cpp.obj
+[100/200] Building CXX object CMakeFiles\EntropyMusicCinemaSourceWait.dir\Tests\MusicCinemaSourceWait.cpp.obj
+[101/200] Building CXX object CMakeFiles\EntropyMusicCinemaGraph.dir\Tests\Stage02\RealtimeAllocationAudit.cpp.obj
+[102/200] Building CXX object CMakeFiles\EntropyMusicCinemaGraph.dir\Tests\Stage02\AuditExtras.cpp.obj
+[103/200] Building CXX object CMakeFiles\EntropyMusicCinemaGraph.dir\Tests\MusicCinemaGraph.cpp.obj
+[104/200] Building CXX object CMakeFiles\EntropyMusicCinemaLiveInput.dir\Tests\MusicCinemaLiveInput.cpp.obj
+[105/200] Building CXX object CMakeFiles\EntropyMusicCinemaPassive.dir\Tests\MusicCinemaPassive.cpp.obj
+[106/200] Building CXX object CMakeFiles\EntropyMusicCinemaSelector.dir\Tests\MusicCinemaSelector.cpp.obj
+[107/200] Building CXX object CMakeFiles\EntropyMusicCinemaPublisher.dir\Tests\MusicCinemaPublisher.cpp.obj
+[108/200] Building CXX object CMakeFiles\EntropyMusicCinemaContract.dir\Tests\MusicCinemaContract.cpp.obj
+[109/200] Building CXX object CMakeFiles\EntropyMusicCinemaIngress.dir\Tests\MusicCinemaIngress.cpp.obj
+[110/200] Building CXX object CMakeFiles\EntropyStage019Egress.dir\Tests\Stage019Egress.cpp.obj
+[111/200] Building CXX object CMakeFiles\EntropyStage018View.dir\Tests\Stage018View.cpp.obj
+[112/200] Building CXX object CMakeFiles\EntropyStage017Transport.dir\Tests\Stage017Transport.cpp.obj
+[113/200] Building CXX object CMakeFiles\EntropyStage017Preparation.dir\Tests\Stage017Preparation.cpp.obj
+[114/200] Building CXX object CMakeFiles\EntropyStage017Lifecycle.dir\Tests\Stage017Lifecycle.cpp.obj
+[115/200] Building CXX object CMakeFiles\EntropyStage014Pcm24.dir\Tests\Stage014Pcm24Evidence.cpp.obj
+[116/200] Building CXX object CMakeFiles\EntropyStagePublishV2Tests.dir\Tests\StagePublishV2Tests.cpp.obj
+[117/200] Building CXX object CMakeFiles\EntropyStage012Reference.dir\Tests\Stage012HeadroomReference.cpp.obj
+[118/200] Building CXX object CMakeFiles\EntropyConsoleShutdown.dir\Tests\ConsoleShutdownTests.cpp.obj
+[119/200] Building CXX object CMakeFiles\EntropyStage07Live.dir\Tests\Stage02\RealtimeAllocationAudit.cpp.obj
+[120/200] Building CXX object CMakeFiles\EntropyStage07Live.dir\Tests\Stage02\AuditExtras.cpp.obj
+[121/200] Building CXX object CMakeFiles\EntropyStage06Input.dir\Tests\Stage06InputTests.cpp.obj
+[122/200] Building CXX object CMakeFiles\EntropyStage06Input.dir\Tests\Stage02\RealtimeAllocationAudit.cpp.obj
+[123/200] Building CXX object CMakeFiles\EntropyStage06Input.dir\Tests\Stage02\AuditExtras.cpp.obj
+[124/200] Building CXX object CMakeFiles\EntropyStage06Input.dir\Stage06TestIngress.cpp.obj
+[125/200] Building CXX object CMakeFiles\EntropyStage07Live.dir\Tests\Stage07LiveWorkers.cpp.obj
+[126/200] Building CXX object CMakeFiles\EntropyStage013Crossover.dir\Tests\Stage013CrossoverEvidence.cpp.obj
+[127/200] Building CXX object CMakeFiles\EntropyStage05Validation.dir\Tests\Stage05Validation.cpp.obj
+[128/200] Building CXX object CMakeFiles\EntropyStage05Validation.dir\Tests\Stage02\RealtimeAllocationAudit.cpp.obj
+[129/200] Building CXX object CMakeFiles\EntropyStage05Validation.dir\Tests\Stage02\AuditExtras.cpp.obj
+[130/200] Building CXX object CMakeFiles\EntropyStage05Validation.dir\Tests\Stage04Scheduling.cpp.obj
+[131/200] Building CXX object CMakeFiles\EntropyStage05Boundary.dir\Tests\Stage05BoundaryTests.cpp.obj
+[132/200] Building CXX object CMakeFiles\EntropyStage05Control.dir\Tests\Stage05ControlTests.cpp.obj
+[133/200] Building CXX object CMakeFiles\EntropyStage05Protocol.dir\Tests\Stage05ProtocolTests.cpp.obj
+[134/200] Building CXX object CMakeFiles\EntropyStage05Transport.dir\Tests\Stage05TransportTests.cpp.obj
+[135/200] Building CXX object CMakeFiles\EntropyThiranDelay.dir\Tests\ThiranDelayTests.cpp.obj
+[136/200] Building CXX object CMakeFiles\EntropyThiranValidation.dir\Tests\Stage02\RealtimeAllocationAudit.cpp.obj
+[137/200] Building CXX object CMakeFiles\EntropyThiranValidation.dir\Tests\Stage02\AuditExtras.cpp.obj
+[138/200] Linking CXX static library entropy_thiran_baseline.lib
+[139/200] Building CXX object CMakeFiles\EntropyStage04Fifo.dir\Tests\Stage04FifoTests.cpp.obj
+[140/200] Building CXX object CMakeFiles\EntropyThiranValidation.dir\Tests\ThiranValidation.cpp.obj
+[141/200] Building CXX object CMakeFiles\EntropyStage03Reset.dir\Tests\Stage03ResetTests.cpp.obj
+[142/200] Building CXX object CMakeFiles\EntropyStage04Policy.dir\Tests\Stage04PolicyTests.cpp.obj
+[143/200] Building CXX object CMakeFiles\EntropyOfflineConfig.dir\Tests\OfflineConfigTests.cpp.obj
+[144/200] Building CXX object CMakeFiles\EntropyMatrixUnit.dir\DSP\OutputMatrix\tests\OutputMatrixEngineTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[145/200] Building CXX object CMakeFiles\EntropyMatrixNoAlloc.dir\DSP\OutputMatrix\tests\OutputMatrixRealtimeAllocationTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[146/200] Building CXX object CMakeFiles\EntropyGraphSmoke.dir\Tests\GraphSmoke.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[147/200] Building CXX object CMakeFiles\EntropyHeadroomUnit.dir\DSP\Headroom\tests\HeadroomEngineTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[148/200] Building CXX object CMakeFiles\EntropyHeadroomNoAlloc.dir\DSP\Headroom\tests\HeadroomRealtimeAllocationTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[149/200] Building CXX object CMakeFiles\EntropyPcm24EngineUnit.dir\Egress\PCM24\tests\Pcm24ModuleEngineTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[150/200] Building CXX object CMakeFiles\EntropyPcm24Unit.dir\Egress\PCM24\tests\Pcm24ConverterTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[151/200] Building CXX object CMakeFiles\EntropyIppFirUnit.dir\DSP\Crossover\tests\IppFirTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+[152/200] Linking CXX executable EntropyAudioCore.exe
+[153/200] Linking CXX executable EntropyStage04EtwDecode.exe
+[154/200] Linking CXX executable EntropyStage04HardwareGate.exe
+[155/200] Linking CXX executable EntropyStage04Validation.exe
+[156/200] Linking CXX executable EntropyLiveQualification.exe
+[157/200] Linking CXX executable EntropyMusicCinemaTimeline.exe
+[158/200] Linking CXX executable EntropyMusicCinemaFaultRecovery.exe
+[159/200] Linking CXX executable EntropyMusicCinemaSourceWait.exe
+[160/200] Linking CXX executable EntropyMusicCinemaTimingProbe.exe
+[161/200] Linking CXX executable EntropyMusicCinemaGraph.exe
+[162/200] Linking CXX executable EntropyMusicCinemaLiveInput.exe
+[163/200] Linking CXX executable EntropyMusicCinemaPassive.exe
+[164/200] Linking CXX executable EntropyMusicCinemaPublisher.exe
+[165/200] Linking CXX executable EntropyMusicCinemaSelector.exe
+[166/200] Building CXX object CMakeFiles\EntropyNativeStateUnit.dir\DSP\Crossover\tests\NativeSupportTests.cpp.obj
+cl : Command line warning D9025 : overriding '/DNDEBUG' with '/UNDEBUG'
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\memory(3666): warning C4244: 'argument': conversion from '_Ty' to 'float', possible loss of data
+        with
+        [
+            _Ty=int
+        ]
+C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.51.36231\include\memory(3666): note: the template instantiation context (the oldest one first) is
+D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\DSP\Crossover\tests\NativeSupportTests.cpp(26): note: see reference to function template instantiation 'std::unique_ptr<entropy::native::AudioParameterFloat,std::default_delete<entropy::native::AudioParameterFloat>> std::make_unique<entropy::native::AudioParameterFloat,entropy::native::ParameterID,const char(&)[6],entropy::native::NormalisableRange<float>,int,0>(entropy::native::ParameterID &&,const char (&)[6],entropy::native::NormalisableRange<float> &&,int &&)' being compiled
+[167/200] Linking CXX executable EntropyMusicCinemaIngress.exe
+[168/200] Linking CXX executable EntropyMusicCinemaContract.exe
+[169/200] Linking CXX executable EntropyStage019Egress.exe
+[170/200] Linking CXX executable EntropyStage018View.exe
+[171/200] Linking CXX executable EntropyStage017Preparation.exe
+[172/200] Linking CXX executable EntropyStage017Transport.exe
+[173/200] Linking CXX executable EntropyStage017Lifecycle.exe
+[174/200] Linking CXX executable EntropyStage014Pcm24.exe
+[175/200] Linking CXX executable EntropyStagePublishV2Tests.exe
+[176/200] Linking CXX executable EntropyStage012Reference.exe
+[177/200] Linking CXX executable EntropyConsoleShutdown.exe
+[178/200] Linking CXX executable EntropyStage07Live.exe
+[179/200] Linking CXX executable EntropyStage06Input.exe
+[180/200] Linking CXX executable EntropyStage013Crossover.exe
+[181/200] Linking CXX executable EntropyStage05Validation.exe
+[182/200] Linking CXX executable EntropyStage05Boundary.exe
+[183/200] Linking CXX executable EntropyStage05Control.exe
+[184/200] Linking CXX executable EntropyStage05Protocol.exe
+[185/200] Linking CXX executable EntropyStage05Transport.exe
+[186/200] Linking CXX executable EntropyThiranDelay.exe
+[187/200] Linking CXX executable EntropyThiranValidation.exe
+[188/200] Linking CXX executable EntropyStage04Fifo.exe
+[189/200] Linking CXX executable EntropyStage04Policy.exe
+[190/200] Linking CXX executable EntropyStage03Reset.exe
+[191/200] Linking CXX executable EntropyOfflineConfig.exe
+[192/200] Linking CXX executable EntropyGraphSmoke.exe
+[193/200] Linking CXX executable EntropyMatrixUnit.exe
+[194/200] Linking CXX executable EntropyMatrixNoAlloc.exe
+[195/200] Linking CXX executable EntropyHeadroomUnit.exe
+[196/200] Linking CXX executable EntropyHeadroomNoAlloc.exe
+[197/200] Linking CXX executable EntropyPcm24Unit.exe
+[198/200] Linking CXX executable EntropyPcm24EngineUnit.exe
+[199/200] Linking CXX executable EntropyIppFirUnit.exe
+[200/200] Linking CXX executable EntropyNativeStateUnit.exe

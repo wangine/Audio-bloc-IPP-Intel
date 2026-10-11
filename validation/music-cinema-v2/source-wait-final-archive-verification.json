@@ -1,0 +1,35 @@
+{
+  "PASS": true,
+  "archives": [
+    {
+      "path": "EntropyAudioCore-0.1.9-v2-r2-32k-win-x64.zip",
+      "files": 134,
+      "sha256": "64D49C8DCF1707A7EB4AF962A3F27F5ED996C4750ABF606D795EA94FBA8D68BF",
+      "PASS": true
+    },
+    {
+      "path": "EntropyAudioCore-0.1.9-v2-r2-64k-win-x64.zip",
+      "files": 134,
+      "sha256": "37FDFBEFF4FB09CAB96CE7F2FC870BAAC8F30DD47B715C18A81E7D5FD8D16190",
+      "PASS": true
+    },
+    {
+      "path": "EntropyAudioCore-0.1.9-v2-r2-source.zip",
+      "files": 3229,
+      "sha256": "C30E86CAA49C2000459B93BEB3FABD5D6D1508CD0C35A3B5FADE904AA87E2849",
+      "PASS": true
+    },
+    {
+      "path": "stage1-native-music-v0003-r7-runtime.zip",
+      "files": 1394,
+      "sha256": "48F37E131D9E375C92A6A39565ECCE1DD9AF8039F0716AD4CBD68EA11CBE3562",
+      "PASS": true
+    },
+    {
+      "path": "stage1-native-music-v0003-r7-source.zip",
+      "files": 1713,
+      "sha256": "42B9A2B8841463F12C45A79B8769B97C6545C602F7B6532F416BC78C955C8240",
+      "PASS": true
+    }
+  ]
+}
