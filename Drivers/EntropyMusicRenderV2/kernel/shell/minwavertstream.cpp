@@ -72,7 +72,12 @@ NTSTATUS CMiniportWaveRTStream::SetState(KSSTATE state) {
     PAGED_CODE();if(state<KSSTATE_STOP || state>KSSTATE_RUN)return STATUS_INVALID_PARAMETER;
     if(state==m_KsState)return STATUS_SUCCESS;
     if(state!=KSSTATE_RUN && m_pNotificationTimer){ExCancelTimer(m_pNotificationTimer,nullptr);KeFlushQueuedDpcs();}
-    if(state==KSSTATE_STOP){if(m_Pcm)m_Pcm->Stop();m_KsState=state;return STATUS_SUCCESS;}
+    if(state==KSSTATE_STOP){
+        if(m_Pcm){m_Pcm->Stop();const auto status=EnsurePrepared();if(!NT_SUCCESS(status))return status;}
+        // STOP resets the generation at the control boundary. The subsequent
+        // OS prefill must be accepted before RUN, including packet zero.
+        m_KsState=state;return STATUS_SUCCESS;
+    }
     if(state==KSSTATE_ACQUIRE || state==KSSTATE_PAUSE){
         if(m_Pcm && !m_Pcm->timeline.prepared()){auto status=EnsurePrepared();if(!NT_SUCCESS(status))return status;}
         if(m_Pcm && !m_Pcm->SetRunning(false))return STATUS_INVALID_DEVICE_STATE;

@@ -1,6 +1,7 @@
 #include "WasapiClient.h"
 #include "PcmPattern.h"
 #include <audioclient.h>
+#include <avrt.h>
 #include <mmdeviceapi.h>
 #include <wrl/client.h>
 #include <stdexcept>
@@ -14,6 +15,7 @@ struct Apartment {HRESULT result=CoInitializeEx(nullptr,COINIT_MULTITHREADED);Ap
 struct Handle {HANDLE value=nullptr;~Handle(){if(value && value!=INVALID_HANDLE_VALUE)CloseHandle(value);}};
 struct View {void* value=nullptr;~View(){if(value)UnmapViewOfFile(value);}};
 struct Started {IAudioClient* client;bool active=false;~Started(){if(active)client->Stop();}};
+struct AudioPriority {DWORD index=0;HANDLE value=AvSetMmThreadCharacteristicsW(L"Pro Audio",&index);~AudioPriority(){if(value)AvRevertMmThreadCharacteristics(value);}};
 WAVEFORMATEXTENSIBLE wave(const PcmFormat& f){WAVEFORMATEXTENSIBLE w{};w.Format={0xfffe,2,f.sampleRate,f.averageBytesPerSecond,static_cast<WORD>(f.blockAlign),static_cast<WORD>(f.containerBits),22};w.Samples.wValidBitsPerSample=static_cast<WORD>(f.validBits);w.dwChannelMask=3;std::memcpy(&w.SubFormat,PcmGuid,16);return w;}
 void validateSession(const std::wstring& s){if(s.empty() || s.size()>64)throw std::runtime_error("Session token required");for(auto c:s)if(!((c>=L'0' && c<=L'9') || (c>=L'a' && c<=L'z') || (c>=L'A' && c<=L'Z') || c==L'-'))throw std::runtime_error("Invalid session token");}
 }
@@ -45,6 +47,7 @@ RunReport WasapiClient::run(const RunConfig& c){
     check(client->GetService(IID_PPV_ARGS(&renderer)),"Render service");check(client->GetService(IID_PPV_ARGS(&clock)),"Audio clock");UINT64 frequency=0;check(clock->GetFrequency(&frequency),"Audio clock frequency");if(!frequency)throw std::runtime_error("Invalid audio clock");
     uint64_t target=static_cast<uint64_t>(c.rate)*c.seconds;if(c.eventDriven)target=((target+report.bufferFrames-1)/report.bufferFrames)*report.bufferFrames;
     auto fill=[&](uint32_t count){BYTE* bytes=nullptr;check(renderer->GetBuffer(count,&bytes),"GetBuffer");for(uint32_t i=0;i<count;++i)PcmPattern::frame(report.emittedFrames+i,f,bytes+i*f.blockAlign);check(renderer->ReleaseBuffer(count,0),"ReleaseBuffer");report.emittedFrames+=count;};
+    AudioPriority priority;if(!priority.value)throw std::runtime_error("Audit MMCSS registration failed");
     fill(static_cast<uint32_t>(target<report.bufferFrames?target:report.bufferFrames));check(client->Start(),"Start after prefill");Started started{client.Get(),true};
     const auto deadline=GetTickCount64()+static_cast<uint64_t>(c.seconds)*1000+5000;
     while(GetTickCount64()<deadline){
@@ -59,7 +62,10 @@ RunReport WasapiClient::run(const RunConfig& c){
         bridge::Header request{bridge::Magic,bridge::Version,sizeof(request),2};DWORD copied=0;bridge::Info info{};
         if(DeviceIoControl(privateDevice.value,bridge::IoctlInfo,&request,sizeof(request),&info,sizeof(info),&copied,nullptr) && copied==sizeof(info) && info.header.magic==bridge::Magic && info.header.version==bridge::Version){report.driver=info;if(info.allocationMode)report.observedAllocation=info.allocationMode;}
         if(report.emittedFrames==target && report.clockFrames>=target && report.receivedFrames>=target){report.drained=report.receivedFrames==target && !InterlockedCompareExchange(&progress->errors,0,0);break;}
-        Sleep(c.eventDriven?1:std::max<DWORD>(1,static_cast<DWORD>(period/40000)));
+        // WaitForSingleObject is the event-driven pacing. Sleep(1) can round to
+        // 15.6ms and introduce underruns into a 10ms test stream.
+        if(!c.eventDriven)Sleep(std::max<DWORD>(1,static_cast<DWORD>(period/40000)));
+        else if(report.emittedFrames==target)WaitForSingleObject(event.value,20);
     }
     trace(report.traceAfter);check(client->Stop(),"Stop after observed drain");started.active=false;
     // A finite client without an OS EOS may have an unwritten interval after
