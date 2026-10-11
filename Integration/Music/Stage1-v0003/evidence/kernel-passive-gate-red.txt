@@ -1,0 +1,20 @@
+test_CloseReleasesReaderBeforeIdle (__main__.ReviewContracts) ... ok
+test_CommitDoesNotTakePublicationGate (__main__.ReviewContracts) ... ok
+test_LossEvidenceSurvivesFree (__main__.ReviewContracts) ... ok
+test_PassiveReadFinishWaitsForGateRelease (__main__.ReviewContracts) ... FAIL
+test_ProductionRefusesUnprovenPositionDma (__main__.ReviewContracts) ... ok
+test_QualificationUsesPackageBinaries (__main__.ReviewContracts) ... ok
+test_VerifierBindsRequestedMetadata (__main__.ReviewContracts) ... ok
+
+======================================================================
+FAIL: test_PassiveReadFinishWaitsForGateRelease (__main__.ReviewContracts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\tests\ReviewContractTests.py", line 17, in test_PassiveReadFinishWaitsForGateRelease
+    self.assertNotIn('KeDelayExecutionThread',wait)
+AssertionError: 'KeDelayExecutionThread' unexpectedly found in '{PAGED_CODE();LARGE_INTEGER retry;retry.QuadPart=-10000;while(!TryEnter())KeDelayExecutionThread(KernelMode,FALSE,&retry);}\n'
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.004s
+
+FAILED (failures=1)

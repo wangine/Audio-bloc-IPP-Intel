@@ -5,7 +5,7 @@
 `codex/music-cinema-architecture` publishes Stage3 **0.1.9-v2**, derived from
 the selected **0.1.8** baseline, and the independent MUSIC source snapshots:
 
-- [Stage1 native MUSIC source v0002](Integration/Music/Stage1): native Core, separate Qt UI, L/R FP64 at 192 kHz.
+- [Stage1 native MUSIC/AUX v0003-r3](Integration/Music/Stage1-v0003): native Core, separate Qt UI, independent SRC/FIFO and L/R FP64 at192kHz. [v0002](Integration/Music/Stage1) remains the reference.
 - [Stage2 MUSIC DSP v0009](Integration/Music/Stage2): existing DLL processing, stereo input and L/R/C output.
 - Stage3 at this repository root: independent passive MUSIC3 / CINEMA6 or CINEMA8 inputs, selector, original Crossover and output matrix, DAC A/B.
 
@@ -13,12 +13,18 @@ See [architecture, source provenance and next steps](docs/architecture/MUSIC-CIN
 [Stage3 operation](docs/MUSIC-CINEMA-v2.md) and
 [accepted validation](docs/VALIDATION-MUSIC-CINEMA-v2.json).
 The Cinema decoder with its own SRC remains future work. The third independent
-MUSIC driver, [Entropy Music Render V2](Drivers/EntropyMusicRenderV2), is now built
-and development-signed. Its recorded Exclusive Event raw tests pass, including
-30minutes/345,600,000 frames and PAUSE/RUN. Native192k output tests found inserted
-zero clock blocks in unchanged Stage1v0002; output continuity/completion and full
-chain acceptance remain incomplete. See [loaded evidence](validation/music-render-v2/LOADED-DRIVER-0.3.0.10.md)
-and the [preserved signed driver/audit/source package](Integration/Drivers/EntropyMusicRenderV2/0.3.0.10-signed-dev-r6).
+MUSIC driver, [Entropy Music Render V2](Drivers/EntropyMusicRenderV2), is now
+development-signed and loaded as0.3.0.11. With Stage1v0003-r3, native192k raw→FP64
+passes23,040,000 stereo frames with exact normalized binary64, no interior gaps
+and complete drain. The12-format raw Event matrix passes12,894,000 frames.
+Real TIDAL legacy MUSIC + Spotify AUX Shared passes300s with zero Core faults,
+underruns or blank format snapshots; AUX Exclusive/MMCSS passes120s ingress.
+See [current evidence and limits](validation/music-render-v2/LOADED-DRIVER-0.3.0.11.md).
+The [previous0.3.0.10 results](validation/music-render-v2/LOADED-DRIVER-0.3.0.10.md)
+and [r6 package](Integration/Drivers/EntropyMusicRenderV2/0.3.0.10-signed-dev-r6)
+retain their original failed frozen-Core continuity/completion results. Their
+30minute raw stress is not promoted to the new kernel. Real TIDAL raw equivalence,
+polling and full unbounded chain qualification are not claimed.
 
 The complete source snapshots include the existing DLL/runtime dependencies.
 [Original source and runtime ZIPs](release/music-cinema) for all three Stages

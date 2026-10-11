@@ -1,0 +1,30 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage1-v0003/evidence/source-closure-driver-0.3.0.11/Drivers/EntropyMusicRenderV2/build/model
+Test project D:/Projects/3Stage-3/Stage1-v0003/evidence/source-closure-driver-0.3.0.11/Drivers/EntropyMusicRenderV2/build/model
+      Start  1: MusicRenderReference
+ 1/12 Test  #1: MusicRenderReference .................   Passed    0.16 sec
+      Start  2: MusicRenderReviewContract
+ 2/12 Test  #2: MusicRenderReviewContract ............   Passed    0.14 sec
+      Start  3: MusicRenderModel
+ 3/12 Test  #3: MusicRenderModel .....................   Passed    0.06 sec
+      Start  4: MusicRenderBridge
+ 4/12 Test  #4: MusicRenderBridge ....................   Passed    0.03 sec
+      Start  5: MusicRenderKernelBinding
+ 5/12 Test  #5: MusicRenderKernelBinding .............   Passed    0.04 sec
+      Start  6: MusicRenderAudit
+ 6/12 Test  #6: MusicRenderAudit .....................   Passed    0.04 sec
+      Start  7: MusicRenderOutputBoundary
+ 7/12 Test  #7: MusicRenderOutputBoundary ............   Passed    3.34 sec
+      Start  8: MusicRenderProvider
+ 8/12 Test  #8: MusicRenderProvider ..................   Passed    0.03 sec
+      Start  9: MusicRenderObserver
+ 9/12 Test  #9: MusicRenderObserver ..................   Passed    0.03 sec
+      Start 10: MusicRenderInbox
+10/12 Test #10: MusicRenderInbox .....................   Passed    0.03 sec
+      Start 11: EntropyMusicRawProviderV2Load
+11/12 Test #11: EntropyMusicRawProviderV2Load ........   Passed    0.05 sec
+      Start 12: EntropyMusicRawProviderV2AuditLoad
+12/12 Test #12: EntropyMusicRawProviderV2AuditLoad ...   Passed    0.04 sec
+
+100% tests passed, 0 tests failed out of 12
+
+Total Test time (real) =   4.03 sec

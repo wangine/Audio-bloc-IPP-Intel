@@ -1,0 +1,22 @@
+[
+  {
+    "reason": "Live render/drain failed; preserve all evidence",
+    "case": {
+      "servicing": "event",
+      "rate": 192000,
+      "bits": 16,
+      "seconds": 10
+    },
+    "pass": false
+  },
+  {
+    "reason": "Exact native192k FP64 output comparison failed",
+    "case": {
+      "servicing": "event",
+      "rate": 192000,
+      "bits": 32,
+      "seconds": 10
+    },
+    "pass": false
+  }
+]

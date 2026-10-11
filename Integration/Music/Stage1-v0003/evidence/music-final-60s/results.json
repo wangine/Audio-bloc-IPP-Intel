@@ -1,0 +1,28 @@
+[
+  {
+    "case": {
+      "seconds": 60,
+      "rate": 192000,
+      "servicing": "event",
+      "bits": 16
+    },
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\music-final-60s\\192000-16-event\\output-comparison.json",
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\music-final-60s\\192000-16-event\\comparison.json",
+    "frames": 11520000,
+    "pass": true
+  },
+  {
+    "case": {
+      "seconds": 60,
+      "rate": 192000,
+      "servicing": "event",
+      "bits": 32
+    },
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\music-final-60s\\192000-32-event\\output-comparison.json",
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\music-final-60s\\192000-32-event\\comparison.json",
+    "frames": 11520000,
+    "pass": true
+  }
+]

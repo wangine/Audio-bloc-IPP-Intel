@@ -1,0 +1,28 @@
+[
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-native-full-20s\\192000-16-event\\comparison.json",
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-native-full-20s\\192000-16-event\\output-comparison.json",
+    "frames": 3840000,
+    "case": {
+      "bits": 16,
+      "rate": 192000,
+      "seconds": 20,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-native-full-20s\\192000-32-event\\comparison.json",
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-native-full-20s\\192000-32-event\\output-comparison.json",
+    "frames": 3840000,
+    "case": {
+      "bits": 32,
+      "rate": 192000,
+      "seconds": 20,
+      "servicing": "event"
+    }
+  }
+]

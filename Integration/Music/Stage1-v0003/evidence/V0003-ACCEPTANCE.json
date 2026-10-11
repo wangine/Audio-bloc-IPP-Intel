@@ -1,0 +1,180 @@
+{
+  "date": "2026-10-11",
+  "runtimeRevision": "r3",
+  "coreSha256": "C36CE4148FC50BBF4DFA002AD7592BA50D4AF79A1ECF8960063BF30FB091A147",
+  "providerAbiSha256": "A4F848B9A4E653FD58ED937E4488D1DB81D5BAA1222CDEFB93813D07B40F60CD",
+  "dualLive": {
+    "durationMs": 299735,
+    "samples": 2161,
+    "counterMax": {
+      "music_underruns": 0,
+      "aux_underruns": 0,
+      "music_faults": 0,
+      "aux_faults": 0
+    },
+    "musicFramesDelta": 13215744,
+    "auxFramesDelta": 13216770,
+    "music": "TIDAL legacy.music-transport; original PCM not certified",
+    "aux": "Spotify default render AUX / windows.capture.v2 Shared",
+    "controlReadDelayMs": 25,
+    "sourceStateValues": {
+      "music_state": [
+        2
+      ],
+      "aux_state": [
+        2
+      ]
+    },
+    "rates": {
+      "music_rate": [
+        44100
+      ],
+      "aux_rate": [
+        44100
+      ]
+    },
+    "zeroMetadataSnapshots": 0,
+    "regressedFrameSnapshots": 0,
+    "csvSha256": "4AB4FE2FFCD97C0E5712B8317AA5E8492DD16D5D1E0B4DC2D91AD31B5DF81312",
+    "pass": true
+  },
+  "driverVersion": "0.3.0.11",
+  "driverInstalled": {
+    "driverVersion": "0.3.0.11",
+    "inf": "oem28.inf",
+    "deviceId": "ROOT\\MEDIA\\0003",
+    "installed": {
+      "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_26f4a0766080c004\\EntropyMusicRenderV2.sys",
+      "service": "EntropyMusicRenderV2",
+      "state": "Running",
+      "sha256": "FB78EC3CC6066CDF3A039CCE95CD13C26199F2EC630F188351155F84EBB610AA"
+    },
+    "packageManifestSha256": "62C8A88A423D882ABF6B0A800A48CE2103AC4E0B93C9877999BB329A1E0528C3",
+    "pass": true
+  },
+  "rawMatrix": {
+    "pass": true,
+    "cases": 12,
+    "frames": 12894000,
+    "rates": [
+      44100,
+      48000,
+      88200,
+      96000,
+      176400,
+      192000
+    ],
+    "formats": [
+      "PCM16",
+      "PCM24 MSB valid in32"
+    ],
+    "servicing": "WASAPI Exclusive Event-Driven"
+  },
+  "native192k": {
+    "pass": true,
+    "frames": 23040000,
+    "cases": [
+      {
+        "bits": 16,
+        "pass": true,
+        "raw": {
+          "pass": true,
+          "frames": 11520000,
+          "mismatchedBytes": 0,
+          "lostFrames": 0,
+          "auditOverflow": 0,
+          "failedWrites": 0,
+          "reason": "",
+          "preSrc": {
+            "leftPeak": 0.5,
+            "rightPeak": 0.5,
+            "leftRms": 0.288692,
+            "rightRms": 0.288772,
+            "midRms": 0.204156,
+            "sideRms": 0.204173,
+            "pearson": -8.1e-05,
+            "uncentered": -8.1e-05
+          }
+        },
+        "fp64": {
+          "pass": true,
+          "frames": 11520000,
+          "mismatchedSamples": 0,
+          "invalidClockFrames": 27648,
+          "interiorInvalidFrames": 0,
+          "exactBinary64": true,
+          "inputRate": 192000,
+          "outputRate": 192000,
+          "footer": true,
+          "subscriberErrors": 0,
+          "reason": ""
+        }
+      },
+      {
+        "bits": 32,
+        "pass": true,
+        "raw": {
+          "pass": true,
+          "frames": 11520000,
+          "mismatchedBytes": 0,
+          "lostFrames": 0,
+          "auditOverflow": 0,
+          "failedWrites": 0,
+          "reason": "",
+          "preSrc": {
+            "leftPeak": 0.5,
+            "rightPeak": 0.5,
+            "leftRms": 0.288721,
+            "rightRms": 0.288709,
+            "midRms": 0.204135,
+            "sideRms": 0.20417,
+            "pearson": -0.000173,
+            "uncentered": -0.000173
+          }
+        },
+        "fp64": {
+          "pass": true,
+          "frames": 11520000,
+          "mismatchedSamples": 0,
+          "invalidClockFrames": 27648,
+          "interiorInvalidFrames": 0,
+          "exactBinary64": true,
+          "inputRate": 192000,
+          "outputRate": 192000,
+          "footer": true,
+          "subscriberErrors": 0,
+          "reason": ""
+        }
+      }
+    ],
+    "scope": "Exact normalized binary64, complete drain, zero interior invalid frames; start/stop invalid clock blocks reported separately"
+  },
+  "auxExclusiveMmcss": {
+    "event": "summary",
+    "packets": 12000,
+    "frames": 5292000,
+    "empty_reads": 0,
+    "position_gaps": 0,
+    "max_read_ms": 11.4134,
+    "failed": false
+  },
+  "priorNative60s": {
+    "frames": 23040000,
+    "scope": "r1 before control-only ACK fix; PASS reports preserved in music-final-60s"
+  },
+  "historicalFailures": [
+    "Frozen v0002 output temporal gaps and ambiguous state0 completion remain FAIL",
+    "Ordinary nonMMCSS AUX Exclusive: position gap1323 at13.37s, max read45.34ms",
+    "Shared baseline: unmarked353 frame gap after67.53s",
+    "Control delayed-read response discarded before ACK fix",
+    "Architecture synthetic test assumed metadata ready at50ms; bounded readiness regression corrected",
+    "Kernel0.3.0.10 rare16.1713ms passive read-finish stall produced interiorinvalid1024frames; generator maxcommit11.34ms, raw still exact; newkernel wakes on gate release"
+  ],
+  "limitations": [
+    "No TIDAL raw Shared/Exclusive equivalence claim",
+    "Legacy MUSIC raw identity not certified",
+    "V2 polling unsupported",
+    "Short finite live checks do not guarantee all host load conditions"
+  ],
+  "review": "No Critical/Important findings in read-only closure review; live qualification assessed by measured reports"
+}

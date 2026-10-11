@@ -1,0 +1,802 @@
+[
+  {
+    "provider_wait_ms": 24.4135,
+    "combined_wait_ms": 39.9118
+  },
+  {
+    "provider_wait_ms": 14.8397,
+    "combined_wait_ms": 27.5903
+  },
+  {
+    "provider_wait_ms": 14.2823,
+    "combined_wait_ms": 29.1476
+  },
+  {
+    "provider_wait_ms": 15.4961,
+    "combined_wait_ms": 31.0863
+  },
+  {
+    "provider_wait_ms": 14.5691,
+    "combined_wait_ms": 30.1024
+  },
+  {
+    "provider_wait_ms": 15.2944,
+    "combined_wait_ms": 30.8391
+  },
+  {
+    "provider_wait_ms": 15.4556,
+    "combined_wait_ms": 31.0172
+  },
+  {
+    "provider_wait_ms": 15.4082,
+    "combined_wait_ms": 30.8766
+  },
+  {
+    "provider_wait_ms": 14.905,
+    "combined_wait_ms": 30.3819
+  },
+  {
+    "provider_wait_ms": 15.4148,
+    "combined_wait_ms": 30.8054
+  },
+  {
+    "provider_wait_ms": 15.3001,
+    "combined_wait_ms": 30.8151
+  },
+  {
+    "provider_wait_ms": 15.3397,
+    "combined_wait_ms": 30.993
+  },
+  {
+    "provider_wait_ms": 15.0294,
+    "combined_wait_ms": 30.4198
+  },
+  {
+    "provider_wait_ms": 15.3087,
+    "combined_wait_ms": 30.8437
+  },
+  {
+    "provider_wait_ms": 14.5748,
+    "combined_wait_ms": 30.2248
+  },
+  {
+    "provider_wait_ms": 14.9436,
+    "combined_wait_ms": 29.8526
+  },
+  {
+    "provider_wait_ms": 15.1848,
+    "combined_wait_ms": 30.4108
+  },
+  {
+    "provider_wait_ms": 14.5588,
+    "combined_wait_ms": 30.0949
+  },
+  {
+    "provider_wait_ms": 30.4285,
+    "combined_wait_ms": 45.073
+  },
+  {
+    "provider_wait_ms": 15.6215,
+    "combined_wait_ms": 30.6135
+  },
+  {
+    "provider_wait_ms": 15.2081,
+    "combined_wait_ms": 30.6533
+  },
+  {
+    "provider_wait_ms": 15.236,
+    "combined_wait_ms": 30.6053
+  },
+  {
+    "provider_wait_ms": 15.3661,
+    "combined_wait_ms": 30.7018
+  },
+  {
+    "provider_wait_ms": 15.0006,
+    "combined_wait_ms": 30.4952
+  },
+  {
+    "provider_wait_ms": 15.4671,
+    "combined_wait_ms": 30.6741
+  },
+  {
+    "provider_wait_ms": 14.9564,
+    "combined_wait_ms": 30.2166
+  },
+  {
+    "provider_wait_ms": 15.5175,
+    "combined_wait_ms": 30.3704
+  },
+  {
+    "provider_wait_ms": 15.3847,
+    "combined_wait_ms": 30.8419
+  },
+  {
+    "provider_wait_ms": 15.1931,
+    "combined_wait_ms": 30.7121
+  },
+  {
+    "provider_wait_ms": 15.3208,
+    "combined_wait_ms": 30.5995
+  },
+  {
+    "provider_wait_ms": 15.3575,
+    "combined_wait_ms": 30.6068
+  },
+  {
+    "provider_wait_ms": 15.5519,
+    "combined_wait_ms": 30.9985
+  },
+  {
+    "provider_wait_ms": 15.6561,
+    "combined_wait_ms": 30.7247
+  },
+  {
+    "provider_wait_ms": 15.4042,
+    "combined_wait_ms": 30.5061
+  },
+  {
+    "provider_wait_ms": 15.2317,
+    "combined_wait_ms": 30.5358
+  },
+  {
+    "provider_wait_ms": 15.6656,
+    "combined_wait_ms": 31.0405
+  },
+  {
+    "provider_wait_ms": 15.187,
+    "combined_wait_ms": 30.5265
+  },
+  {
+    "provider_wait_ms": 15.2357,
+    "combined_wait_ms": 30.5768
+  },
+  {
+    "provider_wait_ms": 15.3216,
+    "combined_wait_ms": 30.8664
+  },
+  {
+    "provider_wait_ms": 15.1906,
+    "combined_wait_ms": 30.7526
+  },
+  {
+    "provider_wait_ms": 14.9247,
+    "combined_wait_ms": 30.4559
+  },
+  {
+    "provider_wait_ms": 14.8643,
+    "combined_wait_ms": 30.1245
+  },
+  {
+    "provider_wait_ms": 15.3291,
+    "combined_wait_ms": 30.361
+  },
+  {
+    "provider_wait_ms": 30.5621,
+    "combined_wait_ms": 45.8947
+  },
+  {
+    "provider_wait_ms": 15.7803,
+    "combined_wait_ms": 30.7792
+  },
+  {
+    "provider_wait_ms": 15.2501,
+    "combined_wait_ms": 30.7243
+  },
+  {
+    "provider_wait_ms": 15.3967,
+    "combined_wait_ms": 31.0108
+  },
+  {
+    "provider_wait_ms": 15.2448,
+    "combined_wait_ms": 30.9235
+  },
+  {
+    "provider_wait_ms": 15.4608,
+    "combined_wait_ms": 30.821
+  },
+  {
+    "provider_wait_ms": 15.5975,
+    "combined_wait_ms": 30.6507
+  },
+  {
+    "provider_wait_ms": 15.2328,
+    "combined_wait_ms": 30.5919
+  },
+  {
+    "provider_wait_ms": 15.3663,
+    "combined_wait_ms": 30.8971
+  },
+  {
+    "provider_wait_ms": 14.8571,
+    "combined_wait_ms": 30.0639
+  },
+  {
+    "provider_wait_ms": 15.1675,
+    "combined_wait_ms": 30.5452
+  },
+  {
+    "provider_wait_ms": 15.5678,
+    "combined_wait_ms": 30.8281
+  },
+  {
+    "provider_wait_ms": 15.4872,
+    "combined_wait_ms": 30.1586
+  },
+  {
+    "provider_wait_ms": 15.1747,
+    "combined_wait_ms": 30.633
+  },
+  {
+    "provider_wait_ms": 15.3382,
+    "combined_wait_ms": 30.745
+  },
+  {
+    "provider_wait_ms": 15.1146,
+    "combined_wait_ms": 30.6105
+  },
+  {
+    "provider_wait_ms": 15.2939,
+    "combined_wait_ms": 30.6259
+  },
+  {
+    "provider_wait_ms": 15.2884,
+    "combined_wait_ms": 30.5184
+  },
+  {
+    "provider_wait_ms": 15.4323,
+    "combined_wait_ms": 30.8139
+  },
+  {
+    "provider_wait_ms": 15.4962,
+    "combined_wait_ms": 30.5897
+  },
+  {
+    "provider_wait_ms": 15.4826,
+    "combined_wait_ms": 30.4576
+  },
+  {
+    "provider_wait_ms": 15.306,
+    "combined_wait_ms": 30.5054
+  },
+  {
+    "provider_wait_ms": 15.4327,
+    "combined_wait_ms": 30.9707
+  },
+  {
+    "provider_wait_ms": 15.3267,
+    "combined_wait_ms": 30.4264
+  },
+  {
+    "provider_wait_ms": 15.2867,
+    "combined_wait_ms": 30.7221
+  },
+  {
+    "provider_wait_ms": 15.4386,
+    "combined_wait_ms": 30.8235
+  },
+  {
+    "provider_wait_ms": 15.3659,
+    "combined_wait_ms": 30.803
+  },
+  {
+    "provider_wait_ms": 30.2535,
+    "combined_wait_ms": 45.5689
+  },
+  {
+    "provider_wait_ms": 15.2899,
+    "combined_wait_ms": 30.7675
+  },
+  {
+    "provider_wait_ms": 15.5145,
+    "combined_wait_ms": 30.9172
+  },
+  {
+    "provider_wait_ms": 15.3398,
+    "combined_wait_ms": 30.974
+  },
+  {
+    "provider_wait_ms": 15.2809,
+    "combined_wait_ms": 30.6057
+  },
+  {
+    "provider_wait_ms": 15.4895,
+    "combined_wait_ms": 30.8065
+  },
+  {
+    "provider_wait_ms": 15.1279,
+    "combined_wait_ms": 30.5988
+  },
+  {
+    "provider_wait_ms": 15.3537,
+    "combined_wait_ms": 30.4749
+  },
+  {
+    "provider_wait_ms": 14.8224,
+    "combined_wait_ms": 30.2118
+  },
+  {
+    "provider_wait_ms": 15.2691,
+    "combined_wait_ms": 30.097
+  },
+  {
+    "provider_wait_ms": 15.3716,
+    "combined_wait_ms": 30.6969
+  },
+  {
+    "provider_wait_ms": 15.7176,
+    "combined_wait_ms": 30.606
+  },
+  {
+    "provider_wait_ms": 15.6476,
+    "combined_wait_ms": 31.0716
+  },
+  {
+    "provider_wait_ms": 15.6208,
+    "combined_wait_ms": 30.7061
+  },
+  {
+    "provider_wait_ms": 15.5878,
+    "combined_wait_ms": 30.978
+  },
+  {
+    "provider_wait_ms": 15.2342,
+    "combined_wait_ms": 30.8458
+  },
+  {
+    "provider_wait_ms": 15.5028,
+    "combined_wait_ms": 31.0316
+  },
+  {
+    "provider_wait_ms": 15.4148,
+    "combined_wait_ms": 30.7206
+  },
+  {
+    "provider_wait_ms": 15.7309,
+    "combined_wait_ms": 30.776
+  },
+  {
+    "provider_wait_ms": 15.3014,
+    "combined_wait_ms": 30.888
+  },
+  {
+    "provider_wait_ms": 15.4489,
+    "combined_wait_ms": 30.7978
+  },
+  {
+    "provider_wait_ms": 15.5567,
+    "combined_wait_ms": 30.3786
+  },
+  {
+    "provider_wait_ms": 15.3848,
+    "combined_wait_ms": 30.6018
+  },
+  {
+    "provider_wait_ms": 15.4956,
+    "combined_wait_ms": 30.9138
+  },
+  {
+    "provider_wait_ms": 15.6331,
+    "combined_wait_ms": 31.2545
+  },
+  {
+    "provider_wait_ms": 15.2882,
+    "combined_wait_ms": 30.8848
+  },
+  {
+    "provider_wait_ms": 15.2387,
+    "combined_wait_ms": 30.5823
+  },
+  {
+    "provider_wait_ms": 15.1803,
+    "combined_wait_ms": 30.3968
+  },
+  {
+    "provider_wait_ms": 15.1075,
+    "combined_wait_ms": 30.494
+  },
+  {
+    "provider_wait_ms": 15.0642,
+    "combined_wait_ms": 30.4805
+  },
+  {
+    "provider_wait_ms": 30.8597,
+    "combined_wait_ms": 46.1746
+  },
+  {
+    "provider_wait_ms": 15.555,
+    "combined_wait_ms": 30.9897
+  },
+  {
+    "provider_wait_ms": 15.3784,
+    "combined_wait_ms": 30.7574
+  },
+  {
+    "provider_wait_ms": 15.3701,
+    "combined_wait_ms": 30.0308
+  },
+  {
+    "provider_wait_ms": 15.0485,
+    "combined_wait_ms": 30.4951
+  },
+  {
+    "provider_wait_ms": 14.8624,
+    "combined_wait_ms": 30.1067
+  },
+  {
+    "provider_wait_ms": 15.4772,
+    "combined_wait_ms": 30.8534
+  },
+  {
+    "provider_wait_ms": 15.4564,
+    "combined_wait_ms": 30.8771
+  },
+  {
+    "provider_wait_ms": 15.1055,
+    "combined_wait_ms": 30.563
+  },
+  {
+    "provider_wait_ms": 15.395,
+    "combined_wait_ms": 30.6488
+  },
+  {
+    "provider_wait_ms": 15.4081,
+    "combined_wait_ms": 30.8518
+  },
+  {
+    "provider_wait_ms": 15.4811,
+    "combined_wait_ms": 30.7637
+  },
+  {
+    "provider_wait_ms": 15.4028,
+    "combined_wait_ms": 31.0581
+  },
+  {
+    "provider_wait_ms": 15.5937,
+    "combined_wait_ms": 30.8887
+  },
+  {
+    "provider_wait_ms": 15.2924,
+    "combined_wait_ms": 30.7012
+  },
+  {
+    "provider_wait_ms": 15.6098,
+    "combined_wait_ms": 30.3176
+  },
+  {
+    "provider_wait_ms": 15.617,
+    "combined_wait_ms": 30.9239
+  },
+  {
+    "provider_wait_ms": 15.1871,
+    "combined_wait_ms": 30.9205
+  },
+  {
+    "provider_wait_ms": 15.1462,
+    "combined_wait_ms": 30.8667
+  },
+  {
+    "provider_wait_ms": 15.1142,
+    "combined_wait_ms": 30.56
+  },
+  {
+    "provider_wait_ms": 15.4948,
+    "combined_wait_ms": 30.8966
+  },
+  {
+    "provider_wait_ms": 15.3864,
+    "combined_wait_ms": 30.5948
+  },
+  {
+    "provider_wait_ms": 15.1799,
+    "combined_wait_ms": 30.5439
+  },
+  {
+    "provider_wait_ms": 15.3895,
+    "combined_wait_ms": 30.8607
+  },
+  {
+    "provider_wait_ms": 15.3855,
+    "combined_wait_ms": 30.5931
+  },
+  {
+    "provider_wait_ms": 15.1291,
+    "combined_wait_ms": 30.0443
+  },
+  {
+    "provider_wait_ms": 16.1097,
+    "combined_wait_ms": 30.9532
+  },
+  {
+    "provider_wait_ms": 15.2975,
+    "combined_wait_ms": 30.4894
+  },
+  {
+    "provider_wait_ms": 15.332,
+    "combined_wait_ms": 30.4795
+  },
+  {
+    "provider_wait_ms": 15.5446,
+    "combined_wait_ms": 30.7307
+  },
+  {
+    "provider_wait_ms": 15.2463,
+    "combined_wait_ms": 30.559
+  },
+  {
+    "provider_wait_ms": 14.9075,
+    "combined_wait_ms": 30.3164
+  },
+  {
+    "provider_wait_ms": 15.7466,
+    "combined_wait_ms": 30.9337
+  },
+  {
+    "provider_wait_ms": 15.2271,
+    "combined_wait_ms": 30.7659
+  },
+  {
+    "provider_wait_ms": 15.3084,
+    "combined_wait_ms": 30.7567
+  },
+  {
+    "provider_wait_ms": 15.5634,
+    "combined_wait_ms": 30.8173
+  },
+  {
+    "provider_wait_ms": 15.3579,
+    "combined_wait_ms": 30.3539
+  },
+  {
+    "provider_wait_ms": 15.148,
+    "combined_wait_ms": 30.4866
+  },
+  {
+    "provider_wait_ms": 15.55,
+    "combined_wait_ms": 31.1899
+  },
+  {
+    "provider_wait_ms": 15.0302,
+    "combined_wait_ms": 30.503
+  },
+  {
+    "provider_wait_ms": 15.302,
+    "combined_wait_ms": 30.7857
+  },
+  {
+    "provider_wait_ms": 15.3009,
+    "combined_wait_ms": 30.7345
+  },
+  {
+    "provider_wait_ms": 14.5905,
+    "combined_wait_ms": 29.5501
+  },
+  {
+    "provider_wait_ms": 15.3566,
+    "combined_wait_ms": 30.1448
+  },
+  {
+    "provider_wait_ms": 14.9734,
+    "combined_wait_ms": 29.7189
+  },
+  {
+    "provider_wait_ms": 15.2564,
+    "combined_wait_ms": 30.8153
+  },
+  {
+    "provider_wait_ms": 15.3746,
+    "combined_wait_ms": 30.7273
+  },
+  {
+    "provider_wait_ms": 15.5836,
+    "combined_wait_ms": 30.9892
+  },
+  {
+    "provider_wait_ms": 15.477,
+    "combined_wait_ms": 30.9501
+  },
+  {
+    "provider_wait_ms": 15.3302,
+    "combined_wait_ms": 30.8264
+  },
+  {
+    "provider_wait_ms": 14.7746,
+    "combined_wait_ms": 30.292
+  },
+  {
+    "provider_wait_ms": 14.9567,
+    "combined_wait_ms": 30.5378
+  },
+  {
+    "provider_wait_ms": 15.1868,
+    "combined_wait_ms": 30.4516
+  },
+  {
+    "provider_wait_ms": 15.5101,
+    "combined_wait_ms": 31.1406
+  },
+  {
+    "provider_wait_ms": 15.4402,
+    "combined_wait_ms": 30.7121
+  },
+  {
+    "provider_wait_ms": 15.5203,
+    "combined_wait_ms": 30.6839
+  },
+  {
+    "provider_wait_ms": 15.5128,
+    "combined_wait_ms": 30.8785
+  },
+  {
+    "provider_wait_ms": 15.7567,
+    "combined_wait_ms": 30.9181
+  },
+  {
+    "provider_wait_ms": 15.4075,
+    "combined_wait_ms": 30.671
+  },
+  {
+    "provider_wait_ms": 15.3064,
+    "combined_wait_ms": 30.6499
+  },
+  {
+    "provider_wait_ms": 15.2257,
+    "combined_wait_ms": 30.2374
+  },
+  {
+    "provider_wait_ms": 15.1665,
+    "combined_wait_ms": 30.6291
+  },
+  {
+    "provider_wait_ms": 15.2712,
+    "combined_wait_ms": 30.5206
+  },
+  {
+    "provider_wait_ms": 15.4381,
+    "combined_wait_ms": 30.9139
+  },
+  {
+    "provider_wait_ms": 15.225,
+    "combined_wait_ms": 30.7101
+  },
+  {
+    "provider_wait_ms": 15.3961,
+    "combined_wait_ms": 30.7156
+  },
+  {
+    "provider_wait_ms": 15.3066,
+    "combined_wait_ms": 30.6986
+  },
+  {
+    "provider_wait_ms": 15.4119,
+    "combined_wait_ms": 30.9607
+  },
+  {
+    "provider_wait_ms": 15.6273,
+    "combined_wait_ms": 30.7688
+  },
+  {
+    "provider_wait_ms": 15.4149,
+    "combined_wait_ms": 30.9461
+  },
+  {
+    "provider_wait_ms": 15.4119,
+    "combined_wait_ms": 30.8535
+  },
+  {
+    "provider_wait_ms": 15.3018,
+    "combined_wait_ms": 30.6097
+  },
+  {
+    "provider_wait_ms": 15.555,
+    "combined_wait_ms": 30.6346
+  },
+  {
+    "provider_wait_ms": 15.4659,
+    "combined_wait_ms": 30.6641
+  },
+  {
+    "provider_wait_ms": 15.3369,
+    "combined_wait_ms": 30.4855
+  },
+  {
+    "provider_wait_ms": 15.4095,
+    "combined_wait_ms": 30.8086
+  },
+  {
+    "provider_wait_ms": 15.4832,
+    "combined_wait_ms": 30.6318
+  },
+  {
+    "provider_wait_ms": 15.4115,
+    "combined_wait_ms": 30.7451
+  },
+  {
+    "provider_wait_ms": 15.4702,
+    "combined_wait_ms": 30.5516
+  },
+  {
+    "provider_wait_ms": 15.5643,
+    "combined_wait_ms": 31.1341
+  },
+  {
+    "provider_wait_ms": 15.274,
+    "combined_wait_ms": 30.6295
+  },
+  {
+    "provider_wait_ms": 15.3667,
+    "combined_wait_ms": 31.0218
+  },
+  {
+    "provider_wait_ms": 15.0008,
+    "combined_wait_ms": 30.3274
+  },
+  {
+    "provider_wait_ms": 15.4206,
+    "combined_wait_ms": 30.4685
+  },
+  {
+    "provider_wait_ms": 15.3671,
+    "combined_wait_ms": 30.6075
+  },
+  {
+    "provider_wait_ms": 15.4786,
+    "combined_wait_ms": 30.7507
+  },
+  {
+    "provider_wait_ms": 15.3996,
+    "combined_wait_ms": 30.7075
+  },
+  {
+    "provider_wait_ms": 15.1411,
+    "combined_wait_ms": 30.4368
+  },
+  {
+    "provider_wait_ms": 15.344,
+    "combined_wait_ms": 30.6791
+  },
+  {
+    "provider_wait_ms": 15.5001,
+    "combined_wait_ms": 30.859
+  },
+  {
+    "provider_wait_ms": 15.431,
+    "combined_wait_ms": 30.5768
+  },
+  {
+    "provider_wait_ms": 15.4745,
+    "combined_wait_ms": 30.8745
+  },
+  {
+    "provider_wait_ms": 15.6178,
+    "combined_wait_ms": 30.7821
+  },
+  {
+    "provider_wait_ms": 15.4019,
+    "combined_wait_ms": 30.5727
+  },
+  {
+    "provider_wait_ms": 15.6412,
+    "combined_wait_ms": 30.8112
+  },
+  {
+    "provider_wait_ms": 15.3054,
+    "combined_wait_ms": 31.1347
+  },
+  {
+    "provider_wait_ms": 15.037,
+    "combined_wait_ms": 30.1467
+  },
+  {
+    "provider_wait_ms": 15.2868,
+    "combined_wait_ms": 29.9773
+  },
+  {
+    "provider_wait_ms": 15.269,
+    "combined_wait_ms": 30.3211
+  },
+  {
+    "provider_wait_ms": 15.5264,
+    "combined_wait_ms": 31.0894
+  }
+]

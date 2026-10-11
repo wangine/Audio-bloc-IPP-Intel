@@ -1,0 +1,1 @@
+Source began before one capture period plus an output block was available

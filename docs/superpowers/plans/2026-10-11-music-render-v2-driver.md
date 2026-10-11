@@ -158,3 +158,15 @@ The final audit also rejects frozen publication's ambiguous terminal0. Core is
 unchanged; full A/B/C, native OS EOS and real TIDAL remain incomplete.
 See validation/music-render-v2/LOADED-DRIVER-0.3.0.10.md and the complete recorded
 evidence. No production or unbounded stability claim is made.
+
+Follow-up authorized inline2026-10-11: Stage1v0003-r3 is a separate source/runtime,
+not a replacement of the frozen reference. The new Core fixes ingress double wait,
+MMCSS scheduling, declared FIFO priming, AUX queue drain, durable publisher terminal,
+delayed control receipt and telemetry contention. Kernel0.3.0.11 wakes passive
+read-finish on gate release instead of coarse1ms retry. Loaded12-format raw matrix
+and native192k 60s/format pass, with exact binary64 and full drain. Real legacy
+MUSIC + default AUX Shared300s passes Core counters/metadata; Exclusive AUX/MMCSS120s
+passes ingress chronology. Driver12CTest, Core6CTest, terminal9cases and standalone
+source closure pass. Current report: validation/music-render-v2/LOADED-DRIVER-0.3.0.11.md.
+The original frozen-Core output FAIL and untested TIDAL/effective native EOS paths
+are not relabeled complete; older long-stress coverage stays bound to0.3.0.10.

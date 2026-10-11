@@ -1,0 +1,57 @@
+{
+  "scope": "DIAGNOSTIC_ONLY; concatenating valid blocks does not repair chronology or qualify completion",
+  "sourceFrames": 1920000,
+  "validFp64Frames": 1920000,
+  "allValidSamplesCompared": true,
+  "mismatchedBinary64Samples": 0,
+  "extraFrames": 0,
+  "publicationBlocks": 1908,
+  "lastPublicationSequence": 1933,
+  "invalidClockFrames": 33792,
+  "interiorInvalidFrames": 4096,
+  "footer": true,
+  "subscriberErrors": 1,
+  "qpcFrequency": 10000000,
+  "invalidRuns": [
+    {
+      "domain": "startup",
+      "firstSequence": 26,
+      "lastSequence": 44,
+      "sourceFrameAtGap": 0,
+      "clockFrames": 19456,
+      "qpc": 1870546519640
+    },
+    {
+      "domain": "interior",
+      "firstSequence": 46,
+      "lastSequence": 46,
+      "sourceFrameAtGap": 1024,
+      "clockFrames": 1024,
+      "qpc": 1870547580608
+    },
+    {
+      "domain": "interior",
+      "firstSequence": 347,
+      "lastSequence": 347,
+      "sourceFrameAtGap": 308224,
+      "clockFrames": 1024,
+      "qpc": 1870563632620
+    },
+    {
+      "domain": "interior",
+      "firstSequence": 534,
+      "lastSequence": 535,
+      "sourceFrameAtGap": 498688,
+      "clockFrames": 2048,
+      "qpc": 1870573605784
+    },
+    {
+      "domain": "tail",
+      "firstSequence": 1924,
+      "lastSequence": 1933,
+      "sourceFrameAtGap": 1920000,
+      "clockFrames": 10240,
+      "qpc": 1870647742505
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+-- Configuring done (0.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Stage1-v0003/build
+[1/2] Building CXX object CMakeFiles\Stage1TelemetryTests.dir\tests\TelemetryTests.cpp.obj
+[2/2] Linking CXX executable Stage1TelemetryTests.exe

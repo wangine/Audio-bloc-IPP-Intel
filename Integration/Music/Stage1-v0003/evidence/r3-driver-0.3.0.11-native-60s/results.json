@@ -1,0 +1,28 @@
+[
+  {
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-native-60s\\192000-16-event\\output-comparison.json",
+    "frames": 11520000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 192000,
+      "bits": 16,
+      "seconds": 60,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-native-60s\\192000-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-native-60s\\192000-32-event\\output-comparison.json",
+    "frames": 11520000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 192000,
+      "bits": 32,
+      "seconds": 60,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-native-60s\\192000-32-event\\comparison.json"
+  }
+]

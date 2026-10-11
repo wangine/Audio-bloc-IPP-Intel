@@ -1,0 +1,2 @@
+reads=2533431 blank=0 regressed=0
+PASS telemetry collision preserves last coherent metadata and counters; explicit clear remains clear

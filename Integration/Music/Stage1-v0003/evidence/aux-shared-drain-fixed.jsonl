@@ -1,0 +1,2 @@
+{"event":"packet_detail","packet":1,"first":1620569601,"frames":441,"flags":5,"seconds":0.0015616}
+{"event":"summary","packets":12001,"frames":5292441,"empty_reads":26,"position_gaps":0,"max_read_ms":24.1225,"failed":false}

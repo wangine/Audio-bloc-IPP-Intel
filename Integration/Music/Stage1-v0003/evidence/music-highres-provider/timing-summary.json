@@ -1,0 +1,94 @@
+{
+  "no_data_read_ms": {
+    "count": 4121,
+    "max": 4.4635,
+    "mean": 2.4363070613928643
+  },
+  "processed_packet_interval_max_ms": 25.6108,
+  "zero_ticks_after_first_valid": [
+    {
+      "time_qpc": 1870547580567,
+      "fill": 0,
+      "since_packet_ms": 6.0335,
+      "until_packet_ms": 3.8686
+    },
+    {
+      "time_qpc": 1870563632564,
+      "fill": 0,
+      "since_packet_ms": 10.5111,
+      "until_packet_ms": 0.0396
+    },
+    {
+      "time_qpc": 1870573605749,
+      "fill": 0,
+      "since_packet_ms": 19.1136,
+      "until_packet_ms": 6.4972
+    },
+    {
+      "time_qpc": 1870573662151,
+      "fill": 0,
+      "since_packet_ms": 24.7538,
+      "until_packet_ms": 0.857
+    },
+    {
+      "time_qpc": 1870647742465,
+      "fill": 0,
+      "since_packet_ms": 31.7379,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870647794761,
+      "fill": 0,
+      "since_packet_ms": 36.9675,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870647846513,
+      "fill": 0,
+      "since_packet_ms": 42.1427,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870647900630,
+      "fill": 0,
+      "since_packet_ms": 47.5544,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870647954228,
+      "fill": 0,
+      "since_packet_ms": 52.9142,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870648011747,
+      "fill": 0,
+      "since_packet_ms": 58.6661,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870648059901,
+      "fill": 0,
+      "since_packet_ms": 63.4815,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870648115604,
+      "fill": 0,
+      "since_packet_ms": 69.0518,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870648169712,
+      "fill": 0,
+      "since_packet_ms": 74.4626,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1870648221238,
+      "fill": 0,
+      "since_packet_ms": 79.6152,
+      "until_packet_ms": null
+    }
+  ]
+}

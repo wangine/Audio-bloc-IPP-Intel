@@ -1,0 +1,13 @@
+{
+  "driverVersion": "0.3.0.11",
+  "inf": "oem28.inf",
+  "deviceId": "ROOT\\MEDIA\\0003",
+  "installed": {
+    "path": "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\entropymusicrenderv2.inf_amd64_26f4a0766080c004\\EntropyMusicRenderV2.sys",
+    "service": "EntropyMusicRenderV2",
+    "state": "Running",
+    "sha256": "FB78EC3CC6066CDF3A039CCE95CD13C26199F2EC630F188351155F84EBB610AA"
+  },
+  "packageManifestSha256": "62C8A88A423D882ABF6B0A800A48CE2103AC4E0B93C9877999BB329A1E0528C3",
+  "pass": true
+}

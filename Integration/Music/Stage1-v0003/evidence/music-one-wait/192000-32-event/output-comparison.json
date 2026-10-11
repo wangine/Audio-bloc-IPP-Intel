@@ -1,0 +1,1 @@
+{"pass":false,"frames":1024,"mismatchedSamples":0,"invalidClockFrames":33792,"interiorInvalidFrames":1024,"exactBinary64":true,"inputRate":192000,"outputRate":192000,"footer":true,"subscriberErrors":1,"reason":"Inserted invalid/silent clock block inside source sequence"}

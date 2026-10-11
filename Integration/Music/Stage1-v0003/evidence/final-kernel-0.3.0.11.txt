@@ -1,0 +1,12 @@
+
+  Building 'EntropyMusicRenderV2' with toolset 'WindowsKernelModeDriver10.0' and the 'Windows Driver' target platform.
+  BridgeDevice.cpp
+  EntropyMusicRenderV2.vcxproj -> D:\Projects\3Stage-3\Audio-bloc-IPP-Intel\Drivers\EntropyMusicRenderV2\build\kernel\EntropyMusicRenderV2.sys
+  Driver is 'Windows Driver'.
+  DrvCat task was skipped as there was no catalog file to process
+  
+{
+  "bytes": 62464,
+  "sha256": "D7D25355F59C84BE4F91996B12FDFE44C9F0B51ECEEAEBBAB769CD9530A70B6B",
+  "path": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\build\\kernel\\EntropyMusicRenderV2.sys"
+}

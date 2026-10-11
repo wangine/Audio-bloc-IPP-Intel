@@ -1,0 +1,158 @@
+[
+  {
+    "fp64Report": null,
+    "frames": 441000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 44100,
+      "bits": 16,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\44100-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 441000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 44100,
+      "bits": 32,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\44100-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 480000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 48000,
+      "bits": 16,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\48000-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 480000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 48000,
+      "bits": 32,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\48000-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 882000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 88200,
+      "bits": 16,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\88200-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 882000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 88200,
+      "bits": 32,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\88200-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 960000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 96000,
+      "bits": 16,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\96000-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 960000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 96000,
+      "bits": 32,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\96000-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 1764000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 176400,
+      "bits": 16,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\176400-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 1764000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 176400,
+      "bits": 32,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\176400-32-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 1920000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 192000,
+      "bits": 16,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\192000-16-event\\comparison.json"
+  },
+  {
+    "fp64Report": null,
+    "frames": 1920000,
+    "observedAllocation": 1,
+    "case": {
+      "rate": 192000,
+      "bits": 32,
+      "seconds": 10,
+      "servicing": "event"
+    },
+    "pass": true,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-driver-0.3.0.11-all-format-raw-10s\\192000-32-event\\comparison.json"
+  }
+]

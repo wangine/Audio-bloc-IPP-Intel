@@ -1,0 +1,112 @@
+{
+  "no_data_read_ms": {
+    "count": 675,
+    "max": 44.7603,
+    "mean": 15.000345185185182
+  },
+  "processed_packet_interval_max_ms": 16.0884,
+  "zero_ticks_after_first_valid": [
+    {
+      "time_qpc": 1868529500858,
+      "fill": 0,
+      "since_packet_ms": 8.2199,
+      "until_packet_ms": 6.1382
+    },
+    {
+      "time_qpc": 1868529552025,
+      "fill": 0,
+      "since_packet_ms": 13.3366,
+      "until_packet_ms": 1.0215
+    },
+    {
+      "time_qpc": 1868532008541,
+      "fill": 0,
+      "since_packet_ms": 14.4506,
+      "until_packet_ms": 0.8446
+    },
+    {
+      "time_qpc": 1868629607418,
+      "fill": 0,
+      "since_packet_ms": 19.2486,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868629660361,
+      "fill": 0,
+      "since_packet_ms": 24.5429,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868629716873,
+      "fill": 0,
+      "since_packet_ms": 30.1941,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868629769993,
+      "fill": 0,
+      "since_packet_ms": 35.5061,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868629821352,
+      "fill": 0,
+      "since_packet_ms": 40.642,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868629875966,
+      "fill": 0,
+      "since_packet_ms": 46.1034,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868629928349,
+      "fill": 0,
+      "since_packet_ms": 51.3417,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868629980078,
+      "fill": 0,
+      "since_packet_ms": 56.5146,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868630034692,
+      "fill": 0,
+      "since_packet_ms": 61.976,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868630086911,
+      "fill": 0,
+      "since_packet_ms": 67.1979,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868630140703,
+      "fill": 0,
+      "since_packet_ms": 72.5771,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868630192890,
+      "fill": 0,
+      "since_packet_ms": 77.7958,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868630246462,
+      "fill": 0,
+      "since_packet_ms": 83.153,
+      "until_packet_ms": null
+    },
+    {
+      "time_qpc": 1868630303105,
+      "fill": 0,
+      "since_packet_ms": 88.8173,
+      "until_packet_ms": null
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+[
+  {
+    "pass": false,
+    "case": {
+      "seconds": 10,
+      "rate": 192000,
+      "bits": 16,
+      "servicing": "event"
+    },
+    "reason": "Exact native192k FP64 output comparison failed"
+  },
+  {
+    "pass": false,
+    "case": {
+      "seconds": 10,
+      "rate": 192000,
+      "bits": 32,
+      "servicing": "event"
+    },
+    "reason": "Exact native192k FP64 output comparison failed"
+  }
+]

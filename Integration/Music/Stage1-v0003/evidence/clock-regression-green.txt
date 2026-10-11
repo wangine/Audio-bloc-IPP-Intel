@@ -1,0 +1,1 @@
+PASS 20s deterministic 1920-frame capture /1024-frame publication, exact FP64

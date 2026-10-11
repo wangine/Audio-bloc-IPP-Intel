@@ -1,0 +1,2 @@
+PASS MSVC Stage1 -> actual packaged MinGW Stage2 MUSIC2/LRC3 native DLLs; stop/restart with stable source UUID
+PASS discovery/selector, MUSIC2 publisher, headless process and versioned IPC independent lifetime

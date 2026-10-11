@@ -1,0 +1,1 @@
+trace invalid-path regression

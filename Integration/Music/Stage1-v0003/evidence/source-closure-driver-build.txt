@@ -1,0 +1,15 @@
+[38/52] Building CXX object CMakeFiles\EntropyMusicPcmAudit.dir\audit\main.cpp.obj
+[39/52] Linking CXX executable MusicRenderKernelBindingTests.exe
+[40/52] Linking CXX executable MusicRenderOutputPublisherFixture.exe
+[41/52] Linking CXX executable MusicRenderModelTests.exe
+[42/52] Linking CXX executable MusicRenderProviderTests.exe
+[43/52] Linking CXX shared library EntropyMusicRawProviderV2.dll
+[44/52] Linking CXX executable MusicRenderBridgeTests.exe
+[45/52] Linking CXX executable MusicRenderAuditTests.exe
+[46/52] Building CXX object CMakeFiles\EntropyMusicRawProviderV2Audit.dir\provider\AuditObserver.cpp.obj
+[47/52] Linking CXX executable MusicRenderObserverTests.exe
+[48/52] Linking CXX executable EntropyMusicPcmAudit.exe
+[49/52] Building CXX object CMakeFiles\EntropyMusicRawProviderV2Audit.dir\provider\WindowsEndpointIdentity.cpp.obj
+[50/52] Linking CXX executable MusicRenderProviderLoadTests.exe
+[51/52] Linking CXX executable MusicRenderInboxTests.exe
+[52/52] Linking CXX shared library EntropyMusicRawProviderV2Audit.dll

@@ -1,0 +1,26 @@
+-- Configuring done (0.0s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/Stage1-v0003/build
+ninja: no work to do.
+Internal ctest changing into directory: D:/Projects/3Stage-3/Stage1-v0003/build
+Test project D:/Projects/3Stage-3/Stage1-v0003/build
+    Start 1: Stage1Pcm
+1/5 Test #1: Stage1Pcm ........................   Passed    0.03 sec
+    Start 2: Stage1Architecture
+2/5 Test #2: Stage1Architecture ...............***Failed    0.31 sec
+FAIL line 287: after.sources[0].validBits == 24 && after.sources[0].containerBits == 32 && after.sources[0].rate == 192000
+
+    Start 3: Stage1Pipeline
+3/5 Test #3: Stage1Pipeline ...................   Passed    0.63 sec
+    Start 4: Stage1CaptureQueue
+4/5 Test #4: Stage1CaptureQueue ...............   Passed    0.02 sec
+    Start 5: Stage1SourceClock
+5/5 Test #5: Stage1SourceClock ................   Passed    0.31 sec
+
+80% tests passed, 1 tests failed out of 5
+
+Total Test time (real) =   1.29 sec
+
+The following tests FAILED:
+	  2 - Stage1Architecture (Failed)
+Errors while running CTest

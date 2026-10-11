@@ -1,0 +1,3 @@
+{"event":"position_gap","expected":1593370573,"actual":1593370926,"flags":4,"seconds":67.5317}
+{"event":"domain_rejected","packet":6753,"flags":4,"frames":441}
+{"event":"summary","packets":6752,"frames":2977279,"empty_reads":0,"position_gaps":1,"max_read_ms":30.2993,"failed":true}

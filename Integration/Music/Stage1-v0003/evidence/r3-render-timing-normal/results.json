@@ -1,0 +1,25 @@
+[
+  {
+    "case": {
+      "seconds": 20,
+      "rate": 192000,
+      "bits": 16,
+      "servicing": "event"
+    },
+    "pass": false,
+    "reason": "Exact native192k FP64 output comparison failed"
+  },
+  {
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-render-timing-normal\\192000-32-event\\comparison.json",
+    "frames": 3840000,
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r3-render-timing-normal\\192000-32-event\\output-comparison.json",
+    "pass": true,
+    "observedAllocation": 1,
+    "case": {
+      "seconds": 20,
+      "rate": 192000,
+      "bits": 32,
+      "servicing": "event"
+    }
+  }
+]

@@ -1,0 +1,2147 @@
+{
+  "recorded_on": "2026-10-10",
+  "phase": "A read-only inventory; no product implementation",
+  "reference_repository": "https://github.com/wangine/Audio-bloc-IPP-Intel",
+  "reference_tag": "stage1-passive-v0002",
+  "reference_commit": "48f979f489264885ab1a16351f81c43ddf64b0f1",
+  "tag_verification": "git ls-remote --tags origin stage1-passive-v0002; commit object already available locally",
+  "checkout_head": "3e36e367741ab47f7ed861a21662866001ea8f13",
+  "checkout_branch": "codex/pcm24-v2-integration",
+  "attached_instruction_sha256": "850AA532A1AC691E9067958AA7F5ACDBFE622CC99245AEC905DED6B79D89C44D",
+  "release_archive_sha256": "DAD485108CB12273F48104294B4AF688099A356E45AEEAA55AC87AE99A5957FC",
+  "native_src_tag_vs_v019_changed_files": [],
+  "music_contract_sha256": "8D1DD0D0B733489A83EBB5A84ED287AD211175D27D7FBEA64FA969130F55318E",
+  "music_contract_hash": "8d1dd0d0b733489a83ebb5a84ed287ad211175d27d7fbea64fa969130f55318e",
+  "local_matrix_reference": [
+    {
+      "path": "D:\\Projects\\Entropy Codex Lucru\\Modular 3 stages\\source\\Modules\\InputMatrix\\src\\InputMatrixEngine.cpp",
+      "sha256": "5EE102500AA505D9DF4A114CC064B2E88075DB29DFED05BA8E533C7755936F69"
+    },
+    {
+      "path": "D:\\Projects\\Entropy Codex Lucru\\Modular 3 stages\\source\\Modules\\InputMatrix\\include\\InputMatrixEngine.h",
+      "sha256": "814D916AE173FA720CC372226ACFA16286F23EB6926C0165AFAEB854502A7C27"
+    }
+  ],
+  "reference_files": [
+    {
+      "path": "Integration/Stage1/native-src/Build-Native-Src.cmd",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ecb629371cbe10df2d79036f9ed2e6e3ec4c1042"
+    },
+    {
+      "path": "Integration/Stage1/native-src/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f01f7530719b21a0d7187b30602d61e57eda8be4"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "df8318be03efc36edbe222a69131aef81c3d36d4"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7a5f16a2c33c102a5e89be9415c680ac22bb5819"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPBlockConvolver.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "750c8c5332bd5f4270376ffbfe6d756e91c88151"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPFIRFilter.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "490060731fa56c81f4210246f4d642c05eafea06"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPFracInterpolator.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2044823aa52bbe87d57dd4fe3bc37036d547a059"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPHBDownsampler.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b9880ef395a2353f800dbc261e14897153fb12ef"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPHBDownsampler.inc",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9f2497f297177e4a063a7c72b9bc8316f73b1abe"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPHBUpsampler.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d1eeb13d4f72ff9cb699e11197e1a88b757d7f5c"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPHBUpsampler.inc",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f9431b1edc2bd65ae7668d17cae451365500d1ad"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPProcessor.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "57054c206a267de0ca51a3f421fbab3aa03e364e"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPRealFFT.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cbced427a88d2ca43efb2830ae86da24d49ec27a"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPResampler.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ee6057b8817105f35f3d2b9169252975a987f4b2"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/CDSPSincFilterGen.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f2e009588335d2e614d7c844b655652b4daf2381"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/DLL/r8bsrc.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e5fe8c063bdd9b05069356a90c9a24625204c13e"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/DLL/r8bsrc.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d6ce5b2f4dd362f7a61e850954fba4931e4db52a"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/DLL/r8bsrc.pas",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f219f378e5dd8bf1600b950d497d630801d06432"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/LICENSE",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "20f5a9db3ccb9c2bf7a2875e7ad91749bca898a0"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "921bcefdb8a463e677dec4bb2441632fae173ab6"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/bench/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9aaac7932d0bbf15d4e8e4c30f20ff8745324815"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/bench/masstest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2041a106a418410e2863bb4e65d022273a8cb54c"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/bench/r8bfreesrc.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5c313ba8f0a71f4bf0dc6657cac7a16a0b507f45"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/bench/rmscompare.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c1ac3e216ee1e072a597b16dc9cc8d013eb502e3"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/bench/sacd.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "82ef82a503be3807a4ba2c700bc9900ad3251fd7"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/bench/snrtest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "13be28c49191fcd222fa9e56cb253185b02e1677"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/bench/zerotest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0bdfa3a94a167373287f6def1bcebaca68d2bda8"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/example.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4355309237e623faf332577f2c4eb2cb0eb3395d"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/fft4g.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a3e34c80bfac9ca87c4a8e790631be6b251b1441"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/pffft.c",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c8a2b863761f2319ccd771c3bb2b6eb86cb4b4fc"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/pffft.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7f62206354db0677830e887a5082228fb888034b"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/pffft_double.c",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9d1c46a8bdc3b0caf259e4a9068067ca9592ce2d"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/pffft_double.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "342491455dd87320c96e7e08ac3bec50a26c6ad4"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/pffft_priv_impl.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6315a7a38f7c740e2039e5f4c60bf49914f9653c"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/simd/pf_avx_double.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fe0efa82660f639e3e3753cbe252e6da8e405997"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/simd/pf_double.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "10258270349228f9fbeba18f9371e5c6c3064b2b"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/simd/pf_neon_double.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c35d59d04615e5c0116199872aceef4ee5da947f"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/simd/pf_neon_double_from_avx.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5cce17e1bf9a420500d984593415341bdfaf87ef"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/simd/pf_scalar_double.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b7a1cae7919cf2e69a10aad84471adc6394c7bb2"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/fft/simd/pf_sse2_double.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cca4f52dda217e0ac902b283d96ee19ebb9aac87"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/other/calcCorrTable.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "00362dc4b88730a10a57af58449036b7a5335e94"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/other/calcErrorTable.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9b3bed2991ef51908f7b40430184017ff3f53a06"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/other/flttest.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fe4cc6651c46858d895cf49fc673321ed18b3a2c"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/other/genhbc.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cd2038a69362b504970e99b766cfff99afb039aa"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/other/hbopt.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6587599db5e7dbf499ed389f9d1b1232bee54a9f"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/other/icon.png",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "28c2d2796443d9d33726a31326bc3d5831f271e1"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/other/r8bdoxy.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "defc5c76922ba29061d494c2cfa5c6b05f85902e"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/other/winopt.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6411cae676077015c1a91006a36fbbc019c9120f"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/r8bbase.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "01801fc21cc5aa2c2db0b189375198ce7d06c6f0"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/r8bconf.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d80e76459e94b364245b20f5aa0020353375a1b1"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/R8Brain/src/r8brain-free-src/r8butil.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3bbeae1c75d5ebd20eb2edf9da879102dea4b0e4"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "051b5da54d47a414d90592f892079b527566a5de"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/include/MultiChannelSrcEngine.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "af997f2c6a87cca8be1f7bd51be9f7fb84500db8"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/src/MultiChannelSrcEngine.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2cc8b42e567f8572b278d6d4469256c3f17acf99"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/src/SrcModule.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1234117ba3781ee06ee58fe3e8ed576ba2ee9420"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/tests/NominalEgressContractTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "265ff45a3a381e691b99ceb9e8816f520349059b"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/tests/SrcModuleTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "df7b9610fad7b8126c693afe4618529ccfe0a906"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/tests/SrcQualityTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "25978286e46c3e55fedb18e2cfb81b2c095cf065"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Modules/SRC/tests/SrcRealtimeAllocationTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d2c2bae8fdd86b9889917771257a3ecfeaea4860"
+    },
+    {
+      "path": "Integration/Stage1/native-src/NativeReplayProbe.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4a5478eded5c105d9fd3a61991f1f14e1e83b1cc"
+    },
+    {
+      "path": "Integration/Stage1/native-src/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cc72247a4b784b35f59877fe5d343fb5940f8e4f"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5bd72cf1cc28103edc1c1441947ad88a7e0bb747"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cc4da687a479f11754e1b0a4a83dce391e5483d4"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/EntropyControlShared.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "33f7556419fffff858c6facf6cff745730b34d88"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/EntropyOutputControlShared.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fec44f09f37616c10561e3b1d4eadadfa1248c94"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/EntropyTelemetryShared.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "52ec310133d1c0250e8bc75bfba2af8111dd8c1b"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/center_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fe2eb31d664c5a296610d711e632cf36fcb6bf54"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/cinema_endpoint_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "99c55db83b88ae85bd73e7eac2f6e9367404c7a7"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/crossover_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "177186435992f11a65aa0d683f657c384c295aa5"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/crossover_program_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "02eef4f4eb5664f63c2e4702a525d62a320c273f"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/dac_sink_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9df5c58de731ceca583f04bc0a64e8299e03f6b1"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/device_manager_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ca1583c33000fda038eb97057afaf880a7310e9d"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/egress_clock_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "899822ac958bc316ee3ad6886aa9c18d4f86e08a"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/egress_clock_diagnostics_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "68bbf026f529d7ebe1f8133e11f6d4f805c153a5"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/egress_forensic_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f13010a1ec1824037ba81136b30acb10c09fd277"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/endpoint_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fdb7d840bf5e7f27be20f5b9afba0c24a2617123"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/endpoint_catalog_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "05fc608b3a776a8deef4e6c5c6d07b72cb508b3d"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/final_guardian_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3e9199eb340d492ab968d4585d5c9855d06a68fa"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/headroom_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a1581d3641bebe2bcf4d561c46667c6c0ae664af"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/input_matrix_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9bf9e3ff1eb746a44b54a50b05e0b83dc1c8a9c1"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/loudness_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0922e5984ad6639691bbe55714b2668decbf8ebe"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/loudness_display_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "993e6380472fb3e4f08ebab4c0ed906c9d9bda6a"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/module_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "870b5a3336dae06d835bfdc724942b181c938812"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/output_matrix_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e7221fb157005e929ca9a4f868e37b36cdfadd8f"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/parametric_eq_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "937e88f51ddaae4f90841c7c0e63c6d420962ecb"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/pcm24_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6aab60a7080f4e38259f3ab5b74c0e48dd731a41"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/r04_diagnostics.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "24c15934f32c0636a248908ec5a392af4c75aef3"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/r04_diagnostics_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "803d1269e2e3208cc691c6817c55b67d6ef5597b"
+    },
+    {
+      "path": "Integration/Stage1/native-src/Shared/ModuleABI/include/entropy/src_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "37274d0ebf49d53b1eb523ff0ffdae8e004b6216"
+    },
+    {
+      "path": "Integration/Stage1/source/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "eee14d7ac354cfefcd1f25d81a1b81af4ba66aee"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ApplicationLifecycleIpc.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "410f3664277b639e9525f8da62f70cad26def02b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ApplicationShutdownPolicy.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4dc43890c6a5ee9965195990b31e947eada3b923"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/AppliedProgramBlock.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8191588ceeeeaa27a691eba06575a8807f037ca9"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/AudioBlockReport.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f6ac3eeffb2c5d51e4d1e72dd83fb7381b7aa8f4"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/AudioFloatingPointScope.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6483f0d39d8b77816aaa2bb0f3ff79187e353191"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/AuthoritativeAudioExecutor.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a2fc5159f60ba05b3ff471281a35c8bfd8dd35f1"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/AuthoritativeFaultStatus.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "34f6161bec3b59740a443648b0014959f4851ab2"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/CinemaSourceDomainStream.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "edac33ae67b0124f0cc41242daafdc86b7b8a305"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/CinemaSourceDomainStream.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "078cfaa4fe1ec39a1fd6ec88eec72745f97b95c0"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/CinemaWdlSrc.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b1f3671f45db677b62d99b8e0f7828e929ed9e8b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/CinemaWdlSrc.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "81b2102486d357ae9d3878325d4ff5d819a8d8c7"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/CoordinatedDomainStart.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1449cc26e5ea41c3c4d3e2f0c0adea90a9574981"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/CrossoverCommandIpc.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c42477b4f41a42a83cc41a974d51e7ee7939a8a2"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/CrossoverControlLedger.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5b2b814719d22b7171b61d86133387bcbd756dc6"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/CrossoverControlWorker.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8aea1a2dfa40a9ad772858221a5c79c7a441784b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/DacIdentityConflict.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e303dbc47fa80be4532dc4a62bc0ca811804c588"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EgressForensicArchive.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "843f6c6ba64d45e08452042d921ed17247caee89"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EgressForensicCollector.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "92323d58b587c0b912572443edeeca9a5319e517"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EgressLiveForensicSession.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ac6a79ec77b88e2c24c11d4dcd5cc7ddbe9796dc"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EgressProgramBoundary.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "32e35d42e9101e91bb6862de750f18463290981a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EgressStartupPrefill.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4fca6ffea319e476ed8954e7821efba2707fbc68"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EndpointLossWindow.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f344bb14cddda461d2c34fe27238cd60b82df95c"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EndpointProbe.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "983ea602aa666abf3f88de04cdcc1fd17e185a50"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EngineCadencePolicy.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e419f1c84eb828396a3ab16bdf27aa448656709a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/EngineTelemetry.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "94abbf4b204b85cc5221adeea42354898ccea064"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/FirstOutputFault.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "277c66eae6659a6f37655a804036369132048847"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/GraphManifest.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e8da18af22580a0eeb1bf254c46bbd29e96b7b9f"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/GraphMetadataSyncGate.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a3b9e77727be5cfcd649433a946a33161da3d34d"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/GraphRuntime.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "70c94b9996ff504c6f806b5280aef29e3cd1d6c8"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/HardwareOutputRuntime.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b866d58659c9dea604108c2a0181abaead8953a9"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/InputCatalogIpc.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "88c5a3d8709c5d4b45065840977bd2570b3b736c"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/InputSelectionIpc.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8b4908cb4d7b198a8fd7cf99e593b80dc83d8505"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/InputSourceCatalog.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cc2dfb37fb73ced11b5c7c16f1565cfe860bbc3d"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/InputSourceCatalog.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "73936871d2dea1df461a436c5b371bd162198621"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/IsolatedSettings.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bee32194a5741257bfaf2dc92e2bf54720f9b1a2"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/LatencyDiagnostics.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f39a24dc3d6fdd4e8be67a07e19df747c97498e6"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/LatencyLedger.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4e7be1df57e208eb05fa990a2e925e8720b373a7"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/LiveInputProbe.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "95208756a82b4c0bd06ec2f11573d19470d06da8"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/LoudnessControlBridge.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "42380f49137a9876ad8087695d76ad7f4fee2411"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/LoudnessProjectState.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b8f31a73c3f6443142a64e89b5f316f7ef4cfa69"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/LoudnessRuntime.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ff557c9d9b61561577200664713700d02858dd96"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ModuleRegistry.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ce5d7f7bcab02194c48d878b18dd317a432e3db9"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ModuleRegistry.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "de400082abbb0b0c1a27b10a5b213eadadf7fd22"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ModuleRuntime.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9156ed1075799c0f7c21329b12fd430a5b76c3dd"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ModuleRuntime.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0e4200a4b4aa30fc1ebb198a4427532b8c7ece7f"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/MusicRoutePolicy.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e365307f3f8cb801baa7dfe708eb34decfc251dd"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/MusicSourceBinding.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4544890a36c6c86781e556135d170de30c0f45f5"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/MusicSrcSwitchMailbox.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e5933b587504eababa8161ded7b0ccef4b88b875"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/OptionalAudioStageRuntime.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ba8d8eb2221dca567551fc04c2d260c21cfa74d1"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/OptionalProjectStateRetention.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5176ebdf2861d4aff5090744eecb1e445580e3df"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/OutputLaneAssignment.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "de604f3befc35fb2586f65f3a4c8d49ded93010f"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ParametricEqControlBridge.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5d03c4abfc77940312acb7aa9dca9068f19bc77c"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProAudioThreadScope.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f196e59bc8cd163bfde11a0a073d309d01fd0d35"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProAudioThreadScope.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4a52154d269ade48b21e423d7e0777b659ea7787"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProgramMixer.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5b8f390e0c4b30dcc8eda6d0dd393c6e1440207b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProgramMixer.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "65bbb843f8f18704caa4f25c4df0a24965db98b0"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProgramOutputContributors.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b03ab5d06ff19a59d5243267386fd13427aa4483"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProgramRouteFanout.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b10e20a2b11197ccbafdc5f9ee44b02b069981db"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProgramSourcePoll.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b2ce928f218fd01e45930db1d1847a990f5226e1"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProjectControlPolicy.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bb3310dfaa6b79edc0ccc4b068c6c6db1192d0ec"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProjectLoadAckGate.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0dfa454021832b2f2b72e3ef20c31236c214ac14"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProjectPersistence.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "72de245a50940b347cf15a777c9e3e91f74f1add"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProjectPersistence.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9d4894bac5036988e8b4439868b43e78a175eafd"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/ProjectSaveWorker.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1fdaf07bc9c5f44cc30e356d3f4fc29ec9ea4971"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/R04DiagnosticCapture.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3a79da6de2eb1cebdf64132cddf2e9e0763d2077"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/R05DiagnosticCapture.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ac05692fcadf408b8dd49c78eb579e21c87b9510"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/R05NumericalDiagnostics.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ecce791d0ef2360fa337f71fdb9727cf598224ea"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/RealtimeAllocationAudit.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e0ec24b23137c419fb3d489ddb1883394c9fa79f"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/RealtimeAllocationAudit.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "99c56f9afdb6d33537c80c42ec8f0b1a5149de3b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/RealtimeBufferPolicy.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d5d935312124083e1a36bcd15ed272905b31eb67"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/RealtimeCadenceRuntime.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "edab31c90565d53c8e6439764fe4c8b49d7bb1a1"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/RealtimeControlQueue.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1716bbf8425e6b596cfe46e6c85dee66137fb0bc"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceDeliveryDiagnostics.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2478a0739b15321f2ddbced55974f955344c5a5b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceDomainRuntime.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "15f08d0f7ab467de56879e67ff55d0e3c5311619"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceDomainRuntime.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "66b8ffb3db03d3be91eea63a058fd62becfb4bb5"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceDomainStream.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2a168e9625ff88e7102e399af6371c5fcc104b54"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceDomainStream.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2e828bcf9510f4fa3c8edb01b9c3284e5187ad60"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceFifo192.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4e7008ee33d942a45b9d7e218c40d4c0d2c7f342"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceFifo192.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3d3c937b2b791a4811ad9d1c5c2f271dec891f0e"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceModuleResolver.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d8b148c30f1ca8745e4b8e1d69575f83f1d67cef"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceReadiness.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c56ed611eebf5ef3565621c3c96de02e74e7b524"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceSignalFreshness.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8756ebdb948305ecfa92b75a7945d02b8088917e"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SourceWorkerWake.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9a0676b7988c35fc7cfbdd419115460212a95b32"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/StereoExpansionChain.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2009251d45db47e3ddb6c50938ea4c80566831ec"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Core/SyntheticGraphProbe.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "87af32e1396afe5d3ce4adb2e024ec5942a845af"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Tests/CinemaSourceDomainStreamTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8b08e5caf6208f071068df162b09e9d309ae26ef"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Tests/ProgramSourcePollTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "11a842e69b1a2f1a3a28ca23b1336abf78d0878f"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Tests/RealtimeBufferPolicyTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4147506859648097cea43efc1560b0fa56fe6862"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Tests/SourceDomainRuntimeTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5af857bc844a73389dc0f0031ea5ef9ae40fa2db"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Tests/SourceDomainStreamTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "131ab290e2abfa57ea42ab960081b1579fdd745d"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Tests/SourceFifo192Tests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0195db74520f83343946408132200b2aaf565d53"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/Tests/SourceSignalFreshnessTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5d2abf6f5a396cdc80d750e8a2ebc53ff3470e79"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/CrossoverPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "31131999f87ecbcfed13b12a7559e096c8b5cd3a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/CrossoverProgramNavigation.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fd26609d19a03c7f1590ea3fa28ca31fb179908a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/DelayEditModel.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "544581bb668d44e7ad5dbe1913efc406794e5794"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/DeviceAssignmentPresentation.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ea240313307ed26ad470baa1e3a5418d145f1d1a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/DeviceManagerPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0d722eb36e08d7315b19cdc541a23f303f5e4216"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/DeviceManagerSettings.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e6cde443fb85a93361eaf6529430853117c32353"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/DiagnosticsPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5dbcb5f05b422a25a1e770342c5721a1c6aa343f"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/GuardianPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bc5abca9d40aecde2e5a264f0d32bb71be560fa8"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/HeadroomPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f94ece513ed1295a8c9d758c00638e841e47cc99"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/InputFormatPresentation.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "04999d6715e775b9111a5f5991a07b637086b7a4"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/InputStatusPresentation.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e8e83b3c80be852d3a3b4a9f8eb640099cfd1e7e"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/LiveUiRefresh.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "32e3ec3a14b9e2d013b03e359fde5e2aeb8342ba"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/LoudnessCommandState.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7768b0df17ee26046474ca8acf87a8b05762a859"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/LoudnessPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0fa78cda8d88c4033022b201eabd5e90f270b7a9"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/LoudnessVisuals.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4c6b5e9cc6cfe85aca5a058f1e1a61945e4e7615"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/MainWindow.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e9db6c48d237b6c1f3f644af24ddfa25929f7b1e"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/ModuleDialog.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "36474982d932180be9da22792369813683ab4b11"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/ModuleViewRegistry.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "b705c903350193b612640227f993bfb322496362"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/OutputMatrixPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1db381bccd07ed4b76ebb3d8ab579b3b2b78efbf"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/OutputStatusSemantics.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "33da995555d450ff088be572c57e1ccb74a730ab"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/ParametricEqModel.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2810bd3c1dc316654bcc087c888d4d132790bf8b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/ParametricEqPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2f6ac69ca5b17090b9e5d491423ad1da53181a93"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/ParametricEqResponseGraph.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9890ed8bd5f7db183cb45eb55f326af4c8fc6072"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropyQtHost/UI/SrcPage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "55bda4bef9e887c8847bd593ea83ed97f0f1bf47"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/App/SourceMain.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "171b7a9c2947606d0d6fb7ff2ee9652ac35bb936"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3657299cd5845bbf86af17bfd966d393c1f40522"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceBlockExecutor.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "74609800939b0d04e3a779a7be65e14c2bfff52b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceBlockExecutor.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2408f9b241e7bced889109faaec7ec5298d8dc65"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceController.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "67797a43bd22a39f3350b3ec414e44e18d2d023e"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceController.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bd201918227a1544e933b10a8ed0ea26956c4c61"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceCycleTimer.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6497e4a4dfa2bb06b76f6d5e4d2f2b69989b1fe8"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceDemandHarness.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cb2952fe4494425b6e8ccf296c301a32cfb30062"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceDemandHarness.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6ebd6f4f1c8bb0b2bcd61eb6cbb45114bbe7d66d"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceGraphRuntime.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f2f2b7533ad9c1b4abd32ae3dffa780ad32c3069"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceGraphRuntime.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "216d747f664f97cff02fb8716017e82fabc034c1"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceLinkPackage.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d62d07a6be17d7a711ebcbeaf0e383a5db2f30d5"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceLinkPackage.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "800ea1bdae4241da536fb58883d9c12ecb964750"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceModuleHashes.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ec656f5ef478ba06427c9ff8d38ae98f7070a440"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceModuleResolver.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3319e9cdb0e467be6456ef618ce90689cbf0cbeb"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceSelectionController.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a74d61857819b4765c42ba0a7abfdfcb88b701f1"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceSelectionController.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ee7e26964470025f28a491a629adc0d1a5f887e1"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceStartupPolicy.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6fa51ec6050eb8fb24274383ba8b824a57d56773"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceStartupPolicy.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9c9f6a448de33ed0d6bcf77f650d00e2453677fe"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceState.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "44b2e8cd0da81ce0f430b81f548ba5a0e70c46e1"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Core/SourceState.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5679b8da2bf8f1d911e7e1a8363ec92ba3b735f3"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/AuditHooks.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a55051ee878662caa118e52d21bd759004596c72"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/AuditHooks.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "64193c00ba28ac81ab1c197cccfe211794b5f4f3"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/AuditLossEndpoint.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0d0652dcafa700d05e34bae56ba36d43c1b3ca4a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CaptureResetRetentionTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "86eec34bb796caa564ae8f8c2dcd1db0cbfd82d3"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CinemaControlIsolationTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "199ab3bcfc97fe3da923e07117d817f896066711"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CinemaLiveProbe.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a730320eaa25cc878ab4ef8a2e50c5fffe97bbbd"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CinemaReaderIsolationTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "23db8c9a1140b4bdd76fdcbb341c5360c504ce08"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CinemaReadyRaceTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cb55538b036f09cc4af32732e34b06ca5efcd285"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CinemaSelectorControlTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "71eee8a7a172886858890842e6d63d209f798059"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CinemaWdlPolicyTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a2ccaed2babfc636b98428021b942c0937ff3fed"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CinemaWdlQualitySweep.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0467bd18a6f6b42870b2a2a0e123ef6ac14de9d3"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/CinemaWdlTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "05218dc6e5cbcdf1b151b04f8e33f3e6811c20a3"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/InstrumentIndependence.cmake",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "eafcdb484f4ace210f0d4bc531bf4be0229c6238"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/InstrumentLocalControlGate.cmake",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "be75a928ababa44d0cd900cc3666126375994fc3"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/InstrumentMissingPublication.cmake",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8ff8d8d0f7fdb267cfd61eed2c184eee3af795c6"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/InstrumentReadyRace.cmake",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7dfdcb3b6d595766204319e359ea8359d5f77284"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/InstrumentSrcWorker.cmake",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d56c0c6867b3633ee13f0ffa856fb8e1aed91d69"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/LatencyEndpoint.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bca07a8384661c8342875e8ddac12da0e3e5c261"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/OwnerIsolation.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d180e904964249a97ce4735dd4f2834356939dd7"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/ReleaseDependencyProbe.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fbbc0e87e54145ef4477e5dcf3ee870d34934b31"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/RunnerSmoke.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e6aa242c1fe55022b93d7b45c5913d1bf3853989"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceAllocationTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "da76868198e6ef540f10fea2a58506987353d790"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceAppTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8ebff9b5c005e823ba67adde217b5937cca81db0"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceBoundaryTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e5da7f08765da605fe4acddb42bafd117e3dd357"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceFifoDifferentialTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7361b1ba53b7114cf8148ca1acd5c54a29eb6fa0"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceHarnessTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f119f89145cc96f11bc3caaf0bb9f071a206a42d"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceIndependenceTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d4deb7d3ee0bd76bd89e520cedf03414f35eaedd"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceIsolationTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6021eaab5e03bd386cb117099c62e6545bfc0d80"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceLatencyProbe.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7cbd449eb4f351b5b4b25266b27dfb7aafa18a61"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceLinkProcessPeer.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "04235a5bda47ef46066c42d9f912a366ee1e6171"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceLinkTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "682da59e52bd2a42e814d79272fe05fb69f554ce"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceLiveLocalControlTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "16f0cce6ebfefd49124d3d49a86b7a039e4ca867"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourcePassivePublisherTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2f2f8af752d75d79d9ac854890ab728523437cbf"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceProAudioTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "dce09121034b1c10bfd54d703e1d962661e5796f"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceReadyRaceTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "065ee8f6936c34a71eea52367e8651f570615094"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceSelectionTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6e278c0234722b8a926e48ffdeca41c5be527134"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceSoak.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1ba5ebb1aaf21bccd4d2d0b3d60b160ca949c680"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceSoakFixture.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ab4263ae5805e0485900bc516d528919557ed369"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceStage2Compatibility.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e632b8139fea59b2566f239d9539c6ec3e9c7a2e"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceStateTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "809511343ac9913b2f94c8f641b80f61959414ea"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceTraceCostProbe.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0234e42a5df4709c329aaa831ad776410d0c175e"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceTrioLatencyProbe.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "22bd142928894f5d1e8ece9e2d423811b3cbf92a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SourceWorkerWakeTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d29bbe60c6e26bcc24691a9d865d6fbabb4d490d"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SrcAudioOracle.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a3e688a09a7e6b29bf038ba5b9019ae866432d5d"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SrcWorkerTrace.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d0850e8148cb3e86fa85eae67391476ba64382a0"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/StageLinkClientPeer.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "298d56acd0206d3be190fc9970474db0635be66a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/SyntheticMusicEndpoint.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "d058e01d0054faeb3cf0ef527660042d3be3693b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/TestSupport.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "15404526f19007217ab3655fa4d0d8a5657c1cbd"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/reference/AcceptedCinemaSourceDomainStream.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1e73f34b6e90fddd5c26d43b6174d937eb432c4f"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/reference/AcceptedSourceDomainStream.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2e2c80a534bdcbbd48d19b6213eec6c62caa8b7a"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/reference/BaselineSourceBlockExecutor.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f4392860305b85f105d5a9d2310c17c50696a595"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/reference/BaselineSourceBlockExecutor.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "59fbbf3bd65365c28b803df0251e79252d0bc252"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/reference/BaselineSourceFifo192.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "696ea0dc1efc1c35ab5daacf5e15088ec63fce53"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/Tests/reference/BaselineSourceFifo192.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "730a8eae4419c60c5be0d2316facbc26544c951b"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/UI/SourceStyle.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2e88a105405a250ea597d7c027edeffb422dd1c8"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/UI/SourceUiBridge.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "4a23e76a1bb85164f98c57f224de2ad3cacd11d2"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/UI/SourceUiBridge.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3a8881f36a04a6faab51249fa7b59dd6246a4f91"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/UI/SourceWindow.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ae440e5dea2be591dc730094e5607437ada07f01"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/UI/SourceWindow.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9377351407b4aa9f5d47a75811a15062ef63e0a5"
+    },
+    {
+      "path": "Integration/Stage1/source/Host/EntropySourceEngine/UI/SrcPage.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "1b2dd0fcab9a7f778e07f7f5d989f9b2f40ec922"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5bd72cf1cc28103edc1c1441947ad88a7e0bb747"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cc4da687a479f11754e1b0a4a83dce391e5483d4"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/EntropyControlShared.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "33f7556419fffff858c6facf6cff745730b34d88"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/EntropyOutputControlShared.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fec44f09f37616c10561e3b1d4eadadfa1248c94"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/EntropyTelemetryShared.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "52ec310133d1c0250e8bc75bfba2af8111dd8c1b"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/center_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fe2eb31d664c5a296610d711e632cf36fcb6bf54"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/cinema_endpoint_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "99c55db83b88ae85bd73e7eac2f6e9367404c7a7"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/crossover_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "177186435992f11a65aa0d683f657c384c295aa5"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/crossover_program_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "02eef4f4eb5664f63c2e4702a525d62a320c273f"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/dac_sink_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9df5c58de731ceca583f04bc0a64e8299e03f6b1"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/device_manager_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ca1583c33000fda038eb97057afaf880a7310e9d"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/egress_clock_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "899822ac958bc316ee3ad6886aa9c18d4f86e08a"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/egress_clock_diagnostics_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "68bbf026f529d7ebe1f8133e11f6d4f805c153a5"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/egress_forensic_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f13010a1ec1824037ba81136b30acb10c09fd277"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/endpoint_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fdb7d840bf5e7f27be20f5b9afba0c24a2617123"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/endpoint_catalog_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "05fc608b3a776a8deef4e6c5c6d07b72cb508b3d"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/final_guardian_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3e9199eb340d492ab968d4585d5c9855d06a68fa"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/headroom_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a1581d3641bebe2bcf4d561c46667c6c0ae664af"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/input_matrix_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9bf9e3ff1eb746a44b54a50b05e0b83dc1c8a9c1"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/loudness_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "0922e5984ad6639691bbe55714b2668decbf8ebe"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/loudness_display_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "993e6380472fb3e4f08ebab4c0ed906c9d9bda6a"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/module_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "870b5a3336dae06d835bfdc724942b181c938812"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/output_matrix_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e7221fb157005e929ca9a4f868e37b36cdfadd8f"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/parametric_eq_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "937e88f51ddaae4f90841c7c0e63c6d420962ecb"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/pcm24_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "6aab60a7080f4e38259f3ab5b74c0e48dd731a41"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/r04_diagnostics.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "24c15934f32c0636a248908ec5a392af4c75aef3"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/r04_diagnostics_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "803d1269e2e3208cc691c6817c55b67d6ef5597b"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/ModuleABI/include/entropy/src_abi.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "37274d0ebf49d53b1eb523ff0ffdae8e004b6216"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "c578a669dcad975357369f09acfe9ceb3e167010"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/SourceFrameDemand.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9989419a2b48c09fed9b428b7e3d829cbe4fbe52"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/StageBusContract.json",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8110b2b49df23e0e7101c3f7d1cb798eb97f6e35"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/StageBusDemand.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "8a32a4a977e8c8555079742cb1a817d84def6b54"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/StageBusHashes.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "eef874252218c5d93ff111a042c8e9d9ba983784"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/StageBusValidation.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "e9a1a6e696af567e11579a2c204cdc4261df420e"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/StageBusValidation.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "512339a60aa7187d602a1bac5f2250d7b18821de"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/StageBusWin32.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "cf278f2a8a871c1a0a52a5d96cd5468b81f947e0"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/StageBusWin32.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "81cafe72cced9512843126bd2a16285396bcabe7"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/include/entropy/stage_bus_v1.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3daf24de9be53eb1326ad5aeec47dbdd5d6312a3"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/tests/StageBusContractTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9484c5a975d5d77fc43b5383d73d14d44802239b"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/tests/StageBusDemandTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "94bad2660071a4d3abf77d23fb95deb3bf21e07d"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/tests/StageBusLayoutProbe.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bc58de7daf04adc4b3802350704aa20ba8a774f8"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageBus/tests/StageBusProcessTests.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9f8c043e046404613b76f9fe6bb322564d29bf56"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageLink/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "26fa7cf8a8229637cf0e375e6b624a210682b5a9"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageLink/StageLinkClient.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "81fdd537c76eaffb3bb26cd6442f4a870c62c11f"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageLink/StageLinkClient.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "04c7d47fd7c76e6fa8780a43533d1ea1d9cc5a87"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageLink/StageLinkProtocol.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "9b239efe57e062296d1fdde1bb225328ed753b27"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageLink/StageLinkSecurity.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "baa485a976e23600d979b456a61967c6f1d5ff35"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageLink/StageLinkSecurity.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "a177075db3ae4cfed0b716a4a1b46b0dfa28d213"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageLink/StageLinkServer.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "5e6ee26e6872927a37caf10420ea7ee81568d092"
+    },
+    {
+      "path": "Integration/Stage1/source/Shared/StageLink/StageLinkServer.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "93c0b5ab3a937672402e8b64eccb5c7d6f0929a3"
+    },
+    {
+      "path": "Integration/Stage1/source/ThirdParty/WDL/README.entropy.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "22241340e47c0b7281e1daa90c5259eff7185cfa"
+    },
+    {
+      "path": "Integration/Stage1/source/ThirdParty/WDL/denormal.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "86f1130e335c58feb7a5dbe5e6e9092a451bfaff"
+    },
+    {
+      "path": "Integration/Stage1/source/ThirdParty/WDL/heapbuf.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "091f666e2264d988d15266acccfff67503ae3d52"
+    },
+    {
+      "path": "Integration/Stage1/source/ThirdParty/WDL/resample.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "f6888ca356eae78654138b8532d68b921e57da5f"
+    },
+    {
+      "path": "Integration/Stage1/source/ThirdParty/WDL/resample.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "46471735303f6a33104401601b7d6ecb441171bd"
+    },
+    {
+      "path": "Integration/Stage1/source/ThirdParty/WDL/wdltypes.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "ddb7175c93f6e8dc824ccde2be53f168b1a391f4"
+    },
+    {
+      "path": "Integration/Stage1/tests/fixtures/r10-state/Entropy Audio/Entropy Audio.ini",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "bb9a82443f34069c025b57fe280f8cac0f7d83f9"
+    },
+    {
+      "path": "Integration/Stage1/tools/Build-Stage1Passive.ps1",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "af6dc193477393aa6c366cd35b528cc4c2f41a7b"
+    },
+    {
+      "path": "Integration/Stage1/tools/Package-Stage1Passive.ps1",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "fa2b95c81b353c102fbf829a467628d75fee1798"
+    },
+    {
+      "path": "Transport/StagePublishV2/CMakeLists.txt",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "7a38e0def8cd26b70b83d72ca29ebf96be8288b1"
+    },
+    {
+      "path": "Transport/StagePublishV2/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "3954120be616c1f46668193ac1b0a3f5358ad562"
+    },
+    {
+      "path": "Transport/StagePublishV2/StagePublishV2.cpp",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "2ff98b2d1afaefc5ce982968dcda4157994970d5"
+    },
+    {
+      "path": "Transport/StagePublishV2/StagePublishV2.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "db45096260aabc9e08982c0d7c17a9ad4e32ae3b"
+    },
+    {
+      "path": "Transport/StagePublishV2/StagePublishV2Protocol.h",
+      "mode": "100644",
+      "type": "blob",
+      "git_blob": "25bc034aa66492b8f3763bef0eca94edcb23ede0"
+    }
+  ],
+  "toolchain": {
+    "visual_studio": "18.10.12201.205",
+    "msvc_x64": "14.52.36725",
+    "windows_sdk_wdk": "10.0.28000.0 headers/libs/targets found; driver build/signing not verified",
+    "qt": "6.11.2 mingw_64 only; UI is separate process",
+    "cmake": "C:\\Qt\\Tools\\CMake_64\\bin\\cmake.exe",
+    "ninja": "C:\\Qt\\Tools\\Ninja\\ninja.exe"
+  },
+  "verification": {
+    "product_build": "NOT RUN",
+    "audio_capture": "NOT RUN",
+    "driver_installation": "NOT RUN",
+    "physical_output": "NOT RUN"
+  }
+}

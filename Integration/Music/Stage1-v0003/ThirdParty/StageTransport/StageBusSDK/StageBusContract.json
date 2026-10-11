@@ -1,0 +1,65 @@
+{
+  "abi": "0x00010000",
+  "rate": 192000,
+  "frames": 1024,
+  "format": "IEEE754_BINARY64_LE",
+  "planar": true,
+  "capacity": 4,
+  "session_bytes": 256,
+  "block_bytes": 128,
+  "snapshot_bytes": 64,
+  "request_bytes": 120,
+  "slots_offset": 4096,
+  "indices": "write@256/read@320",
+  "control": "request_write@512/request_read@576/request_payload@640/response_write@768/response_read@832/response_payload@896/ready@1024/fault@1088 /source_control_write@1152/source_control_read@1216/source_control_payload@1280",
+  "layouts": [
+    {
+      "name": "MIX_CINEMA10_V1",
+      "slots": [
+        "MUSIC_L",
+        "MUSIC_R",
+        "CINEMA_L",
+        "CINEMA_R",
+        "CINEMA_C",
+        "CINEMA_LFE",
+        "CINEMA_SL",
+        "CINEMA_SR",
+        "CINEMA_BL",
+        "CINEMA_BR"
+      ],
+      "id": 1
+    },
+    {
+      "name": "LRC_CINEMA11_V1",
+      "slots": [
+        "MUSIC_L",
+        "MUSIC_R",
+        "MUSIC_CX",
+        "CINEMA_L",
+        "CINEMA_R",
+        "CINEMA_C",
+        "CINEMA_LFE",
+        "CINEMA_SL",
+        "CINEMA_SR",
+        "CINEMA_BL",
+        "CINEMA_BR"
+      ],
+      "id": 2
+    }
+  ],
+  "program_fields": [
+    "program",
+    "required_inputs",
+    "music_program_active",
+    "analyze_music_final",
+    "manual_mute_mask",
+    "effective_mute_mask",
+    "hardware_armed",
+    "output_source_mask",
+    "program_session",
+    "program_revision",
+    "output_revision",
+    "project_revision"
+  ],
+  "source_control_bytes": 64
+}

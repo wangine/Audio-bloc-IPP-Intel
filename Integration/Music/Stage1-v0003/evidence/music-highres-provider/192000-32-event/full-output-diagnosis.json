@@ -1,0 +1,33 @@
+{
+  "scope": "DIAGNOSTIC_ONLY; concatenating valid blocks does not repair chronology or qualify completion",
+  "sourceFrames": 1920000,
+  "validFp64Frames": 1920000,
+  "allValidSamplesCompared": true,
+  "mismatchedBinary64Samples": 0,
+  "extraFrames": 0,
+  "publicationBlocks": 1906,
+  "lastPublicationSequence": 1934,
+  "invalidClockFrames": 31744,
+  "interiorInvalidFrames": 0,
+  "footer": true,
+  "subscriberErrors": 1,
+  "qpcFrequency": 10000000,
+  "invalidRuns": [
+    {
+      "domain": "startup",
+      "firstSequence": 29,
+      "lastSequence": 46,
+      "sourceFrameAtGap": 0,
+      "clockFrames": 18432,
+      "qpc": 1870655821416
+    },
+    {
+      "domain": "tail",
+      "firstSequence": 1922,
+      "lastSequence": 1934,
+      "sourceFrameAtGap": 1920000,
+      "clockFrames": 13312,
+      "qpc": 1870756771881
+    }
+  ]
+}

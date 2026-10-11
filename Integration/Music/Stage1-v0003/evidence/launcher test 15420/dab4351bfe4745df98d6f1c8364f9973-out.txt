@@ -1,0 +1,2 @@
+Stage1 MUSIC Core PID 1612 stopped gracefully.
+Stage1 MUSIC Core ready: PID 23700.

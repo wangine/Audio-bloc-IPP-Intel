@@ -1,0 +1,158 @@
+[
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\44100-16-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 441000,
+    "case": {
+      "bits": 16,
+      "rate": 44100,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\44100-32-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 441000,
+    "case": {
+      "bits": 32,
+      "rate": 44100,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\48000-16-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 480000,
+    "case": {
+      "bits": 16,
+      "rate": 48000,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\48000-32-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 480000,
+    "case": {
+      "bits": 32,
+      "rate": 48000,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\88200-16-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 882000,
+    "case": {
+      "bits": 16,
+      "rate": 88200,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\88200-32-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 882000,
+    "case": {
+      "bits": 32,
+      "rate": 88200,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\96000-16-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 960000,
+    "case": {
+      "bits": 16,
+      "rate": 96000,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\96000-32-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 960000,
+    "case": {
+      "bits": 32,
+      "rate": 96000,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\176400-16-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 1764000,
+    "case": {
+      "bits": 16,
+      "rate": 176400,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\176400-32-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 1764000,
+    "case": {
+      "bits": 32,
+      "rate": 176400,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\192000-16-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 1920000,
+    "case": {
+      "bits": 16,
+      "rate": 192000,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  },
+  {
+    "pass": true,
+    "observedAllocation": 1,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\r2-all-format-raw-10s\\192000-32-event\\comparison.json",
+    "fp64Report": null,
+    "frames": 1920000,
+    "case": {
+      "bits": 32,
+      "rate": 192000,
+      "seconds": 10,
+      "servicing": "event"
+    }
+  }
+]

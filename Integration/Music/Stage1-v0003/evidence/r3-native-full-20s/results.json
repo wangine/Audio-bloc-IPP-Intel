@@ -1,0 +1,10 @@
+{
+  "case": {
+    "rate": 192000,
+    "bits": 16,
+    "servicing": "event",
+    "seconds": 20
+  },
+  "reason": "Exact native192k FP64 output comparison failed",
+  "pass": false
+}

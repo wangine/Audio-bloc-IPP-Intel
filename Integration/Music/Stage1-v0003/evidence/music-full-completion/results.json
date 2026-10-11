@@ -1,0 +1,28 @@
+[
+  {
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\music-full-completion\\192000-16-event\\output-comparison.json",
+    "case": {
+      "seconds": 20,
+      "bits": 16,
+      "rate": 192000,
+      "servicing": "event"
+    },
+    "frames": 3840000,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\music-full-completion\\192000-16-event\\comparison.json",
+    "observedAllocation": 1,
+    "pass": true
+  },
+  {
+    "fp64Report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\music-full-completion\\192000-32-event\\output-comparison.json",
+    "case": {
+      "seconds": 20,
+      "bits": 32,
+      "rate": 192000,
+      "servicing": "event"
+    },
+    "frames": 3840000,
+    "report": "D:\\Projects\\3Stage-3\\Stage1-v0003\\evidence\\music-full-completion\\192000-32-event\\comparison.json",
+    "observedAllocation": 1,
+    "pass": true
+  }
+]

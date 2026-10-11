@@ -1,0 +1,2 @@
+Stage1 MUSIC Core ready: PID 8952.
+Stage1 MUSIC Core ready: PID 16000.

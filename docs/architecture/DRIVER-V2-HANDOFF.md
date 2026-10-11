@@ -313,6 +313,12 @@ testele driverului, păstrând legacy disponibil separat.
 
 ## 11. Ordinea implementării după revizia specificației
 
+Actualizare11octombrie2026: kernel0.3.0.11 și Stage1v0003-r3 sunt livrate separat,
+cu toolul raw/FP64 păstrat. [Raportul încărcat](../../validation/music-render-v2/LOADED-DRIVER-0.3.0.11.md)
+consemnează corectarea așteptării pasive rare de16ms, cele12formate raw,
+23.040.000cadre native FP64 cu drain complet și testele AUX. Referința v0002,
+rezultatele0.3.0.10/r6 și limitările TIDAL/polling/EOS rămân distincte.
+
 [Planul concret de implementare](../superpowers/plans/2026-10-11-music-render-v2-driver.md)
 păstrează execuția direct în acest chat, conform preferinței utilizatorului.
 
