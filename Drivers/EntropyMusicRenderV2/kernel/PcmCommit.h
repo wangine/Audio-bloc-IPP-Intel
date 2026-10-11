@@ -14,6 +14,7 @@ class PcmCommit {
     entropy::music::OperationGate operation_;
     uint64_t cachedFrames_=0,cachedPackets_=0,cachedQpc_=0;
 public:
+    uint64_t deliveredFrames=0;
     KSPIN_LOCK lock;
     EX_RUNDOWN_REF rundown;
     entropy::music::WaveRtTimeline timeline;

@@ -39,6 +39,8 @@ public:
     }
     uint64_t committedEnd() const noexcept {return timeline_.nextFrame();}
     uint64_t generation() const noexcept {return generation_;}
+    uint64_t frequency() const noexcept {return frequency_;}
+    Totals terminatedTotals() const noexcept {return timeline_.terminatedTotals();}
     uint32_t packetFrames() const noexcept {return packetFrames_;}
     Totals totals() const noexcept {return timeline_.totals();}
     Totals lifetimeTotals() const noexcept {return timeline_.lifetimeTotals();}

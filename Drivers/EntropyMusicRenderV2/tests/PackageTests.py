@@ -10,6 +10,10 @@ ROOT = pathlib.Path(__file__).absolute().parents[1]
 PIN = '2dc3fd3a0cc84a2933f2194e7ec0871584979071'
 
 class ReferenceTests(unittest.TestCase):
+    def test_frozen_provider_abi(self):
+        abi = ROOT.parents[1] / 'Integration/Music/Stage1/ABI/endpoint_provider_v2.h'
+        self.assertEqual(hashlib.sha256(abi.read_bytes()).hexdigest().upper(), 'A4F848B9A4E653FD58ED937E4488D1DB81D5BAA1222CDEFB93813D07B40F60CD')
+
     def test_upstream_manifest_exact_pin(self):
         manifest = ROOT / 'upstream-manifest.json'
         self.assertTrue(manifest.is_file(), 'pinned import manifest not implemented')

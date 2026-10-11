@@ -33,7 +33,7 @@
     <ClCompile Include="shell\mintopo.cpp" /><ClCompile Include="shell\minwavert.cpp" /><ClCompile Include="shell\minwavertstream.cpp" />
     <ClCompile Include="shell\NewDelete.cpp" /><ClCompile Include="shell\hw.cpp" /><ClCompile Include="shell\kshelper.cpp" />
     <ClCompile Include="shell\speakertopo.cpp" /><ClCompile Include="PcmCommit.cpp" /><ClCompile Include="WaveRtTimeline.cpp" />
-    <ClCompile Include="..\model\Format.cpp" /><ClCompile Include="..\model\Clock.cpp" /><ClCompile Include="..\model\PcmRing.cpp" />
+    <ClCompile Include="BridgeDevice.cpp" /><ClCompile Include="..\model\Format.cpp" /><ClCompile Include="..\model\Clock.cpp" /><ClCompile Include="..\model\PcmRing.cpp" />
     <ClCompile Include="..\model\PacketTimeline.cpp" /><ClCompile Include="..\protocol\PcmBridgeV1.cpp" />
     <ResourceCompile Include="shell\SimpleAudioSample.rc" />
     <Inf Include="EntropyMusicRenderV2.inx" />

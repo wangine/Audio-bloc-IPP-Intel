@@ -1,19 +1,19 @@
 {
-  "project": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\kernel\\EntropyMusicRenderV2.vcxproj",
+  "configuration": "Release",
   "msbuild": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.exe",
-  "sdk": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\build\\kits\\sdk\\",
-  "platform": "x64",
   "binaries": [
     {
-      "sha256": "5F7AAA13E22876A58F4C16D1368FACAAEF00A573AD3829751C5137D9DC3E619D",
       "path": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\build\\kernel\\EntropyMusicRenderV2.sys",
-      "bytes": 53248
+      "bytes": 56832,
+      "sha256": "316DF2FF86DEC5A3DD9135E2188CEBFBADE17810A5BB98E1B98E4672960E356D"
     }
   ],
+  "signing": "Off; no deployment",
+  "wdk": "10.0.28000.0",
+  "sdk": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\build\\kits\\sdk\\",
+  "project": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\kernel\\EntropyMusicRenderV2.vcxproj",
+  "sdkProvenance": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\build\\kits\\sdk-provenance.json",
   "visualStudio": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community",
   "exit": 0,
-  "wdk": "10.0.28000.0",
-  "sdkProvenance": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\Drivers\\EntropyMusicRenderV2\\build\\kits\\sdk-provenance.json",
-  "configuration": "Release",
-  "signing": "Off; no deployment"
+  "platform": "x64"
 }

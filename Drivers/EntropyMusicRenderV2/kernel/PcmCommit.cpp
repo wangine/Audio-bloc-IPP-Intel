@@ -28,6 +28,8 @@ PcmCommit::~PcmCommit() {
 }
 NTSTATUS PcmCommit::Prepare(const PcmFormat& f,uint64_t generation,uint64_t frequency,uint8_t* dma,uint32_t frames,uint32_t notifications) {
     PAGED_CODE();
+    EnterPassive();
+    struct Lease {PcmCommit& pcm;~Lease(){pcm.Leave();}} lease{*this};
     if(timeline.prepared())return STATUS_INVALID_DEVICE_STATE;
     if(!pendingBytes_) {
         pendingBytes_=static_cast<uint8_t*>(ExAllocatePool2(POOL_FLAG_NON_PAGED,static_cast<SIZE_T>(frames)*f.blockAlign,Tag));
@@ -37,7 +39,8 @@ NTSTATUS PcmCommit::Prepare(const PcmFormat& f,uint64_t generation,uint64_t freq
         if(!pendingBytes_ || !readyBytes_ || !pendingSlots_ || !readySlots_)return STATUS_INSUFFICIENT_RESOURCES;
         if(!pending_.init(pendingBytes_,frames,f.blockAlign,pendingSlots_,64) || !ready_.init(readyBytes_,RingFrames,f.blockAlign,readySlots_,RingDescriptors))return STATUS_INVALID_PARAMETER;
     }
-    return timeline.prepare(f,generation,frequency,dma,frames,notifications,pending_,ready_)?STATUS_SUCCESS:STATUS_INVALID_PARAMETER;
+    if(!timeline.prepare(f,generation,frequency,dma,frames,notifications,pending_,ready_))return STATUS_INVALID_PARAMETER;
+    deliveredFrames=0;return STATUS_SUCCESS;
 }
 void PcmCommit::Stop() {
     PAGED_CODE();
@@ -61,7 +64,8 @@ NTSTATUS PcmCommit::Read(void* output,uint32_t capacity,uint32_t& copied) {
         if(v.secondBytes)RtlCopyMemory(pcm+v.firstBytes,v.second,v.secondBytes);
         copied=total;
     }
-    EnterPassive();timeline.finishRead(v.packet.sequence,capacity>=total);KeSetEvent(&readIdle_,IO_NO_INCREMENT,FALSE);Leave();
+    EnterPassive();if(timeline.finishRead(v.packet.sequence,capacity>=total) && capacity>=total)deliveredFrames+=v.packet.frames;
+    KeSetEvent(&readIdle_,IO_NO_INCREMENT,FALSE);Leave();
     return capacity>=total?STATUS_SUCCESS:STATUS_BUFFER_TOO_SMALL;
 }
 void PcmCommit::EnterPassive(){PAGED_CODE();LARGE_INTEGER retry;retry.QuadPart=-10000;while(!TryEnter())KeDelayExecutionThread(KernelMode,FALSE,&retry);}

@@ -23,6 +23,7 @@ Abstract:
 #include "endpoints.h"
 #include "minipairs.h"
 #include "../PcmCommit.h"
+#include "../BridgeDevice.h"
 
 typedef void (*fnPcDriverUnload) (PDRIVER_OBJECT);
 fnPcDriverUnload gPCDriverUnloadRoutine = NULL;
@@ -98,6 +99,7 @@ Environment:
 
     DPF(D_TERSE, ("[DriverUnload]"));
 
+    ShutdownBridgeInterface();
     ReleaseRegistryStringBuffer();
 
     if (DriverObject == NULL)
@@ -290,6 +292,7 @@ Return Value:
     // To intercept stop/remove/surprise-remove.
     //
     DriverObject->MajorFunction[IRP_MJ_PNP] = PnpHandler;
+    InitializeBridgeDispatch(DriverObject);
 
     //
     // Hook the port class unload function
@@ -691,6 +694,12 @@ Return Value:
     //
     ntStatus = InstallAllCaptureFilters(DeviceObject, Irp, pAdapterCommon);
     IF_FAILED_JUMP(ntStatus, Exit);
+    {
+        PDEVICE_OBJECT physical=nullptr;
+        ntStatus=PcGetPhysicalDeviceObject(DeviceObject,&physical);
+        if(NT_SUCCESS(ntStatus))ntStatus=RegisterBridgeInterface(physical);
+        IF_FAILED_JUMP(ntStatus, Exit);
+    }
 
 Exit:
 
@@ -762,6 +771,7 @@ Return Value:
     case IRP_MN_REMOVE_DEVICE:
     case IRP_MN_SURPRISE_REMOVAL:
     case IRP_MN_STOP_DEVICE:
+        DisableBridgeInterface();
         ext = static_cast<PortClassDeviceContext*>(_DeviceObject->DeviceExtension);
 
         if (ext->m_pCommon != NULL)
