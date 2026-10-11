@@ -5,8 +5,10 @@ transport to the frozen Stage1 Provider V2 ABI. This is implementation nr3; `V2`
 names the ingress ABI. Existing Transport/Virtual drivers are separate products.
 
 Status: uninstalled kernel candidate and offline model. No live mode or PCM
-identity acceptance is claimed yet. Provider/bridge/harness are still being
-implemented. AUX diagnosis remains deferred.
+identity acceptance is claimed yet. Raw bridge, production/audit Provider DLLs
+and WASAPI verifier compile and pass offline tests. Candidate0.3.0.1 packages an
+unsigned catalog; deployment needs the explicit approval described in
+`DEPLOYMENT.md`. AUX diagnosis remains deferred.
 
 ## Build (no deployment)
 
@@ -16,6 +18,13 @@ implemented. AUX diagnosis remains deferred.
 3. `tools/Build-Kernel.ps1 -ReferenceOnly` builds the unmodified sample.
 4. `tools/Build-Kernel.ps1` builds the MUSIC-only candidate.
 5. `tools/Build-Model.ps1`; `ctest --test-dir build/model --output-on-failure`.
+6. `tools/Package-Driver.ps1 -Output <new-workspace-directory>` creates SYS/INF/CAT,
+   providers, audit tool, source archive and SHA256 inventory; no deployment.
+
+`tools/Run-Live-Acceptance.ps1` defaults to no action. Its explicit live switch
+is for after authorized deployment. It uses separate config/publish/control
+endpoints and a hash-identical copy of frozen Core; raw capture comes from that
+Core's sole Provider reader. All live acceptance is currently `NOT_RUN`.
 
 The installed MSVC x64 compiler is required. SDK/WDK binaries are build
 dependencies, not part of the driver source import. Their provenance is recorded
