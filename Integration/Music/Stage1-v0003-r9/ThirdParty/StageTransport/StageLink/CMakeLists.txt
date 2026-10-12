@@ -1,0 +1,3 @@
+add_library(EntropyStageLink STATIC StageLinkSecurity.cpp StageLinkClient.cpp StageLinkServer.cpp)
+target_include_directories(EntropyStageLink PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(EntropyStageLink PUBLIC EntropyStageBusV1 advapi32 ole32)

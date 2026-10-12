@@ -1,4 +1,5 @@
 #include "AudioGraph.h"
+#include "Diagnostics/ChainAudit.h"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -145,6 +146,8 @@ EntropyResult AudioGraph::process(const double* const* input13, double* const* o
     block.inputs = matrixBuffer_.readPointers();
     block.outputs = output16;
     result = headroom_.process(block);
+    if (result == ENTROPY_OK)
+        chain_audit::graph(input13, crossoverBuffer_.readPointers(), matrixBuffer_.readPointers(), output16, frames);
     if (result == ENTROPY_OK)
         completedBlocks_.fetch_add(1, std::memory_order_relaxed);
     return result;

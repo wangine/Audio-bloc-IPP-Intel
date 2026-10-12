@@ -1,4 +1,5 @@
 #include "LiveSinkWorkers.h"
+#include "Engine/Diagnostics/ChainAudit.h"
 #include "PresentationContract.h"
 #include <entropy/dac/WasapiDacSink.h>
 #include <windows.h>
@@ -216,7 +217,16 @@ void LiveSinkWorkers::run(Session& s,unsigned slot) noexcept {
    if(!audio)d.pipeline.silentBuffer(req.frames);
    if(canceled()){d.pipeline.silentBuffer(req.frames);audio=false;}
    auto bytes=d.pipeline.bytes(req.frames);EntropyDacSinkPcmBlock block{};block.struct_size=sizeof(block);block.frames=req.frames;block.data=bytes.data();block.byte_count=unsigned(bytes.size());
-   if(sink->submit(block)!=ENTROPY_OK||block.accepted_frames!=req.frames)throw std::runtime_error("Sink submit failed");
+   auto* audit=req.frames<=1024?chain_audit::sink(slot):nullptr;
+   if(audit&&req.frames<=1024){
+    audit->qpc=chain_audit::tick();audit->deviceFrame=req.device_position_frames;audit->host100ns=req.device_qpc_position;audit->begin100ns=begin;
+    audit->firstGraph=d.pipeline.lastRenderFirstGraphFrame();audit->endGraph=d.pipeline.graphReadPosition();audit->frames=req.frames;audit->channels=d.config.channels;audit->format=d.config.format;audit->audio=audio;audit->offset=offset;
+    audit->fifo=d.pipeline.readable();audit->faults=d.pipeline.faults();audit->resetReason=d.pipeline.resetReason();const auto clk=d.pipeline.clockTelemetry();audit->resync=clk.resync_count;audit->ppm=clk.correction_ppm;audit->clockFill=clk.fill_frames;
+    for(unsigned ch=0;ch<d.config.channels;++ch)std::memcpy(audit->rendered[ch],d.pipeline.rendered().readChannel(ch),req.frames*sizeof(double));std::memcpy(audit->pcm,bytes.data(),bytes.size());
+   }
+   const auto submitResult=sink->submit(block);
+   if(audit){audit->accepted=block.accepted_frames;audit->submitResult=submitResult;audit->end100ns=host100ns();chain_audit::sinkDone(slot);}
+   if(submitResult!=ENTROPY_OK||block.accepted_frames!=req.frames)throw std::runtime_error("Sink submit failed");
    if(audio&&std::any_of(bytes.begin(),bytes.end(),[](uint8_t b){return b!=0;}))++d.nonzeroPcmBlocks;
    nextDeviceFrame+=req.frames;QueryThreadCycleTime(GetCurrentThread(),&cb);const double cost=double(host100ns()-begin)/10;maximum=(std::max)(maximum,cost);
    d.callbackUs=cost;d.maxCallbackUs=maximum;d.cycles=cb-ca;++d.callbacks;if(cost>double(req.frames)*1e6/192000)++d.misses;

@@ -1,0 +1,87 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "kind": "archive",
+      "path": "release/music-cinema/Stage1/v0003-r9/stage1-native-music-v0003-r9-source.zip",
+      "sha256": "F7D6080A12DEBF79EB990F1C7270FFF2A22488573C949A847547E9EB78611C8A",
+      "crc": "PASS"
+    },
+    {
+      "kind": "archive",
+      "path": "release/music-cinema/Stage1/v0003-r9/stage1-native-music-v0003-r9-runtime.zip",
+      "sha256": "D610AED98D7D046D7E5530B986DD5377E660D1E09CA51E06A4F305F5AFDD6B5F",
+      "crc": "PASS"
+    },
+    {
+      "kind": "archive",
+      "path": "release/music-cinema/Stage2/stage2-music-v0009-source.zip",
+      "sha256": "600ED800D24893D5147EDAAFE4CF324A4C1BFC0BCA6D82DC295B759BF55068B5",
+      "crc": "PASS"
+    },
+    {
+      "kind": "archive",
+      "path": "release/music-cinema/Stage2/stage2-music-v0009-win-x64.zip",
+      "sha256": "BAC12D149E66CB58C97AD525E0EB75E020146C6F302EC0B11828529222AAF5C3",
+      "crc": "PASS"
+    },
+    {
+      "kind": "archive",
+      "path": "release/music-cinema/Stage3/0.1.9-v2-r2/EntropyAudioCore-0.1.9-v2-r2-source.zip",
+      "sha256": "C30E86CAA49C2000459B93BEB3FABD5D6D1508CD0C35A3B5FADE904AA87E2849",
+      "crc": "PASS"
+    },
+    {
+      "kind": "archive",
+      "path": "release/music-cinema/Stage3/0.1.9-v2-r2/EntropyAudioCore-0.1.9-v2-r2-32k-win-x64.zip",
+      "sha256": "64D49C8DCF1707A7EB4AF962A3F27F5ED996C4750ABF606D795EA94FBA8D68BF",
+      "crc": "PASS"
+    },
+    {
+      "kind": "archive",
+      "path": "release/music-cinema/Stage3/0.1.9-v2-r2/EntropyAudioCore-0.1.9-v2-r2-64k-win-x64.zip",
+      "sha256": "37FDFBEFF4FB09CAB96CE7F2FC870BAAC8F30DD47B715C18A81E7D5FD8D16190",
+      "crc": "PASS"
+    },
+    {
+      "kind": "archive",
+      "path": "release/music-cinema/Diagnostics/exclusive-real-chain-20261012-tools.zip",
+      "sha256": "74F26ED66B0C141CBD2623CD605275C1153ECB892FC8994EBE2AB8F993FAC0AB",
+      "crc": "PASS"
+    },
+    {
+      "kind": "unchanged-binary",
+      "component": "stage1",
+      "sha256": "EAE8B72517E11F157241FA189BF0DBAEEC3F5C58CEA6F1D898FC4E8D0A00981F"
+    },
+    {
+      "kind": "unchanged-binary",
+      "component": "provider",
+      "sha256": "3329D657956A42A6E83C28850EE457D1A3A9BF9AC327955825621732B6C4B0DE"
+    },
+    {
+      "kind": "unchanged-binary",
+      "component": "stage2",
+      "sha256": "A9E8F777A870185152F3DF92DE410C02FF54486363AFFCE7F3877CC83572D3F3"
+    },
+    {
+      "kind": "unchanged-binary",
+      "component": "stage3",
+      "sha256": "E64D7F193FF7A462EBF54CAF7848A3F83F8A55323A75233BD15BCD1529A27AFD"
+    },
+    {
+      "kind": "unchanged-binary",
+      "component": "observationStage3",
+      "sha256": "B3642F5CFB6A98763B28752A71A5061354A19AEDC8131C93F4239C454D0F303A"
+    },
+    {
+      "kind": "unchanged-kernel",
+      "version": "0.3.0.11",
+      "sha256": "FB78EC3CC6066CDF3A039CCE95CD13C26199F2EC630F188351155F84EBB610AA"
+    }
+  ],
+  "qualifiedCaptureFiles": 23,
+  "qualifiedCaptureBytes": 10606115800,
+  "generalSuitesRun": false,
+  "scope": "Archive CRC/hashes, unchanged reference binaries, evidence consistency and launcher existence; no live sources opened"
+}

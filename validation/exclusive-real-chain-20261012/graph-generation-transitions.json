@@ -1,0 +1,25 @@
+{
+  "counts": {
+    "((285, 99, 0), 1, 3)": 451,
+    "((285, 0, 0), 1, 1)": 10799
+  },
+  "changes": [
+    {
+      "frame": 461824,
+      "sequence": 970985,
+      "qpc": 639643620964,
+      "oldGeneration": [
+        285,
+        99,
+        0
+      ],
+      "newGeneration": [
+        285,
+        0,
+        0
+      ],
+      "oldValidity": 3,
+      "newValidity": 1
+    }
+  ]
+}

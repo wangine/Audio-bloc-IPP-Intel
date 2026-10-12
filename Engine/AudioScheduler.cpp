@@ -1,4 +1,5 @@
 #include "AudioScheduler.h"
+#include "Diagnostics/ChainAudit.h"
 #include "Control/LiveEligibility.h"
 #include "Control/GraphControlAccess.h"
 #include "HighResolutionWait.h"
@@ -27,6 +28,7 @@ void AudioScheduler::run() noexcept {
    // Source histories have their own epochs. The continuous Graph-to-DAC
    // timeline does not restart when a source format/generation or program changes.
    if(needed&1)musicToken=context.music.token;if(needed&2)cinemaToken=context.cinema.token;
+   chain_audit::context(context.music.block,musicToken,graphFrame);
    engine::GraphControlAccess::crossover(graph_)->setProgramInputEpochs(musicToken,musicToken,cinemaToken,0xffffu);
   }
   if(stage2_&&!stage2_->tryRead(input_.writePointers())){

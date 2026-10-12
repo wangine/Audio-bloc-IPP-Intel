@@ -1,0 +1,53 @@
+{
+  "source": {
+    "blocks": 11250,
+    "gaps": [],
+    "resetTransitions": [],
+    "validities": {
+      "1": 11250
+    },
+    "generations": {
+      "(285, 0, 0)": 11250
+    }
+  },
+  "dsp": {
+    "blocks": 11249,
+    "gaps": [],
+    "resetTransitions": [],
+    "validities": {
+      "1": 11249
+    },
+    "generations": {
+      "(285, 0, 0)": 11249
+    }
+  },
+  "commonBlocks": 11247,
+  "lr": [
+    {
+      "channel": 1,
+      "delaySamples": 2048,
+      "samples": 11514880,
+      "differentSamples": 0,
+      "differentBinary64Words": 0,
+      "maxError": 0.0,
+      "rmsError": 0.0,
+      "rmsIn": 0.08867570658932167,
+      "rmsOut": 0.08867570658932167,
+      "peakIn": 0.32220823141063,
+      "peakOut": 0.32220823141063
+    },
+    {
+      "channel": 2,
+      "delaySamples": 2048,
+      "samples": 11514880,
+      "differentSamples": 0,
+      "differentBinary64Words": 0,
+      "maxError": 0.0,
+      "rmsError": 0.0,
+      "rmsIn": 0.0840145957284147,
+      "rmsOut": 0.0840145957284147,
+      "peakIn": 0.3401029624419858,
+      "peakOut": 0.3401029624419858
+    }
+  ]
+}

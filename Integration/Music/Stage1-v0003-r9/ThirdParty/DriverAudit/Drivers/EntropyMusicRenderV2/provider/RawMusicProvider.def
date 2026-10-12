@@ -1,0 +1,3 @@
+LIBRARY EntropyMusicRawProviderV2
+EXPORTS
+    entropy_endpoint_provider_v2

@@ -5,11 +5,19 @@
 `codex/music-cinema-architecture` publishes Stage3 **0.1.9-v2-r2**, derived from
 the selected **0.1.8** baseline, and the independent MUSIC source snapshots:
 
-- [Stage1 native MUSIC/AUX v0003-r7](Integration/Music/Stage1-v0003): native Core, separate Qt UI, independent SRC/FIFO and L/R FP64 at192kHz. [v0002](Integration/Music/Stage1) remains the reference.
+- [Stage1 native MUSIC/AUX v0003-r9](Integration/Music/Stage1-v0003-r9): frozen local reference, native Core, separate Qt UI, independent SRC/FIFO and L/R FP64 at192kHz. [r7](Integration/Music/Stage1-v0003) and [v0002](Integration/Music/Stage1) retain their earlier evidence.
 - [Stage2 MUSIC DSP v0009](Integration/Music/Stage2): existing DLL processing, stereo input and L/R/C output.
 - Stage3 at this repository root: independent passive MUSIC3 / CINEMA6 or CINEMA8 inputs, selector, original Crossover and output matrix, DAC A/B.
 
-The [2026-10-12 publication handoff](docs/PUBLICATION-STAGE1-r7-STAGE3-r2.md)
+The [live Exclusive reference](validation/exclusive-real-chain-20261012/README.md)
+links complete Stage1 r9 source/runtime archives, unchanged Stage2/Stage3 runtime
+references, observation tools, profiles, hashes and measured results. The known
+24/96 signal was verified through the actual listening profile to both DAC sink
+buffers; the user confirmed correct playback after restoring production Stage3.
+No audio correction was implemented. More-song listening and physical DAC A/B
+alignment remain open. Read the [verdict and limits](docs/EXCLUSIVE-REAL-CHAIN-20261012.md).
+
+The [earlier 2026-10-12 publication handoff](docs/PUBLICATION-STAGE1-r7-STAGE3-r2.md)
 links the tested runtimes, complete sources, SHA256 manifests and exact validation
 scope. Stage1 r7 fixes generation ownership during stream transitions. Stage3 r2
 retains user ARM as MUTE/WAITING_INPUT during upstream absence, processes no
@@ -17,7 +25,7 @@ fabricated input blocks and resumes validated PCM in the same Core. Explicit
 DISARM cancels resumption; serious output faults still disarm.
 
 The r3 measurements below are historical qualification for their original
-binaries. Current r7/r2 results and remaining failures are in the handoff above.
+binaries. Earlier r7/r2 results retain the scope recorded in their own handoff.
 
 See [architecture, source provenance and next steps](docs/architecture/MUSIC-CINEMA.md),
 [Stage3 operation](docs/MUSIC-CINEMA-v2.md) and

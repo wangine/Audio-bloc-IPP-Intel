@@ -8,6 +8,8 @@ public:
  static auto& matrix(AudioGraph& g){return g.matrix_;}
  static auto& headroom(AudioGraph& g){return g.headroom_;}
  static auto maximumFrames(const AudioGraph& g){return g.maximumFrames_;}
+ static auto& crossoverOutput(const AudioGraph& g){return g.crossoverBuffer_;}
+ static auto& matrixOutput(const AudioGraph& g){return g.matrixBuffer_;}
  static void invalidateArm(AudioGraph& g){g.egressPolicyReady_=false;}
 };
 }

@@ -1,0 +1,28 @@
+/*++
+
+Copyright (c) Microsoft Corporation All Rights Reserved
+
+Module Name:
+
+    EntropyMusicRenderV2.rc
+
+Abstract:
+
+--*/
+
+#include <windows.h>
+
+#include <ntverp.h>
+
+#define VER_FILETYPE                VFT_DRV
+#define VER_FILESUBTYPE             VFT2_DRV_SOUND
+#define VER_FILEDESCRIPTION_STR     "Entropy Music Render V2 candidate"
+#define VER_INTERNALNAME_STR        "EntropyMusicRenderV2.sys"
+#define VER_ORIGINALFILENAME_STR    "EntropyMusicRenderV2.sys"
+
+#define VER_LEGALCOPYRIGHT_YEARS    "2013"
+#define VER_LEGALCOPYRIGHT_STR	    "Entropy Audio; derived Microsoft MS-PL shell"
+#define VER_FILEVERSION             0,3,0,1
+#define VER_FILEVERSION_STR         "0.3.0.1"
+
+#include "common.ver"

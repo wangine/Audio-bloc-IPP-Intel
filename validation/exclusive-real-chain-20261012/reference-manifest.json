@@ -1,0 +1,100 @@
+{
+  "date": "2026-10-12",
+  "sourceFiles": 395,
+  "archives": [
+    {
+      "path": "release/music-cinema/Stage1/v0003-r9/stage1-native-music-v0003-r9-source.zip",
+      "bytes": 2163216,
+      "sha256": "F7D6080A12DEBF79EB990F1C7270FFF2A22488573C949A847547E9EB78611C8A"
+    },
+    {
+      "path": "release/music-cinema/Stage1/v0003-r9/stage1-native-music-v0003-r9-runtime.zip",
+      "bytes": 17266793,
+      "sha256": "D610AED98D7D046D7E5530B986DD5377E660D1E09CA51E06A4F305F5AFDD6B5F"
+    },
+    {
+      "path": "release/music-cinema/Stage2/stage2-music-v0009-source.zip",
+      "bytes": 30823367,
+      "sha256": "600ED800D24893D5147EDAAFE4CF324A4C1BFC0BCA6D82DC295B759BF55068B5",
+      "alreadyPublished": true
+    },
+    {
+      "path": "release/music-cinema/Stage2/stage2-music-v0009-win-x64.zip",
+      "bytes": 30808419,
+      "sha256": "BAC12D149E66CB58C97AD525E0EB75E020146C6F302EC0B11828529222AAF5C3",
+      "alreadyPublished": true
+    },
+    {
+      "path": "release/music-cinema/Stage3/0.1.9-v2-r2/EntropyAudioCore-0.1.9-v2-r2-source.zip",
+      "bytes": 10820297,
+      "sha256": "C30E86CAA49C2000459B93BEB3FABD5D6D1508CD0C35A3B5FADE904AA87E2849",
+      "alreadyPublished": true
+    },
+    {
+      "path": "release/music-cinema/Stage3/0.1.9-v2-r2/EntropyAudioCore-0.1.9-v2-r2-32k-win-x64.zip",
+      "bytes": 17953576,
+      "sha256": "64D49C8DCF1707A7EB4AF962A3F27F5ED996C4750ABF606D795EA94FBA8D68BF",
+      "alreadyPublished": true
+    },
+    {
+      "path": "release/music-cinema/Stage3/0.1.9-v2-r2/EntropyAudioCore-0.1.9-v2-r2-64k-win-x64.zip",
+      "bytes": 18001103,
+      "sha256": "37FDFBEFF4FB09CAB96CE7F2FC870BAAC8F30DD47B715C18A81E7D5FD8D16190",
+      "alreadyPublished": true
+    },
+    {
+      "path": "release/music-cinema/Diagnostics/exclusive-real-chain-20261012-tools.zip",
+      "bytes": 4454459,
+      "sha256": "74F26ED66B0C141CBD2623CD605275C1153ECB892FC8994EBE2AB8F993FAC0AB"
+    }
+  ],
+  "binaries": [
+    {
+      "component": "stage1",
+      "localPath": "D:\\Projects\\3Stage-3\\Stage1-v0003-r9\\release\\stage1-native-music-v0003-r9\\core\\EntropyMusicSourceCore.exe",
+      "sha256": "EAE8B72517E11F157241FA189BF0DBAEEC3F5C58CEA6F1D898FC4E8D0A00981F"
+    },
+    {
+      "component": "provider",
+      "localPath": "D:\\Projects\\3Stage-3\\Stage1-v0003-r9\\release\\stage1-native-music-v0003-r9\\core\\providers\\EntropyMusicRawProviderV2.dll",
+      "sha256": "3329D657956A42A6E83C28850EE457D1A3A9BF9AC327955825621732B6C4B0DE"
+    },
+    {
+      "component": "stage2",
+      "localPath": "D:\\Projects\\3Stage-3\\Stage2\\release\\stage2-music-v0009\\EntropyDspEngine.exe",
+      "sha256": "A9E8F777A870185152F3DF92DE410C02FF54486363AFFCE7F3877CC83572D3F3"
+    },
+    {
+      "component": "stage3",
+      "localPath": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2-r2\\EntropyAudioCore-0.1.9-v2-r2-64k-win-x64\\runtime\\EntropyAudioCore.exe",
+      "sha256": "E64D7F193FF7A462EBF54CAF7848A3F83F8A55323A75233BD15BCD1529A27AFD"
+    },
+    {
+      "component": "observationStage3",
+      "localPath": "D:\\Projects\\3Stage-3\\Diagnostics\\Exclusive-RealChain-20261012\\observation-stage3\\EntropyAudioCore.exe",
+      "sha256": "B3642F5CFB6A98763B28752A71A5061354A19AEDC8131C93F4239C454D0F303A"
+    }
+  ],
+  "localCaptures": "D:\\Projects\\3Stage-3\\Diagnostics\\Exclusive-RealChain-20261012\\observed2",
+  "productionStage3SourceCommit": "fd735c5420d81f4ec89920d56c9a4039ce8809e7",
+  "status": "Verified known diagnostic signal; additional music listening remains open; no audio algorithm changes",
+  "auditTools": [
+    {
+      "path": "tools/EntropyRealChainReplay.exe",
+      "sha256": "DD641DD7E8A2C77E01F76CB9C5A8BADCBC29EB30DCDF459E65B8A012B74BE4F5"
+    },
+    {
+      "path": "tools/EntropyRealChainDacReference.exe",
+      "sha256": "24E99480D4DC631409F5B8C0B36AC1C6B80B2F7FD3B7ECE78FBC5DEA7BFB5BB3"
+    },
+    {
+      "path": "tools/PassiveCapture.exe",
+      "sha256": "62C5296CA6D144FBE23383F420A6D61F4C46130891607BBB7C66ECAB3E0E51D7"
+    },
+    {
+      "path": "qualified-observation-core/EntropyAudioCore.exe",
+      "sha256": "B3642F5CFB6A98763B28752A71A5061354A19AEDC8131C93F4239C454D0F303A"
+    }
+  ],
+  "observerProvenance": "Qualified observation Core is the live-tested build. Final source adds flush/close checks and refusal to reuse a nonempty audit directory; compiled but not separately live-qualified. Production Core remains unchanged."
+}

@@ -9,6 +9,7 @@
 #include "Engine/Egress/HardwareTest.h"
 #include "DeviceService.h"
 #include "Engine/AudioScheduler.h"
+#include "Engine/Diagnostics/ChainAudit.h"
 #include "Engine/Input/InputConfiguration.h"
 #include "IPC/CommandServer.h"
 #include "IPC/TelemetryServer.h"
@@ -19,6 +20,7 @@ namespace entropy::control {
 using J=ipc::Value;
 namespace {ConsoleShutdown consoleShutdown;BOOL WINAPI consoleStop(DWORD event){return consoleShutdown.handle(event);}}
 int runControlServer(int argc,char** argv) try {
+ struct AuditLifetime {AuditLifetime(){chain_audit::prepare();}~AuditLifetime(){chain_audit::finish();}} auditLifetime;
  std::string endpoint="EntropyAudioCore.Control.v1",initialProfile,liveGatePath;input::Configuration inputs;bool signal=false,offlineSinks=false,stage2Enabled=false,authorizedLiveTest=false,inputOnly=false,musicOverride=false,cinemaOverride=false;unsigned seconds=0;
  for(int i=1;i<argc;++i){std::string a=argv[i];if(a=="--control-server")continue;else if(a=="--endpoint"&&i+1<argc)endpoint=argv[++i];else if(a=="--offline-test-signal")signal=true;else if(a=="--offline-test-sinks")offlineSinks=true;else if(a=="--stage2-input")stage2Enabled=true;else if(a=="--input-only"){inputOnly=true;stage2Enabled=true;}else if(a=="--authorized-live-test")authorizedLiveTest=true;else if((a=="--stage2-endpoint"||a=="--music-endpoint"||a=="--cinema-endpoint")&&i+1<argc){std::string name=argv[++i];std::wstring wide(name.begin(),name.end());if(!input::localEndpoint(wide))throw std::invalid_argument("Input endpoint must be a local named pipe");if(a=="--cinema-endpoint"){inputs.cinema=wide;cinemaOverride=true;}else{inputs.music=wide;musicOverride=true;}}else if(a=="--live-gate"&&i+1<argc)liveGatePath=argv[++i];else if(a=="--profile"&&i+1<argc)initialProfile=argv[++i];else if(a=="--run-seconds"&&i+1<argc){auto s=ipc::parse(argv[++i]);seconds=s.asUnsigned(86400);}else throw std::invalid_argument("Unknown control option: "+a);}
  if(inputOnly&&(authorizedLiveTest||!liveGatePath.empty()))throw std::invalid_argument("Input-only cannot authorize physical output or use a live gate");

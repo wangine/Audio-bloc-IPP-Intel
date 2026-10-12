@@ -1,0 +1,60 @@
+[
+  {
+    "name": "missing-graph",
+    "exitCode": 1,
+    "error": "missing graph records/parts"
+  },
+  {
+    "name": "truncated-graph",
+    "exitCode": 1,
+    "error": "truncated graph record"
+  },
+  {
+    "name": "nonfinite-graph",
+    "exitCode": 1,
+    "error": "nonfinite captured/reference output"
+  },
+  {
+    "name": "missing-dac",
+    "exitCode": 1,
+    "error": "missing DAC records/parts or no audible checks"
+  },
+  {
+    "name": "truncated-dac",
+    "exitCode": 1,
+    "error": "truncated DAC record"
+  },
+  {
+    "name": "nonfinite-dac",
+    "exitCode": 1,
+    "error": "unsupported/invalid sink record"
+  },
+  {
+    "name": "initial-shutdown-failure",
+    "restorationAttempts": 1,
+    "calls": [
+      "shutdown",
+      "production-launch"
+    ]
+  },
+  {
+    "name": "candidate-launch-failure",
+    "restorationAttempts": 1,
+    "calls": [
+      "shutdown",
+      "candidate-launch",
+      "production-launch"
+    ]
+  },
+  {
+    "name": "cleanup-shutdown-and-wait-failure",
+    "restorationAttempts": 1,
+    "calls": [
+      "shutdown",
+      "candidate-launch",
+      "shutdown",
+      "terminated",
+      "production-launch"
+    ]
+  }
+]

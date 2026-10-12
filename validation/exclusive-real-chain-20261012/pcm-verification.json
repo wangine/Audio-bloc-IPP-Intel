@@ -1,0 +1,66 @@
+{
+  "dac-a": {
+    "samplesPerChannel": 10725376,
+    "startupPcmMutePrefix": [
+      {
+        "deviceFrame": 794624,
+        "frames": 160,
+        "preMuteFp64Nonzero": true
+      }
+    ],
+    "startupPrefixVerification": "Observed/inferred and exempted from FP64 comparison; callback presentation/onset metadata not recorded",
+    "leadingQuantizedZeroSamplesAfterStartup": 151,
+    "maxErrorLSB": [
+      1.4960371548659168,
+      1.495486537431134,
+      1.493389996852784,
+      1.4926815215148963,
+      1.4905911659298,
+      1.48973098146962,
+      1.4909403992933221,
+      1.4918978088535368
+    ],
+    "outsideExistingTpdfBound": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "dac-b": {
+    "samplesPerChannel": 10726400,
+    "startupPcmMutePrefix": [
+      {
+        "deviceFrame": 793600,
+        "frames": 716,
+        "preMuteFp64Nonzero": true
+      }
+    ],
+    "startupPrefixVerification": "Observed/inferred and exempted from FP64 comparison; callback presentation/onset metadata not recorded",
+    "leadingQuantizedZeroSamplesAfterStartup": 253,
+    "maxErrorLSB": [
+      1.4935842083141324,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0,
+      1.0
+    ],
+    "outsideExistingTpdfBound": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "input": {
+    "records": 11249,
+    "gaps": 0,
+    "firstSequence": 784467,
+    "lastSequence": 795715,
+    "validityCounts": {
+      "1": 11249
+    },
+    "generationCounts": {
+      "0": {
+        "285": 11249
+      },
+      "1": {
+        "0": 11249
+      },
+      "2": {
+        "0": 11249
+      }
+    },
+    "resetConditionTransitions": 0,
+    "changes": []
+  },
+  "output": {
+    "records": 11251,
+    "gaps": 0,
+    "firstSequence": 784480,
+    "lastSequence": 795730,
+    "validityCounts": {
+      "1": 11251
+    },
+    "generationCounts": {
+      "0": {
+        "285": 11251
+      },
+      "1": {
+        "0": 11251
+      },
+      "2": {
+        "0": 11251
+      }
+    },
+    "resetConditionTransitions": 0,
+    "changes": []
+  }
+}

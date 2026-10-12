@@ -1,0 +1,121 @@
+{
+  "baseDirectory": "D:\\Projects\\3Stage-3\\Diagnostics\\Exclusive-RealChain-20261012",
+  "files": [
+    {
+      "path": "observed2/dac-a-0.bin",
+      "bytes": 536892544,
+      "sha256": "550F62555B7FF5A52A3124F38B16DA0E901A8FE1A5309961BE98626C6553538F"
+    },
+    {
+      "path": "observed2/dac-a-1.bin",
+      "bytes": 536892544,
+      "sha256": "AF59D9F1C3376C2F9EF6826674D4408084FFE99418F5F2333A3B3D1E531C8222"
+    },
+    {
+      "path": "observed2/dac-a-2.bin",
+      "bytes": 536892544,
+      "sha256": "E4BCB02E818CC80C931135A50634F48F22D6123C995DDFC78E2ED9915458D012"
+    },
+    {
+      "path": "observed2/dac-a-3.bin",
+      "bytes": 536892544,
+      "sha256": "A666E6CAC87A7AFE84C224673D93E70EBED763D56A768A994F9DD02DAECE7730"
+    },
+    {
+      "path": "observed2/dac-a-4.bin",
+      "bytes": 65709824,
+      "sha256": "2DB9B7F57BE974F9732AA00EF1068792792AF990DF2951564CCFAFE86B448B13"
+    },
+    {
+      "path": "observed2/dac-b-0.bin",
+      "bytes": 536892544,
+      "sha256": "C5CC03B21456C73482C72431DB639D0653CCA4BA0EC91482955B310706DE78CD"
+    },
+    {
+      "path": "observed2/dac-b-1.bin",
+      "bytes": 536892544,
+      "sha256": "74F87ABAA40E93DA71141E105C77A8342FE9A65F3F15E3576FF4B18F83C7E5AF"
+    },
+    {
+      "path": "observed2/dac-b-2.bin",
+      "bytes": 536892544,
+      "sha256": "4EDFC4637B86636EFFF1420F2D73758DF13E4737098D1A43A8470622AD014BAD"
+    },
+    {
+      "path": "observed2/dac-b-3.bin",
+      "bytes": 536892544,
+      "sha256": "FF23E58CD80D74CEF0CA55075A62594475AB03614F812AC17F55B4E9F05145EC"
+    },
+    {
+      "path": "observed2/dac-b-4.bin",
+      "bytes": 65709824,
+      "sha256": "8DE3614ECEB344DAEF2672343D7361761ACFB857B2D05304430FFC11D9906E2C"
+    },
+    {
+      "path": "observed2/graph-0.bin",
+      "bytes": 537362400,
+      "sha256": "86322E0473CB2769E579B157C78F114C7B405A56C036C4F6F94E1A11E6B49E3D"
+    },
+    {
+      "path": "observed2/graph-1.bin",
+      "bytes": 537362400,
+      "sha256": "67405992DEFCB1FD10177C10215885D8FA35C7C176C9AEBE24A9AA893CA6B322"
+    },
+    {
+      "path": "observed2/graph-10.bin",
+      "bytes": 249936000,
+      "sha256": "64900C00C8B112A5A584C50C1331809549C64F0990F2CDA95100915770B7E6E3"
+    },
+    {
+      "path": "observed2/graph-2.bin",
+      "bytes": 537362400,
+      "sha256": "1FCE1719C924763C09C1E621CA0A0338BD670DC3EADD3CD14F9D2BE7E53E70BF"
+    },
+    {
+      "path": "observed2/graph-3.bin",
+      "bytes": 537362400,
+      "sha256": "D36B85FF069C513B2273B28184282A75D529FA12BF52A13DA1DB6EB3340DC55B"
+    },
+    {
+      "path": "observed2/graph-4.bin",
+      "bytes": 537362400,
+      "sha256": "F25AFF4885BFEFF599594855B19235363BC939A3799529322543B5E5ED09C761"
+    },
+    {
+      "path": "observed2/graph-5.bin",
+      "bytes": 537362400,
+      "sha256": "F510991E9BBCE9DECA754D6D80F0DA9CB65FCFBD4BA4C6F4FC938F8658999536"
+    },
+    {
+      "path": "observed2/graph-6.bin",
+      "bytes": 537362400,
+      "sha256": "86BA1643F69CFABF771F89C70BDF9F72F4B978DB67E6AA11BFCB8C860CFA7990"
+    },
+    {
+      "path": "observed2/graph-7.bin",
+      "bytes": 537362400,
+      "sha256": "8825570B409F9BF287BD7FE971AC058F2A6BB102BF6F34F6B9FA63A747B00B44"
+    },
+    {
+      "path": "observed2/graph-8.bin",
+      "bytes": 537362400,
+      "sha256": "DCABFD98EBCAAEB4F92AA1178F8E6BB7F1A86E780478AD0E9A9600E9CF8260C1"
+    },
+    {
+      "path": "observed2/graph-9.bin",
+      "bytes": 537362400,
+      "sha256": "ACBE549F999CC01D8DE079A4E9AE9EAC76107B8F33293697FF54CA471B563E62"
+    },
+    {
+      "path": "observed2-stage2-source.bin",
+      "bytes": 278010256,
+      "sha256": "F1D478D4D6027D07D936E79C87BB6E58D8F34010A308353CDA66D521069E0D63"
+    },
+    {
+      "path": "observed2-stage2-dsp.bin",
+      "bytes": 277985544,
+      "sha256": "89D289B63F44263E13F005B5604F38CF98C6052B1C3123512BE4D39A88498C37"
+    }
+  ],
+  "policy": "Preserved locally; no samples removed; large PCM captures not uploaded to Git"
+}

@@ -1,0 +1,27 @@
+{
+  "rate": 192000,
+  "masterPeriodFrames": 10368000,
+  "captureFrames": 11520000,
+  "markerOffsets": [
+    2717696,
+    2717696
+  ],
+  "comparisons": [
+    {
+      "channel": 1,
+      "samples": 11520000,
+      "maxError": 4.718447854656915e-16,
+      "rmsError": 4.208965438424151e-17,
+      "gain": 0.999999999999992,
+      "differentSamples": 7047906
+    },
+    {
+      "channel": 2,
+      "samples": 11520000,
+      "maxError": 4.163336342344337e-16,
+      "rmsError": 3.997207136907147e-17,
+      "gain": 0.9999999999999941,
+      "differentSamples": 6736502
+    }
+  ]
+}
