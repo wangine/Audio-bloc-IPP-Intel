@@ -1,0 +1,2 @@
+capture warnings 1 unexpected resets/losses {'recoveries': 1}
+FAIL: validated continuous carrier caused recovery or loss

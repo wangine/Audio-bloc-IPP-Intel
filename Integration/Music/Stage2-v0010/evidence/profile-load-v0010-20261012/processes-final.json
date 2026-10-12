@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "EntropyMusicSourceCore.exe",
+    "ProcessId": 17204,
+    "ExecutablePath": "D:\\Projects\\3Stage-3\\Stage1-v0003-r9\\release\\stage1-native-music-v0003-r9\\core\\EntropyMusicSourceCore.exe"
+  },
+  {
+    "Name": "EntropyAudioCore.exe",
+    "ProcessId": 4996,
+    "ExecutablePath": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2-r2\\EntropyAudioCore-0.1.9-v2-r2-64k-win-x64\\runtime\\EntropyAudioCore.exe"
+  },
+  {
+    "Name": "EntropyDspEngine.exe",
+    "ProcessId": 12468,
+    "ExecutablePath": "D:\\projects\\3stage-3\\stage2\\release\\stage2-music-v0010\\entropydspengine.exe"
+  }
+]

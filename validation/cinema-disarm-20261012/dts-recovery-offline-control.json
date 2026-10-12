@@ -1,0 +1,23 @@
+{
+  "carrier_sha256": "70c6e3e93a6ef89202bb83a03382035f526f52ad6f5a09a03d89505c69777e81",
+  "reset_byte_offset": 32039040,
+  "continuous": {
+    "bytes": 213245952,
+    "frames": 8885248,
+    "sha256": "ea77dff9a020cecb4dc5655e21a8d33ab9397d33d1440fa1814d1ad4e3b4f328",
+    "exit": 0
+  },
+  "before_reset": {
+    "bytes": 192208896,
+    "frames": 8008704,
+    "sha256": "ad1dc103bbe6d865dc84d5a73f57f4c7f26f78de2229a6f9b58ac6dc9a926de1",
+    "exit": 0
+  },
+  "after_reset": {
+    "bytes": 21012480,
+    "frames": 875520,
+    "sha256": "1930fd2b43c1c16ae07d44025c05c48d12f2cf4f92fbc8187bd23ba38db34a8b",
+    "exit": 0
+  },
+  "reset_decoded_frame_difference": 1024
+}

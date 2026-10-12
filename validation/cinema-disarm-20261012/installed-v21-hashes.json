@@ -1,0 +1,38 @@
+[
+  {
+    "file": "Entropy Surround Decoder.exe",
+    "expected": "cd4cdfaaec40ab387298ddfb6435f0ac1b9571fcac4426c90e71c8f8a2b60f2b",
+    "actual": "cd4cdfaaec40ab387298ddfb6435f0ac1b9571fcac4426c90e71c8f8a2b60f2b",
+    "match": true
+  },
+  {
+    "file": "EntropySurroundDecoder.exe",
+    "expected": "820f23daf25d3d093f1a828d8a14731e8412f106c85dc69bfa9855efb2cf6d52",
+    "actual": "820f23daf25d3d093f1a828d8a14731e8412f106c85dc69bfa9855efb2cf6d52",
+    "match": true
+  },
+  {
+    "file": "ffmpeg.exe",
+    "expected": "6754841a57e4c6caa1d91d3dc1f77380829bbe9d74d439bafa8ac606603f3ece",
+    "actual": "6754841a57e4c6caa1d91d3dc1f77380829bbe9d74d439bafa8ac606603f3ece",
+    "match": true
+  },
+  {
+    "file": "Entropy Audio.ico",
+    "expected": "d1d94ca32a84335c622853bfd17067124a312dc842071954df64544f69dfb3d1",
+    "actual": "d1d94ca32a84335c622853bfd17067124a312dc842071954df64544f69dfb3d1",
+    "match": true
+  },
+  {
+    "file": "Third-Party Notices.txt",
+    "expected": "924397eb6cb3d311a3e6b992159c6ad6e2134cd6ee99e4eca0a53376c9cd714d",
+    "actual": "924397eb6cb3d311a3e6b992159c6ad6e2134cd6ee99e4eca0a53376c9cd714d",
+    "match": true
+  },
+  {
+    "file": "README.txt",
+    "expected": "37ec8d14eb9dbf6d2df7e7b4bc7c88c2c6bc55035e51acb6d02d2f3ed5a9aae1",
+    "actual": "37ec8d14eb9dbf6d2df7e7b4bc7c88c2c6bc55035e51acb6d02d2f3ed5a9aae1",
+    "match": true
+  }
+]

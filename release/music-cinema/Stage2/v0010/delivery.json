@@ -1,0 +1,17 @@
+[
+  {
+    "file": "README.md",
+    "bytes": 4919,
+    "sha256": "e61444df6b881d39f27aa4de3e45629e927a232a32d4597acf22263563b57012"
+  },
+  {
+    "file": "stage2-music-v0010-source.zip",
+    "bytes": 331397,
+    "sha256": "fac90e5483f7c062b805afcdc4b786397adf5ce4808e025e4fc0bb266bf52d7e"
+  },
+  {
+    "file": "stage2-music-v0010-win-x64.zip",
+    "bytes": 30129332,
+    "sha256": "396ce530c4ef5041a0681a70606c39fe843a7984074ac5442f3e8ec78e28907c"
+  }
+]

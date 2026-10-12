@@ -1,0 +1,6 @@
+{
+  "DisplayName": "Entropy Surround Decoder",
+  "DisplayVersion": "0.2.21",
+  "InstallLocation": "C:\\Program Files\\Entropy Audio\\Surround Decoder",
+  "PSPath": "Microsoft.PowerShell.Core\\Registry::HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\EntropySurroundDecoder"
+}

@@ -73,11 +73,11 @@ int runControlServer(int argc,char** argv) try {
   }
   auto next=std::make_shared<Cached>();
   next->description=controls.metadata();auto& description=next->description;
-  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=!inputOnly&&(liveGate||authorizedLiveTest);description["version"]="0.1.9-v2-r2";description["inputOnly"]=inputOnly;description["inputContractVersion"]=1;
+  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=!inputOnly&&(liveGate||authorizedLiveTest);description["version"]="0.1.9-v2-r3";description["inputOnly"]=inputOnly;description["inputContractVersion"]=1;
   description["offlineGatePassed"]=liveGate;description["authorizedLiveTest"]=authorizedLiveTest;description["owner"]="EntropyAudioCore";
   description["profileRequired"]=profileRequired;description["profilePath"]=initialProfile;description["profileError"]=profileError;
   DWORD consolePid=0;description["consoleAttached"]=GetConsoleProcessList(&consolePid,1)!=0;
-  auto& data=next->telemetry;data=stage2Enabled?ipc::programTelemetrySnapshot(controls,scheduler,*stage2,selection,inputs.music,inputs.cinema):ipc::telemetrySnapshot(controls,scheduler,signal,nullptr);data["version"]="0.1.9-v2-r2";data["inputOnly"]=inputOnly;
+  auto& data=next->telemetry;data=stage2Enabled?ipc::programTelemetrySnapshot(controls,scheduler,*stage2,selection,inputs.music,inputs.cinema):ipc::telemetrySnapshot(controls,scheduler,signal,nullptr);data["version"]="0.1.9-v2-r3";data["inputOnly"]=inputOnly;
   if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else data["domains"]=liveWorkers.snapshot();
   data["physicalArmed"]=liveWorkers.armed();data["armed"]=sourceWait.requested();data["inputMuted"]=sourceWait.muted();
   data["sourceWaitCount"]=J::u64(sourceWait.waits());data["sourceResumeCount"]=J::u64(sourceWait.resumes());data["lastSourceWaitCause"]=sourceWait.lastSourceCause();data["inputResumeError"]=inputResumeError;

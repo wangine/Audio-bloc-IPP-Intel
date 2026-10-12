@@ -71,14 +71,36 @@ void scenario(unsigned bufferA,unsigned bufferB){
  for(unsigned i=0;i<10;++i){workers.atBlockBoundary();graphFrame+=tick;std::this_thread::yield();}
  workers.graphStopped();retire.join();require(sim[0].closed&&sim[1].closed&&!workers.armed(),"cancel did not wake/close owners");
 }
+void knownDataStartup(){
+ std::array<Sim,2> sim;for(auto& s:sim)s.start=10000000;
+ control::LiveSinkWorkers workers([&](unsigned slot){return std::make_unique<Fake>(sim[slot]);},false);
+ std::array<control::LiveDomain,2> configs;for(unsigned i=0;i<2;++i){configs[i].enabled=true;configs[i].channels=1;configs[i].logicalId=i?"DAC_B":"DAC_A";configs[i].endpoint=i?"known-B":"known-A";configs[i].lanes[0]=i;}
+ require(workers.prepare(configs)&&workers.start(),"known-data startup ARM");
+ std::array<double,1024> samples;samples.fill(.1);std::array<const double*,16> planes;planes.fill(samples.data());
+ workers.atBlockBoundary();
+ for(unsigned n=0;n<2;++n){for(auto& s:sim)SetEvent(s.step);for(auto& s:sim)require(WaitForSingleObject(s.finished,2000)==WAIT_OBJECT_0&&!s.closed,"known-data silent calibration");}
+ for(unsigned n=0;n<12;++n)workers.publish(planes.data(),1024,true,{1,uint64_t(n)*1024,10000000,1024});
+ // The source can pause after publication. Startup must use these committed
+ // samples, rather than assuming future packets will arrive before playback.
+ for(unsigned n=0;n<8;++n){for(auto& s:sim)SetEvent(s.step);for(auto& s:sim)require(WaitForSingleObject(s.finished,2000)==WAIT_OBJECT_0&&!s.closed,"known-data callback");}
+ auto snapshot=workers.snapshot();workers.graphStopped();workers.stop();
+ for(const auto& d:snapshot.asArray()){
+  require(d.at("groupReplans").asUnsigned()==0,"startup depended on unpublished future PCM; repeated replanning");
+  require(d.at("primeNominalFrames").asNumber()>0,"known committed PCM could not prime DAC");
+  require(d.at("primeWantedFrame").asNumber()+4096<=12288,"startup target exceeds committed PCM");
+  require(d.at("faults").asUnsigned()==0,"known-data startup fault");
+ }
+ std::puts("PASS source pause after committed PCM: both DACs prime without future samples or replanning");
+}
 int main(int argc,char** argv)try{
+ if(argc>1&&std::strcmp(argv[1],"--diagnostic-known-data-startup")==0){knownDataStartup();return 0;}
  if(argc>1&&std::strcmp(argv[1],"--diagnostic-large-buffer")==0){scenario(1024,4096);return 0;}
  // Sideband splits and merges retain every actual identity, including wrap.
  egress_host::SpscAudioFifo fifo;require(fifo.prepare(1,16),"FIFO prepare");double src[16],dst[16];for(unsigned n=0;n<16;++n)src[n]=n+.25;const double* in[]={src};double* out[]={dst};
  require(fifo.push(in,7,{9,1000,500,7})&&fifo.push(in,7,{9,1007,600,7}),"sideband push");egress_host::GraphInterval interval;
  require(fifo.pop(out,11,&interval)&&interval.epoch==9&&interval.firstGraphFrame==1000&&interval.frames==11,"merged identity");require(fifo.pop(out,3,&interval)&&interval.firstGraphFrame==1011,"split identity");
  require(fifo.push(in,16,{9,1014,700,16})&&fifo.pop(out,16,&interval)&&interval.firstGraphFrame==1014,"wrapped identity");
- scenario(1024,1024);scenario(512,1024);
+ knownDataStartup();scenario(1024,1024);scenario(512,1024);
  // Unsupported full-target driver buffer is refused before any Start.
  std::array<Sim,2> unsupported;unsupported[1].buffer=4096;
  control::LiveSinkWorkers blocked([&](unsigned i){return std::make_unique<Fake>(unsupported[i]);});

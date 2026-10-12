@@ -1,0 +1,18 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-music-cinema-65536
+Test project D:/Projects/3Stage-3/Audio-bloc-IPP-Intel/build/msvc-music-cinema-65536
+    Start  7: EntropyMusicCinemaSourceWait
+1/6 Test  #7: EntropyMusicCinemaSourceWait ..............   Passed    1.54 sec
+    Start  8: EntropyMusicCinemaSourceWaitProvenance
+2/6 Test  #8: EntropyMusicCinemaSourceWaitProvenance ....   Passed    0.04 sec
+    Start  9: EntropyMusicCinemaSourceWaitLateFatal
+3/6 Test  #9: EntropyMusicCinemaSourceWaitLateFatal .....   Passed    0.08 sec
+    Start 10: EntropyMusicCinemaSourceWaitRearmAbsent
+4/6 Test #10: EntropyMusicCinemaSourceWaitRearmAbsent ...   Passed    0.04 sec
+    Start 17: EntropyStage019Egress
+5/6 Test #17: EntropyStage019Egress .....................   Passed    0.46 sec
+    Start 27: EntropyStage07Live
+6/6 Test #27: EntropyStage07Live ........................   Passed    4.26 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Total Test time (real) =   6.43 sec

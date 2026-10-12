@@ -1,0 +1,42 @@
+[
+  {
+    "file": "Cinema-v0.2.21-Full-Trace-Evidence.zip",
+    "bytes": 35575610,
+    "sha256": "521ff0159fa0a514f6d26f062f9e82f16fb1c16af65ffd8d3661678569f81209"
+  },
+  {
+    "file": "CinemaDecoder-v0.2.21-Source-and-Evidence.zip",
+    "bytes": 20649141,
+    "sha256": "b54714c977bd90e60bccd75aca5cf843ba5aadc65a48524fa977df3fb381a290"
+  },
+  {
+    "file": "CinemaDecoder-v0.2.21-win-x64.zip",
+    "bytes": 40108212,
+    "sha256": "00b2204c04e8b300b80b8773c86567d786693846771259b27f0af5f7cdd5ca16"
+  },
+  {
+    "file": "RAW-CAPTURE-INDEX.json",
+    "bytes": 2630,
+    "sha256": "06b320a82eee46902d95fe81c486e2312a6f31c2a5b5eddb9734c6912f00cb34"
+  },
+  {
+    "file": "README.txt",
+    "bytes": 3083,
+    "sha256": "67c2c849b703cb9a3e8ad8b63f3d0d2545ece91b928409422aff9a51e459c2a7"
+  },
+  {
+    "file": "TELEMETRY-LOSSLESS-INDEX.json",
+    "bytes": 1332,
+    "sha256": "e0ee38db80d7df05c15027e0ba18fb18379decb153d3ed1fa197fa4be206d763"
+  },
+  {
+    "file": "v18-dts-carrier-48000-s16le-stereo.raw.zip",
+    "bytes": 33042651,
+    "sha256": "9fe36c0f2ee440abe8aaace0bdb87af8c2d27aa27668effe9fd60f73bd6364a3"
+  },
+  {
+    "file": "v21-gui-carrier-48000-s16le-stereo.raw.zip",
+    "bytes": 80742717,
+    "sha256": "16b32e66679f63bedac53ab7d3dcb1d9d834fa290377f1c8b4bdac90e846c69f"
+  }
+]

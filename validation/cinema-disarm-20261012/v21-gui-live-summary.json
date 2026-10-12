@@ -1,0 +1,64 @@
+{
+  "samples": 3539,
+  "first": {
+    "time": 1791846333.769429,
+    "armed": true,
+    "physicalArmed": true,
+    "sourceWaitCount": "174",
+    "sourceResumeCount": "175",
+    "liveFault": false
+  },
+  "last": {
+    "time": 1791846733.6584115,
+    "armed": true,
+    "physicalArmed": true,
+    "sourceWaitCount": "174",
+    "sourceResumeCount": "175",
+    "liveFault": false
+  },
+  "until_unix": null,
+  "source_wait_delta": 0,
+  "source_resume_delta": 0,
+  "transitions": [
+    {
+      "time": 1791846333.769429,
+      "armed": true,
+      "physicalArmed": true,
+      "sourceWaitCount": "174",
+      "sourceResumeCount": "175",
+      "liveFault": false
+    }
+  ],
+  "domains": {
+    "DAC A": {
+      "max_faults": 0,
+      "max_sinkFaults": 0,
+      "max_pcmFaults": 0,
+      "max_xruns": 0,
+      "max_resyncCount": 0,
+      "max_groupReplans": 0,
+      "max_deadlineMisses": 0,
+      "max_maximumCallbackWallExcludingWaitUs": 3090.6,
+      "max_eventWaitUs": 5913.9,
+      "max_pcmNonfiniteSamples": 0,
+      "max_pcmOverrangeSamples": 690513.0,
+      "max_pcmClippedBlocks": 1203.0,
+      "min_fifoFrames": 5302.0
+    },
+    "DAC B": {
+      "max_faults": 0,
+      "max_sinkFaults": 0,
+      "max_pcmFaults": 0,
+      "max_xruns": 0,
+      "max_resyncCount": 0,
+      "max_groupReplans": 0,
+      "max_deadlineMisses": 0,
+      "max_maximumCallbackWallExcludingWaitUs": 3471.6,
+      "max_eventWaitUs": 5953.8,
+      "max_pcmNonfiniteSamples": 0,
+      "max_pcmOverrangeSamples": 0,
+      "max_pcmClippedBlocks": 0,
+      "min_fifoFrames": 5703.0
+    }
+  }
+}

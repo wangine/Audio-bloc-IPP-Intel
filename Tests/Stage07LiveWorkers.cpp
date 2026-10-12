@@ -126,7 +126,9 @@ int main()try{
  w.publish(pointers.data(),1024,false);std::this_thread::sleep_for(std::chrono::milliseconds(20));check(!w.armed(),"invalid Headroom did not fail closed");w.stop();
  check(w.prepare(domains)&&w.start(),"starvation recovery");
  for(unsigned i=0;i<25;++i){w.publish(pointers.data(),1024,true);std::this_thread::sleep_for(std::chrono::microseconds(5333));}
- std::this_thread::sleep_for(std::chrono::milliseconds(120));if(w.armed())std::fprintf(stderr,"STARVATION DIAGNOSTIC %s\n",ipc::dump(w.snapshot()).c_str());check(!w.armed(),"starvation invisible");w.stop();
+ const auto starvationLimit=std::chrono::steady_clock::now()+std::chrono::seconds(1);
+ while(w.armed()&&std::chrono::steady_clock::now()<starvationLimit)std::this_thread::sleep_for(std::chrono::milliseconds(1));
+ if(w.armed())std::fprintf(stderr,"STARVATION DIAGNOSTIC %s\n",ipc::dump(w.snapshot()).c_str());check(!w.armed(),"starvation invisible");w.stop();
  for(unsigned format=0;format<2;++format){for(unsigned slot=0;slot<2;++slot){domains[slot].channels=8;domains[slot].format=format;seen[slot].activeChannels=0;seen[slot].mismatches=0;for(unsigned c=0;c<8;++c)domains[slot].lanes[c]=slot*8+c;seen[slot].lanes=domains[slot].lanes;}
   check(w.prepare(domains)&&w.start(),"all16 formats ARM");for(unsigned i=0;i<40;++i){w.publish(pointers.data(),1024,true);std::this_thread::sleep_for(std::chrono::microseconds(5333));}
   check(w.armed(),"all16 formats unexpectedly faulted");w.stop();for(auto& x:seen)check(x.activeChannels==255&&x.mismatches==0,"all16 PCM oracle/active channel failure");

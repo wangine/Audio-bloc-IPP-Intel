@@ -1,0 +1,2 @@
+continuous records 328 deltas {'captureDiscontinuities': 2, 'recoveries': 1, 'pacerUnderflows': 0, 'pacerGateLoss': 0, 'cinemaDrops': 0, 'decodedDiscarded': 0}
+FAIL continuous CINEMA capture/decode/publication

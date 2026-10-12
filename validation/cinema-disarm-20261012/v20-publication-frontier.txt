@@ -1,0 +1,3 @@
+same-epoch sequence discontinuities 0
+publication gap 861243398946 861243663999 ms 26.5053 sequence 44459 44460 pacer submissions inside gap 10 frames 1280 pacer max gap ms 3.0832 minimum queuedAfter 1408
+publication gap 862124260676 862124487354 ms 22.6678 sequence 60975 60976 pacer submissions inside gap 8 frames 1024 pacer max gap ms 3.0558 minimum queuedAfter 1152

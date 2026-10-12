@@ -1,0 +1,17 @@
+kind 1 rows 41964 gapMs p50/p95/p99/max [ 9.9946 10.9011 10.9736 12.771 ]
+ processing maxMs 1.2845
+kind 2 rows 157350 gapMs p50/p95/p99/max [2.6333 3.0637 3.2001 4.9232]
+ processing maxMs 7.1152
+ pace delay at seconds 52.6982 gapMs 3.8174 queuedAfter 1408 generation 3
+ pace delay at seconds 106.7941 gapMs 3.9104 queuedAfter 1664 generation 3
+ pace delay at seconds 145.97 gapMs 3.9657 queuedAfter 1280 generation 3
+ pace delay at seconds 132.0981 gapMs 3.9887 queuedAfter 1536 generation 3
+ pace delay at seconds 98.7729 gapMs 4.3671 queuedAfter 1664 generation 3
+ pace delay at seconds 132.9417 gapMs 4.9232 queuedAfter 1536 generation 3
+kind 3 rows 39340 gapMs p50/p95/p99/max [10.0029 19.329  20.1114 21.0787]
+kind 4 rows 1 gapMs p50/p95/p99/max []
+kind 5 rows 41964 gapMs p50/p95/p99/max [ 9.9946 10.9011 10.973  12.7709]
+ processing maxMs 0.4229
+capture packets 41964 frame-index gaps 0 flags (array([0, 1], dtype=uint64), array([41963,     1]))
+ flagged packet at seconds 163.9693 frame 7871040 flags 1 holdMs 0.0101 ownerArrivalGapMs 0.0277
+restarts [(4, 867417626469, 0, 0, 0, 1, 0, 0)]

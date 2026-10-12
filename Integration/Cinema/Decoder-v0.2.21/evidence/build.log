@@ -1,0 +1,282 @@
+**********************************************************************
+** Visual Studio 2026 Developer Command Prompt v18.10.0
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+-- The C compiler identification is MSVC 19.51.36257.0
+-- The CXX compiler identification is MSVC 19.51.36257.0
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring juceaide
+-- Building juceaide
+-- Exporting juceaide
+-- Testing juceaide
+-- Finished setting up juceaide
+-- Configuring done (50.2s)
+-- Generating done (0.1s)
+-- Build files have been written to: D:/Projects/3Stage-3/CinemaDecoder-v0.2.19/build
+[0/2] Re-checking globbed directories...
+[1/52] Building CXX object CMakeFiles\CinemaTransport.dir\ThirdParty\StageLink\StageLinkSecurity.cpp.obj
+[2/52] Building CXX object CMakeFiles\CinemaTransport.dir\ThirdParty\StageBusSDK\src\StageBusValidation.cpp.obj
+[3/52] Generating juce_binarydata_EntropySurroundAssets/JuceLibraryCode/BinaryData1.cpp, juce_binarydata_EntropySurroundAssets/JuceLibraryCode/BinaryData.h
+[4/52] Building CXX object CMakeFiles\EntropySurroundCore.dir\source\EntropySurroundCore.cpp.obj
+[5/52] Building CXX object CMakeFiles\CinemaTransport.dir\ThirdParty\StagePublishV2\StagePublishV2.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\StagePublishV2\StagePublishV2Protocol.h(31): warning C4324: 'entropy::publish::wire::Queue': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\StagePublishV2\StagePublishV2Protocol.h(32): warning C4324: 'entropy::publish::wire::Queue': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\StagePublishV2\StagePublishV2Protocol.h(33): warning C4324: 'entropy::publish::wire::Queue': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\StagePublishV2\StagePublishV2Protocol.h(34): warning C4324: 'entropy::publish::wire::Queue': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\StagePublishV2\StagePublishV2Protocol.h(35): warning C4324: 'entropy::publish::wire::Queue': structure was padded due to alignment specifier
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\StagePublishV2\StagePublishV2Protocol.h(36): warning C4324: 'entropy::publish::wire::Queue': structure was padded due to alignment specifier
+[6/52] Linking CXX static library CinemaTransport.lib
+[7/52] Building CXX object CMakeFiles\CinemaOutput.dir\source\CinemaWdlSrc.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[8/52] Building CXX object CMakeFiles\CinemaOutput.dir\ThirdParty\WDL\resample.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[9/52] Building CXX object CMakeFiles\CinemaOutput.dir\source\CinemaOutput.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[10/52] Generating EntropySurroundDecoderGUI_artefacts/JuceLibraryCode/EntropySurroundDecoderGUI_resources.rc
+[11/52] Building CXX object CMakeFiles\EntropySurroundAssets.dir\juce_binarydata_EntropySurroundAssets\JuceLibraryCode\BinaryData1.cpp.obj
+[12/52] Linking CXX static library EntropySurroundCore.lib
+[13/52] Building CXX object CMakeFiles\EntropySurroundCoreTests.dir\source\EntropySurroundCoreTests.cpp.obj
+[14/52] Linking CXX static library CinemaOutput.lib
+[15/52] Building CXX object CMakeFiles\CinemaProbe.dir\tests\CinemaProbe.cpp.obj
+[16/52] Building CXX object CMakeFiles\OutputTests.dir\tests\OutputTests.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[17/52] Building CXX object CMakeFiles\TransportTests.dir\tests\TransportTests.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[18/52] Building CXX object CMakeFiles\SpectralTests.dir\tests\SpectralTests.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[19/52] Building CXX object CMakeFiles\IsolationTests.dir\tests\IsolationTests.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[20/52] Building CXX object CMakeFiles\CapturePolicyTests.dir\tests\CapturePolicyTests.cpp.obj
+[21/52] Building CXX object CMakeFiles\RetirementTests.dir\tests\RetirementTests.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[22/52] Building CXX object CMakeFiles\CadenceTests.dir\tests\CadenceTests.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(212): warning C4505: 'WDL_TICKS_IN_RANGE': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(218): warning C4505: 'WDL_TICKS_IN_RANGE_ENDING_AT': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(247): warning C4505: 'wdl_log_force': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4505: 'wdl_log': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(312): warning C4505: 'wdl_mem_store_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(317): warning C4505: 'wdl_mem_store_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(322): warning C4505: 'wdl_mem_store_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(327): warning C4505: 'wdl_mem_load_int': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(334): warning C4505: 'wdl_mem_load_int_le': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(341): warning C4505: 'wdl_mem_load_int_be': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(376): warning C4505: 'toupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(377): warning C4505: 'tolower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(378): warning C4505: 'isalpha_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(379): warning C4505: 'isalnum_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(380): warning C4505: 'isupper_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(381): warning C4505: 'islower_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(382): warning C4505: 'isspace_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(383): warning C4505: 'isgraph_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(384): warning C4505: 'isdigit_safe': unreferenced function with internal linkage has been removed
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(385): warning C4505: 'isprint_safe': unreferenced function with internal linkage has been removed
+[23/52] Building CXX object CMakeFiles\EntropySurroundDecoder.dir\source\EntropySurroundDecoder.cpp.obj
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(255): warning C4996: '_vsnprintf': This function or variable may be unsafe. Consider using _vsnprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Projects\3Stage-3\CinemaDecoder-v0.2.19\ThirdParty\WDL\wdltypes.h(267): warning C4100: 'format': unreferenced parameter
+[24/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\source\EntropySurroundGui.cpp.obj
+[25/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_gui_extra\juce_gui_extra.cpp.obj
+[26/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_gui_basics\juce_gui_basics_2.cpp.obj
+[27/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_gui_basics\juce_gui_basics.cpp.obj
+[28/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_gui_basics\juce_gui_basics_3.cpp.obj
+[29/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_gui_basics\juce_gui_basics_4.cpp.obj
+[30/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_gui_basics\juce_gui_basics_5.cpp.obj
+[31/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_graphics\juce_graphics.cpp.obj
+[32/52] Building C object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_graphics\juce_graphics_Sheenbidi.c.obj
+[33/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_events\juce_events.cpp.obj
+[34/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_graphics\juce_graphics_Harfbuzz.cpp.obj
+[35/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_core\juce_core_CompilationTime.cpp.obj
+[36/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_data_structures\juce_data_structures.cpp.obj
+[37/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_core\juce_core.cpp.obj
+[38/52] Building RC object CMakeFiles\EntropySurroundDecoderGUI_rc_lib.dir\EntropySurroundDecoderGUI_artefacts\JuceLibraryCode\EntropySurroundDecoderGUI_resources.rc.res
+[39/52] Linking CXX static library EntropySurroundAssets.lib
+[40/52] Linking CXX executable bin\CinemaProbe.exe
+[41/52] Linking CXX executable bin\EntropySurroundCoreTests.exe
+[42/52] Linking CXX executable bin\OutputTests.exe
+[43/52] Linking CXX executable bin\TransportTests.exe
+[44/52] Linking CXX executable bin\SpectralTests.exe
+[45/52] Linking CXX executable bin\IsolationTests.exe
+[46/52] Linking CXX executable bin\CapturePolicyTests.exe
+[47/52] Linking CXX executable bin\RetirementTests.exe
+[48/52] Linking CXX executable bin\CadenceTests.exe
+[49/52] Linking CXX executable bin\EntropySurroundDecoder.exe
+[50/52] Building CXX object CMakeFiles\EntropySurroundDecoderGUI.dir\D_\Projects\JUCE\modules\juce_audio_basics\juce_audio_basics.cpp.obj
+[51/52] Linking CXX executable "EntropySurroundDecoderGUI_artefacts\Release\Entropy Surround Decoder.exe"

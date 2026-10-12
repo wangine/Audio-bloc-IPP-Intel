@@ -1,0 +1,22 @@
+[
+  {
+    "ProcessId": 12468,
+    "Name": "EntropyDspEngine.exe",
+    "ExecutablePath": "D:\\projects\\3stage-3\\stage2\\release\\stage2-music-v0010\\entropydspengine.exe"
+  },
+  {
+    "ProcessId": 22176,
+    "Name": "EntropyAudioCore.exe",
+    "ExecutablePath": "D:\\Projects\\3Stage-3\\Audio-bloc-IPP-Intel\\release\\0.1.9-v2-r3\\EntropyAudioCore-0.1.9-v2-r3-64k-win-x64\\runtime\\EntropyAudioCore.exe"
+  },
+  {
+    "ProcessId": 6444,
+    "Name": "EntropySurroundDecoder.exe",
+    "ExecutablePath": "C:\\Program Files\\Entropy Audio\\Surround Decoder\\EntropySurroundDecoder.exe"
+  },
+  {
+    "ProcessId": 23360,
+    "Name": "ffmpeg.exe",
+    "ExecutablePath": "C:\\Program Files\\Entropy Audio\\Surround Decoder\\ffmpeg.exe"
+  }
+]

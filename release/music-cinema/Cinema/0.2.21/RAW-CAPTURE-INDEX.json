@@ -1,0 +1,58 @@
+[
+  {
+    "file": "dts-after-warning.raw",
+    "bytes": 3505920,
+    "sha256": "43d8f4da2a6e902a673d5d020ae439d4958d75d3785eceb807e84b704f5256af",
+    "preserved_local": "D:\\Projects\\3Stage-3\\Diagnostics\\Cinema-Disarm-20261012\\dts-after-warning.raw",
+    "included_in_git_archive": false
+  },
+  {
+    "file": "dts-before-warning.raw",
+    "bytes": 32039040,
+    "sha256": "786ff3cb43f4205a9fb10b23c6a58c306d17d72d5b2602a4fda94bc5914ed7d9",
+    "preserved_local": "D:\\Projects\\3Stage-3\\Diagnostics\\Cinema-Disarm-20261012\\dts-before-warning.raw",
+    "included_in_git_archive": false
+  },
+  {
+    "file": "v18-carrier-48000-s16le-stereo.raw",
+    "bytes": 35564160,
+    "sha256": "190282bd00c66cb9d4f4c57e59494898db15e866d4c89145f31d5a202f41a885",
+    "preserved_local": "D:\\Projects\\3Stage-3\\Diagnostics\\Cinema-Disarm-20261012\\v18-carrier-48000-s16le-stereo.raw",
+    "included_in_git_archive": false
+  },
+  {
+    "file": "v18-dts-carrier-48000-s16le-stereo.raw",
+    "bytes": 35544960,
+    "sha256": "70c6e3e93a6ef89202bb83a03382035f526f52ad6f5a09a03d89505c69777e81",
+    "preserved_local": "D:\\Projects\\3Stage-3\\Diagnostics\\Cinema-Disarm-20261012\\v18-dts-carrier-48000-s16le-stereo.raw",
+    "included_in_git_archive": true
+  },
+  {
+    "file": "v19-dts-carrier-48000-s16le-stereo.raw",
+    "bytes": 80728320,
+    "sha256": "dd15cee4946f888bdaab9308465481a643900e873d8950f19848b719dd542188",
+    "preserved_local": "D:\\Projects\\3Stage-3\\Diagnostics\\Cinema-Disarm-20261012\\v19-dts-carrier-48000-s16le-stereo.raw",
+    "included_in_git_archive": false
+  },
+  {
+    "file": "v20-dts-carrier-48000-s16le-stereo.raw",
+    "bytes": 80661120,
+    "sha256": "d57d2e21a4ebdee990c756e5f5d2ba34d34c066018235480b401ddd26dbf0a2f",
+    "preserved_local": "D:\\Projects\\3Stage-3\\Diagnostics\\Cinema-Disarm-20261012\\v20-dts-carrier-48000-s16le-stereo.raw",
+    "included_in_git_archive": false
+  },
+  {
+    "file": "v21-dts-carrier-48000-s16le-stereo.raw",
+    "bytes": 80570880,
+    "sha256": "28ae4148ce94ba01db694722e887dd9f64c1367d92af2664fbfa3048ebd1022c",
+    "preserved_local": "D:\\Projects\\3Stage-3\\Diagnostics\\Cinema-Disarm-20261012\\v21-dts-carrier-48000-s16le-stereo.raw",
+    "included_in_git_archive": false
+  },
+  {
+    "file": "v21-gui-carrier-48000-s16le-stereo.raw",
+    "bytes": 86641920,
+    "sha256": "053d2cc27eaa892c6e7b250b90924c70e46ea7a1da4316cac3dd4e26e4cd708d",
+    "preserved_local": "D:\\Projects\\3Stage-3\\Diagnostics\\Cinema-Disarm-20261012\\v21-gui-carrier-48000-s16le-stereo.raw",
+    "included_in_git_archive": true
+  }
+]

@@ -1,0 +1,32 @@
+RAW bytes 35544960 SHA256 70c6e3e93a6ef89202bb83a03382035f526f52ad6f5a09a03d89505c69777e81
+captured packets 18513 packet flags (array([0, 1], dtype=uint64), array([18512,     1]))
+offset continuity errors 0
+IEC burst counts Counter({11: 17356})
+IEC preamble byte alignment mod 4 Counter({0: 17356})
+IEC header spacing bytes Counter({2048: 17355})
+
+FLAGGED packet 16687 offset 32039040 device frame 8009760 flags 1 nonzero bytes 1821 SHA256 0c0e5d3899f1e3ba8bf7ec708fe03692dc7a5198f2c052e128bbf209834fdf61
+neighbor 16684 same bytes False offset 32033280 frame 8008320 flags 0 source qpc 845724277184 pointer 0x2010f0ca550 hash a7bb72a0ae3723fb
+neighbor 16685 same bytes False offset 32035200 frame 8008800 flags 0 source qpc 845724377047 pointer 0x2010f0ca550 hash e72945ab8dda7c68
+neighbor 16686 same bytes False offset 32037120 frame 8009280 flags 0 source qpc 845724477467 pointer 0x2010f0ca550 hash d4c1033effab1580
+neighbor 16687 same bytes True offset 32039040 frame 8009760 flags 1 source qpc 845724484496 pointer 0x2010f0ca550 hash 0c0e5d3899f1e3ba
+neighbor 16688 same bytes False offset 32040960 frame 8010240 flags 0 source qpc 845724576607 pointer 0x2010f0ca550 hash 528d7fcee70b6a35
+neighbor 16689 same bytes False offset 32042880 frame 8010720 flags 0 source qpc 845724677227 pointer 0x2010f0ca550 hash bafbbe2776911446
+neighbor 16690 same bytes False offset 32044800 frame 8011200 flags 0 source qpc 845724776775 pointer 0x2010f0ca550 hash 5c27f89527cbc7fa
+near IEC header (32026108, 11, 16096) spacing None payload hash 05307e5262a3b72500d356ba
+near IEC header (32028156, 11, 16096) spacing 2048 payload hash 1592869e8face8d8318e1136
+near IEC header (32030204, 11, 16096) spacing 2048 payload hash 92ab8c32d40e427ba0ad3ccb
+near IEC header (32032252, 11, 16096) spacing 2048 payload hash 78373d98e3e993fa7fe766da
+near IEC header (32034300, 11, 16096) spacing 2048 payload hash 7a2dd5645d6039bd96834751
+near IEC header (32036348, 11, 16096) spacing 2048 payload hash b2cdf1f0d10b86d8f67ba05c
+near IEC header (32038396, 11, 16096) spacing 2048 payload hash 0a948ef6d377010ec99abb11
+near IEC header (32040444, 11, 16096) spacing 2048 payload hash 80f5b4e948866f1ef662a356
+near IEC header (32042492, 11, 16096) spacing 2048 payload hash c623436369b33d9953f015c3
+near IEC header (32044540, 11, 16096) spacing 2048 payload hash 47d43f64bda13bc14d19bbae
+near IEC header (32046588, 11, 16096) spacing 2048 payload hash a320bd285e6b07cc99fa8149
+near IEC header (32048636, 11, 16096) spacing 2048 payload hash 5842fdab96688b97bf7a2c39
+near IEC header (32050684, 11, 16096) spacing 2048 payload hash 5780a6a2986bba37133f0c5e
+near IEC header (32052732, 11, 16096) spacing 2048 payload hash 48376e40b738d942a1795cef
+
+GetBuffer results Counter({'0x0': 18513, '0x8890001': 18513})
+ReleaseBuffer results Counter({'0x0': 18513})

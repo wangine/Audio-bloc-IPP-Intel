@@ -1,0 +1,112 @@
+{
+  "samples": 3518,
+  "first": {
+    "time": 1791845719.4844632,
+    "armed": true,
+    "physicalArmed": true,
+    "sourceWaitCount": "170",
+    "sourceResumeCount": "171",
+    "liveFault": false
+  },
+  "last": {
+    "time": 1791846119.363029,
+    "armed": true,
+    "physicalArmed": true,
+    "sourceWaitCount": "173",
+    "sourceResumeCount": "174",
+    "liveFault": false
+  },
+  "until_unix": null,
+  "source_wait_delta": 3,
+  "source_resume_delta": 3,
+  "transitions": [
+    {
+      "time": 1791845719.4844632,
+      "armed": true,
+      "physicalArmed": true,
+      "sourceWaitCount": "170",
+      "sourceResumeCount": "171",
+      "liveFault": false
+    },
+    {
+      "time": 1791845974.189072,
+      "armed": true,
+      "physicalArmed": false,
+      "sourceWaitCount": "171",
+      "sourceResumeCount": "171",
+      "liveFault": false
+    },
+    {
+      "time": 1791845974.8599844,
+      "armed": true,
+      "physicalArmed": false,
+      "sourceWaitCount": "171",
+      "sourceResumeCount": "172",
+      "liveFault": false
+    },
+    {
+      "time": 1791845976.3676739,
+      "armed": true,
+      "physicalArmed": false,
+      "sourceWaitCount": "172",
+      "sourceResumeCount": "173",
+      "liveFault": false
+    },
+    {
+      "time": 1791845976.591715,
+      "armed": true,
+      "physicalArmed": false,
+      "sourceWaitCount": "173",
+      "sourceResumeCount": "173",
+      "liveFault": false
+    },
+    {
+      "time": 1791845977.309681,
+      "armed": true,
+      "physicalArmed": false,
+      "sourceWaitCount": "173",
+      "sourceResumeCount": "174",
+      "liveFault": false
+    },
+    {
+      "time": 1791845981.4283204,
+      "armed": true,
+      "physicalArmed": true,
+      "sourceWaitCount": "173",
+      "sourceResumeCount": "174",
+      "liveFault": false
+    }
+  ],
+  "domains": {
+    "DAC A": {
+      "max_faults": 0,
+      "max_sinkFaults": 0,
+      "max_pcmFaults": 0,
+      "max_xruns": 0,
+      "max_resyncCount": 0,
+      "max_groupReplans": 0,
+      "max_deadlineMisses": 0,
+      "max_maximumCallbackWallExcludingWaitUs": 3750.5,
+      "max_eventWaitUs": 6043.3,
+      "max_pcmNonfiniteSamples": 0,
+      "max_pcmOverrangeSamples": 0,
+      "max_pcmClippedBlocks": 0,
+      "min_fifoFrames": 0.0
+    },
+    "DAC B": {
+      "max_faults": 0,
+      "max_sinkFaults": 0,
+      "max_pcmFaults": 0,
+      "max_xruns": 0,
+      "max_resyncCount": 0,
+      "max_groupReplans": 0,
+      "max_deadlineMisses": 0,
+      "max_maximumCallbackWallExcludingWaitUs": 3547.7,
+      "max_eventWaitUs": 6024.0,
+      "max_pcmNonfiniteSamples": 0,
+      "max_pcmOverrangeSamples": 0,
+      "max_pcmClippedBlocks": 0,
+      "min_fifoFrames": 0.0
+    }
+  }
+}

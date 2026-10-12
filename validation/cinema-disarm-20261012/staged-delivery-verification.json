@@ -1,0 +1,50 @@
+{
+  "staged_files": 416,
+  "staged_bytes": 274027749,
+  "largest_files": [
+    [
+      "release/music-cinema/Cinema/0.2.21/v21-gui-carrier-48000-s16le-stereo.raw.zip",
+      80742717
+    ],
+    [
+      "release/music-cinema/Cinema/0.2.21/CinemaDecoder-v0.2.21-win-x64.zip",
+      40108212
+    ],
+    [
+      "release/music-cinema/Cinema/0.2.21/Cinema-v0.2.21-Full-Trace-Evidence.zip",
+      35575610
+    ],
+    [
+      "release/music-cinema/Cinema/0.2.21/v18-dts-carrier-48000-s16le-stereo.raw.zip",
+      33042651
+    ],
+    [
+      "release/music-cinema/Stage2/v0010/stage2-music-v0010-win-x64.zip",
+      30129332
+    ],
+    [
+      "release/music-cinema/Cinema/0.2.21/CinemaDecoder-v0.2.21-Source-and-Evidence.zip",
+      20649141
+    ],
+    [
+      "release/music-cinema/Stage3/0.1.9-v2-r3/EntropyAudioCore-0.1.9-v2-r3-64k-win-x64.zip",
+      17820117
+    ],
+    [
+      "release/music-cinema/Stage3/0.1.9-v2-r3/EntropyAudioCore-0.1.9-v2-r3-source.zip",
+      13332521
+    ],
+    [
+      "release/music-cinema/Stage2/v0010/stage2-music-v0010-source.zip",
+      331397
+    ],
+    [
+      "Integration/Cinema/Decoder-v0.2.21/ThirdParty/entropy_icon.png",
+      281446
+    ]
+  ],
+  "all_files_below_github_limit": true,
+  "decoder_source_mirror": "PASS",
+  "archive_hashes": "PASS",
+  "packaged_runtime_identity": "PASS"
+}

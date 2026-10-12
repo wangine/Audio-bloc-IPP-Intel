@@ -1,0 +1,40 @@
+Entropy Surround Decoder v0.2.14 - Third-Party Notices
+
+FFmpeg 4.0
+Copyright (c) 2000-2018 the FFmpeg developers.
+https://ffmpeg.org/
+
+The bundled executable reports a GPL v3 enabled configuration. FFmpeg is a
+separate executable invoked through standard input/output pipes and is not
+linked into the Entropy executables. License and corresponding-source details:
+
+https://ffmpeg.org/legal.html
+https://ffmpeg.org/releases/ffmpeg-4.0.tar.xz
+
+No modifications were made to the bundled FFmpeg executable by Entropy Audio.
+
+WDL resampler - pinned local sources, unmodified
+/*
+    WDL - resample.cpp
+    Copyright (C) 2010 and later Cockos Incorporated
+
+    This software is provided 'as-is', without any express or implied
+    warranty.  In no event will the authors be held liable for any damages
+    arising from the use of this software.
+
+    Permission is granted to anyone to use this software for any purpose,
+    including commercial applications, and to alter it and redistribute it
+    freely, subject to the following restrictions:
+
+    1. The origin of this software must not be misrepresented; you must not
+       claim that you wrote the original software. If you use this software
+       in a product, an acknowledgment in the product documentation would be
+       appreciated but is not required.
+    2. Altered source versions must be plainly marked as such, and must not be
+       misrepresented as being the original software.
+    3. This notice may not be removed or altered from any source distribution.
+      
+    You may also distribute this software under the LGPL v2 or later.
+
+*/
+

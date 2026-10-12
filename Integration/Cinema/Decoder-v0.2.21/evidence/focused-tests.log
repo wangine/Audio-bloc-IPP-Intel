@@ -1,0 +1,10 @@
+Internal ctest changing into directory: D:/Projects/3Stage-3/CinemaDecoder-v0.2.18/build
+Test project D:/Projects/3Stage-3/CinemaDecoder-v0.2.18/build
+    Start 3: CinemaOutputTransport
+1/2 Test #3: CinemaOutputTransport ............   Passed    0.65 sec
+    Start 6: CinemaCapturePolicy
+2/2 Test #6: CinemaCapturePolicy ..............   Passed    0.04 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.73 sec

@@ -170,7 +170,11 @@ void LiveSinkWorkers::run(Session& s,unsigned slot) noexcept {
     // Keep one buffer for callback phase and one for the producer/peer boundary.
     // This reserve is external to the unchanged 4096-frame servo target. A late
     // owner may replan only while silent; it must never prime beyond known data.
-    if(ready){const uint64_t leadFrames=uint64_t(largest)*3+192;const auto lead=leadFrames*10000000/192000;s.referenceFrame=s.lastGraphEnd.load()-4096-2*largest+leadFrames;s.presentation.store(latest+lead,std::memory_order_release);}
+    // Advancing the hardware presentation time must not advance the source
+    // position into PCM that has not arrived. The previous +leadFrames term
+    // required future source packets to prime, then accumulated unread data
+    // through repeated silent replans until one DAC FIFO overflowed.
+    if(ready){const uint64_t leadFrames=uint64_t(largest)*3+192;const auto lead=leadFrames*10000000/192000;s.referenceFrame=s.lastGraphEnd.load()-4096-2*largest;s.presentation.store(latest+lead,std::memory_order_release);}
    }
    if(slot==coordinator&&s.primedMask.load(std::memory_order_acquire)&&!s.audiblePresentation.load()){
     unsigned required=0,largest=0;uint64_t latest=0;for(unsigned i=0;i<2;++i)if(s.domains[i].config.enabled){required|=1u<<i;largest=(std::max)(largest,s.domains[i].buffer.load());latest=(std::max)(latest,s.domains[i].clockReady.load());}

@@ -1,0 +1,14 @@
+{
+  "template_sha256": "ae73357e98b6b458e597fbe5fc21fa4c7d9dee9e973f1a4f731f838cb9c4fe48",
+  "template_version_literals_replaced": 8,
+  "installer_machine_sections_preserved": true,
+  "payload_sha256": {
+    "Entropy Surround Decoder.exe": "cd4cdfaaec40ab387298ddfb6435f0ac1b9571fcac4426c90e71c8f8a2b60f2b",
+    "EntropySurroundDecoder.exe": "820f23daf25d3d093f1a828d8a14731e8412f106c85dc69bfa9855efb2cf6d52",
+    "ffmpeg.exe": "6754841a57e4c6caa1d91d3dc1f77380829bbe9d74d439bafa8ac606603f3ece",
+    "Entropy Audio.ico": "d1d94ca32a84335c622853bfd17067124a312dc842071954df64544f69dfb3d1",
+    "Third-Party Notices.txt": "924397eb6cb3d311a3e6b992159c6ad6e2134cd6ee99e4eca0a53376c9cd714d",
+    "README.txt": "67c2c849b703cb9a3e8ad8b63f3d0d2545ece91b928409422aff9a51e459c2a7"
+  },
+  "installer_sha256": "9fe2c085202aa56289941cc4949f37c58870810da808f6b7bc2bae4e8fd16477"
+}

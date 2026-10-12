@@ -1,0 +1,22 @@
+{
+  "abi": "0x00010000",
+  "rate": 192000,
+  "frames": 1024,
+  "format": "IEEE754_BINARY64_LE",
+  "planar": true,
+  "session_bytes": 256,
+  "block_bytes": 128,
+  "capacity": 4,
+  "plane_stride": 8192,
+  "slots_offset": 4096,
+  "layouts": [
+    {"name": "MUSIC_STEREO2_V1", "id": 3, "slots": ["MUSIC_L", "MUSIC_R"]},
+    {"name": "MUSIC_LRC3_V1", "id": 4, "slots": ["MUSIC_L", "MUSIC_R", "MUSIC_CX"]}
+  ],
+  "transport": "StagePublishV2",
+  "queue_abi": "unchanged 16-slot fixed storage; copy only declared session channels",
+  "source_roles": {"music": 1, "aux": 2},
+  "source_role_mask": 3,
+  "reserved_source_generation_2": 0,
+  "layout_hash_encoding": "SHA256 of UTF8 comma-separated slots, no newline"
+}
