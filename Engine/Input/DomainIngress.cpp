@@ -37,9 +37,15 @@ struct DomainIngress::Impl {
    subscriber.heartbeat(tick());std::array<double*,8> planes{};for(unsigned c=0;c<8;++c)planes[c]=scratch.audio[c].data();
    auto result=subscriber.read(scratch.block,planes.data());
    if(result==publish::ReadResult::Empty){if(GetTickCount64()-lastReceive>200){fail(false);subscriber.close();connected=false;}else wait.forDuration(std::chrono::microseconds(100));continue;}
+   // Scratch belongs only to this producer. Compute telemetry while the
+   // Graph is still free to dequeue the preceding block.
+   std::array<double,8> blockPeaks{};
    if(result==publish::ReadResult::Block){
     if(!validateBlockForDomain(session,scratch.block,domain))result=publish::ReadResult::Invalid;
-    for(unsigned c=0;c<session.channels;++c)for(double v:scratch.audio[c])if(!std::isfinite(v))result=publish::ReadResult::Invalid;
+    for(unsigned c=0;c<session.channels;++c)for(double v:scratch.audio[c]){
+     if(!std::isfinite(v))result=publish::ReadResult::Invalid;
+     else blockPeaks[c]=std::max(blockPeaks[c],std::abs(v));
+    }
    }
    if(result!=publish::ReadResult::Block){fail(result==publish::ReadResult::Gap);subscriber.close();connected=false;continue;}
    lastReceive=GetTickCount64();const auto receivedQpc=tick();lock();
@@ -50,10 +56,17 @@ struct DomainIngress::Impl {
    if(size==queue.size()){unlock();fail(true);subscriber.close();connected=false;continue;}
    auto generation=scratch.block.source_generation[domain==Domain::Music?0:2];
    if(lastEpoch!=scratch.block.stream_epoch||lastGeneration!=generation||(domain==Domain::Music&&(lastMusicRevision!=scratch.block.music_session_revision||lastAuxGeneration!=scratch.block.source_generation[1]))){++stats.generation;lastEpoch=scratch.block.stream_epoch;lastGeneration=generation;lastMusicRevision=scratch.block.music_session_revision;lastAuxGeneration=scratch.block.source_generation[1];}
-   scratch.token=stats.generation;queue[(head+size)%queue.size()]=scratch;++size;
+   scratch.token=stats.generation;
+   auto& destination=queue[(head+size)%queue.size()];
+   destination.block=scratch.block;destination.token=scratch.token;
+   // Copy only the session's real channels, not all eight scratch planes.
+   // Consumer reads the same channel count; inactive planes are never exposed.
+   for(unsigned c=0;c<session.channels;++c)
+    std::memcpy(destination.audio[c].data(),scratch.audio[c].data(),sizeof(scratch.audio[c]));
+   ++size;
    stats.block=scratch.block;stats.lastSequence=scratch.block.block_sequence;stats.lastFirstFrame=scratch.block.first_frame;stats.lastEpoch=scratch.block.stream_epoch;stats.sourceQpc=scratch.block.qpc_timestamp;stats.lastBlockQpc=tick();stats.validityMask=scratch.block.validity_mask;stats.sourceDiscontinuityMask=scratch.block.discontinuity_mask;
    if(scratch.block.discontinuity_mask)++stats.sourceFlaggedBlocks;
-   memcpy(stats.sourceSession.data(),session.session_id,16);for(unsigned c=0;c<session.channels;++c){double p=0;for(double v:scratch.audio[c])p=std::max(p,std::abs(v));stats.peaks[c]=p;stats.maximumPeaks[c]=std::max(stats.maximumPeaks[c],p);}
+   memcpy(stats.sourceSession.data(),session.session_id,16);for(unsigned c=0;c<session.channels;++c){stats.peaks[c]=blockPeaks[c];stats.maximumPeaks[c]=std::max(stats.maximumPeaks[c],blockPeaks[c]);}
    ++stats.received;state=State::Receiving;unlock();
   }
   subscriber.close();state=State::Disabled;AvRevertMmThreadCharacteristics(mmcss);
