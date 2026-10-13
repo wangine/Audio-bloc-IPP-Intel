@@ -25,8 +25,13 @@ if($Targets.Count){
 $commands=@('@echo off','call "C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1','set "PATH=C:\Qt\Tools\Ninja;%PATH%"',$configure,($buildCommand+' || exit /b 1'))
 Set-Content -LiteralPath $runner -Value $commands -Encoding ascii
 $log=Join-Path $logs ('build-'+$FifoFrames+'.log')
-& cmd.exe /d /c ('"'+$runner+'"') *> $log
-$result=$LASTEXITCODE
+$previousPreference=$ErrorActionPreference
+try {
+ $ErrorActionPreference='Continue'
+ & cmd.exe /d /c ('"'+$runner+'"') *> $log
+ $result=$LASTEXITCODE
+}
+finally {$ErrorActionPreference=$previousPreference}
 Get-Content -LiteralPath $log -Tail 12
 if($result){throw "Native build failed ($result); see $log"}
 if($Verify){

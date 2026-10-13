@@ -2,12 +2,20 @@
 
 ## MUSIC / CINEMA architecture branch
 
-`codex/music-cinema-architecture` publishes Stage3 **0.1.9-v2-r2**, derived from
-the selected **0.1.8** baseline, and the independent MUSIC source snapshots:
+`codex/music-cinema-architecture` publishes Stage3 **0.1.9-v2-r3**, derived from
+the selected **0.1.8** baseline, in both **32k** and **64k FIFO** builds, along
+with the independent MUSIC source snapshots:
 
 - [Stage1 native MUSIC/AUX v0003-r9](Integration/Music/Stage1-v0003-r9): frozen local reference, native Core, separate Qt UI, independent SRC/FIFO and L/R FP64 at192kHz. [r7](Integration/Music/Stage1-v0003) and [v0002](Integration/Music/Stage1) retain their earlier evidence.
 - [Stage2 MUSIC DSP v0009](Integration/Music/Stage2): existing DLL processing, stereo input and L/R/C output.
 - Stage3 at this repository root: independent passive MUSIC3 / CINEMA6 or CINEMA8 inputs, selector, original Crossover and output matrix, DAC A/B.
+
+Stage3 r3 packages, local launch commands, the 32k build record and the
+launcher repair are documented in
+[Stage3 r3 startup and 32k package](docs/STAGE3-R3-STARTUP-AND-32K.md). The
+64k binary retains its accepted DTS live reference; the new 32k binary has
+passed its focused native and packaged offline checks and still needs live
+listening qualification.
 
 The [live Exclusive reference](validation/exclusive-real-chain-20261012/README.md)
 links complete Stage1 r9 source/runtime archives, unchanged Stage2/Stage3 runtime
