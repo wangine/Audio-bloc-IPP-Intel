@@ -39,6 +39,9 @@ private:
   std::atomic<bool> open{false},running{false},done{true},mmcss{false},clockValid{false},calibrated{false},latencyValid{false},estimateValid{false};
   std::atomic<unsigned> buffer{0},sinkState{ENTROPY_DAC_SINK_CLOSED},sinkFaults{0},clockState{0},resetReason{0};
   std::atomic<int> driverResult{0};
+  // Passive owner-published observations; never used as playback gates.
+  std::atomic<uint64_t> submitTimingSamples{0},estimatedLateSubmissions{0};
+  std::atomic<double> waitReturnIntervalUs{0},maxWaitReturnIntervalUs{0},serviceToSubmitUs{0},maxServiceToSubmitUs{0},submitSlackUs{0},minSubmitSlackUs{0};
   std::atomic<uint64_t> submitted{0},position{0},callbacks{0},cycles{0},misses{0},nonzeroPcmBlocks{0},resync{0},epoch{0},capture100ns{0},clockFrequency{0},latency100ns{0},presentation100ns{0},clockReady{0},startupSkipped{0},mappingVersion{0};
   std::atomic<double> ppm{0},clockFill{0},waitUs{0},callbackUs{0},maxCallbackUs{0},firstFrame{0},endFrame{0},rateHz{192000},primeWanted{0},primeBase{0},primeNominal{0};
  };
