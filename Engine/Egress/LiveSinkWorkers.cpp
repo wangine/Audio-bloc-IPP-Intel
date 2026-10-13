@@ -149,10 +149,18 @@ void LiveSinkWorkers::run(Session& s,unsigned slot) noexcept {
   }
   if(!canceled()&&sink->start()!=ENTROPY_OK)throw std::runtime_error("Sink start failed");
   uint64_t nextDeviceFrame=d.buffer.load(); // account for initial SILENT buffer
-  bool primed=false;double maximum=0;
+  bool primed=false;double maximum=0;uint64_t previousWaitReturn100ns=0;
   while(!canceled()){
    EntropyDacSinkBufferRequest req{};req.struct_size=sizeof(req);req.timeout_ms=100;
-   const auto waitBegin=host100ns();const auto waitResult=sink->wait(req);d.waitUs=double(host100ns()-waitBegin)/10;
+   const auto waitBegin=host100ns();const auto waitResult=sink->wait(req);
+   const auto waitReturn100ns=host100ns();d.waitUs=double(waitReturn100ns-waitBegin)/10;
+   // Observe scheduling separately from DSP cost. No new timeout/fault policy.
+   if(previousWaitReturn100ns&&waitReturn100ns>=previousWaitReturn100ns){
+    const double interval=double(waitReturn100ns-previousWaitReturn100ns)/10;
+    d.waitReturnIntervalUs=interval;
+    d.maxWaitReturnIntervalUs=(std::max)(d.maxWaitReturnIntervalUs.load(),interval);
+   }
+   previousWaitReturn100ns=waitReturn100ns;
    if(canceled())break;if(waitResult!=ENTROPY_OK)throw std::runtime_error("Sink wait failed");
    if(req.frames!=d.buffer||req.bytes!=d.pipeline.bytes(req.frames).size())throw std::runtime_error("Sink request invalid");
    const auto timing=sink->timing();
@@ -181,7 +189,9 @@ void LiveSinkWorkers::run(Session& s,unsigned slot) noexcept {
     if(s.primedMask.load()==required)s.audiblePresentation=latest+uint64_t(largest)*3*10000000/192000+10000;
    }
    const auto common=s.presentation.load(std::memory_order_acquire);
-   const auto begin=host100ns();ULONG64 ca=0,cb=0;QueryThreadCycleTime(GetCurrentThread(),&ca);
+   // Include validation, clock observation and startup work above, rather
+   // than starting the wall-time measurement only just before render.
+   const auto begin=waitReturn100ns;ULONG64 ca=0,cb=0;QueryThreadCycleTime(GetCurrentThread(),&ca);
    bool audio=false;unsigned offset=0;
    if(common&&presentation+uint64_t(double(req.frames)*10000000/rate)>common){
     if(presentation<common)offset=unsigned(std::ceil(double(common-presentation)*rate/10000000));
@@ -226,10 +236,29 @@ void LiveSinkWorkers::run(Session& s,unsigned slot) noexcept {
     audit->qpc=chain_audit::tick();audit->deviceFrame=req.device_position_frames;audit->host100ns=req.device_qpc_position;audit->begin100ns=begin;
     audit->firstGraph=d.pipeline.lastRenderFirstGraphFrame();audit->endGraph=d.pipeline.graphReadPosition();audit->frames=req.frames;audit->channels=d.config.channels;audit->format=d.config.format;audit->audio=audio;audit->offset=offset;
     audit->fifo=d.pipeline.readable();audit->faults=d.pipeline.faults();audit->resetReason=d.pipeline.resetReason();const auto clk=d.pipeline.clockTelemetry();audit->resync=clk.resync_count;audit->ppm=clk.correction_ppm;audit->clockFill=clk.fill_frames;
-    for(unsigned ch=0;ch<d.config.channels;++ch)std::memcpy(audit->rendered[ch],d.pipeline.rendered().readChannel(ch),req.frames*sizeof(double));std::memcpy(audit->pcm,bytes.data(),bytes.size());
    }
    const auto submitResult=sink->submit(block);
-   if(audit){audit->accepted=block.accepted_frames;audit->submitResult=submitResult;audit->end100ns=host100ns();chain_audit::sinkDone(slot);}
+   const auto submitEnd100ns=host100ns();
+   d.serviceToSubmitUs=double(submitEnd100ns-waitReturn100ns)/10;
+   d.maxServiceToSubmitUs=(std::max)(d.maxServiceToSubmitUs.load(),d.serviceToSubmitUs.load());
+   // IAudioClock QPC and host100ns share 100 ns units. This is an estimate
+   // against the existing presentation mapping, NOT a confirmed xrun counter.
+   // Never drop, repeat, mute, re-prime or disarm from this observation.
+   if(audio&&presentation&&submitResult==ENTROPY_OK&&block.accepted_frames==req.frames){
+    const double slack=presentation>=submitEnd100ns ? double(presentation-submitEnd100ns)/10
+        : -double(submitEnd100ns-presentation)/10;
+    d.submitSlackUs=slack;
+    if(d.submitTimingSamples.fetch_add(1)==0||slack<d.minSubmitSlackUs.load())d.minSubmitSlackUs=slack;
+    if(slack<0)++d.estimatedLateSubmissions;
+   }
+   if(audit){
+    // submit() has copied the PCM to WASAPI. These owner-local buffers remain
+    // immutable until the next render, so capture cannot delay this submit.
+    for(unsigned ch=0;ch<d.config.channels;++ch)std::memcpy(audit->rendered[ch],d.pipeline.rendered().readChannel(ch),req.frames*sizeof(double));
+    std::memcpy(audit->pcm,bytes.data(),bytes.size());
+    audit->accepted=block.accepted_frames;audit->submitResult=submitResult;
+    audit->end100ns=submitEnd100ns;chain_audit::sinkDone(slot);
+   }
    if(submitResult!=ENTROPY_OK||block.accepted_frames!=req.frames)throw std::runtime_error("Sink submit failed");
    if(audio&&std::any_of(bytes.begin(),bytes.end(),[](uint8_t b){return b!=0;}))++d.nonzeroPcmBlocks;
    nextDeviceFrame+=req.frames;QueryThreadCycleTime(GetCurrentThread(),&cb);const double cost=double(host100ns()-begin)/10;maximum=(std::max)(maximum,cost);
@@ -252,7 +281,18 @@ ipc::Value LiveSinkWorkers::snapshot() const {
  const bool verified=mapping[0].coherent&&mapping[1].coherent&&a.running&&b.running&&a.clockValid&&b.clockValid&&a.estimateValid&&b.estimateValid&&a.latencyValid&&b.latencyValid&&ta&&tb&&now>ta&&now>tb&&now-ta<1000000&&now-tb<1000000&&std::abs(difference)<=1;
  for(unsigned i=0;i<2;++i){const auto& d=s.domains[i];const auto pcm=d.pipeline.pcmTelemetry();
   out.emplace_back(ipc::Value::Object{{"id",i?"DAC B":"DAC A"},{"configured",d.config.enabled},{"channels",d.config.channels},{"rate",192000},{"format",d.config.format},{"endpoint",d.config.endpoint},{"offlineFixture",false},{"physicalSinkOpen",d.open.load()},{"state",!d.done.load()&&!enabled_.load()?"STOPPING":s.fault.load()?"FAULT":d.running.load()?"RUNNING":d.open.load()?"PREROLL":enabled_.load()?"ARMING":"DISARMED"},{"sinkState",d.sinkState.load()},{"driverResult",d.driverResult.load()},{"sinkFaults",d.sinkFaults.load()},{"bufferFrames",d.buffer.load()},{"submittedFrames",ipc::Value::u64(d.submitted.load())},{"devicePositionFrames",ipc::Value::u64(d.position.load())},{"clockState",d.clockState.load()},{"clockControllerLocked",d.clockState.load()==ENTROPY_EGRESS_CLOCK_LOCKED},{"ppm",d.ppm.load()},{"clockFillFrames",d.clockFill.load()},{"fifoFrames",d.pipeline.readable()},{"fifoCapacity",d.pipeline.config().fifoFrames},{"targetFrames",4096},{"xruns",ipc::Value::u64(d.pipeline.xruns())},{"faults",d.pipeline.faults()},{"nonzeroPcmBlocks",ipc::Value::u64(d.nonzeroPcmBlocks.load())},{"callbacks",ipc::Value::u64(d.callbacks.load())},{"callbackWallExcludingWaitUs",d.callbackUs.load()},{"maximumCallbackWallExcludingWaitUs",d.maxCallbackUs.load()},{"eventWaitUs",d.waitUs.load()},{"deadlineMisses",ipc::Value::u64(d.misses.load())},{"callbackThreadCycles",ipc::Value::u64(d.cycles.load())},{"mmcssRegistered",d.mmcss.load()},{"guardian","EXACT BYPASS"}});
-  auto& t=out.back();t["resyncCount"]=ipc::Value::u64(d.resync.load());t["mappingCoherent"]=mapping[i].coherent;t["clockEstimateValid"]=d.estimateValid.load();t["lastResetReason"]=d.resetReason.load();t["epoch"]=ipc::Value::u64(mapping[i].epoch);t["firstGraphFrame"]=mapping[i].first;t["endGraphFrame"]=d.endFrame.load();t["presentationQpc100ns"]=ipc::Value::u64(mapping[i].time);t["commonPresentationQpc100ns"]=ipc::Value::u64(s.presentation.load());t["audiblePresentationQpc100ns"]=ipc::Value::u64(s.audiblePresentation.load());t["clockFrequency"]=ipc::Value::u64(d.clockFrequency.load());t["streamLatency100ns"]=ipc::Value::u64(d.latency100ns.load());t["streamLatencyValid"]=d.latencyValid.load();t["dataAgeMs"]=mapping[i].capture&&now>=mapping[i].capture?double(now-mapping[i].capture)/10000:0;t["clockReadingValid"]=d.clockValid.load();t["originalClockCalibrated"]=d.calibrated.load();t["estimatedSinkRateHz"]=d.rateHz.load();t["primeWantedFrame"]=d.primeWanted.load();t["primeBaseFrame"]=d.primeBase.load();t["primeNominalFrames"]=d.primeNominal.load();t["estimatedABDifferenceFrames"]=difference;t["softwareAlignmentVerified"]=verified;t["analogSkewMeasured"]=false;t["startupSkippedFrames"]=ipc::Value::u64(d.startupSkipped.load());t["groupReplans"]=s.replans.load();
+  auto& t=out.back();
+  t["recoveryRevision"]="R1";
+  t["callbackWallScope"]="wait-return through submit and audit-copy; not hardware xrun proof";
+  t["waitReturnIntervalUs"]=d.waitReturnIntervalUs.load();
+  t["maximumWaitReturnIntervalUs"]=d.maxWaitReturnIntervalUs.load();
+  t["serviceWallToSubmitUs"]=d.serviceToSubmitUs.load();
+  t["maximumServiceWallToSubmitUs"]=d.maxServiceToSubmitUs.load();
+  t["submitTimingSamples"]=ipc::Value::u64(d.submitTimingSamples.load());
+  t["estimatedSubmitSlackUs"]=d.submitSlackUs.load();
+  t["minimumEstimatedSubmitSlackUs"]=d.minSubmitSlackUs.load();
+  t["estimatedLateSubmissions"]=ipc::Value::u64(d.estimatedLateSubmissions.load());
+  t["resyncCount"]=ipc::Value::u64(d.resync.load());t["mappingCoherent"]=mapping[i].coherent;t["clockEstimateValid"]=d.estimateValid.load();t["lastResetReason"]=d.resetReason.load();t["epoch"]=ipc::Value::u64(mapping[i].epoch);t["firstGraphFrame"]=mapping[i].first;t["endGraphFrame"]=d.endFrame.load();t["presentationQpc100ns"]=ipc::Value::u64(mapping[i].time);t["commonPresentationQpc100ns"]=ipc::Value::u64(s.presentation.load());t["audiblePresentationQpc100ns"]=ipc::Value::u64(s.audiblePresentation.load());t["clockFrequency"]=ipc::Value::u64(d.clockFrequency.load());t["streamLatency100ns"]=ipc::Value::u64(d.latency100ns.load());t["streamLatencyValid"]=d.latencyValid.load();t["dataAgeMs"]=mapping[i].capture&&now>=mapping[i].capture?double(now-mapping[i].capture)/10000:0;t["clockReadingValid"]=d.clockValid.load();t["originalClockCalibrated"]=d.calibrated.load();t["estimatedSinkRateHz"]=d.rateHz.load();t["primeWantedFrame"]=d.primeWanted.load();t["primeBaseFrame"]=d.primeBase.load();t["primeNominalFrames"]=d.primeNominal.load();t["estimatedABDifferenceFrames"]=difference;t["softwareAlignmentVerified"]=verified;t["analogSkewMeasured"]=false;t["startupSkippedFrames"]=ipc::Value::u64(d.startupSkipped.load());t["groupReplans"]=s.replans.load();
   t["pcmDitherMode"]=pcm.dither_mode;t["pcmSeedMode"]=pcm.seed_mode;t["pcmFaults"]=pcm.fault_flags;t["pcmProcessedFrames"]=ipc::Value::u64(pcm.processed_frames);t["pcmOverrangeSamples"]=ipc::Value::u64(pcm.overrange_sample_count);t["pcmRailClampSamples"]=ipc::Value::u64(pcm.reserved[0]);t["pcmClippedBlocks"]=ipc::Value::u64(pcm.reserved[2]);t["pcmNonfiniteSamples"]=ipc::Value::u64(pcm.nonfinite_sample_count);
  }return out;
 }
