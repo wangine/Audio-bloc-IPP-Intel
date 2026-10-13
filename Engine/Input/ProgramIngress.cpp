@@ -13,12 +13,28 @@ void ProgramIngress::stop() noexcept {music_.stop();cinema_.stop();if(owner_){Cl
 bool ProgramIngress::configure(std::wstring music,std::wstring cinema){if(!localEndpoint(music)||!localEndpoint(cinema))return false;music_.stop();cinema_.stop();return music_.start(Domain::Music,std::move(music))&&cinema_.start(Domain::Cinema,std::move(cinema));}
 void ProgramIngress::restartSubscription(Domain d) noexcept {(d==Domain::Music?music_:cinema_).restart();}
 bool ProgramIngress::tryRead(double* const* output,uint32_t domains,GraphInputContext& context) noexcept {
- if(!output||!domains||(domains&~3u))return false;for(unsigned c=0;c<13;++c)if(!output[c])return false;
+ if(!output||!domains||(domains&~3u))return false;
+ for(unsigned c=0;c<13;++c)if(!output[c])return false;
  require(domains);context={};
  for(unsigned c=0;c<13;++c)std::fill_n(output[c],1024,0.0);
- if(!music_.acquire())return false;if(!cinema_.acquire()){music_.release();return false;}
- bool ok=(!(domains&1)||music_.ready())&&(!(domains&2)||cinema_.ready());
- if(ok){if(domains&1)music_.readLocked(output,context.music);if(domains&2)cinema_.readLocked(output+3,context.cinema);context.domains=domains;}
- cinema_.release();music_.release();return ok;
+ const bool needMusic=(domains&1u)!=0,needCinema=(domains&2u)!=0;
+ // Only required domains participate in this read. A background CINEMA
+ // producer/telemetry reader must not defer MUSIC, or vice versa.
+ // During a program crossfade both domains still form one transaction:
+ // acquire and validate both before consuming either queue.
+ if(needMusic&&!music_.acquire())return false;
+ if(needCinema&&!cinema_.acquire()){
+  if(needMusic)music_.release();
+  return false;
+ }
+ const bool ok=(!needMusic||music_.ready())&&(!needCinema||cinema_.ready());
+ if(ok){
+  if(needMusic)music_.readLocked(output,context.music);
+  if(needCinema)cinema_.readLocked(output+3,context.cinema);
+  context.domains=domains;
+ }
+ if(needCinema)cinema_.release();
+ if(needMusic)music_.release();
+ return ok;
 }
 }
