@@ -1,0 +1,9 @@
+/build/
+/runtime/
+/release/
+/profile-load-v0010-20261012/
+*.dll
+*.exe
+*.pdb
+*.obj
+*.o

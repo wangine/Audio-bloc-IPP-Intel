@@ -1,0 +1,1185 @@
+{
+  "schema": 2,
+  "stage": "DSP_STAGE2",
+  "version": "v0008-complete-independence",
+  "dsp_mode": "CENTER_V2_LRC_STATIC",
+  "lrc_startup_mode": "BYPASS_EXACT",
+  "lrc_alignment_available": true,
+  "lrc_alignment_active": false,
+  "parametric_eq_available": true,
+  "built_utc": "2026-10-09T19:32:55.4481271Z",
+  "hardware_auto_arm": false,
+  "baseline_commit_locally_verified": false,
+  "baseline_executable_sha256": "82ca4821df5651bed38d9841f3bd1ca8794574b0f75ee1e03439fae2012fe1be",
+  "stagebus_contract_sha256": "1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb",
+  "stagepublish_protocol": "StagePublishV2",
+  "compatible_audio_core_version": "0.1.0",
+  "source_commit": "7222030a9473a8e141d55313f785c06c5a336553",
+  "source_input": "PASSIVE_STAGE1_V2",
+  "stage2_output": "PASSIVE_STAGE2_V2",
+  "v1_external_takeover": "Refused; subscribe to StagePublish V2",
+  "native_modules": [
+    {
+      "name": "EntropyCenterExtractorFP64.dll",
+      "sha256": "c0ea325a815ddef7ed897330382368ffd7347b3079b05b8cbc897518c06b8b3e",
+      "optional": true,
+      "loaded": false
+    },
+    {
+      "name": "EntropyCenterExtractorV2FP64.dll",
+      "sha256": "e96bf561bfa204f7aada02e2245e264eb8db2e3f1e9a06ecc07caf43e0ba32f0",
+      "optional": false,
+      "loaded": true
+    },
+    {
+      "name": "EntropyLoudness.dll",
+      "sha256": "d2a24be264adfb48ab3c854364ea0be969833c496fe4329ce65573af0876e198",
+      "optional": true,
+      "loaded": false
+    },
+    {
+      "name": "EntropyParametricEQ.dll",
+      "sha256": "adb01f88cd58c3e4724422482c6970dfc7fb377d638dede2bf859ea87fd75e61",
+      "optional": false,
+      "loaded": true
+    },
+    {
+      "name": "EntropyLrcAlignerFP64.dll",
+      "sha256": "c7d383b38d63305a009213c575669c9cedc133c2f5b227a5d6b368b462b404ed",
+      "optional": false,
+      "loaded": true
+    }
+  ],
+  "files": [
+    {
+      "path": "ColdStart-DSP.cmd",
+      "sha256": "a04c5f9903d6ae57ff82a6ed33ddffcbc441506124b031f67d07af5ca405ca55",
+      "optional": false
+    },
+    {
+      "path": "EntropyDspEngine.exe",
+      "sha256": "79945155c782c0677a8aea2fd405a996ab464c5b2c2481c16badf4f0738f807c",
+      "optional": false
+    },
+    {
+      "path": "libgcc_s_seh-1.dll",
+      "sha256": "5e27589147caa6d7a30f4cc058a14c455dc62233901ffff9a1797ede425e9f86",
+      "optional": false
+    },
+    {
+      "path": "libstdc++-6.dll",
+      "sha256": "8013488c5528bad7966ca07f3ea2e7a9b743cacb258fe76b46a326f821cc83b0",
+      "optional": false
+    },
+    {
+      "path": "libwinpthread-1.dll",
+      "sha256": "c7c7dced65fff71c7bb61f80c771c562f533d26d72722d9d6091129a3b03d5ce",
+      "optional": false
+    },
+    {
+      "path": "qt.conf",
+      "sha256": "a70feb82850a09203a8cdc652c7086273b6af4f03db86f4f98c16c0d5db26256",
+      "optional": false
+    },
+    {
+      "path": "Qt6Core.dll",
+      "sha256": "a0bf79817c19768c4b2bd01258d7d8d15818c0d3a56f86dd65d80354e749cc16",
+      "optional": false
+    },
+    {
+      "path": "Qt6Gui.dll",
+      "sha256": "67d3fd988e45f4aa31b9fe0144434465fa87a23c27cc3d573257eb1c6c5df2e7",
+      "optional": false
+    },
+    {
+      "path": "Qt6Network.dll",
+      "sha256": "aa2322a989a52d205cff4da2b455962fc54373ae4dbd756ec8eb6fbb3d56cce8",
+      "optional": false
+    },
+    {
+      "path": "Qt6Svg.dll",
+      "sha256": "4452c8c2bc0bb011e90a9f7d4736b1aab1dec05210613f1c031e9f3a1c9ae90a",
+      "optional": false
+    },
+    {
+      "path": "Qt6Widgets.dll",
+      "sha256": "48d47d048217da9f6bd787e368ce71c041bc9a9feba3dc9c094fc794955e4db2",
+      "optional": false
+    },
+    {
+      "path": "README-v0008.txt",
+      "sha256": "e2aa3d74df57ac72e9ef4beaa0b4dd260f4f8fd0fb3d0a69a7b1f014f090cdda",
+      "optional": false
+    },
+    {
+      "path": "generic/qtuiotouchplugin.dll",
+      "sha256": "cc86f3f736840c877b21c3779624348bd4ef1ce1418355b468de168399fb281b",
+      "optional": false
+    },
+    {
+      "path": "iconengines/qsvgicon.dll",
+      "sha256": "28d29b82422d9cd233f2f8e0a851671e7c508a6a360d43187b5a91a3104ff5d3",
+      "optional": false
+    },
+    {
+      "path": "imageformats/qgif.dll",
+      "sha256": "e14a21198c7af588e9458e361e91b5a34ccac6bb438b8ecd2bbc57af8e409b68",
+      "optional": false
+    },
+    {
+      "path": "imageformats/qico.dll",
+      "sha256": "f922f93e5ae75e8734ccea703243862344ae0a6f2b402c61953595ed4bb39b09",
+      "optional": false
+    },
+    {
+      "path": "imageformats/qjpeg.dll",
+      "sha256": "8586cc034202dd8487fdde75491b019642877605806ec38e220c194730cc4f8f",
+      "optional": false
+    },
+    {
+      "path": "imageformats/qsvg.dll",
+      "sha256": "e2fcd8fbae1548f6d598ce17fd49995dfd93050429d1c579a22cc0fa4572fe5f",
+      "optional": false
+    },
+    {
+      "path": "modules/EntropyCenterExtractorFP64.dll",
+      "sha256": "c0ea325a815ddef7ed897330382368ffd7347b3079b05b8cbc897518c06b8b3e",
+      "optional": true
+    },
+    {
+      "path": "modules/EntropyCenterExtractorV2FP64.dll",
+      "sha256": "e96bf561bfa204f7aada02e2245e264eb8db2e3f1e9a06ecc07caf43e0ba32f0",
+      "optional": false
+    },
+    {
+      "path": "modules/EntropyLoudness.dll",
+      "sha256": "d2a24be264adfb48ab3c854364ea0be969833c496fe4329ce65573af0876e198",
+      "optional": true
+    },
+    {
+      "path": "modules/EntropyLrcAlignerFP64.dll",
+      "sha256": "c7d383b38d63305a009213c575669c9cedc133c2f5b227a5d6b368b462b404ed",
+      "optional": false
+    },
+    {
+      "path": "modules/EntropyParametricEQ.dll",
+      "sha256": "adb01f88cd58c3e4724422482c6970dfc7fb377d638dede2bf859ea87fd75e61",
+      "optional": false
+    },
+    {
+      "path": "networkinformation/qnetworklistmanager.dll",
+      "sha256": "f58a2beae3e395522cd449cc118c5a532bc80c4d920ac7d3b742ad3640365e49",
+      "optional": false
+    },
+    {
+      "path": "platforms/qoffscreen.dll",
+      "sha256": "dab69ed5d1d3ed0dff0bf892a0fd3b858cb93d110d83a0850a6f36ce69114589",
+      "optional": false
+    },
+    {
+      "path": "platforms/qwindows.dll",
+      "sha256": "dadb869692d77613d7575570f7886bee39f60326508ee9a1a181b920a65cd55b",
+      "optional": false
+    },
+    {
+      "path": "sdk/CMakeLists.txt",
+      "sha256": "0b9b8133468283b637e9b5859735841e190bf1060d7f157fd946f66c90ad37de",
+      "optional": false
+    },
+    {
+      "path": "sdk/README.txt",
+      "sha256": "93eb61d1b24cfb48a18d42ac456ad4738f90ea6cbf66ce397d0cd3a82dfc490e",
+      "optional": false
+    },
+    {
+      "path": "sdk/StageBusContract.json",
+      "sha256": "1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/StageBusDemand.h",
+      "sha256": "d40db79dee3dfcd14b0267e773e60564ca8c4fd60a18b50cbc2ac5c9b718a79f",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/StageBusHashes.h",
+      "sha256": "a70789fd5dbb2a75ba9776eb365e4eea6595a80b442d61309c5ca876cd1622c0",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/StageBusValidation.h",
+      "sha256": "7664a0728d9e03e2dfc10b214d363dfade0de7c872768e0caff68800082ad384",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/StageBusWin32.h",
+      "sha256": "43583da9a24ab2f209545d99e5a8860eb2ccd8c6aa9b94334ee55e5fe42d9827",
+      "optional": false
+    },
+    {
+      "path": "sdk/include/entropy/stage_bus_v1.h",
+      "sha256": "079fccda7570d2b07200d283c5486e71c33d7f85ed9e16182bf8df750aa0e131",
+      "optional": false
+    },
+    {
+      "path": "sdk/src/StageBusValidation.cpp",
+      "sha256": "0b81fe882516d65e50cd87c7b46f558998ec6f48dacbae2b540699e585a2b81e",
+      "optional": false
+    },
+    {
+      "path": "sdk/src/StageBusWin32.cpp",
+      "sha256": "f2bdf8b1e87a957459133152b824a92040762bcb77c74e2fec325400cf07ad6e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/runtime/stage2/modules/EntropyCenterExtractorFP64.dll",
+      "sha256": "c0ea325a815ddef7ed897330382368ffd7347b3079b05b8cbc897518c06b8b3e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/runtime/stage2/modules/EntropyCenterExtractorV2FP64.dll",
+      "sha256": "e96bf561bfa204f7aada02e2245e264eb8db2e3f1e9a06ecc07caf43e0ba32f0",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/runtime/stage2/modules/EntropyLoudness.dll",
+      "sha256": "d2a24be264adfb48ab3c854364ea0be969833c496fe4329ce65573af0876e198",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/runtime/stage2/modules/EntropyLrcAlignerFP64.dll",
+      "sha256": "c7d383b38d63305a009213c575669c9cedc133c2f5b227a5d6b368b462b404ed",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/runtime/stage2/modules/EntropyParametricEQ.dll",
+      "sha256": "adb01f88cd58c3e4724422482c6970dfc7fb377d638dede2bf859ea87fd75e61",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/CMakeLists.txt",
+      "sha256": "20e3cb07bbe844f4d4d735777998bf9354f2437c59a1d063c43d897b1ee540df",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/CMakeLists.txt",
+      "sha256": "59a0a813bc872bb4a63228924505499b3012ddd492c3aa5047d466373e991d3b",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/App/DspMain.cpp",
+      "sha256": "f30199a8e477fa281a497674b5bdfa056ea010318534f3173cf83f317938d3ef",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspAlignment.cpp",
+      "sha256": "684b41c5259a8483adef8f92dca53283ce4e0714e6c64ddd2b34c37c0f322c8c",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspAlignment.h",
+      "sha256": "ffe6be9d6212eabf91c4d8b4fb708940a939427c76d457ad24c9bf65c08485c9",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspAutoLink.cpp",
+      "sha256": "3968a9d6bfbcf1d17e07e83217c28fc567e11d39f4884231fcb94505fd16b12a",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspAutoLink.h",
+      "sha256": "a8b2c4e81d62703742379c51288818f41fc414a6a95af21356412f3b6d99d475",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspCenterModule.cpp",
+      "sha256": "44b406d0e7814a316cfb38319aeffcc560117a2458a84857e387623404a6971f",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspCenterModule.h",
+      "sha256": "e53b099166c3ffd5949f3f0c3d16c8eceda8ced64b738db336634c6a8c1dec68",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspController.cpp",
+      "sha256": "8338c1749ed0e44d05d4ea46e4e99a830f73a72b2cd5387865234e98b4127d11",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspController.h",
+      "sha256": "2fbe978ba6be8385426631dcf02703fce0fbe72948d6aa28ed07e04ac4bb8147",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspDownstreamLink.cpp",
+      "sha256": "244d6c7e2de37a22c33cbbf3d64a9ab0b94668cef9109402ae584008d707bdc2",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspDownstreamLink.h",
+      "sha256": "dd73f26494ae29eb16bdf83ac1b7ffb9053007c00dbe98e5d5f509dbecad5c81",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspEqModule.cpp",
+      "sha256": "cc014b52cd1055f1f58e3a16d193d338d27d7d6143da5de104bab151edd0d560",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspEqModule.h",
+      "sha256": "82d3bc85880cf1eeac7e9e5dde1c17a11f382306cfb914a07863236a984bec22",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspEqState.cpp",
+      "sha256": "f4442ef21477efdf924977aeeeb503565237758c0bc294c828a2cf3d6951da8f",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspEqState.h",
+      "sha256": "a99213673e60ef10a22eef2f0ec91fce368cdbae6d4af6504b23a43071e3a0d3",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspLocalDemand.cpp",
+      "sha256": "00dbd225f2f9b144221be416fceebd4f17df011955c0384b56805fc1ec33bbc6",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspLocalDemand.h",
+      "sha256": "e15d0327c760009973ad5001ea75dc746bedb2212f7a30ebc9e25ced905baf0b",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspLrcModule.cpp",
+      "sha256": "46559cd3ece5960a6e1a096e67db96362050c53a4d3d3dd24e58a40a51fa96cf",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspLrcModule.h",
+      "sha256": "ec91b229dcba70405812a3bc5e34c253f33c4bc97637896c2b7918be0e89cf9d",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspNativeHashes.h",
+      "sha256": "7837bfb9039a7f07259678267b973b7401284a45051a0b248893f4be244fd4ce",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspNativeRegistry.cpp",
+      "sha256": "1e1fba8b47a4365df636533ef154f1406e53d34702b1684e999fb4d511687f69",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspNativeRegistry.h",
+      "sha256": "a8437894ccaa71d572328bb8c763c49dd42cc9355ad02c240d753d3692e9fcb2",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspPackage.cpp",
+      "sha256": "f7ce559377d2f809aa4985b1a0ae303f6037eafe6dcc4311ffcb39d708294a39",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspPackage.h",
+      "sha256": "fa0caef0ce9bf42dfcb788517f3f22f0733ca61d801d7f80ee9d2743b41d809e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspRecorder.cpp",
+      "sha256": "7a25b13e40bf06b6b23f6e9a4ccde80ea7469b88f7f4d21ff05a3ba7089f01a4",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspRecorder.h",
+      "sha256": "61406563a44622c2a809c2ee8375597e901ef9fc54bfe8400dbadafb39604f8b",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspSessionDiscovery.cpp",
+      "sha256": "c88dc04fa007a256bc520a4ef21d884de12d91ef935bc0327eb8944ccd88e5c0",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspSessionDiscovery.h",
+      "sha256": "1811ab8f25e4db6810770431c24144304a76d317a1873e2274d78221add8a6db",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspSignalTelemetry.h",
+      "sha256": "bf7d493ad559e21f1abf19aa17b276827d15e58b74b16a888ef867480c006762",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspStageRuntime.cpp",
+      "sha256": "750f023e5e37c686f25cd150ec5714c20074621eb917c83f35972bfa0b6aa655",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspStageRuntime.h",
+      "sha256": "2a467c61f891e9627c120e1d982c01519083855b3fb177329c38dc8b95b9a50e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspState.cpp",
+      "sha256": "841561b8519985b3054d83f32263e3db5c22fad0cc922436244620b7d8464ce2",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/DspState.h",
+      "sha256": "c9f29173625a7fa57759ad07f291397ec7fdc0c2ac5cbdcdfeb341ab9b3b6ad6",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/ProAudioThreadScope.cpp",
+      "sha256": "57cf10602ead230d6e0800c50f88a9e22d4be337cc334be1e8c1f3b6bb5d6388",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/ProAudioThreadScope.h",
+      "sha256": "bb5dab99c22fb6e051d8bbbfe9a1a4d382034b07d7dd623a6409209250a7173e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/RealtimeAllocationAudit.cpp",
+      "sha256": "f6ff159fb4be60e0472d7607b4012da623ecae9a0c4b8edac61f032f55ce930e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/RealtimeAllocationAudit.h",
+      "sha256": "8ae90c03c53b94b4b062ea84ece72ed8a76a55cc3c3aa9ee7ff1856fb3b8d9ef",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/SourceCycleTimer.h",
+      "sha256": "b9c813ad9a478dd74ac0c78b8e3e15ed52dd810ae306dbcde2038599d2e9bf71",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/TransparentDspExecutor.cpp",
+      "sha256": "ed7b7217a7e65baff5dd6fc9ed8c94e786d2740739ba7ae19b9126a61fb66502",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Core/TransparentDspExecutor.h",
+      "sha256": "068580cfed61de28932107f1c6d3c72a0cff0f5917e4f7cd0e63d2069658d4a9",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspAlignmentTests.cpp",
+      "sha256": "a42978bd95d0cc8ca0ede806b729278fc14dda22042095b59752a59830e1812e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspAllocationTests.cpp",
+      "sha256": "342b2a4fae10e6fc508a490f5a0008e4bccfefd703598c11712df23a8741bb99",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspBusIntegrationTests.cpp",
+      "sha256": "c8d2166cc27a5f587ac577b859d3972c76079cb07afdc01f714d26ed829771a9",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspBypassIdentityTests.cpp",
+      "sha256": "d1005d13620d4cefafb2ccc605b6bb09e37cf19942c2cc881002c77ba2dff552",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterControllerTests.cpp",
+      "sha256": "bb53ab9750fc65ebd1635d13d3061f0d471af05a050412f825fb2016396a2bf1",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterIntegrationAuditTests.cpp",
+      "sha256": "9be64398922c7bf722d1a1b131f039a7756fbfeb6648e39a7abecfd8d2a1362e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterNativeTests.cpp",
+      "sha256": "5570f0b7710c63d81e696e3584514fdbe337ed0880bc1d1054eae69592548925",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterRouteTests.cpp",
+      "sha256": "2ec8ae451c8c7f744c8d70886e06a1a0b028fc7f78a3f8f2d278ca58fefbe813",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterStateTests.cpp",
+      "sha256": "ea2a23171f9f44437ac951833ec2caf158937da0e2d750d692f707d816442c37",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspCenterUiTests.cpp",
+      "sha256": "f8a76e8b2265517831ae4c2a0a8dd0662800a117ff2677b989cc42dd4360eeff",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspEqNativeTests.cpp",
+      "sha256": "14c8db41daedc3ab4aed1e545fdda6ed0096239ab6073062297257b76d80ec4b",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspEqRouteTests.cpp",
+      "sha256": "aa6b71afe6250c6685b53340afc65402525853867c0370bab0b95c64f2243e43",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspEqStateTests.cpp",
+      "sha256": "706e49603c703890716d0a307fa927d696ea92a64864e5fa3edb552dd2eb82dc",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspEqUiTests.cpp",
+      "sha256": "8e4659a471c1e6857e8be34b2ca14e9b78a5d248d7f0bb4aa77a0438b5fcf9a0",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspGraphTests.cpp",
+      "sha256": "c2dc3d231375266ff4f6da6515cd8c51239189a266cb22e79e64de4df4b9c2e3",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLifecycleTests.cpp",
+      "sha256": "d39ca18da3ebc2958248b831b308186e6467ec2a14a47e323cf87252c3386bdd",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLivenessTests.cpp",
+      "sha256": "3bb0eaf30693c459463d2382165e676dad9e7eff2df1034a80fee7c73d022e0e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLocalDemandTests.cpp",
+      "sha256": "f49ffafb50e99601025739b23f87a1493bfae22623b09f5d9f7b71c98a0060e6",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcControllerTests.cpp",
+      "sha256": "1cc96ccff916665a5a4cd8dbb7a78d87be2d6779462ef7ced3a1464d04123169",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcRouteTests.cpp",
+      "sha256": "a057864fa3abfb5376c63993e98aa04f3a685f08ab711c5b5be84cf36543cbed",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspLrcUiTests.cpp",
+      "sha256": "cb5b57e637c5d5c2a82fabf27819b9083b94a75cd776cfc31910073d83b552e9",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPackageTests.cpp",
+      "sha256": "8d6c9c5b2e52f5befd92000f1d5b50033d87a19219fdb0af2349d294ad6128a3",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPassiveInputTests.cpp",
+      "sha256": "9179c779d198f8917c84703647dd15bfdfe27123fa0c83ac5a724a75255a76bb",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPassiveNativeTests.cpp",
+      "sha256": "52c215d14d1e07e0458b1f990760bd54cbc31bdc8da4fecfeec606d735950d64",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPeerDeathPendingTests.cpp",
+      "sha256": "0876555d0170802620f1d0e4351818d5c2d173c68177be686520d4f8a6fda7cc",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPendingFailureTests.cpp",
+      "sha256": "4c44f492976977bb24decc06d4104affeaf06ff8e44c577fb896376b3750ddda",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspProcessHarness.cpp",
+      "sha256": "5c0b3d63f96bd7744fad8da5f6c55e03d483a9f869903836dbb1871ca2baad70",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspProfileUiTests.cpp",
+      "sha256": "43874a9984e44172a5fe7f6f0a49462b04b3954472b0e441978f17664e4cc706",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspPublishedOutputTests.cpp",
+      "sha256": "bca685acbf6a29f2cd1d6699898602f8b6f4cd0260c4352b3c1c63b03831260f",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspRecorderTests.cpp",
+      "sha256": "fa65f0226364f0c17e086368e0bf2ca39b317187fb77045f16498e5215a46092",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspRestartProcessTests.cpp",
+      "sha256": "643441a2c5469e631f2b8fbe24cb05465b8cd7e5a55a717e5c2f5c1b9cfe17a1",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspSignalTelemetryTests.cpp",
+      "sha256": "3058b77c2501a26a8909253fd5bd94f6cf272e0b00f4ee5815b7f67a24d159a5",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspSourceIsolationTests.cpp",
+      "sha256": "807d0b13206f84688861e70d8db948a11b9daba983b368921936023ede2ca370",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/DspStateTests.cpp",
+      "sha256": "37b3ab31dff4ec5040b7c3f55a9271413827ab1bcba651c0291d78bd36a0aee3",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/RunnerSmoke.cpp",
+      "sha256": "50352239dcfe92be462e46ae86bc8d17bd21c6f848e0eef45f7b1cf5d1edb3bb",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/StageLinkTests.cpp",
+      "sha256": "9a4db1128bc0679e3f1df02176d3438438e327b3af51868ee77286f0f2471af2",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/TestSupport.h",
+      "sha256": "e5fdd130aab177e66e3cb9dc58d13aa3973514db0f05ce339a70620c3552e989",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/InheritedStageBus/StageBusContractTests.cpp",
+      "sha256": "c563124f8d520227f83ea58ec70adce512aa71df0c8c0d428af6359fe7631817",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/InheritedStageBus/StageBusDemandTests.cpp",
+      "sha256": "282fba3b24476196ef8e1d96c9d094e01ca58a7525c5348f50393daa40ab43cb",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/InheritedStageBus/StageBusLayoutProbe.cpp",
+      "sha256": "05d906dee78f03ca5aea732ff7adddb4925a623cd4fe54443827f477b5f4e074",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/Tests/InheritedStageBus/StageBusProcessTests.cpp",
+      "sha256": "acfbeaef4f611c3f920ca56b7ea755686b1fce064ecb43d3eb36a87cebdc8a4b",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/AlignmentPage.cpp",
+      "sha256": "9c23efb0c6b21f9e281f86e5bbdb9ea49fb2d189ee143e5ac369d7e093d4b3b8",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/AlignmentPage.h",
+      "sha256": "06e75559c2bcd97066b53beb082f4b9800c703ab0f7a5ef28cfe400975a03e04",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/CenterPage.cpp",
+      "sha256": "1887852e077856d85e05e759b540dc97d4bd97e4eac0af737dd6fdea9f68e264",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/CenterPage.h",
+      "sha256": "5faa7f52760eec781ec5ecae62d7a206fa636da9a04c712077bc6f2ef8c74ab9",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/DspGraphNodes.h",
+      "sha256": "4186137c208b063e34d44b166fe72453b0ea3c62ea0d8b4d7b9d045b70e39097",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/DspGraphPage.cpp",
+      "sha256": "e4d3bb24afcf7789868c73cdb192af5fe370855dfdfe91ff659d5cf760cbb309",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/DspGraphPage.h",
+      "sha256": "6c9e3ab90e23cb75b758d42aea258bb58ec8615b35f26f6e7038efdd3b480a12",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/DspStyle.h",
+      "sha256": "9bbd6670c51896b732318d39b6e9788087cdbe11a93b76b884287441e3733cff",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/DspUiBridge.cpp",
+      "sha256": "6e4b74d57d5f999d307a6cee8121feb36cb92e549be822a3f8464cf77c75fc2e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/DspVersion.h",
+      "sha256": "4a9bc017050c066912e0f317ba894ffb5728f032fde32e083259fbcaa5f7e26c",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/DspWindow.cpp",
+      "sha256": "1099ab363f8a1a9a4565f61f36059a8db5502265d73be6fe18a74f82b50d05d4",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/DspWindow.h",
+      "sha256": "c7863db00f5a942c3a667bb320ec308f33e943b828d0b8d9d207f8e210049c92",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/Core/EngineTelemetry.h",
+      "sha256": "8f728d180e87a4b19ada5cd6a79f25f33140f57e317b42881cc420a60dd3c479",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/Core/SourceDeliveryDiagnostics.h",
+      "sha256": "f6f4b90753744017bb5bb2515eb49ac96bfda6b05125cb29830833e25aeeef4e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/LiveUiRefresh.h",
+      "sha256": "77f67f05a7a92c0fbc2c052e3c91b1cdc1e3e78fc15f4a1ee6bb5029b243a609",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/LoudnessCommandState.h",
+      "sha256": "5a1dd431e14fa9d5ddd47fe6dcff1984311f6e782c3ac0f15105b5b0c83e1313",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/LoudnessPage.cpp",
+      "sha256": "b6fe408ff8ce7cbfffc9520465f3355c18a52faf8e0bad298dcca55105182ee2",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/LoudnessPage.h",
+      "sha256": "8e4903d6806abe8293bfcfcc042f0b17980d5b27f315de1da61f56b0abdbccb6",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/LoudnessVisuals.h",
+      "sha256": "19a3df4ddee1a4c3187271252dd2ff98d4c73cbe83c781f399da5ad249eb54c0",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/ParametricEqEngine.h",
+      "sha256": "9d87db1448c5e56a75f62aac5f3817f7049b8b136204b392fdea22bfa334b68d",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/ParametricEqModel.cpp",
+      "sha256": "1a1c2fbb83fc70b36917dfaf2d4f4a52066c2f6202027a062f0a1eef531e3517",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/ParametricEqModel.h",
+      "sha256": "b69de5e637c48fc3b6e73863da19a6f84b5768e69d3dfdb6d27c9ba5f911b9f7",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/ParametricEqPage.cpp",
+      "sha256": "5155195634680224181b67f5bc3aa0aa7fdb46a8575deec9ef2768024ee217a0",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/ParametricEqPage.h",
+      "sha256": "152f393e4ec3fcb5d010ef2a2d3f5ca0dc46eed3ee778df971b8921f6deb4d1d",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/ParametricEqResponseGraph.cpp",
+      "sha256": "f68f5eed8f67f8f31ef1983c029785434f23ee07c9fbc9a1fa60d5de8ac82045",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/ParametricEqResponseGraph.h",
+      "sha256": "d58bd14ebef72b91d504715b3ca8e4fa36aae812e3b81a2ed8f2211372686747",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Host/EntropyDspEngine/UI/R10/UiSchema.cpp",
+      "sha256": "e7ae46eb7d28a25eb8941436c634096acc43fe84e76da1d81ab7e108fa99bd15",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/EntropyControlShared.h",
+      "sha256": "c9da9669f4f74dff3c979641f664d184afcd4ba260b3216c1f4abb0d7a1ee22e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/EntropyOutputControlShared.h",
+      "sha256": "412071093f0d09bb97e00335e658e358b3c74fe1b571417b0f0e26bba41da3a0",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/EntropyTelemetryShared.h",
+      "sha256": "d185022dd867760c854f30611388fe5a7e877e6750c66c2eda0b7074befd84c2",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/center_abi.h",
+      "sha256": "6c7adcbbc85730011cf08a6549702f7bc8cec6fedde52318cf0a771ca86ae40d",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/cinema_endpoint_abi.h",
+      "sha256": "35f2f7a74b1078417eacbcb4af5e2f63bb9f3f0cad967ef41d23a64f7000b669",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/crossover_abi.h",
+      "sha256": "a11097ee8e10ae9b5509940fd7a5334cfc16c314ed2a9c8fafaf6bd825366485",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/crossover_program_abi.h",
+      "sha256": "2d77b9e8492e10e2bd9aede0f557a7090627121a9e4cbb63643e47e99f8658a5",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/dac_sink_abi.h",
+      "sha256": "f612fc0356c213a4cea4cb0ee859cfe1b3b5ec716e07e6ad6eb76ac504b00205",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/device_manager_abi.h",
+      "sha256": "e1aa4b463915328c0f0448b31b77f611d634a4796d6b7550436abb246ad13145",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/egress_clock_abi.h",
+      "sha256": "5423ef2bb02961bcaed834f26190155630ea7b3e3c558653f0e2c5937d5cf882",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/egress_clock_diagnostics_abi.h",
+      "sha256": "dadd9f47b6945c4ab200ae7b27932b6647f7747b30ba5212b80c77291e72c040",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/egress_forensic_abi.h",
+      "sha256": "c267969d5a9b29340dcbf60d507a00c89e9f6141da51396ad377eb6c3b4aa95f",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/endpoint_abi.h",
+      "sha256": "2c6a603173bf61f3fc3caefdcc345dd1e928f86d986c7bc4b3aade7b9918cf1c",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/endpoint_catalog_abi.h",
+      "sha256": "40c5f7db52794afed2737847e0771e3b244b3cb65c81e4462e50847592e1d681",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/final_guardian_abi.h",
+      "sha256": "4e2d4b36f8cd36daddbd3251f243e503eca69e2fae93ed59644b641987a14135",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/headroom_abi.h",
+      "sha256": "41dae73d0b3429c49cdac92d75b718f02ae8923bec815cb8ab671390807ffe75",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/input_matrix_abi.h",
+      "sha256": "8b4c0b2b41c7bba7f88adf56ad31f4497f240dbc5aa19038b7326fb63bd393ca",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/loudness_abi.h",
+      "sha256": "2665a53a1bca679e25112f22f92226f2d61a2ab5188503a7725b034abb669b9f",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/loudness_display_abi.h",
+      "sha256": "2f11bda0378e46c21cc25ce05a96fc92d692c5150d258e8437a5a45753ec3d76",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/lrc_aligner_abi.h",
+      "sha256": "4ab12c289ba4aa92d8b7a2f7144b5fae0ab26254dfb9f42c4ee177e1729b413e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/module_abi.h",
+      "sha256": "12599826c25060d6f484962395bae70b73f87c780254cd946165f2fe3ab3a711",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/output_matrix_abi.h",
+      "sha256": "e055735b068153d2bab88128da374ce8cd0f9c84c00a57a53f42d390e1805c10",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/parametric_eq_abi.h",
+      "sha256": "c02281e563583ebe816271923c206be2b84688de990c59ef8548656783517155",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/pcm24_abi.h",
+      "sha256": "aec1ff8f9f6da5edf08028473661442f2b9833efa47b7d47e02d6f7ddef7b274",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/r04_diagnostics_abi.h",
+      "sha256": "e9dcd2648a1fb0db51281c5eb28d95b51e15295587bb96417e5461bd586c13c9",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/r04_diagnostics.h",
+      "sha256": "4c0c9784ad038973be86dade4ca64f18f536719e0e2c8296c5bf764edceeaadb",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/R10ModuleABI/include/entropy/src_abi.h",
+      "sha256": "eefceb66c3d610bee89111a1a03c78917a5791d7c5227bb49845c124f0cbfd3c",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/CMakeLists.txt",
+      "sha256": "0b9b8133468283b637e9b5859735841e190bf1060d7f157fd946f66c90ad37de",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/README.txt",
+      "sha256": "93eb61d1b24cfb48a18d42ac456ad4738f90ea6cbf66ce397d0cd3a82dfc490e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/StageBusContract.json",
+      "sha256": "1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/include/StageBusDemand.h",
+      "sha256": "d40db79dee3dfcd14b0267e773e60564ca8c4fd60a18b50cbc2ac5c9b718a79f",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/include/StageBusHashes.h",
+      "sha256": "a70789fd5dbb2a75ba9776eb365e4eea6595a80b442d61309c5ca876cd1622c0",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/include/StageBusValidation.h",
+      "sha256": "7664a0728d9e03e2dfc10b214d363dfade0de7c872768e0caff68800082ad384",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/include/StageBusWin32.h",
+      "sha256": "43583da9a24ab2f209545d99e5a8860eb2ccd8c6aa9b94334ee55e5fe42d9827",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/include/entropy/stage_bus_v1.h",
+      "sha256": "079fccda7570d2b07200d283c5486e71c33d7f85ed9e16182bf8df750aa0e131",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/src/StageBusValidation.cpp",
+      "sha256": "0b81fe882516d65e50cd87c7b46f558998ec6f48dacbae2b540699e585a2b81e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageBusSDK/src/StageBusWin32.cpp",
+      "sha256": "f2bdf8b1e87a957459133152b824a92040762bcb77c74e2fec325400cf07ad6e",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageLink/CMakeLists.txt",
+      "sha256": "c7a7b7a55fa0286346cd625d081a9c16edf09bc5ec2c59a39b8393e26e6e3db2",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageLink/StageLinkClient.cpp",
+      "sha256": "b09a27ca86c01dd839e3460322c3bdb82671a8ca25dc24fd21faae88203a8ad5",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageLink/StageLinkClient.h",
+      "sha256": "bfa9f821e0fa1af964663de70f6da832d693eb98daae67e03be56f5c791e0d9f",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageLink/StageLinkProtocol.h",
+      "sha256": "fedf0bde8769b904743ade70026bf2bde284784be0744b02ab447776a759f78b",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageLink/StageLinkSecurity.cpp",
+      "sha256": "70f8b73e58b053ae511eac74119b1b7eab74a0d97adb85dd49c15541f1203280",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageLink/StageLinkSecurity.h",
+      "sha256": "e1f43816fb1cf885b30acedc3ba53fab7cd0b8f40c54468ebaf9c541ae85d2f9",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageLink/StageLinkServer.cpp",
+      "sha256": "45a88f7580b4c8de01dd3be374c1dbe746c69fd733093d435ff406aaeb4d0b33",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/source/Shared/StageLink/StageLinkServer.h",
+      "sha256": "79087972e418b68a0c129d2d87f969887beb3a63588b4f57cafa75059698a766",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/tools/Build-Stage2V0007.ps1",
+      "sha256": "3aa917887829e3fe53a47811b917e4b24b0a16d4957ae87714031140dc589b12",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/tools/Build-Stage2V0008.ps1",
+      "sha256": "ea350086db2033c19276c577e920c948417441919a787f6602e2cadddc6b7d85",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/tools/Package-Stage2V0007.ps1",
+      "sha256": "57909ffa081024cb9463a2cc5fa6605f508e3c8dc8e79665259710111661b299",
+      "optional": false
+    },
+    {
+      "path": "source/Integration/Stage2/tools/Package-Stage2V0008.ps1",
+      "sha256": "e6a7fac1103e378b5756c0da6642e2867ee861e78b38639b6c903b05389409ac",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/CMakeLists.txt",
+      "sha256": "e1dc95dc8ee2b2992f6045ee8714def4714e3d06a603ff453b15090d002c9802",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/README.txt",
+      "sha256": "7dfec8e871ff43c55d58a77ae188c28a1828cd2c689dbbe699c3a03693b7d350",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/StageBusContract.json",
+      "sha256": "1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/include/StageBusDemand.h",
+      "sha256": "2389a1bc029d4c607eeb2565d4219bc660c32130a54daf34e1b9f244aa39bfb2",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/include/StageBusHashes.h",
+      "sha256": "9ec814f8b4bd67a4abafaf27c5cfcd4a06847773ca796811fe5c925bc8ad1e54",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/include/StageBusValidation.h",
+      "sha256": "5b8224990716340537fccdd079e08f46ec8b12b24b9afbde5649e94358164e10",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/include/StageBusWin32.h",
+      "sha256": "43583da9a24ab2f209545d99e5a8860eb2ccd8c6aa9b94334ee55e5fe42d9827",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/include/entropy/stage_bus_v1.h",
+      "sha256": "ed5fc632bd88ad3577757e43d3a4625595fa24eb30acd2ceb71c0eaf61ba2599",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/src/StageBusValidation.cpp",
+      "sha256": "65bb539c840384789e3d1c881048a248f82f82d1cb5f2a6d27eb3461848404b9",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageBusSDK/src/StageBusWin32.cpp",
+      "sha256": "f2bdf8b1e87a957459133152b824a92040762bcb77c74e2fec325400cf07ad6e",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageLink/CMakeLists.txt",
+      "sha256": "c7a7b7a55fa0286346cd625d081a9c16edf09bc5ec2c59a39b8393e26e6e3db2",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageLink/StageLinkClient.cpp",
+      "sha256": "b09a27ca86c01dd839e3460322c3bdb82671a8ca25dc24fd21faae88203a8ad5",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageLink/StageLinkClient.h",
+      "sha256": "bfa9f821e0fa1af964663de70f6da832d693eb98daae67e03be56f5c791e0d9f",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageLink/StageLinkProtocol.h",
+      "sha256": "fedf0bde8769b904743ade70026bf2bde284784be0744b02ab447776a759f78b",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageLink/StageLinkSecurity.cpp",
+      "sha256": "70f8b73e58b053ae511eac74119b1b7eab74a0d97adb85dd49c15541f1203280",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageLink/StageLinkSecurity.h",
+      "sha256": "e1f43816fb1cf885b30acedc3ba53fab7cd0b8f40c54468ebaf9c541ae85d2f9",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageLink/StageLinkServer.cpp",
+      "sha256": "45a88f7580b4c8de01dd3be374c1dbe746c69fd733093d435ff406aaeb4d0b33",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StageLink/StageLinkServer.h",
+      "sha256": "79087972e418b68a0c129d2d87f969887beb3a63588b4f57cafa75059698a766",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StagePublishV2/CMakeLists.txt",
+      "sha256": "f2157f7d818c21340df18e4c010a6f8d19bc8344c2bd01d4dae6a7a3338ddede",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StagePublishV2/README.md",
+      "sha256": "36dfbdefbbade8c5d32d8ed5c9aee29519b4dba5c4ec28f0de3c0862423e526a",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StagePublishV2/StagePublishV2.cpp",
+      "sha256": "4fec8cd3e9c543a8ede0d18089542441f724340c048b0c5c85ef03e585025c7f",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StagePublishV2/StagePublishV2.h",
+      "sha256": "b972473ba760fb8520d198f5d6f9e18c72ac1d6898a21ec47f327b53d83dd167",
+      "optional": false
+    },
+    {
+      "path": "source/Transport/StagePublishV2/StagePublishV2Protocol.h",
+      "sha256": "e4633045e5aae331622f2be8704f791eeaa1b55b6243ec3c9c855162eebab1f0",
+      "optional": false
+    },
+    {
+      "path": "styles/qmodernwindowsstyle.dll",
+      "sha256": "ec65dc9ec21b5cff2a45f09a85b6cbda042d024789745c039380420fea5fcc3d",
+      "optional": false
+    },
+    {
+      "path": "tls/qcertonlybackend.dll",
+      "sha256": "b151679d3d850dd0cba369752078543d8ab1e03a74f58db1f7f88e6dec65d376",
+      "optional": false
+    },
+    {
+      "path": "tls/qschannelbackend.dll",
+      "sha256": "128ac0bf290447813ffb77c8a946d782336fe0d63db4c10d6effff1100a6438f",
+      "optional": false
+    }
+  ]
+}
