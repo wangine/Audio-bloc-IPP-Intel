@@ -1,28 +1,31 @@
-# Codex instructions: EntropyAudioCore MSVC/IPP baseline
+# Stage 3 audio recovery — local Codex is BUILD-ONLY
 
-## First action: build and report, do not modify DSP algorithms
+This branch was requested by the owner on 2026-10-13 to separate source analysis and changes from local Windows compilation. These instructions replace the historical Stage01/Stage02 baseline workflow in this branch.
 
-1. Check exact branch, commit SHA and clean git status.
-2. Detect installed Visual Studio MSVC x64, CMake, Ninja, Intel oneAPI IPP 2026.0 static libraries.
-3. Run tools/Build-Windows.ps1 and capture configure/build/CTest/--probe output.
-4. If the compile fails, fix ONLY new AudioGraph, BufferPool, CMake or build-script integration in a separate work branch. Keep all pinned module DSP/Egress source files untouched. Do not skip, silence or replace failing tests.
-5. Report test totals, compiler version, IPP path, produced executable hash, any errors and unresolved limitations. STOP and do not push/merge without user approval.
-6. Never run actual physical output or connect Stage2 during this first phase.
+## Current status
 
-## Immutable boundaries
+- Working branch: `chatgpt/stage3-audio-recovery-20261013`.
+- Source starting point: `c2b1bc5060fc0c5efeaa7b1dacc84dcba4938ebb`.
+- Initial recovery handoff changes documentation only. It is NOT an audio fix and is NOT approved as a better-sounding version.
+- Read `STAGE3-RECOVERY.md` before any commands. Other release notes are historical evidence, not instructions to resume old tasks.
 
-- CrossoverIPP is pinned to upstream commit 99b84d13a6808486690e24feba35128d7675be95.
-- Golden Crossover V07 is 2d5b35165de2ac6be5afa9420851fc24895c6416.
-- Other native engines are pinned to 6cbac37233c8094e39828de8309a9fe13d724ad4.
-- Do not touch stable Stage3 repository, tags, working folders, binaries, profile or DAC assignments.
-- Native C++20 / FP64 / fixed 192 kHz / 13 inputs / 16 outputs / one Graph thread.
-- Final architecture: Crossover -> OutputMatrix -> Headroom -> FIFO per DAC -> ClockSync -> optional Guardian exact bypass -> PCM24 -> WASAPI sink.
-- Qt may communicate via versioned IPC only, no JUCE/Qt DSP dependencies, no module DLL boundaries within the final audio process.
-- No hidden gain, clipping, limiter, normalization, SRC, additional latency or acoustical compensation.
-- Realtime processing must have no heap allocation, blocking locks, Windows device scanning, filesystem, synchronous telemetry, logging or hidden kernel warmup.
-- Do not compile the whole binary unconditionally with /arch:AVX2 (Xeon E5-1620 v2 does not support it). Intel IPP does CPU dispatch.
-- The Headroom unity setting in AudioGraph.cpp is a synthetic OFFLINE fixture ONLY. Physical ARM requires valid real graph headroom policy.
-- Existing Crossover bulk reset spike and Bass PCA output overrange are unresolved; never hide them in other modules.
+## Your authorized job
 
-## Next stage (requires explicit user instruction)
-Numerical differential graph tests, resolving native ClockSync/SRC dependencies, dual DAC FIFO and event-driven WASAPI, safety/PCM24, profile control IPC and Qt telemetry. No physical playback until end-to-end validation.
+1. Work only in a NEW clone at `D:\Projects\Entropy-Stage3-Recovery-20261013`. Never repurpose or overwrite an existing nonempty directory.
+2. Record branch, full HEAD SHA and clean tracked-file status. Stay on that exact revision for this build. Do not pull, merge, rebase or cherry-pick during the task.
+3. Compile the checked-in Stage 3 Core in Release, MSVC x64, with the existing Intel IPP installation. Compile the separate Qt UI using the existing UI script. Start with the 65536-frame FIFO variant only.
+4. Use the precise build-only commands in `STAGE3-RECOVERY.md`. No general CTest run, benchmarks, prolonged live captures, automatic repair loops or `-Verify`. The existing Core `--probe` is the only permitted runtime check; it is offline and does not authorize DAC playback.
+5. If compilation fails, report the first actionable configure/compiler/linker error and STOP. Do not edit C++, headers, CMake, scripts, tests, dependency implementations or profiles to make a build pass. Report missing SDK/dependency paths rather than silently substituting another version.
+6. Report full source SHA, exact build commands, exit codes, executable paths and SHA256, dependency provenance, and final tracked-file status. Do not claim audio quality or a corrected regression from a successful build.
+
+## Boundaries
+
+- No edits to DSP, graph, FIFO, scheduler, ClockSync, PCM24, Headroom, Guardian, UI or audio parameters. Source changes will be supplied in reviewed commits, not invented during local compilation.
+- Do not install, rebuild, restart or alter Stage1, Stage2, CINEMA or the virtual driver. Do not alter live profile files, DAC assignments or the existing stable/runtime folders.
+- Never add gain, compression, limiting, normalization, hidden SRC, buffering changes, automatic phase/delay correction or drop/duplicate audio blocks to suppress a symptom.
+- Preserve FP64/192 kHz processing, existing current input contracts, independent per-DAC egress and separate IPC-only Qt UI. Do not infer the active ABI from old release notes.
+- Do not enable global AVX2 flags or change the floating-point policy. Preserve the repository's compiler flags and IPP dispatch.
+- Do not run old packaging scripts into the original release folder. Do not copy old executable binaries or old PASS reports into a new recovery result.
+- No automatic ARM, DAC access, process termination, session switching, listening tests, push or merge. The owner controls playback and authorizes any later expansion of scope.
+
+No additional diagnosis, test campaign or source patch is part of this local build-only task.
