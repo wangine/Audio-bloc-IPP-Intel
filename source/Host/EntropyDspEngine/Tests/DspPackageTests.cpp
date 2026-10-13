@@ -7,14 +7,79 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QCryptographicHash>
-int main(int argc,char** argv){QCoreApplication app(argc,argv);QTemporaryDir tmp;auto root=std::filesystem::path(tmp.path().toStdWString());std::string error;CHECK(!verifyDspPackage(root,error));QFile file(QString::fromStdWString((root/"EntropyDspEngine.exe").wstring()));CHECK(file.open(QIODevice::WriteOnly));file.write("payload");file.close();auto hash=QString::fromLatin1(QCryptographicHash::hash("payload",QCryptographicHash::Sha256).toHex());std::filesystem::create_directories(root/"sdk/include/entropy");std::filesystem::copy_file(std::filesystem::path(TEST_SDK_ROOT)/"StageBusContract.json",root/"sdk/StageBusContract.json");std::filesystem::copy_file(root/"EntropyDspEngine.exe",root/"sdk/include/entropy/stage_bus_v1.h");QJsonObject manifest{{"stage","DSP_STAGE2"},{"stagebus_contract_sha256","1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb"},{"files",QJsonArray{QJsonObject{{"path","EntropyDspEngine.exe"},{"sha256",hash}},QJsonObject{{"path","sdk/include/entropy/stage_bus_v1.h"},{"sha256",hash}},QJsonObject{{"path","sdk/StageBusContract.json"},{"sha256","1428f9ce6d6ee5fb00ca320f9436dc831992edf04991d9c54596b9646e296ecb"}},QJsonObject{{"path","modules/EntropyLoudness.dll"},{"sha256",hash},{"optional",true}}}}};auto write=[&](){QFile m(QString::fromStdWString((root/"package-manifest.json").wstring()));if(!m.open(QIODevice::WriteOnly))return false;return m.write(QJsonDocument(manifest).toJson())>0;};CHECK(write());CHECK(verifyDspPackage(root,error));CHECK(!verifyDspPackage(root,error,true));
- std::filesystem::create_directories(root/"modules");
- std::filesystem::copy_file(std::filesystem::path(CENTER_MODULE_ROOT)/"EntropyCenterExtractorV2FP64.dll",root/"modules/EntropyCenterExtractorV2FP64.dll");
- auto entries=manifest.value("files").toArray();entries.append(QJsonObject{{"path","modules/EntropyCenterExtractorV2FP64.dll"},{"sha256","e96bf561bfa204f7aada02e2245e264eb8db2e3f1e9a06ecc07caf43e0ba32f0"},{"optional",false}});manifest.insert("files",entries);CHECK(write());CHECK(verifyDspPackage(root,error,true));
- auto centerEntry=entries.last().toObject();centerEntry.insert("optional",true);entries[entries.size()-1]=centerEntry;manifest.insert("files",entries);CHECK(write());CHECK(!verifyDspPackage(root,error,true));centerEntry.insert("optional",false);entries[entries.size()-1]=centerEntry;manifest.insert("files",entries);CHECK(write());
-CHECK(!verifyDspPackage(root,error,true,true));
- std::filesystem::copy_file(std::filesystem::path(CENTER_MODULE_ROOT)/"EntropyLrcAlignerFP64.dll",root/"modules/EntropyLrcAlignerFP64.dll");QFile lrc(QString::fromStdWString((root/"modules/EntropyLrcAlignerFP64.dll").wstring()));CHECK(lrc.open(QIODevice::ReadOnly));auto lrcHash=QString::fromLatin1(QCryptographicHash::hash(lrc.readAll(),QCryptographicHash::Sha256).toHex());lrc.close();auto lrcEntry=QJsonObject{{"path","modules/EntropyLrcAlignerFP64.dll"},{"sha256",lrcHash},{"optional",false}};entries.append(lrcEntry);manifest.insert("files",entries);CHECK(write());CHECK(verifyDspPackage(root,error,true,true));lrcEntry.insert("optional",true);entries[entries.size()-1]=lrcEntry;manifest.insert("files",entries);CHECK(write());CHECK(!verifyDspPackage(root,error,true,true));lrcEntry.insert("optional",false);entries[entries.size()-1]=lrcEntry;manifest.insert("files",entries);CHECK(write());
-manifest.insert("parametric_eq_available",true);CHECK(write());CHECK(!verifyDspPackage(root,error));
-std::filesystem::copy_file(std::filesystem::path(CENTER_MODULE_ROOT)/"EntropyParametricEQ.dll",root/"modules/EntropyParametricEQ.dll");auto eqEntry=QJsonObject{{"path","modules/EntropyParametricEQ.dll"},{"sha256","adb01f88cd58c3e4724422482c6970dfc7fb377d638dede2bf859ea87fd75e61"},{"optional",false}};entries.append(eqEntry);manifest.insert("files",entries);CHECK(write());CHECK(verifyDspPackage(root,error));
-eqEntry.insert("optional",true);entries[entries.size()-1]=eqEntry;manifest.insert("files",entries);CHECK(write());CHECK(!verifyDspPackage(root,error));eqEntry.insert("optional",false);entries[entries.size()-1]=eqEntry;manifest.insert("files",entries);CHECK(write());
-CHECK(file.open(QIODevice::Append));file.write("altered");file.close();CHECK(!verifyDspPackage(root,error));CHECK(file.open(QIODevice::WriteOnly));file.write("payload");file.close();std::filesystem::create_directories(root/"modules");QFile extra(QString::fromStdWString((root/"modules"/"EntropyDacSink.dll").wstring()));CHECK(extra.open(QIODevice::WriteOnly));extra.write("extra");extra.close();CHECK(!verifyDspPackage(root,error));std::cout<<"PASS missing manifest, immutable alteration and extra audio DLL refused; optional DSP absence accepted\n";}
+#include <iostream>
+
+int main(int argc, char** argv) {
+    QCoreApplication app(argc, argv);
+    QTemporaryDir temp;
+    CHECK(temp.isValid());
+    const auto root = std::filesystem::path(temp.path().toStdWString());
+    std::string error;
+    CHECK(!verifyDspPackage(root, error));
+    auto copy = [&](const std::filesystem::path& source, const std::string& relative) {
+        auto target = root / relative;
+        std::filesystem::create_directories(target.parent_path());
+        std::filesystem::copy_file(source, target);
+    };
+    auto hashOf = [&](const std::string& relative) {
+        QFile file(QString::fromStdWString((root / relative).wstring()));
+        if (!file.open(QIODevice::ReadOnly)) return QString();
+        return QString::fromLatin1(QCryptographicHash::hash(file.readAll(), QCryptographicHash::Sha256).toHex());
+    };
+    auto entry = [&](const std::string& relative, bool optional = false) {
+        return QJsonObject{{"path", QString::fromStdString(relative)}, {"sha256", hashOf(relative)}, {"optional", optional}};
+    };
+    QFile exe(QString::fromStdWString((root / "EntropyDspEngine.exe").wstring()));
+    CHECK(exe.open(QIODevice::WriteOnly));
+    CHECK(exe.write("payload") == 7);
+    exe.close();
+    const auto sdk = std::filesystem::path(TEST_SDK_ROOT);
+    copy(sdk / "StageBusContract.json", "sdk/StageBusContract.json");
+    copy(sdk.parent_path().parent_path().parent_path() / "contract/MusicStageBusContract.json", "sdk/MusicStageBusContract.json");
+    copy(root / "EntropyDspEngine.exe", "sdk/include/entropy/stage_bus_v1.h");
+    QJsonArray files{entry("EntropyDspEngine.exe"), entry("sdk/StageBusContract.json"),
+        entry("sdk/MusicStageBusContract.json"), entry("sdk/include/entropy/stage_bus_v1.h")};
+    QJsonObject manifest{{"stage", "DSP_STAGE2"},
+        {"stagebus_contract_sha256", hashOf("sdk/StageBusContract.json")},
+        {"music_stagebus_contract_sha256", hashOf("sdk/MusicStageBusContract.json")},
+        {"input_channels", 2}, {"output_channels", 3}, {"files", files}};
+    auto write = [&] {
+        QFile file(QString::fromStdWString((root / "package-manifest.json").wstring()));
+        return file.open(QIODevice::WriteOnly) && file.write(QJsonDocument(manifest).toJson()) > 0;
+    };
+    CHECK(write());
+    CHECK(verifyDspPackage(root, error));
+
+    QJsonObject recovery{{"path", "modules/EntropyDynamicRecovery.dll"},
+        {"sha256", "84fbb4f7e2519eaaa13c68159fb596d44ffda2f0de9b8bde2b2d72de7573973d"},
+        {"optional", true}};
+    files.append(recovery);
+    manifest.insert("dynamic_recovery_available", true);
+    manifest.insert("files", files);
+    CHECK(write());
+    CHECK(verifyDspPackage(root, error));
+    auto bad = recovery;
+    bad.insert("sha256", QString(64, '0'));
+    files[files.size() - 1] = bad;
+    manifest.insert("files", files);
+    CHECK(write());
+    CHECK(!verifyDspPackage(root, error));
+    files[files.size() - 1] = recovery;
+    manifest.insert("files", files);
+    copy(std::filesystem::path(CENTER_MODULE_ROOT) / "EntropyDynamicRecovery.dll", "modules/EntropyDynamicRecovery.dll");
+    CHECK(write());
+    CHECK(verifyDspPackage(root, error));
+    QFile dynamic(QString::fromStdWString((root / "modules/EntropyDynamicRecovery.dll").wstring()));
+    CHECK(dynamic.open(QIODevice::Append));
+    CHECK(dynamic.write("tamper") == 6);
+    dynamic.close();
+    CHECK(!verifyDspPackage(root, error));
+    std::filesystem::remove(root / "modules/EntropyDynamicRecovery.dll");
+    CHECK(verifyDspPackage(root, error));
+    QFile extra(QString::fromStdWString((root / "modules/EntropyDacSink.dll").wstring()));
+    CHECK(extra.open(QIODevice::WriteOnly));
+    extra.write("extra");
+    extra.close();
+    CHECK(!verifyDspPackage(root, error));
+    std::cout << "PASS pinned optional recovery, missing module, tamper and unknown DLL\n";
+}
