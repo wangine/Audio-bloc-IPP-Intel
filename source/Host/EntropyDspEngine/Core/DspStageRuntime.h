@@ -24,6 +24,7 @@ struct DspDiagnostics {
  CenterSnapshot center{};
  EqSnapshot eq{};
  RecoverySnapshot recovery{};
+ uint64_t recoveryBlocks=0,recoveryMaxQpc=0,recoveryP95Us=0;
  AlignmentSnapshot alignment{};
  uint64_t monitorScheduleRebases=0,publishDrops=0;
 };
@@ -85,6 +86,7 @@ private:
  DspDiagnostics diag_{};
  std::array<std::array<uint64_t,2049>,3> latencyBins_{};
  std::array<uint64_t,3> latencyCounts_{};
+ std::array<uint64_t,2049> recoveryLatencyBins_{};
  uint64_t received_=0;
  bool attached_=false,faulted_=false,ready_=false,downstreamReady_=false;
  bool haveInput_=false;

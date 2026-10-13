@@ -1,0 +1,22 @@
+# Dynamic Recovery candidate — Stage 2 MUSIC v0010
+
+## Delivered
+
+Local v0010 source archive: SHA-256 `fac90e5483f7c062b805afcdc4b786397adf5ce4808e025e4fc0bb266bf52d7e`; its upstream Git commit is unknown. The original runtime remains at `../stage2-music-v0010` (executable SHA-256 `4ed07784371b52a2845a15a11e5d3b275c16806552731176b4f3ff45aa03a50e`). The isolated repository branch is `candidate/dynamic-recovery-v0010`. See `baseline.md` for the actual graph and ABI.
+
+The new x64 MSVC DLL is `build/dynamic-recovery-msvc/EntropyDynamicRecovery.dll`, SHA-256 `84fbb4f7e2519eaaa13c68159fb596d44ffda2f0de9b8bde2b2d72de7573973d`. Faust 2.88.0 generated scalar FP64 C++ from `source/Modules/EntropyDynamicRecovery/Dsp/EntropyDynamicRecovery.dsp` using `faust -lang cpp -double -scal -cn EntropyDynamicRecoveryFaust -o Generated/EntropyDynamicRecoveryFaust.cpp Dsp/EntropyDynamicRecovery.dsp`. DSP source SHA-256: `30242eca71487a6feeaa01c1ea5067c52230a002e2cda6818fd20c763aea14cc`; generated C++: `ac80dc6a1bba252924c85150a30aa85a97b942135df72b78a66ab249224f0d10`. License/source notes: `source/Modules/EntropyDynamicRecovery/THIRD_PARTY_NOTICES.md`.
+
+The DLL uses the existing module ABI, 2 planar FP64 inputs → 2 outputs, 192 kHz / 1024 frames in this host, zero transport latency, linked L/R gain, no SRC or clipping. Transient and optional upward expansion have a default OFF master switch. The host inserts the active module after EQ on MUSIC L/R; Center keeps its independent raw tap, followed by existing LRC Alignment. An OFF or absent module skips the hook. The new Qt page occupies the prior reserved stereo slot, using the Stage 2 visual style. Control requests are validated and applied by the owner worker between blocks. Old profiles load with Dynamic Recovery OFF; new profiles store all 10 controls. The candidate package at `release/stage2-music-v0010-dynamic-recovery-candidate` includes a SHA-pinned optional DLL and executable SHA-256 `861c1b2872c757810e0b7af891eaa54d0597320b15441a4c904bd3fa8a237efe`.
+
+## Verification
+
+- `DynamicRecoveryContract`: PASS. Default OFF and wet=0 preserve signed zero, subnormals and NaN payloads byte for byte. Active transient gain at the tested impulse: L/R `1.067813606` (`+0.570 dB`), identical on both channels. Stationary gain after release: `1.000378845`. Optional upward expansion: `1.188502227` (`+1.500 dB`). Invalid configs, nonfinite active input, in-place active buffers and oversized blocks are rejected.
+- Stage 2 route and packaged process: PASS. The route test proves OFF exact, ON linked and OFF exact again. Packaged process test starts the candidate OFF and ON through profiles and the untouched original v0010 OFF. With the same OFF profile and constant stereo source, a complete 1024-frame MUSIC L/R output block from candidate and original matched by `memcmp`. CX was excluded from that cross-process comparison because the two asynchronous runs consumed different numbers of blocks before capture; Center history is independent of the new hook.
+- Profile/UI/manifest tests: PASS. New and legacy profiles, UI control requests, optional DLL absence, pinned hash, tampering and unexpected DLL are covered. All source targets build. The candidate package passes `--verify-only` and end-to-end native module/controller/IPC startup.
+- Processing cost in the short synthetic packaged run: 10 active blocks, Dynamic Recovery p95 **97 µs**, maximum **96.9 µs**, measured around its process and L/R output copy. A 1024-frame block at 192 kHz spans about 5.33 ms. This is a small offline fixture, not a hardware underrun or listening measurement.
+
+Four inherited V1 demand tests (`DspBypassIdentity`, `DspCenterRoute`, `DspLrcRoute`, `DspEqRoute`) fail because the current MUSIC v0010 runtime explicitly rejects V1 demand attachment. Relevant MUSIC, recovery, profile and package tests pass. The former `DspMusicProcess` test path pointed to an unavailable v0009 release; it now targets the actual candidate and baseline v0010 packages.
+
+## Listening and rollback
+
+No physical DAC listening, Stage 3 Headroom observation, live underrun audit or musical A/B judgment was performed. Positive boost may produce FP64 samples above 0 dBFS; evaluate the existing Stage 3 limiter/headroom path during live audition. To revert, launch the untouched `../stage2-music-v0010` folder. Do not replace the stable runtime with this candidate before listening acceptance.

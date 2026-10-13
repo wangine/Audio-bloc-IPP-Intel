@@ -41,7 +41,7 @@ DspWindow::DspWindow(DspController& controller,const std::filesystem::path& root
    file+=".Edsp";
    if(QFileInfo::exists(file) && QMessageBox::question(this,"Replace profile?",QString("Replace %1?").arg(file),QMessageBox::Yes|QMessageBox::No,QMessageBox::No)!=QMessageBox::Yes)return;
   }
-  DspState next=*state;next.centerConfigured=controller.requestedCenterSettings(next.centerSettings);controller.requestedEqSettings(next.eqSettings);next.sourceDiscovery.clear();std::string e;
+  DspState next=*state;next.centerConfigured=controller.requestedCenterSettings(next.centerSettings);controller.requestedEqSettings(next.eqSettings);controller.requestedRecoverySettings(next.recoverySettings);next.sourceDiscovery.clear();std::string e;
   const auto current=controller.snapshot();if(pendingAlignment->has_value())next.alignmentActive=**pendingAlignment;else if(current.diag.alignment.loaded)next.alignmentActive=current.diag.alignment.mode!=0;
   if(!next.save(std::filesystem::path(file.toStdWString()),e)){QMessageBox::warning(this,"Save failed",QString::fromStdString(e));return;}
   *state=next;*lastSave=file;showProfile(file);
@@ -53,12 +53,14 @@ DspWindow::DspWindow(DspController& controller,const std::filesystem::path& root
   if(dialog.exec()!=QDialog::Accepted||dialog.selectedFiles().isEmpty())return;
   const auto file=QFileInfo(dialog.selectedFiles().first()).absoluteFilePath();DspState next;std::string e;
   if(!next.load(std::filesystem::path(file.toStdWString()),e)){QMessageBox::warning(this,"Load failed",QString::fromStdString(e));return;}
+  if(next.recoverySettings.enabled&&!controller.recoveryConfigured()){QMessageBox::warning(this,"Dynamic Recovery unavailable","This profile enables Dynamic Recovery, but EntropyDynamicRecovery.dll is unavailable. The current profile was retained.");return;}
   CenterSettings currentCenter;EqSettings currentEq{};
   if(!controller.requestedCenterSettings(currentCenter)||!controller.requestedEqSettings(currentEq)){QMessageBox::warning(this,"Load failed","DSP controls are unavailable; the current profile was retained.");return;}
   graph->resetProfileViews();uint64_t serial=0;
   // State validation and configured-controller checks precede both requests.
   // Existing mailboxes apply settings on the DSP worker's safe boundary.
   controller.requestCenter(next.centerSettings);controller.requestEq(next.eqSettings,serial);
+  if(controller.recoveryConfigured())controller.requestRecovery(next.recoverySettings,serial);
   *state=next;*lastSave=file;*pendingAlignment=next.alignmentActive;showProfile(file);
   if(!next.remember(root,file,e))QMessageBox::warning(this,"Profile loaded",QString("Loaded %1\nStartup profile could not be updated: %2").arg(file,QString::fromStdString(e)));
   load->setText("LOADED");QTimer::singleShot(2000,load,[load]{load->setText("LOAD");});

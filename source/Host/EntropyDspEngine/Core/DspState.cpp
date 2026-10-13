@@ -7,12 +7,29 @@
 #include <QJsonDocument>
 #include <QFileInfo>
 #include <cstring>
+#include <utility>
 namespace entropy::stage {
 namespace {
 bool centerObject(const QJsonObject& object,CenterSettings& settings){
  if(object.size()!=16)return false;
  for(unsigned i=0;i<16;i++){const auto value=object.value(centerIds[i]);if(!value.isDouble())return false;settings.values[i]=value.toDouble();}
  return validCenterSettings(settings);
+}
+QJsonObject recoveryToJson(const EntropyDynamicRecoveryConfigV1& c){
+ return {{"enabled",bool(c.enabled)},{"transient_strength",c.transient_strength},{"onset_threshold_db",c.onset_threshold_db},
+  {"max_attack_boost_db",c.max_attack_boost_db},{"expansion_enabled",bool(c.expansion_enabled)},
+  {"expansion_ratio",c.expansion_ratio},{"expansion_threshold_dbfs",c.expansion_threshold_dbfs},
+  {"max_expansion_boost_db",c.max_expansion_boost_db},{"max_total_boost_db",c.max_total_boost_db},{"wet_mix",c.wet_mix}};
+}
+bool recoveryFromJson(const QJsonObject& o,EntropyDynamicRecoveryConfigV1& c){
+ if(o.size()!=10||!o.value("enabled").isBool()||!o.value("expansion_enabled").isBool())return false;
+ c=defaultRecoverySettings();c.enabled=o.value("enabled").toBool();c.expansion_enabled=o.value("expansion_enabled").toBool();
+ const std::pair<const char*,double*> values[]={{"transient_strength",&c.transient_strength},{"onset_threshold_db",&c.onset_threshold_db},
+  {"max_attack_boost_db",&c.max_attack_boost_db},{"expansion_ratio",&c.expansion_ratio},
+  {"expansion_threshold_dbfs",&c.expansion_threshold_dbfs},{"max_expansion_boost_db",&c.max_expansion_boost_db},
+  {"max_total_boost_db",&c.max_total_boost_db},{"wet_mix",&c.wet_mix}};
+ for(const auto& [name,destination]:values){auto value=o.value(name);if(!value.isDouble())return false;*destination=value.toDouble();}
+ return validRecoverySettings(c);
 }
 // First activation reuses the archived Center V2 parameters. Legacy limiter values
 // are intentionally not part of this control schema; the native worker forces OFF.
@@ -38,6 +55,7 @@ bool DspState::load(const std::filesystem::path& p,std::string& error){
  if(result.centerConfigured){if(!o.value("center_settings").isObject() || !centerObject(o.value("center_settings").toObject(),result.centerSettings)){error="Invalid Center state parameters";return false;}}
  else if(!archivedCenter(result.importedProject,result.centerSettings,error))return false;
  if(o.contains("parametric_eq_settings")&&(!o.value("parametric_eq_settings").isObject()||!eqFromJson(o.value("parametric_eq_settings").toObject(),result.eqSettings))){error="Invalid EQ profile settings";return false;}
+ if(o.contains("dynamic_recovery_settings")&&(!o.value("dynamic_recovery_settings").isObject()||!recoveryFromJson(o.value("dynamic_recovery_settings").toObject(),result.recoverySettings))){error="Invalid Dynamic Recovery profile settings";return false;}
  if(o.contains("lrc_alignment_active")){if(!o.value("lrc_alignment_active").isBool()){error="Invalid LRC alignment profile setting";return false;}result.alignmentActive=o.value("lrc_alignment_active").toBool();}
  *this=std::move(result);return true;
 }
@@ -47,6 +65,7 @@ bool DspState::save(const std::filesystem::path& p,std::string& error) const{
  if(centerConfigured){QJsonObject values;for(unsigned i=0;i<16;i++)values.insert(centerIds[i],centerSettings.values[i]);o.insert("center_settings",values);o.insert("algorithmic_latency_samples",QJsonValue());}
  else o.insert("algorithmic_latency_samples",0);
  if(!validEqSettings(eqSettings)){error="Invalid EQ profile settings";return false;}o.insert("parametric_eq_settings",eqToJson(eqSettings));
+ if(!validRecoverySettings(recoverySettings)){error="Invalid Dynamic Recovery profile settings";return false;}o.insert("dynamic_recovery_settings",recoveryToJson(recoverySettings));
  if(alignmentActive.has_value())o.insert("lrc_alignment_active",*alignmentActive);
  auto data=QJsonDocument(o).toJson();QSaveFile f(QString::fromStdWString(p.wstring()));if(!f.open(QIODevice::WriteOnly)||f.write(data)!=data.size()||!f.commit()){error="Atomic state save failed";return false;}return true;
 }

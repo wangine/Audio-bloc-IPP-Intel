@@ -108,12 +108,15 @@ int main(int argc, char** argv) {
     const double gainR = processedR[32] / signalR[32];
     if (!(gainL > 1.02) || std::abs(gainL - gainR) > 1.0e-12)
         return fail("transient boost or stereo link failed");
+    std::printf("transient gain L/R %.9f / %.9f (%.3f dB)\n", gainL, gainR, 20.0 * std::log10(gainL));
     for (int blockIndex = 0; blockIndex < 30; ++blockIndex) {
         signalL.fill(0.04); signalR.fill(0.02);
         if (api.process_f64(handle, &block, &context) != ENTROPY_OK) return fail("release failed");
     }
-    if (std::abs(processedL.back() / signalL.back() - 1.0) > 0.002)
+    const double stationaryGain = processedL.back() / signalL.back();
+    if (std::abs(stationaryGain - 1.0) > 0.002)
         return fail("stationary gain did not return to unity");
+    std::printf("stationary gain %.9f\n", stationaryGain);
 
     config.transient_strength = std::nan("");
     if (api.set_config(handle, &blob) != ENTROPY_ERROR_INVALID_ARGUMENT)
@@ -152,9 +155,11 @@ int main(int argc, char** argv) {
             return fail("expansion process failed");
         context.flags = ENTROPY_PROCESS_NONE;
     }
-    if (!(processedL.back() / signalL.back() > 1.05) ||
-        std::abs(processedL.back() / signalL.back() - processedR.back() / signalR.back()) > 1.0e-12)
+    const double expansionGain = processedL.back() / signalL.back();
+    if (!(expansionGain > 1.05) ||
+        std::abs(expansionGain - processedR.back() / signalR.back()) > 1.0e-12)
         return fail("upward expansion or stereo link failed");
+    std::printf("expansion gain %.9f (%.3f dB)\n", expansionGain, 20.0 * std::log10(expansionGain));
 
     config.wet_mix = 0.0;
     if (api.set_config(handle, &blob) != ENTROPY_OK) return fail("wet zero config rejected");

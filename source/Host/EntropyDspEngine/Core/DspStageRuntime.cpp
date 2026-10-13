@@ -16,6 +16,10 @@ void DspStageRuntime::summarizeLatency(DspDiagnostics& destination) const noexce
   auto target=(latencyCounts_[c]*percent[p]+99)/100;if(!target)continue;uint64_t count=0;
   for(size_t bin=0;bin<latencyBins_[c].size();bin++){count+=latencyBins_[c][bin];if(count>=target){destination.latencyPercentilesUs[c][p]=bin<2048?bin:(maxima[c]*1000000ULL+inputSession_.qpc_frequency-1)/inputSession_.qpc_frequency;break;}}
  }
+ if(diag_.recoveryBlocks&&inputSession_.qpc_frequency){
+  const auto target=(diag_.recoveryBlocks*95+99)/100;uint64_t count=0;
+  for(size_t bin=0;bin<recoveryLatencyBins_.size();bin++){count+=recoveryLatencyBins_[bin];if(count>=target){destination.recoveryP95Us=bin<2048?bin:(diag_.recoveryMaxQpc*1000000ULL+inputSession_.qpc_frequency-1)/inputSession_.qpc_frequency;break;}}
+ }
 }
 bool DspStageRuntime::prepareAligner(const std::filesystem::path& root,std::string& error){
  if(pending()){error="Prepare aligner before processing";return false;}if(!aligner_.prepare(root,error))return false;
@@ -120,8 +124,12 @@ DspStepResult DspStageRuntime::step(uint64_t) noexcept{
   diag_.eq=eq_.snapshot();
  }
  if(done==DspExecuteResult::Ok && recovery_.active()){
+  const auto recoveryStart=tick();
   if(!recovery_.process(outputPointers_[0],outputPointers_[1],recoveryPlanes_[0].data(),recoveryPlanes_[1].data()))return fail(true);
   for(unsigned c=0;c<2;c++)std::memcpy(outputPointers_[c],recoveryPlanes_[c].data(),1024*sizeof(double));
+  const auto duration=tick()-recoveryStart;diag_.recoveryMaxQpc=std::max(diag_.recoveryMaxQpc,duration);++diag_.recoveryBlocks;
+  const auto us=(duration*1000000ULL+inputSession_.qpc_frequency-1)/inputSession_.qpc_frequency;
+  recoveryLatencyBins_[std::min<uint64_t>(us,2048)]++;
   diag_.recovery=recovery_.snapshot();
  }
  if(done==DspExecuteResult::Ok && center_.loaded()){

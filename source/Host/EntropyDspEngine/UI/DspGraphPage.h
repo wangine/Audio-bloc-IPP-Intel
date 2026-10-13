@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <array>
 namespace entropy::stage {
-enum class DspModuleKind:unsigned {Loudness,Eq,Center,Dd,Alignment};
+enum class DspModuleKind:unsigned {Loudness,Eq,Center,Recovery,Alignment};
 class DspGraphPage:public QWidget {
 public:
  explicit DspGraphPage(const std::filesystem::path& runtimeRoot,QWidget* parent=nullptr);

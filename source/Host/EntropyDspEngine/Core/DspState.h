@@ -1,6 +1,7 @@
 #pragma once
 #include "DspCenterModule.h"
 #include "DspEqModule.h"
+#include "DspRecoveryModule.h"
 #include <QByteArray>
 #include <QString>
 #include <filesystem>
@@ -8,7 +9,7 @@
 #include <optional>
 namespace entropy::stage {
 struct DspState {
- CenterSettings centerSettings{};EqSettings eqSettings=defaultEqSettings();bool centerConfigured=false;
+ CenterSettings centerSettings{};EqSettings eqSettings=defaultEqSettings();EntropyDynamicRecoveryConfigV1 recoverySettings=defaultRecoverySettings();bool centerConfigured=false;
  std::optional<bool> alignmentActive;QByteArray importedProject,importedIni;QString sourceDiscovery;
  bool load(const std::filesystem::path&,std::string&);bool save(const std::filesystem::path&,std::string&) const;
  bool loadStartup(const std::filesystem::path& root,QString& selected,std::string& warning,std::string& error);

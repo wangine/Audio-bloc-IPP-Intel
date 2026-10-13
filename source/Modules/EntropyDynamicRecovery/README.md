@@ -18,7 +18,7 @@ The DLL exports `entropy_module_get_api` for `ENTROPY_MODULE_ABI_VERSION=0x00010
 
 Configuration is the versioned POD `EntropyDynamicRecoveryConfigV1` passed through `set_config` with `ENTROPY_DYNAMIC_RECOVERY_SCHEMA_ID` and schema version 1. `enabled` defaults to false; expansion also defaults to false. The config must be submitted by the worker that owns the module, between blocks. There is no internal cross-thread mutable pointer. `enabled=0`, `wet_mix=0`, and zero transient strength with expansion disabled take the bit-exact copy path and never call Faust `compute`. Bypass preserves FP64 bit patterns, including signed zero, subnormals and NaN payloads. Active processing rejects nonfinite input before modifying DSP state or output. A discontinuity flag or explicit `reset` clears all envelopes; ordinary blocks preserve history.
 
-The active detector uses the linked maximum absolute sample, 0.3/15 ms fast and 20/180 ms slow envelopes, a −55 dBFS activity gate, bounded transient and optional upward expansion gain, then a 0.5/20 ms gain envelope. The output may exceed 1.0 FP64. Parameter defaults and ranges are in the ABI header and the attached project plan. The processing path has no allocation, lock, logging or filesystem access.
+The active detector uses the linked maximum absolute sample, 0.3/15 ms fast and 20/180 ms slow envelopes, a −55 dBFS activity gate, bounded transient and optional upward expansion gain, then a 0.5/20 ms gain envelope. The output may exceed 1.0 FP64. Parameter defaults and ranges are in `src/DynamicRecoveryModule.cpp` and the attached project plan; the ABI header fixes field layout and schema IDs. The processing path has no allocation, lock, logging or filesystem access.
 
 ## Current verification
 

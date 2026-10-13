@@ -7,6 +7,38 @@
 #include <functional>
 namespace entropy::stage {
 namespace {uint64_t tick(){LARGE_INTEGER q;QueryPerformanceCounter(&q);return q.QuadPart;}}
+bool DspController::configureRecovery(const std::filesystem::path& root,const EntropyDynamicRecoveryConfigV1& settings,std::string& error){
+ if(thread_.joinable()||!validRecoverySettings(settings)){error="Configure valid Dynamic Recovery settings before worker starts";return false;}
+ recoveryModuleRoot_=root;recoveryConfigured_=true;recoveryRequestRevision_=0;recoverySubmittedRevision_=0;uint64_t revision=0;return requestRecovery(settings,revision);
+}
+bool DspController::requestRecovery(const EntropyDynamicRecoveryConfigV1& settings,uint64_t& revision) noexcept {
+ if(!recoveryConfigured_||!validRecoverySettings(settings))return false;
+ static_assert(sizeof(EntropyDynamicRecoveryConfigV1)%8==0);
+ recoveryRequestRevision_.fetch_add(1,std::memory_order_acq_rel);
+ for(unsigned i=0;i<recoveryRequestValues_.size();i++){uint64_t word;std::memcpy(&word,reinterpret_cast<const char*>(&settings)+i*8,8);recoveryRequestValues_[i].store(word,std::memory_order_relaxed);}
+ revision=recoveryRequestRevision_.fetch_add(1,std::memory_order_release)/2+1;return true;
+}
+bool DspController::readRecoveryRequest(EntropyDynamicRecoveryConfigV1& settings,uint64_t& revision) const noexcept {
+ if(!recoveryConfigured_)return false;
+ for(unsigned attempt=0;attempt<16;attempt++){auto begin=recoveryRequestRevision_.load(std::memory_order_acquire);if(begin&1)continue;
+  for(unsigned i=0;i<recoveryRequestValues_.size();i++){auto word=recoveryRequestValues_[i].load(std::memory_order_relaxed);std::memcpy(reinterpret_cast<char*>(&settings)+i*8,&word,8);}
+  std::atomic_thread_fence(std::memory_order_acquire);if(begin==recoveryRequestRevision_.load(std::memory_order_acquire)){revision=begin/2;return revision!=0;}
+ }return false;
+}
+bool DspController::prepareRecoveryWorker(std::string& error){
+ if(!recoveryConfigured_)return true;EntropyDynamicRecoveryConfigV1 settings{};uint64_t revision=0;
+ if(!readRecoveryRequest(settings,revision)){error="Dynamic Recovery control snapshot unavailable";return false;}
+ if(!runtime_.prepareRecovery(recoveryModuleRoot_,settings,error))return false;
+ if(!runtime_.applyRecovery(settings,revision)){error="Dynamic Recovery initial settings rejected";runtime_.closeRecovery();return false;}
+ recoverySubmittedRevision_=revision;return true;
+}
+bool DspController::adoptRecoveryRequest() noexcept {
+ if(!recoveryConfigured_||runtime_.pending())return true;
+ EntropyDynamicRecoveryConfigV1 settings{};uint64_t revision=0;
+ if(!readRecoveryRequest(settings,revision)||revision==recoverySubmittedRevision_)return true;
+ if(!runtime_.applyRecovery(settings,revision))return false;
+ recoverySubmittedRevision_=revision;return true;
+}
 bool DspController::configureEq(const std::filesystem::path& root,const EqSettings& settings,std::string& error){
  if(thread_.joinable()||!validEqSettings(settings)){error="Configure valid EQ settings before worker starts";return false;}
  eqModuleRoot_=root;eqConfigured_=true;eqSchemaReady_=false;eqRequestRevision_=0;eqSubmittedRevision_=0;uint64_t serial=0;return requestEq(settings,serial);
@@ -132,13 +164,13 @@ DspUiSnapshot DspController::snapshot() const noexcept {
 }
 void DspController::automaticWorker() noexcept {
  entropy::host::ProAudioThreadScope realtime;
- struct CenterLifetime {DspController& owner;~CenterLifetime(){auto last=owner.snapshot();owner.runtime_.closeCenter();owner.runtime_.closeAligner();owner.runtime_.closeEq();owner.publish(last.state==DspStateCode::Fault?DspStateCode::Fault:DspStateCode::Stopped,last.error);}} centerLifetime{*this};
+ struct CenterLifetime {DspController& owner;~CenterLifetime(){auto last=owner.snapshot();owner.runtime_.closeRecovery();owner.runtime_.closeCenter();owner.runtime_.closeAligner();owner.runtime_.closeEq();owner.publish(last.state==DspStateCode::Fault?DspStateCode::Fault:DspStateCode::Stopped,last.error);}} centerLifetime{*this};
  try{
   entropy::host::SourceCycleTimer timer;std::string error;bool advertised=false;std::array<uint8_t,16> advertisedSession{};uint64_t refresh=0;
   if(!timer.valid()){publish(DspStateCode::Fault,"Worker timer unavailable");return;}
-  if(!prepareCenterWorker(error)||!prepareAlignerWorker(error)||!prepareEqWorker(error)){publish(DspStateCode::Fault,error.c_str());return;}
+  if(!prepareCenterWorker(error)||!prepareAlignerWorker(error)||!prepareEqWorker(error)||!prepareRecoveryWorker(error)){publish(DspStateCode::Fault,error.c_str());return;}
   while(!stopping_){
-   if(!adoptCenterRequest()||!adoptEqRequest()||!adoptAlignmentRequest()){publish(DspStateCode::Fault,"Native DSP command rejected");break;}
+   if(!adoptCenterRequest()||!adoptEqRequest()||!adoptRecoveryRequest()||!adoptAlignmentRequest()){publish(DspStateCode::Fault,"Native DSP command rejected");break;}
    publisher_->service();
    const auto state=autoLink_->poll(tick(),runtime_,error);
    const bool receiving=state==DspAutoLinkState::Receiving;

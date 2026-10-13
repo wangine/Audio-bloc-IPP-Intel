@@ -19,6 +19,10 @@ public:
  bool configureAligner(const std::filesystem::path&,std::string&);
  bool configureEq(const std::filesystem::path&,const EqSettings&,std::string&);
  bool requestEq(const EqSettings&,uint64_t& revision) noexcept;
+ bool configureRecovery(const std::filesystem::path&,const EntropyDynamicRecoveryConfigV1&,std::string&);
+ bool requestRecovery(const EntropyDynamicRecoveryConfigV1&,uint64_t& revision) noexcept;
+ bool recoveryConfigured() const noexcept {return recoveryConfigured_;}
+ bool requestedRecoverySettings(EntropyDynamicRecoveryConfigV1& settings) const noexcept {uint64_t revision=0;return readRecoveryRequest(settings,revision);}
  bool requestedEqSettings(EqSettings& settings) const noexcept{uint64_t revision=0;EqSettings value{};if(!readEqRequest(value,revision))return false;settings=value;return true;}
  bool eqSchema(EqSchema& schema) const noexcept {if(!eqSchemaReady_.load(std::memory_order_acquire))return false;schema=eqSchema_;return true;}
  bool requestAlignment(bool) noexcept;
@@ -32,6 +36,14 @@ private:
  void* probeContext_=nullptr;
  bool prepareAlignerWorker(std::string&);
  bool prepareEqWorker(std::string&);
+ bool prepareRecoveryWorker(std::string&);
+ bool adoptRecoveryRequest() noexcept;
+ bool readRecoveryRequest(EntropyDynamicRecoveryConfigV1&,uint64_t&) const noexcept;
+ std::filesystem::path recoveryModuleRoot_;
+ bool recoveryConfigured_=false;
+ std::atomic<uint64_t> recoveryRequestRevision_{0};
+ std::array<std::atomic<uint64_t>,sizeof(EntropyDynamicRecoveryConfigV1)/8> recoveryRequestValues_{};
+ uint64_t recoverySubmittedRevision_=0;
  bool adoptEqRequest() noexcept;
  bool readEqRequest(EqSettings&,uint64_t&) const noexcept;
  std::filesystem::path eqModuleRoot_;
