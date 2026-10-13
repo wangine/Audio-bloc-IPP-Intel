@@ -2,6 +2,7 @@
 /runtime/
 /release/
 /profile-load-v0010-20261012/
+/tools-local/
 *.dll
 *.exe
 *.pdb
