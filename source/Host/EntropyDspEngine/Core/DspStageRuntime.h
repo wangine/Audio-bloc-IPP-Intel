@@ -8,6 +8,8 @@
 #include "DspAlignment.h"
 #include "DspLrcModule.h"
 #include "DspEqModule.h"
+#include "DspRecoveryModule.h"
+#include <entropy/dynamic_recovery_abi.h>
 #include "StagePublishV2.h"
 #include <array>
 #include <optional>
@@ -21,6 +23,7 @@ struct DspDiagnostics {
  DspSignalSnapshot signal{};
  CenterSnapshot center{};
  EqSnapshot eq{};
+ RecoverySnapshot recovery{};
  AlignmentSnapshot alignment{};
  uint64_t monitorScheduleRebases=0,publishDrops=0;
 };
@@ -30,6 +33,9 @@ public:
  bool attach(const StageBusSessionHeader&,std::string& error);
  bool attachPassive(const std::wstring& endpoint,std::string& error);
  bool prepareEq(const std::filesystem::path&,const EqSettings&,std::string&,uint64_t revision=1);
+ bool prepareRecovery(const std::filesystem::path&,const EntropyDynamicRecoveryConfigV1&,std::string&);
+ bool applyRecovery(const EntropyDynamicRecoveryConfigV1&,uint64_t revision=1) noexcept;
+ void closeRecovery() noexcept {recovery_.close();diag_.recovery=recovery_.snapshot();}
  bool applyEq(const EqSettings&,uint64_t) noexcept;
  bool eqCommandPending() const noexcept{return eq_.pending();}
  bool pollEqTelemetry() noexcept {if(!eq_.loaded())return true;if(!eq_.readControlSnapshot())return false;diag_.eq=eq_.snapshot();return true;}
@@ -65,6 +71,8 @@ private:
  TransparentDspExecutor executor_;
  DspCenterModule center_;
  DspEqModule eq_;
+ DspRecoveryModule recovery_;
+ std::array<std::array<double,1024>,2> recoveryPlanes_{};
  DspLrcModule aligner_;
  std::array<std::array<double,1024>,3> alignedPlanes_{};
  std::array<std::array<double,1024>,2> inputPlanes_{};

@@ -40,6 +40,15 @@ bool DspStageRuntime::prepareEq(const std::filesystem::path& root,const EqSettin
  if(!validEqSettings(settings)||!eq_.prepare(root,error)||!eq_.apply(settings,revision)){if(error.empty())error="EQ initial settings rejected";eq_.close();return false;}
  diag_.eq=eq_.snapshot();refreshAlignment();return true;
 }
+bool DspStageRuntime::prepareRecovery(const std::filesystem::path& root,const EntropyDynamicRecoveryConfigV1& settings,std::string& error){
+ if(pending()){error="Prepare Dynamic Recovery before audio requests";return false;}
+ if(!recovery_.prepare(root,settings,error))return false;
+ diag_.recovery=recovery_.snapshot();return true;
+}
+bool DspStageRuntime::applyRecovery(const EntropyDynamicRecoveryConfigV1& settings,uint64_t revision) noexcept {
+ if(pending()||!recovery_.apply(settings,revision))return false;
+ diag_.recovery=recovery_.snapshot();return true;
+}
 bool DspStageRuntime::applyEq(const EqSettings& settings,uint64_t revision) noexcept {
  if(pending()||!eq_.apply(settings,revision))return false;diag_.eq=eq_.snapshot();refreshAlignment();return true;
 }
@@ -57,6 +66,7 @@ bool DspStageRuntime::applyCenter(const CenterSettings& settings,uint64_t revisi
 bool DspStageRuntime::resetHistory() noexcept{
  if(center_.loaded() && !center_.reset())return false;diag_.center=center_.snapshot();
  if(eq_.loaded() && !eq_.reset())return false;diag_.eq=eq_.snapshot();
+ if(recovery_.loaded() && !recovery_.reset())return false;diag_.recovery=recovery_.snapshot();
  if(aligner_.loaded()){if(!aligner_.reset())return false;++diag_.alignment.generation;diag_.alignment.boundaryFrame=diag_.blocksOut?diag_.lastHeader.first_frame+1024:0;refreshAlignment();}
  return true;
 }
@@ -108,6 +118,11 @@ DspStepResult DspStageRuntime::step(uint64_t) noexcept{
   // Slot 2 affects MUSIC LR only. Center still receives the independent raw tap.
   if(!eq_.process(inputConst_[0],inputConst_[1],outputPointers_[0],outputPointers_[1]))return fail(true);
   diag_.eq=eq_.snapshot();
+ }
+ if(done==DspExecuteResult::Ok && recovery_.active()){
+  if(!recovery_.process(outputPointers_[0],outputPointers_[1],recoveryPlanes_[0].data(),recoveryPlanes_[1].data()))return fail(true);
+  for(unsigned c=0;c<2;c++)std::memcpy(outputPointers_[c],recoveryPlanes_[c].data(),1024*sizeof(double));
+  diag_.recovery=recovery_.snapshot();
  }
  if(done==DspExecuteResult::Ok && center_.loaded()){
   if(!center_.process(inputConst_[0],inputConst_[1],outputPointers_[2]))return fail(true);

@@ -7,7 +7,8 @@ const NativeModuleRecord* nativeModule(NativeModuleId id) noexcept {
  static constexpr NativeModuleRecord center{"EntropyCenterExtractorV2FP64.dll","audio.entropy.center-extractor.fp64-v2","e96bf561bfa204f7aada02e2245e264eb8db2e3f1e9a06ecc07caf43e0ba32f0"};
  static constexpr NativeModuleRecord lrc{"EntropyLrcAlignerFP64.dll","audio.entropy.lrc-aligner.fp64",lrcNativeSha};
  static constexpr NativeModuleRecord eq{"EntropyParametricEQ.dll","audio.entropy.parametric-eq.fp64","adb01f88cd58c3e4724422482c6970dfc7fb377d638dede2bf859ea87fd75e61"};
- switch(id){case NativeModuleId::CenterV2:return &center;case NativeModuleId::LrcAligner:return &lrc;case NativeModuleId::ParametricEq:return &eq;}return nullptr;
+ static constexpr NativeModuleRecord recovery{"EntropyDynamicRecovery.dll","audio.entropy.dynamic-recovery.fp64.v1","84fbb4f7e2519eaaa13c68159fb596d44ffda2f0de9b8bde2b2d72de7573973d"};
+ switch(id){case NativeModuleId::CenterV2:return &center;case NativeModuleId::LrcAligner:return &lrc;case NativeModuleId::ParametricEq:return &eq;case NativeModuleId::DynamicRecovery:return &recovery;}return nullptr;
 }
 namespace {
 bool verify(HANDLE file,const char* expectedSha) {
