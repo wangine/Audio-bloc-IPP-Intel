@@ -6,6 +6,7 @@
 #include "ConsoleShutdown.h"
 #include "LifecycleExecutor.h"
 #include "SourceWaitPolicy.h"
+#include "ProgramSwitch.h"
 #include "Engine/Egress/HardwareTest.h"
 #include "DeviceService.h"
 #include "Engine/AudioScheduler.h"
@@ -16,6 +17,7 @@
 #include <iostream>
 #include <filesystem>
 #include <deque>
+#include <array>
 namespace entropy::control {
 using J=ipc::Value;
 namespace {ConsoleShutdown consoleShutdown;BOOL WINAPI consoleStop(DWORD event){return consoleShutdown.handle(event);}}
@@ -50,6 +52,7 @@ int runControlServer(int argc,char** argv) try {
  struct Cached {J description,telemetry,devices;};std::atomic<std::shared_ptr<const Cached>> cache;
  std::atomic<LifecycleExecutor*> lifecycle{nullptr};
  SourceWaitPolicy sourceWait(liveWorkers);std::string inputResumeError;
+ std::array<std::string,2> lastDomainFault{}; // lifecycle owner, not an audio thread
  auto publishCache=[&]{
   if(auto* owner=lifecycle.load();owner&&sourceWait.requested()) {
    const auto generation=owner->generation();
@@ -71,14 +74,27 @@ int runControlServer(int argc,char** argv) try {
   }
   auto next=std::make_shared<Cached>();
   next->description=controls.metadata();auto& description=next->description;
-  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=!inputOnly&&(liveGate||authorizedLiveTest);description["version"]="0.2.0-live-v1";description["inputOnly"]=inputOnly;description["inputContractVersion"]=1;
+  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=!inputOnly&&(liveGate||authorizedLiveTest);description["version"]="0.2.1-live-v1.1";description["inputOnly"]=inputOnly;description["inputContractVersion"]=1;
   description["offlineGatePassed"]=liveGate;description["authorizedLiveTest"]=authorizedLiveTest;description["owner"]="EntropyAudioCore";
   description["profileRequired"]=profileRequired;description["profilePath"]=initialProfile;description["profileError"]=profileError;
   DWORD consolePid=0;description["consoleAttached"]=GetConsoleProcessList(&consolePid,1)!=0;
-  auto& data=next->telemetry;data=stage2Enabled?ipc::programTelemetrySnapshot(controls,scheduler,*stage2,selection,inputs.music,inputs.cinema):ipc::telemetrySnapshot(controls,scheduler,signal,nullptr);data["version"]="0.2.0-live-v1";data["inputOnly"]=inputOnly;
+  auto& data=next->telemetry;data=stage2Enabled?ipc::programTelemetrySnapshot(controls,scheduler,*stage2,selection,inputs.music,inputs.cinema):ipc::telemetrySnapshot(controls,scheduler,signal,nullptr);data["version"]="0.2.1-live-v1.1";data["inputOnly"]=inputOnly;
   if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else data["domains"]=liveWorkers.snapshot();
+  // Preserve the existing one-shot domain failure in the normal launcher's
+  // stderr log. No PCM capture, file work on an audio owner or new fault policy.
+  if(!offlineSinks)for(size_t i=0;i<data["domains"].asArray().size()&&i<lastDomainFault.size();++i){
+   const auto& d=data["domains"].asArray()[i];const auto flags=d.at("faults").asUnsigned();
+   if(!flags){lastDomainFault[i].clear();continue;}
+   const auto key=std::to_string(flags)+":"+d.at("detail").asString()+":"+d.at("epoch").asString();
+   if(key==lastDomainFault[i])continue;lastDomainFault[i]=key;
+   J record=J::Object{{"event","LIVE_DOMAIN_FAULT"},{"program",selection.program()}};
+   for(const char* field:{"id","endpoint","detail","faults","driverResult","epoch","submittedFrames","bufferFrames","fifoFrames","readyPackets","applied_ppm","wasapiTimeouts","maximumPreparationWallUs","maximumCallbackWallExcludingWaitUs"})
+    if(d.contains(field))record[field]=d.at(field);
+   std::cerr<<ipc::dump(record)<<'\n'<<std::flush;
+  }
   data["physicalArmed"]=liveWorkers.armed();data["armed"]=sourceWait.requested();data["inputMuted"]=sourceWait.muted();
   data["sourceWaitCount"]=J::u64(sourceWait.waits());data["sourceResumeCount"]=J::u64(sourceWait.resumes());data["lastSourceWaitCause"]=sourceWait.lastSourceCause();data["inputResumeError"]=inputResumeError;
+  data["programSwitchPolicy"]="EXCLUSIVE_WAIT_INPUT";
   data["armPending"]=liveWorkers.engaged()&&!liveWorkers.armed()&&!liveWorkers.faulted();data["liveFault"]=liveWorkers.faulted()&&!liveWorkers.sourceWaitFault();
   if(sourceWait.muted())data["publicationGateClosed"]=true;
   if(liveWorkers.sourceWaitFault())for(auto& domain:data["domains"].asArray()){
@@ -157,11 +173,32 @@ int runControlServer(int argc,char** argv) try {
      }else if(!liveCrossoverChangeAllowed(controls.crossover().preparationParameters(),request))throw std::invalid_argument("FIR8193 x16 is not authorized for live; DISARM before changing this configuration");
     }
     uint32_t target=selection.program();auto proposed=controls.crossover().preparationParameters((action=="program"||action=="parameter"||action=="parameters")?request:J{});for(const auto& p:proposed.at("parameters").asArray())if(p.at("id").asString()=="cinemaSource")target=p.at("value").asUnsigned(1);
-    auto previousSelection=selection.snapshot();
-    if(stage2Enabled){std::string reason;if(!selection.request(target,*stage2,reason))throw std::invalid_argument(reason);if(target!=selection.program()){if(stage2->telemetry(selection.program()?input::Domain::Cinema:input::Domain::Music).state!=input::State::Receiving)selection.quiescent(target);else selection.accepted(target);stage2->require(selection.requiredDomains());}}
-    uint64_t sequence=0;try{sequence=controls.execute(request);}catch(...){selection.restore(previousSelection);stage2->require(selection.requiredDomains());throw;}
+    if(stage2Enabled){std::string reason;if(!selection.request(target,*stage2,reason))throw std::invalid_argument(reason);}
+    const bool programChange=stage2Enabled&&target!=selection.program();
+    uint64_t sequence=0;
+    if(programChange){
+     // Command selection does not depend on publisher availability. Retire
+     // output first; then change scene and source demand at a joined boundary.
+     // A receiving flag can be stale, so use this path for BOTH directions,
+     // even if both publishers happen to be available at the time of the click.
+     const bool retainArm=sourceWait.requested();
+     sequence=switchProgramExclusive(target,scheduler,liveWorkers,*stage2,selection,
+      [&]{return controls.execute(request);},
+      [&]{
+       controls.drainAtQuiescentBoundary();
+       controls.crossover().resetQuiescent(); // old-program histories only, sinks stopped
+       controls.atBlockBoundary();controls.afterBlock();
+       if(!controls.crossover().preparedFinite())throw std::runtime_error("Crossover scene preparation failed");
+      },
+      [&]{
+       inputResumeError.clear();lastDomainFault={};
+       if(retainArm)lifecycle.load()->activate(generation,[&]{sourceWait.requestArm(true);return true;});
+      },
+      [&]{sourceWait.cancel();});
+    }else sequence=controls.execute(request);
     if(!controls.crossover().preparedFinite())throw std::invalid_argument("Crossover coefficient preparation failed");
-    data=J::Object{{"accepted",J::u64(sequence)},{"status","ACCEPTED_AT_CONTROL"},{"audioApplied",false}};
+    data=J::Object{{"accepted",J::u64(sequence)},{"status",programChange?(sourceWait.muted()?"MUTE_WAITING_INPUT":"SELECTED_DISARMED"):"ACCEPTED_AT_CONTROL"},{"audioApplied",false}};
+    if(programChange){data["selectedProgram"]=target;data["physicalArmed"]=false;}
    }
   if(lifecycle.load()->current(generation)){
    if(action=="arm")lifecycle.load()->stateIfCurrent(generation,LifecycleExecutor::State::Arming);
@@ -200,7 +237,7 @@ int runControlServer(int argc,char** argv) try {
   reply["session"]=J::u64(session);ipc::Frame response{frame.command,frame.requestId,ipc::dump(reply)};
   if(replies.size()==128)replies.pop_front();replies.push_back({frame,response});return response;
  },[&]{if(offlineSinks)executor.admit(J::Object{{"action","offline-session-close"}});replies.clear();++session;},error))throw std::runtime_error(error);
- SetConsoleCtrlHandler(consoleStop,TRUE);std::cout<<"Stage05 native IPC READY: "<<endpoint<<"; DISARMED; renderer=LiveV1; liveGate="<<(liveGate?"PASS":"BLOCKED")<<"; authorizedLiveTest="<<(authorizedLiveTest?"YES":"NO")<<"\n"<<std::flush;
+ SetConsoleCtrlHandler(consoleStop,TRUE);std::cout<<"Stage05 native IPC READY: "<<endpoint<<"; DISARMED; renderer=LiveV1.1; liveGate="<<(liveGate?"PASS":"BLOCKED")<<"; authorizedLiveTest="<<(authorizedLiveTest?"YES":"NO")<<"\n"<<std::flush;
  auto start=std::chrono::steady_clock::now();while(!consoleShutdown.requested()&&!server.shutdownReplyComplete()&&(!seconds||std::chrono::steady_clock::now()-start<std::chrono::seconds(seconds)))std::this_thread::sleep_for(std::chrono::milliseconds(20));
  server.stop();executor.stop();scheduler.stop();liveWorkers.stop();stage2->stop();sinkWorkers.stop();std::cout<<"AudioCore stopped safely; all native DAC owners closed\n"<<std::flush;consoleShutdown.complete();SetConsoleCtrlHandler(consoleStop,FALSE);return 0;
 }catch(const std::exception& e){std::cerr<<"Stage05 FAIL: "<<e.what()<<'\n';consoleShutdown.complete();SetConsoleCtrlHandler(consoleStop,FALSE);return 1;}
