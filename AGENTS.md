@@ -1,17 +1,14 @@
-# Stage 3 Recovery R2 — local Codex is BUILD/PACKAGE-ONLY
+# Stage 3 Recovery R3 — Codex BUILD/PACKAGE ONLY
 
-Read `RECOVERY-R2.md`. R1 and earlier notes are historical, not instructions to resume diagnosis.
+Read `RECOVERY-R3.md`. R1/R2 and earlier task files are historical; do not resume their diagnostic work.
 
-The owner authorized R2's input concurrency correction and a separate manual listening candidate. They already tested MANUAL at -10 dB and BITEXACT at 0 dB: do not turn this task into a clipping lesson or an AUTO Headroom adjustment. Do not change gain, profile, DSP, clock, egress or FIFO sizes.
+The owner authorized a targeted clock-observer candidate based on the supplied R2 telemetry. ChatGPT supplies source changes in Git; local Codex compiles/packages only. No autonomous source changes, clock tuning, gain changes, driver changes, or tests against physical outputs.
 
-1. Use the EXISTING checkout `D:\Projects\Entropy-Stage3-Recovery-20261013\source` on `chatgpt/stage3-audio-recovery-20261013`. No new clone. Preserve `live\R1-64k` unchanged.
-2. Confirm clean tracked files. Fetch once and fast-forward only to the exact full R2 SHA in the handoff. No reset, stash, force, rebase, cherry-pick or unrelated merge. Stop on a different branch, changed tracked files or unexpected history.
-3. Run `tools/Build-Recovery-R2.ps1 -ExpectedCommit <the supplied full SHA>`. Compile only Core 64k Release/MSVC/IPP with the existing offline --probe, reuse the already-built Qt UI by hash, deploy into a NEW `live\R2-64k` folder. Never overwrite an existing package.
-4. Default runtime profile is a read-only copy of R1's SAVED `live\R1-64k\profile\listening.entropy`. An exact existing profile can be supplied with -Profile. Do not infer unsaved UI changes, edit values, force AUTO/MANUAL, or upload the profile for diagnosis.
-5. No general CTest, -Verify, benchmarks, portable fixtures, captures, 32k builds, source repairs or diagnostic loops. Fixtures in Tests are for reproducibility, not the local task.
-6. On configure/compile/link/deploy error, report the first actionable error and STOP. Do not modify source, tests, scripts, SDK paths or dependencies to force success.
-7. Report full source SHA, build/probe/deploy result, Core/UI hashes, copied-profile hash, final tracked git status and the full new Live-Test.cmd path. Stop before launching it.
+1. Use the EXISTING checkout `D:\Projects\Entropy-Stage3-Recovery-20261013\source`, branch `chatgpt/stage3-audio-recovery-20261013`. Preserve all existing live/R1-64k and live/R2-64k files.
+2. Require a clean tracked tree. Fetch that branch and fast-forward only to the full SHA in the handoff. No reset, stash, force, rebase, cherry-pick, new clone, or unrelated merge. Stop on a mismatch.
+3. Run `tools/Build-Recovery-R3.ps1 -ExpectedCommit <FULL_SHA> -Profile 'C:\Users\bobi\Documents\entropy.entropy'`. This is the saved profile path reported by the observed R2 runtime. Read/copy only; no parameter edits or AUTO activation. Unsaved UI state is not inferred.
+4. Compile ONLY Core 64k with the established MSVC/IPP wrapper and its offline `--probe`. Reuse the already-built Qt executable by exact hash. Deploy to a NEW `live\R3-64k`; never overwrite an existing runtime. Do not recopy the tracked SRC dependencies.
+5. No CTest, -Verify, benchmarks, portable fixtures, live captures, 32k builds, or repair loops. On configure/compiler/link/deploy error, report the first actionable error and STOP. Do not edit code, scripts, build flags, SDK paths, dependencies, or profiles to force success.
+6. Report the full source SHA, configure/build/probe/deploy result, new Core and unchanged UI hashes, profile source/copy hashes, final tracked status, and full Live-Test.cmd path. STOP without launching or stopping anything.
 
-No push/merge to other branches, process termination/restart, Stage1/Stage2/CINEMA/driver changes, DAC access or ARM. Playback belongs to the owner. Qt remains IPC-only. Retain FP64/192 kHz, original compiler floating-point settings and IPP dispatch; no global AVX2. The already-tracked SRC tree is not recopied or replaced.
-
-R2 is not an accepted audio reference. A successful build does not establish that the remaining audible roughness is fixed. Do not edit any R1 package to make R2 or use old binaries with a new label.
+The owner performs manual ARM and listening. Do not access DACs, terminate/restart processes, change Stage1/Stage2/CINEMA/virtual drivers, or push/merge to other branches. Preserve FP64/192 kHz, original floating-point compiler policy and IPP dispatch; no global AVX2. A build success is not an audio-quality verdict. R3 is a candidate, not a confirmed fix of the audible roughness.

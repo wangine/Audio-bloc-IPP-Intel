@@ -50,6 +50,8 @@ public:
     unsigned readable() const noexcept {return fifo_.readable();}
     const PipelineConfig& config() const noexcept {return config_;}
     const EntropyEgressClockConfig& clockConfig() const noexcept {return clock_.config();}
+    entropy::egress::ClockEstimator::Quality clockQuality() const noexcept {return clock_.clockQuality();}
+    entropy::egress::RatioController::Quality ratioQuality() const noexcept {return clock_.ratioQuality();}
     EntropyEgressClockTelemetry clockTelemetry() const noexcept {return clock_.telemetry();}
     EntropyPcm24Telemetry pcmTelemetry() const noexcept {return pcm_.telemetry();}
     const entropy::engine::PlanarBuffer& rendered() const noexcept {return rendered_;}

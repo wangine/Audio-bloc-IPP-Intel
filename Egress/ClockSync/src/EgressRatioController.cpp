@@ -23,7 +23,7 @@ bool RatioController::prepare(const EntropyEgressClockConfig& config) noexcept
     return true;
 }
 
-void RatioController::reset() noexcept
+void RatioController::resetImpl() noexcept
 {
 #if ENTROPY_A06_R04_DIAG
     // Lifetime maximum is diagnostic-only and survives algorithm resets.
@@ -40,7 +40,7 @@ void RatioController::reset() noexcept
     haveHost_ = false;
 }
 
-RatioDecision RatioController::update(const ClockObservation& observation,
+RatioDecision RatioController::updateImpl(const ClockObservation& observation,
                                       const ClockEstimate& estimate) noexcept
 {
     RatioDecision decision {};

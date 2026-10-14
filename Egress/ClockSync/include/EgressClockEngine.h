@@ -52,6 +52,8 @@ public:
     EntropyResult clearFault() noexcept;
     bool configured() const noexcept { return configured_; }
     const EntropyEgressClockConfig& config() const noexcept { return config_; }
+    ClockEstimator::Quality clockQuality() const noexcept {return clockEstimator_.quality();}
+    RatioController::Quality ratioQuality() const noexcept {return ratioController_.quality();}
     EntropyEgressClockTelemetry telemetry() const noexcept;
     std::uint32_t latencySinkFrames() const noexcept;
 #if ENTROPY_EGRESS_FIRST_FAULT

@@ -131,7 +131,7 @@ void LiveSinkWorkers::run(Session& s,unsigned slot) noexcept {
   auto sink=factory_?factory_(slot):std::make_unique<WasapiAdapter>();if(!sink)throw std::runtime_error("Sink unavailable");
   sink->setCancelEvent(cancel_[slot]);
   EntropyDacSinkConfig c{};c.struct_size=sizeof(c);c.backend=ENTROPY_DAC_SINK_BACKEND_WASAPI_EXCLUSIVE;c.sample_rate=192000;c.channels=d.config.channels;c.output_format=d.config.format;c.requested_buffer_frames=1024;c.revision=1;std::memcpy(c.endpoint_id_utf8,d.config.endpoint.c_str(),d.config.endpoint.size()+1);
-  struct CloseOnOwner {egress_host::Sink& sink;Domain& d;~CloseOnOwner(){const auto v=sink.status();d.driverResult=v.last_driver_result;d.sinkFaults=v.fault_flags;sink.stop();sink.close();}} closer{*sink,d};
+  struct CloseOnOwner {egress_host::Sink& sink;Domain& d;~CloseOnOwner(){const auto v=sink.status();d.driverResult=v.last_driver_result;d.sinkFaults=v.fault_flags;d.sinkXruns=v.xrun_count;d.sinkTimeouts=v.timeout_count;d.sinkDeviceLosses=v.device_loss_count;sink.stop();sink.close();}} closer{*sink,d};
   if(sink->open(c)!=ENTROPY_OK)throw std::runtime_error("Sink open failed");
   auto status=sink->status();if(!status.buffer_frames||status.buffer_frames>4096)throw std::runtime_error("Sink buffer invalid");
   // The original sinc requires a lookahead guard. If one callback exceeds the
@@ -264,7 +264,7 @@ void LiveSinkWorkers::run(Session& s,unsigned slot) noexcept {
    nextDeviceFrame+=req.frames;QueryThreadCycleTime(GetCurrentThread(),&cb);const double cost=double(host100ns()-begin)/10;maximum=(std::max)(maximum,cost);
    d.callbackUs=cost;d.maxCallbackUs=maximum;d.cycles=cb-ca;++d.callbacks;if(cost>double(req.frames)*1e6/192000)++d.misses;
    const auto clock=d.pipeline.clockTelemetry();d.ppm=clock.correction_ppm;d.clockFill=clock.fill_frames;d.clockState=clock.state;d.resync=clock.resync_count;d.resetReason=d.pipeline.resetReason();d.estimateValid=d.pipeline.estimateValid();
-   status=sink->status();d.submitted=status.submitted_frames;d.position=status.device_position_frames;d.sinkState=status.state;d.driverResult=status.last_driver_result;d.sinkFaults=status.fault_flags;
+   status=sink->status();d.submitted=status.submitted_frames;d.position=status.device_position_frames;d.sinkState=status.state;d.driverResult=status.last_driver_result;d.sinkFaults=status.fault_flags;d.sinkXruns=status.xrun_count;d.sinkTimeouts=status.timeout_count;d.sinkDeviceLosses=status.device_loss_count;
    if(!common&&std::chrono::steady_clock::now()>deadline)throw std::runtime_error("Group preroll timeout");
   }
  }catch(...){if(!canceled())fail(s,d.pipeline.faults()?d.pipeline.faults():egress_host::Device);}
@@ -282,7 +282,26 @@ ipc::Value LiveSinkWorkers::snapshot() const {
  for(unsigned i=0;i<2;++i){const auto& d=s.domains[i];const auto pcm=d.pipeline.pcmTelemetry();
   out.emplace_back(ipc::Value::Object{{"id",i?"DAC B":"DAC A"},{"configured",d.config.enabled},{"channels",d.config.channels},{"rate",192000},{"format",d.config.format},{"endpoint",d.config.endpoint},{"offlineFixture",false},{"physicalSinkOpen",d.open.load()},{"state",!d.done.load()&&!enabled_.load()?"STOPPING":s.fault.load()?"FAULT":d.running.load()?"RUNNING":d.open.load()?"PREROLL":enabled_.load()?"ARMING":"DISARMED"},{"sinkState",d.sinkState.load()},{"driverResult",d.driverResult.load()},{"sinkFaults",d.sinkFaults.load()},{"bufferFrames",d.buffer.load()},{"submittedFrames",ipc::Value::u64(d.submitted.load())},{"devicePositionFrames",ipc::Value::u64(d.position.load())},{"clockState",d.clockState.load()},{"clockControllerLocked",d.clockState.load()==ENTROPY_EGRESS_CLOCK_LOCKED},{"ppm",d.ppm.load()},{"clockFillFrames",d.clockFill.load()},{"fifoFrames",d.pipeline.readable()},{"fifoCapacity",d.pipeline.config().fifoFrames},{"targetFrames",4096},{"xruns",ipc::Value::u64(d.pipeline.xruns())},{"faults",d.pipeline.faults()},{"nonzeroPcmBlocks",ipc::Value::u64(d.nonzeroPcmBlocks.load())},{"callbacks",ipc::Value::u64(d.callbacks.load())},{"callbackWallExcludingWaitUs",d.callbackUs.load()},{"maximumCallbackWallExcludingWaitUs",d.maxCallbackUs.load()},{"eventWaitUs",d.waitUs.load()},{"deadlineMisses",ipc::Value::u64(d.misses.load())},{"callbackThreadCycles",ipc::Value::u64(d.cycles.load())},{"mmcssRegistered",d.mmcss.load()},{"guardian","EXACT BYPASS"}});
   auto& t=out.back();
-  t["recoveryRevision"]="R1";
+  t["recoveryRevision"]="R3";
+  const auto ratio=d.pipeline.ratioQuality();const auto observer=d.pipeline.clockQuality();
+  t["ratioTelemetryCoherent"]=ratio.coherent;t["clockObserverTelemetryCoherent"]=observer.coherent;
+  t["clockObserverValid"]=observer.valid;t["clockShortWindowValid"]=observer.shortWindowHz>0;t["clockLongWindowValid"]=observer.longWindowHz>0;
+  t["clockObservationScope"]="last completed 100 ms observation bucket; not every callback";
+  t["applied_ppm"]=ratio.appliedPpm;t["requested_ppm"]=ratio.requestedPpm;
+  t["delta_applied"]=ratio.deltaApplied;t["max_abs_delta_applied"]=ratio.maxAbsDeltaApplied;
+  t["max_abs_applied_ppm_per_second"]=ratio.maxAbsPpmPerSecond;
+  t["max_reset_jump_ppm"]=ratio.maxResetJumpPpm;t["ratioResetCount"]=ipc::Value::u64(ratio.resets);
+  t["ratioObservationCalls"]=ipc::Value::u64(ratio.calls);
+  t["clockShortWindowHz"]=observer.shortWindowHz;t["clockLongWindowHz"]=observer.longWindowHz;
+  t["clockFilteredHz"]=observer.filteredHz;t["clockObserverWindowSeconds"]=observer.windowSeconds;
+  t["clockBucketResidualRmsFrames"]=observer.bucketResidualRmsFrames;
+  t["clockFitCount"]=ipc::Value::u64(observer.estimates);
+  t["clockAcceptedObservations"]=ipc::Value::u64(observer.accepted);t["clockRejectedObservations"]=ipc::Value::u64(observer.rejected);
+  t["clockObservationFrame"]=ipc::Value::u64(observer.observationFrame);
+  t["clockObservationQpc100ns"]=ipc::Value::u64(observer.observationHost100ns);
+  t["wasapiXruns"]=ipc::Value::u64(d.sinkXruns.load());t["wasapiTimeouts"]=ipc::Value::u64(d.sinkTimeouts.load());
+  t["wasapiDeviceLosses"]=ipc::Value::u64(d.sinkDeviceLosses.load());
+  t["wasapiXrunScope"]="existing WASAPI wait-timeout counter; not exhaustive hardware continuity proof";
   t["callbackWallScope"]="wait-return through submit and audit-copy; not hardware xrun proof";
   t["waitReturnIntervalUs"]=d.waitReturnIntervalUs.load();
   t["maximumWaitReturnIntervalUs"]=d.maxWaitReturnIntervalUs.load();
