@@ -1,0 +1,28 @@
+name: Live renderer bounded contracts
+on:
+  push:
+    branches: [chatgpt/stage3-live-renderer-v1-20261014]
+permissions:
+  contents: read
+jobs:
+  contracts:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Configure isolated contracts (no IPP, no devices)
+        run: cmake -S RendererLive/tests -B build-live-contracts -DCMAKE_BUILD_TYPE=Release
+      - name: Compile
+        run: cmake --build build-live-contracts --config Release --parallel 2
+      - name: Run on Windows
+        if: runner.os == 'Windows'
+        run: .\build-live-contracts\Release\EntropyLiveContracts.exe
+      - name: Run on Linux
+        if: runner.os == 'Linux'
+        run: ./build-live-contracts/EntropyLiveContracts
