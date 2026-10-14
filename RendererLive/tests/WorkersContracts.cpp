@@ -2,11 +2,11 @@
 #include <windows.h>
 #include <array>
 #include <atomic>
-#include <cmath>
 #include <iostream>
 #include <stdexcept>
 #include <thread>
 using namespace entropy;
+namespace {
 class FakeSink final:public egress_host::Sink {
  bool fail_;HANDLE cancel_=nullptr;EntropyDacSinkConfig c_{};EntropyDacSinkStatus s_{};
 public:
@@ -20,15 +20,18 @@ public:
  void stop() noexcept override{s_.state=ENTROPY_DAC_SINK_OPEN;}
  void close() noexcept override{s_.state=ENTROPY_DAC_SINK_CLOSED;}
 };
-int main() try {
+}
+void runWorkersContracts() {
  control::LiveSinkWorkers workers([](unsigned slot){return std::make_unique<FakeSink>(slot==1);},false);
  std::array<control::LiveDomain,2> cfg{};
  for(unsigned i=0;i<2;++i){cfg[i].enabled=true;cfg[i].channels=2;cfg[i].format=1;cfg[i].logicalId=i?"DAC_B":"DAC_A";cfg[i].endpoint=i?"fake-b":"fake-a";cfg[i].lanes[0]=i*2;cfg[i].lanes[1]=i*2+1;}
  if(!workers.prepare(cfg)||!workers.start())throw std::runtime_error("prepare/start");
  std::atomic<bool> quit=false;
  std::thread graph([&]{std::array<double,1024> pcm{};pcm.fill(.01);std::array<const double*,16> p{};p.fill(pcm.data());uint64_t frame=0;while(!quit){workers.atBlockBoundary();workers.publish(p.data(),1024,true,{1,frame,0,1024});frame+=1024;Sleep(5);}workers.graphStopped();});
+ struct Stop {control::LiveSinkWorkers& w;std::atomic<bool>& q;std::thread& g;~Stop(){w.closePublicationGate();q=true;if(g.joinable())g.join();w.stop();}} cleanup{workers,quit,graph};
  Sleep(600);const bool primaryRuns=workers.armed()&&!workers.faulted();const auto telemetry=workers.snapshot();
- workers.closePublicationGate();quit=true;graph.join();workers.stop();
- if(!primaryRuns||telemetry.asArray().size()!=2||telemetry.asArray()[0].at("state").asString()!="RUNNING"||telemetry.asArray()[1].at("state").asString()!="FAULT")throw std::runtime_error("secondary failure blocked primary");
- std::cout<<"Windows worker contracts PASS: live preparation, independent secondary failure, cancellation. Fake sinks only.\n";return 0;
-}catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}
+ if(!primaryRuns||telemetry.asArray().size()!=2||telemetry.asArray()[0].at("state").asString()!="RUNNING"||telemetry.asArray()[1].at("state").asString()!="FAULT"){
+  std::cerr<<ipc::dump(telemetry)<<'\n';throw std::runtime_error("secondary failure blocked primary");
+ }
+ std::cout<<"Windows worker contracts PASS: live preparation, independent secondary failure, cancellation. Fake sinks only.\n";
+}

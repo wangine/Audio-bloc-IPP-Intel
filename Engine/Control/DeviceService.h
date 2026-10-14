@@ -9,8 +9,10 @@ class DeviceService {
 public:
  ipc::Value refresh();
  ipc::Value revalidateSelected();
+ // Return a transient per-endpoint preflight without changing saved bindings.
+ ipc::Value independentPlaybackConfiguration();
  void closeNotifications() noexcept {changes_.close();}
- void restore(const ipc::Value&); // Candidate validation; no audio/device start.
+ void restore(const ipc::Value&);
  ipc::Value configure(const ipc::Value&);
  ipc::Value snapshot() const;
  ipc::Value bindingCommand(const ipc::Value&);

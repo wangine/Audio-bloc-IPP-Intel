@@ -42,9 +42,7 @@ int runControlServer(int argc,char** argv) try {
  if(!initialProfile.empty())try{auto loaded=profiles.load(std::filesystem::u8path(initialProfile));auto configured=input::Configuration::decode(loaded.document);if(!musicOverride)inputs.music=configured.music;if(!cinemaOverride)inputs.cinema=configured.cinema;if(loaded.document.contains("stage05_devices"))devices.restore(loaded.document.at("stage05_devices"));loaded.parameters.renderLaneMask=configuredMask();controls.crossover().importBytes(loaded.crossover);controls.replace(loaded.parameters);controls.atBlockBoundary();controls.afterBlock();profiles.adopt(std::move(loaded.document));profileRequired=false;}
  catch(const std::exception& e){profileError=e.what();if(!stage2Enabled)throw;}
  const bool startInputImmediately=stage2Enabled&&!profileRequired;
- // Live Core is an independent process, not a child console's audio session.
- // Detach before any source lease is acquired. Redirected log files remain
- // the launcher's log destination; the UI continues to use IPC only.
+ // Existing independent Core lifecycle, separate IPC-only UI.
  if(stage2Enabled&&!FreeConsole())throw std::runtime_error("Cannot detach live Core from launcher console");
  consoleShutdown.reset();
  selection.quiescent(controls.crossover().snapshot().at("program").asUnsigned(1));stage2->require(selection.requiredDomains());scheduler.start();
@@ -60,9 +58,9 @@ int runControlServer(int argc,char** argv) try {
     const bool eligible=!profileRequired&&controls.settled()&&liveFirAllowed(controls.crossover().preparationParameters())&&controls.crossover().preparedFinite()&&liveHeadroomReady(graph);
     const auto result=sourceWait.service(source.state==input::State::Receiving,source.lastBlockQpc,eligible,[&]{
      owner->stateIfCurrent(generation,LifecycleExecutor::State::Preparing);
-     devices.revalidateSelected();
+     const auto playback=devices.independentPlaybackConfiguration();
      if(!sourceWait.requested()||!owner->current(generation))return false;
-     if(!liveWorkers.prepare(LiveSinkWorkers::decode(devices.snapshot().at("configuration"))))return false;
+     if(!liveWorkers.prepare(LiveSinkWorkers::decode(playback)))return false;
      return owner->activate(generation,[&]{return sourceWait.requested()&&liveWorkers.start();});
     });
     if(result==SourceWaitPolicy::Result::Resumed){inputResumeError.clear();owner->stateIfCurrent(generation,LifecycleExecutor::State::Arming);}
@@ -73,11 +71,11 @@ int runControlServer(int argc,char** argv) try {
   }
   auto next=std::make_shared<Cached>();
   next->description=controls.metadata();auto& description=next->description;
-  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=!inputOnly&&(liveGate||authorizedLiveTest);description["version"]="0.1.9-v2-r3";description["inputOnly"]=inputOnly;description["inputContractVersion"]=1;
+  description["viewContractVersion"]=2;description["protocol"]=1;description["physicalArmAllowed"]=!inputOnly&&(liveGate||authorizedLiveTest);description["version"]="0.2.0-live-v1";description["inputOnly"]=inputOnly;description["inputContractVersion"]=1;
   description["offlineGatePassed"]=liveGate;description["authorizedLiveTest"]=authorizedLiveTest;description["owner"]="EntropyAudioCore";
   description["profileRequired"]=profileRequired;description["profilePath"]=initialProfile;description["profileError"]=profileError;
   DWORD consolePid=0;description["consoleAttached"]=GetConsoleProcessList(&consolePid,1)!=0;
-  auto& data=next->telemetry;data=stage2Enabled?ipc::programTelemetrySnapshot(controls,scheduler,*stage2,selection,inputs.music,inputs.cinema):ipc::telemetrySnapshot(controls,scheduler,signal,nullptr);data["version"]="0.1.9-v2-r3";data["inputOnly"]=inputOnly;
+  auto& data=next->telemetry;data=stage2Enabled?ipc::programTelemetrySnapshot(controls,scheduler,*stage2,selection,inputs.music,inputs.cinema):ipc::telemetrySnapshot(controls,scheduler,signal,nullptr);data["version"]="0.2.0-live-v1";data["inputOnly"]=inputOnly;
   if(offlineSinks)data["domains"]=sinkWorkers.snapshot();else data["domains"]=liveWorkers.snapshot();
   data["physicalArmed"]=liveWorkers.armed();data["armed"]=sourceWait.requested();data["inputMuted"]=sourceWait.muted();
   data["sourceWaitCount"]=J::u64(sourceWait.waits());data["sourceResumeCount"]=J::u64(sourceWait.resumes());data["lastSourceWaitCause"]=sourceWait.lastSourceCause();data["inputResumeError"]=inputResumeError;
@@ -116,12 +114,10 @@ int runControlServer(int argc,char** argv) try {
     if(request.contains("domains"))deviceCommand(request,false);
     if(!lifecycle.load()->current(generation))throw std::runtime_error("ARM canceled by DISARM");
     lifecycle.load()->stateIfCurrent(generation,LifecycleExecutor::State::Preparing);
-    devices.revalidateSelected();
+    const auto playback=devices.independentPlaybackConfiguration();
     if(!liveFirAllowed(controls.crossover().preparationParameters())||!controls.crossover().preparedFinite())throw std::invalid_argument("Unprepared/nonfinite or unauthorized FIR profile; no device opened");
-    auto config=LiveSinkWorkers::decode(devices.snapshot().at("configuration"));
+    auto config=LiveSinkWorkers::decode(playback);
     if(stage2->telemetry(selection.program()?input::Domain::Cinema:input::Domain::Music).state!=input::State::Receiving){
-     // A new explicit ARM replaces retained fatal history with a validated
-     // inactive session. No DAC is opened until fresh PCM is available.
      if(!liveWorkers.prepare(config))throw std::runtime_error("Live egress prepare failed");
      if(!lifecycle.load()->activate(generation,[&]{sourceWait.requestArm(true);return true;}))throw std::runtime_error("ARM canceled by DISARM");
      inputResumeError.clear();data=J::Object{{"status","MUTE_WAITING_INPUT"},{"physicalArmed",false}};
@@ -204,7 +200,7 @@ int runControlServer(int argc,char** argv) try {
   reply["session"]=J::u64(session);ipc::Frame response{frame.command,frame.requestId,ipc::dump(reply)};
   if(replies.size()==128)replies.pop_front();replies.push_back({frame,response});return response;
  },[&]{if(offlineSinks)executor.admit(J::Object{{"action","offline-session-close"}});replies.clear();++session;},error))throw std::runtime_error(error);
- SetConsoleCtrlHandler(consoleStop,TRUE);std::cout<<"Stage05 native IPC READY: "<<endpoint<<"; DISARMED; liveGate="<<(liveGate?"PASS":"BLOCKED")<<"; authorizedLiveTest="<<(authorizedLiveTest?"YES":"NO")<<"\n"<<std::flush;
+ SetConsoleCtrlHandler(consoleStop,TRUE);std::cout<<"Stage05 native IPC READY: "<<endpoint<<"; DISARMED; renderer=LiveV1; liveGate="<<(liveGate?"PASS":"BLOCKED")<<"; authorizedLiveTest="<<(authorizedLiveTest?"YES":"NO")<<"\n"<<std::flush;
  auto start=std::chrono::steady_clock::now();while(!consoleShutdown.requested()&&!server.shutdownReplyComplete()&&(!seconds||std::chrono::steady_clock::now()-start<std::chrono::seconds(seconds)))std::this_thread::sleep_for(std::chrono::milliseconds(20));
  server.stop();executor.stop();scheduler.stop();liveWorkers.stop();stage2->stop();sinkWorkers.stop();std::cout<<"AudioCore stopped safely; all native DAC owners closed\n"<<std::flush;consoleShutdown.complete();SetConsoleCtrlHandler(consoleStop,FALSE);return 0;
 }catch(const std::exception& e){std::cerr<<"Stage05 FAIL: "<<e.what()<<'\n';consoleShutdown.complete();SetConsoleCtrlHandler(consoleStop,FALSE);return 1;}
