@@ -37,3 +37,12 @@ jobs:
       - name: Run on Linux
         if: runner.os == 'Linux'
         run: ./build-live-contracts/EntropyLiveContracts
+      - name: Configure source-independent program control
+        if: runner.os == 'Windows'
+        run: cmake -S RendererLive/control-tests -B build-program-contracts
+      - name: Compile source-independent program control
+        if: runner.os == 'Windows'
+        run: cmake --build build-program-contracts --config Release --parallel 2
+      - name: Check absent-source selection without devices
+        if: runner.os == 'Windows'
+        run: .\build-program-contracts\Release\EntropyProgramControlContracts.exe
