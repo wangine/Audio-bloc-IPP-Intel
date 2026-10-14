@@ -8,15 +8,20 @@
 using namespace entropy;
 namespace {
 class FakeSink final : public egress_host::Sink {
- bool fail_; unsigned openDelayMs_;
- HANDLE cancel_=nullptr; EntropyDacSinkConfig c_{}; EntropyDacSinkStatus s_{};
+ bool fail_,deferred_;
+ std::atomic<bool>& opening_;std::atomic<bool>& releaseOpen_;
+ HANDLE cancel_=nullptr;EntropyDacSinkConfig c_{};EntropyDacSinkStatus s_{};
 public:
- FakeSink(bool fail,unsigned delay):fail_(fail),openDelayMs_(delay){}
+ FakeSink(bool fail,bool deferred,std::atomic<bool>& opening,std::atomic<bool>& releaseOpen)
+  :fail_(fail),deferred_(deferred),opening_(opening),releaseOpen_(releaseOpen){}
  void setCancelEvent(void* c) noexcept override {cancel_=HANDLE(c);}
  EntropyResult open(const EntropyDacSinkConfig& c) override {
-  c_=c;
-  if(openDelayMs_&&WaitForSingleObject(cancel_,openDelayMs_)==WAIT_OBJECT_0)return ENTROPY_ERROR_INVALID_STATE;
-  if(fail_)return ENTROPY_ERROR_PROCESSING;
+  c_=c;if(fail_)return ENTROPY_ERROR_PROCESSING;
+  if(deferred_){
+   opening_.store(true,std::memory_order_release);
+   while(!releaseOpen_.load(std::memory_order_acquire))
+    if(WaitForSingleObject(cancel_,1)==WAIT_OBJECT_0)return ENTROPY_ERROR_INVALID_STATE;
+  }
   s_.state=ENTROPY_DAC_SINK_OPEN;s_.buffer_frames=1024;return ENTROPY_OK;
  }
  EntropyResult start() noexcept override {s_.state=ENTROPY_DAC_SINK_RUNNING;return ENTROPY_OK;}
@@ -33,8 +38,9 @@ public:
  void stop() noexcept override {s_.state=ENTROPY_DAC_SINK_OPEN;}
  void close() noexcept override {s_.state=ENTROPY_DAC_SINK_CLOSED;}
 };
-void scenario(unsigned healthySlot,unsigned openDelayMs) {
- control::LiveSinkWorkers workers([=](unsigned slot){return std::make_unique<FakeSink>(slot!=healthySlot,slot==healthySlot?openDelayMs:0);},false);
+void scenario(unsigned healthySlot,bool deferredOpen) {
+ std::atomic<bool> opening=false,releaseOpen=false;
+ control::LiveSinkWorkers workers([&](unsigned slot){return std::make_unique<FakeSink>(slot!=healthySlot,deferredOpen,opening,releaseOpen);},false);
  std::array<control::LiveDomain,2> cfg{};
  for(unsigned i=0;i<2;++i){
   cfg[i].enabled=true;cfg[i].channels=2;cfg[i].format=1;
@@ -45,31 +51,38 @@ void scenario(unsigned healthySlot,unsigned openDelayMs) {
  std::atomic<bool> quit=false;
  std::thread graph([&]{
   std::array<double,1024> pcm{};pcm.fill(.01);std::array<const double*,16> p{};p.fill(pcm.data());uint64_t frame=0;
-  while(!quit){workers.atBlockBoundary();workers.publish(p.data(),1024,true,{1,frame,0,1024});frame+=1024;Sleep(5);}
+  auto publish=[&]{workers.atBlockBoundary();workers.publish(p.data(),1024,true,{1,frame,0,1024});frame+=1024;};
+  if(deferredOpen){
+   const auto deadline=GetTickCount64()+2000;
+   while(!opening.load(std::memory_order_acquire)&&!quit&&GetTickCount64()<deadline)Sleep(1);
+   // Force more than one queue capacity to arrive BEFORE open() returns.
+   // This is a startup-admission check, not a real-time throughput model.
+   // No dependency on Windows' Sleep(5) timer granularity.
+   for(unsigned n=0;n<128&&!quit;++n)publish();
+   releaseOpen.store(true,std::memory_order_release);
+  }
+  while(!quit){publish();Sleep(5);}
   workers.graphStopped();
  });
  struct Stop {
   control::LiveSinkWorkers& w;std::atomic<bool>& q;std::thread& g;
   ~Stop(){w.closePublicationGate();q=true;if(g.joinable())g.join();w.stop();}
  } cleanup{workers,quit,graph};
- // A real endpoint may take longer to open than 65536/192000 seconds.
- // Unopened endpoints have no admitted playback timeline yet; they must not
- // overflow while another endpoint is opening/failing.
- const auto until=GetTickCount64()+openDelayMs+2000;
+ const auto until=GetTickCount64()+3500;
  while(GetTickCount64()<until&&!workers.armed()&&!workers.faulted())Sleep(10);
  Sleep(100);
  const auto telemetry=workers.snapshot();const auto& rows=telemetry.asArray();
  if(!workers.armed()||workers.faulted()||rows.size()!=2||
     rows[healthySlot].at("state").asString()!="RUNNING"||
     rows[1-healthySlot].at("state").asString()!="FAULT"){
-  std::cerr<<"healthySlot="<<healthySlot<<" openDelayMs="<<openDelayMs<<'\n'<<ipc::dump(telemetry)<<'\n';
+  std::cerr<<"healthySlot="<<healthySlot<<" deferredOpen="<<deferredOpen<<'\n'<<ipc::dump(telemetry)<<'\n';
   throw std::runtime_error("endpoint admission/independence failed");
  }
 }
 }
 void runWorkersContracts() {
- scenario(0,0);
- scenario(1,0);
- scenario(0,600);
- std::cout<<"Windows worker contracts PASS: either primary, secondary failure, slow open, cancellation. Fake sinks only.\n";
+ scenario(0,false);
+ scenario(1,false);
+ scenario(0,true);
+ std::cout<<"Windows worker contracts PASS: either primary, secondary failure, deferred admission, cancellation. Fake sinks only.\n";
 }
