@@ -1,14 +1,16 @@
-# Stage 3 Recovery R3 — Codex BUILD/PACKAGE ONLY
+# B1 independent renderer — local Codex build/prepare only
 
-Read `RECOVERY-R3.md`. R1/R2 and earlier task files are historical; do not resume their diagnostic work.
+Read RendererB1/CODEX.md and RendererB1/DESIGN.md. This is a NEW branch/worktree and an offline-file renderer candidate, not another R3 patch and not a completed live dual-DAC Core.
 
-The owner authorized a targeted clock-observer candidate based on the supplied R2 telemetry. ChatGPT supplies source changes in Git; local Codex compiles/packages only. No autonomous source changes, clock tuning, gain changes, driver changes, or tests against physical outputs.
+User-authorized scope: compile supplied source, run the one bounded new packet/header test, prepare the supplied verified Stage2 capture with the unchanged saved DSP/profile/PCM24, and package the new single-DAC player. Do not invent architecture changes or repair compiler failures autonomously.
 
-1. Use the EXISTING checkout `D:\Projects\Entropy-Stage3-Recovery-20261013\source`, branch `chatgpt/stage3-audio-recovery-20261013`. Preserve all existing live/R1-64k and live/R2-64k files.
-2. Require a clean tracked tree. Fetch that branch and fast-forward only to the full SHA in the handoff. No reset, stash, force, rebase, cherry-pick, new clone, or unrelated merge. Stop on a mismatch.
-3. Run `tools/Build-Recovery-R3.ps1 -ExpectedCommit <FULL_SHA> -Profile 'C:\Users\bobi\Documents\entropy.entropy'`. This is the saved profile path reported by the observed R2 runtime. Read/copy only; no parameter edits or AUTO activation. Unsaved UI state is not inferred.
-4. Compile ONLY Core 64k with the established MSVC/IPP wrapper and its offline `--probe`. Reuse the already-built Qt executable by exact hash. Deploy to a NEW `live\R3-64k`; never overwrite an existing runtime. Do not recopy the tracked SRC dependencies.
-5. No CTest, -Verify, benchmarks, portable fixtures, live captures, 32k builds, or repair loops. On configure/compiler/link/deploy error, report the first actionable error and STOP. Do not edit code, scripts, build flags, SDK paths, dependencies, or profiles to force success.
-6. Report the full source SHA, configure/build/probe/deploy result, new Core and unchanged UI hashes, profile source/copy hashes, final tracked status, and full Live-Test.cmd path. STOP without launching or stopping anything.
+- Branch: chatgpt/stage3-renderer-b1-20261014. Base/report commit: 3e985007885c527b5e3bf6580f853b82bf314d59.
+- Use an isolated worktree at D:\Projects\Entropy-Stage3-Recovery-20261013\renderer-b1-source. Do not switch, overwrite or modify the original source checkout or installed R1/R2/R3 packages.
+- Pin the exact final SHA from the handoff. Only AGENTS.md and RendererB1/** may differ from the report commit.
+- Run RendererB1/Build-B1.ps1 -ExpectedCommit <the supplied SHA>. The script verifies the known Stage2 capture SHA256 and copies the existing saved Documents profile. It builds EntropyPrepareB1, EntropyPlayB1 and EntropyPacketB1Tests, runs that single offline test, then prepares PCM offline. No general CTest, benchmarking, live capture, producer startup, UI, device opening or playback.
+- Existing Stage1/2, Crossover, PCA, Matrix, Headroom, PCM24, ClockSync, drivers, compiler floating-point policy, IPP and original profiles remain unmodified. Do not install Faust, Rubato or another dependency for this candidate.
+- Stop on the first actionable configure/compiler/link/test/prepare failure and report it. No reset, stash, force, source/test/script edits, alternate binaries or SDK substitution to hide a failure.
+- Playback files are private local outputs, not Git artifacts. Never upload PCM/captures/endpoints/profiles automatically.
+- Report exact source SHA, exit codes, compiler warnings/errors, player SHA256, capture/profile/prepared-file hashes, source tracked status, and package/Play-DAC-A/B.cmd locations. Explicitly state no live test was run. Do not launch the play commands or send ARM/DISARM; the user controls playback.
 
-The owner performs manual ARM and listening. Do not access DACs, terminate/restart processes, change Stage1/Stage2/CINEMA/virtual drivers, or push/merge to other branches. Preserve FP64/192 kHz, original floating-point compiler policy and IPP dispatch; no global AVX2. A build success is not an audio-quality verdict. R3 is a candidate, not a confirmed fix of the audible roughness.
+The authoring container and Python execution were unavailable (ClientError); the source has not been compiled or tested by ChatGPT. Do not convert source review/Git readback into a PASS claim. Passing the bounded packet test does not prove Windows scheduling or sound quality.
