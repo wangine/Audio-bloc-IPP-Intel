@@ -52,5 +52,5 @@ int main(int argc,char** argv){
   auto before=produced.load();Sleep(40);CHECK(produced.load()>before); // Source continues while Stage2 is stopped.
  }
  worker.request_stop();worker.join();source.stop();
- std::cout<<"PASS candidate OFF/ON, baseline v0010 OFF stereo L/R memcmp, package/controller/IPC and restart\n";
+ std::cout<<"PASS stable OFF/ON, baseline v0010 OFF stereo L/R memcmp, package/controller/IPC and restart\n";
 }

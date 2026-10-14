@@ -1,4 +1,4 @@
-param([string]$OutputRoot,[string]$Version='stage2-music-v0010')
+param([string]$OutputRoot,[string]$Version='stage2-music-v0010-dynamic-recovery-stable')
 $ErrorActionPreference='Stop'
 $taskRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
 if(!$OutputRoot){$OutputRoot=Join-Path $taskRoot ('release/'+$Version)}
@@ -27,6 +27,9 @@ Copy-Item -LiteralPath $taskBinary -Destination (Join-Path $taskOutput 'EntropyD
 Copy-Item -LiteralPath (Join-Path $taskRoot 'source/Shared/StageBusSDK') -Destination (Join-Path $taskOutput 'sdk') -Recurse
 Copy-Item -LiteralPath (Join-Path $taskRoot 'contract/MusicStageBusContract.json') -Destination (Join-Path $taskOutput 'sdk/MusicStageBusContract.json')
 Copy-Item -LiteralPath (Join-Path $taskRoot 'README.md') -Destination $taskOutput
+Copy-Item -LiteralPath (Join-Path $taskRoot 'REPORT.md') -Destination (Join-Path $taskOutput 'DynamicRecovery-REPORT.md')
+Copy-Item -LiteralPath (Join-Path $taskRoot 'source/Modules/EntropyDynamicRecovery/README.md') -Destination (Join-Path $taskOutput 'DynamicRecovery-README.md')
+Copy-Item -LiteralPath (Join-Path $taskRoot 'source/Modules/EntropyDynamicRecovery/THIRD_PARTY_NOTICES.md') -Destination (Join-Path $taskOutput 'DynamicRecovery-THIRD_PARTY_NOTICES.md')
 New-Item -ItemType Directory -Path (Join-Path $taskOutput 'state') -Force | Out-Null
 $taskLauncher=@'
 @echo off

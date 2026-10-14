@@ -1,4 +1,4 @@
-# Dynamic Recovery candidate — Stage 2 MUSIC v0010
+# Dynamic Recovery stable source — Stage 2 MUSIC v0010
 
 ## Delivered
 
@@ -6,7 +6,7 @@ Local v0010 source archive: SHA-256 `fac90e5483f7c062b805afcdc4b786397adf5ce4808
 
 The new x64 MSVC DLL is `build/dynamic-recovery-msvc/EntropyDynamicRecovery.dll`, SHA-256 `84fbb4f7e2519eaaa13c68159fb596d44ffda2f0de9b8bde2b2d72de7573973d`. Faust 2.88.0 generated scalar FP64 C++ from `source/Modules/EntropyDynamicRecovery/Dsp/EntropyDynamicRecovery.dsp` using `faust -lang cpp -double -scal -cn EntropyDynamicRecoveryFaust -o Generated/EntropyDynamicRecoveryFaust.cpp Dsp/EntropyDynamicRecovery.dsp`. DSP source SHA-256: `30242eca71487a6feeaa01c1ea5067c52230a002e2cda6818fd20c763aea14cc`; generated C++: `ac80dc6a1bba252924c85150a30aa85a97b942135df72b78a66ab249224f0d10`. License/source notes: `source/Modules/EntropyDynamicRecovery/THIRD_PARTY_NOTICES.md`.
 
-The DLL uses the existing module ABI, 2 planar FP64 inputs → 2 outputs, 192 kHz / 1024 frames in this host, zero transport latency, linked L/R gain, no SRC or clipping. Transient and optional upward expansion have a default OFF master switch. The host inserts the active module after EQ on MUSIC L/R; Center keeps its independent raw tap, followed by existing LRC Alignment. An OFF or absent module skips the hook. The new Qt page occupies the prior reserved stereo slot, using the Stage 2 visual style. Control requests are validated and applied by the owner worker between blocks. Old profiles load with Dynamic Recovery OFF; new profiles store all 10 controls. The candidate package at `release/stage2-music-v0010-dynamic-recovery-candidate` includes a SHA-pinned optional DLL and executable SHA-256 `861c1b2872c757810e0b7af891eaa54d0597320b15441a4c904bd3fa8a237efe`.
+The DLL uses the existing module ABI, 2 planar FP64 inputs → 2 outputs, 192 kHz / 1024 frames in this host, zero transport latency, linked L/R gain, no SRC or clipping. Transient and optional upward expansion have a default OFF master switch. The host inserts the active module after EQ on MUSIC L/R; Center keeps its independent raw tap, followed by existing LRC Alignment. An OFF or absent module skips the hook. The new Qt page occupies the prior reserved stereo slot, using the Stage 2 visual style. Control requests are validated and applied by the owner worker between blocks. Old profiles load with Dynamic Recovery OFF; new profiles store all 10 controls. The stable package at `release/stage2-music-v0010-dynamic-recovery-stable` includes a SHA-pinned optional DLL and executable SHA-256 `861c1b2872c757810e0b7af891eaa54d0597320b15441a4c904bd3fa8a237efe`.
 
 ## Verification
 
@@ -19,4 +19,4 @@ Four inherited V1 demand tests (`DspBypassIdentity`, `DspCenterRoute`, `DspLrcRo
 
 ## Listening and rollback
 
-No physical DAC listening, Stage 3 Headroom observation, live underrun audit or musical A/B judgment was performed. Positive boost may produce FP64 samples above 0 dBFS; evaluate the existing Stage 3 limiter/headroom path during live audition. To revert, launch the untouched `../stage2-music-v0010` folder. Do not replace the stable runtime with this candidate before listening acceptance.
+The owner reports that the module works in a physical listening check and no artifacts have been found so far, and authorized a stable Git publication on 14 October 2026. This observation is not a logged Stage 3 Headroom measurement, live underrun audit or exhaustive musical A/B. Positive boost may produce FP64 samples above 0 dBFS. To revert, launch the untouched `../stage2-music-v0010` folder.

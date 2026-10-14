@@ -1,4 +1,19 @@
-# Stage2 MUSIC v0010 — LOAD / SAVE / auto-restore
+# Stage2 MUSIC v0010 — Dynamic Recovery stable
+
+Această ramură conține sursa Stage2 MUSIC v0010 confirmată local și modulul nou
+`EntropyDynamicRecovery.dll`. Lanțul L/R este EQ → Dynamic Recovery → LRC
+Alignment; Center continuă să primească L/R brut. Modulul este **OFF implicit**,
+inclusiv la încărcarea profilurilor vechi, iar pagina sa din graful Entropy oferă
+control pentru transient, upward expansion și wet mix.
+
+Pachetul Windows verificat este în
+`release/stage2-music-v0010-dynamic-recovery-stable`, generat cu
+`tools/Package-Stage2Music.ps1`. ZIP-ul cu același nume este atașat versiunii
+GitHub. Pentru sursa Faust, ABI, SHA și rezultatele testelor vezi `REPORT.md`
+și `source/Modules/EntropyDynamicRecovery/README.md`. Runtime-ul v0010 original
+nu este modificat.
+
+## Istoric: Stage2 MUSIC v0010 — LOAD / SAVE / auto-restore
 
 v0010 adaugă LOAD lângă SAVE și memorează calea ultimului profil salvat sau
 încărcat cu succes în `state/LastProfile.json`. La pornire citește fișierul
