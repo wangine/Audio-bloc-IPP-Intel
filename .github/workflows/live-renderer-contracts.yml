@@ -16,6 +16,17 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Parse delivery scripts without executing them
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          foreach ($name in @('Build-LiveV1.ps1','Start-LiveV1.ps1')) {
+            $tokens=$null; $errors=$null
+            $path=(Resolve-Path (Join-Path 'RendererLive' $name)).Path
+            $null=[System.Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$errors)
+            if ($errors.Count) { $errors | Format-List; throw "PowerShell parse failure: $name" }
+          }
+          Write-Host 'Windows PowerShell delivery syntax PASS; scripts were not executed.'
       - name: Configure isolated contracts (no IPP, no devices)
         run: cmake -S RendererLive/tests -B build-live-contracts -DCMAKE_BUILD_TYPE=Release
       - name: Compile

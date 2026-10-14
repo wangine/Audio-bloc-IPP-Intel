@@ -1,0 +1,31 @@
+Cockos WDL resampler
+Upstream: https://github.com/justinfrankel/WDL
+Pinned source: 2b260b915f8ca7cb7859b9c0b7ba7e48b166f0af
+
+Entropy's RendererLive/Wdl.cmake creates a marked source adaptation in the build
+directory: a fixed 0.97 low-pass cutoff for near-unity drift and disabled dynamic
+ideal-grid selection. Sample and filter types are double. The original WDL
+software is by Cockos, not Entropy. This modified integration is not upstream WDL.
+
+Original notice from WDL/resample.h:
+
+    WDL - resample.h
+    Copyright (C) 2010 and later Cockos Incorporated
+
+    This software is provided 'as-is', without any express or implied
+    warranty.  In no event will the authors be held liable for any damages
+    arising from the use of this software.
+
+    Permission is granted to anyone to use this software for any purpose,
+    including commercial applications, and to alter it and redistribute it
+    freely, subject to the following restrictions:
+
+    1. The origin of this software must not be misrepresented; you must not
+       claim that you wrote the original software. If you use this software
+       in a product, an acknowledgment in the product documentation would be
+       appreciated but is not required.
+    2. Altered source versions must be plainly marked as such, and must not be
+       misrepresented as being the original software.
+    3. This notice may not be removed or altered from any source distribution.
+
+    You may also distribute this software under the LGPL v2 or later.
