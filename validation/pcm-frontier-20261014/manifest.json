@@ -1,0 +1,294 @@
+{
+  "schema": "entropy-stage-a-pcm-frontier-manifest-v1",
+  "generated_utc": "2026-10-14T14:25:01.868077+00:00",
+  "scope": "Tidal live 24/96 loop, passive StagePublish V2, Stage1 r7 offline r8brain integration reference; no DAC test",
+  "source_checkout": {
+    "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\source",
+    "branch": "chatgpt/stage3-audio-recovery-20261013",
+    "head": "a016495d9dc1cffa3cb3e1e46063f57801727667",
+    "worktree_clean": true
+  },
+  "reference_raw_pcm24_le_stereo_sha256": "9f6a8741f11cf692f124d673f05ae07a13f1814da0282c58b37c0fb859d68f1e",
+  "external_inputs_and_binaries": {
+    "reference_flac": {
+      "path": "C:\\Users\\bobi\\Downloads\\Entropy_TIDAL_Diagnostic_24bit_96000Hz.flac",
+      "bytes": 5960471,
+      "sha256": "5d3bd26bda03b6b9617c50a17fc3069fc9bc09a36457acd7ef57f4ae227e341c"
+    },
+    "architecture_contract_zip": {
+      "path": "C:\\Users\\bobi\\Downloads\\ENTROPY-ARHITECTURA-SI-TESTE-PCM.zip",
+      "bytes": 12724,
+      "sha256": "9aa81af487d378573f7a64b02182c8e4ccf63d235dbc92187ecc36184724c0fa"
+    },
+    "stage1_core": {
+      "path": "D:\\Projects\\3Stage-3\\Stage1-v0003\\release\\stage1-native-music-v0003-r7\\core\\EntropyMusicSourceCore.exe",
+      "bytes": 212992,
+      "sha256": "21feffbc6e3f4caaf2ab58cb1fb5c272641c04672494420d4bbd9c13dfce3a7e"
+    },
+    "stage1_raw_provider": {
+      "path": "D:\\Projects\\3Stage-3\\Stage1-v0003\\release\\stage1-native-music-v0003-r7\\core\\providers\\EntropyMusicRawProviderV2.dll",
+      "bytes": 38400,
+      "sha256": "3329d657956a42a6e83c28850ee457d1a3a9bf9ac327955825621732b6c4b0de"
+    },
+    "stage1_r7_src_source": {
+      "path": "D:\\Projects\\3Stage-3\\Stage1-v0003\\delivery\\r7-verified-local\\stage1-native-music-v0003-r7-source\\ThirdParty\\NativeSrc\\Modules\\SRC\\src\\MultiChannelSrcEngine.cpp",
+      "bytes": 8036,
+      "sha256": "7faae157b71bd23d8d1012a7962126662d000aee673ef3dcf52c14161fce7c0a"
+    },
+    "stage2_engine": {
+      "path": "D:\\Projects\\Entropy_Stage3_Expander\\candidate-v0010\\release\\stage2-music-v0010-dynamic-recovery-candidate\\EntropyDspEngine.exe",
+      "bytes": 926047,
+      "sha256": "861c1b2872c757810e0b7af891eaa54d0597320b15441a4c904bd3fa8a237efe"
+    },
+    "stage3_r3_core": {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\live\\R3-64k\\runtime\\EntropyAudioCore.exe",
+      "bytes": 5284864,
+      "sha256": "e915d0080baf555e35f209bba68133a70aebaa0b47c0f726cd4c1a4ab0f16c73"
+    },
+    "passive_capture_tool": {
+      "path": "D:\\Projects\\3Stage-3\\Diagnostics\\Exclusive-RealChain-20261012\\tools\\PassiveCapture.exe",
+      "bytes": 2659014,
+      "sha256": "62c5296ca6d144fbe23383f420a6d61f4c46130891607bbb7c66ecab3e0e51d7"
+    }
+  },
+  "outputs": [
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\FRONTIER-REPORT.md",
+      "bytes": 9920,
+      "sha256": "b2408a06b02e6b3cefd772eb296ddd8c2e9aae85faadc9c5c2dcb18bac602872"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\reference-24-96.wav",
+      "bytes": 31104044,
+      "sha256": "505d7166231da2d7ab204aeeb5c53cf900893eb51dce7ed1da93e7f824768468"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\offline-r8brain-fp64.bin",
+      "bytes": 165888008,
+      "sha256": "35af93aa0af5250b79ad3d759faf7e131e306ebd44c5b5d3c08d16ecf143362f"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\stage1-fp64.bin",
+      "bytes": 418300280,
+      "sha256": "a5a539fc39511017ad59b2520caa403eed7e16303f13f3a482deef4699f31cd0"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\stage2-fp64.bin",
+      "bytes": 422797864,
+      "sha256": "737dad1df5d0f2236219caa954c46d501e10254041acd4c51470d2beea89c051"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\analysis.json",
+      "bytes": 4035,
+      "sha256": "e3edabf9a958272a086279324d8b7712bc5ff85508661b25611ea44eb192449f"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\reference-comparison.json",
+      "bytes": 2594,
+      "sha256": "dea26e4ed74e1e9c5147df909f540bff3f885d1df616770fc42e0c4a0069b646"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\first-bit-difference-window.json",
+      "bytes": 2836,
+      "sha256": "ed011b3589c9bcb9ed3074ee060a993ddd542224ce075cde0805f46d2f34d43c"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\analyze_pcm.py",
+      "bytes": 9451,
+      "sha256": "ecc34f573a0ff4f8ff1a18cfb91bfb5f7c6bd9e4d0f00515f97adb3cedae06d2"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\compare_reference.py",
+      "bytes": 9964,
+      "sha256": "6456677faa15cc252083196253cc60dd0d431c44849706b2cbb281166cf87b49"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\make_manifest.py",
+      "bytes": 4516,
+      "sha256": "77f6720ad2fdb4f7c0c2b7495efc831f15cd39cda4e590d3fa72c865d346ef1b"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\verify_artifacts.py",
+      "bytes": 2813,
+      "sha256": "e0de9a71c327e1f36899143a161d4a5eaaa791a91a1c9df3922c8c9994b8e66f"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\offline_ref\\CMakeLists.txt",
+      "bytes": 749,
+      "sha256": "16665abbcc5e70f88d872d17e1860f57f9dae2d23aae406704c7abe24c7ec352"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\offline_ref\\build.cmd",
+      "bytes": 458,
+      "sha256": "a82b30f52764ae148308973397229b76ceff2db6c067db488bbe817891a23601"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\offline_ref\\offline_ref.cpp",
+      "bytes": 5953,
+      "sha256": "21b1c0cb2afe7e5373786dec2cbd12900167670b38f81e1ea95731fa3960cf2c"
+    },
+    {
+      "path": "D:\\Projects\\Entropy-Stage3-Recovery-20261013\\pcm-frontier-20261014\\offline_ref\\build\\offline_ref.exe",
+      "bytes": 102400,
+      "sha256": "e29e4ab1b8f3dddabfcbd78af3841e82fb142af7df30fec6e6b2f10f872cffd0"
+    }
+  ],
+  "capture_terminal": {
+    "stage1": {
+      "requested_seconds": 112,
+      "records": 16927,
+      "empty_polls": 5859,
+      "terminal_enum": 2,
+      "terminal_name": "Gap",
+      "qpc_frequency_hz": 10000000
+    },
+    "stage2": {
+      "requested_seconds": 112,
+      "records": 17109,
+      "empty_polls": 5919,
+      "terminal_enum": 2,
+      "terminal_name": "Gap",
+      "qpc_frequency_hz": 10000000
+    }
+  },
+  "stage1_session": {
+    "magic_hex": "3153554247545345",
+    "abi_hex": "00010000",
+    "header_bytes": 256,
+    "session_id": "8c3f090d82fb3d44bea94310bbeca243",
+    "layout_id": 3,
+    "channels": 2,
+    "sample_rate": 192000,
+    "sample_format": 1,
+    "planar": 1,
+    "frames_per_block": 1024,
+    "capacity": 4,
+    "block_header_bytes": 128,
+    "plane_stride": 8192,
+    "slot_stride": 16512,
+    "slots_offset": 4096,
+    "mapping_bytes": 70144,
+    "qpc_frequency": 10000000,
+    "producer_pid": 6376
+  },
+  "stage2_session": {
+    "magic_hex": "3153554247545345",
+    "abi_hex": "00010000",
+    "header_bytes": 256,
+    "session_id": "8c3f090d82fb3d44bea94310bbeca243",
+    "layout_id": 4,
+    "channels": 3,
+    "sample_rate": 192000,
+    "sample_format": 1,
+    "planar": 1,
+    "frames_per_block": 1024,
+    "capacity": 4,
+    "block_header_bytes": 128,
+    "plane_stride": 8192,
+    "slot_stride": 24704,
+    "slots_offset": 4096,
+    "mapping_bytes": 102912,
+    "qpc_frequency": 10000000,
+    "producer_pid": 19200
+  },
+  "comparison": {
+    "stage1_to_stage2_lr": {
+      "declared_lr_delay_samples": 2662,
+      "matched_blocks": 16924,
+      "missing_or_unmatched_blocks": 185,
+      "header_first_frame_mismatches_first_20": [],
+      "compared_samples_per_channel": 17330176,
+      "bit_mismatches": {
+        "L": 0,
+        "R": 0
+      },
+      "max_abs_error": {
+        "L": 0.0,
+        "R": 0.0
+      },
+      "rms_error": {
+        "L": 0.0,
+        "R": 0.0
+      },
+      "first_difference": null
+    },
+    "reference_to_stage1_alignment": {
+      "method": "bitwise anchors resolved by unique dense-stereo section",
+      "exact_anchor_offsets": [
+        -131584,
+        60416,
+        252416,
+        444416,
+        636416,
+        828416,
+        1020416,
+        10236416,
+        10428416,
+        10620416,
+        10812416,
+        11004416,
+        11196416,
+        11388416
+      ],
+      "dense_stereo_bit_mismatches_by_offset": {
+        "-131584": 384000,
+        "60416": 384000,
+        "252416": 384000,
+        "444416": 0,
+        "636416": 384000,
+        "828416": 384000,
+        "1020416": 384000
+      },
+      "coarse_envelope_correlation": 0.9989348590719899,
+      "offset": 444416
+    },
+    "reference_to_stage1_sync_markers": {
+      "L_997Hz_sync": {
+        "reference_frame_range": [
+          38400,
+          115200
+        ],
+        "live_frame_range": [
+          482816,
+          559616
+        ],
+        "numeric_differences": 0,
+        "max_abs_error": 0.0
+      },
+      "R_1237Hz_sync": {
+        "reference_frame_range": [
+          172800,
+          249600
+        ],
+        "live_frame_range": [
+          617216,
+          694016
+        ],
+        "numeric_differences": 0,
+        "max_abs_error": 0.0
+      }
+    },
+    "reference_to_stage1_summary": {
+      "offset_live_minus_reference_frames": 444416,
+      "reference_start_frame": 0,
+      "compared_frames": 10368000,
+      "compared_seconds": 54.0,
+      "L": {
+        "different_samples": 1139946,
+        "signed_zero_only_differences": 1139946,
+        "other_bit_differences": 0,
+        "max_abs_error": 0.0,
+        "rms_error": 0.0,
+        "gain_estimate_read_only": 1.0
+      },
+      "R": {
+        "different_samples": 1139948,
+        "signed_zero_only_differences": 1139948,
+        "other_bit_differences": 0,
+        "max_abs_error": 0.0,
+        "rms_error": 0.0,
+        "gain_estimate_read_only": 1.0
+      }
+    }
+  }
+}

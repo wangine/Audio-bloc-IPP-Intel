@@ -1,0 +1,143 @@
+{
+  "schema": "entropy-pcm-frontier-analysis-v1",
+  "stage1": {
+    "session": {
+      "magic_hex": "3153554247545345",
+      "abi_hex": "00010000",
+      "header_bytes": 256,
+      "session_id": "8c3f090d82fb3d44bea94310bbeca243",
+      "layout_id": 3,
+      "channels": 2,
+      "sample_rate": 192000,
+      "sample_format": 1,
+      "planar": 1,
+      "frames_per_block": 1024,
+      "capacity": 4,
+      "block_header_bytes": 128,
+      "plane_stride": 8192,
+      "slot_stride": 16512,
+      "slots_offset": 4096,
+      "mapping_bytes": 70144,
+      "qpc_frequency": 10000000,
+      "producer_pid": 6376
+    },
+    "records": 16927,
+    "frames_recorded": 17333248,
+    "duration_pcm_seconds": 90.27733333333333,
+    "first_sequence": 12228188,
+    "last_sequence": 12245114,
+    "first_frame": 12521663488,
+    "last_first_frame": 12538995712,
+    "first_epoch": 1,
+    "last_epoch": 1,
+    "first_source_generation_music": 217,
+    "last_source_generation_music": 217,
+    "first_music_session_revision": 4,
+    "last_music_session_revision": 4,
+    "sequence_breaks": [],
+    "frame_breaks": [],
+    "epoch_changes": [],
+    "music_generation_changes": [],
+    "music_revision_changes": [],
+    "validity_mask_counts": {
+      "3": 16927
+    },
+    "discontinuity_mask_counts": {
+      "0": 16927
+    },
+    "source_rate_music_counts": {
+      "96000": 16927
+    },
+    "receive_qpc_first": 708589227688,
+    "receive_qpc_last": 709491955531,
+    "producer_qpc_first": 708589226714,
+    "producer_qpc_last": 709491932743
+  },
+  "stage2": {
+    "session": {
+      "magic_hex": "3153554247545345",
+      "abi_hex": "00010000",
+      "header_bytes": 256,
+      "session_id": "8c3f090d82fb3d44bea94310bbeca243",
+      "layout_id": 4,
+      "channels": 3,
+      "sample_rate": 192000,
+      "sample_format": 1,
+      "planar": 1,
+      "frames_per_block": 1024,
+      "capacity": 4,
+      "block_header_bytes": 128,
+      "plane_stride": 8192,
+      "slot_stride": 24704,
+      "slots_offset": 4096,
+      "mapping_bytes": 102912,
+      "qpc_frequency": 10000000,
+      "producer_pid": 19200
+    },
+    "records": 17109,
+    "frames_recorded": 17519616,
+    "duration_pcm_seconds": 91.248,
+    "first_sequence": 12228006,
+    "last_sequence": 12245114,
+    "first_frame": 12521477120,
+    "last_first_frame": 12538995712,
+    "first_epoch": 1,
+    "last_epoch": 1,
+    "first_source_generation_music": 217,
+    "last_source_generation_music": 217,
+    "first_music_session_revision": 4,
+    "last_music_session_revision": 4,
+    "sequence_breaks": [],
+    "frame_breaks": [],
+    "epoch_changes": [],
+    "music_generation_changes": [],
+    "music_revision_changes": [],
+    "validity_mask_counts": {
+      "3": 17109
+    },
+    "discontinuity_mask_counts": {
+      "0": 17109
+    },
+    "source_rate_music_counts": {
+      "96000": 17109
+    },
+    "receive_qpc_first": 708579576551,
+    "receive_qpc_last": 709491955641,
+    "producer_qpc_first": 708579505012,
+    "producer_qpc_last": 709491932743
+  },
+  "stage1_to_stage2_lr": {
+    "declared_lr_delay_samples": 2662,
+    "matched_blocks": 16924,
+    "missing_or_unmatched_blocks": 185,
+    "header_first_frame_mismatches_first_20": [],
+    "compared_samples_per_channel": 17330176,
+    "bit_mismatches": {
+      "L": 0,
+      "R": 0
+    },
+    "max_abs_error": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "rms_error": {
+      "L": 0.0,
+      "R": 0.0
+    },
+    "first_difference": null
+  },
+  "files": {
+    "stage1-fp64.bin": {
+      "bytes": 418300280,
+      "sha256": "a5a539fc39511017ad59b2520caa403eed7e16303f13f3a482deef4699f31cd0"
+    },
+    "stage2-fp64.bin": {
+      "bytes": 422797864,
+      "sha256": "737dad1df5d0f2236219caa954c46d501e10254041acd4c51470d2beea89c051"
+    },
+    "reference-24-96.wav": {
+      "bytes": 31104044,
+      "sha256": "505d7166231da2d7ab204aeeb5c53cf900893eb51dce7ed1da93e7f824768468"
+    }
+  }
+}

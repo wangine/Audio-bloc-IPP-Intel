@@ -1,0 +1,115 @@
+{
+  "schema": "entropy-stage1-reference-integration-v1",
+  "source": "Stage1 r7 MultiChannelSrcEngine.cpp and bundled r8brain 7.3; WAV PCM24 decoded to FP64",
+  "reference_frames": 10368000,
+  "live_frames": 17333248,
+  "alignment": {
+    "method": "bitwise anchors resolved by unique dense-stereo section",
+    "exact_anchor_offsets": [
+      -131584,
+      60416,
+      252416,
+      444416,
+      636416,
+      828416,
+      1020416,
+      10236416,
+      10428416,
+      10620416,
+      10812416,
+      11004416,
+      11196416,
+      11388416
+    ],
+    "dense_stereo_bit_mismatches_by_offset": {
+      "-131584": 384000,
+      "60416": 384000,
+      "252416": 384000,
+      "444416": 0,
+      "636416": 384000,
+      "828416": 384000,
+      "1020416": 384000
+    },
+    "coarse_envelope_correlation": 0.9989348590719899,
+    "offset": 444416
+  },
+  "comparison": {
+    "offset_live_minus_reference_frames": 444416,
+    "reference_start_frame": 0,
+    "compared_frames": 10368000,
+    "compared_seconds": 54.0,
+    "L": {
+      "different_samples": 1139946,
+      "signed_zero_only_differences": 1139946,
+      "other_bit_differences": 0,
+      "max_abs_error": 0.0,
+      "rms_error": 0.0,
+      "gain_estimate_read_only": 1.0
+    },
+    "R": {
+      "different_samples": 1139948,
+      "signed_zero_only_differences": 1139948,
+      "other_bit_differences": 0,
+      "max_abs_error": 0.0,
+      "rms_error": 0.0,
+      "gain_estimate_read_only": 1.0
+    },
+    "first_difference": {
+      "reference_frame": 1,
+      "live_capture_frame": 444417,
+      "channel": "L",
+      "window_reference": [
+        0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0,
+        -0.0,
+        0.0,
+        -0.0
+      ],
+      "window_live": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "first_stage1_sequence": 12228188,
+  "first_stage1_frame": 12521663488,
+  "sync_marker_checks": {
+    "L_997Hz_sync": {
+      "reference_frame_range": [
+        38400,
+        115200
+      ],
+      "live_frame_range": [
+        482816,
+        559616
+      ],
+      "numeric_differences": 0,
+      "max_abs_error": 0.0
+    },
+    "R_1237Hz_sync": {
+      "reference_frame_range": [
+        172800,
+        249600
+      ],
+      "live_frame_range": [
+        617216,
+        694016
+      ],
+      "numeric_differences": 0,
+      "max_abs_error": 0.0
+    }
+  }
+}
