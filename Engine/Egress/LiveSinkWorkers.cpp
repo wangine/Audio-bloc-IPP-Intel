@@ -210,7 +210,7 @@ struct LiveSinkWorkers::Impl {
    t["preparationWallUs"]=d.prepareUs.load();t["maximumPreparationWallUs"]=d.maxPrepareUs.load();t["callbackWallScope"]="Prepared PCM copy/submit/accounting only; ASRC and PCM24 on separate preparation owner";
    t["softwareAlignmentVerified"]=false;t["analogSkewMeasured"]=false;t["estimatedABDifferenceFrames"]=0.0;t["abDifferenceAvailable"]=false;t["presentationQpc100ns"]=J::u64(0);t["commonPresentationQpc100ns"]=J::u64(0);t["audiblePresentationQpc100ns"]=J::u64(0);t["mappingCoherent"]=false;t["firstGraphFrame"]=d.firstGraph.load();t["endGraphFrame"]=d.endGraph.load();t["epoch"]=J::u64(d.core.input.epoch());
    t["streamLatency100ns"]=J::u64(uint64_t(d.quantum.load())*10000000/192000);t["streamLatencyValid"]=false;t["originalClockCalibrated"]=false;t["nonzeroPcmBlocks"]=J::u64(0);t["nonzeroCounterAvailable"]=false;
-   t["pcmDitherMode"]=pcm.dither_mode;t["pcmSeedMode"]=pcm.seed_mode;t["pcmFaults"]=pcm.fault_flags;t["pcmProcessedFrames"]=J::u64(pcm.processed_frames);t["pcmOverrangeSamples"]=pcm.overrange_sample_count;t["pcmRailClampSamples"]=J::u64(pcm.reserved[0]);t["pcmClippedBlocks"]=J::u64(pcm.reserved[2]);t["pcmNonfiniteSamples"]=J::u64(pcm.nonfinite_sample_count);
+   t["pcmDitherMode"]=pcm.dither_mode;t["pcmSeedMode"]=pcm.seed_mode;t["pcmFaults"]=pcm.fault_flags;t["pcmProcessedFrames"]=J::u64(pcm.processed_frames);t["pcmOverrangeSamples"]=J::u64(pcm.overrange_sample_count);t["pcmRailClampSamples"]=J::u64(pcm.reserved[0]);t["pcmClippedBlocks"]=J::u64(pcm.reserved[2]);t["pcmNonfiniteSamples"]=J::u64(pcm.nonfinite_sample_count);
   }return out;
  }
 };
