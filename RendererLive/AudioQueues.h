@@ -4,12 +4,9 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
-#include <limits>
 #include <vector>
-
 namespace entropy::live {
-// Exactly one Graph writer and one preparation reader. Reinitialization requires
-// both owners stopped. Diagnostics only read atomics, never PCM storage.
+// One Graph writer, one preparation reader. Reset/prepare only while quiescent.
 class AudioQueue final {
 public:
  bool prepare(unsigned channels,unsigned capacity) {
@@ -29,7 +26,8 @@ public:
   nextFrame_=first+frames;write_.store(w+frames,std::memory_order_release);return true;
  }
  bool popInterleaved(double* dst,unsigned frames) noexcept {
-  if(!dst||frames>capacity_)return false;if(!frames)return true;
+  if(!dst||frames>capacity_)return false;
+  if(!frames)return true;
   const auto r=read_.load(std::memory_order_relaxed),w=write_.load(std::memory_order_acquire);
   if(w<r||frames>w-r)return false;
   for(unsigned f=0;f<frames;++f)for(unsigned c=0;c<channels_;++c)
@@ -52,32 +50,34 @@ private:
  alignas(64) std::atomic<uint64_t> read_{0};
  std::atomic<uint64_t> base_{0},epoch_{0};uint64_t nextFrame_=0;bool haveOrigin_=false;
 };
-
-struct ReadyPacket {
- std::vector<uint8_t> bytes;unsigned frames=0;double sourceBegin=0,sourceEnd=0;
-};
-// Exactly one preparation writer and one sink reader. A failed device submit
-// retains the same packet. read advances ONLY after successful ReleaseBuffer.
+struct ReadyPacket {std::vector<uint8_t> bytes;unsigned frames=0;double sourceBegin=0,sourceEnd=0;};
+// A packet stays pinned until successful device submission and explicit commit.
 class ReadyQueue final {
 public:
  bool prepare(unsigned channels,unsigned containerBits,unsigned maxFrames,unsigned slots=4) {
   if(!channels||channels>16||(containerBits!=24&&containerBits!=32)||!maxFrames||maxFrames>4096||slots<3||slots>16)return false;
   packets_.resize(slots);for(auto& p:packets_){p.bytes.assign(size_t(channels)*(containerBits/8)*maxFrames,0);p.frames=0;p.sourceBegin=p.sourceEnd=0;}
-  slots_=slots;write_=0;read_=0;writing_=reading_=nullptr;return true;
+  slots_=slots;write_=0;read_=0;writing_=nullptr;reading_=nullptr;return true;
  }
  ReadyPacket* beginWrite() noexcept {
-  if(writing_)return writing_;const auto w=write_.load(std::memory_order_relaxed),r=read_.load(std::memory_order_acquire);
-  if(w-r>=slots_)return nullptr;writing_=&packets_[size_t(w%slots_)];return writing_;
+  if(writing_)return writing_;
+  const auto w=write_.load(std::memory_order_relaxed),r=read_.load(std::memory_order_acquire);
+  if(w-r>=slots_)return nullptr;
+  writing_=&packets_[size_t(w%slots_)];return writing_;
  }
  bool commitWrite() noexcept {
-  if(!writing_)return false;writing_=nullptr;write_.fetch_add(1,std::memory_order_release);return true;
+  if(!writing_)return false;
+  writing_=nullptr;write_.fetch_add(1,std::memory_order_release);return true;
  }
  const ReadyPacket* beginRead() noexcept {
-  if(reading_)return reading_;const auto r=read_.load(std::memory_order_relaxed),w=write_.load(std::memory_order_acquire);
-  if(w==r)return nullptr;reading_=&packets_[size_t(r%slots_)];return reading_;
+  if(reading_)return reading_;
+  const auto r=read_.load(std::memory_order_relaxed),w=write_.load(std::memory_order_acquire);
+  if(w==r)return nullptr;
+  reading_=&packets_[size_t(r%slots_)];return reading_;
  }
  bool commitRead() noexcept {
-  if(!reading_)return false;reading_=nullptr;read_.fetch_add(1,std::memory_order_release);return true;
+  if(!reading_)return false;
+  reading_=nullptr;read_.fetch_add(1,std::memory_order_release);return true;
  }
  unsigned size() const noexcept {
   const auto r=read_.load(std::memory_order_acquire),w=write_.load(std::memory_order_acquire);

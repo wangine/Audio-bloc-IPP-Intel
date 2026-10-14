@@ -1,318 +1,241 @@
 #include "LiveSinkWorkers.h"
-#include "Engine/Diagnostics/ChainAudit.h"
-#include "PresentationContract.h"
-#include <entropy/dac/WasapiDacSink.h>
+#include "RendererLive/DomainCore.h"
+#include "RendererLive/WasapiOutput.h"
 #include <windows.h>
 #include <avrt.h>
+#include <bcrypt.h>
 #include <algorithm>
+#include <atomic>
+#include <chrono>
 #include <cstring>
-#ifndef ENTROPY_LIVE_FIFO_FRAMES
-#define ENTROPY_LIVE_FIFO_FRAMES 32768
-#endif
+#include <stdexcept>
+#include <thread>
 namespace entropy::control {
 namespace {
-uint64_t host100ns() noexcept {LARGE_INTEGER q{},f{};QueryPerformanceCounter(&q);QueryPerformanceFrequency(&f);return uint64_t(static_cast<long double>(q.QuadPart)*10000000/f.QuadPart);}
-class WasapiAdapter final:public egress_host::Sink {
- entropy::dac::WasapiDacSink sink_;
+struct Event {
+ HANDLE value=nullptr;
+ explicit Event(bool manual=false){value=CreateEventW(nullptr,manual?TRUE:FALSE,FALSE,nullptr);if(!value)throw std::runtime_error("Renderer event creation failed");}
+ ~Event(){if(value)CloseHandle(value);}Event(const Event&)=delete;Event& operator=(const Event&)=delete;
+};
+struct Priority {
+ HANDLE value=nullptr;
+ explicit Priority(AVRT_PRIORITY priority){DWORD task=0;value=AvSetMmThreadCharacteristicsW(L"Pro Audio",&task);if(!value)throw std::runtime_error("MMCSS registration failed");if(!AvSetMmThreadPriority(value,priority)){AvRevertMmThreadCharacteristics(value);value=nullptr;throw std::runtime_error("MMCSS priority failed");}}
+ ~Priority(){if(value)AvRevertMmThreadCharacteristics(value);}
+};
+// Retains the existing injectable sink contract, not its old implementation.
+class PreparedWasapiAdapter final:public egress_host::Sink {
+ live::WasapiOutput output_;void* cancel_=nullptr;EntropyDacSinkConfig config_{};unsigned state_=ENTROPY_DAC_SINK_CLOSED;
 public:
- void setCancelEvent(void* e) noexcept override {sink_.setCancelEvent(e);}
- egress_host::SinkTiming timing() const noexcept override {return {sink_.clockFrequency(),sink_.streamLatency100ns(),sink_.freshClock(),sink_.precisePositionFrames(),sink_.latencyValid()};}
- EntropyResult open(const EntropyDacSinkConfig& c) override{return sink_.open(c);}
- EntropyResult start() noexcept override{return sink_.start();}
- EntropyResult wait(EntropyDacSinkBufferRequest& r) noexcept override{return sink_.waitBuffer(r);}
- EntropyResult submit(EntropyDacSinkPcmBlock& b) noexcept override{return sink_.submit(b);}
- EntropyDacSinkStatus status() const noexcept override{return sink_.status();}
- void stop() noexcept override{sink_.stop();}
- void close() noexcept override{sink_.close();}
+ void setCancelEvent(void* c) noexcept override{cancel_=c;}
+ EntropyResult open(const EntropyDacSinkConfig& c) override {
+  config_=c;output_.open({c.endpoint_id_utf8,c.channels,c.output_format,c.requested_buffer_frames});state_=ENTROPY_DAC_SINK_OPEN;return ENTROPY_OK;
+ }
+ EntropyResult start() noexcept override{if(!output_.start())return ENTROPY_ERROR_PROCESSING;state_=ENTROPY_DAC_SINK_RUNNING;return ENTROPY_OK;}
+ EntropyResult wait(EntropyDacSinkBufferRequest& request) noexcept override {
+  if(output_.wait(cancel_,request.timeout_ms)!=live::WasapiOutput::Wait::Ready)return ENTROPY_ERROR_PROCESSING;
+  const auto o=output_.observation();request.frames=o.quantum;request.bytes=o.quantum*config_.channels*(config_.output_format?4:3);request.device_position_frames=o.position;request.device_qpc_position=o.qpc100ns;return ENTROPY_OK;
+ }
+ EntropyResult submit(EntropyDacSinkPcmBlock& block) noexcept override {
+  block.accepted_frames=0;if(!output_.submit(block.data,block.frames,block.byte_count))return ENTROPY_ERROR_PROCESSING;block.accepted_frames=block.frames;return ENTROPY_OK;
+ }
+ EntropyDacSinkStatus status() const noexcept override {
+  const auto o=output_.observation();EntropyDacSinkStatus s{};s.struct_size=sizeof(s);s.state=state_;s.last_driver_result=o.lastResult;s.applied_revision=config_.revision;
+  s.sample_rate=192000;s.channels=config_.channels;s.output_format=config_.output_format;s.buffer_frames=o.quantum;s.block_alignment_bytes=config_.channels*(config_.output_format?4:3);
+  s.submitted_frames=o.submitted;s.rendered_buffers=o.quantum?o.submitted/o.quantum:0;s.xrun_count=o.timeouts;s.timeout_count=o.timeouts;s.device_position_frames=o.position;s.device_qpc_position=o.qpc100ns;return s;
+ }
+ egress_host::SinkTiming timing() const noexcept override {const auto o=output_.observation();return {o.clockFrequency,uint64_t(o.quantum)*10000000/192000,o.clockValid,double(o.position),false};}
+ void stop() noexcept override{output_.stop();if(state_!=ENTROPY_DAC_SINK_CLOSED)state_=ENTROPY_DAC_SINK_OPEN;}
+ void close() noexcept override{output_.stop();state_=ENTROPY_DAC_SINK_CLOSED;}
 };
 }
-LiveSinkWorkers::LiveSinkWorkers(Factory f,bool calibrate):factory_(std::move(f)),calibrateClock_(calibrate) {
- if(!factory_&&!calibrateClock_)throw std::invalid_argument("Physical sinks require original clock calibration");
- for(auto& e:cancel_){e=CreateEventW(nullptr,TRUE,FALSE,nullptr);if(!e){for(auto h:cancel_)if(h)CloseHandle(HANDLE(h));throw std::runtime_error("DAC cancellation event unavailable");}}
-}
-LiveSinkWorkers::~LiveSinkWorkers(){stop();for(auto e:cancel_)CloseHandle(HANDLE(e));}
-uint32_t LiveSinkWorkers::renderLaneMask(const std::array<LiveDomain,2>& domains) noexcept {
- uint32_t mask=0;for(const auto& domain:domains)if(domain.enabled)
-  for(unsigned channel=0;channel<domain.channels&&channel<16;++channel)if(domain.lanes[channel]<16)mask|=1u<<domain.lanes[channel];
- return mask;
-}
-std::array<LiveDomain,2> LiveSinkWorkers::decode(const ipc::Value& v){
- std::array<LiveDomain,2> result{};auto& list=v.asArray();if(list.size()>2)throw std::invalid_argument("At most DAC A/B");
- for(unsigned i=0;i<list.size();++i){auto& d=result[i];auto& j=list[i];d.enabled=j.at("enabled").asBool();if(!d.enabled)continue;
-  d.endpoint=j.at("endpoint").asString();d.logicalId=j.at("logicalId").asString();d.channels=j.at("channels").asUnsigned(16);d.format=j.at("format").asUnsigned(1);
-  if(j.at("rate").asUnsigned()!=192000||j.at("lanes").asArray().size()!=d.channels)throw std::invalid_argument("Exact 192 kHz channel mapping required");
-  for(unsigned c=0;c<d.channels;++c)d.lanes[c]=j.at("lanes").asArray()[c].asUnsigned(15);
+struct LiveSinkWorkers::Impl {
+ struct Domain {
+  LiveDomain config;live::DomainCore core;Event work,ready;
+  std::thread sinkOwner,prepareOwner;
+  std::atomic<bool> stopped{false},failureClaimed{false},open{false},running{false},done{true},mmcss{false};
+  std::atomic<unsigned> flags{0},quantum{0},target{8192},sinkState{ENTROPY_DAC_SINK_CLOSED};
+  std::array<char,384> detail{};
+  std::atomic<uint64_t> callbacks{0},submitted{0},position{0},qpc{0},clockFrequency{0},timeouts{0},xruns{0},misses{0},mappingVersion{0};
+  std::atomic<double> callbackUs{0},maxCallbackUs{0},prepareUs{0},maxPrepareUs{0},waitUs{0},firstGraph{0},endGraph{0};
+  std::atomic<int> driverResult{0};std::atomic<bool> clockValid{false};
+ };
+ struct Session {std::array<Domain,2> domains;unsigned configuredMask=0;std::atomic<unsigned> failedMask{0};std::atomic<bool> stopped{false},sourceHold{false};};
+ Factory factory;std::array<Event,2> cancel{Event(true),Event(true)};
+ std::unique_ptr<Session> session;
+ std::atomic<Session*> requested{nullptr};Session* attached=nullptr;
+ std::atomic<uint64_t> request{0},ack{0};
+ std::atomic<bool> graphRunning{false},enabled{false},fault{false};
+ std::atomic<unsigned> runningMask{0};bool prepared=false;uint64_t legacyFrame=0;double ticksPerMicrosecond=1;
+ explicit Impl(Factory f):factory(std::move(f)){LARGE_INTEGER hz{};QueryPerformanceFrequency(&hz);if(hz.QuadPart<=0)throw std::runtime_error("QPC frequency unavailable");ticksPerMicrosecond=double(hz.QuadPart)/1e6;}
+ ~Impl(){stop();}
+ double ticks() const noexcept {LARGE_INTEGER t{};QueryPerformanceCounter(&t);return double(t.QuadPart);}
+ bool detached() const noexcept {return !graphRunning.load(std::memory_order_acquire)||ack.load(std::memory_order_acquire)==request.load(std::memory_order_acquire);}
+ bool canceled(const Session& s,unsigned slot) const noexcept {return s.stopped.load(std::memory_order_acquire)||s.domains[slot].stopped.load(std::memory_order_acquire)||WaitForSingleObject(cancel[slot].value,0)==WAIT_OBJECT_0;}
+ void fail(Session& s,unsigned slot,unsigned reason,const char* message) noexcept {
+  auto& d=s.domains[slot];bool expected=false;
+  if(d.failureClaimed.compare_exchange_strong(expected,true,std::memory_order_acq_rel)){
+   size_t n=0;if(message)while(n+1<d.detail.size()&&message[n]){d.detail[n]=message[n];++n;}d.detail[n]=0;
+   d.flags.store(reason?reason:egress_host::Device,std::memory_order_release);
+   const unsigned mask=s.failedMask.fetch_or(1u<<slot,std::memory_order_acq_rel)|(1u<<slot);
+   if((mask&s.configuredMask)==s.configuredMask)fault.store(true,std::memory_order_release);
+  }
+  d.stopped.store(true,std::memory_order_release);d.running=false;runningMask.fetch_and(~(1u<<slot));
+  SetEvent(cancel[slot].value);SetEvent(d.work.value);SetEvent(d.ready.value);
+ }
+ void globalFail(unsigned reason,bool source) noexcept {
+  auto* s=attached;if(!s)return;if(source)s->sourceHold=true;
+  for(unsigned i=0;i<2;++i)if(s->domains[i].config.enabled)fail(*s,i,reason,source?"Upstream source unavailable":"Graph/policy failure");
+ }
+ void closeGate() noexcept {enabled.store(false,std::memory_order_release);for(auto& e:cancel)SetEvent(e.value);}
+ void stop() noexcept {
+  closeGate();requested.store(nullptr,std::memory_order_release);request.fetch_add(1,std::memory_order_release);
+  if(session){session->stopped=true;for(auto& d:session->domains){d.stopped=true;SetEvent(d.work.value);SetEvent(d.ready.value);}
+   for(auto& d:session->domains){if(d.sinkOwner.joinable())d.sinkOwner.join();if(d.prepareOwner.joinable())d.prepareOwner.join();}}
+  const auto until=std::chrono::steady_clock::now()+std::chrono::seconds(2);
+  while(!detached()&&std::chrono::steady_clock::now()<until)std::this_thread::sleep_for(std::chrono::milliseconds(1));
+  runningMask=0;prepared=false;
+ }
+ bool prepare(const std::array<LiveDomain,2>& configs){
+  stop();if(!detached())return false;
+  unsigned count=0,allowed=0;std::array<bool,16> used{};
+  for(unsigned i=0;i<2;++i){const auto& c=configs[i];if(!c.enabled)continue;++count;
+   if(!c.channels||c.channels>16||c.format>1||c.endpoint.empty()||c.endpoint.size()>=ENTROPY_DAC_SINK_ENDPOINT_ID_BYTES||c.logicalId!=(i?"DAC_B":"DAC_A"))return false;
+   if(i&&configs[0].enabled&&c.endpoint==configs[0].endpoint)return false;
+   for(unsigned k=0;k<c.channels;++k){if(c.lanes[k]>15||used[c.lanes[k]])return false;used[c.lanes[k]]=true;}if(c.liveAllowed)++allowed;
+  }
+  if(!count||!allowed)return false;
+  auto next=std::make_unique<Session>();fault=false;runningMask=0;
+  for(unsigned i=0;i<2;++i){next->domains[i].config=configs[i];if(configs[i].enabled)next->configuredMask|=1u<<i;}
+  for(unsigned i=0;i<2;++i){auto& d=next->domains[i];if(!d.config.enabled)continue;
+   if(!d.config.liveAllowed){fail(*next,i,egress_host::Device,d.config.liveError.c_str());continue;}
+   uint64_t seed=0;if(BCryptGenRandom(nullptr,reinterpret_cast<PUCHAR>(&seed),sizeof(seed),BCRYPT_USE_SYSTEM_PREFERRED_RNG)<0||!seed)return false;
+   if(!d.core.prepare(d.config.channels,d.config.format,seed,false))return false;
+  }
+  session=std::move(next);prepared=true;return true;
+ }
+ bool start(){
+  if(!prepared||enabled.load()||!session)return false;auto& s=*session;
+  s.stopped=false;legacyFrame=0;enabled=true;prepared=false;
+  for(unsigned i=0;i<2;++i)if(s.domains[i].config.enabled&&s.domains[i].config.liveAllowed)ResetEvent(cancel[i].value);
+  requested.store(&s,std::memory_order_release);request.fetch_add(1,std::memory_order_release);
+  try{for(unsigned i=0;i<2;++i){auto& d=s.domains[i];if(d.config.enabled&&d.config.liveAllowed){d.done=false;d.sinkOwner=std::thread([this,&s,i]{runSink(s,i);});}}return true;}
+  catch(...){stop();return false;}
+ }
+ void boundary() noexcept {graphRunning=true;const auto serial=request.load(std::memory_order_acquire);if(serial!=ack.load(std::memory_order_relaxed)){attached=requested.load(std::memory_order_acquire);ack.store(serial,std::memory_order_release);}}
+ void publish(const double* const* output,unsigned frames,bool policy,egress_host::GraphInterval interval) noexcept {
+  if(!graphRunning.load(std::memory_order_acquire)){attached=requested.load(std::memory_order_acquire);ack.store(request.load(std::memory_order_acquire),std::memory_order_release);}
+  auto* s=attached;if(!s||!enabled.load(std::memory_order_acquire)||s->stopped.load())return;
+  if(!policy||!output||!frames||frames>4096||interval.frames!=frames){globalFail(egress_host::Input,false);return;}
+  for(unsigned i=0;i<2;++i){auto& d=s->domains[i];if(!d.config.enabled||!d.config.liveAllowed||d.stopped.load(std::memory_order_acquire))continue;
+   std::array<const double*,16> selected{};for(unsigned c=0;c<d.config.channels;++c)selected[c]=output[d.config.lanes[c]];
+   if(!d.core.input.push(selected.data(),frames,interval.firstGraphFrame,interval.epoch)){
+    const bool full=d.core.input.readable()+frames>65536;if(full)++d.xruns;
+    fail(*s,i,full?egress_host::Overflow:egress_host::Input,full?"Elastic input queue full; no drop/overwrite":"Invalid or discontinuous Graph PCM");
+   }else SetEvent(d.work.value);
+  }
+ }
+ void runPreparation(Session& s,unsigned slot) noexcept {
+  auto& d=s.domains[slot];
+  try{
+   Priority priority(AVRT_PRIORITY_HIGH);const HANDLE waits[]={cancel[slot].value,d.work.value};
+   while(!canceled(s,slot)&&d.core.input.readable()<d.core.primeFrames())WaitForMultipleObjects(2,waits,FALSE,100);
+   while(!canceled(s,slot)){
+    const double begin=ticks();const auto result=d.core.produce();const double cost=(ticks()-begin)/ticksPerMicrosecond;
+    if(result==live::DomainCore::Production::Fault){fail(s,slot,egress_host::Pcm,"ASRC/PCM preparation failed; no partial flush");break;}
+    if(result==live::DomainCore::Production::Made){d.prepareUs=cost;d.maxPrepareUs=(std::max)(d.maxPrepareUs.load(),cost);SetEvent(d.ready.value);continue;}
+    WaitForMultipleObjects(2,waits,FALSE,2);
+   }
+  }catch(const std::exception& e){fail(s,slot,egress_host::Device,e.what());}catch(...){fail(s,slot,egress_host::Device,"Preparation owner failed");}
+ }
+ void runSink(Session& s,unsigned slot) noexcept {
+  auto& d=s.domains[slot];std::unique_ptr<egress_host::Sink> sink;
+  auto cache=[&]{if(!sink)return;const auto t=sink->status();const auto clock=sink->timing();d.submitted=t.submitted_frames;d.position=t.device_position_frames;d.qpc=t.device_qpc_position;d.driverResult=t.last_driver_result;d.timeouts=t.timeout_count;d.sinkState=t.state;d.clockFrequency=clock.clockFrequency;d.clockValid=clock.freshClock;};
+  try{
+   Priority priority(AVRT_PRIORITY_CRITICAL);d.mmcss=true;
+   sink=factory?factory(slot):std::make_unique<PreparedWasapiAdapter>();if(!sink)throw std::runtime_error("Sink factory returned null");sink->setCancelEvent(cancel[slot].value);
+   EntropyDacSinkConfig config{};config.struct_size=sizeof(config);config.backend=ENTROPY_DAC_SINK_BACKEND_WASAPI_EXCLUSIVE;config.sample_rate=192000;config.channels=d.config.channels;config.output_format=d.config.format;config.requested_buffer_frames=1024;config.revision=1;
+   std::memcpy(config.endpoint_id_utf8,d.config.endpoint.c_str(),d.config.endpoint.size()+1);
+   if(sink->open(config)!=ENTROPY_OK)throw std::runtime_error("Exact saved sink open failed");
+   const auto status=sink->status();if(!d.core.setQuantum(status.buffer_frames))throw std::runtime_error("Negotiated buffer exceeds preallocated 4096-frame maximum");
+   d.quantum=status.buffer_frames;d.target=d.core.target();d.open=true;cache();
+   if(canceled(s,slot))throw std::runtime_error("Start canceled");
+   d.prepareOwner=std::thread([this,&s,slot]{runPreparation(s,slot);});
+   const auto deadline=GetTickCount64()+5000;const HANDLE readyWaits[]={cancel[slot].value,d.ready.value};
+   while(!canceled(s,slot)&&d.core.ready.size()<3){if(GetTickCount64()>deadline)throw std::runtime_error("No source prefill within five seconds");WaitForMultipleObjects(2,readyWaits,FALSE,100);}
+   auto submit=[&]{
+    const auto* packet=d.core.ready.beginRead();if(!packet){++d.xruns;throw std::runtime_error("Prepared PCM queue depleted; no replay/drop concealment");}
+    const auto frames=packet->frames;const double first=packet->sourceBegin,end=packet->sourceEnd;
+    EntropyDacSinkPcmBlock block{};block.struct_size=sizeof(block);block.frames=frames;block.data=packet->bytes.data();block.byte_count=d.core.bytesPerPacket();
+    if(sink->submit(block)!=ENTROPY_OK||block.accepted_frames!=frames)throw std::runtime_error("Device rejected prepared PCM; cursor not advanced");
+    if(!d.core.submitted())throw std::runtime_error("Submitted packet accounting failed");
+    d.mappingVersion.fetch_add(1,std::memory_order_acq_rel);d.firstGraph=double(d.core.input.baseFrame())+first;d.endGraph=double(d.core.input.baseFrame())+end;d.mappingVersion.fetch_add(1,std::memory_order_release);
+    ++d.callbacks;SetEvent(d.work.value);
+   };
+   if(!canceled(s,slot)){
+    submit();if(sink->start()!=ENTROPY_OK)throw std::runtime_error("Sink Start failed");d.running=true;runningMask.fetch_or(1u<<slot,std::memory_order_release);cache();
+   }
+   while(!canceled(s,slot)){
+    EntropyDacSinkBufferRequest request{};request.struct_size=sizeof(request);request.timeout_ms=100;
+    const double waitBegin=ticks();const auto result=sink->wait(request);const double begin=ticks();d.waitUs=(begin-waitBegin)/ticksPerMicrosecond;
+    if(canceled(s,slot))break;
+    if(result!=ENTROPY_OK)throw std::runtime_error("WASAPI event wait failed");
+    if(request.frames!=d.quantum.load()||request.bytes!=d.core.bytesPerPacket())throw std::runtime_error("Sink changed negotiated packet contract");
+    submit();const double cost=(ticks()-begin)/ticksPerMicrosecond;d.callbackUs=cost;d.maxCallbackUs=(std::max)(d.maxCallbackUs.load(),cost);
+    if(cost>double(request.frames)*1e6/192000)++d.misses;cache();
+   }
+  }catch(const std::exception& e){cache();if(!canceled(s,slot))fail(s,slot,egress_host::Device,e.what());}
+   catch(...){cache();if(!canceled(s,slot))fail(s,slot,egress_host::Device,"Sink owner failed");}
+  if(sink){sink->stop();cache();sink->close();}
+  d.stopped=true;SetEvent(d.work.value);SetEvent(d.ready.value);d.running=false;d.open=false;d.done=true;d.sinkState=ENTROPY_DAC_SINK_CLOSED;runningMask.fetch_and(~(1u<<slot));
+ }
+ ipc::Value snapshot() const {
+  using J=ipc::Value;J::Array out;if(!session)return out;
+  for(unsigned i=0;i<2;++i){const auto& d=session->domains[i];const unsigned flags=d.flags.load(std::memory_order_acquire);const auto pcm=d.core.pcmTelemetry();
+   const char* state=!d.config.enabled?"DISARMED":flags?"FAULT":d.running.load()?"RUNNING":d.open.load()?"PREROLL":enabled.load()?"ARMING":"DISARMED";
+   out.emplace_back(J::Object{{"id",i?"DAC B":"DAC A"},{"configured",d.config.enabled},{"channels",d.config.channels},{"rate",192000},{"format",d.config.format},{"endpoint",d.config.endpoint},{"offlineFixture",false},{"physicalSinkOpen",d.open.load()},{"state",state},{"sinkState",d.sinkState.load()},{"driverResult",d.driverResult.load()},{"sinkFaults",flags?unsigned(ENTROPY_DAC_SINK_FAULT_DRIVER):0u},{"faults",flags},{"bufferFrames",d.quantum.load()},{"submittedFrames",J::u64(d.submitted.load())},{"devicePositionFrames",J::u64(d.position.load())},{"callbacks",J::u64(d.callbacks.load())},{"mmcssRegistered",d.mmcss.load()},{"guardian","EXACT BYPASS"}});
+   auto& t=out.back();t["renderer"]="LiveV1 / prepared PCM / independent WASAPI";t["recoveryRevision"]="LiveV1";t["detail"]=flags?std::string(d.detail.data()):std::string{};
+   t["independentDomains"]=true;t["peerGatesPlayback"]=false;t["faultPolicy"]="Local domain only; all-domain source hold remains explicit";
+   t["fifoFrames"]=d.core.input.readable();t["fifoCapacity"]=65536;t["targetFrames"]=d.target.load();t["readyPackets"]=d.core.ready.size();t["readyCapacityPackets"]=4;
+   t["totalUnsubmittedSourceFrames"]=d.core.pendingSourceFrames();t["controlLevelFrames"]=d.core.observedLevel();t["clockFillFrames"]=d.core.pendingSourceFrames();t["fillScope"]="All source frames not yet committed to WASAPI; not an internal reservoir";
+   t["transportBufferedMs"]=(d.core.pendingSourceFrames()+d.quantum.load())/192.0;t["dataAgeMs"]=0.0;t["dataAgeValid"]=false;
+   t["ppm"]=d.core.appliedPpm();t["applied_ppm"]=d.core.appliedPpm();t["requested_ppm"]=d.core.requestedPpm();t["rateControlUpdates"]=J::u64(d.core.rateUpdates());
+   t["clockState"]=d.running.load()?1:0;t["clockControllerLocked"]=d.running.load()&&d.core.rateUpdates()>0;t["clockEstimateValid"]=false;t["estimatedSinkRateHz"]=0.0;t["clockReadingValid"]=d.clockValid.load();t["clockFrequency"]=J::u64(d.clockFrequency.load());
+   t["xruns"]=J::u64(d.xruns.load());t["wasapiTimeouts"]=J::u64(d.timeouts.load());t["wasapiXruns"]=J::u64(d.timeouts.load());t["wasapiDeviceLosses"]=J::u64(0);t["resyncCount"]=J::u64(0);t["lastResetReason"]=0;
+   t["callbackWallExcludingWaitUs"]=d.callbackUs.load();t["maximumCallbackWallExcludingWaitUs"]=d.maxCallbackUs.load();t["serviceWallToSubmitUs"]=d.callbackUs.load();t["maximumServiceWallToSubmitUs"]=d.maxCallbackUs.load();t["eventWaitUs"]=d.waitUs.load();t["deadlineMisses"]=J::u64(d.misses.load());t["callbackThreadCycles"]=J::u64(0);
+   t["preparationWallUs"]=d.prepareUs.load();t["maximumPreparationWallUs"]=d.maxPrepareUs.load();t["callbackWallScope"]="Prepared PCM copy/submit/accounting only; ASRC and PCM24 on separate preparation owner";
+   t["softwareAlignmentVerified"]=false;t["analogSkewMeasured"]=false;t["estimatedABDifferenceFrames"]=0.0;t["abDifferenceAvailable"]=false;t["presentationQpc100ns"]=J::u64(0);t["commonPresentationQpc100ns"]=J::u64(0);t["audiblePresentationQpc100ns"]=J::u64(0);t["mappingCoherent"]=false;t["firstGraphFrame"]=d.firstGraph.load();t["endGraphFrame"]=d.endGraph.load();t["epoch"]=J::u64(d.core.input.epoch());
+   t["streamLatency100ns"]=J::u64(uint64_t(d.quantum.load())*10000000/192000);t["streamLatencyValid"]=false;t["originalClockCalibrated"]=false;t["nonzeroPcmBlocks"]=J::u64(0);t["nonzeroCounterAvailable"]=false;
+   t["pcmDitherMode"]=pcm.dither_mode;t["pcmSeedMode"]=pcm.seed_mode;t["pcmFaults"]=pcm.fault_flags;t["pcmProcessedFrames"]=J::u64(pcm.processed_frames);t["pcmOverrangeSamples"]=J::u64(pcm.overrange_sample_count);t["pcmRailClampSamples"]=J::u64(pcm.reserved[0]);t["pcmClippedBlocks"]=J::u64(pcm.reserved[2]);t["pcmNonfiniteSamples"]=J::u64(pcm.nonfinite_sample_count);
+  }return out;
+ }
+};
+LiveSinkWorkers::LiveSinkWorkers(Factory factory,bool):impl_(std::make_unique<Impl>(std::move(factory))){}
+LiveSinkWorkers::~LiveSinkWorkers()=default;
+bool LiveSinkWorkers::prepare(const std::array<LiveDomain,2>& c){return impl_->prepare(c);}
+bool LiveSinkWorkers::start(){return impl_->start();}
+void LiveSinkWorkers::stop() noexcept {impl_->stop();}
+void LiveSinkWorkers::closePublicationGate() noexcept {impl_->closeGate();}
+void LiveSinkWorkers::atBlockBoundary() noexcept {impl_->boundary();}
+void LiveSinkWorkers::graphStopped() noexcept {impl_->attached=nullptr;impl_->graphRunning=false;impl_->ack=impl_->request.load();}
+void LiveSinkWorkers::publish(const double* const* p,unsigned n,bool policy) noexcept {egress_host::GraphInterval v{1,impl_->legacyFrame,0,n};impl_->legacyFrame+=n;impl_->publish(p,n,policy,v);}
+void LiveSinkWorkers::publish(const double* const* p,unsigned n,bool policy,egress_host::GraphInterval v) noexcept {impl_->publish(p,n,policy,v);}
+void LiveSinkWorkers::failAll(unsigned f) noexcept {impl_->globalFail(f,false);}
+void LiveSinkWorkers::waitForInput() noexcept {impl_->globalFail(egress_host::Input,true);}
+bool LiveSinkWorkers::sourceWaitFault() const noexcept {return impl_->fault.load()&&impl_->session&&impl_->session->sourceHold.load();}
+unsigned LiveSinkWorkers::sourceWaitFaults() const noexcept {unsigned flags=0;if(impl_->session)for(const auto& d:impl_->session->domains)if(d.config.enabled)flags|=d.flags.load();return flags;}
+bool LiveSinkWorkers::armed() const noexcept {return impl_->enabled.load()&&impl_->runningMask.load()!=0;}
+bool LiveSinkWorkers::recoveryAtTarget() const noexcept {return false;} // no legacy clock-resync policy
+bool LiveSinkWorkers::faulted() const noexcept {return impl_->fault.load(std::memory_order_acquire);}
+bool LiveSinkWorkers::engaged() const noexcept {return impl_->enabled.load(std::memory_order_acquire);}
+ipc::Value LiveSinkWorkers::snapshot() const {return impl_->snapshot();}
+uint32_t LiveSinkWorkers::renderLaneMask(const std::array<LiveDomain,2>& domains) noexcept {uint32_t mask=0;for(const auto& d:domains)if(d.enabled)for(unsigned c=0;c<d.channels&&c<16;++c)if(d.lanes[c]<16)mask|=1u<<d.lanes[c];return mask;}
+std::array<LiveDomain,2> LiveSinkWorkers::decode(const ipc::Value& value){
+ std::array<LiveDomain,2> result{};const auto& domains=value.asArray();if(domains.size()>2)throw std::invalid_argument("At most two DAC domains");
+ for(unsigned i=0;i<domains.size();++i){auto& d=result[i];const auto& v=domains[i];d.enabled=v.at("enabled").asBool();if(!d.enabled)continue;
+  d.endpoint=v.at("endpoint").asString();d.logicalId=v.at("logicalId").asString();d.channels=v.at("channels").asUnsigned(16);d.format=v.at("format").asUnsigned(1);
+  if(v.at("rate").asUnsigned()!=192000||v.at("lanes").asArray().size()!=d.channels)throw std::invalid_argument("Exact FP64/192 lane contract required");
+  for(unsigned c=0;c<d.channels;++c)d.lanes[c]=v.at("lanes").asArray()[c].asUnsigned(15);
+  if(v.contains("liveAllowed"))d.liveAllowed=v.at("liveAllowed").asBool();if(v.contains("liveError"))d.liveError=v.at("liveError").asString();
  }return result;
-}
-bool LiveSinkWorkers::detached() const noexcept {return !graphRunning_.load(std::memory_order_acquire)||ack_.load(std::memory_order_acquire)==request_.load(std::memory_order_acquire);}
-void LiveSinkWorkers::atBlockBoundary() noexcept {
- graphRunning_.store(true,std::memory_order_release);
- const auto serial=request_.load(std::memory_order_acquire);
- if(serial!=ack_.load(std::memory_order_relaxed)){attached_=requested_.load(std::memory_order_acquire);ack_.store(serial,std::memory_order_release);}
-}
-void LiveSinkWorkers::graphStopped() noexcept {attached_=nullptr;graphRunning_=false;ack_=request_.load();}
-bool LiveSinkWorkers::prepare(const std::array<LiveDomain,2>& configs){
- stop();prepared_=false;if(!detached())return false;
- std::array<bool,16> used{};unsigned count=0;
- for(unsigned i=0;i<2;++i){const auto& c=configs[i];if(!c.enabled)continue;++count;
-  if(c.channels<1||c.channels>16||c.format>1||c.endpoint.empty()||c.endpoint.size()>=ENTROPY_DAC_SINK_ENDPOINT_ID_BYTES||c.logicalId!=(i?"DAC_B":"DAC_A"))return false;
-  if(i&&configs[0].enabled&&c.endpoint==configs[0].endpoint)return false;
-  for(unsigned n=0;n<c.channels;++n){if(c.lanes[n]>15||used[c.lanes[n]])return false;used[c.lanes[n]]=true;}
- }
- if(!count)return false;
- auto candidate=std::make_unique<Session>();
- for(unsigned i=0;i<2;++i){auto& d=candidate->domains[i];d.config=configs[i];if(!d.config.enabled)continue;
-  egress_host::PipelineConfig p;p.channels=d.config.channels;p.format=d.config.format;p.maximumFrames=4096;p.fifoFrames=ENTROPY_LIVE_FIFO_FRAMES;p.targetFrames=4096;
-  if(!d.pipeline.prepare(p)||(calibrateClock_&&!d.pipeline.prepareSilentCalibration()))return false;
- }
- session_=std::move(candidate);faulted_=false;prepared_=true;return true;
-}
-bool LiveSinkWorkers::start(){
- if(!prepared_||enabled_||!session_)return false;
- auto& s=*session_;
- for(unsigned i=0;i<2;++i){ResetEvent(HANDLE(cancel_[i]));if(s.domains[i].config.enabled&&!s.domains[i].pipeline.arm(true,true))return false;}
- s.stop=false;enabled_=true;prepared_=false;legacyFrame_=0;
- requested_.store(&s,std::memory_order_release);request_.fetch_add(1,std::memory_order_release);
- try{for(unsigned i=0;i<2;++i)if(s.domains[i].config.enabled){s.domains[i].done=false;s.domains[i].owner=std::thread([this,&s,i]{run(s,i);});}return true;}
- catch(...){stop();return false;}
-}
-void LiveSinkWorkers::closePublicationGate() noexcept {
- enabled_.store(false,std::memory_order_release);
- for(auto e:cancel_)SetEvent(HANDLE(e));
-}
-void LiveSinkWorkers::stop() noexcept {
- closePublicationGate();requested_.store(nullptr,std::memory_order_release);request_.fetch_add(1,std::memory_order_release);
- if(session_){session_->stop=true;for(auto& d:session_->domains)if(d.owner.joinable())d.owner.join();}
- // Graph acknowledges retirement at its next boundary, also during input starvation.
- // A timeout retains the resource; prepare refuses replacement until acknowledged.
- const auto limit=std::chrono::steady_clock::now()+std::chrono::seconds(2);
- while(!detached()&&std::chrono::steady_clock::now()<limit)std::this_thread::sleep_for(std::chrono::milliseconds(1));
-}
-void LiveSinkWorkers::fail(Session& s,unsigned reason,bool source) noexcept {
- if(source||reason==egress_host::Starvation)s.sourceHold=true;
- else s.fatal=true; // Monotonic provenance: Graph/module Input is also fatal.
- s.fault=true;faulted_=true;for(auto& d:s.domains)if(d.config.enabled)d.pipeline.fail(reason);
- for(auto e:cancel_)SetEvent(HANDLE(e));
-}
-void LiveSinkWorkers::failAll(unsigned reason) noexcept {if(attached_)fail(*attached_,reason);}
-void LiveSinkWorkers::waitForInput() noexcept {if(attached_)fail(*attached_,egress_host::Input,true);}
-unsigned LiveSinkWorkers::sourceWaitFaults() const noexcept {
- unsigned flags=0;if(session_)for(const auto& d:session_->domains)if(d.config.enabled)flags|=d.pipeline.faults();return flags;
-}
-bool LiveSinkWorkers::sourceWaitFault() const noexcept {
- const auto flags=sourceWaitFaults();return faulted_&&session_&&!session_->fatal&&session_->sourceHold&&flags&&!(flags&~unsigned(egress_host::Input|egress_host::Starvation));
-}
-bool LiveSinkWorkers::armed() const noexcept {
- if(!enabled_||faulted_||!session_||session_->stop)return false;
- for(const auto& d:session_->domains)if(d.config.enabled&&!d.running)return false;return true;
-}
-bool LiveSinkWorkers::recoveryAtTarget() const noexcept {if(!armed())return false;for(const auto& d:session_->domains)if(d.config.enabled&&d.clockFill>=4096)return true;return false;}
-void LiveSinkWorkers::publish(const double* const* outputs,unsigned frames,bool policy) noexcept {
- // Offline injected producers have the same boundary contract, without a scheduler.
- if(!graphRunning_){attached_=requested_.load();ack_=request_.load();}
- egress_host::GraphInterval v{1,legacyFrame_,host100ns(),frames};legacyFrame_+=frames;publish(outputs,frames,policy,v);
-}
-void LiveSinkWorkers::publish(const double* const* output,unsigned frames,bool policy,egress_host::GraphInterval interval) noexcept {
- auto* s=attached_;if(!s||!enabled_.load(std::memory_order_acquire)||s->stop||s->fault)return;
- if(!policy||!output){fail(*s,egress_host::Input);return;}
- for(const auto& d:s->domains)if(d.config.enabled&&!d.calibrated.load(std::memory_order_acquire))return; // inactive preroll, no queued input discarded
- if(s->publishedBlocks.load(std::memory_order_relaxed)==0){s->baseFrame=interval.firstGraphFrame;s->baseEpoch=interval.epoch;s->baseCapture=interval.capture100ns;}
- if(interval.epoch!=s->baseEpoch.load(std::memory_order_relaxed)){fail(*s,egress_host::Clock);return;}
- for(auto& d:s->domains)if(d.config.enabled){std::array<const double*,16> selected{};for(unsigned n=0;n<d.config.channels;++n)selected[n]=output[d.config.lanes[n]];
-  if(!d.pipeline.publish(selected.data(),frames,interval)){if(enabled_)fail(*s,d.pipeline.faults()?d.pipeline.faults():egress_host::Input);return;}}
- s->lastGraphEnd=interval.firstGraphFrame+frames;s->publishedBlocks.fetch_add(1,std::memory_order_release);
-}
-void LiveSinkWorkers::run(Session& s,unsigned slot) noexcept {
- auto& d=s.domains[slot];DWORD task=0;HANDLE mmcss=AvSetMmThreadCharacteristicsW(L"Pro Audio",&task);
- d.mmcss=mmcss&&AvSetMmThreadPriority(mmcss,AVRT_PRIORITY_CRITICAL);
- const auto canceled=[&]{return s.stop.load()||s.fault.load()||WaitForSingleObject(HANDLE(cancel_[slot]),0)==WAIT_OBJECT_0;};
- try{
-  if(!d.mmcss)throw std::runtime_error("MMCSS Pro Audio unavailable");
-  auto sink=factory_?factory_(slot):std::make_unique<WasapiAdapter>();if(!sink)throw std::runtime_error("Sink unavailable");
-  sink->setCancelEvent(cancel_[slot]);
-  EntropyDacSinkConfig c{};c.struct_size=sizeof(c);c.backend=ENTROPY_DAC_SINK_BACKEND_WASAPI_EXCLUSIVE;c.sample_rate=192000;c.channels=d.config.channels;c.output_format=d.config.format;c.requested_buffer_frames=1024;c.revision=1;std::memcpy(c.endpoint_id_utf8,d.config.endpoint.c_str(),d.config.endpoint.size()+1);
-  struct CloseOnOwner {egress_host::Sink& sink;Domain& d;~CloseOnOwner(){const auto v=sink.status();d.driverResult=v.last_driver_result;d.sinkFaults=v.fault_flags;d.sinkXruns=v.xrun_count;d.sinkTimeouts=v.timeout_count;d.sinkDeviceLosses=v.device_loss_count;sink.stop();sink.close();}} closer{*sink,d};
-  if(sink->open(c)!=ENTROPY_OK)throw std::runtime_error("Sink open failed");
-  auto status=sink->status();if(!status.buffer_frames||status.buffer_frames>4096)throw std::runtime_error("Sink buffer invalid");
-  // The original sinc requires a lookahead guard. If one callback exceeds the
-  // fixed fill target, the unmodified servo would continuously trim this extra
-  // backlog. Reject that unsupported profile before Start, without changing its
-  // controller law or hiding the failed 4096-buffer diagnostic.
-  if(status.buffer_frames+100>d.pipeline.config().targetFrames)throw std::runtime_error("Sink buffer plus sinc guard exceeds 4096 target; group ARM refused");
-  d.buffer=status.buffer_frames;d.sinkState=status.state;d.open.store(true,std::memory_order_release);
-  const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(12);
-  unsigned coordinator=0;while(coordinator<2&&!s.domains[coordinator].config.enabled)++coordinator;
-  // Both endpoints must be OPEN before either Start; initial driver buffer is SILENT.
-  while(!canceled()){
-   bool ready=true;for(const auto& other:s.domains)if(other.config.enabled&&!other.open.load(std::memory_order_acquire))ready=false;
-   if(ready)break;if(std::chrono::steady_clock::now()>deadline)throw std::runtime_error("Group open timeout");WaitForSingleObject(HANDLE(cancel_[slot]),1);
-  }
-  if(!canceled()&&sink->start()!=ENTROPY_OK)throw std::runtime_error("Sink start failed");
-  uint64_t nextDeviceFrame=d.buffer.load(); // account for initial SILENT buffer
-  bool primed=false;double maximum=0;uint64_t previousWaitReturn100ns=0;
-  while(!canceled()){
-   EntropyDacSinkBufferRequest req{};req.struct_size=sizeof(req);req.timeout_ms=100;
-   const auto waitBegin=host100ns();const auto waitResult=sink->wait(req);
-   const auto waitReturn100ns=host100ns();d.waitUs=double(waitReturn100ns-waitBegin)/10;
-   // Observe scheduling separately from DSP cost. No new timeout/fault policy.
-   if(previousWaitReturn100ns&&waitReturn100ns>=previousWaitReturn100ns){
-    const double interval=double(waitReturn100ns-previousWaitReturn100ns)/10;
-    d.waitReturnIntervalUs=interval;
-    d.maxWaitReturnIntervalUs=(std::max)(d.maxWaitReturnIntervalUs.load(),interval);
-   }
-   previousWaitReturn100ns=waitReturn100ns;
-   if(canceled())break;if(waitResult!=ENTROPY_OK)throw std::runtime_error("Sink wait failed");
-   if(req.frames!=d.buffer||req.bytes!=d.pipeline.bytes(req.frames).size())throw std::runtime_error("Sink request invalid");
-   const auto timing=sink->timing();
-   const bool valid=timing.freshClock&&timing.clockFrequency&&req.device_qpc_position&&nextDeviceFrame>=req.device_position_frames;
-   d.clockValid=valid;d.latencyValid=timing.latencyValid;d.clockFrequency=timing.clockFrequency;d.latency100ns=timing.latency100ns;
-   if(!valid)throw std::runtime_error("No fresh hardware clock; presentation unverified");
-   if(!primed&&!d.pipeline.haveGraphStream()){const bool calibrated=!calibrateClock_||d.pipeline.observeSilentClock(req.device_position_frames,req.device_qpc_position,req.frames);if(calibrated)d.calibrated=true;}
-   if(d.pipeline.estimateValid()&&d.pipeline.estimatedSinkRate()>0)d.rateHz=d.pipeline.estimatedSinkRate();
-   const double rate=d.rateHz.load();
-   const auto presentation=egress_host::PresentationContract::bufferTime(req.device_qpc_position,timing.precisePositionFrames>=0?timing.precisePositionFrames:double(req.device_position_frames),nextDeviceFrame,0,rate);
-   d.clockReady=presentation;
-   if(slot==coordinator&&!s.presentation.load(std::memory_order_acquire)){
-    bool ready=s.publishedBlocks.load(std::memory_order_acquire)!=0;uint64_t latest=0;unsigned largest=0;
-    for(const auto& other:s.domains)if(other.config.enabled){largest=(std::max)(largest,other.buffer.load());latest=(std::max)(latest,other.clockReady.load());if(!other.clockReady||other.pipeline.readable()<4096+3*other.buffer.load()+2048)ready=false;}
-    // Keep one buffer for callback phase and one for the producer/peer boundary.
-    // This reserve is external to the unchanged 4096-frame servo target. A late
-    // owner may replan only while silent; it must never prime beyond known data.
-    // Advancing the hardware presentation time must not advance the source
-    // position into PCM that has not arrived. The previous +leadFrames term
-    // required future source packets to prime, then accumulated unread data
-    // through repeated silent replans until one DAC FIFO overflowed.
-    if(ready){const uint64_t leadFrames=uint64_t(largest)*3+192;const auto lead=leadFrames*10000000/192000;s.referenceFrame=s.lastGraphEnd.load()-4096-2*largest;s.presentation.store(latest+lead,std::memory_order_release);}
-   }
-   if(slot==coordinator&&s.primedMask.load(std::memory_order_acquire)&&!s.audiblePresentation.load()){
-    unsigned required=0,largest=0;uint64_t latest=0;for(unsigned i=0;i<2;++i)if(s.domains[i].config.enabled){required|=1u<<i;largest=(std::max)(largest,s.domains[i].buffer.load());latest=(std::max)(latest,s.domains[i].clockReady.load());}
-    if(s.primedMask.load()==required)s.audiblePresentation=latest+uint64_t(largest)*3*10000000/192000+10000;
-   }
-   const auto common=s.presentation.load(std::memory_order_acquire);
-   // Include validation, clock observation and startup work above, rather
-   // than starting the wall-time measurement only just before render.
-   const auto begin=waitReturn100ns;ULONG64 ca=0,cb=0;QueryThreadCycleTime(GetCurrentThread(),&ca);
-   bool audio=false;unsigned offset=0;
-   if(common&&presentation+uint64_t(double(req.frames)*10000000/rate)>common){
-    if(presentation<common)offset=unsigned(std::ceil(double(common-presentation)*rate/10000000));
-    if(offset<req.frames){
-     const auto firstTime=presentation+uint64_t(double(offset)*10000000/rate);
-     const double first=egress_host::PresentationContract::graphPosition(s.referenceFrame,common,firstTime);
-     if(!primed){
-      // A single nonblocking CAS serializes startup decisions. Busy owners submit
-      // silence; no spin, mutex or wait is introduced in the callback.
-      unsigned vacant=0;
-      if(s.startupDecision.compare_exchange_strong(vacant,slot+1)){
-       if(common==s.presentation.load(std::memory_order_acquire)){
-        d.primeWanted=first;const bool ready=d.pipeline.primeGraphPosition(first,req.frames-offset);d.primeBase=double(d.pipeline.streamInterval().firstGraphFrame);d.primeNominal=double(d.pipeline.clockTelemetry().nominal_frames);
-        if(!ready){
-         if(!s.primedMask.load()){s.presentation=0;++s.replans;}
-         else fail(s,egress_host::Clock); // already audible: exact local fault + explicit re-ARM
-        }else {d.startupSkipped=uint64_t(first-double(s.baseFrame.load()));primed=true;s.primedMask.fetch_or(1u<<slot);}
-       }
-       s.startupDecision.store(0,std::memory_order_release);
-      }
-     }
-     if(primed){
-      d.pipeline.feedUntilTarget(req.frames-offset);
-      if(!d.pipeline.renderOffset(req.frames,offset,req.device_position_frames,req.device_qpc_position))throw std::runtime_error("Local egress discontinuity; explicit re-preroll required");
-      d.mappingVersion.fetch_add(1,std::memory_order_acq_rel);d.firstFrame=d.pipeline.lastRenderFirstGraphFrame();d.endFrame=d.pipeline.graphReadPosition();d.presentation100ns=firstTime;d.epoch=d.pipeline.streamInterval().epoch;d.capture100ns=d.pipeline.streamInterval().capture100ns;d.mappingVersion.fetch_add(1,std::memory_order_release);
-      audio=true;
-     }
-    }
-   }
-   const auto onset=s.audiblePresentation.load(std::memory_order_acquire);
-   if(audio){
-    const auto endTime=presentation+uint64_t(double(req.frames)*10000000/rate);
-    if(!onset||endTime<=onset){d.pipeline.silentBuffer(req.frames);audio=false;}
-    else if(presentation<onset){const auto prefix=(std::min)(req.frames,unsigned(std::ceil(double(onset-presentation)*rate/10000000)));d.pipeline.silencePrefix(req.frames,prefix);d.running=true;}
-    else d.running=true;
-   }
-   if(!audio)d.pipeline.silentBuffer(req.frames);
-   if(canceled()){d.pipeline.silentBuffer(req.frames);audio=false;}
-   auto bytes=d.pipeline.bytes(req.frames);EntropyDacSinkPcmBlock block{};block.struct_size=sizeof(block);block.frames=req.frames;block.data=bytes.data();block.byte_count=unsigned(bytes.size());
-   auto* audit=req.frames<=1024?chain_audit::sink(slot):nullptr;
-   if(audit&&req.frames<=1024){
-    audit->qpc=chain_audit::tick();audit->deviceFrame=req.device_position_frames;audit->host100ns=req.device_qpc_position;audit->begin100ns=begin;
-    audit->firstGraph=d.pipeline.lastRenderFirstGraphFrame();audit->endGraph=d.pipeline.graphReadPosition();audit->frames=req.frames;audit->channels=d.config.channels;audit->format=d.config.format;audit->audio=audio;audit->offset=offset;
-    audit->fifo=d.pipeline.readable();audit->faults=d.pipeline.faults();audit->resetReason=d.pipeline.resetReason();const auto clk=d.pipeline.clockTelemetry();audit->resync=clk.resync_count;audit->ppm=clk.correction_ppm;audit->clockFill=clk.fill_frames;
-   }
-   const auto submitResult=sink->submit(block);
-   const auto submitEnd100ns=host100ns();
-   d.serviceToSubmitUs=double(submitEnd100ns-waitReturn100ns)/10;
-   d.maxServiceToSubmitUs=(std::max)(d.maxServiceToSubmitUs.load(),d.serviceToSubmitUs.load());
-   // IAudioClock QPC and host100ns share 100 ns units. This is an estimate
-   // against the existing presentation mapping, NOT a confirmed xrun counter.
-   // Never drop, repeat, mute, re-prime or disarm from this observation.
-   if(audio&&presentation&&submitResult==ENTROPY_OK&&block.accepted_frames==req.frames){
-    const double slack=presentation>=submitEnd100ns ? double(presentation-submitEnd100ns)/10
-        : -double(submitEnd100ns-presentation)/10;
-    d.submitSlackUs=slack;
-    if(d.submitTimingSamples.fetch_add(1)==0||slack<d.minSubmitSlackUs.load())d.minSubmitSlackUs=slack;
-    if(slack<0)++d.estimatedLateSubmissions;
-   }
-   if(audit){
-    // submit() has copied the PCM to WASAPI. These owner-local buffers remain
-    // immutable until the next render, so capture cannot delay this submit.
-    for(unsigned ch=0;ch<d.config.channels;++ch)std::memcpy(audit->rendered[ch],d.pipeline.rendered().readChannel(ch),req.frames*sizeof(double));
-    std::memcpy(audit->pcm,bytes.data(),bytes.size());
-    audit->accepted=block.accepted_frames;audit->submitResult=submitResult;
-    audit->end100ns=submitEnd100ns;chain_audit::sinkDone(slot);
-   }
-   if(submitResult!=ENTROPY_OK||block.accepted_frames!=req.frames)throw std::runtime_error("Sink submit failed");
-   if(audio&&std::any_of(bytes.begin(),bytes.end(),[](uint8_t b){return b!=0;}))++d.nonzeroPcmBlocks;
-   nextDeviceFrame+=req.frames;QueryThreadCycleTime(GetCurrentThread(),&cb);const double cost=double(host100ns()-begin)/10;maximum=(std::max)(maximum,cost);
-   d.callbackUs=cost;d.maxCallbackUs=maximum;d.cycles=cb-ca;++d.callbacks;if(cost>double(req.frames)*1e6/192000)++d.misses;
-   const auto clock=d.pipeline.clockTelemetry();d.ppm=clock.correction_ppm;d.clockFill=clock.fill_frames;d.clockState=clock.state;d.resync=clock.resync_count;d.resetReason=d.pipeline.resetReason();d.estimateValid=d.pipeline.estimateValid();
-   status=sink->status();d.submitted=status.submitted_frames;d.position=status.device_position_frames;d.sinkState=status.state;d.driverResult=status.last_driver_result;d.sinkFaults=status.fault_flags;d.sinkXruns=status.xrun_count;d.sinkTimeouts=status.timeout_count;d.sinkDeviceLosses=status.device_loss_count;
-   if(!common&&std::chrono::steady_clock::now()>deadline)throw std::runtime_error("Group preroll timeout");
-  }
- }catch(...){if(!canceled())fail(s,d.pipeline.faults()?d.pipeline.faults():egress_host::Device);}
- d.resync=d.pipeline.clockTelemetry().resync_count;d.resetReason=d.pipeline.resetReason();d.pipeline.disarm();d.running=false;d.open=false;d.sinkState=ENTROPY_DAC_SINK_CLOSED;d.done.store(true,std::memory_order_release);
- if(mmcss)AvRevertMmThreadCharacteristics(mmcss);
-}
-ipc::Value LiveSinkWorkers::snapshot() const {
- ipc::Value::Array out;if(!session_)return out;const auto& s=*session_;const auto now=host100ns();
- struct Mapping {double first=0;uint64_t time=0,epoch=0,capture=0;bool coherent=false;};
- const auto readMapping=[](const Domain& d){Mapping m;for(unsigned k=0;k<3;++k){const auto serial=d.mappingVersion.load(std::memory_order_acquire);if(serial&1)continue;m.first=d.firstFrame.load();m.time=d.presentation100ns.load();m.epoch=d.epoch.load();m.capture=d.capture100ns.load();if(serial==d.mappingVersion.load(std::memory_order_acquire)){m.coherent=true;break;}}return m;};
- const std::array<Mapping,2> mapping{readMapping(s.domains[0]),readMapping(s.domains[1])};
- const auto& a=s.domains[0];const auto& b=s.domains[1];const auto ta=mapping[0].time,tb=mapping[1].time;
- const double difference=(ta&&tb&&mapping[0].coherent&&mapping[1].coherent)?(mapping[0].first-mapping[1].first)-double(int64_t(ta)-int64_t(tb))*192000/10000000:0;
- const bool verified=mapping[0].coherent&&mapping[1].coherent&&a.running&&b.running&&a.clockValid&&b.clockValid&&a.estimateValid&&b.estimateValid&&a.latencyValid&&b.latencyValid&&ta&&tb&&now>ta&&now>tb&&now-ta<1000000&&now-tb<1000000&&std::abs(difference)<=1;
- for(unsigned i=0;i<2;++i){const auto& d=s.domains[i];const auto pcm=d.pipeline.pcmTelemetry();
-  out.emplace_back(ipc::Value::Object{{"id",i?"DAC B":"DAC A"},{"configured",d.config.enabled},{"channels",d.config.channels},{"rate",192000},{"format",d.config.format},{"endpoint",d.config.endpoint},{"offlineFixture",false},{"physicalSinkOpen",d.open.load()},{"state",!d.done.load()&&!enabled_.load()?"STOPPING":s.fault.load()?"FAULT":d.running.load()?"RUNNING":d.open.load()?"PREROLL":enabled_.load()?"ARMING":"DISARMED"},{"sinkState",d.sinkState.load()},{"driverResult",d.driverResult.load()},{"sinkFaults",d.sinkFaults.load()},{"bufferFrames",d.buffer.load()},{"submittedFrames",ipc::Value::u64(d.submitted.load())},{"devicePositionFrames",ipc::Value::u64(d.position.load())},{"clockState",d.clockState.load()},{"clockControllerLocked",d.clockState.load()==ENTROPY_EGRESS_CLOCK_LOCKED},{"ppm",d.ppm.load()},{"clockFillFrames",d.clockFill.load()},{"fifoFrames",d.pipeline.readable()},{"fifoCapacity",d.pipeline.config().fifoFrames},{"targetFrames",4096},{"xruns",ipc::Value::u64(d.pipeline.xruns())},{"faults",d.pipeline.faults()},{"nonzeroPcmBlocks",ipc::Value::u64(d.nonzeroPcmBlocks.load())},{"callbacks",ipc::Value::u64(d.callbacks.load())},{"callbackWallExcludingWaitUs",d.callbackUs.load()},{"maximumCallbackWallExcludingWaitUs",d.maxCallbackUs.load()},{"eventWaitUs",d.waitUs.load()},{"deadlineMisses",ipc::Value::u64(d.misses.load())},{"callbackThreadCycles",ipc::Value::u64(d.cycles.load())},{"mmcssRegistered",d.mmcss.load()},{"guardian","EXACT BYPASS"}});
-  auto& t=out.back();
-  t["recoveryRevision"]="R3";
-  const auto ratio=d.pipeline.ratioQuality();const auto observer=d.pipeline.clockQuality();
-  t["ratioTelemetryCoherent"]=ratio.coherent;t["clockObserverTelemetryCoherent"]=observer.coherent;
-  t["clockObserverValid"]=observer.valid;t["clockShortWindowValid"]=observer.shortWindowHz>0;t["clockLongWindowValid"]=observer.longWindowHz>0;
-  t["clockObservationScope"]="last completed 100 ms observation bucket; not every callback";
-  t["applied_ppm"]=ratio.appliedPpm;t["requested_ppm"]=ratio.requestedPpm;
-  t["delta_applied"]=ratio.deltaApplied;t["max_abs_delta_applied"]=ratio.maxAbsDeltaApplied;
-  t["max_abs_applied_ppm_per_second"]=ratio.maxAbsPpmPerSecond;
-  t["max_reset_jump_ppm"]=ratio.maxResetJumpPpm;t["ratioResetCount"]=ipc::Value::u64(ratio.resets);
-  t["ratioObservationCalls"]=ipc::Value::u64(ratio.calls);
-  t["clockShortWindowHz"]=observer.shortWindowHz;t["clockLongWindowHz"]=observer.longWindowHz;
-  t["clockFilteredHz"]=observer.filteredHz;t["clockObserverWindowSeconds"]=observer.windowSeconds;
-  t["clockBucketResidualRmsFrames"]=observer.bucketResidualRmsFrames;
-  t["clockFitCount"]=ipc::Value::u64(observer.estimates);
-  t["clockAcceptedObservations"]=ipc::Value::u64(observer.accepted);t["clockRejectedObservations"]=ipc::Value::u64(observer.rejected);
-  t["clockObservationFrame"]=ipc::Value::u64(observer.observationFrame);
-  t["clockObservationQpc100ns"]=ipc::Value::u64(observer.observationHost100ns);
-  t["wasapiXruns"]=ipc::Value::u64(d.sinkXruns.load());t["wasapiTimeouts"]=ipc::Value::u64(d.sinkTimeouts.load());
-  t["wasapiDeviceLosses"]=ipc::Value::u64(d.sinkDeviceLosses.load());
-  t["wasapiXrunScope"]="existing WASAPI wait-timeout counter; not exhaustive hardware continuity proof";
-  t["callbackWallScope"]="wait-return through submit and audit-copy; not hardware xrun proof";
-  t["waitReturnIntervalUs"]=d.waitReturnIntervalUs.load();
-  t["maximumWaitReturnIntervalUs"]=d.maxWaitReturnIntervalUs.load();
-  t["serviceWallToSubmitUs"]=d.serviceToSubmitUs.load();
-  t["maximumServiceWallToSubmitUs"]=d.maxServiceToSubmitUs.load();
-  t["submitTimingSamples"]=ipc::Value::u64(d.submitTimingSamples.load());
-  t["estimatedSubmitSlackUs"]=d.submitSlackUs.load();
-  t["minimumEstimatedSubmitSlackUs"]=d.minSubmitSlackUs.load();
-  t["estimatedLateSubmissions"]=ipc::Value::u64(d.estimatedLateSubmissions.load());
-  t["resyncCount"]=ipc::Value::u64(d.resync.load());t["mappingCoherent"]=mapping[i].coherent;t["clockEstimateValid"]=d.estimateValid.load();t["lastResetReason"]=d.resetReason.load();t["epoch"]=ipc::Value::u64(mapping[i].epoch);t["firstGraphFrame"]=mapping[i].first;t["endGraphFrame"]=d.endFrame.load();t["presentationQpc100ns"]=ipc::Value::u64(mapping[i].time);t["commonPresentationQpc100ns"]=ipc::Value::u64(s.presentation.load());t["audiblePresentationQpc100ns"]=ipc::Value::u64(s.audiblePresentation.load());t["clockFrequency"]=ipc::Value::u64(d.clockFrequency.load());t["streamLatency100ns"]=ipc::Value::u64(d.latency100ns.load());t["streamLatencyValid"]=d.latencyValid.load();t["dataAgeMs"]=mapping[i].capture&&now>=mapping[i].capture?double(now-mapping[i].capture)/10000:0;t["clockReadingValid"]=d.clockValid.load();t["originalClockCalibrated"]=d.calibrated.load();t["estimatedSinkRateHz"]=d.rateHz.load();t["primeWantedFrame"]=d.primeWanted.load();t["primeBaseFrame"]=d.primeBase.load();t["primeNominalFrames"]=d.primeNominal.load();t["estimatedABDifferenceFrames"]=difference;t["softwareAlignmentVerified"]=verified;t["analogSkewMeasured"]=false;t["startupSkippedFrames"]=ipc::Value::u64(d.startupSkipped.load());t["groupReplans"]=s.replans.load();
-  t["pcmDitherMode"]=pcm.dither_mode;t["pcmSeedMode"]=pcm.seed_mode;t["pcmFaults"]=pcm.fault_flags;t["pcmProcessedFrames"]=ipc::Value::u64(pcm.processed_frames);t["pcmOverrangeSamples"]=ipc::Value::u64(pcm.overrange_sample_count);t["pcmRailClampSamples"]=ipc::Value::u64(pcm.reserved[0]);t["pcmClippedBlocks"]=ipc::Value::u64(pcm.reserved[2]);t["pcmNonfiniteSamples"]=ipc::Value::u64(pcm.nonfinite_sample_count);
- }return out;
 }
 }
