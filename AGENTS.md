@@ -1,13 +1,11 @@
-# MUSIC ClockFollow C1 — local Codex BUILD ONLY
+# MUSIC ClockFollow C1 — current continuation is PACKAGE-ONLY
 
-This isolated branch implements an optional clock-rate actuator in Drivers/EntropyMusicRenderV2. Read CLOCKFOLLOW-C1-CODEX.md and CLOCKFOLLOW-C1.md in that directory. Historical Stage1/2/3, B1, LiveV1 and driver deployment instructions are not current tasks.
+Use the existing worktree D:\Projects\Entropy-ClockFollow-C1-20261015\source on chatgpt/music-clockfollow-c1-20261015. The owner reported successful model contracts and kernel build from 3faccc678242f2815cc61eeb8f49a2f05c0c85b5, followed by a packaging failure because two identical stamped INF copies were found.
 
-Use `D:\Projects\Entropy-ClockFollow-C1-20261015\source` on `chatgpt/music-clockfollow-c1-20261015` at the exact SHA from the current handoff. One fetch and an exact clean fast-forward before building are allowed. Never reset, stash, force, remove user files, repurpose the original checkout or merge this branch into the Stage3 renderer.
+Read Drivers/EntropyMusicRenderV2/C1-PACKAGE-RESUME.md. Fetch and fast-forward to the exact supplied packaging SHA only, preserving clean tracked sources and all user work. Do not recreate/switch other checkouts or merge this branch into Stage3.
 
-Run `Drivers/EntropyMusicRenderV2/tools/Build-C1.ps1 -ExpectedCommit <exact SHA>`. It builds the bounded offline C1 model/packet contracts and the unsigned kernel SYS/INF with the existing approved local MSVC/WDK/SDK. No general CTest, historical qualification, unmodified-reference build, dependency substitution or tool installation.
+Run Drivers/EntropyMusicRenderV2/tools/Build-C1.ps1 -ExpectedCommit <handoff SHA> -PackageOnly. Preserve the initial incomplete candidate. The script verifies all duplicate INF contents, the reported SYS/INF hashes, previous logs and signature state, then creates a new package. It does NOT compile or execute the model again. Binary source and packaging-source revisions are recorded separately.
 
-At the first actionable failure, preserve logs and STOP. Do not modify code, tests, scripts, PCM routing, flags, SDK paths or security settings to obtain PASS. Report the actual result, versions/hashes and tracked status; no audio-quality claim.
+No source or profile edits, CMake/MSBuild, model rerun, CTest, historical acceptance suites, captures or diagnostic loops. No deleting duplicate INF files, arbitrary first-file workaround, manual INCOMPLETE removal or bypass of hash/version/signature checks. On error report and STOP.
 
-No signing, catalog generation/deployment, INF/device registration, SYS installation, service restart, reboot, registry/ACL/boot changes, Administrator, global sandbox disable, certificate import, live audio/DAC/ARM/capture or clock-control IOCTL execution. Earlier driver-deployment approvals do not apply to this candidate. No Stage1/2/3, AUX, CINEMA, WDL/r8brain or profile changes. Scoped normal-user fetch/file/execution permission may be requested for the build only.
-
-C1 is NOT a new live playback build. It leaves the installed driver and all current audio runtimes unchanged. The ClockBridge, Stage1 pacing integration and Stage3 direct-primary mode are later explicit deliveries. Stop at the unsigned compile-candidate report; do not push/merge automatically.
+No signing, catalog generation, certificate import, test-signing/Secure Boot changes, Administrator, PnP/INF installation, SYS replacement, endpoint/service restart, reboot, live driver IOCTL, DAC/ARM access, Stage1/2/3/AUX/CINEMA changes, push or unrelated merge. Request only scoped normal-user file/network permission where required. Existing installed .11 and listening configuration remain untouched. Report package result and hashes, not an audio-quality verdict.
