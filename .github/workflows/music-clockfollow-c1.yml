@@ -1,0 +1,28 @@
+name: MUSIC ClockFollow C1 contracts
+on:
+  push:
+    branches: [chatgpt/music-clockfollow-c1-20261015]
+permissions:
+  contents: read
+jobs:
+  model:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Configure isolated clock contracts
+        run: cmake -S Drivers/EntropyMusicRenderV2/clockfollow-tests -B build-clockfollow -DCMAKE_BUILD_TYPE=Release
+      - name: Build clock contracts
+        run: cmake --build build-clockfollow --config Release --parallel 2
+      - name: Run Windows model only
+        if: runner.os == 'Windows'
+        run: .\build-clockfollow\Release\EntropyClockFollowContracts.exe
+      - name: Run Linux model only
+        if: runner.os == 'Linux'
+        run: ./build-clockfollow/EntropyClockFollowContracts
