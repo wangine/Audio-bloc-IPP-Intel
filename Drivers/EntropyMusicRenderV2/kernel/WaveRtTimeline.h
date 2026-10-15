@@ -1,5 +1,5 @@
 #pragma once
-#include "../model/Clock.h"
+#include "../model/ClockFollow.h"
 #include "../model/PacketTimeline.h"
 namespace entropy::music {
 enum class BufferOwner:uint32_t {None=0,Packet=1,Position=2};
@@ -7,6 +7,7 @@ enum class BufferOwner:uint32_t {None=0,Packet=1,Position=2};
 // keep an immutable front packet alive while bytes are copied outside the lock.
 class WaveRtTimeline {
     Clock clock_;
+    ClockFollow follow_;
     PacketTimeline timeline_;
     PcmFormat format_{};
     PcmRing* ready_=nullptr;
@@ -22,9 +23,26 @@ public:
     bool pause(uint64_t qpc) noexcept;
     bool advance(uint64_t qpc,bool exposePosition) noexcept;
     CommitResult capturePacket(uint32_t packetNumber,bool eos,uint32_t eosBytes,uint64_t qpc) noexcept;
-    // Called only for a validated immutable OS commit, not arbitrary DMA.
     CommitResult captureSnapshot(const PacketView&,bool dropped) noexcept;
     Clock clockSnapshot() const noexcept{return clock_;}
+    // Control owner must hold the publication operation gate AND atomically
+    // publish the resulting clock snapshot with its timestamp to OS producers.
+    FollowResult acquireClock(uint64_t now,uint64_t generation,uint64_t lease,uint64_t master) noexcept {
+        if(!prepared_||stopping_||captureFault_)return FollowResult::NotRunning;
+        return follow_.acquire(clock_,now,generation,lease,master);
+    }
+    FollowResult updateClock(uint64_t now,uint64_t generation,uint64_t lease,uint64_t master,uint64_t sequence,int32_t ppb) noexcept {
+        if(!prepared_||stopping_||captureFault_)return FollowResult::NotRunning;
+        return follow_.update(clock_,now,generation,lease,master,sequence,ppb);
+    }
+    FollowResult releaseClock(uint64_t now,uint64_t generation,uint64_t lease,uint64_t master) noexcept {
+        return follow_.release(clock_,now,generation,lease,master);
+    }
+    bool releaseClockHandle(uint64_t now,uint64_t lease) noexcept {return follow_.releaseHandle(clock_,now,lease);}
+    FollowSnapshot clockStatus(uint64_t now) const noexcept {
+        if(!prepared_||stopping_)return {};
+        return follow_.snapshot(clock_,now);
+    }
     bool requestStop(uint64_t qpc) noexcept;
     bool beginRead(PacketView&) noexcept;
     bool finishRead(uint64_t sequence,bool consume) noexcept;

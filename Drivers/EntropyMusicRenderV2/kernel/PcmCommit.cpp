@@ -13,9 +13,7 @@ bool ParseMusicFormat(PKSDATAFORMAT data,PcmFormat& f) noexcept {
         const auto ext=reinterpret_cast<const WAVEFORMATEXTENSIBLE*>(w);
         f.validBits=ext->Samples.wValidBitsPerSample;f.channelMask=ext->dwChannelMask;RtlCopyMemory(f.subFormat,&ext->SubFormat,16);
     } else if(w->wFormatTag!=WAVE_FORMAT_PCM || w->wBitsPerSample!=16 || w->cbSize)return false;
-    // PCM16 WAVEFORMATEX metadata is canonicalized to extensible/PCM/mask3.
-    // Every PCM payload byte remains unchanged, including the unused low byte
-    // in the PCM24/32 container.
+    // Only metadata is canonicalized; every PCM payload byte is unchanged.
     return validateFormat(f);
 }
 PcmCommit::PcmCommit() noexcept {KeInitializeSpinLock(&lock);ExInitializeRundownProtection(&rundown);ExInitializeRundownProtection(&writers_);KeInitializeEvent(&readIdle_,NotificationEvent,TRUE);KeInitializeEvent(&operationReleased_,SynchronizationEvent,FALSE);}
@@ -55,13 +53,18 @@ NTSTATUS PcmCommit::Submit(uint32_t number,bool eos,uint32_t eosBytes,uint64_t q
     if(!InterlockedCompareExchange(&accepting_,0,0) || !ExAcquireRundownProtection(&writers_))return STATUS_INVALID_DEVICE_STATE;
     struct WriterLease {EX_RUNDOWN_REF& r;~WriterLease(){ExReleaseRundownProtection(&r);}} lease{writers_};
     if(!InterlockedCompareExchange(&accepting_,0,0) || fault())return STATUS_DATA_ERROR;
-    // A second concurrent OS producer is a terminal protocol violation. It
-    // cannot be retried silently or guessed into chronological PCM evidence.
     if(!writer_.tryEnter()){InterlockedExchange(&terminal_,1);return STATUS_DATA_ERROR;}
     struct ProducerLease {OperationGate& gate;~ProducerLease(){gate.leave();}} producer{writer_};
-    Clock clock;KIRQL old;KeAcquireSpinLock(&lock,&old);clock=cachedClock_;KeReleaseSpinLock(&lock,old);
+    Clock clock;uint64_t clockQpc=0;KIRQL old;
+    KeAcquireSpinLock(&lock,&old);
+    clock=cachedClock_;
+    // Pair the clock version with a timestamp sampled at the same metadata
+    // boundary. The earlier DDI-entry timestamp remains in the packet header;
+    // it must not be evaluated against a clock rebased AFTER that timestamp.
+    clockQpc=static_cast<uint64_t>(KeQueryPerformanceCounter(nullptr).QuadPart);
+    KeReleaseSpinLock(&lock,old);
     uint64_t source=0;PacketDescriptor d{};
-    if(!clock.position(qpc,source)){InterlockedExchange(&terminal_,1);return STATUS_DATA_ERROR;}
+    if(!clock.position(clockQpc,source)){InterlockedExchange(&terminal_,1);return STATUS_DATA_ERROR;}
     const auto result=admission_.acceptWindowsPacket(number,eos,eosBytes,source,qpc,d,clock.running());
     if(result==CommitResult::Duplicate)return STATUS_DATA_LATE_ERROR;
     if(result==CommitResult::Overrun)return STATUS_DATA_OVERRUN;
@@ -76,7 +79,6 @@ NTSTATUS PcmCommit::Submit(uint32_t number,bool eos,uint32_t eosBytes,uint64_t q
 }
 bool PcmCommit::Flush(){
     InboxView v{};
-    // Bounded by 64 records even if the independent producer keeps writing.
     for(uint32_t n=0;n<64 && inbox_.peek(v);++n){
         const auto result=timeline.captureSnapshot(v.pcm,v.dropped);
         if(result!=CommitResult::Accepted && result!=CommitResult::Overrun){InterlockedExchange(&terminal_,1);return false;}
@@ -140,15 +142,10 @@ NTSTATUS PcmCommit::Read(void* output,uint32_t capacity,uint32_t& copied) {
 }
 void PcmCommit::EnterPassive(){
     PAGED_CODE();
-    // Wake on release, including a release between TryEnter and this wait.
-    // A periodic 1ms delay rounds to the system tick and stalls read-finish
-    // for ~16ms under rare DPC/control contention. RT callers only TryEnter.
     while(!TryEnter())KeWaitForSingleObject(&operationReleased_,Executive,KernelMode,FALSE,nullptr);
 }
 void PcmCommit::Leave(uint64_t qpc){
-    // Only a bounded cache metadata copy is protected by the spin lock.
-    // PCM copies use the nonblocking operation gate; realtime callers never
-    // wait for another owner or for a consumer's lease.
+    // Bounded coherent metadata only. No PCM under the spin lock.
     if(qpc){KIRQL old;KeAcquireSpinLock(&lock,&old);cachedFrames_=timeline.frames();cachedPackets_=timeline.packetCount();cachedQpc_=qpc;cachedClock_=timeline.clockSnapshot();KeReleaseSpinLock(&lock,old);}
     operation_.leave();
     KeSetEvent(&operationReleased_,IO_NO_INCREMENT,FALSE);
@@ -159,7 +156,6 @@ bool RegisterPcmOwner(PcmCommit* candidate){KIRQL old;KeAcquireSpinLock(&ownerLo
 void UnregisterPcmOwner(PcmCommit* candidate){
     KIRQL old;KeAcquireSpinLock(&ownerLock,&old);if(owner==candidate)ownerDraining=true;KeReleaseSpinLock(&ownerLock,old);
     ExWaitForRundownProtectionRelease(&candidate->rundown);candidate->Stop();
-    // Preserve generation completion order before making another owner eligible.
     KeAcquireSpinLock(&ownerLock,&old);if(owner==candidate){owner=nullptr;ownerDraining=false;}KeReleaseSpinLock(&ownerLock,old);
 }
 PcmCommit* AcquirePcmOwner(){KIRQL old;KeAcquireSpinLock(&ownerLock,&old);auto selected=ownerDraining?nullptr:owner;if(selected && !ExAcquireRundownProtection(&selected->rundown))selected=nullptr;KeReleaseSpinLock(&ownerLock,old);return selected;}
@@ -169,3 +165,4 @@ void GetPcmEvidence(uint64_t generation,const Totals& current,Totals& lifetime,T
     if(generation>evidence.generation()){lifetime.lostFrames+=current.lostFrames;lifetime.cancelledFrames+=current.cancelledFrames;}
     KeReleaseSpinLock(&ownerLock,old);
 }
+#include "ClockControl.inl"

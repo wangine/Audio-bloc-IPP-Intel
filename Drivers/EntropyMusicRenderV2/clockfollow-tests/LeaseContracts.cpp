@@ -3,6 +3,7 @@
 #include <stdexcept>
 #include <iostream>
 using namespace entropy::music;
+void runTimelineContracts();
 static void check(bool ok,const char* why){if(!ok)throw std::runtime_error(why);}
 void runLeaseContracts(){
  constexpr uint64_t hz=10000000,start=123;
@@ -32,4 +33,5 @@ void runLeaseContracts(){
  check(!w::validate(r,w::ioctl(w::Kind::Update),sizeof(r),sizeof(w::Reply)),"kind/code validation");
  const auto reply=w::reply(w::Kind::Status,s);check(reply.header.totalBytes==128&&reply.qpcFrequency==hz,"reply ABI");
  std::cout<<"ClockFollow lease/ABI contracts PASS; source generation, ownership, replay, bounds and expiry.\n";
+ runTimelineContracts();
 }

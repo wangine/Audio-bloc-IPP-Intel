@@ -6,6 +6,7 @@
 #include "../model/CommitInbox.h"
 #include "../model/DriverLedger.h"
 #include "../protocol/PcmBridgeV1.h"
+#include "../protocol/ClockBridgeV1.h"
 bool ParseMusicFormat(PKSDATAFORMAT,entropy::music::PcmFormat&) noexcept;
 class PcmCommit {
     uint8_t* pendingBytes_=nullptr;
@@ -38,12 +39,16 @@ public:
     void Stop();
     bool SetRunning(bool running);
     NTSTATUS Submit(uint32_t number,bool eos,uint32_t eosBytes,uint64_t qpc);
-    bool Flush(); // Publication operation gate must be held.
+    bool Flush();
     entropy::music::Totals CurrentTotals() const noexcept;
-    void Archive(); // Gate held and STOP/read lease completed.
+    void Archive();
     void MarkRegistered() noexcept{ledgerEligible_=true;}
     bool fault() const noexcept{return InterlockedCompareExchange(const_cast<volatile LONG*>(&terminal_),0,0)!=0;}
     NTSTATUS Read(void* output,uint32_t capacity,uint32_t& copied);
+    // PASSIVE control entry; try the existing operation gate once. It does not
+    // wait for audio, copy PCM, retire buffers or change packet admission.
+    NTSTATUS ClockControl(const entropy::music::clockwire::Request&,uint64_t newLease,entropy::music::clockwire::Reply&);
+    void ReleaseClockHandle(uint64_t lease) noexcept;
     bool TryEnter() noexcept {return operation_.tryEnter();}
     void EnterPassive();
     void Leave(uint64_t qpc=0);

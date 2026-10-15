@@ -5,6 +5,7 @@ bool WaveRtTimeline::prepare(const PcmFormat& format,uint64_t generation,uint64_
         (notifications && (dmaFrames%notifications || dmaFrames/notifications>MaxPacketFrames)) ||
         !timeline_.prepare(format,generation,frequency,pending,ready))return false;
     if(!clock_.reset(format.sampleRate,frequency,generation))return false;
+    follow_.reset();
     format_=format;generation_=generation;frequency_=frequency;dma_=dma;dmaFrames_=dmaFrames;notifications_=notifications;
     packetFrames_=notifications?dmaFrames/notifications:0;owner_=notifications?BufferOwner::Packet:BufferOwner::Position;
     ready_=&ready;stopping_=false;captureFault_=false;prepared_=true;writtenPackets_=positionCaptured_=nominalFrames_=sequence_=0;return true;
@@ -13,7 +14,7 @@ bool WaveRtTimeline::start(uint64_t qpc) noexcept {return prepared_ && !stopping
 bool WaveRtTimeline::pause(uint64_t qpc) noexcept {
     if(!prepared_ || stopping_)return false;
     if(!advance(qpc,owner_==BufferOwner::Position))captureFault_=true;
-    return clock_.pause(qpc);
+    const bool paused=clock_.pause(qpc);if(paused)follow_.invalidate();return paused;
 }
 bool WaveRtTimeline::advance(uint64_t qpc,bool exposePosition) noexcept {
     if(!prepared_ || stopping_)return false;
@@ -23,7 +24,6 @@ bool WaveRtTimeline::advance(uint64_t qpc,bool exposePosition) noexcept {
     if(owner_==BufferOwner::Position && exposePosition && clock_.running()) {
         // The OS can only reuse data after this function has snapshotted it
         // and its caller returns the new DMA offset. No position register.
-        // An unseen complete lap has ambiguous chronology and is refused.
         if(frames-positionCaptured_>=dmaFrames_){captureFault_=true;nominalFrames_=frames;return false;}
         while(positionCaptured_<frames) {
             const uint32_t offset=static_cast<uint32_t>(positionCaptured_%dmaFrames_);
@@ -63,7 +63,7 @@ CommitResult WaveRtTimeline::capturePacket(uint32_t packetNumber,bool eos,uint32
 }
 bool WaveRtTimeline::requestStop(uint64_t qpc) noexcept {
     if(!prepared_)return true;
-    if(!stopping_){clock_.pause(qpc);stopping_=true;}
+    if(!stopping_){clock_.pause(qpc);follow_.invalidate();stopping_=true;}
     if(reading_)return false;
     timeline_.stop();prepared_=false;nominalFrames_=0;return true;
 }

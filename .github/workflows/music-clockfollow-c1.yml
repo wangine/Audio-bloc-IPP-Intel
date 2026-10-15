@@ -22,7 +22,13 @@ jobs:
         run: cmake --build build-clockfollow --config Release --parallel 2
       - name: Run Windows model only
         if: runner.os == 'Windows'
-        run: .\build-clockfollow\Release\EntropyClockFollowContracts.exe
+        run: |
+          .\build-clockfollow\Release\EntropyClockFollowContracts.exe
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          foreach ($name in @('Model','Bridge','KernelBinding','Inbox')) {
+            & ".\build-clockfollow\Release\ClockFollowLegacy$name.exe"
+            if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          }
       - name: Run Linux model only
         if: runner.os == 'Linux'
         run: ./build-clockfollow/EntropyClockFollowContracts

@@ -1,5 +1,6 @@
 #include "BridgeDevice.h"
 #include "PcmCommit.h"
+#include "ClockIoctl.h"
 using namespace entropy::music;
 namespace {
 constexpr ULONG Tag='2BRM';
@@ -15,7 +16,7 @@ volatile LONG64 traceCounters[8]{};
 volatile LONG lastWrite[4]{};
 volatile LONG firstWrite[4]{},firstRecorded=0;
 KSPIN_LOCK traceLock;bridge::WriteTrace startupWrites[8]{};ULONG startupCount=0;
-struct Session {volatile LONG closing;uint64_t nonce;};
+struct Session {volatile LONG closing;uint64_t nonce;kernel_clock::FileState clock;};
 NTSTATUS Complete(PIRP irp,NTSTATUS status,ULONG bytes=0){irp->IoStatus.Status=status;irp->IoStatus.Information=bytes;IoCompleteRequest(irp,IO_NO_INCREMENT);return status;}
 bool HeaderIs(const bridge::Header& h,ULONG length,uint32_t kind,ULONG expected){return length==expected && h.magic==bridge::Magic && h.version==bridge::Version && h.totalBytes==expected && h.kind==kind;}
 NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
@@ -34,7 +35,9 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
     auto session=static_cast<Session*>(file->FsContext);
     if(!session)return Complete(irp,STATUS_INVALID_HANDLE);
     if(stack->MajorFunction==IRP_MJ_CLEANUP || stack->MajorFunction==IRP_MJ_CLOSE) {
-        InterlockedExchange(&session->closing,1);KIRQL old;KeAcquireSpinLock(&sessionsLock,&old);if(reader==file)reader=nullptr;
+        InterlockedExchange(&session->closing,1);
+        kernel_clock::close(session->clock);
+        KIRQL old;KeAcquireSpinLock(&sessionsLock,&old);if(reader==file)reader=nullptr;
         if(stack->MajorFunction==IRP_MJ_CLOSE)--sessions;KeReleaseSpinLock(&sessionsLock,old);
         if(stack->MajorFunction==IRP_MJ_CLOSE){file->FsContext=file->FsContext2=nullptr;ExFreePoolWithTag(session,Tag);}
         return Complete(irp,STATUS_SUCCESS);
@@ -46,6 +49,10 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
     const auto input=stack->Parameters.DeviceIoControl.InputBufferLength,output=stack->Parameters.DeviceIoControl.OutputBufferLength;
     const auto code=stack->Parameters.DeviceIoControl.IoControlCode;
     auto buffer=irp->AssociatedIrp.SystemBuffer;
+    if(clockwire::known(code)){
+        ULONG copied=0;const auto status=kernel_clock::dispatch(irp,session->clock,session->closing,code,buffer,input,output,copied);
+        return Complete(irp,status,copied);
+    }
     if(!buffer || input<sizeof(bridge::Header))return Complete(irp,STATUS_INVALID_PARAMETER);
     bridge::Header header;RtlCopyMemory(&header,buffer,sizeof(header));
     if(code==bridge::IoctlClaim) {
@@ -64,7 +71,7 @@ NTSTATUS PrivateDispatch(PDEVICE_OBJECT device,PIRP irp) {
     }
     if(code==bridge::IoctlInfo) {
         if(!HeaderIs(header,input,2,sizeof(header)) || output!=sizeof(bridge::Info))return Complete(irp,STATUS_INVALID_PARAMETER);
-        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x0003000b;
+        bridge::Info info{};info.header={bridge::Magic,bridge::Version,sizeof(info),2};RtlCopyMemory(info.interfaceGuid,bridge::InterfaceGuid,16);info.driverBuild=0x00030100;
         KIRQL old;KeAcquireSpinLock(&sessionsLock,&old);info.readerAttached=reader?1:0;KeReleaseSpinLock(&sessionsLock,old);
         Totals lifetime{},ended{};GetPcmEvidence(0,{},lifetime,ended);
         info.lifetimeLost=lifetime.lostFrames;info.lifetimeCancelled=lifetime.cancelledFrames;info.terminatedLost=ended.lostFrames;info.terminatedCancelled=ended.cancelledFrames;
