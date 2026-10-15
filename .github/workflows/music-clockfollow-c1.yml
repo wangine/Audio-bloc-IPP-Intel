@@ -5,6 +5,16 @@ on:
 permissions:
   contents: read
 jobs:
+  packaging:
+    runs-on: windows-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check production INF selection with temporary fixtures
+        shell: powershell
+        run: .\Drivers\EntropyMusicRenderV2\tools\Test-C1Packaging.ps1
   model:
     strategy:
       fail-fast: false
@@ -20,7 +30,7 @@ jobs:
         if: runner.os == 'Windows'
         shell: powershell
         run: |
-          foreach ($name in @('Build-C1.ps1','Build-Kernel.ps1')) {
+          foreach ($name in @('Build-C1.ps1','Build-Kernel.ps1','Test-C1Packaging.ps1')) {
             $tokens=$null; $errors=$null
             $path=(Resolve-Path (Join-Path 'Drivers/EntropyMusicRenderV2/tools' $name)).Path
             $null=[System.Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$errors)
