@@ -4,6 +4,9 @@
 #include <cstdint>
 using entropy::music::Clock;
 static void require(bool ok,const char* reason){if(!ok)throw std::runtime_error(reason);}
+#ifdef ENTROPY_CLOCKFOLLOW_LEASE_TESTS
+void runLeaseContracts();
+#endif
 template<class C> void followContracts(){
  if constexpr(requires(C& c){c.discipline(uint64_t{},int32_t{},uint64_t{});}) {
   constexpr uint64_t hz=10000000,start=1000000;
@@ -36,8 +39,7 @@ int main(){try{
   for(uint64_t step=1;step<=1000;++step){
    const uint64_t span=step*1739;accumulated+=span;
    require(c.pause(start+step*hz+span),"pause sequence");
-   // This independent case tests initial run plus subsequent varied segments.
-   uint64_t expectedTicks=hz+accumulated;
+   const uint64_t expectedTicks=hz+accumulated;
    require(c.position(start+step*hz+span,p),"position while paused");
    uint64_t expected=0;require(entropy::music::multiplyDivide(expectedTicks,rate,hz,expected),"reference");
    require(p==expected,"nominal fractional remainder lost across PAUSE");
@@ -45,5 +47,8 @@ int main(){try{
   }
  }
  followContracts<Clock>();
+#ifdef ENTROPY_CLOCKFOLLOW_LEASE_TESTS
+ runLeaseContracts();
+#endif
  std::cout<<"ClockFollow C1 model contracts PASS; no driver, pipe or audio device opened.\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
