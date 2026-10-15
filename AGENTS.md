@@ -1,13 +1,19 @@
-# Stage3 LiveV1.1 — local Codex is BUILD/PACKAGE ONLY
+# ClockFollow C2 — IMPLEMENTATION AND ISOLATED BUILD
 
-Read RendererLive/CODEX.md and RendererLive/LIVE-V1.1.md. These replace earlier R1/R2/R3/B1/LiveV1 handoff tasks. ChatGPT supplies reviewed source changes; local Codex only updates to the exact supplied SHA and compiles/packages.
+Read `ClockFollow/CODEX-C2-INTEGRATION.md`. This branch initially contains the implementation task/specification only; C2 is NOT already implemented or audio-qualified by that documentation commit.
 
-Use the EXISTING D:\Projects\Entropy-Stage3-Recovery-20261013\live-v1-source worktree on chatgpt/stage3-live-renderer-v1-20261014. Require clean tracked sources, fetch the branch, verify the requested full SHA and fast-forward only. No new clone/worktree, reset/stash/force/rebase, unrelated merge, source repairs or deletion of user files.
+When the owner gives Codex this task, implement the specified MUSIC/AUX clock integration and build an isolated candidate. This replaces the earlier compile-only assignment for this C2 worktree only. Earlier C1/LiveV1.1 instructions must not prevent authorized source changes in C2, nor authorize their old deployment tasks.
 
-Run RendererLive/Build-LiveV1.ps1 -ExpectedCommit <supplied full SHA>. Reuse the incremental Core build and verified Qt UI. This revision outputs live\LiveV1.1-20261015 and copies the SAVED profile from live\LiveV1-20261014\profile\listening.entropy. Preserve the original profile and every earlier package. No silent substitution of profiles.
+Use one isolated worktree at `D:\Projects\Entropy-ClockFollow-C2-20261015\source`, on `chatgpt/clockfollow-c2-integration-20261015`, initially based on the exact handoff SHA. Preserve all original checkouts, C1/B1/Live packages, active applications, driver installations and profiles. Verify Git with explicit paths; no reset, clean, stash, force or arbitrary substitution of a copy on another drive.
 
-Only Core Release/MSVC/IPP, the established offline --probe and Qt deployment are authorized locally. No CTest, -Verify, CI-fixture rerun, new capture, mapping report, benchmark, test tones, B1 replay or 32k variant. No gain, AUTO mode, filters, matrices, DAC assignments, drivers, Stage1/Stage2, compiler policy or SDK changes.
+Application base is `2264e5efb62e411a83432a2b41b9b6c5bde5df12`. Import only necessary C1 sources/contracts from `1faae8979f03c32baf61861b921fbe0a46e64e51` and AUX from the pinned A06 source in the task. Do not merge an old entire engine. The installed AUX identity is already provided; source-to-installed-binary equivalence is UNPROVEN. Do not repeat discovery or manufacture provenance.
 
-Scoped normal-user execution/network/file permission may be requested when necessary; no Administrator, global sandbox disable or ACL edits. At the first error, keep logs and INCOMPLETE.txt, report and STOP without editing sources/scripts or replacing dependencies. Never package an old executable as the new version.
+Implement actual call paths, not just declarations, models or an unconnected helper. Preserve DSP algorithms, r8brain, PCM24, gain modes and speaker assignments. Stage2 DSP is unchanged; minimal versioned IPC metadata forwarding is permitted only if necessary and isolated. Keep the existing compatibility renderer, with WDL for asynchronous CINEMA and the secondary DAC. Do not remove WDL until DIRECT_PRIMARY has a coherent synchronized source contract. No silent dual rate-control loop, source drop/replay or phase jump to hide starvation.
 
-Report exact SHA, build/probe/deploy outcome, executable/profile hashes, tracked status and launcher paths. Do NOT start playback/UI, ARM, terminate/restart audio processes, push or merge. The owner performs live listening. New-source selection waits silently until real data is available; general DAC stability, perceived tonal balance and A/B phase alignment are not declared solved.
+Codex may fix its own scoped implementation/compiler/test errors. The historical rule to stop at the first compile error applies to compile-only handoffs, not to writing the C2 implementation. Do stop for missing permissions/required source, an architectural deviation or any change outside this approved scope. Do not suppress warnings/tests to manufacture success.
+
+Use existing toolchains and focused offline contracts in the task. No new broad diagnostic campaign, REW/Tidal sessions, PCM captures, mapping reports or repeated historical tests. No toolchain installations, global FP/AVX2 policy change or unrelated optimization.
+
+Build/package only, without physical-device interaction: no signing, certificates/keys, driver installation, PnP/registry/boot-policy/default-audio changes, services, reboots, audio process start/stop, DAC access or ARM. Existing C1 candidate stays unsigned and untouched. Deployment and loaded-driver/audio qualification require a later explicit owner decision.
+
+Produce source changes, local commits, build/package results and an honest per-component status. Do not call the instruction commit a new renderer or a model PASS a complete live qualification. No push/merge unless the owner requests it. The final C2 candidate must state that installation and physical audio validation have not been performed.
