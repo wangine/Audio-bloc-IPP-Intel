@@ -16,6 +16,17 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Check delivery script syntax without executing
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: |
+          foreach ($name in @('Build-C1.ps1','Build-Kernel.ps1')) {
+            $tokens=$null; $errors=$null
+            $path=(Resolve-Path (Join-Path 'Drivers/EntropyMusicRenderV2/tools' $name)).Path
+            $null=[System.Management.Automation.Language.Parser]::ParseFile($path,[ref]$tokens,[ref]$errors)
+            if ($errors.Count) { $errors | Format-List; throw "PowerShell parse failure: $name" }
+          }
+          Write-Host 'C1 PowerShell syntax PASS. No kernel build or deployment executed.'
       - name: Configure isolated clock contracts
         run: cmake -S Drivers/EntropyMusicRenderV2/clockfollow-tests -B build-clockfollow -DCMAKE_BUILD_TYPE=Release
       - name: Build clock contracts

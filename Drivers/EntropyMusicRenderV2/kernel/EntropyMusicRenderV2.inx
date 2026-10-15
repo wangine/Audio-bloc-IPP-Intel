@@ -3,7 +3,7 @@ Signature="$Windows NT$"
 Class=MEDIA
 ClassGUID={4d36e96c-e325-11ce-bfc1-08002be10318}
 Provider=%ProviderName%
-DriverVer=10/11/2026,0.3.0.1
+DriverVer=10/15/2026,0.3.1.0
 CatalogFile=EntropyMusicRenderV2.cat
 PnpLockDown=1
 
